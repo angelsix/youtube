@@ -1,0 +1,69 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BinaryViewer"
+        xmlns:Themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero2" x:Class="BinaryViewer.MainWindow"
+        mc:Ignorable="d"
+        DataContext="{x:Static local:BinaryListDesignModel.Instance}"
+        WindowStartupLocation="CenterScreen"
+        Title="Binary Viewer" Height="350" Width="525"
+        >
+
+    <Border Padding="5"
+            Background="Black">
+
+        <Grid>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <Grid>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <TextBox Background="Black" 
+                     local:IsFocusedProperty.Value="True"
+                     Foreground="White"
+                     Padding="5"
+                     Text="{Binding Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                     FontFamily="Consolas"
+                     FontSize="16"
+                     AcceptsReturn="True"
+                     MaxHeight="70"
+                     />
+
+                    <ComboBox Grid.Column="1"
+                          ItemsSource="{Binding StringFormats}" 
+                          SelectedItem="{Binding StringFormat, Mode=TwoWay}" 
+                          />
+
+            </Grid>
+
+            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                <ItemsControl ItemsSource="{Binding Bytes}">
+
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel IsItemsHost="True" Orientation="Horizontal" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <local:BinaryListItemControl DataContext="{Binding}" />
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+
+            </ScrollViewer>
+
+        </Grid>
+    </Border>
+</Window>
