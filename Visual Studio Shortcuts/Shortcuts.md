@@ -1,50 +1,62 @@
 ## Copy/Paste
 
-Ctrl + Z				Undo
-Ctrl + Shift + Z		Redo
-Ctrl + X				Cut (and entire line)
-Ctrl + C				Copy
-Ctrl + V				Paste
+| Key Combination  | Description           |
+| ---------------- | --------------------- |
+| Ctrl + Z         | Undo                  |
+| Ctrl + Shift + Z | Redo                  |
+| Ctrl + X         | Cut (and entire line) |
+| Ctrl + C         | Copy                  |
+| Ctrl + V         | Paste                 |
 
 ## Text Manipulation
 
-Ctrl + Click			Select current word
-Alt + Drag 			Select area for multi-line edit
-Alt + Up/Down		Move lines
+| Key Combination | Description                     |
+| --------------- | ------------------------------- |
+| Ctrl + Click    | Select current word             |
+| Alt + Drag      | Select area for multi-line edit |
+| Alt + Up/Down   | Move lines                      |
 
 ## Search & Navigate
 
-F12					Go to reference
-Ctrl + T 				Go to... find specific class or type etc...
-Ctrl + ; 				Search solution explorer
-Ctrl + Tab			Cycle open document
-Ctrl + -				Step backwards in cursor position
-Ctrl + Shift + -		Step forwards in cursor position
-Ctrl + Shift + F		Find all
-Ctrl + K + K			Set/remove bookmark
-Ctrl + K + N			Next bookmark
-Ctrl + K + P			Previous Bookmark
+| Key Combination  | Description                       |
+| ---------------- | --------------------------------- |
+| F12              | Go to reference                   |
+| Ctrl + T         | Go to...                          |
+| Ctrl + ;         | Search Solution Explorer          |
+| Ctrl + Tab       | Cycle open documents              |
+| Ctrl + -         | Step backwards in cursor position |
+| Ctrl + Shift + - | Step forwards in cursor position  |
+| Ctrl + Shift + F | Find All                          |
+| Ctrl + K + K     | Set/Remove Bookmark               |
+| Ctrl + K + N     | Next Bookmark                     |
+| Ctrl + K + P     | Previous Bookmark                 |
 
 ## Environment
 
-Ctrl + Shift + Enter	Full Screen
+| Key Combination      | Description |
+| -------------------- | ----------- |
+| Ctrl + Shift + Enter | Full Screen |
 
 ## Coding
 
-Ctrl + Shift + B		Build
-Ctrl + . 				Auto-complete suggestions
-Ctrl + R + R			Rename variable/value
-Ctrl + K + C 			Comment selection
-Ctrl + K + U			Uncomment selection
-Ctrl + M + M			Expand/Collapse all code
-Ctrl + M + O			Collapse to definition
-Ctrl + Q				Quick Launch
+| Key Combination  | Description                       |
+| ---------------- | --------------------------------- |
+| Ctrl + Shift + B | Build                             |
+| Ctrl + .         | Auto-complete suggestions         |
+| Ctrl + R + R     | Rename variable/value             |
+| Ctrl + K + C     | Comment selected text             |
+| Ctrl + K + U     | Uncomment selected text           |
+| Ctrl + M + M     | Expand/Collapse code              |
+| Ctrl + M + O     | Collapse code to definition level |
+| Ctrl + Q         | Quick Launch                      |
 
 ## Debugging
 
-F5					Build and Run
-F10					Step Over
-F11					Step Into
+| Key Combination | Description   |
+| --------------- | ------------- |
+| F5              | Build and Run |
+| F10             | Step Over     |
+| F11             | Step Into     |
 
 ## Key Bindings
 
@@ -68,29 +80,35 @@ Then this file will run every time your computer starts. As this is the first ti
 
 Now pressing the following keys will work.
 
-Win + W 			Close current window
-Win + Q 				Close current program
+| Key Combination | Description           |
+| --------------- | --------------------- |
+| Win + W         | Close current window  |
+| Win + Q         | Close current program |
 
 ## Screenshots
 
 Install LightShot from https://app.prntscr.com/
 
-Right-click the Taskbar Icon then click `Options`. Change the `General Hotkey` to your desired shortcut. In my case I use Ctrl + Win + S
+Right-click the Taskbar Icon then click `Options`. Change the `General Hotkey` to your desired shortcut. In my case I use `Ctrl + Win + S`
 
 ## Snippets
 
 Type the snippet below and then double-tab to execute
 
-///				Create summary comment
-ctor				Create constructor
-region			Creates a new region
+| Key Combination | Description                 |
+| --------------- | --------------------------- |
+| ///             | Create Summary comment      |
+| ctor            | Create constructor function |
+| region          | Create region               |
 
 
 ## Surround Snippets
 
-Ctrl + K + S		Surround With
+| Key Combination | Description   |
+| --------------- | ------------- |
+| Ctrl + K + S    | Surround With |
 
-The only snippet I use is Region.
+The only snippet I use is **Region**.
 
 Built in snippets are stored in `C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC#\Snippets\1033\Visual C#`. Open notepad as administrator then open the files to edit them as desired.
 
