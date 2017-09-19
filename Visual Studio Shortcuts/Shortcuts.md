@@ -33,9 +33,9 @@
 
 ## Environment
 
-| Key Combination      | Description |
-| -------------------- | ----------- |
-| Ctrl + Shift + Enter | Full Screen |
+| Key Combination     | Description |
+| ------------------- | ----------- |
+| Alt + Shift + Enter | Full Screen |
 
 ## Coding
 
