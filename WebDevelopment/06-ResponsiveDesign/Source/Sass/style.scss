@@ -1,0 +1,95 @@
+html
+{
+    background: black;
+    color: white;
+    font-family: sans-serif;
+}
+
+body { margin: 0; }
+h1,h2,h3,h4,h5,h6,p { margin: 0; line-height: 1.3; }
+
+.container
+{ 
+    padding: 24px;
+}
+
+.header { background: blue; }
+
+.wrapper
+{
+    max-width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.center { text-align: center; }
+
+.grid
+{
+    font-size: 0;
+
+    .col
+    {
+        box-sizing: border-box;
+
+        font-size: 16px;
+
+        display: inline-block;
+        width: 100%;
+
+        &.half { width: 50%; }
+
+        &.content-a, &.content-b, &.content-c, &.content-d
+        {
+            width: 25%;
+            padding: 20px;
+        }
+
+        // Below Desktop Responsive Styles
+        @media only screen and (max-width: 900px)
+        {
+            &.content-a, &.content-b, &.content-c, &.content-d
+            {
+                width: 50%;
+            }    
+
+            .button
+            {
+                text-align: center;
+                display: block;
+            }
+        }
+
+        // Below Tablet Responsive Styles
+        @media only screen and (max-width: 600px)
+        {
+            &.content-a, &.content-b, &.content-c, &.content-d
+            {
+                width: 100%;
+            }    
+
+            .half
+            {
+                width: 100%;
+            }
+
+        }
+
+        &.content-a { background: red; }
+        &.content-b { background: green; }
+        &.content-c { background: blue; }
+        &.content-d { background: yellow; }
+    }
+}
+
+.button
+{
+    border: 1px solid white;
+    border-radius: 5px;
+    padding: 20px;
+    margin: 5px;
+    display: inline-block;
+}
+
+.left { text-align: left; }
+.right { text-align: right; }
