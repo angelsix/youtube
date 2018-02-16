@@ -16,6 +16,8 @@ namespace WpfTreeView
         /// </summary>
         public DirectoryItemType Type { get; set; }
 
+        public string ImageName => Type == DirectoryItemType.Drive ? "drive" : (Type == DirectoryItemType.File ? "file" : (IsExpanded ? "folder-open" : "folder-closed"));
+
         /// <summary>
         /// The full path to the item
         /// </summary>
