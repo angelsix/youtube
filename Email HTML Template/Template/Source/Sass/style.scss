@@ -1,0 +1,185 @@
+$background-color: #0d9e73;
+$content-background-color: white;
+$text-color: black;
+$button-background-color: #fbbd1f;
+$button-text-color: #833b20;
+$default-font-family: sans-serif;
+$web-font-family: 'Quicksand';
+$font-size-normal: 24px;
+$font-size-large: 48px;
+$line-height: 1.4;
+$base-size: 16px;
+
+$spacing-small: $base-size * 0.5;
+$spacing-normal: $base-size;
+$spacing-tiny: $base-size * 0.25;
+$spacing-large: $base-size * 1.5;
+$spacing-larger: $base-size * 2;
+$spacing-huge: $base-size * 3;
+
+body
+{
+    // Round font by default
+    font-family: $default-font-family;
+    font-family: $web-font-family;
+}
+
+// Main Header
+h1
+{
+    font-size: $font-size-large;
+}
+
+// Top-most table inside body
+.container
+{    
+    // Web-font if supported
+    font-family: $default-font-family;
+    font-family: $web-font-family;
+
+    // Reset margins/padding
+    margin:0;
+    padding:0;
+
+    // Set background color
+    background-color: $background-color;
+
+    // Fill all available area
+    width:100% !important;
+    height:100% !important;
+
+    // Font size
+    font-size: $font-size-normal;
+
+    // Line height
+    line-height: $line-height;
+
+    // Don't change our font size
+    -ms-text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%; 
+}
+
+// Wraps contents to email width
+.wrapper
+{
+    // Block display
+    display: block;
+
+    // Padding around all content
+    padding: $spacing-larger;
+}
+
+// Content item
+.content-item
+{
+    // Add padding
+    padding: $spacing-large;
+}
+
+// Center text
+.text-center
+{
+    text-align: center;
+}
+
+// Inline-block
+.inline-block
+{
+    display: inline-block;
+}
+
+// Page behind visuals
+.page-behind-1, .page-behind-2
+{
+    // Remove any whitespace oversize
+    font-size: 0;
+    line-height: 0;
+
+    table > tbody > tr > td
+    {
+        // Remove any whitespace oversize
+        font-size: 0;
+        line-height: 0;
+
+        // Clear padding
+        padding: 0;
+
+        // Set inner column to take all width
+        width: 100%;
+
+        // Margin below
+        margin-bottom: $spacing-tiny;
+
+        // Display inline block
+        display: inline-block;
+
+        // Solid bar of color
+        border-top: $spacing-tiny solid $content-background-color;
+    }
+}
+
+// Page behind visual
+.page-behind-1 table
+{
+    width: 75%;
+}
+
+// Page behind visual
+.page-behind-2 table
+{
+    width: 90%;
+}
+
+// Main page content
+.page-content
+{
+    // Set background color
+    background: $content-background-color;   
+
+    // Add some padding
+    padding: $spacing-huge;
+}
+
+// Button table container
+.button
+{
+    // Size to content
+    //width: auto;
+
+    td
+    {
+        // Rounded button
+        border-radius: $spacing-normal;
+
+        // Background color
+        background-color: $button-background-color;
+
+        // Button link
+        a
+        {
+            // Duplicate the border for anchor
+            // as Mail for Windows doesn't like 
+            // honoring padding if there is no border
+            border-radius: $spacing-normal;
+            border: solid 1px $button-background-color;
+    
+            // Text color
+            color: $button-text-color;    
+
+            // Padding
+            padding: $spacing-normal $spacing-larger;
+
+            // No underline
+            text-decoration: none;
+
+            // Inline block so padding works
+            display: inline-block;
+        }
+    }
+}   
+
+.text-logo
+{
+    padding-top: $spacing-huge * 2;
+    padding-bottom: $spacing-larger;
+}
