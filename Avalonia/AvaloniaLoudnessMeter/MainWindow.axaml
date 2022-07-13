@@ -23,7 +23,81 @@
         <!-- Main area -->
         <Grid Grid.Row="1" ColumnDefinitions="Auto, Auto, *" Background="#1a1c20">
             <!-- Volume Bar -->
-            <Rectangle Grid.Column="0" Fill="Purple" Width="150"></Rectangle>
+            <Grid Grid.Column="0" Width="150" RowDefinitions="*, Auto, Auto" Margin="0, 20">
+                
+                <!-- Volume Meter Gauge -->
+                <Grid Grid.Row="0"
+                    Margin="10,0"
+                    RowDefinitions="3*,3*,3*,9*,5*,4*,9*,9*,9*,6*,Auto"
+                    ColumnDefinitions="Auto,*,Auto,Auto"      
+                >
+                    
+                    <Grid.Styles>
+                        <Style Selector="Label">
+                            <Setter Property="Foreground" Value="White"></Setter>
+                            <Setter Property="FontSize" Value="12"></Setter>
+                            <Setter Property="HorizontalAlignment" Value="Right"></Setter>
+                            <Setter Property="Padding" Value="0"></Setter>
+                        </Style>
+                    </Grid.Styles>
+                    
+                    <Label Grid.Column="0" Grid.Row="0">0 —</Label>
+                    <Label Grid.Column="0" Grid.Row="1">-3 —</Label>
+                    <Label Grid.Column="0" Grid.Row="2">-6 —</Label>
+                    <Label Grid.Column="0" Grid.Row="3">-9 —</Label>
+                    <Label Grid.Column="0" Grid.Row="4">-18 —</Label>
+                    <Label Grid.Column="0" Grid.Row="5">-23 —</Label>
+                    <Label Grid.Column="0" Grid.Row="6">-27 —</Label>
+                    <Label Grid.Column="0" Grid.Row="7">-36 —</Label>
+                    <Label Grid.Column="0" Grid.Row="8">-45 —</Label>
+                    <Label Grid.Column="0" Grid.Row="9">-54 —</Label>
+                    <Label Grid.Column="0" Grid.Row="10"></Label>
+                    
+                    <!-- Volume Bar -->
+                    <Grid Grid.Row="0" Grid.Column="1" Grid.RowSpan="11" Width="20" RowDefinitions="23*,37*">
+                        <Rectangle Grid.Row="0" Margin="0,8,0,-8"  Canvas.Top="0" Fill="#b05c4e" Width="20"></Rectangle>
+                        <Rectangle Grid.Row="1" Margin="0,8,0,0" Fill="white" Width="20"></Rectangle>
+                    </Grid>
+                    
+                    <Label Grid.Column="2" Grid.Row="0">—</Label>
+                    <Label Grid.Column="2" Grid.Row="1">—</Label>
+                    <Label Grid.Column="2" Grid.Row="2">—</Label>
+                    <Label Grid.Column="2" Grid.Row="3">—</Label>
+                    <Label Grid.Column="2" Grid.Row="4">—</Label>
+                    <Label Grid.Column="2" Grid.Row="5">—</Label>
+                    <Label Grid.Column="2" Grid.Row="6">—</Label>
+                    <Label Grid.Column="2" Grid.Row="7">—</Label>
+                    <Label Grid.Column="2" Grid.Row="8">—</Label>
+                    <Label Grid.Column="2" Grid.Row="9">—</Label>
+                    <Label Grid.Column="2" Grid.Row="10"></Label>
+                    
+                    <!-- Arrow -->
+                    <Canvas Grid.Row="0" Grid.Column="3" Grid.RowSpan="11" Width="20">
+                        <Rectangle Canvas.Top="0" Fill="White" Width="20" Height="20"></Rectangle>
+                    </Canvas>
+
+                </Grid>
+                
+                <!-- LUFS label -->
+                <Label Grid.Row="1" Foreground="White" FontSize="20" HorizontalAlignment="Center" Margin="0,5">LUFS</Label>
+                
+                <!-- Volume bar buttons -->
+                <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
+                    
+                    <StackPanel.Styles>
+                        <Style Selector="Button">
+                            <Setter Property="FontSize" Value="12"/>
+                            <Setter Property="Foreground" Value="White"></Setter>
+                            <Setter Property="Background" Value="#7f98c7"></Setter>
+                            <Setter Property="CornerRadius" Value="20"></Setter>
+                            <Setter Property="Padding" Value="7, 2"></Setter>
+                        </Style>
+                    </StackPanel.Styles>
+                    
+                    <Button Margin="0,0,20,0">A</Button>
+                    <Button>INT-LRA</Button>
+                </StackPanel>
+            </Grid>
             <!-- Details Panel -->
             <Rectangle Grid.Column="1" Fill="#ccc" Width="170"></Rectangle>
             <!-- Graph -->
