@@ -9,15 +9,47 @@
     
     <Grid RowDefinitions="Auto, *, Auto">
         <!-- Title bar -->
-        <Grid Grid.Row="0" Background="Orange" Height="60" ColumnDefinitions="Auto, Auto, *, Auto, Auto">
-            <Rectangle Grid.Column="0" Fill="Red" Width="50"></Rectangle>
-            <Rectangle Grid.Column="1" Fill="Blue" Width="50"></Rectangle>
+        <Grid Grid.Row="0" Background="#e5e5e5" Height="60" ColumnDefinitions="Auto, Auto, *, Auto, Auto">
+            
+            <Grid.Styles>
+                <Style Selector="Button">
+                    <Setter Property="Background" Value="Transparent"></Setter>
+                    <Setter Property="Width" Value="45"></Setter>
+                </Style>
+                <Style Selector="Button Image">
+                    <Setter Property="Width" Value="25"></Setter>
+                </Style>
+                <Style Selector="Button /template/ ContentPresenter">
+                    <Setter Property="Transitions">
+                        <Transitions>
+                            <TransformOperationsTransition Property="RenderTransform" Duration="0:0:0.2"></TransformOperationsTransition>
+                        </Transitions>
+                    </Setter>
+                </Style>
+                <Style Selector="Button:pointerover /template/ ContentPresenter">
+                    <Setter Property="Background" Value="Transparent"></Setter>
+                    <Setter Property="RenderTransform" Value="scale(1.11)"></Setter>
+                    <Setter Property="Opacity" Value="0.6"></Setter>
+                </Style>
+            </Grid.Styles>
+            
+            <Button Grid.Column="0">
+                <Image Source="/Assets/Images/Monitor.png" />
+                <!-- <Image Source="{SvgImage /Assets/Images/Monitor.svg}"/> -->
+            </Button>
+            <Button Grid.Column="1">
+                <Image Source="/Assets/Images/Lock.png"/>
+            </Button>
             <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="2">
                 <Label FontSize="24" FontWeight="Black">AVALONIA</Label>
                 <Label FontSize="24">LOUDNESS METER</Label>
             </StackPanel>
-            <Rectangle Grid.Column="3" Fill="Green" Width="50"></Rectangle>
-            <Rectangle Grid.Column="4" Fill="Yellow" Width="50"></Rectangle>
+            <Button Grid.Column="3">
+                <Image Source="/Assets/Images/Export.png"/>
+            </Button>
+            <Button Grid.Column="4">
+                <Image Source="/Assets/Images/Cog.png"/>
+            </Button>
         </Grid>
         
         <!-- Main area -->
@@ -55,7 +87,7 @@
                     
                     <!-- Volume Bar -->
                     <Grid Grid.Row="0" Grid.Column="1" Grid.RowSpan="11" Width="20" RowDefinitions="23*,37*">
-                        <Rectangle Grid.Row="0" Margin="0,8,0,-8"  Canvas.Top="0" Fill="#b05c4e" Width="20"></Rectangle>
+                        <Rectangle Grid.Row="0" Margin="0,8,0,-8" Fill="#b05c4e" Width="20"></Rectangle>
                         <Rectangle Grid.Row="1" Margin="0,8,0,0" Fill="white" Width="20"></Rectangle>
                     </Grid>
                     
@@ -92,9 +124,18 @@
                             <Setter Property="CornerRadius" Value="20"></Setter>
                             <Setter Property="Padding" Value="7, 2"></Setter>
                         </Style>
+                        <Style Selector="Button:pointerover /template/ ContentPresenter">
+                            <Setter Property="Background" Value="#98acd0"></Setter>
+                        </Style>
+                        <Style Selector="Button:pointerover /template/ ContentPresenter">
+                            <Setter Property="TextBlock.Foreground" Value="White"></Setter>
+                        </Style>
+                        
                     </StackPanel.Styles>
                     
-                    <Button Margin="0,0,20,0">A</Button>
+                    <Button CornerRadius="30" Width="30" Height="30" Padding="3" Margin="0,0,20,0">
+                        <Image Margin="5,0,2,0" Source="/Assets/Images/DoubleArrow.png" />
+                    </Button>
                     <Button>INT-LRA</Button>
                 </StackPanel>
             </Grid>
