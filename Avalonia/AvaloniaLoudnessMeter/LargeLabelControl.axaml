@@ -1,0 +1,43 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="using:AvaloniaLoudnessMeter">
+    <Design.PreviewWith>
+        <StackPanel Background="{DynamicResource DarkBlueBackground}">
+            <controls:LargeLabelControl Margin="10" />
+            <controls:LargeLabelControl Margin="10" Classes="button" />
+        </StackPanel>
+    </Design.PreviewWith>
+    
+    <Style Selector="controls|LargeLabelControl">
+       
+        <!-- Set Defaults -->
+        <Setter Property="Background" Value="{DynamicResource  MidBlueBrush}"></Setter>
+        
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border Padding="15,7" Background="{TemplateBinding Background}">
+                    <StackPanel Orientation="Vertical">
+                        <Label Foreground="White" HorizontalAlignment="Center" Padding="0" FontSize="21" Content="{TemplateBinding LargeText}" />
+                        <Label Foreground="White" HorizontalAlignment="Center" Padding="0,3,0,0" FontSize="11" Content="{TemplateBinding SmallText}" />
+                    </StackPanel>
+                </Border>
+            </ControlTemplate>
+        </Setter>
+    </Style>
+    
+    <Style Selector="controls|LargeLabelControl.button">
+       
+        <!-- Set Defaults -->
+        <Setter Property="Background" Value="{DynamicResource  MidBlueBrush}"></Setter>
+        
+        <Setter Property="Template">
+            <ControlTemplate>
+                <StackPanel Orientation="Vertical" Margin="0,0,0,3">
+                    <Label Padding="15,3" CornerRadius="20" Background="{TemplateBinding Background}" Foreground="White" HorizontalAlignment="Center" FontSize="21" Content="{TemplateBinding LargeText}" />
+                    <Label Foreground="White" HorizontalAlignment="Center" Padding="0,3,0,0" FontSize="11" Content="{TemplateBinding SmallText}" />
+                </StackPanel>
+            </ControlTemplate>
+        </Setter>
+    </Style>
+
+</Styles>
