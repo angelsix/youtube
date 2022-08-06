@@ -9,26 +9,27 @@
         Title="Avalonia.NETCoreApp1">
     
     <Window.Styles>
-                 
+        
         <Style Selector="Button.small">
             <Setter Property="FontSize" Value="12"/>
             <Setter Property="Foreground" Value="White"></Setter>
-            <Setter Property="Background" Value="#7f98c7"></Setter>
+            <Setter Property="Background" Value="{DynamicResource BrightBlueBrush}"></Setter>
             <Setter Property="CornerRadius" Value="20"></Setter>
             <Setter Property="Padding" Value="7, 2"></Setter>
         </Style>
         <Style Selector="Button:pointerover /template/ ContentPresenter">
-            <Setter Property="Background" Value="#98acd0"></Setter>
+            <Setter Property="Background" Value="{DynamicResource BrightBlueHoverBrush}"></Setter>
         </Style>
         <Style Selector="Button:pointerover /template/ ContentPresenter">
             <Setter Property="TextBlock.Foreground" Value="White"></Setter>
         </Style>
                         
     </Window.Styles>
+
     
     <Grid RowDefinitions="Auto, *, Auto">
         <!-- Title bar -->
-        <Grid Grid.Row="0" Background="#e5e5e5" Height="60" ColumnDefinitions="Auto, Auto, *, Auto, Auto">
+        <Grid Grid.Row="0" Background="{DynamicResource MediumGreyBrush}" Height="60" ColumnDefinitions="Auto, Auto, *, Auto, Auto">
             
             <Grid.Styles>
                 <Style Selector="Button">
@@ -133,6 +134,7 @@
                 
                 <!-- Volume bar buttons -->
                 <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
+                    
                     <Button Classes="small" CornerRadius="30" Width="30" Height="30" Padding="3" Margin="0,0,20,0">
                         <Image Margin="5,0,2,0" Source="/Assets/Images/DoubleArrow.png" />
                     </Button>
@@ -140,7 +142,7 @@
                 </StackPanel>
             </Grid>
             <!-- Details Panel -->
-            <StackPanel Grid.Column="1" Width="170" Margin="0, 15, 10,15">
+            <StackPanel Grid.Column="1" Width="170" Margin="0,15,10,15">
                 <controls:LargeLabelControl LargeText="-21.1 LUFS" SmallText="SHORT TERM" />
                 <controls:LargeLabelControl LargeText="-20.7 LUFS" SmallText="INTEGRATED" Background="{DynamicResource LightBlueBrush}" />
                 <controls:LargeLabelControl LargeText="9.5 LU" SmallText="LOUDNESS RANGE" />
@@ -149,13 +151,15 @@
 
                 <controls:LargeLabelControl LargeText="-9.8 LUFS" SmallText="MOMENTARY MAX" Classes="button" />
                 <controls:LargeLabelControl LargeText="-15.1 LUFS" SmallText="SHORT TERM MAX" Classes="button" />
-                <controls:LargeLabelControl LargeText="0.7dB" SmallText="TRUE PEAK MAX" Classes="button" Margin="0,0,0, 5" />
+                <controls:LargeLabelControl LargeText="0.7dB" SmallText="TRUE PEAK MAX" Classes="button" Margin="0,0,0, 10" />
                 
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                     <Button Classes="small" Margin="0,0,20,0">AUTO</Button>
                     <Button Classes="small" FontSize="20" FontFamily="Arial" Background="{DynamicResource FadedRedBrush}">X</Button>
                 </StackPanel>
+                
             </StackPanel>
+            
             <!-- Graph -->
             <Rectangle Grid.Column="2" Fill="Black"></Rectangle>
         </Grid>
