@@ -1,9 +1,15 @@
 <Application xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="using:AvaloniaLoudnessMeter"
              x:Class="AvaloniaLoudnessMeter.App">
+    <Application.DataTemplates>
+        <local:ViewLocator/>
+    </Application.DataTemplates>
+
     <Application.Styles>
         <FluentTheme Mode="Light"/>
-        <StyleInclude Source="/LargeLabelControl.axaml"></StyleInclude>
+        <StyleInclude Source="/Styles/AppDefaultStyles.axaml"></StyleInclude>
+        <StyleInclude Source="/Styles/LargeLabelControl.axaml"></StyleInclude>
     </Application.Styles>
     
     <Application.Resources>

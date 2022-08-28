@@ -1,6 +1,6 @@
 using Avalonia.Controls;
 
-namespace AvaloniaLoudnessMeter
+namespace AvaloniaLoudnessMeter.Views
 {
     public partial class MainWindow : Window
     {

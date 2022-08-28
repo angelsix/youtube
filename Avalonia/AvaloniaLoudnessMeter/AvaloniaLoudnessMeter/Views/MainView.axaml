@@ -1,32 +1,33 @@
-<Window xmlns="https://github.com/avaloniaui"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:controls="clr-namespace:AvaloniaLoudnessMeter"
-        mc:Ignorable="d" d:DesignWidth="1048" d:DesignHeight="630"
-        Width="1048" Height="630"
-        x:Class="AvaloniaLoudnessMeter.MainWindow"
-        Title="Avalonia.NETCoreApp1">
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:viewModels="clr-namespace:AvaloniaLoudnessMeter.ViewModels"
+             xmlns:controls="clr-namespace:AvaloniaLoudnessMeter"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="AvaloniaLoudnessMeter.Views.MainView"
+             Foreground="White"
+             Background="#171C2C">
+  <Design.DataContext>
+    <viewModels:MainViewModel />
+  </Design.DataContext>
     
-    <Window.Styles>
-        
-        <Style Selector="Button.small">
-            <Setter Property="FontSize" Value="12"/>
-            <Setter Property="Foreground" Value="White"></Setter>
-            <Setter Property="Background" Value="{DynamicResource BrightBlueBrush}"></Setter>
-            <Setter Property="CornerRadius" Value="20"></Setter>
-            <Setter Property="Padding" Value="7, 2"></Setter>
-        </Style>
-        <Style Selector="Button:pointerover /template/ ContentPresenter">
-            <Setter Property="Background" Value="{DynamicResource BrightBlueHoverBrush}"></Setter>
-        </Style>
-        <Style Selector="Button:pointerover /template/ ContentPresenter">
-            <Setter Property="TextBlock.Foreground" Value="White"></Setter>
-        </Style>
-                        
-    </Window.Styles>
+    <UserControl.Styles>
+      <Style Selector="Button.small">
+        <Setter Property="FontSize" Value="12"/>
+        <Setter Property="Foreground" Value="White"></Setter>
+        <Setter Property="Background" Value="{DynamicResource BrightBlueBrush}"></Setter>
+        <Setter Property="CornerRadius" Value="20"></Setter>
+        <Setter Property="Padding" Value="7, 2"></Setter>
+      </Style>
+      <Style Selector="Button:pointerover /template/ ContentPresenter">
+        <Setter Property="Background" Value="{DynamicResource BrightBlueHoverBrush}"></Setter>
+      </Style>
+      <Style Selector="Button:pointerover /template/ ContentPresenter">
+        <Setter Property="TextBlock.Foreground" Value="White"></Setter>
+      </Style>
+    </UserControl.Styles>
 
-    
     <Grid RowDefinitions="Auto, *, Auto">
         <!-- Title bar -->
         <Grid Grid.Row="0" Background="{DynamicResource MediumGreyBrush}" Height="60" ColumnDefinitions="Auto, Auto, *, Auto, Auto">
@@ -148,7 +149,7 @@
                 <controls:LargeLabelControl LargeText="9.5 LU" SmallText="LOUDNESS RANGE" />
                 <controls:LargeLabelControl LargeText="11.5 LU" SmallText="REALTIME DYNAMICS" />
                 <controls:LargeLabelControl LargeText="20.5 LU" SmallText="AVG. DYNAMIC (PLR)" Margin="0, 0, 0, 13" />
-
+                
                 <controls:LargeLabelControl LargeText="-9.8 LUFS" SmallText="MOMENTARY MAX" Classes="button" />
                 <controls:LargeLabelControl LargeText="-15.1 LUFS" SmallText="SHORT TERM MAX" Classes="button" />
                 <controls:LargeLabelControl LargeText="0.7dB" SmallText="TRUE PEAK MAX" Classes="button" Margin="0,0,0, 10" />
@@ -174,4 +175,5 @@
             <Rectangle Grid.Column="6" Fill="Red" Width="30"></Rectangle>
         </Grid>
     </Grid>
-</Window>
+  
+</UserControl>
