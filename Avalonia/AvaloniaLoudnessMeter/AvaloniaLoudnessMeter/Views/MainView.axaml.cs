@@ -1,4 +1,5 @@
 using Avalonia.Controls;
+using AvaloniaLoudnessMeter.ViewModels;
 
 namespace AvaloniaLoudnessMeter.Views
 {

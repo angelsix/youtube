@@ -1,7 +1,13 @@
-﻿namespace AvaloniaLoudnessMeter.ViewModels
+using CommunityToolkit.Mvvm.ComponentModel;
+using System.Threading.Tasks;
+
+namespace AvaloniaLoudnessMeter.ViewModels;
+
+public partial class MainViewModel : ObservableObject
 {
-    public class MainViewModel : ViewModelBase
-    {
-        public string Greeting => "Welcome to Avalonia!";
-    }
+    [ObservableProperty]
+    private string boldTitle = "AVALONIA";
+    
+    [ObservableProperty]
+    private string regularTitle = "LOUDNESS METER";
 }
