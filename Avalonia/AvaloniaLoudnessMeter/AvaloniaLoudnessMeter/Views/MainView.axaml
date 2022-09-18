@@ -13,7 +13,7 @@
   </Design.DataContext>
     
     <UserControl.Styles>
-      <Style Selector="Button.small">
+        <Style Selector="Button.small">
         <Setter Property="FontSize" Value="12"/>
         <Setter Property="Foreground" Value="White"></Setter>
         <Setter Property="Background" Value="{DynamicResource BrightBlueBrush}"></Setter>
@@ -27,7 +27,7 @@
         <Setter Property="TextBlock.Foreground" Value="White"></Setter>
       </Style>
         
-        <Style Selector="Border.channel">
+        <Style Selector="controls|AnimatedPopup.channel">
             <Setter Property="Width" Value="0"></Setter>
             <Setter Property="Height" Value="0"></Setter>
             <Setter Property="Transitions">
@@ -38,7 +38,7 @@
             </Setter>
         </Style>
         
-        <Style Selector="Border.channel.open">
+        <Style Selector="controls|AnimatedPopup.channel.open">
             <Setter Property="Width" Value="300"></Setter>
             <Setter Property="Height" Value="600"></Setter>
         </Style>
@@ -52,22 +52,19 @@
                 IsVisible="{Binding ChannelConfigurationListIsOpen}"
                 PointerPressed="InputElement_OnPointerPressed" 
                 Background="Transparent"
-                ZIndex="1" />
+                ZIndex="9" />
         
         <!-- Channel Configuration Popup -->
-        <Border Grid.Row="0"
-            Name="ChannelConfigurationPopup"
-            Classes="channel"
-            Classes.open="{Binding ChannelConfigurationListIsOpen}"
+        <controls:AnimatedPopup 
+            Grid.Row="0"
             Grid.RowSpan="3" 
-            Background="red" 
-            ZIndex="2" 
-            HorizontalAlignment="Left"
-            VerticalAlignment="Bottom"
-            >
-            <Label>Test</Label>
-        </Border>
-        
+            Classes="channel"
+            Name="ChannelConfigurationPopup"
+            Classes.open="{Binding ChannelConfigurationListIsOpen}"
+        >
+            <Label Content="Hello World" Foreground="red" Background="Black"></Label>
+        </controls:AnimatedPopup>
+
         <!-- Title bar -->
         <Grid Grid.Row="0" Background="{DynamicResource MediumGreyBrush}" Height="60" ColumnDefinitions="Auto, Auto, *, Auto, Auto">
             
@@ -207,7 +204,7 @@
         <!-- Bottom bar -->
         <Grid Grid.Row="2" Margin="20,10" Height="40" ColumnDefinitions="Auto, Auto, *, Auto, Auto, Auto, Auto, Auto">
             <Button Grid.Column="0" Name="ChannelConfigurationButton" Command="{Binding ChannelConfigurationButtonPressedCommand}" Margin="0,0,8,0">Stereo</Button>
-            <Button Grid.Column="1">YouTube</Button>
+            <Button Grid.Column="1" Content="YouTube" />
             <Button Grid.Column="3" Margin="0,0,8,0">10 SEC</Button>
             <Button Grid.Column="4" Margin="0,0,8,0">CONTINUOUS</Button>
             <Rectangle Grid.Column="5" Fill="Orange" Width="30" Margin="0,0,8,0"></Rectangle>
