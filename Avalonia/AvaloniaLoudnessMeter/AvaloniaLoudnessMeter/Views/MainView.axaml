@@ -26,22 +26,6 @@
       <Style Selector="Button:pointerover /template/ ContentPresenter">
         <Setter Property="TextBlock.Foreground" Value="White"></Setter>
       </Style>
-        
-        <Style Selector="controls|AnimatedPopup.channel">
-            <Setter Property="Width" Value="0"></Setter>
-            <Setter Property="Height" Value="0"></Setter>
-            <Setter Property="Transitions">
-                <Transitions>
-                    <DoubleTransition Property="Width" Duration="0:0:0.17" Easing="QuadraticEaseIn" />
-                    <DoubleTransition Property="Height" Duration="0:0:0.17" Easing="QuadraticEaseIn" />
-                </Transitions>
-            </Setter>
-        </Style>
-        
-        <Style Selector="controls|AnimatedPopup.channel.open">
-            <Setter Property="Width" Value="300"></Setter>
-            <Setter Property="Height" Value="600"></Setter>
-        </Style>
     </UserControl.Styles>
 
     <!-- Main grid -->
@@ -58,11 +42,16 @@
         <controls:AnimatedPopup 
             Grid.Row="0"
             Grid.RowSpan="3" 
-            Classes="channel"
             Name="ChannelConfigurationPopup"
-            Classes.open="{Binding ChannelConfigurationListIsOpen}"
         >
-            <Label Content="Hello World" Foreground="red" Background="Black"></Label>
+            <Border Padding="20" Background="White" BorderThickness="1" BorderBrush="#ddd" CornerRadius="5">
+                <StackPanel>
+                    <Label Content="Hello World"></Label>
+                    <Label Content="Hello World"></Label>
+                    <Label Content="Hello World"></Label>
+                    <Label Content="Hello World"></Label>
+                </StackPanel>
+            </Border>
         </controls:AnimatedPopup>
 
         <!-- Title bar -->
