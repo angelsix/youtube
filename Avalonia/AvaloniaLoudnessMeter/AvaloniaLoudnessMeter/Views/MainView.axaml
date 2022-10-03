@@ -41,7 +41,8 @@
         <!-- Channel Configuration Popup -->
         <controls:AnimatedPopup 
             Grid.Row="0"
-            Grid.RowSpan="3" 
+            Grid.RowSpan="3"
+            AnimationTime="0.3"
             Name="ChannelConfigurationPopup"
         >
             <Border Padding="20" Background="White" BorderThickness="1" BorderBrush="#ddd" CornerRadius="5">
@@ -79,7 +80,7 @@
                 </Style>
             </Grid.Styles>
             
-            <Button Grid.Column="0">
+            <Button Grid.Column="0" Command="{Binding #ChannelConfigurationPopup.BeginClose}">
                 <Image Source="{SvgImage /Assets/Images/Monitor.svg}"/>
             </Button>
             <Button Grid.Column="1">
@@ -192,7 +193,7 @@
         
         <!-- Bottom bar -->
         <Grid Grid.Row="2" Margin="20,10" Height="40" ColumnDefinitions="Auto, Auto, *, Auto, Auto, Auto, Auto, Auto">
-            <Button Grid.Column="0" Name="ChannelConfigurationButton" Command="{Binding ChannelConfigurationButtonPressedCommand}" Margin="0,0,8,0">Stereo</Button>
+            <Button Grid.Column="0" Name="ChannelConfigurationButton" Command="{Binding #ChannelConfigurationPopup.BeginOpen}" Margin="0,0,8,0">Stereo</Button>
             <Button Grid.Column="1" Content="YouTube" />
             <Button Grid.Column="3" Margin="0,0,8,0">10 SEC</Button>
             <Button Grid.Column="4" Margin="0,0,8,0">CONTINUOUS</Button>
