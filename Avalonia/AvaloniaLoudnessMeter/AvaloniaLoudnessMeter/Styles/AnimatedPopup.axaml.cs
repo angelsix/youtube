@@ -96,6 +96,11 @@ public partial class AnimatedPopup : ContentControl
         get => _open;
         set
         {
+            // If the value has not changed...
+            if (value == _open)
+                // Do nothing
+                return;
+            
             // If we are opening...
             if (value)
             {
@@ -110,8 +115,17 @@ public partial class AnimatedPopup : ContentControl
                         mUnderlayControl.SetValue(Grid.ColumnSpanProperty, grid.ColumnDefinitions.Count);
                 
                     // Insert the underlay control
-                    grid.Children.Insert(0, mUnderlayControl);   
+                    if (!grid.Children.Contains(mUnderlayControl))
+                        grid.Children.Insert(0, mUnderlayControl);   
                 }
+            }
+            // If closing...
+            else
+            {
+                // If the control is currently fully open...
+                if (IsOpened)
+                    // Update desired size
+                    UpdateDesiredSize();
             }
 
             SetAndRaise(OpenProperty, ref _open, value);
@@ -134,7 +148,22 @@ public partial class AnimatedPopup : ContentControl
     }
     
     #endregion
+    
+    #region Animate Opacity
 
+    private bool _animateOpacity = true;
+
+    public static readonly DirectProperty<AnimatedPopup, bool> AnimateOpacityProperty = AvaloniaProperty.RegisterDirect<AnimatedPopup, bool>(
+        nameof(AnimateOpacity), o => o.AnimateOpacity, (o, v) => o.AnimateOpacity = v);
+
+    public bool AnimateOpacity
+    {
+        get => _animateOpacity;
+        set => SetAndRaise(AnimateOpacityProperty, ref _animateOpacity, value);
+    }
+    
+    #endregion
+    
     #region Underlay Opacity
     
     private double _underlayOpacity = 0.2;
@@ -214,8 +243,8 @@ public partial class AnimatedPopup : ContentControl
 
             Dispatcher.UIThread.InvokeAsync(() =>
             {
-                // Set the desired size
-                mDesiredSize = DesiredSize - Margin;
+                // Update the desired size
+                UpdateDesiredSize();
                 
                 // Update animation
                 UpdateAnimation();
@@ -225,10 +254,15 @@ public partial class AnimatedPopup : ContentControl
         // Callback on every tick
         mAnimationTimer.Tick += (s, e) => AnimationTick();
     }
-    
+
     #endregion
     
     #region Private Methods
+
+    /// <summary>
+    /// Updates the animation desired size based on the current visuals desired size
+    /// </summary>
+    private void UpdateDesiredSize() => mDesiredSize = DesiredSize - Margin;   
 
     /// <summary>
     /// Calculate and start any new required animations
@@ -252,8 +286,11 @@ public partial class AnimatedPopup : ContentControl
         if (_open)
         {
             // Set size to desired size
-            Width = mDesiredSize.Width;
-            Height = mDesiredSize.Height;
+            Width = double.NaN;
+            Height = double.NaN;
+
+            // Make sure opacity is set to original value
+            Opacity = mOriginalOpacity;
         }
         // If closed...
         else
@@ -326,18 +363,23 @@ public partial class AnimatedPopup : ContentControl
         var percentageAnimated = (float)mAnimationCurrentTick / mTotalTicks;
         
         // Make an animation easing
-        var easing = new QuadraticEaseIn();
+        var quadraticEasing = new QuadraticEaseIn();
+        var linearEasing = new LinearEasing();
         
         // Calculate final width and height
-        var finalWidth = mDesiredSize.Width * easing.Ease(percentageAnimated);
-        var finalHeight = mDesiredSize.Height * easing.Ease(percentageAnimated);
+        var finalWidth = mDesiredSize.Width * quadraticEasing.Ease(percentageAnimated);
+        var finalHeight = mDesiredSize.Height * quadraticEasing.Ease(percentageAnimated);
 
         // Do our animation
         Width = finalWidth;
         Height = finalHeight;
         
+        // Animate opacity
+        if (AnimateOpacity)
+            Opacity = mOriginalOpacity * linearEasing.Ease(percentageAnimated);
+
         // Animate underlay
-        mUnderlayControl.Opacity = _underlayOpacity * easing.Ease(percentageAnimated);
+        mUnderlayControl.Opacity = _underlayOpacity * quadraticEasing.Ease(percentageAnimated);
         
         Console.WriteLine($"Current tick: {mAnimationCurrentTick}");
     }

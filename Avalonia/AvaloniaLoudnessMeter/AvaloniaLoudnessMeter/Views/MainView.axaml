@@ -35,16 +35,25 @@
         <controls:AnimatedPopup 
             Grid.Row="0"
             Grid.RowSpan="3"
-            AnimationTime="0.3"
+            AnimationTime="0:0:0.1"
             Name="ChannelConfigurationPopup"
         >
             <Border Padding="20" Background="White" BorderThickness="1" BorderBrush="#ddd" CornerRadius="5">
-                <StackPanel>
-                    <Label Content="Hello World"></Label>
-                    <Label Content="Hello World"></Label>
-                    <Label Content="Hello World"></Label>
-                    <Label Content="Hello World"></Label>
-                </StackPanel>
+                
+                <Expander>
+                    
+                    <Expander.Header>
+                        <Label Content="This is a long header text"></Label>
+                    </Expander.Header>
+                                    
+                    <StackPanel>
+                        <Label Content="Hello World"></Label>
+                        <Label Content="Hello World"></Label>
+                        <Label Content="Hello World"></Label>
+                        <Label Content="Hello World"></Label>
+                    </StackPanel>
+                </Expander>
+
             </Border>
         </controls:AnimatedPopup>
 
@@ -181,7 +190,23 @@
             </StackPanel>
             
             <!-- Graph -->
-            <Rectangle Grid.Column="2" Fill="Black"></Rectangle>
+            <Border Grid.Column="2">
+                
+                <Expander VerticalAlignment="Top" HorizontalAlignment="Left">
+                    
+                    <Expander.Header>
+                        <Label Content="This is a long header text"></Label>
+                    </Expander.Header>
+                                    
+                    <StackPanel>
+                        <Label Content="Hello World"></Label>
+                        <Label Content="Hello World"></Label>
+                        <Label Content="Hello World"></Label>
+                        <Label Content="Hello World"></Label>
+                    </StackPanel>
+                </Expander>
+                
+            </Border>
         </Grid>
         
         <!-- Bottom bar -->
