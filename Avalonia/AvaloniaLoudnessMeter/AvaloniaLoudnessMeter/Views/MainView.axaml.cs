@@ -36,6 +36,13 @@ namespace AvaloniaLoudnessMeter.Views
         
         #endregion
 
+        protected override async void OnLoaded()
+        {
+            await ((MainViewModel)DataContext).LoadSettingsCommand.ExecuteAsync(null);
+
+            base.OnLoaded();
+        }
+
         public override void Render(DrawingContext context)
         {
             base.Render(context);
