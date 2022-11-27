@@ -37,22 +37,34 @@
             Grid.RowSpan="3"
             AnimationTime="0:0:0.1"
             Name="ChannelConfigurationPopup"
+            Open="{Binding ChannelConfigurationListIsOpen, Mode=TwoWay}"
         >
             <Border Padding="20" Background="White" BorderThickness="1" BorderBrush="#ddd" CornerRadius="5">
                 
-                <Expander>
-                    
-                    <Expander.Header>
-                        <Label Content="This is a long header text"></Label>
-                    </Expander.Header>
-                                    
-                    <StackPanel>
-                        <Label Content="Hello World"></Label>
-                        <Label Content="Hello World"></Label>
-                        <Label Content="Hello World"></Label>
-                        <Label Content="Hello World"></Label>
-                    </StackPanel>
-                </Expander>
+               <ItemsControl Items="{Binding ChannelConfigurations}">
+                   <ItemsControl.ItemTemplate>
+                       <DataTemplate>
+                           <Expander>
+                               <Expander.Header>
+                                    <Label Content="{Binding Key}"/>
+                               </Expander.Header>
+                               
+                               <ItemsControl Items="{Binding }">
+                                   <ItemsControl.ItemTemplate>
+                                       <DataTemplate>
+                                           <Button 
+                                               Content="{Binding Text}"
+                                               Command="{Binding $parent[controls:AnimatedPopup].DataContext.ChannelConfigurationItemPressedCommand}"
+                                               CommandParameter="{Binding}"
+                                               ></Button>
+                                       </DataTemplate>
+                                   </ItemsControl.ItemTemplate>
+                               </ItemsControl>
+                               
+                           </Expander>
+                       </DataTemplate>
+                   </ItemsControl.ItemTemplate>
+               </ItemsControl>
 
             </Border>
         </controls:AnimatedPopup>
@@ -91,6 +103,7 @@
             <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="2">
                 <Label Content="{Binding BoldTitle}" FontSize="24" FontWeight="Black" />
                 <Label Content="{Binding RegularTitle}" FontSize="24" />
+                <Label Content="{Binding ChannelConfigurationListIsOpen}" FontSize="24" />
             </StackPanel>
             <Button Grid.Column="3">
                 <Image Source="{SvgImage /Assets/Images/Export.svg}"/>

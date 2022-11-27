@@ -3,6 +3,7 @@ using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Input;
 using Avalonia.Media;
+using Avalonia.Threading;
 using AvaloniaLoudnessMeter.ViewModels;
 using System;
 
@@ -47,16 +48,19 @@ namespace AvaloniaLoudnessMeter.Views
         {
             base.Render(context);
 
-            // Get relative position of button, in relation to main grid
-            var position = mChannelConfigButton.TranslatePoint(new Point(), mMainGrid) ??
-                           throw new Exception("Cannot get TranslatePoint from Configuration Button");
+            Dispatcher.UIThread.InvokeAsync(() =>
+            {
+                // Get relative position of button, in relation to main grid
+                var position = mChannelConfigButton.TranslatePoint(new Point(), mMainGrid) ??
+                               throw new Exception("Cannot get TranslatePoint from Configuration Button");
 
-            // Set margin of popup so it appears bottom left of button
-            mChannelConfigPopup.Margin = new Thickness(
-                position.X,
-                0,
-                0,
-                mMainGrid.Bounds.Height - position.Y - mChannelConfigButton.Bounds.Height);
+                // Set margin of popup so it appears bottom left of button
+                mChannelConfigPopup.Margin = new Thickness(
+                    position.X,
+                    0,
+                    0,
+                    mMainGrid.Bounds.Height - position.Y - mChannelConfigButton.Bounds.Height);
+            });
         }
 
         private void InputElement_OnPointerPressed(object sender, PointerPressedEventArgs e)

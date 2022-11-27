@@ -127,7 +127,11 @@ public partial class AnimatedPopup : ContentControl
                     // Update desired size
                     UpdateDesiredSize();
             }
+            
+            // Update animation
+            UpdateAnimation();
 
+            // Raise the property changed event
             SetAndRaise(OpenProperty, ref _open, value);
         }
     }
@@ -187,18 +191,12 @@ public partial class AnimatedPopup : ContentControl
     public void BeginOpen()
     {
         Open = true;
-        
-        // Update animation
-        UpdateAnimation();
     }
 
     [RelayCommand]
     public void BeginClose()
     {
         Open = false;
-                
-        // Update animation
-        UpdateAnimation();
     }
     
     #endregion
