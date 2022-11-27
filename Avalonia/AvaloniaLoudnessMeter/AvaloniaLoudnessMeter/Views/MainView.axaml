@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:viewModels="clr-namespace:AvaloniaLoudnessMeter.ViewModels"
              xmlns:controls="clr-namespace:AvaloniaLoudnessMeter"
+             xmlns:dataModels="clr-namespace:AvaloniaLoudnessMeter.DataModels"
              mc:Ignorable="d" d:DesignWidth="1048" d:DesignHeight="645"
              x:Class="AvaloniaLoudnessMeter.Views.MainView"
              Foreground="White"
@@ -54,7 +55,7 @@
                                        <DataTemplate>
                                            <Button 
                                                Content="{Binding Text}"
-                                               Command="{Binding $parent[controls:AnimatedPopup].DataContext.ChannelConfigurationItemPressedCommand}"
+                                               Command="{Binding $parent[controls:AnimatedPopup].((viewModels:MainViewModel)DataContext).ChannelConfigurationButtonPressedCommand, FallbackValue=null}"
                                                CommandParameter="{Binding}"
                                                ></Button>
                                        </DataTemplate>
@@ -103,7 +104,6 @@
             <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="2">
                 <Label Content="{Binding BoldTitle}" FontSize="24" FontWeight="Black" />
                 <Label Content="{Binding RegularTitle}" FontSize="24" />
-                <Label Content="{Binding ChannelConfigurationListIsOpen}" FontSize="24" />
             </StackPanel>
             <Button Grid.Column="3">
                 <Image Source="{SvgImage /Assets/Images/Export.svg}"/>
