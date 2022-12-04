@@ -22,7 +22,7 @@ public partial class MainViewModel : ObservableObject
 
     [ObservableProperty] private string _regularTitle = "LOUDNESS METER";
 
-    [ObservableProperty] private bool _channelConfigurationListIsOpen;
+    [ObservableProperty] private bool _channelConfigurationListIsOpen = true;
 
     [ObservableProperty]
     private ObservableGroupedCollection<string, ChannelConfigurationItem> _channelConfigurations = default!;
