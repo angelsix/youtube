@@ -174,8 +174,8 @@
                     <Label Grid.Column="2" Grid.Row="10"></Label>
                     
                     <!-- Arrow -->
-                    <Canvas Grid.Row="0" Grid.Column="3" Grid.RowSpan="11" Width="20">
-                        <Rectangle Canvas.Top="0" Fill="White" Width="20" Height="20"></Rectangle>
+                    <Canvas Name="VolumeContainer" Grid.Row="0" Grid.Column="3" Grid.RowSpan="11" Width="20" Margin="6 0 0 0">
+                        <Path Canvas.Top="{Binding VolumePercentPosition}" Fill="White" Data="M 20 3 L 4 10 L 20 17 Z" />
                     </Canvas>
 
                 </Grid>
