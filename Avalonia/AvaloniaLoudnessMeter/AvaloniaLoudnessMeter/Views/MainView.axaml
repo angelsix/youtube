@@ -4,8 +4,6 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:viewModels="clr-namespace:AvaloniaLoudnessMeter.ViewModels"
              xmlns:controls="clr-namespace:AvaloniaLoudnessMeter"
-             xmlns:dataModels="clr-namespace:AvaloniaLoudnessMeter.DataModels"
-             xmlns:valueConverters="clr-namespace:AvaloniaLoudnessMeter.ValueConverters"
              mc:Ignorable="d" d:DesignWidth="1048" d:DesignHeight="645"
              x:Class="AvaloniaLoudnessMeter.Views.MainView"
              Foreground="White"
@@ -14,17 +12,13 @@
     <viewModels:MainViewModel />
   </Design.DataContext>
     
-    <UserControl.Resources>
-        <valueConverters:CheckedToRotationConverter x:Key="CheckedToRotationConverter"></valueConverters:CheckedToRotationConverter>
-    </UserControl.Resources>
-    
     <UserControl.Styles>
         <Style Selector="Button.small">
-        <Setter Property="FontSize" Value="12"/>
-        <Setter Property="Foreground" Value="White"></Setter>
-        <Setter Property="Background" Value="{DynamicResource BrightBlueBrush}"></Setter>
-        <Setter Property="CornerRadius" Value="20"></Setter>
-        <Setter Property="Padding" Value="7, 2"></Setter>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Foreground" Value="White"></Setter>
+            <Setter Property="Background" Value="{DynamicResource BrightBlueBrush}"></Setter>
+            <Setter Property="CornerRadius" Value="20"></Setter>
+            <Setter Property="Padding" Value="7, 2"></Setter>
       </Style>
       <Style Selector="Button:pointerover /template/ ContentPresenter">
         <Setter Property="Background" Value="{DynamicResource BrightBlueHoverBrush}"></Setter>
@@ -51,77 +45,6 @@
                     BorderBrush="#ddd" 
                     CornerRadius="0"
             >
-                
-                <Border.Resources>
-                    
-                    <ControlTheme x:Key="SmallExpander" TargetType="Expander">
-                        <Setter Property="ContentTransition">
-                          <Setter.Value>
-                            <CrossFade Duration="00:00:00.25" />
-                          </Setter.Value>
-                        </Setter>
-                      <Setter Property="Template">
-                        <ControlTemplate>
-                          <Border Background="{TemplateBinding Background}"
-                                  BorderBrush="{TemplateBinding BorderBrush}"
-                                  BorderThickness="{TemplateBinding BorderThickness}"
-                                  CornerRadius="{TemplateBinding CornerRadius}">
-                              <StackPanel>
-                                  
-                                  <Grid RowDefinitions="Auto,*">
-                                  <ToggleButton Name="PART_toggle"
-                                                Grid.Row="0"
-                                                Padding="0"
-                                                HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
-                                                VerticalAlignment="{TemplateBinding VerticalAlignment}"
-                                                Content="{TemplateBinding Header}"
-                                                IsChecked="{TemplateBinding IsExpanded, Mode=TwoWay}" 
-                                                Background="Transparent"
-                                                >
-                                      <ToggleButton.Template>
-                                          <ControlTemplate>
-                                              <Border Background="{TemplateBinding Background}"
-                                                      BorderThickness="1">
-                                                  <Grid ColumnDefinitions="*,Auto">
-                                                      <ContentControl Padding="2" Grid.Column="0" Content="{TemplateBinding Content}" />
-                                                      <Border Grid.Column="1"
-                                                              Padding="8"
-                                                              RenderTransform="{TemplateBinding IsChecked, Converter={StaticResource CheckedToRotationConverter}}"
-                                                              HorizontalAlignment="Center"
-                                                              VerticalAlignment="Center">
-                                                          <Path HorizontalAlignment="Center"
-                                                                VerticalAlignment="Center"
-                                                                Data="M 6 0 L 0 5 L 6 10"
-                                                                Stroke="#bbb"
-                                                                StrokeThickness="2" />
-                                                      </Border>
-                                                  </Grid>
-                                              </Border>
-                                          </ControlTemplate>  
-                                      </ToggleButton.Template>
-                                  </ToggleButton>
-                                  <ContentPresenter Name="PART_ContentPresenter"
-                                                    Grid.Row="1"
-                                                    Padding="{TemplateBinding Padding}"
-                                                    HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                                    VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                                                    Content="{TemplateBinding Content}"
-                                                    ContentTemplate="{TemplateBinding ContentTemplate}"
-                                                    IsVisible="{TemplateBinding IsExpanded}" />
-                                </Grid>
-                                  <Rectangle Fill="#999" Height="1" Margin="7 0"></Rectangle>
-                              </StackPanel>
-                          </Border>
-                        </ControlTemplate>
-                      </Setter>
-                    </ControlTheme>
-                </Border.Resources>
-                
-                <Border.Styles>
-                    <Style Selector="Expander.small">
-                        <Setter Property="Theme" Value="{StaticResource SmallExpander}"></Setter>
-                    </Style>
-                </Border.Styles>
                 
                <ItemsControl 
                    Items="{Binding ChannelConfigurations}"
