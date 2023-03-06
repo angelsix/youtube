@@ -4,9 +4,13 @@ using Avalonia.Controls.Primitives;
 using Avalonia.Input;
 using Avalonia.Media;
 using Avalonia.Threading;
+using AvaloniaLoudnessMeter.Services;
 using AvaloniaLoudnessMeter.ViewModels;
+using ManagedBass;
 using System;
+using System.IO;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace AvaloniaLoudnessMeter.Views
 {
@@ -18,7 +22,6 @@ namespace AvaloniaLoudnessMeter.Views
         private Control mChannelConfigButton;
         private Control mMainGrid;
         private Control mVolumeContainer;
-
         
         /// <summary>
         /// The timeout timer to detect when auto-sizing has finished firing
@@ -64,6 +67,35 @@ namespace AvaloniaLoudnessMeter.Views
         {
             await ((MainViewModel)DataContext).LoadSettingsCommand.ExecuteAsync(null);
 
+            Task.Run(async () =>
+            {
+                // Output all devices, then select one
+                foreach (var device in RecordingDevice.Enumerate())
+                    Console.WriteLine($"{device?.Index}: {device?.Name}");
+
+                var outputPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "MBass");
+                Directory.CreateDirectory(outputPath);
+                var filePath = Path.Combine(outputPath, DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss") + ".wav");
+                using var writer = new WaveFileWriter(new FileStream(filePath, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.Read), new WaveFormat());
+
+                using var mCaptureDevice = new AudioCaptureService(1);
+
+                mCaptureDevice.DataAvailable += (buffer, length) =>
+                {
+                    writer.Write(buffer, length);
+                    
+                    Console.WriteLine(BitConverter.ToString(buffer));
+                };
+            
+                mCaptureDevice.Start();
+
+                await Task.Delay(3000);
+                
+                mCaptureDevice.Stop();
+
+                await Task.Delay(100);
+            });
+            
             base.OnLoaded();
         }
 
