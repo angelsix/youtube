@@ -26,6 +26,8 @@ public partial class MainViewModel : ObservableObject
 
     [ObservableProperty] private string _regularTitle = "LOUDNESS METER";
 
+    [ObservableProperty] private string _shortTermLoudness = "-20 LUFS";
+
     [ObservableProperty] private bool _channelConfigurationListIsOpen;
 
     [ObservableProperty] private double _volumePercentPosition;

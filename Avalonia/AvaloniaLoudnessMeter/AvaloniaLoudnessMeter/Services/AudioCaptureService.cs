@@ -25,14 +25,23 @@ public class AudioCaptureService : IDisposable
 
     #region Default Constructor
     
-    public AudioCaptureService(int deviceId)
+    public AudioCaptureService(int deviceId, int frequency = 44100)
     {
         mDevice = deviceId;
 
         Bass.Init();
         Bass.RecordInit(mDevice);
 
-        mHandle = Bass.RecordStart(44100, 2, BassFlags.RecordPause, Procedure);
+        mHandle = Bass.RecordStart(frequency, 2, BassFlags.RecordPause, Procedure);
+        
+        // Output all devices, then select one
+        // foreach (var device in RecordingDevice.Enumerate())
+        //     Console.WriteLine($"{device?.Index}: {device?.Name}");
+        //
+        // var outputPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "MBass");
+        // Directory.CreateDirectory(outputPath);
+        // var filePath = Path.Combine(outputPath, DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss") + ".wav");
+        // using var writer = new WaveFileWriter(new FileStream(filePath, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.Read), new WaveFormat());
     } 
     
     #endregion

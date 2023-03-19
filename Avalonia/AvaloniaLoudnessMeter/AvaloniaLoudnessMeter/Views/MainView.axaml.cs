@@ -1,22 +1,31 @@
 using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Controls.Primitives;
 using Avalonia.Input;
 using Avalonia.Media;
 using Avalonia.Threading;
 using AvaloniaLoudnessMeter.Services;
 using AvaloniaLoudnessMeter.ViewModels;
-using ManagedBass;
+using NWaves.Signals;
+using NWaves.Utils;
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace AvaloniaLoudnessMeter.Views
 {
     public partial class MainView : UserControl
     {
         #region Private Members
+
+        private MainViewModel mViewModel => (MainViewModel)DataContext;
+
+        private AudioCaptureService mCaptureDevice;
+
+        private Queue<double> mLufs = new Queue<double>();
+
+        private int mCaptureFrequecy = 44100;
 
         private Control mChannelConfigPopup;
         private Control mChannelConfigButton;
@@ -60,43 +69,57 @@ namespace AvaloniaLoudnessMeter.Views
 
         private void UpdateSizes()
         {
-            ((MainViewModel)DataContext).VolumeContainerSize = mVolumeContainer.Bounds.Height;
+            mViewModel.VolumeContainerSize = mVolumeContainer.Bounds.Height;
         }
 
         protected override async void OnLoaded()
         {
-            await ((MainViewModel)DataContext).LoadSettingsCommand.ExecuteAsync(null);
+            await mViewModel.LoadSettingsCommand.ExecuteAsync(null);
 
-            Task.Run(async () =>
-            {
-                // Output all devices, then select one
-                foreach (var device in RecordingDevice.Enumerate())
-                    Console.WriteLine($"{device?.Index}: {device?.Name}");
-
-                var outputPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "MBass");
-                Directory.CreateDirectory(outputPath);
-                var filePath = Path.Combine(outputPath, DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss") + ".wav");
-                using var writer = new WaveFileWriter(new FileStream(filePath, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.Read), new WaveFormat());
-
-                using var mCaptureDevice = new AudioCaptureService(1);
-
-                mCaptureDevice.DataAvailable += (buffer, length) =>
-                {
-                    writer.Write(buffer, length);
-                    
-                    Console.WriteLine(BitConverter.ToString(buffer));
-                };
-            
-                mCaptureDevice.Start();
-
-                await Task.Delay(3000);
-                
-                mCaptureDevice.Stop();
-
-                await Task.Delay(100);
-            });
+            StartCapture(1);
             
             base.OnLoaded();
+        }
+
+        private void StartCapture(int deviceId)
+        {
+            mCaptureDevice = new AudioCaptureService(deviceId, mCaptureFrequecy);
+            
+            mCaptureDevice.DataAvailable += (buffer, length) =>
+            {
+                CalculateValues(buffer);
+            };
+        
+            mCaptureDevice.Start();
+        }
+
+        private void CalculateValues(byte[] buffer)
+        {
+            //Console.WriteLine(BitConverter.ToString(buffer));
+
+            // Get total PCM16 samples in this buffer (16 bits per sample)
+            var sampleCount = buffer.Length / 2;
+
+            // Create our Discrete Signal ready to be filled with information
+            var signal = new DiscreteSignal(mCaptureFrequecy, sampleCount);
+
+            // Loop all bytes and extract the 16 bits, into signal floats
+            using var reader = new BinaryReader(new MemoryStream(buffer));
+
+            for (var i = 0; i < sampleCount; i++)
+                signal[i] = reader.ReadInt16() / 32768f;
+            
+            // Calculate the LUFS
+            var lufs = Scale.ToDecibel(signal.Rms() * 1.2);
+            mLufs.Enqueue(lufs);
+            
+            // Keep list to 10 samples
+            if (mLufs.Count > 10)
+                mLufs.Dequeue();
+
+            var averageLufs = mLufs.Average();
+
+            Dispatcher.UIThread.InvokeAsync(() => mViewModel.ShortTermLoudness = $"{averageLufs:0.0} LUFS");
         }
 
         public override void Render(DrawingContext context)
@@ -121,6 +144,6 @@ namespace AvaloniaLoudnessMeter.Views
         }
 
         private void InputElement_OnPointerPressed(object sender, PointerPressedEventArgs e)
-            => ((MainViewModel)DataContext).ChannelConfigurationButtonPressedCommand.Execute(null);
+            => mViewModel.ChannelConfigurationButtonPressedCommand.Execute(null);
     }
 }

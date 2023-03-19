@@ -194,7 +194,7 @@
             </Grid>
             <!-- Details Panel -->
             <StackPanel Grid.Column="1" Width="170" Margin="0,15,10,15">
-                <controls:LargeLabelControl LargeText="-21.1 LUFS" SmallText="SHORT TERM" />
+                <controls:LargeLabelControl LargeText="{Binding ShortTermLoudness}" SmallText="SHORT TERM" />
                 <controls:LargeLabelControl LargeText="-20.7 LUFS" SmallText="INTEGRATED" Background="{DynamicResource LightBlueBrush}" />
                 <controls:LargeLabelControl LargeText="9.5 LU" SmallText="LOUDNESS RANGE" />
                 <controls:LargeLabelControl LargeText="11.5 LU" SmallText="REALTIME DYNAMICS" />
