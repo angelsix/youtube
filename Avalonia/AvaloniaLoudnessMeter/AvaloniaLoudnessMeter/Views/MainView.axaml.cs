@@ -19,13 +19,10 @@ namespace AvaloniaLoudnessMeter.Views
     {
         #region Private Members
 
+        /// <summary>
+        /// The main view model of this view
+        /// </summary>
         private MainViewModel mViewModel => (MainViewModel)DataContext;
-
-        private AudioCaptureService mCaptureDevice;
-
-        private Queue<double> mLufs = new Queue<double>();
-
-        private int mCaptureFrequecy = 44100;
 
         private Control mChannelConfigPopup;
         private Control mChannelConfigButton;
@@ -67,59 +64,22 @@ namespace AvaloniaLoudnessMeter.Views
         
         #endregion
 
+        /// <summary>
+        /// Updates the application window/control sizes dynamically
+        /// </summary>
         private void UpdateSizes()
         {
             mViewModel.VolumeContainerSize = mVolumeContainer.Bounds.Height;
         }
 
+        /// <summary>
+        /// Run on-load initialization code
+        /// </summary>
         protected override async void OnLoaded()
         {
-            await mViewModel.LoadSettingsCommand.ExecuteAsync(null);
-
-            StartCapture(1);
+            await mViewModel.LoadCommand.ExecuteAsync(null);
             
             base.OnLoaded();
-        }
-
-        private void StartCapture(int deviceId)
-        {
-            mCaptureDevice = new AudioCaptureService(deviceId, mCaptureFrequecy);
-            
-            mCaptureDevice.DataAvailable += (buffer, length) =>
-            {
-                CalculateValues(buffer);
-            };
-        
-            mCaptureDevice.Start();
-        }
-
-        private void CalculateValues(byte[] buffer)
-        {
-            //Console.WriteLine(BitConverter.ToString(buffer));
-
-            // Get total PCM16 samples in this buffer (16 bits per sample)
-            var sampleCount = buffer.Length / 2;
-
-            // Create our Discrete Signal ready to be filled with information
-            var signal = new DiscreteSignal(mCaptureFrequecy, sampleCount);
-
-            // Loop all bytes and extract the 16 bits, into signal floats
-            using var reader = new BinaryReader(new MemoryStream(buffer));
-
-            for (var i = 0; i < sampleCount; i++)
-                signal[i] = reader.ReadInt16() / 32768f;
-            
-            // Calculate the LUFS
-            var lufs = Scale.ToDecibel(signal.Rms() * 1.2);
-            mLufs.Enqueue(lufs);
-            
-            // Keep list to 10 samples
-            if (mLufs.Count > 10)
-                mLufs.Dequeue();
-
-            var averageLufs = mLufs.Average();
-
-            Dispatcher.UIThread.InvokeAsync(() => mViewModel.ShortTermLoudness = $"{averageLufs:0.0} LUFS");
         }
 
         public override void Render(DrawingContext context)

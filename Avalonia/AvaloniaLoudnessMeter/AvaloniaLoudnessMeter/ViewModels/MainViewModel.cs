@@ -16,7 +16,10 @@ public partial class MainViewModel : ObservableObject
 {
     #region Private Members
 
-    private IAudioInterfaceService mAudioInterfaceService;
+    /// <summary>
+    /// The audio capture service
+    /// </summary>
+    private IAudioCaptureService mAudioCaptureService;
 
     #endregion
 
@@ -26,7 +29,21 @@ public partial class MainViewModel : ObservableObject
 
     [ObservableProperty] private string _regularTitle = "LOUDNESS METER";
 
-    [ObservableProperty] private string _shortTermLoudness = "-20 LUFS";
+    [ObservableProperty] private string _shortTermLoudness = "0 LUFS";
+
+    [ObservableProperty] private string _integratedLoudness = "0 LUFS";
+
+    [ObservableProperty] private string _loudnessRange = "0 LU";
+
+    [ObservableProperty] private string _realtimeDynamics = "0 LU";
+
+    [ObservableProperty] private string _averageDynamics = "0 LU";
+
+    [ObservableProperty] private string _momentaryMaxLoudness = "0 LUFS";
+
+    [ObservableProperty] private string _shortTermMaxLoudness = "0 LUFS";
+
+    [ObservableProperty] private string _truePeakMax = "0 dB";
 
     [ObservableProperty] private bool _channelConfigurationListIsOpen;
 
@@ -59,16 +76,21 @@ public partial class MainViewModel : ObservableObject
         ChannelConfigurationListIsOpen = false;
     }
 
+    /// <summary>
+    /// Do initial loading of data and settings up services
+    /// </summary>
     [RelayCommand]
-    private async Task LoadSettingsAsync()
+    private async Task LoadAsync()
     {
         // Get the channel configuration data
-        var channelConfigurations = await mAudioInterfaceService.GetChannelConfigurationsAsync();
+        var channelConfigurations = await mAudioCaptureService.GetChannelConfigurationsAsync();
 
         // Create a grouping from the flat data
         ChannelConfigurations =
             new ObservableGroupedCollection<string, ChannelConfigurationItem>(
                 channelConfigurations.GroupBy(item => item.Group));
+        
+        StartCapture(1);
     }
     
     #endregion
@@ -79,9 +101,9 @@ public partial class MainViewModel : ObservableObject
     ///     Default constructor
     /// </summary>
     /// <param name="audioInterfaceService">The audio interface service</param>
-    public MainViewModel(IAudioInterfaceService audioInterfaceService)
+    public MainViewModel(IAudioCaptureService audioInterfaceService)
     {
-        mAudioInterfaceService = audioInterfaceService;
+        mAudioCaptureService = audioInterfaceService;
         
         Initialize();
     }
@@ -91,10 +113,12 @@ public partial class MainViewModel : ObservableObject
     /// </summary>
     public MainViewModel()
     {
-        mAudioInterfaceService = new DummyAudioInterfaceService();
+        mAudioCaptureService = new BassAudioCaptureService();
         
         Initialize();
     }
+    
+    #endregion
 
     private void Initialize()
     {
@@ -123,6 +147,29 @@ public partial class MainViewModel : ObservableObject
         
         tempTimer.Start();
     }
-
-    #endregion
+    
+    /// <summary>
+    /// Starts capturing audio from the specified device
+    /// </summary>
+    /// <param name="deviceId">The device ID</param>
+    private void StartCapture(int deviceId)
+    {
+        mAudioCaptureService = new BassAudioCaptureService(deviceId);
+            
+        // Listen out for chunks of information
+        mAudioCaptureService.AudioChunkAvailable += audioChuckData =>
+        {
+            ShortTermLoudness = $"{audioChuckData.ShortTermLUFS:0.0} LUFS";
+            IntegratedLoudness  = $"{audioChuckData.IntegratedLUFS:0.0} LUFS";
+            LoudnessRange = $"{audioChuckData.LoudnessRange:0.0} LU";
+            RealtimeDynamics = $"{audioChuckData.RealtimeDynamics:0.0} LU";
+            AverageDynamics = $"{audioChuckData.AverageRealtimeDynamics:0.0} LU";
+            MomentaryMaxLoudness = $"{audioChuckData.MomentaryMaxLUFS:0.0} LUFS";
+            ShortTermMaxLoudness = $"{audioChuckData.ShortTermMaxLUFS:0.0} LUFS";
+            TruePeakMax = $"{audioChuckData.TruePeakMax:0.0} dB";
+        };
+        
+        // Start capturing
+        mAudioCaptureService.Start();
+    }
 }

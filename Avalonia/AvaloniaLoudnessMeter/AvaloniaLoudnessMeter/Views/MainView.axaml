@@ -195,14 +195,14 @@
             <!-- Details Panel -->
             <StackPanel Grid.Column="1" Width="170" Margin="0,15,10,15">
                 <controls:LargeLabelControl LargeText="{Binding ShortTermLoudness}" SmallText="SHORT TERM" />
-                <controls:LargeLabelControl LargeText="-20.7 LUFS" SmallText="INTEGRATED" Background="{DynamicResource LightBlueBrush}" />
-                <controls:LargeLabelControl LargeText="9.5 LU" SmallText="LOUDNESS RANGE" />
-                <controls:LargeLabelControl LargeText="11.5 LU" SmallText="REALTIME DYNAMICS" />
-                <controls:LargeLabelControl LargeText="20.5 LU" SmallText="AVG. DYNAMIC (PLR)" Margin="0, 0, 0, 13" />
+                <controls:LargeLabelControl LargeText="{Binding IntegratedLoudness}" SmallText="INTEGRATED" Background="{DynamicResource LightBlueBrush}" />
+                <controls:LargeLabelControl LargeText="{Binding LoudnessRange}" SmallText="LOUDNESS RANGE" />
+                <controls:LargeLabelControl LargeText="{Binding RealtimeDynamics}" SmallText="REALTIME DYNAMICS" />
+                <controls:LargeLabelControl LargeText="{Binding AverageDynamics}" SmallText="AVG. DYNAMIC (PLR)" Margin="0, 0, 0, 13" />
                 
-                <controls:LargeLabelControl LargeText="-9.8 LUFS" SmallText="MOMENTARY MAX" Classes="button" />
-                <controls:LargeLabelControl LargeText="-15.1 LUFS" SmallText="SHORT TERM MAX" Classes="button" />
-                <controls:LargeLabelControl LargeText="0.7dB" SmallText="TRUE PEAK MAX" Classes="button" Margin="0,0,0, 10" />
+                <controls:LargeLabelControl LargeText="{Binding MomentaryMaxLoudness}" SmallText="MOMENTARY MAX" Classes="button" />
+                <controls:LargeLabelControl LargeText="{Binding ShortTermMaxLoudness}" SmallText="SHORT TERM MAX" Classes="button" />
+                <controls:LargeLabelControl LargeText="{Binding TruePeakMax}" SmallText="TRUE PEAK MAX" Classes="button" Margin="0,0,0, 10" />
                 
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                     <Button Classes="small" Margin="0,0,20,0">AUTO</Button>
