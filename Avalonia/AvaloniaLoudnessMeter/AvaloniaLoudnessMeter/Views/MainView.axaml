@@ -156,10 +156,11 @@
                     <Label Grid.Column="0" Grid.Row="10"></Label>
                     
                     <!-- Volume Bar -->
-                    <Grid Grid.Row="0" Grid.Column="1" Grid.RowSpan="11" Width="20" RowDefinitions="23*,37*">
-                        <Rectangle Grid.Row="0" Margin="0,8,0,-8" Fill="#b05c4e" Width="20"></Rectangle>
-                        <Rectangle Grid.Row="1" Margin="0,8,0,0" Fill="white" Width="20"></Rectangle>
-                    </Grid>
+					<Grid Name="VolumeBar" Grid.Row="0" Grid.Column="1" Grid.RowSpan="11" Width="20" RowDefinitions="23*,37*">
+						<Rectangle Grid.Row="0" Margin="0,8,0,-8" Fill="#b05c4e" Width="20"></Rectangle>
+						<Rectangle Grid.Row="1" Margin="0,8,0,0" Fill="white" Width="20"></Rectangle>
+						<Rectangle Grid.Row="0" VerticalAlignment="Top" Grid.RowSpan="2" Height="{Binding VolumeBarMaskHeight}" Margin="0,8,0,0" Fill="{DynamicResource DarkBlueBrush}" Width="20"></Rectangle>
+					</Grid>
                     
                     <Label Grid.Column="2" Grid.Row="0">—</Label>
                     <Label Grid.Column="2" Grid.Row="1">—</Label>

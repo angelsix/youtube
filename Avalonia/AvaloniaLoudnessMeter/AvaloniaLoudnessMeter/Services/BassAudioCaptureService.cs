@@ -57,17 +57,35 @@ public class BassAudioCaptureService : IDisposable, IAudioCaptureService
     /// </summary>
     /// <param name="deviceId"></param>
     /// <param name="frequency"></param>
-    public BassAudioCaptureService(int deviceId = 1, int frequency = 44100)
+    public BassAudioCaptureService()
     {
+        // Initialise and start 
+        Bass.Init();
+    } 
+    
+    #endregion
+
+    /// <inheritdoc />
+    public void InitCapture(int deviceId = 1, int frequency = 44100)
+    {       
         // Store device ID
         mDevice = deviceId;
 
-        // Initialise and start 
-        Bass.Init();
+        try
+        {
+            // Attempt to free previous resources
+            Bass.RecordFree();
+        }
+        catch
+        {
+            // ignored
+        }
+
+        // Initialize new device
         Bass.RecordInit(mDevice);
 
         // Start recording (but in a paused state)
-        mHandle = Bass.RecordStart(frequency, 2, BassFlags.RecordPause, AudioChunkCaptured);
+        mHandle = Bass.RecordStart(frequency, 2, BassFlags.RecordPause, 20, AudioChunkCaptured);
         
         // Output all devices, then select one
         // foreach (var device in RecordingDevice.Enumerate())
@@ -77,9 +95,7 @@ public class BassAudioCaptureService : IDisposable, IAudioCaptureService
         // Directory.CreateDirectory(outputPath);
         // var filePath = Path.Combine(outputPath, DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss") + ".wav");
         // using var writer = new WaveFileWriter(new FileStream(filePath, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.Read), new WaveFormat());
-    } 
-    
-    #endregion
+    }
     
     #region Channel Configuration Methods
     
@@ -152,14 +168,14 @@ public class BassAudioCaptureService : IDisposable, IAudioCaptureService
         (
             // TODO: Make these calculations correct
             ShortTermLUFS: averageLufs,
-            Loudness: lufs,
-            LoudnessRange: lufs * 0.9,
-            RealtimeDynamics:  lufs * 0.8,
-            AverageRealtimeDynamics:  lufs * 0.7,
-            TruePeakMax:  lufs * 0.6,
-            IntegratedLUFS:  lufs * 0.5,
-            MomentaryMaxLUFS:  lufs * 0.4,
-            ShortTermMaxLUFS:  lufs * 0.3
+            Loudness: averageLufs,
+            LoudnessRange: averageLufs + (averageLufs * 0.9),
+            RealtimeDynamics:  averageLufs + (averageLufs * 0.8),
+            AverageRealtimeDynamics:  averageLufs + (averageLufs * 0.7),
+            TruePeakMax:  averageLufs + (averageLufs * 0.6),
+            IntegratedLUFS:  averageLufs + (averageLufs * 0.5),
+            MomentaryMaxLUFS:  averageLufs + (averageLufs * 0.4),
+            ShortTermMaxLUFS:  averageLufs + (averageLufs * 0.3)
         ));
     }
     

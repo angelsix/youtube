@@ -7,6 +7,7 @@ using CommunityToolkit.Mvvm.Collections;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -20,6 +21,11 @@ public partial class MainViewModel : ObservableObject
     /// The audio capture service
     /// </summary>
     private IAudioCaptureService mAudioCaptureService;
+
+    /// <summary>
+    /// A slow tick counter to update the text slower than the graphs and bars
+    /// </summary>
+    private int mUpdatecounter;
 
     #endregion
 
@@ -49,7 +55,11 @@ public partial class MainViewModel : ObservableObject
 
     [ObservableProperty] private double _volumePercentPosition;
 
-    [ObservableProperty] private double _volumeContainerSize; 
+    [ObservableProperty] private double _volumeContainerHeight;
+
+    [ObservableProperty] private double _volumeBarHeight;
+
+    [ObservableProperty] private double _volumeBarMaskHeight;
 
     [ObservableProperty]
     private ObservableGroupedCollection<string, ChannelConfigurationItem> _channelConfigurations = default!;
@@ -90,7 +100,7 @@ public partial class MainViewModel : ObservableObject
             new ObservableGroupedCollection<string, ChannelConfigurationItem>(
                 channelConfigurations.GroupBy(item => item.Group));
         
-        StartCapture(1);
+        StartCapture(deviceId: 0);
     }
     
     #endregion
@@ -122,30 +132,6 @@ public partial class MainViewModel : ObservableObject
 
     private void Initialize()
     {
-        // Temp code to move volume position
-        
-        var tick = 0;
-        var input = 0.0;
-
-        var tempTimer = new DispatcherTimer
-        {
-            Interval = TimeSpan.FromSeconds(1 / 60.0)
-        };
-
-        tempTimer.Tick += (s, e) =>
-        {
-            tick++;
-
-            // Slow down ticks
-            input = tick / 20f;
-            
-            // Scale value
-            var scale = _volumeContainerSize / 2f;
-
-            VolumePercentPosition = (Math.Sin(input) + 1) * scale;
-        };
-        
-        tempTimer.Start();
     }
     
     /// <summary>
@@ -154,22 +140,41 @@ public partial class MainViewModel : ObservableObject
     /// <param name="deviceId">The device ID</param>
     private void StartCapture(int deviceId)
     {
-        mAudioCaptureService = new BassAudioCaptureService(deviceId);
-            
+        // Initialize capturing on specific device
+        mAudioCaptureService.InitCapture(deviceId);
+        
         // Listen out for chunks of information
         mAudioCaptureService.AudioChunkAvailable += audioChuckData =>
         {
-            ShortTermLoudness = $"{audioChuckData.ShortTermLUFS:0.0} LUFS";
-            IntegratedLoudness  = $"{audioChuckData.IntegratedLUFS:0.0} LUFS";
-            LoudnessRange = $"{audioChuckData.LoudnessRange:0.0} LU";
-            RealtimeDynamics = $"{audioChuckData.RealtimeDynamics:0.0} LU";
-            AverageDynamics = $"{audioChuckData.AverageRealtimeDynamics:0.0} LU";
-            MomentaryMaxLoudness = $"{audioChuckData.MomentaryMaxLUFS:0.0} LUFS";
-            ShortTermMaxLoudness = $"{audioChuckData.ShortTermMaxLUFS:0.0} LUFS";
-            TruePeakMax = $"{audioChuckData.TruePeakMax:0.0} dB";
+            ProcessAudioChunk(audioChuckData);
         };
         
         // Start capturing
         mAudioCaptureService.Start();
+    }
+
+    private void ProcessAudioChunk(AudioChunkData audioChuckData)
+    {
+        // Counter between 0-1-2
+        mUpdatecounter = (mUpdatecounter+ 1) % 3;
+        
+        // Every time counter is at 0...
+        if (mUpdatecounter == 0)
+        {
+            ShortTermLoudness = $"{Math.Max(-60, audioChuckData.ShortTermLUFS):0.0} LUFS";
+            IntegratedLoudness = $"{Math.Max(-60, audioChuckData.IntegratedLUFS):0.0} LUFS";
+            LoudnessRange = $"{Math.Max(-60, audioChuckData.LoudnessRange):0.0} LU";
+            RealtimeDynamics = $"{Math.Max(-60, audioChuckData.RealtimeDynamics):0.0} LU";
+            AverageDynamics = $"{Math.Max(-60, audioChuckData.AverageRealtimeDynamics):0.0} LU";
+            MomentaryMaxLoudness = $"{Math.Max(-60, audioChuckData.MomentaryMaxLUFS):0.0} LUFS";
+            ShortTermMaxLoudness = $"{Math.Max(-60, audioChuckData.ShortTermMaxLUFS):0.0} LUFS";
+            TruePeakMax = $"{Math.Max(-60, audioChuckData.TruePeakMax):0.0} dB";
+        }
+
+        // Set volume bar height
+        VolumeBarMaskHeight = Math.Min(_volumeBarHeight, _volumeBarHeight / 60 * -audioChuckData.ShortTermLUFS);
+        
+        // Set Volume Arrow height
+        VolumePercentPosition = Math.Min(_volumeContainerHeight, _volumeContainerHeight / 60 * -audioChuckData.IntegratedLUFS);
     }
 }

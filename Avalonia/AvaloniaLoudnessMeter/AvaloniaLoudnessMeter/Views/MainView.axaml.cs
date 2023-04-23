@@ -24,15 +24,16 @@ namespace AvaloniaLoudnessMeter.Views
         /// </summary>
         private MainViewModel mViewModel => (MainViewModel)DataContext;
 
-        private Control mChannelConfigPopup;
-        private Control mChannelConfigButton;
-        private Control mMainGrid;
-        private Control mVolumeContainer;
-        
+        private readonly Control mChannelConfigPopup;
+        private readonly Control mChannelConfigButton;
+        private readonly Control mMainGrid;
+        private readonly Control mVolumeContainer;
+        private readonly Control mVolumeBar;
+
         /// <summary>
         /// The timeout timer to detect when auto-sizing has finished firing
         /// </summary>
-        private Timer mSizingTimer;
+        private readonly Timer mSizingTimer;
 
         #endregion
         
@@ -60,6 +61,7 @@ namespace AvaloniaLoudnessMeter.Views
             mChannelConfigPopup = this.FindControl<Control>("ChannelConfigurationPopup") ?? throw new Exception("Cannot find Channel Configuration Popup by name");
             mMainGrid = this.FindControl<Control>("MainGrid") ?? throw new Exception("Cannot find Main Grid by name");
             mVolumeContainer = this.FindControl<Control>("VolumeContainer") ?? throw new Exception("Cannot find Volume Container by name");
+            mVolumeBar = this.FindControl<Control>("VolumeBar") ?? throw new Exception("Cannot find Volume Bar by name");
         }
         
         #endregion
@@ -69,7 +71,8 @@ namespace AvaloniaLoudnessMeter.Views
         /// </summary>
         private void UpdateSizes()
         {
-            mViewModel.VolumeContainerSize = mVolumeContainer.Bounds.Height;
+            mViewModel.VolumeContainerHeight = mVolumeContainer.Bounds.Height;
+            mViewModel.VolumeBarHeight = mVolumeBar.Bounds.Height;
         }
 
         /// <summary>
