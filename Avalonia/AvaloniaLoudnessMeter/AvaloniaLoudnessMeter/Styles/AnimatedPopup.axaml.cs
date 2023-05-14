@@ -406,7 +406,7 @@ public partial class AnimatedPopup : ContentControl
                 mOriginalOpacity = Opacity;
 
                 // Hide control
-                Opacity = 0;
+                Dispatcher.UIThread.InvokeAsync(() =>  Opacity = 0);
             }
 
             mSizingTimer.Change(100, int.MaxValue);

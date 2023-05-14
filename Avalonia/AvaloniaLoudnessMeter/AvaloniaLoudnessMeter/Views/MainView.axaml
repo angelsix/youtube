@@ -47,7 +47,7 @@
             >
                 
                <ItemsControl 
-                   Items="{Binding ChannelConfigurations}"
+                   ItemsSource="{Binding ChannelConfigurations}"
                    Margin="0 0 0 -2"
                >
                    <ItemsControl.ItemTemplate>
@@ -57,7 +57,7 @@
                                    <Label FontSize="14" Foreground="#999" Content="{Binding Key}"/>
                                </Expander.Header>
                                
-                               <ItemsControl Items="{Binding }">
+                               <ItemsControl ItemsSource="{Binding }">
                                    <ItemsControl.ItemTemplate>
                                        <DataTemplate>
                                            <Button 

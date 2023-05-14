@@ -1,5 +1,6 @@
 ﻿using System;
 using Avalonia;
+using Avalonia.ReactiveUI;
 using Avalonia.Svg.Skia;
 
 namespace AvaloniaLoudnessMeter.Desktop
@@ -18,10 +19,12 @@ namespace AvaloniaLoudnessMeter.Desktop
         {
             GC.KeepAlive(typeof(SvgImageExtension).Assembly);
             GC.KeepAlive(typeof(Avalonia.Svg.Skia.Svg).Assembly);
-            
+
             return AppBuilder.Configure<App>()
                 .UsePlatformDetect()
-                .LogToTrace();
+                .WithInterFont()
+                .LogToTrace()
+                .UseReactiveUI();
         }
     }
 }
