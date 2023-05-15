@@ -6,7 +6,12 @@ using AvaloniaLoudnessMeter.Services;
 using CommunityToolkit.Mvvm.Collections;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using LiveChartsCore;
+using LiveChartsCore.SkiaSharpView;
+using LiveChartsCore.SkiaSharpView.Painting;
+using SkiaSharp;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -68,6 +73,34 @@ public partial class MainViewModel : ObservableObject
     private ChannelConfigurationItem? _selectedChannelConfiguration;
 
     public string ChannelConfigurationButtonText => SelectedChannelConfiguration?.ShortText ?? "Select Channel";
+
+    public ISeries[] Series { get; set; } 
+        = new ISeries[]
+        {
+            new LineSeries<double>
+            {
+                Values = new double[] { 10, 8, 45, 34, 44, 23, 15, 20, 40, 33, 36, 34, 22, 25, 28,10 },
+                GeometrySize = 0,
+                GeometryStroke = null,
+                Fill = new SolidColorPaint(new SKColor(63,77,99)),
+                Stroke = new SolidColorPaint(new SKColor(120,152,203)) { StrokeThickness = 3},
+            }
+        };
+
+    public List<Axis> YAxis { get; set; } = 
+        new List<Axis>
+        {
+            new Axis
+            {
+                MinStep = 1,
+                ForceStepToMin = true,
+                MinLimit = 0,
+                MaxLimit = 60,
+                Labeler = (val) => (Math.Min(60, Math.Max(0, val)) - 60).ToString(),
+                IsVisible = false
+                //IsInverted = true
+            }
+        };
 
     #endregion
 
