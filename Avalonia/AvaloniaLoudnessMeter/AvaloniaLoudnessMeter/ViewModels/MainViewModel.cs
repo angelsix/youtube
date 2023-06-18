@@ -1,18 +1,18 @@
-using Avalonia;
-using Avalonia.Controls;
 using Avalonia.Threading;
 using AvaloniaLoudnessMeter.DataModels;
 using AvaloniaLoudnessMeter.Services;
 using CommunityToolkit.Mvvm.Collections;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using DynamicData;
 using LiveChartsCore;
+using LiveChartsCore.Defaults;
 using LiveChartsCore.SkiaSharpView;
 using LiveChartsCore.SkiaSharpView.Painting;
 using SkiaSharp;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -31,7 +31,7 @@ public partial class MainViewModel : ObservableObject
     /// A slow tick counter to update the text slower than the graphs and bars
     /// </summary>
     private int mUpdatecounter;
-
+    
     #endregion
 
     #region Public Properties
@@ -74,18 +74,9 @@ public partial class MainViewModel : ObservableObject
 
     public string ChannelConfigurationButtonText => SelectedChannelConfiguration?.ShortText ?? "Select Channel";
 
-    public ISeries[] Series { get; set; } 
-        = new ISeries[]
-        {
-            new LineSeries<double>
-            {
-                Values = new double[] { 10, 8, 45, 34, 44, 23, 15, 20, 40, 33, 36, 34, 22, 25, 28,10 },
-                GeometrySize = 0,
-                GeometryStroke = null,
-                Fill = new SolidColorPaint(new SKColor(63,77,99)),
-                Stroke = new SolidColorPaint(new SKColor(120,152,203)) { StrokeThickness = 3},
-            }
-        };
+    public ObservableCollection<ObservableValue> MainChartValues = new ObservableCollection<ObservableValue>();
+
+    public ISeries[] Series { get; set; }
 
     public List<Axis> YAxis { get; set; } = 
         new List<Axis>
@@ -133,7 +124,7 @@ public partial class MainViewModel : ObservableObject
             new ObservableGroupedCollection<string, ChannelConfigurationItem>(
                 channelConfigurations.GroupBy(item => item.Group));
         
-        StartCapture(deviceId: 0);
+        StartCapture(deviceId: 1);
     }
     
     #endregion
@@ -165,6 +156,21 @@ public partial class MainViewModel : ObservableObject
 
     private void Initialize()
     {
+        // Chart width 170 values
+        MainChartValues.AddRange(Enumerable.Range(0, 170).Select(f => new ObservableValue(0)));
+        
+        // Set up series
+        Series = new ISeries[]
+        {
+            new LineSeries<ObservableValue>
+            {
+                Values = MainChartValues,
+                GeometrySize = 0,
+                GeometryStroke = null,
+                Fill = new SolidColorPaint(new SKColor(63, 77, 99)),
+                Stroke = new SolidColorPaint(new SKColor(120, 152, 203)) { StrokeThickness = 3 },
+            }
+        };
     }
     
     /// <summary>
@@ -202,12 +208,19 @@ public partial class MainViewModel : ObservableObject
             MomentaryMaxLoudness = $"{Math.Max(-60, audioChuckData.MomentaryMaxLUFS):0.0} LUFS";
             ShortTermMaxLoudness = $"{Math.Max(-60, audioChuckData.ShortTermMaxLUFS):0.0} LUFS";
             TruePeakMax = $"{Math.Max(-60, audioChuckData.TruePeakMax):0.0} dB";
+            
+            // Update charge on UI thread
+            Dispatcher.UIThread.Invoke(() =>
+            {
+                MainChartValues.RemoveAt(0);
+                MainChartValues.Add( new (Math.Max(0, 60 + audioChuckData.ShortTermLUFS)));
+            });
         }
 
         // Set volume bar height
-        VolumeBarMaskHeight = Math.Min(_volumeBarHeight, _volumeBarHeight / 60 * -audioChuckData.ShortTermLUFS);
+        VolumeBarMaskHeight = Math.Min(_volumeBarHeight, _volumeBarHeight / 60 * -audioChuckData.Loudness);
         
         // Set Volume Arrow height
-        VolumePercentPosition = Math.Min(_volumeContainerHeight, _volumeContainerHeight / 60 * -audioChuckData.IntegratedLUFS);
+        VolumePercentPosition = Math.Min(_volumeContainerHeight, _volumeContainerHeight / 60 * -audioChuckData.ShortTermLUFS);
     }
 }

@@ -1,4 +1,3 @@
-using Avalonia.Threading;
 using AvaloniaLoudnessMeter.DataModels;
 using ManagedBass;
 using NWaves.Signals;
@@ -37,9 +36,19 @@ public class BassAudioCaptureService : IDisposable, IAudioCaptureService
     private Queue<double> mLufs = new Queue<double>();
 
     /// <summary>
+    /// The last few sets of captured audio bytes, converted to LUFS
+    /// </summary>
+    private Queue<double> mLufsLonger = new Queue<double>();
+
+    /// <summary>
     /// The frequency to capture at
     /// </summary>
     private int mCaptureFrequency = 44100;
+    
+    /// <summary>
+    /// A counter for how long a silence (less than 5db) of previous audio has elapsed
+    /// </summary>
+    private int mSilenceCount = 0;
 
     #endregion
 
@@ -123,8 +132,7 @@ public class BassAudioCaptureService : IDisposable, IAudioCaptureService
     /// <returns></returns>
     private bool AudioChunkCaptured(int handle, IntPtr buffer, int length, IntPtr user)
     {
-        if (mBuffer == null || mBuffer.Length < length)
-            mBuffer = new byte[length];
+        mBuffer = new byte[length];
 
         Marshal.Copy(buffer, mBuffer, 0, length);
 
@@ -155,25 +163,69 @@ public class BassAudioCaptureService : IDisposable, IAudioCaptureService
         // Calculate the LUFS
         var lufs = Scale.ToDecibel(signal.Rms() * 1.2);
         mLufs.Enqueue(lufs);
-            
-        // Keep list to 10 samples
+        
+        // Limit queue sizes
         if (mLufs.Count > 10)
             mLufs.Dequeue();
 
         // Calculate the average
-        var averageLufs = mLufs.Average();
+        var averageLufs = Math.Max(-60, mLufs.Count > 0 ? mLufs.Average() : -60);
+        var averageLongLufs = Math.Max(-60, mLufsLonger.Count > 0 ? mLufsLonger.Average() : -60);
+
+        // If current sound is lower than average by a lot...
+        if (mLufsLonger.Count > 0 && averageLufs + 5 < averageLongLufs)
+        {
+            // Count how long a silence has gone
+            mSilenceCount++;
+            
+            // If its been lower now for 1000 or more counts...
+            if (mSilenceCount > 50)
+            {
+                // Start dequeuing 
+                if (mLufsLonger.Count > 0)
+                {
+                    // Add silence in front while removing noise from behind
+                    // If we dont add silence and only remove, there average
+                    // will increase not decrease
+                    mLufsLonger.Enqueue(-60);
+                    mLufsLonger.Dequeue();
+                    mLufsLonger.Dequeue();
+                }
+            }
+        }
+        // Otherwise, normal sounds to add to overall longer average...
+        else
+        {
+            // Reset silence count
+            mSilenceCount = 0;
+            
+            // If we are not silent...
+            if (averageLufs > -60)
+                // Add current audio to average
+                 mLufsLonger.Enqueue(averageLufs);
+            // Otherwise, start dequeuing the average while it is silent
+            else if (mLufsLonger.Count > 0)
+                mLufsLonger.Dequeue();
+            
+            // Max average
+            if (mLufsLonger.Count > 60)
+                mLufsLonger.Dequeue();
+        }
+
+        // Re-calculate long average
+        averageLongLufs = Math.Max(-60, mLufsLonger.Count > 0 ? mLufsLonger.Average() : -60);
 
         // Fire off this chunk of information to listeners
         AudioChunkAvailable?.Invoke(new AudioChunkData
         (
             // TODO: Make these calculations correct
-            ShortTermLUFS: averageLufs,
+            ShortTermLUFS: averageLongLufs,
             Loudness: averageLufs,
             LoudnessRange: averageLufs + (averageLufs * 0.9),
             RealtimeDynamics:  averageLufs + (averageLufs * 0.8),
             AverageRealtimeDynamics:  averageLufs + (averageLufs * 0.7),
             TruePeakMax:  averageLufs + (averageLufs * 0.6),
-            IntegratedLUFS:  averageLufs + (averageLufs * 0.5),
+            IntegratedLUFS: averageLufs + (averageLufs * 0.5),
             MomentaryMaxLUFS:  averageLufs + (averageLufs * 0.4),
             ShortTermMaxLUFS:  averageLufs + (averageLufs * 0.3)
         ));
