@@ -10,86 +10,6 @@
              x:Class="BatchProcess3.Views.SettingsPageView">
     
         <Design.DataContext><vm:SettingsPageViewModel></vm:SettingsPageViewModel></Design.DataContext>
-    
-    <UserControl.Styles>
-        <Style Selector="Label.h1">
-            <Setter Property="FontSize" Value="34"></Setter>
-            <Setter Property="FontWeight" Value="Black"></Setter>
-            <Setter Property="Padding" Value="0"></Setter>
-            <Setter Property="Margin" Value="0"></Setter>
-        </Style>
-        <Style Selector="Label.sub1">
-            <Setter Property="FontSize" Value="13"></Setter>
-            <Setter Property="FontWeight" Value="Bold"></Setter>
-            <Setter Property="Padding" Value="0"></Setter>
-            <Setter Property="Margin" Value="0 -5 0 0"></Setter>
-            <Setter Property="Foreground" Value="{DynamicResource AlertButtonBackgroundGradient}"></Setter>
-        </Style>
-        <Style Selector="TextBlock.sub1">
-            <Setter Property="FontSize" Value="13"></Setter>
-            <Setter Property="FontWeight" Value="Bold"></Setter>
-            <Setter Property="Padding" Value="0"></Setter>
-            <Setter Property="Margin" Value="0 -5 0 0"></Setter>
-            <Setter Property="Foreground" Value="{DynamicResource AlertButtonBackgroundGradient}"></Setter>
-        </Style>
-        <Style Selector="Label.sub2">
-            <Setter Property="FontSize" Value="11"></Setter>
-            <Setter Property="Padding" Value="0"></Setter>
-            <Setter Property="Margin" Value="0 -5 0 0"></Setter>
-        </Style>
-        <Style Selector="Label.success">
-            <Setter Property="Foreground" Value="{DynamicResource SuccessGradient}"></Setter>
-        </Style>
-        
-        <Style Selector="ListBox">
-            <Setter Property="Background" Value="{DynamicResource PrimaryBackgroundGradient}"></Setter>
-            <Setter Property="BorderBrush" Value="{DynamicResource PrimaryForeground}"></Setter>
-            <Setter Property="BorderThickness" Value="3"></Setter>
-            <Setter Property="Foreground" Value="{DynamicResource PrimaryForeground}"></Setter>
-        </Style>
-        
-        <Style Selector="ListBox ListBoxItem:selected /template/ ContentPresenter#PART_ContentPresenter">
-            <Setter Property="Background" Value="{DynamicResource PrimaryHoverBackground}"></Setter>
-            <Setter Property="Foreground" Value="{DynamicResource PrimaryForeground}"></Setter>
-        </Style>
-        
-        <Style Selector="ListBox ListBoxItem:pointerover /template/ ContentPresenter#PART_ContentPresenter">
-            <Setter Property="Background" Value="{DynamicResource PrimaryHoverBackground}"></Setter>
-            <Setter Property="Foreground" Value="{DynamicResource PrimaryForeground}"></Setter>
-        </Style>
-        
-        <Style Selector="TextBox">
-            <Setter Property="BorderBrush" Value="{DynamicResource PrimaryButtonBackgroundGradient}"></Setter>
-            <Setter Property="BorderThickness" Value="3"></Setter>
-            <Setter Property="Background" Value="{DynamicResource PrimaryBackground}"></Setter>
-            <Setter Property="Foreground" Value="{DynamicResource PrimaryForeground}"></Setter>
-        </Style>
-        
-        <Style Selector="TextBox:pointerover /template/ Border#PART_BorderElement">
-            <Setter Property="BorderBrush" Value="{DynamicResource PrimaryButtonBackgroundGradient}"></Setter>
-            <Setter Property="BorderThickness" Value="3"></Setter>
-            <Setter Property="Background" Value="{DynamicResource PrimaryHoverBackground}"></Setter>
-        </Style>
-        
-        <Style Selector="TextBox:pointerover, TextBox:focus">
-            <Setter Property="Foreground" Value="{DynamicResource PrimaryForeground}"></Setter>
-        </Style>
-        
-        <Style Selector="TextBox:focus /template/ Border#PART_BorderElement">
-            <Setter Property="BorderBrush" Value="{DynamicResource AlertButtonBackgroundGradient}"></Setter>
-            <Setter Property="BorderThickness" Value="3"></Setter>
-            <Setter Property="Background" Value="{DynamicResource PrimaryHoverBackground}"></Setter>
-        </Style>
-        
-        <Style Selector="ComboBox">
-            <Setter Property="Margin" Value="0 10"></Setter>
-            <Setter Property="Padding" Value="0 10"></Setter>
-            <Setter Property="BorderBrush" Value="{DynamicResource PrimaryButtonBackgroundGradient}"></Setter>
-            <Setter Property="BorderThickness" Value="3"></Setter>
-            <Setter Property="Background" Value="{DynamicResource PrimaryBackground}"></Setter>
-        </Style>
-        
-    </UserControl.Styles>
 
         <Grid ColumnDefinitions="*, *" RowDefinitions="Auto, *">
             <!-- Header -->
@@ -111,7 +31,7 @@
                         
                         <!-- Release License -->
                         <TextBlock TextWrapping="Wrap" Text="Remove license of BatchProcess from this machine and release the license back to the server ready to be transferred to another machine."></TextBlock>
-                        <IconButton IconText="&#xe2fe;" Content="Release License" Grid.Row="0" Grid.Column="2" HorizontalAlignment="Stretch" />
+                        <IconButton Classes="small" IconText="&#xe2fe;" Content="Release License" Grid.Row="0" Grid.Column="2" HorizontalAlignment="Stretch" />
                         
                         <!-- Skip Files -->
                         <TextBlock Grid.Row="2" Grid.Column="0"  TextWrapping="Wrap" Text="Skip files if only Open, Save (Optional) and Close are valid actions."></TextBlock>
@@ -171,8 +91,8 @@ then automatically handle checking in and out files from PDM Enterprise."></Text
                         <TextBox Grid.Row="1"  PasswordChar="*" Grid.Column="2">somepassword</TextBox>
                     </Grid>
                     <StackPanel Orientation="Horizontal" Spacing="10">
-                        <IconButton IconText="&#xe23e;" Content="Login" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch" />
-                        <IconButton Classes="outline" IconText="&#xe094;" Content="Refresh Vault" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch" />
+                        <IconButton Classes="small" IconText="&#xe23e;" Content="Login" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch" />
+                        <IconButton Classes="outline small" IconText="&#xe094;" Content="Refresh Vault" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch" />
                     </StackPanel>
                     <Label Classes="sub1 success" Content="Connection Established" Margin="0 0 0 0"></Label>
                 </StackPanel>
@@ -185,9 +105,9 @@ then automatically handle checking in and out files from PDM Enterprise."></Text
                         If you are experiencing issues you can try clearing the cache (this won't remove the license).
                     </TextBlock>
                     <StackPanel Orientation="Horizontal" Spacing="10" Margin="0 10">
-                        <IconButton Classes="alert" IconText="&#xec54;" Content="Clear Cache" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch" />
-                        <IconButton IconText="&#xe5de;" Content="Export Cache" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch" />
-                        <IconButton Classes="outline" IconText="&#xe20c;" Content="Import Cache"  Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch" />
+                        <IconButton Classes="alert small" IconText="&#xec54;" Content="Clear Cache" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch" />
+                        <IconButton Classes="small" IconText="&#xe5de;" Content="Export Cache" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch" />
+                        <IconButton Classes="outline small" IconText="&#xe20c;" Content="Import Cache"  Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch" />
                     </StackPanel>
                 </StackPanel>
             </StackPanel>

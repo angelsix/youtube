@@ -18,9 +18,14 @@
     
     <Style Selector="ListBox">
         <Setter Property="Background" Value="{DynamicResource PrimaryBackgroundGradient}"></Setter>
-        <Setter Property="BorderBrush" Value="{DynamicResource PrimaryForeground}"></Setter>
+        <Setter Property="BorderBrush" Value="{DynamicResource DefaultGradient}"></Setter>
         <Setter Property="BorderThickness" Value="3"></Setter>
+        <Setter Property="CornerRadius" Value="3"></Setter>
         <Setter Property="Foreground" Value="{DynamicResource PrimaryForeground}"></Setter>
+    </Style>
+    
+    <Style Selector="ListBox:pointerover">
+        <Setter Property="BorderBrush" Value="{DynamicResource HoverGradient}"></Setter>
     </Style>
     
 </Styles>

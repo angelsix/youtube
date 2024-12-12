@@ -39,19 +39,26 @@
          </LinearGradientBrush>
          
          <SolidColorBrush x:Key="PrimaryHoverBackground">#333B5A</SolidColorBrush>     
-         <SolidColorBrush x:Key="PrimaryActiveBackground">#6633dd</SolidColorBrush>     
          <SolidColorBrush x:Key="PrimaryHoverForeground">White</SolidColorBrush>
          
-         <SolidColorBrush x:Key="OutlineButtonForeground">#00ffff</SolidColorBrush>
-
-         <LinearGradientBrush x:Key="PrimaryButtonBackgroundGradient" StartPoint="0%, 0%" EndPoint="100%, 0%">
-             <GradientStop Offset="0" Color="#00ffff"></GradientStop>
-             <GradientStop Offset="1" Color="#ff00ff"></GradientStop>
+         <LinearGradientBrush x:Key="DefaultGradient" StartPoint="0%, 0%" EndPoint="100%, 0%">
+             <GradientStop Offset="0" Color="#333B5A"></GradientStop>
+             <GradientStop Offset="1" Color="#333B5A"></GradientStop>
          </LinearGradientBrush>
          
-         <LinearGradientBrush x:Key="PrimaryButtonHoverGradient" StartPoint="0%, 0%" EndPoint="100%, 0%">
+         <LinearGradientBrush x:Key="ActiveGradient" StartPoint="0%, 0%" EndPoint="100%, 0%">
+             <GradientStop Offset="0" Color="#00ffff"></GradientStop>
+             <GradientStop Offset="1" Color="#00aaaa"></GradientStop>
+         </LinearGradientBrush>
+         
+         <LinearGradientBrush x:Key="ActiveHoverGradient" StartPoint="0%, 0%" EndPoint="100%, 0%">
              <GradientStop Offset="0" Color="#00ffff"></GradientStop>
              <GradientStop Offset="1" Color="#00ffff"></GradientStop>
+         </LinearGradientBrush>
+         
+         <LinearGradientBrush x:Key="HoverGradient" StartPoint="0%, 0%" EndPoint="100%, 0%">
+             <GradientStop Offset="0" Color="#00ffff"></GradientStop>
+             <GradientStop Offset="1" Color="#ff00ff"></GradientStop>
          </LinearGradientBrush>
          
          <LinearGradientBrush x:Key="SuccessGradient" StartPoint="0%, 0%" EndPoint="100%, 0%">
@@ -64,16 +71,16 @@
              <GradientStop Offset="1" Color="#aa0000"></GradientStop>
          </LinearGradientBrush>
 
-         <LinearGradientBrush x:Key="AlertButtonBackgroundGradient" StartPoint="0%, 0%" EndPoint="100%, 0%">
+         <LinearGradientBrush x:Key="AlertGradient" StartPoint="0%, 0%" EndPoint="100%, 0%">
              <GradientStop Offset="0" Color="#ffff00"></GradientStop>
              <GradientStop Offset="1" Color="#ff8800"></GradientStop>
          </LinearGradientBrush>
          
-         <LinearGradientBrush x:Key="AlertButtonHoverBackground" StartPoint="0%, 0%" EndPoint="100%, 0%">
+         <LinearGradientBrush x:Key="AlertHoverGradient" StartPoint="0%, 0%" EndPoint="100%, 0%">
              <GradientStop Offset="0" Color="#ffff00"></GradientStop>
              <GradientStop Offset="1" Color="#ffff00"></GradientStop>
          </LinearGradientBrush>
-         
+
          <FontFamily x:Key="Phosphor">/Assets/Fonts/Phosphor.ttf#Phosphor</FontFamily>
          <FontFamily x:Key="PhosphorFill">/Assets/Fonts/Phosphor-Fill.ttf#Phosphor-Fill</FontFamily>
 

@@ -35,7 +35,7 @@
     <Setter Property="MinHeight" Value="32" />
     <Setter Property="Foreground" Value="{DynamicResource PrimaryForeground}" />
     <Setter Property="Background" Value="{DynamicResource CheckBoxBackgroundUnchecked}" />
-    <Setter Property="BorderBrush" Value="{DynamicResource PrimaryButtonBackgroundGradient}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource ActiveGradient}" />
     <Setter Property="Template">
       <ControlTemplate>
         <Grid x:Name="RootGrid" ColumnDefinitions="30,*">
@@ -78,7 +78,7 @@
     <Style Selector="^:pointerover">
 
       <Style Selector="^ /template/ Border#NormalRectangle">
-        <Setter Property="BorderBrush" Value="{DynamicResource OutlineButtonForeground}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource HoverGradient}" />
       </Style>
       
     </Style>
@@ -88,7 +88,7 @@
       
       <Style Selector="^ /template/ Border#NormalRectangle">
         <Setter Property="Opacity" Value="0.5" />
-        <Setter Property="Background" Value="{DynamicResource OutlineButtonForeground}" />
+        <Setter Property="Background" Value="{DynamicResource HoverGradient}" />
       </Style>
       
       <Style Selector="^ /template/ Label#CheckGlyph">
@@ -108,8 +108,8 @@
     <Style Selector="^:checked">
       <!-- Checked Normal State -->
       <Style Selector="^ /template/ Border#NormalRectangle">
-        <Setter Property="BorderBrush" Value="{DynamicResource PrimaryButtonBackgroundGradient}" />
-        <Setter Property="Background" Value="{DynamicResource PrimaryButtonBackgroundGradient}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource ActiveGradient}" />
+        <Setter Property="Background" Value="{DynamicResource ActiveGradient}" />
       </Style>
 
       <Style Selector="^ /template/ Label#CheckGlyph">
@@ -120,8 +120,8 @@
       <Style Selector="^:pointerover">
 
         <Style Selector="^ /template/ Border#NormalRectangle">
-          <Setter Property="BorderBrush" Value="{DynamicResource OutlineButtonForeground}" />
-          <Setter Property="Background" Value="{DynamicResource OutlineButtonForeground}" />
+          <Setter Property="BorderBrush" Value="{DynamicResource HoverGradient}" />
+          <Setter Property="Background" Value="{DynamicResource HoverGradient}" />
         </Style>
         
       </Style>
@@ -130,7 +130,7 @@
       <Style Selector="^:pressed">
         
         <Style Selector="^ /template/ Border#NormalRectangle">
-          <Setter Property="Background" Value="{DynamicResource OutlineButtonForeground}" />
+          <Setter Property="Background" Value="{DynamicResource HoverGradient}" />
         </Style>
 
         <Style Selector="^ /template/ Label#CheckGlyph">
@@ -152,7 +152,7 @@
     <Style Selector="^:indeterminate">
       <!-- Indeterminate Normal State -->
       <Style Selector="^ /template/ Border#NormalRectangle">
-        <Setter Property="BorderBrush" Value="{DynamicResource PrimaryButtonBackgroundGradient}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource ActiveGradient}" />
         <Setter Property="Background" Value="{DynamicResource PrimaryHoverBackground}" />
       </Style>
 
@@ -164,8 +164,8 @@
       <!-- Indeterminate PointerOver State -->
       <Style Selector="^:pointerover">
         <Style Selector="^ /template/ Border#NormalRectangle">
-          <Setter Property="BorderBrush" Value="{DynamicResource OutlineButtonForeground}" />
-          <Setter Property="Background" Value="{DynamicResource OutlineButtonForeground}" />
+          <Setter Property="BorderBrush" Value="{DynamicResource HoverGradient}" />
+          <Setter Property="Background" Value="{DynamicResource HoverGradient}" />
         </Style>
       </Style>
 
@@ -173,7 +173,7 @@
       <Style Selector="^:pressed">
         
         <Style Selector="^ /template/ Border#NormalRectangle">
-          <Setter Property="Background" Value="{DynamicResource OutlineButtonForeground}" />
+          <Setter Property="Background" Value="{DynamicResource HoverGradient}" />
         </Style>
         
       </Style>
