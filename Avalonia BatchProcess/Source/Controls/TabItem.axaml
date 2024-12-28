@@ -1,0 +1,73 @@
+﻿<ResourceDictionary
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    x:ClassModifier="internal">
+  <Design.PreviewWith>
+    <Border Padding="20" Background="{DynamicResource PrimaryBackgroundGradient}" Width="600">
+      <WrapPanel>
+        <TabItem Header="Leaf" />
+        <TabItem Header="Arch" IsSelected="True" />
+        <TabItem Header="Background" Background="Yellow"/>
+        <TabItem Header="Disabled" IsEnabled="False"/>
+      </WrapPanel>
+    </Border>
+  </Design.PreviewWith>
+
+  <ControlTheme x:Key="{x:Type TabItem}" TargetType="TabItem">
+    <Setter Property="FontWeight" Value="{DynamicResource TabItemHeaderThemeFontWeight}" />
+    <Setter Property="Background" Value="{DynamicResource TabItemHeaderBackgroundUnselected}" />
+    <Setter Property="Foreground" Value="{DynamicResource PrimaryForeground}" />
+    <Setter Property="Padding" Value="0" />
+    <Setter Property="Margin" Value="0" />
+    <Setter Property="VerticalContentAlignment" Value="Center" />
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Border
+            Name="PART_LayoutRoot"
+            Background="{TemplateBinding Background}"
+            BorderBrush="{TemplateBinding BorderBrush}"
+            BorderThickness="{TemplateBinding BorderThickness}"
+            CornerRadius="10 10 0 0"
+            Padding="{TemplateBinding Padding}">
+          <Grid>
+            <Border 
+              BorderBrush="{TemplateBinding BorderBrush}"
+              BorderThickness="2"
+              CornerRadius="10 10 0 0">
+              <ContentPresenter
+                Name="PART_ContentPresenter"
+                Padding="15 5"
+                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                Content="{TemplateBinding Header}"
+                ContentTemplate="{TemplateBinding ContentTemplate}" />
+            </Border>
+          </Grid>
+        </Border>
+      </ControlTemplate>
+    </Setter>
+
+    <Style Selector="^">
+      <Setter Property="BorderBrush" Value="{DynamicResource PrimaryHoverBackground}"></Setter>
+    </Style>
+
+    <!--  PointerOver state  -->
+    <Style Selector="^:pointerover">
+      <Setter Property="Background" Value="{DynamicResource DefaultGradient}" />
+    </Style>
+    
+    <!--  Selected state  -->
+    <!--  We don't use selector to PART_LayoutRoot, so developer can override selected item background with TabStripItem.Background  -->
+    <Style Selector="^:selected">
+      <Setter Property="Background" Value="{DynamicResource ActiveGradient}" />
+      <Setter Property="Foreground" Value="{DynamicResource PrimaryForeground}" />
+      <Setter Property="BorderBrush" Value="{DynamicResource ActiveGradient}" />
+    </Style>
+    
+    <!--  Disabled state  -->
+    <Style Selector="^:disabled">
+      <Setter Property="Background" Value="{DynamicResource DefaultGradient}" />
+      <Setter Property="Foreground" Value="{DynamicResource PrimaryBackground}" />
+    </Style>
+  </ControlTheme>
+</ResourceDictionary>

@@ -2,7 +2,43 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             xmlns:vm="clr-namespace:BatchProcess3.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="1100" d:DesignHeight="900"
+             Background="{DynamicResource PrimaryBackground}"
+             Foreground="{DynamicResource PrimaryForeground}"
+             x:DataType="vm:ActionsPageViewModel"
              x:Class="BatchProcess3.Views.ActionsPageView">
-    Welcome to Actions Page!
+
+    
+    <Design.DataContext><vm:ActionsPageViewModel></vm:ActionsPageViewModel></Design.DataContext>
+
+    <Grid ColumnDefinitions="*" RowDefinitions="Auto, *">
+        <!-- Header -->
+        <Grid Name="HeaderGrid">
+            <Image Source="{SvgImage /Assets/Images/background-actions.svg}" Height="100" Stretch="UniformToFill" />
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Label Classes="h1" HorizontalAlignment="Center" Content="Actions"></Label>
+                <Label Classes="sub2" HorizontalAlignment="Center" Content="Create and manage all actions that can be used in a process"></Label>
+            </StackPanel>
+        </Grid>
+
+        <Border Grid.Row="1" Padding="25">
+            <TabControl Grid.Row="1">
+                <TabItem Header="Print" IsSelected="True">
+                    <TextBlock Margin="5">This is tab 1 content</TextBlock>
+                </TabItem>
+                <TabItem Header="Custom Properties">
+                    <TextBlock Margin="5">This is tab 2 content</TextBlock>
+                </TabItem>
+                <TabItem Header="File Info" />
+                <TabItem Header="Save Model As" />
+                <TabItem Header="Save Drawing As" />
+                <TabItem Header="Import File" />
+                <TabItem Header="Drawing Templates" />
+                <TabItem Header="Macros" />
+            </TabControl>
+        </Border>
+
+    </Grid>
+    
 </UserControl>
