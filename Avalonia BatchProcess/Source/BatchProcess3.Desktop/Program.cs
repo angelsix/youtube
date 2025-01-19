@@ -1,7 +1,7 @@
 ﻿using Avalonia;
 using System;
 
-namespace BatchProcess3;
+namespace BatchProcess3.Desktop;
 
 class Program
 {

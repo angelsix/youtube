@@ -1,16 +1,14 @@
-<Window xmlns="https://github.com/avaloniaui"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="1400" d:DesignHeight="800"
-        Width="1400" Height="800"
-        MinWidth="1400" MinHeight="800"
-        x:Class="BatchProcess3.MainView"
-        xmlns:vm="clr-namespace:BatchProcess3.ViewModels"
-        xmlns:view="clr-namespace:BatchProcess3.Views"
-        x:DataType="vm:MainViewModel"
-        Title="BatchProcess3">
-        
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             xmlns:vm="clr-namespace:BatchProcess3.ViewModels"
+             xmlns:view="clr-namespace:BatchProcess3.Views"
+             MinWidth="1400" MinHeight="800"
+             x:DataType="vm:MainViewModel"
+             x:Class="BatchProcess3.Views.MainView">
+
         <Design.DataContext><vm:MainViewModel></vm:MainViewModel></Design.DataContext>
         
         <Grid Background="{DynamicResource PrimaryBackground}" ColumnDefinitions="Auto, *">
@@ -49,5 +47,5 @@
                         </Grid>
                 </Border>
         </Grid>
-        
-</Window>
+    
+</UserControl>
