@@ -5,12 +5,12 @@ using BatchProcess3.Factories;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.DependencyInjection;
-
+using System;
 namespace BatchProcess3.ViewModels;
 
 public partial class MainViewModel : ViewModelBase
 {
-    private PageFactory _pageFactory;
+    private readonly PageFactory _pageFactory;
     
     [ObservableProperty]
     private bool _sideMenuExpanded = true;
@@ -36,24 +36,23 @@ public partial class MainViewModel : ViewModelBase
     /// <summary>
     /// Design-time only constructor
     /// </summary>
+// Allow nullable PageFactory for now in designer... ideally get it working
+#pragma warning disable CS8618, CS9264
     public MainViewModel()
     {
         CurrentPage = new SettingsPageViewModel();
     }
+#pragma warning restore CS8618, CS9264
     
     public MainViewModel(PageFactory pageFactory)
     {
-        _pageFactory = pageFactory;
-        
-        GoToHome();
+        _pageFactory = pageFactory ?? throw new ArgumentNullException(nameof(pageFactory));
+        CurrentPage = _pageFactory.GetPageViewModel(ApplicationPageNames.Settings);
     }
     
     [RelayCommand]
-    private void SideMenuResize()
-    {
-        SideMenuExpanded = !SideMenuExpanded;
-    }
-    
+    private void SideMenuResize() => SideMenuExpanded = !SideMenuExpanded;
+
     [RelayCommand]
     private void GoToHome() => CurrentPage = _pageFactory.GetPageViewModel(ApplicationPageNames.Home);
         

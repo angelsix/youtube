@@ -59,7 +59,7 @@ public partial class App : Application
         {
             singleViewPlatform.MainView = new MainView()
             {
-                DataContext = new MainViewModel()
+                DataContext = services.GetRequiredService<MainViewModel>()
             };
         }
 
