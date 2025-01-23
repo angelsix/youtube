@@ -2,12 +2,7 @@
 
 namespace BatchProcess3.ViewModels;
 
-public partial class HomePageViewModel : PageViewModel
+public partial class HomePageViewModel() : PageViewModel(ApplicationPageNames.Home)
 {
     public string Test { get; set; } = "Home";
-
-    public HomePageViewModel()
-    {
-        PageName = ApplicationPageNames.Home;
-    }
 }

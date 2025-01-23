@@ -2,10 +2,4 @@
 
 namespace BatchProcess3.ViewModels;
 
-public partial class ReporterPageViewModel : PageViewModel
-{
-    public ReporterPageViewModel()
-    {
-        PageName = ApplicationPageNames.Reporter;
-    }
-}
+public partial class ReporterPageViewModel() : PageViewModel(ApplicationPageNames.Reporter);

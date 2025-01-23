@@ -3,6 +3,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:BatchProcess3.ViewModels"
+             xmlns:local="clr-namespace:BatchProcess3.Views"
              mc:Ignorable="d" d:DesignWidth="1100" d:DesignHeight="900"
              Background="{DynamicResource PrimaryBackground}"
              Foreground="{DynamicResource PrimaryForeground}"
@@ -23,9 +24,9 @@
         </Grid>
 
         <Border Grid.Row="1" Padding="25">
-            <TabControl Grid.Row="1">
+            <TabControl Name="ActionsTabControl" SelectionChanged="ActionsTab_OnSelectionChanged">
                 <TabItem Header="Print" IsSelected="True">
-                    <TextBlock Margin="5">This is tab 1 content</TextBlock>
+                    <local:ActionsPrintView />
                 </TabItem>
                 <TabItem Header="Custom Properties">
                     <TextBlock Margin="5">This is tab 2 content</TextBlock>

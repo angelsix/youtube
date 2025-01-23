@@ -9,10 +9,8 @@ public partial class SettingsPageViewModel : PageViewModel
     [ObservableProperty]
     private List<string> _locationPaths;
     
-    public SettingsPageViewModel()
+    public SettingsPageViewModel() : base(ApplicationPageNames.Settings)
     {
-        PageName = ApplicationPageNames.Settings;
-        
         // TEMP: Remove
         LocationPaths =
         [
