@@ -7,11 +7,13 @@
                     <StackPanel Spacing="15">
                         <Button Content="Normal" />
                         <Button Classes="small" Content="Small" />
+                        <Button Classes="smaller" Content="Smaller" />
                         <Button Classes="subtle" Content="Subtle" />
                         <IconButton IconText="&#xe2c2;" Classes="subtle" Content="Icon Subtle" />
                         <IconButton IconText="&#xe2c2;" Classes="outline" Content="Icon Outline" />
                         <Button Classes="outline" Content="Outline" />
                         <Button Classes="alert" Content="Alert" />
+                        <Button Classes="danger" Content="Danger" />
                 
                         <IconButton IconText="&#xe2c2;" Content="Icon Stretch" HorizontalAlignment="Stretch" />
 
@@ -52,7 +54,14 @@
         <Setter Property="CornerRadius" Value="6"></Setter>
         <Setter Property="Padding" Value="6 2 6 2"></Setter>
     </Style>
-    
+        
+    <!-- Smaller button -->
+    <Style Selector=":is(Button).smaller">
+        <Setter Property="FontSize" Value="12"></Setter>
+        <Setter Property="CornerRadius" Value="5"></Setter>
+        <Setter Property="Padding" Value="3 0 3 0"></Setter>
+    </Style>
+
     <!-- Normal button -->
     <Style Selector=":is(Button):not(CheckBox)">
         <Setter Property="Foreground" Value="{DynamicResource PrimaryForegroundSubtle}"></Setter>
@@ -83,6 +92,22 @@
     <Style Selector=":is(Button).alert:pointerover">
         <Setter Property="Foreground" Value="{DynamicResource PrimaryBackground}"></Setter>
         <Setter Property="Background" Value="{DynamicResource AlertGradient}"></Setter>
+    </Style>
+    
+    <!-- Danger button -->
+    <Style Selector=":is(Button).danger">
+        <Setter Property="Foreground" Value="{DynamicResource PrimaryBackground}"></Setter>
+        <Setter Property="Background" Value="{DynamicResource DangerGradient}"></Setter>
+    </Style>
+    
+    <!-- Danger button (hover) -->
+    <Style Selector=":is(Button).danger:pointerover /template/ ContentPresenter">
+        <Setter Property="Foreground" Value="{DynamicResource PrimaryBackground}"></Setter>
+        <Setter Property="Background" Value="{DynamicResource DangerHoverGradient}"></Setter>
+    </Style>
+    <Style Selector=":is(Button).danger:pointerover">
+        <Setter Property="Foreground" Value="{DynamicResource PrimaryBackground}"></Setter>
+        <Setter Property="Background" Value="{DynamicResource DangerGradient}"></Setter>
     </Style>
 
     <!-- Subtle button -->

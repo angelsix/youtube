@@ -2,15 +2,44 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:BatchProcess3.ViewModels"
              mc:Ignorable="d" d:DesignWidth="1000" d:DesignHeight="620"
              Background="{DynamicResource PrimaryBackground}"
              Foreground="{DynamicResource PrimaryForeground}"
+             x:DataType="vm:ActionsPageViewModel"
              x:Class="BatchProcess3.Views.ActionsPrintView">
+    
+    <Design.DataContext><vm:ActionsPageViewModel></vm:ActionsPageViewModel></Design.DataContext>
+    
     <Grid ColumnDefinitions="*, 10, 1.5*, 10, 1.5*">
         <Grid RowDefinitions="Auto, 10, Auto, 10, *">
             <Label Classes="h2" Content="Print Actions" />
             <TextBlock Grid.Row="2" Text="Print actions can be used to print drawings or models to specific printers with specific settings." TextWrapping="Wrap"></TextBlock>
-            <ListBox Grid.Row="4">
+            <ListBox Grid.Row="4" ItemsSource="{Binding PrintList}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate x:DataType="vm:ActionsPrintViewModel">
+                        <Grid ColumnDefinitions="*, Auto">
+                            <Label Grid.Column="0" 
+                                   Content="{Binding JobName}" 
+                                   VerticalAlignment="Center" />
+                            <Button Grid.Column="1"
+                                    Margin="0 -4 -4 -6"
+                                    Command="{Binding $parent[ListBox].((vm:ActionsPageViewModel)DataContext).DeletePrintItemCommand}"
+                                    CommandParameter="{Binding Id}"
+                                    IsVisible="{Binding IsSelected}"
+                                    VerticalAlignment="Center"
+                                    Classes="smaller danger">
+                                <Label Classes="icon-only icon-outline" Content="&#xe4a6;" />
+                            </Button>
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+                
+                <ListBox.Styles>
+                    <Style Selector="ListBoxItem" x:DataType="vm:ActionsPrintViewModel">
+                        <Setter Property="IsSelected" Value="{Binding IsSelected}"></Setter>
+                    </Style>
+                </ListBox.Styles>
                 
             </ListBox>
         </Grid>

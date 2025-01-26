@@ -14,7 +14,10 @@ public partial class ActionsPageView : UserControl
         InitializeComponent();
     }
 
-    private void ActionsTab_OnSelectionChanged(object? sender, SelectionChangedEventArgs e) => OnTabChanged();
+    private void ActionsTab_OnSelectionChanged(object? sender, SelectionChangedEventArgs e)
+    {
+        if (Equals(e.Source, ActionsTabControl)) OnTabChanged();
+    }
 
     private void OnTabChanged()
     {
