@@ -4,7 +4,7 @@
   <Design.PreviewWith>
     <Border Padding="20" Background="{DynamicResource PrimaryBackground}" Width="600">
       <Grid ColumnDefinitions="*,*">
-        <StackPanel Spacing="20">
+        <StackPanel Spacing="10">
           <CheckBox />
           <CheckBox IsChecked="True" />
           <CheckBox>Unchecked</CheckBox>
@@ -13,7 +13,7 @@
           <CheckBox Width="120">Checkbox should wrap its text</CheckBox>
         </StackPanel>
         
-        <StackPanel Grid.Column="1" Spacing="20">
+        <StackPanel Grid.Column="1" Spacing="10">
           <CheckBox IsEnabled="False" />
           <CheckBox IsEnabled="False" IsChecked="True" />
           <CheckBox IsEnabled="False">Unchecked</CheckBox>
@@ -31,7 +31,6 @@
     <Setter Property="VerticalAlignment" Value="Center" />
     <Setter Property="HorizontalContentAlignment" Value="Left" />
     <Setter Property="VerticalContentAlignment" Value="Center" />
-    <Setter Property="CornerRadius" Value="7" />
     <Setter Property="MinHeight" Value="32" />
     <Setter Property="Foreground" Value="{DynamicResource PrimaryForeground}" />
     <Setter Property="Background" Value="{DynamicResource CheckBoxBackgroundUnchecked}" />
@@ -40,21 +39,22 @@
       <ControlTemplate>
         <Grid x:Name="RootGrid" ColumnDefinitions="30,*">
           
-          <Grid VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
+          <Grid VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Background="Transparent">
             <Border x:Name="NormalRectangle"
                     BorderBrush="{TemplateBinding BorderBrush}"
                     Background="Transparent"
                     BorderThickness="3"
-                    CornerRadius="{TemplateBinding CornerRadius}"
+                    CornerRadius="4"
                     UseLayoutRounding="False"
-                    Height="30"
-                    Width="30" />
+                    Height="20"
+                    Width="20" />
             
             <Label x:Name="CheckGlyph"
                    VerticalAlignment="Center" 
                    HorizontalAlignment="Center" 
                    Content="&#xeba6;"
                    Opacity="0"
+                   FontSize="12"
                    Foreground="{DynamicResource PrimaryBackground}"
                    FontFamily="{DynamicResource PhosphorFill}" />
             
@@ -62,9 +62,11 @@
           <ContentPresenter x:Name="PART_ContentPresenter"
                           ContentTemplate="{TemplateBinding ContentTemplate}"
                           Content="{TemplateBinding Content}"
-                          Padding="14 0 0 0"
+                          Padding="4 0 0 0"
                           Background="Transparent"
                           Foreground="{TemplateBinding Foreground}"
+                          FontWeight="Normal"
+                          FontSize="16"
                           RecognizesAccessKey="True"
                           HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                           VerticalAlignment="{TemplateBinding VerticalContentAlignment}"

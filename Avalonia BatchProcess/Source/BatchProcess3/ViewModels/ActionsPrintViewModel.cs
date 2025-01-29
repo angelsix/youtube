@@ -12,4 +12,25 @@ public partial class ActionsPrintViewModel : ViewModelBase
     
     [ObservableProperty]
     private bool _isSelected;
+    
+    [ObservableProperty]
+    private string _description;
+    
+    [ObservableProperty]
+    private string _printDrawingRange;
+    
+    [ObservableProperty]
+    private string _drawingExclusionList;
+    
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(DrawingExclusionListTitle))]
+    private bool _drawingExlusionIsWhiteList;
+    
+    public string DrawingExclusionListTitle => DrawingExlusionIsWhiteList ? "White List" : "Black List";
+    
+    [ObservableProperty]
+    private bool _printModels;
+    
+    [ObservableProperty]
+    private bool _printDrawings;
 }
