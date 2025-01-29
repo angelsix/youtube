@@ -43,11 +43,18 @@
             <Border x:Name="NormalRectangle"
                     BorderBrush="{TemplateBinding BorderBrush}"
                     Background="Transparent"
-                    BorderThickness="3"
-                    CornerRadius="4"
+                    BorderThickness="2"
+                    CornerRadius="6"
                     UseLayoutRounding="False"
                     Height="20"
-                    Width="20" />
+                    Width="20">
+              <Border.Transitions>
+                <Transitions>
+                  <BrushTransition Property="BorderBrush" Duration="0:0:0.075"></BrushTransition>
+                  <BrushTransition Property="Background" Duration="0:0:0.075"></BrushTransition>
+                </Transitions>
+              </Border.Transitions>
+            </Border>
             
             <Label x:Name="CheckGlyph"
                    VerticalAlignment="Center" 

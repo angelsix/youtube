@@ -70,8 +70,10 @@
                 <Label Grid.Row="0" Grid.Column="0" Content="Print Range" VerticalAlignment="Center" />
                 <TextBox Grid.Row="0" Grid.Column="2" Text="{Binding  SelectedPrintListItem.PrintDrawingRange}" />
                 <StackPanel Grid.Row="2" Grid.Column="0" Orientation="Horizontal">
-                    <ToggleButton IsChecked="{Binding SelectedPrintListItem.DrawingExlusionIsWhiteList}" VerticalAlignment="Top" />
-                    <Label Content="{Binding SelectedPrintListItem.DrawingExclusionListTitle}" />
+                    <ToggleButton 
+                        IsChecked="{Binding SelectedPrintListItem.DrawingExlusionIsWhiteList}" 
+                        Content="{Binding SelectedPrintListItem.DrawingExclusionListTitle}"
+                        VerticalAlignment="Top" />
                 </StackPanel>
                 <TextBox Grid.Row="2" Grid.Column="2" Text="{Binding  SelectedPrintListItem.DrawingExclusionList}" Height="80" TextWrapping="Wrap" />
             </Grid>
