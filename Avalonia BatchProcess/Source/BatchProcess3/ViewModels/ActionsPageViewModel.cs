@@ -10,10 +10,10 @@ namespace BatchProcess3.ViewModels;
 public partial class ActionsPageViewModel() : PageViewModel(ApplicationPageNames.Actions)
 {
     [ObservableProperty]
-    private ObservableCollection<ActionsPrintViewModel> _printList;
+    private ObservableCollection<ActionsPrintViewModel> _printList = [];
 
     [ObservableProperty]
-    private ActionsPrintViewModel _selectedPrintListItem;
+    private ActionsPrintViewModel? _selectedPrintListItem;
 
     [RelayCommand]
     public void RefreshActionsPage(ActionsPageName actionsPageName)
@@ -55,5 +55,20 @@ public partial class ActionsPageViewModel() : PageViewModel(ApplicationPageNames
         
         // Remove item
         PrintList.Remove(PrintList.First(x => x.Id == id));
+    }
+
+    [RelayCommand]
+    public void AddNewPrintItem()
+    {
+        // Create a new item
+        var newItem = new ActionsPrintViewModel
+        {
+            IsSelected = true, 
+            IsNewItem = true,
+            JobName = "New Print Item"
+        };
+
+        // Add to the print list
+        PrintList.Add(newItem);
     }
 }

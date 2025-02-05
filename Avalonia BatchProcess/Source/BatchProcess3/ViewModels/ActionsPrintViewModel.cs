@@ -33,4 +33,7 @@ public partial class ActionsPrintViewModel : ViewModelBase
     
     [ObservableProperty]
     private bool _printDrawings;
+
+    [ObservableProperty]
+    private bool _isNewItem;
 }
