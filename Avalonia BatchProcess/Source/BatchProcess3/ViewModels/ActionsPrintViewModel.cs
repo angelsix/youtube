@@ -36,4 +36,7 @@ public partial class ActionsPrintViewModel : ViewModelBase
 
     [ObservableProperty]
     private bool _isNewItem;
+    
+    [ObservableProperty]
+    private ActionsPrinterProfileViewModel _printerProfile;
 }
