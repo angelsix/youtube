@@ -1,42 +1,66 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace BatchProcess3.ViewModels;
 
 public partial class ActionsPrintViewModel : ViewModelBase
 {
+    [JsonIgnore]
+    private string _savedState = "";
+    
     [ObservableProperty]
-    private string _id;
+    [NotifyPropertyChangedFor(nameof(HasChanged))]
+    private string _id = "";
 
     [ObservableProperty]
-    private string _jobName;
+    [NotifyPropertyChangedFor(nameof(HasChanged))]
+    private string _jobName = "";
     
     [ObservableProperty]
     private bool _isSelected;
     
     [ObservableProperty]
-    private string _description;
+    [NotifyPropertyChangedFor(nameof(HasChanged))]
+    private string _description = "";
     
     [ObservableProperty]
-    private string _printDrawingRange;
+    [NotifyPropertyChangedFor(nameof(HasChanged))]
+    private string _printDrawingRange = "";
     
     [ObservableProperty]
-    private string _drawingExclusionList;
+    [NotifyPropertyChangedFor(nameof(HasChanged))]
+    private string _drawingExclusionList = "";
     
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(DrawingExclusionListTitle))]
-    private bool _drawingExlusionIsWhiteList;
+    [NotifyPropertyChangedFor(nameof(HasChanged))]
+    private bool _drawingExclusionIsWhiteList;
     
-    public string DrawingExclusionListTitle => DrawingExlusionIsWhiteList ? "White List" : "Black List";
+    public string DrawingExclusionListTitle => DrawingExclusionIsWhiteList ? "White List" : "Black List";
     
     [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(HasChanged))]
     private bool _printModels;
     
     [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(HasChanged))]
     private bool _printDrawings;
 
     [ObservableProperty]
     private bool _isNewItem;
     
     [ObservableProperty]
-    private ActionsPrinterProfileViewModel _printerProfile;
+    [NotifyPropertyChangedFor(nameof(HasChanged))]
+    private ActionsPrinterProfileViewModel _printerProfile = new ();
+    
+    [JsonIgnore]
+    public bool HasChanged => _savedState != JsonSerializer.Serialize(this);
+
+    public void SetSavedState()
+    {
+        _savedState = JsonSerializer.Serialize(this);
+        
+        OnPropertyChanged(nameof(HasChanged));
+    }
 }

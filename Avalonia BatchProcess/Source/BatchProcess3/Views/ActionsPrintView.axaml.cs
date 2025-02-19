@@ -14,10 +14,17 @@ public partial class ActionsPrintView : UserControl
 
     private void SelectingItemsControl_OnSelectionChanged(object? sender, SelectionChangedEventArgs e)
     {
-        if (e.AddedItems?.Count > 0 && e.AddedItems[0] is ActionsPrintViewModel { IsNewItem: true } viewModel)
+        if (e.AddedItems?.Count > 0 && e.AddedItems[0] is ActionsPrintViewModel viewModel)
         {
-            JobNameTextBox.SelectAll();
-            JobNameTextBox.Focus();
+            // When a print view is selected
+            viewModel.SetSavedState();
+            
+            // When it is a newly created item
+            if (viewModel.IsNewItem)
+            {
+                JobNameTextBox.SelectAll();
+                JobNameTextBox.Focus();
+            }
         }
     }
 }

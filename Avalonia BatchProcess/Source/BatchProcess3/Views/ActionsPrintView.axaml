@@ -80,21 +80,40 @@
         </Grid>
         
         <!-- Drawings Column -->
-        <StackPanel Grid.Column="4" Spacing="10">
-            <Label Classes="h2" Content="Drawings" />
-            <TextBlock Text="Set the properties that apply only to drawings." Margin="0 -10 0 10" />
-            <Grid ColumnDefinitions="140, 15, *" RowDefinitions="Auto, 15, Auto, 15, Auto">
+        <Grid Grid.Column="4" RowDefinitions="Auto, 10, Auto, 10, Auto, 10, *">
+            <Label Grid.Row="0" Classes="h2" Content="Drawings" />
+            <TextBlock Grid.Row="2" Text="Set the properties that apply only to drawings." Margin="0 -10 0 10" />
+            <Grid Grid.Row="4" ColumnDefinitions="140, 15, *" RowDefinitions="Auto, 15, Auto, 15, Auto">
                 <Label Grid.Row="0" Grid.Column="0" Content="Print Range" VerticalAlignment="Center" />
                 <TextBox Grid.Row="0" Grid.Column="2" Text="{Binding  SelectedPrintListItem.PrintDrawingRange}" />
                 <StackPanel Grid.Row="2" Grid.Column="0" Orientation="Horizontal">
                     <ToggleButton 
-                        IsChecked="{Binding SelectedPrintListItem.DrawingExlusionIsWhiteList}" 
+                        IsChecked="{Binding SelectedPrintListItem.DrawingExclusionIsWhiteList}" 
                         Content="{Binding SelectedPrintListItem.DrawingExclusionListTitle}"
                         VerticalAlignment="Top" />
                 </StackPanel>
                 <TextBox Grid.Row="2" Grid.Column="2" Text="{Binding  SelectedPrintListItem.DrawingExclusionList}" Height="80" TextWrapping="Wrap" />
             </Grid>
-        </StackPanel>
+            
+            <StackPanel Grid.Row="6" 
+                        VerticalAlignment="Bottom" 
+                        HorizontalAlignment="Right" 
+                        Orientation="Horizontal" 
+                        Spacing="10"
+                        Opacity="{Binding SelectedPrintListItem.HasChanged}">
+                <StackPanel.Styles>
+                    <Style Selector="StackPanel">
+                        <Setter Property="Transitions">
+                            <Transitions>
+                                <DoubleTransition Property="Opacity" Duration="0:0:0.1"></DoubleTransition>
+                            </Transitions>
+                        </Setter>
+                    </Style>
+                </StackPanel.Styles>
+                <Button Content="Cancel" Classes="outline"></Button>
+                <Button Content="Save" Classes="success"></Button>
+            </StackPanel>
+        </Grid>
         
     </Grid>
 </UserControl>
