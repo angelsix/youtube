@@ -6,7 +6,7 @@ namespace BatchProcess3.ViewModels;
 
 public partial class ActionsPrintViewModel : ViewModelBase
 {
-    [JsonIgnore]
+    [property: JsonIgnore]
     private string _savedState = "";
     
     [ObservableProperty]
@@ -18,6 +18,7 @@ public partial class ActionsPrintViewModel : ViewModelBase
     private string _jobName = "";
     
     [ObservableProperty]
+    [property: JsonIgnore]
     private bool _isSelected;
     
     [ObservableProperty]
@@ -55,7 +56,7 @@ public partial class ActionsPrintViewModel : ViewModelBase
     private ActionsPrinterProfileViewModel _printerProfile = new ();
     
     [JsonIgnore]
-    public bool HasChanged => _savedState != JsonSerializer.Serialize(this);
+    public bool HasChanged => IsNewItem || (_savedState != "" && _savedState != JsonSerializer.Serialize(this));
 
     public void SetSavedState()
     {

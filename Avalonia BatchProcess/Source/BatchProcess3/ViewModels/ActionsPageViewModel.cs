@@ -2,6 +2,7 @@
 using BatchProcess3.Views;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 
@@ -17,7 +18,10 @@ public partial class ActionsPageViewModel() : PageViewModel(ApplicationPageNames
     };
     
     [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(PrintListHasItems))]
     private ObservableCollection<ActionsPrintViewModel> _printList = [];
+    
+    public bool PrintListHasItems => PrintList.Any();
     
     [ObservableProperty]
     private ActionsPrintViewModel? _selectedPrintListItem;
@@ -65,6 +69,19 @@ public partial class ActionsPageViewModel() : PageViewModel(ApplicationPageNames
             new ActionsPrintViewModel { Id = "3", JobName = "Print 3D Models A3", Description = "Prints models as 3D visuals", PrintModels = true, PrinterProfile = _defaultPrinterProfile },
         ];
 
+        // Update PrintListHasItems when collection changes
+        PrintList.CollectionChanged += (_, _) => OnPropertyChanged(nameof(PrintListHasItems));
+
+        if (PrintList.Count > 0)
+        {
+            // Select first item
+            PrintList.First().IsSelected = true;
+            
+            // Store last fetched database save states
+            foreach (var printItem in PrintList)
+                printItem.SetSavedState();
+        }
+
         PrinterProfiles =
         [
             _defaultPrinterProfile,
@@ -106,9 +123,8 @@ public partial class ActionsPageViewModel() : PageViewModel(ApplicationPageNames
         if (PrintList.Count(x => x.Id == id) != 1)
             // TODO: Throw/Warn?
             return;
-        
-        // Remove item
-        PrintList.Remove(PrintList.First(x => x.Id == id));
+
+        DeletePrintItemFromUI(id);
     }
 
     [RelayCommand]
@@ -118,6 +134,7 @@ public partial class ActionsPageViewModel() : PageViewModel(ApplicationPageNames
         // Create a new item
         var newItem = new ActionsPrintViewModel
         {
+            Id = Guid.NewGuid().ToString("N"),
             IsSelected = true, 
             IsNewItem = true,
             JobName = "New Print Item",
@@ -126,5 +143,31 @@ public partial class ActionsPageViewModel() : PageViewModel(ApplicationPageNames
 
         // Add to the print list
         PrintList.Add(newItem);
+    }
+
+    [RelayCommand]
+    public void CancelPrintItem()
+    {
+        // Ignore if nothing is selected
+        if (SelectedPrintListItem == null)
+            return;
+        
+        // If the selected item is new, delete it
+        // Otherwise, restore from save state
+        if (SelectedPrintListItem.IsNewItem)
+            DeletePrintItemFromUI(SelectedPrintListItem.Id);
+    }
+
+    private void DeletePrintItemFromUI(string id)
+    {
+        // Remove item
+        var index = PrintList.IndexOf(PrintList.First(x => x.Id == id));
+        PrintList.RemoveAt(index);
+
+        // Select the item below the deleted one
+        if (index > 0) index--;
+
+        if (PrintList.Count > 0)
+            PrintList[index].IsSelected = true;
     }
 }

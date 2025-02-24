@@ -11,7 +11,7 @@
     
     <Design.DataContext><vm:ActionsPageViewModel></vm:ActionsPageViewModel></Design.DataContext>
     
-    <Grid ColumnDefinitions="*, 30, 1.5*, 30, 1.5*">
+    <Grid ColumnDefinitions="*, 30, 3*">
         <!-- Print List Column -->
         <Grid RowDefinitions="Auto, 10, Auto, 10, Auto, 10, *">
             <Label Classes="h2" Content="Print Actions" />
@@ -22,6 +22,7 @@
                     <DataTemplate x:DataType="vm:ActionsPrintViewModel">
                         <Grid ColumnDefinitions="*, Auto">
                             <Label Grid.Column="0" 
+                                   FontWeight="{Binding HasChanged, Converter={StaticResource BooleanToBoldFontConverter}}"
                                    Content="{Binding JobName}" 
                                    VerticalAlignment="Center" />
                             <Button Grid.Column="1"
@@ -46,73 +47,101 @@
             </ListBox>
         </Grid>
         
-        <!-- General Settings Column -->
-        <Grid Grid.Column="2" RowDefinitions="Auto, 10, Auto, 10, Auto, 10, Auto, 10, Auto, 10, *">
-            <Label Classes="h2" Content="General Settings" />
-            <TextBlock Grid.Row="2" Text="Set the main properties of the print job." Margin="0 -10 0 10" />
-            <Grid Grid.Row="4" ColumnDefinitions="140, 15, *" RowDefinitions="Auto, 15, Auto, 15, Auto">
-                <Label Grid.Row="0" Grid.Column="0" Content="Job Name" VerticalAlignment="Center" />
-                <TextBox Name="JobNameTextBox" Grid.Row="0" Grid.Column="2" Text="{Binding  SelectedPrintListItem.JobName}" />
-                <Label Grid.Row="2" Grid.Column="0" Content="Description" />
-                <TextBox Grid.Row="2" Grid.Column="2" Text="{Binding  SelectedPrintListItem.Description}" Height="80" TextWrapping="Wrap" />
-                <Label Grid.Row="4" Grid.Column="0" Content="Print" VerticalAlignment="Center" />
-                <StackPanel Grid.Row="4" Grid.Column="2" Orientation="Horizontal" Spacing="10">
-                    <CheckBox Content="Models" IsChecked="{Binding SelectedPrintListItem.PrintModels}" />
-                    <CheckBox Content="Drawings" IsChecked="{Binding SelectedPrintListItem.PrintDrawings}" />
-                </StackPanel>
-            </Grid>
-            
-            <Label Grid.Row="6" Classes="h2" Content="Printer Settings" />
-            <TextBlock Grid.Row="8" Text="Selects the profiles to use for paper sizes" Margin="0 -10 0 10" />
-            
-            <ListBox Grid.Row="10" ItemsSource="{Binding PrinterProfiles}" SelectedItem="{Binding SelectedPrintListItem.PrinterProfile}">
-                <ListBox.ItemTemplate>
-                    <DataTemplate x:DataType="vm:ActionsPrinterProfileViewModel">
-                        <StackPanel>
-                            <Label FontWeight="Black" Content="{Binding Name}" />
-                            <TextBlock TextWrapping="Wrap" Text="{Binding Description}" />
-                        </StackPanel>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-                
-            </ListBox>
-            
-        </Grid>
+        <StackPanel Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10" Opacity="{Binding !PrintListHasItems}">
+            <StackPanel.Styles>
+                <Style Selector="StackPanel">
+                    <Setter Property="Transitions">
+                        <Transitions>
+                            <DoubleTransition Property="Opacity" Duration="0:0:0.1"></DoubleTransition>
+                        </Transitions>
+                    </Setter>
+                </Style>
+            </StackPanel.Styles>
+            <TextBlock Text="Print actions can be used to print drawings and models with specific printer settings." HorizontalAlignment="Center" />
+            <TextBlock Text="To get started, create a new Print Action." HorizontalAlignment="Center" />
+            <Button Content="New Print Action" HorizontalAlignment="Center" Command="{Binding AddNewPrintItemCommand}" Margin="20" />
+        </StackPanel>
         
-        <!-- Drawings Column -->
-        <Grid Grid.Column="4" RowDefinitions="Auto, 10, Auto, 10, Auto, 10, *">
-            <Label Grid.Row="0" Classes="h2" Content="Drawings" />
-            <TextBlock Grid.Row="2" Text="Set the properties that apply only to drawings." Margin="0 -10 0 10" />
-            <Grid Grid.Row="4" ColumnDefinitions="140, 15, *" RowDefinitions="Auto, 15, Auto, 15, Auto">
-                <Label Grid.Row="0" Grid.Column="0" Content="Print Range" VerticalAlignment="Center" />
-                <TextBox Grid.Row="0" Grid.Column="2" Text="{Binding  SelectedPrintListItem.PrintDrawingRange}" />
-                <StackPanel Grid.Row="2" Grid.Column="0" Orientation="Horizontal">
-                    <ToggleButton 
-                        IsChecked="{Binding SelectedPrintListItem.DrawingExclusionIsWhiteList}" 
-                        Content="{Binding SelectedPrintListItem.DrawingExclusionListTitle}"
-                        VerticalAlignment="Top" />
-                </StackPanel>
-                <TextBox Grid.Row="2" Grid.Column="2" Text="{Binding  SelectedPrintListItem.DrawingExclusionList}" Height="80" TextWrapping="Wrap" />
+        <Grid Grid.Column="2" ColumnDefinitions="*, 30, *" Opacity="{Binding PrintListHasItems}">
+            <Grid.Styles>
+                <Style Selector="Grid">
+                    <Setter Property="Transitions">
+                        <Transitions>
+                            <DoubleTransition Property="Opacity" Duration="0:0:0.1"></DoubleTransition>
+                        </Transitions>
+                    </Setter>
+                </Style>
+            </Grid.Styles>
+
+            <!-- General Settings Column -->
+            <Grid Grid.Column="0" RowDefinitions="Auto, 10, Auto, 10, Auto, 10, Auto, 10, Auto, 10, *">
+                <Label Classes="h2" Content="General Settings" />
+                <TextBlock Grid.Row="2" Text="Set the main properties of the print job." Margin="0 -10 0 10" />
+                <Grid Grid.Row="4" ColumnDefinitions="140, 15, *" RowDefinitions="Auto, 15, Auto, 15, Auto">
+                    <Label Grid.Row="0" Grid.Column="0" Content="Job Name" VerticalAlignment="Center" />
+                    <TextBox Name="JobNameTextBox" Grid.Row="0" Grid.Column="2" Text="{Binding  SelectedPrintListItem.JobName}" />
+                    <Label Grid.Row="2" Grid.Column="0" Content="Description" />
+                    <TextBox Grid.Row="2" Grid.Column="2" Text="{Binding  SelectedPrintListItem.Description}" Height="80" TextWrapping="Wrap" />
+                    <Label Grid.Row="4" Grid.Column="0" Content="Print" VerticalAlignment="Center" />
+                    <StackPanel Grid.Row="4" Grid.Column="2" Orientation="Horizontal" Spacing="10">
+                        <CheckBox Content="Models" IsChecked="{Binding SelectedPrintListItem.PrintModels}" />
+                        <CheckBox Content="Drawings" IsChecked="{Binding SelectedPrintListItem.PrintDrawings}" />
+                    </StackPanel>
+                </Grid>
+                
+                <Label Grid.Row="6" Classes="h2" Content="Printer Settings" />
+                <TextBlock Grid.Row="8" Text="Selects the profiles to use for paper sizes" Margin="0 -10 0 10" />
+                
+                <ListBox Grid.Row="10" ItemsSource="{Binding PrinterProfiles}" SelectedItem="{Binding SelectedPrintListItem.PrinterProfile}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate x:DataType="vm:ActionsPrinterProfileViewModel">
+                            <StackPanel>
+                                <Label FontWeight="Black" Content="{Binding Name}" />
+                                <TextBlock TextWrapping="Wrap" Text="{Binding Description}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                    
+                </ListBox>
+                
             </Grid>
             
-            <StackPanel Grid.Row="6" 
-                        VerticalAlignment="Bottom" 
-                        HorizontalAlignment="Right" 
-                        Orientation="Horizontal" 
-                        Spacing="10"
-                        Opacity="{Binding SelectedPrintListItem.HasChanged}">
-                <StackPanel.Styles>
-                    <Style Selector="StackPanel">
-                        <Setter Property="Transitions">
-                            <Transitions>
-                                <DoubleTransition Property="Opacity" Duration="0:0:0.1"></DoubleTransition>
-                            </Transitions>
-                        </Setter>
-                    </Style>
-                </StackPanel.Styles>
-                <Button Content="Cancel" Classes="outline"></Button>
-                <Button Content="Save" Classes="success"></Button>
-            </StackPanel>
+            <!-- Drawings Column -->
+            <Grid Grid.Column="2" RowDefinitions="Auto, 10, Auto, 10, Auto, 10, *">
+                <Label Grid.Row="0" Classes="h2" Content="Drawings" />
+                <TextBlock Grid.Row="2" Text="Set the properties that apply only to drawings." Margin="0 -10 0 10" />
+                <Grid Grid.Row="4" ColumnDefinitions="140, 15, *" RowDefinitions="Auto, 15, Auto, 15, Auto">
+                    <Label Grid.Row="0" Grid.Column="0" Content="Print Range" VerticalAlignment="Center" />
+                    <TextBox Grid.Row="0" Grid.Column="2" Text="{Binding  SelectedPrintListItem.PrintDrawingRange}" />
+                    <StackPanel Grid.Row="2" Grid.Column="0" Orientation="Horizontal">
+                        <ToggleButton 
+                            IsChecked="{Binding SelectedPrintListItem.DrawingExclusionIsWhiteList}" 
+                            Content="{Binding SelectedPrintListItem.DrawingExclusionListTitle}"
+                            VerticalAlignment="Top" />
+                    </StackPanel>
+                    <TextBox Grid.Row="2" Grid.Column="2" Text="{Binding  SelectedPrintListItem.DrawingExclusionList}" Height="80" TextWrapping="Wrap" />
+                </Grid>
+                
+                <StackPanel Grid.Row="6" 
+                            VerticalAlignment="Bottom" 
+                            HorizontalAlignment="Right" 
+                            Orientation="Horizontal" 
+                            Spacing="10"
+                            Opacity="{Binding SelectedPrintListItem.HasChanged, FallbackValue=0}">
+                    <StackPanel.Styles>
+                        <Style Selector="StackPanel">
+                            <Setter Property="Transitions">
+                                <Transitions>
+                                    <DoubleTransition Property="Opacity" Duration="0:0:0.1"></DoubleTransition>
+                                </Transitions>
+                            </Setter>
+                        </Style>
+                    </StackPanel.Styles>
+                    <Button Content="Cancel" Classes="outline" Command="{Binding CancelPrintItemCommand}"></Button>
+                    <Button Content="Save" Classes="success"></Button>
+                </StackPanel>
+            </Grid>
+    
         </Grid>
         
     </Grid>
