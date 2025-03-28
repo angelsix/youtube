@@ -46,6 +46,26 @@
                                 </Button>
                         </Grid>
                 </Border>
+                
+                <Grid Grid.Column="0" Grid.ColumnSpan="2" Name="DialogOverlay" IsVisible="{Binding #DialogOverlay.Opacity}" Opacity="{Binding Dialog.IsDialogOpen, FallbackValue=0}">
+                        
+                        <Grid.Styles>
+                                <Style Selector="Grid">
+                                        <Setter Property="Transitions">
+                                                <Transitions>
+                                                        <DoubleTransition Property="Opacity" Duration="0:0:2.1"></DoubleTransition>
+                                                </Transitions>
+                                        </Setter>
+                                </Style>
+                        </Grid.Styles>
+                        
+                        <Border Background="Black" Opacity="0.5"></Border>
+                        <ContentControl 
+                                Content="{Binding Dialog}" 
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                />
+                </Grid>
         </Grid>
     
 </UserControl>

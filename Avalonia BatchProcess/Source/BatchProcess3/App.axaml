@@ -43,9 +43,12 @@
          <SolidColorBrush x:Key="PrimaryForegroundSubtle">#aaa</SolidColorBrush>     
          <SolidColorBrush x:Key="PrimaryBackground">#14172D</SolidColorBrush>     
          
+         <Color x:Key="PrimaryBackgroundColor1">#111214</Color>
+         <Color x:Key="PrimaryBackgroundColor2">#151E3E</Color>
+         
          <LinearGradientBrush x:Key="PrimaryBackgroundGradient" StartPoint="0%, 0%" EndPoint="100%, 0%">
-             <GradientStop Offset="0" Color="#111214"></GradientStop>
-             <GradientStop Offset="1" Color="#151E3E"></GradientStop>
+             <GradientStop Offset="0" Color="{DynamicResource PrimaryBackgroundColor1}"></GradientStop>
+             <GradientStop Offset="1" Color="{DynamicResource PrimaryBackgroundColor2}"></GradientStop>
          </LinearGradientBrush>
          
          <SolidColorBrush x:Key="PrimaryHoverBackground">#333B5A</SolidColorBrush>     
