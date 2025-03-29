@@ -6,6 +6,8 @@
              x:DataType="vm:ConfirmDialogViewModel"
              mc:Ignorable="d"
              MinWidth="300"
+             Width="{Binding DialogWidth}"
+             Height="{Binding DialogHeight}"
              Foreground="{DynamicResource PrimaryForeground}"
              Background="Transparent"
              x:Class="BatchProcess3.Views.ConfirmDialogView">
@@ -25,10 +27,10 @@
             <DropShadowEffect Color="{DynamicResource PrimaryBackgroundColor2}" />
         </Border.Effect>
         
-        <StackPanel>
+        <Grid RowDefinitions="Auto, *">
             
             <!-- Title -->
-            <Border Background="{DynamicResource PrimaryBackgroundGradient}" CornerRadius="20 20 0 0">
+            <Border Grid.Row="0" Background="{DynamicResource PrimaryBackgroundGradient}" CornerRadius="20 20 0 0">
                 <TextBlock 
                     Text="{Binding Title}"
                     Padding="10"
@@ -37,38 +39,57 @@
                     />
             </Border>
             
-            <Border Padding="20">
-                <StackPanel Spacing="20">
-                    
-                    <!-- Description -->
-                    <StackPanel Orientation="Horizontal">
-                        <Label Classes="icon" Content="{Binding IconText}"></Label>
-                        <TextBlock TextWrapping="Wrap" Text="{Binding Message}" />
-                    </StackPanel>
+            <Grid Grid.Row="1" RowDefinitions="Auto, Auto, *, Auto" Margin="20">
                 
-                    <!-- Buttons -->
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="10">
-                        <Button 
-                            Content="{Binding CancelText}" 
-                            Command="{Binding CancelCommand}"
-                            MinWidth="70"
-                            HorizontalContentAlignment="Center"
-                            Classes="danger outline"
-                        />
-                        <Button 
-                            Content="{Binding ConfirmText}" 
-                            Command="{Binding ConfirmCommand}"
-                            MinWidth="70"
-                            HorizontalContentAlignment="Center"
-                            Classes="success"
-                        />
-                    </StackPanel>
-                    
+                <!-- Description -->
+                <StackPanel Grid.Row="0" Orientation="Horizontal">
+                    <Label Classes="icon" Content="{Binding IconText}"></Label>
+                    <TextBlock TextWrapping="Wrap" Text="{Binding Message}" />
                 </StackPanel>
                 
-            </Border>
+                <TextBlock Grid.Row="1"  
+                           Text="{Binding StatusText}"
+                           TextAlignment="Right"
+                           TextWrapping="Wrap"
+                           Foreground="{DynamicResource AlertGradient}"
+                           Margin="0 10"
+                />
             
-        </StackPanel>
+                <!-- Buttons -->
+                <StackPanel Grid.Row="2"
+                            Orientation="Horizontal" 
+                            HorizontalAlignment="Right" 
+                            VerticalAlignment="Bottom"
+                            Spacing="10"
+                            IsVisible="{Binding !Busy}">
+                    <Button 
+                        Content="{Binding CancelText}" 
+                        Command="{Binding CancelCommand}"
+                        MinWidth="70"
+                        HorizontalContentAlignment="Center"
+                        Classes="danger outline"
+                    />
+                    <Button 
+                        Content="{Binding ConfirmText}" 
+                        Command="{Binding ConfirmCommand}"
+                        MinWidth="70"
+                        HorizontalContentAlignment="Center"
+                        Classes="success"
+                    />
+                </StackPanel>
+                
+                <TextBlock Grid.Row="3"  
+                           Text="{Binding ProgressText}"
+                           IsVisible="{Binding Busy}"
+                           TextAlignment="Right"
+                           TextWrapping="Wrap"
+                           Foreground="{DynamicResource ActiveGradientText}"
+                           Margin="0 10"
+                />
+                
+            </Grid>
+            
+        </Grid>
     </Border>
     
 </UserControl>
