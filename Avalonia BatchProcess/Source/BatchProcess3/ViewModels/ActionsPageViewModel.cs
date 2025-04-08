@@ -18,7 +18,10 @@ public partial class ActionsPageViewModel(MainViewModel mainViewModel, DialogSer
         Id = "0", Name = "(Default)", Description = "Use all default settings", Copies = 1,
         // TODO: Populate PrinterSettings
     };
-    
+
+    // Design time only
+    public ActionsPageViewModel() : this(new MainViewModel(), new DialogService()) { }
+
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(PrintListHasItems))]
     private ObservableCollection<ActionsPrintViewModel> _printList = [];

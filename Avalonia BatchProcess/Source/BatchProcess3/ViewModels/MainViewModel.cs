@@ -51,25 +51,25 @@ public partial class MainViewModel : ViewModelBase, IDialogProvider
     public MainViewModel(PageFactory pageFactory)
     {
         _pageFactory = pageFactory ?? throw new ArgumentNullException(nameof(pageFactory));
-        CurrentPage = _pageFactory.GetPageViewModel(ApplicationPageNames.Settings);
+        CurrentPage = _pageFactory.GetPageViewModel<SettingsPageViewModel>();
     }
     
     [RelayCommand]
     private void SideMenuResize() => SideMenuExpanded = !SideMenuExpanded;
 
     [RelayCommand]
-    private void GoToHome() => CurrentPage = _pageFactory.GetPageViewModel(ApplicationPageNames.Home);
+    private void GoToHome() => CurrentPage = _pageFactory.GetPageViewModel<HomePageViewModel>();
         
     [RelayCommand]
-    private void GoToProcess() => CurrentPage = _pageFactory.GetPageViewModel(ApplicationPageNames.Process);
+    private void GoToProcess() => CurrentPage = _pageFactory.GetPageViewModel<ProcessPageViewModel>();
     [RelayCommand]
-    private void GoToActions() => CurrentPage = _pageFactory.GetPageViewModel(ApplicationPageNames.Actions);
+    private void GoToActions() => CurrentPage = _pageFactory.GetPageViewModel<ActionsPageViewModel>();
     [RelayCommand]
-    private void GoToMacros() => CurrentPage = _pageFactory.GetPageViewModel(ApplicationPageNames.Macros);
+    private void GoToMacros() => CurrentPage = _pageFactory.GetPageViewModel<MacrosPageViewModel>();
     [RelayCommand]
-    private void GoToReporter() => CurrentPage = _pageFactory.GetPageViewModel(ApplicationPageNames.Reporter);
+    private void GoToReporter() => CurrentPage = _pageFactory.GetPageViewModel<ReporterPageViewModel>();
     [RelayCommand]
-    private void GoToHistory() => CurrentPage = _pageFactory.GetPageViewModel(ApplicationPageNames.History);
+    private void GoToHistory() => CurrentPage = _pageFactory.GetPageViewModel<HistoryPageViewModel>();
     [RelayCommand]
-    private void GoToSettings() => CurrentPage = _pageFactory.GetPageViewModel(ApplicationPageNames.Settings);
+    private void GoToSettings() => CurrentPage = _pageFactory.GetPageViewModel<SettingsPageViewModel>();
   }
