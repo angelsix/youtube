@@ -1,0 +1,107 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:BatchProcess3.ViewModels"
+             x:DataType="vm:PrinterSettingsViewModel"
+             mc:Ignorable="d"
+             MinWidth="300"
+             Width="{Binding DialogWidth}"
+             Height="{Binding DialogHeight}"
+             Foreground="{DynamicResource PrimaryForeground}"
+             Background="Transparent"
+             x:Class="BatchProcess3.Views.PrinterSettingsView">
+    
+    <Design.DataContext><vm:PrinterSettingsViewModel></vm:PrinterSettingsViewModel></Design.DataContext>
+    
+    <!-- Main Dialog Window -->
+    <Border 
+        Background="{DynamicResource PrimaryBackground}" 
+        BorderBrush="{DynamicResource DefaultGradient}"
+        BorderThickness="{DynamicResource PrimaryBorderThickness}"
+        CornerRadius="20" 
+        ClipToBounds="True" 
+        Margin="10">
+        
+        <Border.Effect>
+            <DropShadowEffect Color="{DynamicResource PrimaryBackgroundColor2}" />
+        </Border.Effect>
+        
+        <Grid RowDefinitions="Auto, *">
+            
+            <!-- Title -->
+            <Border Grid.Row="0" Background="{DynamicResource PrimaryBackgroundGradient}" CornerRadius="20 20 0 0">
+                <TextBlock 
+                    Text="{Binding Title}"
+                    Padding="10"
+                    FontSize="18"
+                    FontWeight="Bold"
+                    />
+            </Border>
+            
+            <Grid Grid.Row="1" RowDefinitions="Auto, Auto, Auto, *, Auto" Margin="20">
+                
+                <!-- Description -->
+                <StackPanel Grid.Row="0" Orientation="Horizontal">
+                    <TextBlock TextWrapping="Wrap" Text="{Binding Message}" />
+                </StackPanel>
+                
+                <Grid Grid.Row="1" ColumnDefinitions="Auto, 10, *" RowDefinitions="Auto, 10, Auto" Margin="0 10">
+                    <Label Grid.Row="0" Grid.Column="0" Content="Name" VerticalAlignment="Center" />
+                    <TextBox Grid.Row="0" Grid.Column="2" Width="300" HorizontalAlignment="Left" Text="{Binding Name}" />
+                    <Label Grid.Row="2" Grid.Column="0" Content="Description" VerticalAlignment="Center" />
+                    <TextBox Grid.Row="2" Grid.Column="2" Width="300" HorizontalAlignment="Left" Text="{Binding Description}" />
+                </Grid>
+
+                <TextBlock Grid.Row="2"  
+                           Text="{Binding StatusText}"
+                           TextAlignment="Right"
+                           TextWrapping="Wrap"
+                           Foreground="{DynamicResource AlertGradient}"
+                           Margin="0 10"
+                />
+                
+                    <!-- Buttons -->
+                <Grid Grid.Row="3"
+                            ColumnDefinitions="Auto, *, 10, Auto, 10, Auto"
+                            VerticalAlignment="Bottom"
+                            >
+                    
+                    <StackPanel Orientation="Horizontal" Spacing="10" VerticalAlignment="Center">
+                        <Label Content="Copies" />
+                        <NumericUpDown Value="{Binding Copies}" FormatString="0" Width="140" Minimum="1" Maximum="999" />
+                    </StackPanel>
+                    
+                    <Button Grid.Column="3" 
+                            Content="{Binding CancelText}" 
+                            Command="{Binding CancelCommand}"
+                            MinWidth="70"
+                            HorizontalContentAlignment="Center"
+                            IsVisible="{Binding !Busy}"
+                            Classes="danger outline"
+                    />
+                    <Button Grid.Column="5" 
+                        Content="{Binding ConfirmText}" 
+                        Command="{Binding ConfirmCommand}"
+                        MinWidth="70"
+                        HorizontalContentAlignment="Center"
+                        IsVisible="{Binding !Busy}"
+                        Classes="success"
+                    />
+                </Grid>
+                
+                <TextBlock Grid.Row="4"  
+                           Text="{Binding ProgressText}"
+                           IsVisible="{Binding Busy}"
+                           TextAlignment="Right"
+                           TextWrapping="Wrap"
+                           Foreground="{DynamicResource ActiveGradientText}"
+                           Margin="0 10"
+                />
+                
+            </Grid>
+            
+        </Grid>
+    </Border>
+    
+</UserControl>

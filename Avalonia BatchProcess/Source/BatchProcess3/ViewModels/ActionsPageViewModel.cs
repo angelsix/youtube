@@ -144,6 +144,35 @@ public partial class ActionsPageViewModel(MainViewModel mainViewModel, DialogSer
     }
 
     [RelayCommand]
+    public async Task AddNewPrintSettingsAsync()
+    {
+        var confirmViewModel = new PrinterSettingsViewModel()
+        {
+            Title = $"Printer settings",
+            Message = "Are you sure you want to delete this print?",
+            DialogWidth = 500,
+            // OnConfirm = async (vm) =>
+            // {
+            //     await Task.Delay(2000);
+            //
+            //     vm.ProgressText = "This is taking a while...";
+            //
+            //     await Task.Delay(2000);
+            //     
+            //     vm.StatusText = "Oh no, something went wrong...";
+            //
+            //     return true;
+            // }
+        };
+
+        await dialogService.ShowDialog(mainViewModel, confirmViewModel);
+
+        // Ignore if we clicked cancel
+        if (!confirmViewModel.Confirmed)
+            return;
+    }
+    
+    [RelayCommand]
     public async Task CancelPrintItem()
     {
         // Ignore if nothing is selected
