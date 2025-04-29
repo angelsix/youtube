@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace BatchProcess3.ViewModels;
@@ -27,6 +28,7 @@ public partial class ConfirmDialogViewModel : DialogViewModel
     [ObservableProperty]
     private bool _confirmed;
     
+    [JsonIgnore]
     public Func<ConfirmDialogViewModel, Task<bool>> OnConfirm { get; set; } = (_) => Task.FromResult(true);
     
     [RelayCommand]

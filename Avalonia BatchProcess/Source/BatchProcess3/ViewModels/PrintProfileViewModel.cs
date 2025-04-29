@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 
 namespace BatchProcess3.ViewModels;
 
-public partial class ActionsPrinterProfileViewModel : ViewModelBase
+public partial class PrintProfileViewModel : ConfirmDialogViewModel
 {
     [ObservableProperty]
     private string _id;
@@ -19,4 +19,12 @@ public partial class ActionsPrinterProfileViewModel : ViewModelBase
 
     [ObservableProperty]
     private int _copies;
+
+    public PrintProfileViewModel() : base()
+    {
+        Title = "Print Settings";
+        Message = "Specify the printer settings to use for each paper size, or leave as default.";
+        ConfirmText = "Save";
+        CancelText = "Cancel";
+    }
 }

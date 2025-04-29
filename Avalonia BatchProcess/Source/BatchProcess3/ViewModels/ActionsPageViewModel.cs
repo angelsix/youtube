@@ -6,6 +6,8 @@ using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace BatchProcess3.ViewModels;
@@ -13,7 +15,7 @@ namespace BatchProcess3.ViewModels;
 public partial class ActionsPageViewModel(MainViewModel mainViewModel, DialogService dialogService) : PageViewModel(ApplicationPageNames.Actions)
 {
     // TODO: Remove once we have database service
-    private ActionsPrinterProfileViewModel _defaultPrinterProfile = new ActionsPrinterProfileViewModel
+    private PrintProfileViewModel _defaultPrinterProfile = new PrintProfileViewModel
     {
         Id = "0", Name = "(Default)", Description = "Use all default settings", Copies = 1,
         // TODO: Populate PrinterSettings
@@ -36,7 +38,7 @@ public partial class ActionsPageViewModel(MainViewModel mainViewModel, DialogSer
         PrintList.FirstOrDefault(f => f.Id == SelectedPrintListItemId);
     
     [ObservableProperty]
-    private ObservableCollection<ActionsPrinterProfileViewModel> _printerProfiles = [];
+    private ObservableCollection<PrintProfileViewModel> _printerProfiles = [];
 
     [RelayCommand]
     public void RefreshActionsPage(ActionsPageName actionsPageName)
@@ -46,14 +48,16 @@ public partial class ActionsPageViewModel(MainViewModel mainViewModel, DialogSer
             case ActionsPageName.Print: FetchPrintActionsData(); break;
         }
     }
-    
+
     [RelayCommand]
-    private void FetchPrintActionsData()
+    private void FetchPrintProfiles()
     {
+        // TODO: Pull from database 
+        
         PrinterProfiles =
         [
             _defaultPrinterProfile,
-            new ActionsPrinterProfileViewModel
+            new PrintProfileViewModel
             {
                 Id = "1",
                 Name = "Print Landscape",
@@ -61,7 +65,7 @@ public partial class ActionsPageViewModel(MainViewModel mainViewModel, DialogSer
                 Copies = 3,
                 // TODO: Populate PrinterSettings
             },
-            new ActionsPrinterProfileViewModel
+            new PrintProfileViewModel
             {
                 Id = "2",
                 Name = "Print Portrait",
@@ -69,7 +73,7 @@ public partial class ActionsPageViewModel(MainViewModel mainViewModel, DialogSer
                 Copies = 1,
                 // TODO: Populate PrinterSettings
             },
-            new ActionsPrinterProfileViewModel
+            new PrintProfileViewModel
             {
                 Id = "3",
                 Name = "B&W A3",
@@ -78,6 +82,12 @@ public partial class ActionsPageViewModel(MainViewModel mainViewModel, DialogSer
                 // TODO: Populate PrinterSettings
             }
         ];
+    }
+    
+    [RelayCommand]
+    private void FetchPrintActionsData()
+    {
+        FetchPrintProfiles();
         
         // TODO: Fetch from a database/service provider
         PrintList =
@@ -109,9 +119,26 @@ public partial class ActionsPageViewModel(MainViewModel mainViewModel, DialogSer
     }
 
     protected override void OnDesignTimeConstructor() => FetchPrintActionsData();
-
+    
     [RelayCommand]
-    public async Task DeletePrintItemAsync(string id)
+    private async Task DeletePrintSettingsAsync(string id)
+    {
+        // TODO: Pass this logic to a service that handles the database/storage/fetching
+        //       For now just do it direct in here
+
+        if (PrinterProfiles.Count(x => x.Id == id) != 1)
+            // TODO: Throw/Warn?
+            return;
+        
+        // TODO: Delete from database, then re-fetch to update UI
+        //       1. Delete from database
+        //       2. FetchPrintProfiles();
+
+        await DeletePrintProfileFromUIAsync(id);
+    }
+    
+    [RelayCommand]
+    private async Task DeletePrintItemAsync(string id)
     {
         // TODO: Pass this logic to a service that handles the database/storage/fetching
         //       For now just do it direct in here
@@ -124,7 +151,34 @@ public partial class ActionsPageViewModel(MainViewModel mainViewModel, DialogSer
     }
 
     [RelayCommand]
-    public void AddNewPrintItem()
+    private async Task EditPrintSettingsAsync(string id)
+    {
+        // TODO: Pass this logic to a service that handles database etc...
+
+        var profileViewModel = PrinterProfiles.FirstOrDefault(f => f.Id == id);
+
+        if (profileViewModel == null)
+            // TODO: Throw/warn?
+            return;
+
+        // Copy view model
+        var copiedProfileViewModel = new PrintProfileViewModel();
+        copiedProfileViewModel.RestoreState(profileViewModel.GetState());
+        
+        await dialogService.ShowDialog(mainViewModel, copiedProfileViewModel);
+
+        // Ignore if we clicked cancel
+        if (!copiedProfileViewModel.Confirmed)
+            return;
+        
+        // TODO: Database stuff
+        
+        // Commit copied view model back
+        profileViewModel.RestoreState(copiedProfileViewModel.GetState());
+    }
+
+    [RelayCommand]
+    private void AddNewPrintItem()
     {
         // TODO: Fetch new item defaults from a service provider
         // Create a new item
@@ -144,9 +198,9 @@ public partial class ActionsPageViewModel(MainViewModel mainViewModel, DialogSer
     }
 
     [RelayCommand]
-    public async Task AddNewPrintSettingsAsync()
+    private async Task AddNewPrintSettingsAsync()
     {
-        var confirmViewModel = new PrinterSettingsViewModel()
+        var confirmViewModel = new PrintProfileViewModel()
         {
             Title = $"Printer settings",
             Message = "Are you sure you want to delete this print?",
@@ -173,7 +227,7 @@ public partial class ActionsPageViewModel(MainViewModel mainViewModel, DialogSer
     }
     
     [RelayCommand]
-    public async Task CancelPrintItem()
+    private async Task CancelPrintItem()
     {
         // Ignore if nothing is selected
         if (SelectedPrintListItem == null)
@@ -184,9 +238,42 @@ public partial class ActionsPageViewModel(MainViewModel mainViewModel, DialogSer
         if (SelectedPrintListItem.IsNewItem)
             await DeletePrintItemFromUIAsync(SelectedPrintListItem.Id, warn: false);
         else
-            SelectedPrintListItem.RestoreSavedState();
+            SelectedPrintListItem.RestoreState();
     }
 
+    // ReSharper disable once InconsistentNaming
+    private async Task DeletePrintProfileFromUIAsync(string id, bool warn = true)
+    {
+        var index = PrinterProfiles.IndexOf(PrinterProfiles.First(x => x.Id == id));
+        if (index == -1)
+            return;
+
+        if (warn)
+        {
+            var confirmViewModel = new ConfirmDialogViewModel
+            {
+                Title = $"Delete Print Profile?",
+                Message = $"Are you sure you want to delete '{PrinterProfiles[index].Name}'?",
+                DialogWidth = 500,
+            };
+
+            await dialogService.ShowDialog(mainViewModel, confirmViewModel);
+
+            // Ignore if we clicked cancel
+            if (!confirmViewModel.Confirmed)
+                return;
+        }
+
+        // Remove item
+        PrinterProfiles.RemoveAt(index);
+
+        // Select the item below the deleted one
+        if (index > 0) index--;
+
+        if (PrinterProfiles.Count > 0)
+            SelectedPrintListItem!.PrinterProfileId = PrinterProfiles[index].Id;
+    }
+    
     // ReSharper disable once InconsistentNaming
     private async Task DeletePrintItemFromUIAsync(string id, bool warn = true)
     {
@@ -198,8 +285,8 @@ public partial class ActionsPageViewModel(MainViewModel mainViewModel, DialogSer
         {
             var confirmViewModel = new ConfirmDialogViewModel
             {
-                Title = $"Delete {PrintList[index].JobName}?",
-                Message = "Are you sure you want to delete this print?",
+                Title = $"Delete Print Item?",
+                Message = $"Are you sure you want to delete ' {PrintList[index].JobName}'?",
                 DialogWidth = 500,
                 // OnConfirm = async (vm) =>
                 // {

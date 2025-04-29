@@ -96,12 +96,37 @@
                          SelectedValueBinding="{Binding Id}"
                          SelectedValue="{Binding SelectedPrintListItem.PrinterProfileId}">
                     <ListBox.ItemTemplate>
-                        <DataTemplate x:DataType="vm:ActionsPrinterProfileViewModel">
-                            <StackPanel>
-                                <Label FontWeight="Black" Content="{Binding Name}" />
-                                <TextBlock TextWrapping="Wrap" Text="{Binding Description}" />
-                            </StackPanel>
+                        <DataTemplate x:DataType="vm:PrintProfileViewModel">
+                            <Grid ColumnDefinitions="*, 10, Auto, 10, Auto">
+                                
+                                <StackPanel>
+                                    <Label FontWeight="Black" Content="{Binding Name}" />
+                                    <TextBlock TextWrapping="Wrap" Text="{Binding Description}" />
+                                </StackPanel>
+                                
+                                <Button Grid.Column="2"
+                                        Margin="0 -4 -4 -6"
+                                        Command="{Binding $parent[ListBox].((vm:ActionsPageViewModel)DataContext).EditPrintSettingsCommand}"
+                                        CommandParameter="{Binding Id}"
+                                        IsVisible="{Binding $parent[ListBoxItem].IsSelected}"
+                                        VerticalAlignment="Center"
+                                        Classes="smaller alert">
+                                    <Label Classes="icon-only icon-outline" Content="&#xe3b2;" />
+                                </Button>
+                                
+                                <Button Grid.Column="4"
+                                        Margin="0 -4 -4 -6"
+                                        Command="{Binding $parent[ListBox].((vm:ActionsPageViewModel)DataContext).DeletePrintSettingsCommand}"
+                                        CommandParameter="{Binding Id}"
+                                        IsVisible="{Binding $parent[ListBoxItem].IsSelected}"
+                                        VerticalAlignment="Center"
+                                        Classes="smaller danger">
+                                    <Label Classes="icon-only icon-outline" Content="&#xe4a6;" />
+                                </Button>
+                            </Grid>
+                            
                         </DataTemplate>
+                        
                     </ListBox.ItemTemplate>
                     
                 </ListBox>
