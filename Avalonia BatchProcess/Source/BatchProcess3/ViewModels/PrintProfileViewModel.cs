@@ -6,16 +6,16 @@ namespace BatchProcess3.ViewModels;
 public partial class PrintProfileViewModel : ConfirmDialogViewModel
 {
     [ObservableProperty]
-    private string _id;
+    private string _id = "";
     
     [ObservableProperty]
-    private string _name;
+    private string _name = "";
     
     [ObservableProperty]
-    private string _description;
+    private string _description = "";
     
     [ObservableProperty]
-    private ObservableCollection<ActionsPrinterSettingsViewModel> _printerSettings;
+    private ObservableCollection<ActionsPrinterSettingsViewModel> _printerSettings = [];
 
     [ObservableProperty]
     private int _copies;
@@ -26,5 +26,29 @@ public partial class PrintProfileViewModel : ConfirmDialogViewModel
         Message = "Specify the printer settings to use for each paper size, or leave as default.";
         ConfirmText = "Save";
         CancelText = "Cancel";
+        
+        // TODO: Remove once we pull from database
+        DesignTimeData();
+    }
+
+    protected override void OnDesignTimeConstructor() => DesignTimeData();
+
+    private void DesignTimeData()
+    {
+        // TODO: Pull from database 
+        var printerSettingsItem = new ActionsPrinterSettingsViewModel
+        {
+            Id = "2",
+            Height = 200,
+            Width = 140,
+            ScaleToFit = true
+        };
+        
+        PrinterSettings =
+        [
+            printerSettingsItem, printerSettingsItem, printerSettingsItem, printerSettingsItem, printerSettingsItem,
+            printerSettingsItem, printerSettingsItem, printerSettingsItem, printerSettingsItem, printerSettingsItem,
+        ];
+
     }
 }

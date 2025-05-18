@@ -8,6 +8,8 @@
              MinWidth="300"
              Width="{Binding DialogWidth}"
              Height="{Binding DialogHeight}"
+             d:DesignWidth="1200"
+             d:DesignHeight="600"
              Foreground="{DynamicResource PrimaryForeground}"
              Background="Transparent"
              x:Class="BatchProcess3.Views.PrintProfileView">
@@ -39,21 +41,100 @@
                     />
             </Border>
             
-            <Grid Grid.Row="1" RowDefinitions="Auto, Auto, Auto, *, Auto" Margin="20">
+            <Grid Grid.Row="1" RowDefinitions="Auto, 10, Auto, 10, *, 10, Auto, Auto, Auto, 10, Auto" Margin="20">
                 
                 <!-- Description -->
                 <StackPanel Grid.Row="0" Orientation="Horizontal">
                     <TextBlock TextWrapping="Wrap" Text="{Binding Message}" />
                 </StackPanel>
                 
-                <Grid Grid.Row="1" ColumnDefinitions="Auto, 10, *" RowDefinitions="Auto, 10, Auto" Margin="0 10">
+                <!-- Name / Description -->
+                <Grid Grid.Row="2" ColumnDefinitions="Auto, 10, *" RowDefinitions="Auto, 10, Auto">
                     <Label Grid.Row="0" Grid.Column="0" Content="Name" VerticalAlignment="Center" />
                     <TextBox Grid.Row="0" Grid.Column="2" Width="300" HorizontalAlignment="Left" Text="{Binding Name}" />
                     <Label Grid.Row="2" Grid.Column="0" Content="Description" VerticalAlignment="Center" />
                     <TextBox Grid.Row="2" Grid.Column="2" Width="300" HorizontalAlignment="Left" Text="{Binding Description}" />
                 </Grid>
+                
+                <!-- Printer Settings -->
+                <DataGrid Grid.Row="4" 
+                          ItemsSource="{Binding PrinterSettings}" 
+                          Background="{DynamicResource PrimaryBackgroundColor2}">
+                    
+                    <DataGrid.Styles>
+                        <Style Selector="DataGrid DataGridColumnHeader">
+                            <Setter Property="Background" Value="{DynamicResource PrimaryBackgroundColor1}" />
+                            <Setter Property="Foreground" Value="{DynamicResource PrimaryForeground}" />
+                        </Style>
+                        
+                        <Style Selector="DataGrid DataGridRow:selected /template/ Rectangle#BackgroundRectangle">
+                            <Setter Property="Fill" Value="{DynamicResource ActiveHoverGradient}"></Setter>
+                        </Style>
+                    </DataGrid.Styles>
+                    
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Type" Width="140" IsReadOnly="True" Binding="{Binding Type}" />
+                        <DataGridTemplateColumn Header="Printer Name" SortMemberPath="PrinterName.Value">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <ComboBox Width="150" Margin="0" SelectedItem="{Binding PrinterName}" DisplayMemberBinding="{Binding Value}" ItemsSource="{Binding PrinterNameOptions}"></ComboBox>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="Paper Size" SortMemberPath="PrinterSize.Value">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <ComboBox Width="150" Margin="0" SelectedItem="{Binding PrinterSize}" DisplayMemberBinding="{Binding Value}" ItemsSource="{Binding PrinterSizeOptions}"></ComboBox>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="Width" SortMemberPath="Width">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <NumericUpDown Width="80" Value="{Binding Width}" ShowButtonSpinner="False" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="Height" SortMemberPath="Height">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <NumericUpDown Width="80" Value="{Binding Height}" ShowButtonSpinner="False" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="Orientation" SortMemberPath="Orientation.Value">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <ComboBox Width="120" Margin="0" SelectedItem="{Binding Orientation}" DisplayMemberBinding="{Binding Value}" ItemsSource="{Binding OrientationOptions}"></ComboBox>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="Tray" SortMemberPath="SourceTray.Value">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <ComboBox Width="120" Margin="0" SelectedItem="{Binding SourceTray}" DisplayMemberBinding="{Binding Value}" ItemsSource="{Binding SourceTrayOptions}"></ComboBox>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="Drawing Color" SortMemberPath="DrawingColor.Value">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <ComboBox Width="160" Margin="0" SelectedItem="{Binding DrawingColor}" DisplayMemberBinding="{Binding Value}" ItemsSource="{Binding DrawingColorOptions}"></ComboBox>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="Scale to Fit" SortMemberPath="ScaleToFit">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <CheckBox HorizontalAlignment="Center" IsChecked="{Binding ScaleToFit}" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
 
-                <TextBlock Grid.Row="2"  
+                <!-- Status Text -->
+                <TextBlock Grid.Row="6"  
                            Text="{Binding StatusText}"
                            TextAlignment="Right"
                            TextWrapping="Wrap"
@@ -62,7 +143,7 @@
                 />
                 
                     <!-- Buttons -->
-                <Grid Grid.Row="3"
+                <Grid Grid.Row="8"
                             ColumnDefinitions="Auto, *, 10, Auto, 10, Auto"
                             VerticalAlignment="Bottom"
                             >
@@ -90,7 +171,7 @@
                     />
                 </Grid>
                 
-                <TextBlock Grid.Row="4"  
+                <TextBlock Grid.Row="10"  
                            Text="{Binding ProgressText}"
                            IsVisible="{Binding Busy}"
                            TextAlignment="Right"

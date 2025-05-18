@@ -53,6 +53,22 @@ public partial class ActionsPageViewModel(MainViewModel mainViewModel, DialogSer
     private void FetchPrintProfiles()
     {
         // TODO: Pull from database 
+        var printerSettingsItem = new ActionsPrinterSettingsViewModel
+        {
+            Id = "2",
+            Height = 200,
+            Width = 140,
+            ScaleToFit = true
+        };
+        
+        var printerSettings = new ObservableCollection<ActionsPrinterSettingsViewModel>
+        {
+            printerSettingsItem,printerSettingsItem,printerSettingsItem,printerSettingsItem,printerSettingsItem,printerSettingsItem,
+            printerSettingsItem,printerSettingsItem,printerSettingsItem,printerSettingsItem,printerSettingsItem,printerSettingsItem,
+            printerSettingsItem,printerSettingsItem,printerSettingsItem,printerSettingsItem,printerSettingsItem,printerSettingsItem,
+            printerSettingsItem,printerSettingsItem,printerSettingsItem,printerSettingsItem,printerSettingsItem,printerSettingsItem,
+            printerSettingsItem,printerSettingsItem,printerSettingsItem,printerSettingsItem,printerSettingsItem,printerSettingsItem,
+        };
         
         PrinterProfiles =
         [
@@ -63,7 +79,7 @@ public partial class ActionsPageViewModel(MainViewModel mainViewModel, DialogSer
                 Name = "Print Landscape",
                 Description = "Print all files in landscape mode, 3 copies",
                 Copies = 3,
-                // TODO: Populate PrinterSettings
+                PrinterSettings = printerSettings
             },
             new PrintProfileViewModel
             {
@@ -71,7 +87,7 @@ public partial class ActionsPageViewModel(MainViewModel mainViewModel, DialogSer
                 Name = "Print Portrait",
                 Description = "Print all files in portait mode",
                 Copies = 1,
-                // TODO: Populate PrinterSettings
+                PrinterSettings = printerSettings
             },
             new PrintProfileViewModel
             {
@@ -79,7 +95,7 @@ public partial class ActionsPageViewModel(MainViewModel mainViewModel, DialogSer
                 Name = "B&W A3",
                 Description = "Make all A3 prints black and white",
                 Copies = 5,
-                // TODO: Populate PrinterSettings
+                PrinterSettings = printerSettings
             }
         ];
     }

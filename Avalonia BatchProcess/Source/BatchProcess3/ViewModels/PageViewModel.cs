@@ -11,11 +11,5 @@ public partial class PageViewModel : ViewModelBase
     protected PageViewModel(ApplicationPageNames pageName)
     {
         _pageName = pageName;
-        
-        // Detect design time
-        if (Avalonia.Controls.Design.IsDesignMode)
-            OnDesignTimeConstructor();
     }
-
-    protected virtual void OnDesignTimeConstructor() { }
 }

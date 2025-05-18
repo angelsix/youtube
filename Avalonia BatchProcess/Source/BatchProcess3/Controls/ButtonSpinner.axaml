@@ -95,6 +95,7 @@
                           TabIndex="2"
                           DockPanel.Dock="Right"
                           Orientation="Horizontal"
+                          Margin="10 0 0 0"
                           IsVisible="{TemplateBinding ShowButtonSpinner}">
                 
                 <RepeatButton Name="PART_DecreaseButton"
@@ -123,7 +124,6 @@
               <ContentPresenter Name="PART_ContentPresenter"
                                 Grid.Column="1"
                                 TabIndex="1"
-                                Margin="0 0 10 0"
                                 ContentTemplate="{TemplateBinding ContentTemplate}"
                                 Content="{TemplateBinding Content}"
                                 HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
@@ -137,12 +137,10 @@
     <Style Selector="^:left">
       <Style Selector="^ /template/ StackPanel#PART_SpinnerPanel">
         <Setter Property="DockPanel.Dock" Value="Left"/>
+        <Setter Property="Margin" Value="0 0 10 0"></Setter>
       </Style>
       <Style Selector="^ /template/ RepeatButton">
         <Setter Property="BorderThickness" Value="{TemplateBinding BorderThickness, Converter={StaticResource ButtonSpinnerRightThickness}}"/>
-      </Style>
-      <Style Selector="^ /template/ ContentPresenter">
-        <Setter Property="Margin" Value="10 0 0 0"></Setter>
       </Style>
     </Style>
     

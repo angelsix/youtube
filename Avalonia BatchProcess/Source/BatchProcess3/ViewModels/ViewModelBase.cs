@@ -6,10 +6,10 @@ namespace BatchProcess3.ViewModels;
 
 public class ViewModelBase : ObservableObject
 {
-    private JsonSerializerOptions _jsonOptions = new JsonSerializerOptions
+    protected JsonSerializerOptions _jsonOptions = new JsonSerializerOptions
     {
-        IgnoreReadOnlyFields = true,
-        IgnoreReadOnlyProperties = true,
+        IgnoreReadOnlyFields = false,
+        IgnoreReadOnlyProperties = false,
         WriteIndented = true,
         NumberHandling = JsonNumberHandling.AllowNamedFloatingPointLiterals
     };
@@ -20,6 +20,15 @@ public class ViewModelBase : ObservableObject
     [JsonIgnore]
     public virtual bool HasChanged => SavedState != "" && SavedState != JsonSerializer.Serialize(this, _jsonOptions);
 
+    public ViewModelBase()
+    {
+        // Detect design time
+        if (Avalonia.Controls.Design.IsDesignMode)
+            OnDesignTimeConstructor();
+    }
+    
+    protected virtual void OnDesignTimeConstructor() { }
+    
     public void SetSavedState()
     {
         SavedState = GetState();
