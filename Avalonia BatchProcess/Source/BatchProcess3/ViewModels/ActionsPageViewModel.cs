@@ -4,6 +4,7 @@ using BatchProcess3.Views;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text.Json;
@@ -12,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace BatchProcess3.ViewModels;
 
-public partial class ActionsPageViewModel(MainViewModel mainViewModel, DialogService dialogService) : PageViewModel(ApplicationPageNames.Actions)
+public partial class ActionsPageViewModel(MainViewModel mainViewModel, DialogService dialogService, PrinterService printerService) : PageViewModel(ApplicationPageNames.Actions)
 {
     // TODO: Remove once we have database service
     private PrintProfileViewModel _defaultPrinterProfile = new PrintProfileViewModel
@@ -22,7 +23,7 @@ public partial class ActionsPageViewModel(MainViewModel mainViewModel, DialogSer
     };
 
     // Design time only
-    public ActionsPageViewModel() : this(new MainViewModel(), new DialogService()) { }
+    public ActionsPageViewModel() : this(new MainViewModel(), new DialogService(), new  PrinterService()) { }
 
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(PrintListHasItems))]
@@ -52,15 +53,23 @@ public partial class ActionsPageViewModel(MainViewModel mainViewModel, DialogSer
     [RelayCommand]
     private void FetchPrintProfiles()
     {
+        // Fetch live printers available on machine
+        var availablePrinters = printerService.AvailablePrinters();
+        
+        var printerNameOptions = new ObservableCollection<KeyValuePair<string, string>>(
+                availablePrinters.Select((f) => new KeyValuePair<string, string>(f.Id.ToString(), f.Name))
+            );
+        
         // TODO: Pull from database 
         var printerSettingsItem = new ActionsPrinterSettingsViewModel
         {
             Id = "2",
             Height = 200,
             Width = 140,
-            ScaleToFit = true
+            ScaleToFit = true,
+            PrinterNameOptions = printerNameOptions
         };
-        
+
         var printerSettings = new ObservableCollection<ActionsPrinterSettingsViewModel>
         {
             printerSettingsItem,printerSettingsItem,printerSettingsItem,printerSettingsItem,printerSettingsItem,printerSettingsItem,
@@ -69,7 +78,9 @@ public partial class ActionsPageViewModel(MainViewModel mainViewModel, DialogSer
             printerSettingsItem,printerSettingsItem,printerSettingsItem,printerSettingsItem,printerSettingsItem,printerSettingsItem,
             printerSettingsItem,printerSettingsItem,printerSettingsItem,printerSettingsItem,printerSettingsItem,printerSettingsItem,
         };
-        
+                
+        _defaultPrinterProfile.PrinterSettings = printerSettings;
+
         PrinterProfiles =
         [
             _defaultPrinterProfile,

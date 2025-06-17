@@ -47,6 +47,8 @@ public partial class App : Application
         
          collection.AddSingleton<PageFactory>();
          collection.AddSingleton<DialogService>();
+
+         collection.AddTransient<PrinterService>();
         
         var services = collection.BuildServiceProvider();
             
