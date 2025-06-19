@@ -21,10 +21,10 @@ public partial class ActionsPrinterSettingsViewModel : ViewModelBase
     ];
     
     [ObservableProperty]
-    private KeyValuePair<string, string> _printerSize = new("0", "(Default)");
+    private KeyValuePair<string, string>? _paperSize = new("0", "(Default)");
     
     [ObservableProperty]
-    private ObservableCollection<KeyValuePair<string, string>> _printerSizeOptions = [
+    private ObservableCollection<KeyValuePair<string, string>> _paperSizeOptions = [
         new("0", "(Default)")
     ];
     
@@ -45,7 +45,7 @@ public partial class ActionsPrinterSettingsViewModel : ViewModelBase
     ];
     
     [ObservableProperty]
-    private KeyValuePair<string, string> _sourceTray = new("0", "(Default)");
+    private KeyValuePair<string, string>? _sourceTray = new("0", "(Default)");
           
     [ObservableProperty]
     private ObservableCollection<KeyValuePair<string, string>> _sourceTrayOptions = [

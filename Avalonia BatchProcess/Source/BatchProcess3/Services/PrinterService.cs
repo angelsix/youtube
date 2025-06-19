@@ -22,11 +22,32 @@ public class PrinterService
 
             foreach (string printerName in PrinterSettings.InstalledPrinters)
             {
-                printers.Add(new  PrinterDetailsViewModel { Id = index.ToString(), Name = printerName } );
-                index++;
-                
+                var printerDetailsViewModel = new PrinterDetailsViewModel { Id = index.ToString(), Name = printerName };
+
                 printDocument.PrinterSettings.PrinterName = printerName;
-                //printDocument.PrinterSettings.PaperSizes;
+
+                // Add Default option
+                printerDetailsViewModel.PaperSizes.Add(new KeyValuePair<string, string>("0", "(Default)"));
+            
+                var paperSizeIndex = 1;
+                foreach (PaperSize paperSize in printDocument.PrinterSettings.PaperSizes)
+                {
+                    printerDetailsViewModel.PaperSizes.Add(new KeyValuePair<string, string>(paperSizeIndex.ToString(), paperSize.PaperName));
+                    paperSizeIndex++;
+                }
+
+                // Add Default option
+                printerDetailsViewModel.SourceTrays.Add(new KeyValuePair<string, string>("0", "(Default)"));
+            
+                var sourceTrayIndex = 1;
+                foreach (PaperSource sourceTray in printDocument.PrinterSettings.PaperSources)
+                {
+                    printerDetailsViewModel.SourceTrays.Add(new KeyValuePair<string, string>(sourceTrayIndex.ToString(), sourceTray.SourceName));
+                    sourceTrayIndex++;
+                }
+
+                printers.Add(printerDetailsViewModel);
+                index++;
             }
         }
         

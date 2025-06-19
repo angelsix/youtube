@@ -81,10 +81,10 @@
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
-                        <DataGridTemplateColumn Header="Paper Size" SortMemberPath="PrinterSize.Value">
+                        <DataGridTemplateColumn Header="Paper Size" SortMemberPath="PaperSize.Value">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <ComboBox Width="150" Margin="0" SelectedItem="{Binding PrinterSize}" DisplayMemberBinding="{Binding Value}" ItemsSource="{Binding PrinterSizeOptions}"></ComboBox>
+                                    <ComboBox Width="150" Margin="0" SelectedItem="{Binding PaperSize}" DisplayMemberBinding="{Binding Value}" ItemsSource="{Binding PaperSizeOptions}"></ComboBox>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>

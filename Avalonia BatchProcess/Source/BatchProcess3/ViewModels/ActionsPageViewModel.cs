@@ -53,12 +53,6 @@ public partial class ActionsPageViewModel(MainViewModel mainViewModel, DialogSer
     [RelayCommand]
     private void FetchPrintProfiles()
     {
-        // Fetch live printers available on machine
-        var availablePrinters = printerService.AvailablePrinters();
-        
-        var printerNameOptions = new ObservableCollection<KeyValuePair<string, string>>(
-                availablePrinters.Select((f) => new KeyValuePair<string, string>(f.Id.ToString(), f.Name))
-            );
         
         // TODO: Pull from database 
         var printerSettingsItem = new ActionsPrinterSettingsViewModel
@@ -67,7 +61,6 @@ public partial class ActionsPageViewModel(MainViewModel mainViewModel, DialogSer
             Height = 200,
             Width = 140,
             ScaleToFit = true,
-            PrinterNameOptions = printerNameOptions
         };
 
         var printerSettings = new ObservableCollection<ActionsPrinterSettingsViewModel>
@@ -192,6 +185,37 @@ public partial class ActionsPageViewModel(MainViewModel mainViewModel, DialogSer
         var copiedProfileViewModel = new PrintProfileViewModel();
         copiedProfileViewModel.RestoreState(profileViewModel.GetState());
         
+        // Fetch live printers available on machine
+        var availablePrinters = printerService.AvailablePrinters();
+        
+        var printerNameOptions = new ObservableCollection<KeyValuePair<string, string>>(
+            availablePrinters.Select((f) => new KeyValuePair<string, string>(f.Id.ToString(), f.Name))
+        );
+
+        foreach (var printerSettingsItem in copiedProfileViewModel.PrinterSettings)
+        {
+            printerSettingsItem.PrinterNameOptions = printerNameOptions;
+            
+            printerSettingsItem.PropertyChanged += (sender, args) =>
+            {
+                if (args.PropertyName != nameof(ActionsPrinterSettingsViewModel.PrinterName))
+                    return;
+                
+                // Printer changed, update paper size and tray
+                printerSettingsItem.PaperSizeOptions = new ObservableCollection<KeyValuePair<string, string>>(
+                    availablePrinters.FirstOrDefault(f => f.Name == printerSettingsItem.PrinterName.Value)?.PaperSizes ?? []
+                );
+            
+                printerSettingsItem.SourceTrayOptions = new ObservableCollection<KeyValuePair<string, string>>(
+                    availablePrinters.FirstOrDefault(f => f.Name == printerSettingsItem.PrinterName.Value)?.SourceTrays ?? []
+                );
+                
+                // Change paper size and source tray to first item
+                printerSettingsItem.PaperSize = printerSettingsItem.PaperSizeOptions.FirstOrDefault();
+                printerSettingsItem.SourceTray = printerSettingsItem.SourceTrayOptions.FirstOrDefault();
+            };
+        }
+        
         await dialogService.ShowDialog(mainViewModel, copiedProfileViewModel);
 
         // Ignore if we clicked cancel
@@ -229,9 +253,6 @@ public partial class ActionsPageViewModel(MainViewModel mainViewModel, DialogSer
     {
         var confirmViewModel = new PrintProfileViewModel()
         {
-            Title = $"Printer settings",
-            Message = "Are you sure you want to delete this print?",
-            DialogWidth = 500,
             // OnConfirm = async (vm) =>
             // {
             //     await Task.Delay(2000);
