@@ -185,6 +185,22 @@ public partial class ActionsPageViewModel(MainViewModel mainViewModel, DialogSer
         var copiedProfileViewModel = new PrintProfileViewModel();
         copiedProfileViewModel.RestoreState(profileViewModel.GetState());
         
+        InjectPrinterDetails(copiedProfileViewModel);
+        
+        await dialogService.ShowDialog(mainViewModel, copiedProfileViewModel);
+
+        // Ignore if we clicked cancel
+        if (!copiedProfileViewModel.Confirmed)
+            return;
+        
+        // TODO: Database stuff
+        
+        // Commit copied view model back
+        profileViewModel.RestoreState(copiedProfileViewModel.GetState());
+    }
+
+    private void InjectPrinterDetails(PrintProfileViewModel viewModel)
+    {
         // Fetch live printers available on machine
         var availablePrinters = printerService.AvailablePrinters();
         
@@ -192,7 +208,7 @@ public partial class ActionsPageViewModel(MainViewModel mainViewModel, DialogSer
             availablePrinters.Select((f) => new KeyValuePair<string, string>(f.Id.ToString(), f.Name))
         );
 
-        foreach (var printerSettingsItem in copiedProfileViewModel.PrinterSettings)
+        foreach (var printerSettingsItem in viewModel.PrinterSettings)
         {
             printerSettingsItem.PrinterNameOptions = printerNameOptions;
             
@@ -215,17 +231,6 @@ public partial class ActionsPageViewModel(MainViewModel mainViewModel, DialogSer
                 printerSettingsItem.SourceTray = printerSettingsItem.SourceTrayOptions.FirstOrDefault();
             };
         }
-        
-        await dialogService.ShowDialog(mainViewModel, copiedProfileViewModel);
-
-        // Ignore if we clicked cancel
-        if (!copiedProfileViewModel.Confirmed)
-            return;
-        
-        // TODO: Database stuff
-        
-        // Commit copied view model back
-        profileViewModel.RestoreState(copiedProfileViewModel.GetState());
     }
 
     [RelayCommand]
@@ -253,6 +258,7 @@ public partial class ActionsPageViewModel(MainViewModel mainViewModel, DialogSer
     {
         var confirmViewModel = new PrintProfileViewModel()
         {
+            Name = "New Print Settings",
             // OnConfirm = async (vm) =>
             // {
             //     await Task.Delay(2000);
@@ -266,12 +272,19 @@ public partial class ActionsPageViewModel(MainViewModel mainViewModel, DialogSer
             //     return true;
             // }
         };
+        
+        // TODO: Remove once new confirm view model dialog is pulled from database
+        confirmViewModel.RestoreState(confirmViewModel.GetState());
+        
+        InjectPrinterDetails(confirmViewModel);
 
         await dialogService.ShowDialog(mainViewModel, confirmViewModel);
 
         // Ignore if we clicked cancel
         if (!confirmViewModel.Confirmed)
             return;
+        
+        PrinterProfiles.Add(confirmViewModel);
     }
     
     [RelayCommand]

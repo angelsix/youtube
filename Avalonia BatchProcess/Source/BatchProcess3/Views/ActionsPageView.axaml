@@ -15,7 +15,9 @@
     <Grid ColumnDefinitions="*" RowDefinitions="Auto, *">
         <!-- Header -->
         <Grid Name="HeaderGrid">
-            <Image Source="{SvgImage /Assets/Images/background-actions.svg}" Height="100" Stretch="UniformToFill" />
+            <StackPanel Height="100" ClipToBounds="True">
+                <Image Source="{SvgImage /Assets/Images/background-actions.svg}" Stretch="UniformToFill" />
+            </StackPanel>
             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                 <Label Classes="h1" HorizontalAlignment="Center" Content="Actions"></Label>
                 <Label Classes="sub2" HorizontalAlignment="Center" Content="Create and manage all actions that can be used in a process"></Label>

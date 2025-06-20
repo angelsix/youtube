@@ -5,8 +5,11 @@ using BatchProcess3.Factories;
 using BatchProcess3.Interfaces;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Linq;
+
 namespace BatchProcess3.ViewModels;
 
 public partial class MainViewModel : ViewModelBase, IDialogProvider
@@ -62,8 +65,28 @@ public partial class MainViewModel : ViewModelBase, IDialogProvider
         
     [RelayCommand]
     private void GoToProcess() => CurrentPage = _pageFactory.GetPageViewModel<ProcessPageViewModel>();
+
     [RelayCommand]
-    private void GoToActions() => CurrentPage = _pageFactory.GetPageViewModel<ActionsPageViewModel>();
+    private void GoToActions()
+    {
+        CurrentPage = _pageFactory.GetPageViewModel<ActionsPageViewModel>();
+        //
+        // using var db = new ApplicationDbContext();
+        // db.Database.Migrate();
+        //
+        // var setting = new SettingsDataModel { Id = Guid.NewGuid().ToString("N"), LocationPaths = ["Path 1", "Path 2", "Path 3"] };
+        //
+        // db.Settings.Add(setting);
+        //
+        // db.SaveChanges();
+        //
+        // var allSettings = db.Settings.ToList();
+        //
+        // foreach (var s in db.Settings)
+        //     db.Settings.Remove(s);
+        //
+        // db.SaveChanges();
+    }
     [RelayCommand]
     private void GoToMacros() => CurrentPage = _pageFactory.GetPageViewModel<MacrosPageViewModel>();
     [RelayCommand]

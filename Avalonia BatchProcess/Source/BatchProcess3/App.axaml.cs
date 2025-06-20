@@ -7,8 +7,10 @@ using BatchProcess3.Factories;
 using BatchProcess3.Services;
 using BatchProcess3.ViewModels;
 using BatchProcess3.Views;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Linq;
 
 [assembly: XmlnsDefinition("https://github.com/avaloniaui", "BatchProcess3.Controls")]
 
