@@ -8,6 +8,6 @@ public class ApplicationDbContext : DbContext
     
     override protected void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseSqlite("Data Source=settings.db");
+        optionsBuilder.UseSqlite("Data Source=settings.db");   
     }
 }

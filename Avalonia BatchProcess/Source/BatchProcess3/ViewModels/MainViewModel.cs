@@ -3,6 +3,7 @@ using Avalonia.Svg.Skia;
 using BatchProcess3.Data;
 using BatchProcess3.Factories;
 using BatchProcess3.Interfaces;
+using BatchProcess3.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.EntityFrameworkCore;
@@ -15,6 +16,7 @@ namespace BatchProcess3.ViewModels;
 public partial class MainViewModel : ViewModelBase, IDialogProvider
 {
     private readonly PageFactory _pageFactory;
+    private readonly DatabaseFactory _databaseFactory;
     
     [ObservableProperty]
     private bool _sideMenuExpanded = true;
@@ -47,13 +49,27 @@ public partial class MainViewModel : ViewModelBase, IDialogProvider
 #pragma warning disable CS8618, CS9264
     public MainViewModel()
     {
-        CurrentPage = new SettingsPageViewModel();
+        CurrentPage = new SettingsPageViewModel(new DatabaseFactory(() => new DatabaseService(new ApplicationDbContext())));
     }
 #pragma warning restore CS8618, CS9264
     
-    public MainViewModel(PageFactory pageFactory)
+    public MainViewModel(PageFactory pageFactory, DatabaseFactory databaseFactory)
     {
         _pageFactory = pageFactory ?? throw new ArgumentNullException(nameof(pageFactory));
+        _databaseFactory = databaseFactory ?? throw new ArgumentNullException(nameof(databaseFactory));
+
+        using var dbContext = _databaseFactory.GetDatabaseService();
+        dbContext.ApplyMigrations();
+
+        // TODO: Remove temp code
+        if (dbContext.GetSettings() == null)
+        {
+            dbContext.SaveSettings(new SettingsDataModel
+            {
+                LocationPaths = [ "Initial Path 1", "Initial Path 2", "Initial Path 3" ]
+            });
+        }
+        
         CurrentPage = _pageFactory.GetPageViewModel<SettingsPageViewModel>();
     }
     
@@ -67,26 +83,8 @@ public partial class MainViewModel : ViewModelBase, IDialogProvider
     private void GoToProcess() => CurrentPage = _pageFactory.GetPageViewModel<ProcessPageViewModel>();
 
     [RelayCommand]
-    private void GoToActions()
-    {
-        CurrentPage = _pageFactory.GetPageViewModel<ActionsPageViewModel>();
-        //
-        // using var db = new ApplicationDbContext();
-        // db.Database.Migrate();
-        //
-        // var setting = new SettingsDataModel { Id = Guid.NewGuid().ToString("N"), LocationPaths = ["Path 1", "Path 2", "Path 3"] };
-        //
-        // db.Settings.Add(setting);
-        //
-        // db.SaveChanges();
-        //
-        // var allSettings = db.Settings.ToList();
-        //
-        // foreach (var s in db.Settings)
-        //     db.Settings.Remove(s);
-        //
-        // db.SaveChanges();
-    }
+    private void GoToActions() => CurrentPage = _pageFactory.GetPageViewModel<ActionsPageViewModel>();
+    
     [RelayCommand]
     private void GoToMacros() => CurrentPage = _pageFactory.GetPageViewModel<MacrosPageViewModel>();
     [RelayCommand]

@@ -51,7 +51,13 @@ public partial class App : Application
          collection.AddSingleton<DialogService>();
 
          collection.AddTransient<PrinterService>();
-        
+
+         // Database services
+         collection.AddTransient<ApplicationDbContext>();
+         collection.AddTransient<DatabaseService>();
+         collection.AddSingleton<Func<DatabaseService>>(x => x.GetRequiredService<DatabaseService>);
+         collection.AddSingleton<DatabaseFactory>();
+
         var services = collection.BuildServiceProvider();
             
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
