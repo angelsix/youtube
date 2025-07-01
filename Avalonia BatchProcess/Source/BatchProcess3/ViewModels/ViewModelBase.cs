@@ -29,6 +29,8 @@ public class ViewModelBase : ObservableObject
     
     protected virtual void OnDesignTimeConstructor() { }
     
+    public virtual void OnViewLoaded() { }
+    
     public void SetSavedState()
     {
         SavedState = GetState();

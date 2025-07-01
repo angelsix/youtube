@@ -61,15 +61,6 @@ public partial class MainViewModel : ViewModelBase, IDialogProvider
         using var dbContext = _databaseFactory.GetDatabaseService();
         dbContext.ApplyMigrations();
 
-        // TODO: Remove temp code
-        if (dbContext.GetSettings() == null)
-        {
-            dbContext.SaveSettings(new SettingsDataModel
-            {
-                LocationPaths = [ "Initial Path 1", "Initial Path 2", "Initial Path 3" ]
-            });
-        }
-        
         CurrentPage = _pageFactory.GetPageViewModel<SettingsPageViewModel>();
     }
     

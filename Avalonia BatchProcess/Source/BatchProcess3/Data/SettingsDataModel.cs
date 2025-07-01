@@ -15,7 +15,7 @@ public class SettingsDataModel
     public List<string> LocationPaths { get; set; } = [];
 
     [MaxLength(100)]
-    public string SolidWorksHostIp { get; set; } = "";
+    public string SolidWorksHost { get; set; } = "";
     
     [MaxLength(100)]
     public string PdmeVaultName { get; set; } = "";

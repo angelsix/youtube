@@ -6,6 +6,7 @@
              mc:Ignorable="d" d:DesignWidth="1100" d:DesignHeight="900"
              Background="{DynamicResource PrimaryBackground}"
              Foreground="{DynamicResource PrimaryForeground}"
+             Loaded="Control_OnLoaded"
              x:DataType="vm:SettingsPageViewModel"
              x:Class="BatchProcess3.Views.SettingsPageView">
     
@@ -37,11 +38,11 @@
                         
                         <!-- Skip Files -->
                         <TextBlock Grid.Row="2" Grid.Column="0"  TextWrapping="Wrap" Text="Skip files if only Open, Save (Optional) and Close are valid actions."></TextBlock>
-                        <CheckBox Grid.Row="2" Grid.Column="2"></CheckBox>
+                        <CheckBox Grid.Row="2" Grid.Column="2" IsChecked="{Binding SkipNoActionFiles}" />
                         
                         <!-- Duplicate Entries -->
                         <TextBlock Grid.Row="4" Grid.Column="0"  TextWrapping="Wrap" Text="Allow duplicate entries of the same file in project list"></TextBlock>
-                        <CheckBox Grid.Row="4" Grid.Column="2"></CheckBox>
+                        <CheckBox Grid.Row="4" Grid.Column="2" IsChecked="{Binding AllowDuplicateEntries}" />
                     </Grid>
                 </StackPanel>
                 
@@ -75,7 +76,7 @@ Macros, Actions and other custom files or templates."></TextBlock>
 
                         Enter the machines IP address, network name or localhost for this machine.
                     </TextBlock>
-                    <ComboBox ItemsSource="{Binding LocationPaths}"></ComboBox>
+                    <ComboBox Width="200" ItemsSource="{Binding SolidWorksHosts}" SelectedItem="{Binding SolidWorksHost}"></ComboBox>
                     <Label Classes="sub1 success" Content="Connection established"></Label>
                 </StackPanel>
                 
@@ -86,14 +87,19 @@ Macros, Actions and other custom files or templates."></TextBlock>
 then automatically handle checking in and out files from PDM Enterprise."></TextBlock>
                     <Grid ColumnDefinitions="*,*,*" RowDefinitions="Auto, Auto" Margin="0 10">
                         <Label Classes="sub2" Grid.Row="0" Grid.Column="0">Vault Name</Label>
-                        <ComboBox ItemsSource="{Binding LocationPaths}" Grid.Row="1" Margin="0 0 10 0" HorizontalAlignment="Stretch"></ComboBox>
+                        <ComboBox Grid.Column="0" 
+                                  ItemsSource="{Binding PdmeVaultNames}" 
+                                  SelectedItem="{Binding PdmeVaultName}" 
+                                  Grid.Row="1" 
+                                  Margin="0 0 10 0"
+                                  HorizontalAlignment="Stretch"></ComboBox>
                         <Label Classes="sub2" Grid.Row="0" Grid.Column="1">Username</Label>
-                        <TextBox Grid.Row="1"  Margin="0 0 10 0" Grid.Column="1">luke</TextBox>
+                        <TextBox Grid.Row="1"  Margin="0 0 10 0" Grid.Column="1" Text="{Binding PdmeUsername}" />
                         <Label Classes="sub2" Grid.Row="0" Grid.Column="2">Password</Label>
-                        <TextBox Grid.Row="1"  PasswordChar="*" Grid.Column="2">somepassword</TextBox>
+                        <TextBox Grid.Row="1"  PasswordChar="*" Grid.Column="2" Text="{Binding PdmePassword}" />
                     </Grid>
                     <StackPanel Orientation="Horizontal" Spacing="10">
-                        <IconButton Classes="small" IconText="&#xe23e;" Content="Login" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch" />
+                        <IconButton Classes="small" IconText="&#xe23e;" Content="Login" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch" Command="{Binding PdmeLoginCommand}" />
                         <IconButton Classes="outline small" IconText="&#xe094;" Content="Refresh Vault" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch" />
                     </StackPanel>
                     <Label Classes="sub1 success" Content="Connection Established" Margin="0 0 0 0"></Label>
