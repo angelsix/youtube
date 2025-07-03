@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 
 namespace BatchProcess3.ViewModels;
 
-public partial class PrintProfileViewModel : ConfirmDialogViewModel
+public partial class PrintSettingsViewModel : ConfirmDialogViewModel
 {
     [ObservableProperty]
     private string _id = "";
@@ -15,12 +15,12 @@ public partial class PrintProfileViewModel : ConfirmDialogViewModel
     private string _description = "";
     
     [ObservableProperty]
-    private ObservableCollection<ActionsPrinterSettingsViewModel> _printerSettings = [];
+    private ObservableCollection<PrintSettingsProfileViewModel> _printerSettings = [];
 
     [ObservableProperty]
     private int _copies;
 
-    public PrintProfileViewModel() : base()
+    public PrintSettingsViewModel() : base()
     {
         Title = "Print Settings";
         Message = "Specify the printer settings to use for each paper size, or leave as default.";
@@ -36,7 +36,7 @@ public partial class PrintProfileViewModel : ConfirmDialogViewModel
     private void DesignTimeData()
     {
         // TODO: Pull from database 
-        var printerSettingsItem = new ActionsPrinterSettingsViewModel
+        var printerSettingsItem = new PrintSettingsProfileViewModel
         {
             Id = "2",
             Height = 200,

@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 
 namespace BatchProcess3.ViewModels;
 
-public partial class PrinterDetailsViewModel : ViewModelBase
+public partial class PrintersViewModel : ViewModelBase
 {
     [ObservableProperty]
     private string _id = string.Empty;

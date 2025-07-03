@@ -8,11 +8,11 @@ namespace BatchProcess3.Services;
 
 public class PrinterService
 {
-    public ObservableCollection<PrinterDetailsViewModel> AvailablePrinters()
+    public ObservableCollection<PrintersViewModel> AvailablePrinters()
     {
-        var printers = new ObservableCollection<PrinterDetailsViewModel>();
+        var printers = new ObservableCollection<PrintersViewModel>();
         
-        printers.Add(new  PrinterDetailsViewModel { Id = "0", Name = "(Default)"});
+        printers.Add(new  PrintersViewModel { Id = "0", Name = "(Default)"});
 
         var index = 1;
         
@@ -22,7 +22,7 @@ public class PrinterService
 
             foreach (string printerName in PrinterSettings.InstalledPrinters)
             {
-                var printerDetailsViewModel = new PrinterDetailsViewModel { Id = index.ToString(), Name = printerName };
+                var printerDetailsViewModel = new PrintersViewModel { Id = index.ToString(), Name = printerName };
 
                 printDocument.PrinterSettings.PrinterName = printerName;
 

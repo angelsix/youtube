@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 
 namespace BatchProcess3.ViewModels;
 
-public partial class ActionsPrinterSettingsViewModel : ViewModelBase
+public partial class PrintSettingsProfileViewModel : ViewModelBase
 {
     [ObservableProperty]
     private string _id = "-1";

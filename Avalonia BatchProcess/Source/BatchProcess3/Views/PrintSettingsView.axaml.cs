@@ -4,9 +4,9 @@ using Avalonia.Markup.Xaml;
 
 namespace BatchProcess3.Views;
 
-public partial class PrintProfileView : UserControl
+public partial class PrintSettingsView : UserControl
 {
-    public PrintProfileView()
+    public PrintSettingsView()
     {
         InitializeComponent();
     }

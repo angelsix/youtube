@@ -49,7 +49,7 @@ public partial class MainViewModel : ViewModelBase, IDialogProvider
 #pragma warning disable CS8618, CS9264
     public MainViewModel()
     {
-        CurrentPage = new SettingsPageViewModel(new DatabaseFactory(() => new DatabaseService(new ApplicationDbContext())));
+        CurrentPage = new SettingsPageViewModel(new DatabaseFactory(() => new DatabaseService(new ApplicationDbContext())), new DialogService(() => null));
     }
 #pragma warning restore CS8618, CS9264
     

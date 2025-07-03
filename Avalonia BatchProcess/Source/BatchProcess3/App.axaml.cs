@@ -1,4 +1,5 @@
 using Avalonia;
+using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using Avalonia.Metadata;
@@ -58,7 +59,18 @@ public partial class App : Application
          collection.AddSingleton<Func<DatabaseService>>(x => x.GetRequiredService<DatabaseService>);
          collection.AddSingleton<DatabaseFactory>();
 
-        var services = collection.BuildServiceProvider();
+         // TopLevel provider
+         collection.AddSingleton<Func<TopLevel?>>(x => () =>
+         {
+             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime topWindow)
+                 return TopLevel.GetTopLevel(topWindow.MainWindow);
+             else if (ApplicationLifetime is ISingleViewApplicationLifetime singleViewPlatform)
+                 return TopLevel.GetTopLevel(singleViewPlatform.MainView);
+
+             return null;
+         });
+
+         var services = collection.BuildServiceProvider();
             
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {

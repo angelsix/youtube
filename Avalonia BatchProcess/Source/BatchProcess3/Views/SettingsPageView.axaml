@@ -12,7 +12,7 @@
     
         <Design.DataContext><vm:SettingsPageViewModel></vm:SettingsPageViewModel></Design.DataContext>
 
-        <Grid ColumnDefinitions="*, *" RowDefinitions="Auto, *">
+        <Grid ColumnDefinitions="*, *" RowDefinitions="Auto, Auto, *">
             <!-- Header -->
             <Grid Name="HeaderGrid" Grid.ColumnSpan="2">
                 <StackPanel Height="100" ClipToBounds="True">
@@ -56,17 +56,36 @@ Macros, Actions and other custom files or templates."></TextBlock>
                             <TextBlock Classes="sub1" TextWrapping="Wrap" Text="* All sub-directories will be searched automatically"></TextBlock>
                         </StackPanel>
                         
-                        <Button Classes="outline small" Grid.Row="0" Grid.Column="1" Content="+ Folder" HorizontalAlignment="Stretch" Margin="10 0 0 0" />
+                        <Button Classes="outline small" Grid.Row="0" Grid.Column="1" Content="+ Folder" Command="{Binding AddLocationPathCommand}" HorizontalAlignment="Stretch" Margin="10 0 0 0" />
                     </Grid>
-                    <ListBox ItemsSource="{Binding LocationPaths}" Margin="0 10">
-                        
-                    </ListBox>
+                   
                 </StackPanel>
                 
             </StackPanel>
             
+            <ListBox Grid.Column="0" Grid.Row="2" ItemsSource="{Binding LocationPaths}" Margin="25 0 25 25">
+                <ListBox.ItemTemplate>
+                    <DataTemplate x:DataType="x:String">
+                        <Grid ColumnDefinitions="*, Auto">
+                            <Label Grid.Column="0" 
+                                   Content="{Binding }" 
+                                   VerticalAlignment="Center" />
+                            <Button Grid.Column="1"
+                                    Margin="0 -4 -4 -6"
+                                    Command="{Binding $parent[ListBox].((vm:SettingsPageViewModel)DataContext).DeleteLocationPathCommand}"
+                                    CommandParameter="{Binding }"
+                                    IsVisible="{Binding $parent[ListBoxItem].IsSelected}"
+                                    VerticalAlignment="Center"
+                                    Classes="smaller danger">
+                                <Label Classes="icon-only icon-outline" Content="&#xe4a6;" />
+                            </Button>
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            
             <!-- Right Side Content -->
-            <StackPanel Grid.Column="1" Grid.Row="1" Spacing="15" Margin="25">
+            <StackPanel Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" Spacing="15" Margin="25">
                 <!-- SolidWorks Host -->
                 <StackPanel>
                     <Label Classes="h2" Content="SolidWorks Host"></Label>

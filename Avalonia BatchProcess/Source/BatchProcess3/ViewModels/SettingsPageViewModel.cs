@@ -3,6 +3,7 @@ using BatchProcess3.Factories;
 using BatchProcess3.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -14,6 +15,7 @@ namespace BatchProcess3.ViewModels;
 public partial class SettingsPageViewModel : PageViewModel
 {
     private readonly DatabaseFactory _factory;
+    private readonly DialogService _dialogService;
 
     [ObservableProperty] private bool _skipNoActionFiles;
 
@@ -35,14 +37,15 @@ public partial class SettingsPageViewModel : PageViewModel
     private ObservableCollection<string> _locationPaths = [];
 
     // Design-time constructor
-    public SettingsPageViewModel() : this(new DatabaseFactory(() => new DatabaseService(new ApplicationDbContext())))
+    public SettingsPageViewModel() : this(new DatabaseFactory(() => new DatabaseService(new ApplicationDbContext())), new DialogService(() => null))
     {
         
     }
     
-    public SettingsPageViewModel(DatabaseFactory databaseFactory) : base(ApplicationPageNames.Settings)
+    public SettingsPageViewModel(DatabaseFactory databaseFactory, DialogService dialogService) : base(ApplicationPageNames.Settings)
     {
         _factory = databaseFactory;
+        _dialogService = dialogService;
 
         LoadSettings();
     }
@@ -62,6 +65,33 @@ public partial class SettingsPageViewModel : PageViewModel
         // TODO: Login to PDME
         
         // Save settings to database
+        SaveSettings();
+    }
+
+    [RelayCommand]
+    private void DeleteLocationPath(string path)
+    {
+        LocationPaths.Remove(path);
+
+        // Commit to database
+        SaveSettings();
+    }
+    
+    [RelayCommand]
+    private async Task AddLocationPath()
+    {
+        var result = await _dialogService.FolderPicker();
+
+        // Do not add if duplicate or cancelled
+        if (result == null || LocationPaths.Any(f => string.Equals(f, result, StringComparison.InvariantCultureIgnoreCase))) return;
+        
+        // Add to locations
+        LocationPaths.Add(result);
+        
+        // Sort alphabetically
+        LocationPaths = new ObservableCollection<string>(LocationPaths.Order());
+        
+        // Save to database
         SaveSettings();
     }
 

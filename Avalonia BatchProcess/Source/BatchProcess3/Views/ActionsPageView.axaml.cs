@@ -30,7 +30,7 @@ public partial class ActionsPageView : UserControl
         // Convert to ActionsPageName
         var actionsPage = selectedPage switch
         {
-            ActionsPrintView => ActionsPageName.Print,
+            ActionsTabPrintView => ActionsPageName.Print,
             _ => ActionsPageName.Unknown,
         };
 
