@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace BatchProcess3.Data;
+namespace BatchProcess3.DataModels;
 
 public class SettingsDataModel
 {

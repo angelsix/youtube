@@ -1,4 +1,5 @@
 ﻿using BatchProcess3.Data;
+using BatchProcess3.DataModels;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using System;

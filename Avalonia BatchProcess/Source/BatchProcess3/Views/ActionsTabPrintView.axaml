@@ -92,7 +92,7 @@
                 <Button Grid.Row="10" Classes="small outline" Content="New Print Settings" Command="{Binding AddNewPrintSettingsCommand}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" />
 
                 <ListBox Grid.Row="12" 
-                         ItemsSource="{Binding PrinterProfiles}" 
+                         ItemsSource="{Binding PrinterSettings}" 
                          SelectedValueBinding="{Binding Id}"
                          SelectedValue="{Binding SelectedPrintListItem.PrinterProfileId}">
                     <ListBox.ItemTemplate>

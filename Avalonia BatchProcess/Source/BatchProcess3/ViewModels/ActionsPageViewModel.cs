@@ -39,7 +39,7 @@ public partial class ActionsPageViewModel(MainViewModel mainViewModel, DialogSer
         PrintList.FirstOrDefault(f => f.Id == SelectedPrintListItemId);
     
     [ObservableProperty]
-    private ObservableCollection<PrintSettingsViewModel> _printerProfiles = [];
+    private ObservableCollection<PrintSettingsViewModel> _printerSettings = [];
 
     [RelayCommand]
     public void RefreshActionsPage(ActionsPageName actionsPageName)
@@ -74,7 +74,7 @@ public partial class ActionsPageViewModel(MainViewModel mainViewModel, DialogSer
                 
         _defaultPrinterSettings.PrinterSettings = printerSettings;
 
-        PrinterProfiles =
+        PrinterSettings =
         [
             _defaultPrinterSettings,
             new PrintSettingsViewModel
@@ -146,7 +146,7 @@ public partial class ActionsPageViewModel(MainViewModel mainViewModel, DialogSer
         // TODO: Pass this logic to a service that handles the database/storage/fetching
         //       For now just do it direct in here
 
-        if (PrinterProfiles.Count(x => x.Id == id) != 1)
+        if (PrinterSettings.Count(x => x.Id == id) != 1)
             // TODO: Throw/Warn?
             return;
         
@@ -175,7 +175,7 @@ public partial class ActionsPageViewModel(MainViewModel mainViewModel, DialogSer
     {
         // TODO: Pass this logic to a service that handles database etc...
 
-        var profileViewModel = PrinterProfiles.FirstOrDefault(f => f.Id == id);
+        var profileViewModel = PrinterSettings.FirstOrDefault(f => f.Id == id);
 
         if (profileViewModel == null)
             // TODO: Throw/warn?
@@ -284,7 +284,7 @@ public partial class ActionsPageViewModel(MainViewModel mainViewModel, DialogSer
         if (!confirmViewModel.Confirmed)
             return;
         
-        PrinterProfiles.Add(confirmViewModel);
+        PrinterSettings.Add(confirmViewModel);
     }
     
     [RelayCommand]
@@ -305,7 +305,7 @@ public partial class ActionsPageViewModel(MainViewModel mainViewModel, DialogSer
     // ReSharper disable once InconsistentNaming
     private async Task DeletePrintProfileFromUIAsync(string id, bool warn = true)
     {
-        var index = PrinterProfiles.IndexOf(PrinterProfiles.First(x => x.Id == id));
+        var index = PrinterSettings.IndexOf(PrinterSettings.First(x => x.Id == id));
         if (index == -1)
             return;
 
@@ -314,7 +314,7 @@ public partial class ActionsPageViewModel(MainViewModel mainViewModel, DialogSer
             var confirmViewModel = new ConfirmDialogViewModel
             {
                 Title = $"Delete Print Profile?",
-                Message = $"Are you sure you want to delete '{PrinterProfiles[index].Name}'?",
+                Message = $"Are you sure you want to delete '{PrinterSettings[index].Name}'?",
                 DialogWidth = 500,
             };
 
@@ -326,13 +326,13 @@ public partial class ActionsPageViewModel(MainViewModel mainViewModel, DialogSer
         }
 
         // Remove item
-        PrinterProfiles.RemoveAt(index);
+        PrinterSettings.RemoveAt(index);
 
         // Select the item below the deleted one
         if (index > 0) index--;
 
-        if (PrinterProfiles.Count > 0)
-            SelectedPrintListItem!.PrinterProfileId = PrinterProfiles[index].Id;
+        if (PrinterSettings.Count > 0)
+            SelectedPrintListItem!.PrinterProfileId = PrinterSettings[index].Id;
     }
     
     // ReSharper disable once InconsistentNaming

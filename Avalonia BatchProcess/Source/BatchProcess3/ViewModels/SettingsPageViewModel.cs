@@ -1,4 +1,5 @@
 ﻿using BatchProcess3.Data;
+using BatchProcess3.DataModels;
 using BatchProcess3.Factories;
 using BatchProcess3.Services;
 using CommunityToolkit.Mvvm.ComponentModel;

@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using BatchProcess3.DataModels;
+using Microsoft.EntityFrameworkCore;
 
 namespace BatchProcess3.Data;
 
