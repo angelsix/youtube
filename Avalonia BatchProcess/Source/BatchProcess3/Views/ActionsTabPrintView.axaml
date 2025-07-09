@@ -94,7 +94,7 @@
                 <ListBox Grid.Row="12" 
                          ItemsSource="{Binding PrinterSettings}" 
                          SelectedValueBinding="{Binding Id}"
-                         SelectedValue="{Binding SelectedPrintListItem.PrinterProfileId}">
+                         SelectedValue="{Binding SelectedPrintListItem.PrinterSettingsId}">
                     <ListBox.ItemTemplate>
                         <DataTemplate x:DataType="vm:PrintSettingsViewModel">
                             <Grid ColumnDefinitions="*, 10, Auto, 10, Auto">

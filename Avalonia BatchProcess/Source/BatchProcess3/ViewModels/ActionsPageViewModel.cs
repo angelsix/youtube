@@ -118,10 +118,10 @@ public partial class ActionsPageViewModel(MainViewModel mainViewModel, DialogSer
                 PrintDrawingRange = "0, 5, 7-8", 
                 PrintDrawings = true, 
                 DrawingExclusionList = $"Some item 1{System.Environment.NewLine}Some item 2{System.Environment.NewLine}Some item 3",
-                PrinterProfileId = "1"
+                PrinterSettingsId = "1"
             },
-            new ActionsTabPrintViewModel { Id = "2", JobName = "Print All Drawings Scale To Fit", Description = "Prints drawing scaled to fit the paper", PrintDrawings = true, PrinterProfileId = "2"},
-            new ActionsTabPrintViewModel { Id = "3", JobName = "Print 3D Models A3", Description = "Prints models as 3D visuals", PrintModels = true, PrinterProfileId = "3" },
+            new ActionsTabPrintViewModel { Id = "2", JobName = "Print All Drawings Scale To Fit", Description = "Prints drawing scaled to fit the paper", PrintDrawings = true, PrinterSettingsId = "2"},
+            new ActionsTabPrintViewModel { Id = "3", JobName = "Print 3D Models A3", Description = "Prints models as 3D visuals", PrintModels = true, PrinterSettingsId = "3" },
         ];
 
         // Update PrintListHasItems when collection changes
@@ -243,7 +243,7 @@ public partial class ActionsPageViewModel(MainViewModel mainViewModel, DialogSer
             Id = Guid.NewGuid().ToString("N"),
             IsNewItem = true,
             JobName = "New Print Item",
-            PrinterProfileId = "0"
+            PrinterSettingsId = "0"
         };
 
         // Add to the print list
@@ -332,7 +332,7 @@ public partial class ActionsPageViewModel(MainViewModel mainViewModel, DialogSer
         if (index > 0) index--;
 
         if (PrinterSettings.Count > 0)
-            SelectedPrintListItem!.PrinterProfileId = PrinterSettings[index].Id;
+            SelectedPrintListItem!.PrinterSettingsId = PrinterSettings[index].Id;
     }
     
     // ReSharper disable once InconsistentNaming
