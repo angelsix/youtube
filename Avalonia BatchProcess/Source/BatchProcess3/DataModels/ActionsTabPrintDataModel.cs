@@ -6,21 +6,21 @@ public class ActionsTabPrintDataModel
 {
     public string Id { get; set; } = Guid.NewGuid().ToString("N");
     
-    public string JobName = "";
+    public string JobName { get; set; } = "";
     
-    public string Description = "";
+    public string Description { get; set; } = "";
     
-    public string PrintDrawingRange = "";
+    public string PrintDrawingRange { get; set; } = "";
     
-    public string DrawingExclusionList = "";
+    public string DrawingExclusionList { get; set; } = "";
     
-    public bool DrawingExclusionIsWhiteList;
+    public bool DrawingExclusionIsWhiteList { get; set; }
     
-    public bool PrintModels;
+    public bool PrintModels { get; set; }
     
-    public bool PrintDrawings;
+    public bool PrintDrawings { get; set; }
     
-    public string PrinterSettingsId = "";
+    public string PrinterSettingsId { get; set; } = "";
     
-    //public PrintSettingsDataModel PrinterSettings = "";
+    public PrintSettingsDataModel PrinterSettings { get; set; }
 }

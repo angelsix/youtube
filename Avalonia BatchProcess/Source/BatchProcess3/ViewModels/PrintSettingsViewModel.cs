@@ -15,8 +15,12 @@ public partial class PrintSettingsViewModel : ConfirmDialogViewModel
     private string _description = "";
     
     [ObservableProperty]
-    private ObservableCollection<PrintSettingsProfileViewModel> _printerSettings = [];
+    private ObservableCollection<PrintSettingsProfileViewModel> _printerSettingProfiles = [];
 
+    [ObservableProperty] private bool _canEdit = true;
+    
+    [ObservableProperty] private bool _canDelete = true;
+    
     [ObservableProperty]
     private int _copies;
 
@@ -44,7 +48,7 @@ public partial class PrintSettingsViewModel : ConfirmDialogViewModel
             ScaleToFit = true
         };
         
-        PrinterSettings =
+        PrinterSettingProfiles =
         [
             printerSettingsItem, printerSettingsItem, printerSettingsItem, printerSettingsItem, printerSettingsItem,
             printerSettingsItem, printerSettingsItem, printerSettingsItem, printerSettingsItem, printerSettingsItem,

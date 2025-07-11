@@ -7,11 +7,17 @@ public class PrintSettingsDataModel
 {
     public string Id { get; set; } = Guid.NewGuid().ToString("N");
     
-    public string Name = "";
+    public string Name { get; set; } = "";
     
-    public string Description = "";
-    
-    public List<PrintSettingsProfileDataModel> PrinterSettings = [];
+    public string Description { get; set; } = "";
 
-    public int Copies;
+    public bool CanEdit { get; set; }
+    
+    public bool CanDelete { get; set; }
+    
+    public List<PrintSettingsProfileDataModel> PrinterSettingProfiles { get; set; }
+
+    public List<ActionsTabPrintDataModel> ActionsTabPrintDataModels { get; set; }
+
+    public int Copies { get; set; }
 }
