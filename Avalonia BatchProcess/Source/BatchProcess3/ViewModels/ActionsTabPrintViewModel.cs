@@ -1,4 +1,6 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using BatchProcess3.DataModels;
+using CommunityToolkit.Mvvm.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -46,8 +48,21 @@ public partial class ActionsTabPrintViewModel : ViewModelBase
     
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(HasChanged))]
-    private string _printerSettingsId = "";
+    private string? _printerSettingsId;
     
     [JsonIgnore]
     public new bool HasChanged => IsNewItem || (SavedState != "" && SavedState != JsonSerializer.Serialize(this, _jsonOptions));
+
+    public ActionsTabPrintDataModel ToDataModel() => new()
+    {
+        Id = Id,
+        Description = Description,
+        DrawingExclusionIsWhiteList = DrawingExclusionIsWhiteList,
+        DrawingExclusionList = DrawingExclusionList,
+        JobName = JobName,
+        PrintDrawingRange = PrintDrawingRange,
+        PrintDrawings = PrintDrawings,
+        PrinterSettingsId = PrinterSettingsId,
+        PrintModels = PrintModels
+    };
 }
