@@ -30,7 +30,9 @@ public class ViewModelBase : ObservableObject
     protected virtual void OnDesignTimeConstructor() { }
     
     public virtual void OnViewLoaded() { }
-    
+
+    public void RaiseOnPropertyChanged(string propertyName) => OnPropertyChanged(propertyName);
+
     public void SetSavedState()
     {
         SavedState = GetState();

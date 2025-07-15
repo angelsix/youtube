@@ -47,29 +47,8 @@ public partial class ActionsPageViewModel(MainViewModel mainViewModel, DialogSer
     private void FetchPrintSettings()
     {
         var settings = databaseService.GetPrintSettings();
-        
-        PrinterSettings = new ObservableCollection<PrintSettingsViewModel>(settings.Select(f => new PrintSettingsViewModel
-        {
-            Id = f.Id,
-            Name = f.Name,
-            Description = f.Description,
-            CanEdit = f.CanEdit,
-            CanDelete = f.CanDelete,
-            Copies = f.Copies,
-            PrinterSettingProfiles = new ObservableCollection<PrintSettingsProfileViewModel>(f.PrinterSettingProfiles.Select(profile => new PrintSettingsProfileViewModel
-            {
-                Id = profile.Id,
-                DrawingColor = new KeyValuePair<string, string>(profile.DrawingColor, profile.DrawingColor),
-                Height = profile.Height,
-                Orientation = new  KeyValuePair<string, string>(profile.Orientation, profile.Orientation),
-                PaperSize = new KeyValuePair<string, string>(profile.PaperSize, profile.PaperSize),
-                PrinterName = new KeyValuePair<string, string>(profile.PrinterName, profile.PrinterName),
-                ScaleToFit = profile.ScaleToFit,
-                SourceTray = new KeyValuePair<string, string>(profile.SourceTray, profile.SourceTray),
-                Type = profile.Type,
-                Width = profile.Width,
-            }))
-        }));
+
+        PrinterSettings = settings.ToViewModels();
     }
     
     [RelayCommand]
@@ -79,7 +58,9 @@ public partial class ActionsPageViewModel(MainViewModel mainViewModel, DialogSer
         
         var printList = databaseService.GetPrintList();
         
-        PrintList = new ObservableCollection<ActionsTabPrintViewModel>(printList.Select(f => new ActionsTabPrintViewModel()
+        PrintList = new ObservableCollection<ActionsTabPrintViewModel>(printList
+            .OrderBy(f => f.JobName)
+            .Select(f => new ActionsTabPrintViewModel()
         {
             Id = f.Id,
             JobName = f.JobName,
@@ -111,18 +92,12 @@ public partial class ActionsPageViewModel(MainViewModel mainViewModel, DialogSer
     [RelayCommand]
     private async Task DeletePrintSettingsAsync(string id)
     {
-        // TODO: Pass this logic to a service that handles the database/storage/fetching
-        //       For now just do it direct in here
-
         if (PrinterSettings.Count(x => x.Id == id) != 1)
             // TODO: Throw/Warn?
             return;
-
-        // TODO: Delete from database, then re-fetch to update UI
-        //       1. Delete from database
-        //       2. FetchPrintProfiles();
         
-        await DeletePrintSettingsFromUIAsync(id);
+        if (await DeletePrintSettingsFromUIAsync(id))
+            databaseService.DeletePrintSettings(id);
     }
     
     [RelayCommand]
@@ -141,8 +116,6 @@ public partial class ActionsPageViewModel(MainViewModel mainViewModel, DialogSer
     [RelayCommand]
     private async Task EditPrintSettingsAsync(string id)
     {
-        // TODO: Pass this logic to a service that handles database etc...
-
         var profileViewModel = PrinterSettings.FirstOrDefault(f => f.Id == id);
 
         if (profileViewModel == null)
@@ -161,10 +134,9 @@ public partial class ActionsPageViewModel(MainViewModel mainViewModel, DialogSer
         if (!copiedProfileViewModel.Confirmed)
             return;
         
-        // TODO: Database stuff
-        
         // Commit copied view model back
         profileViewModel.RestoreState(copiedProfileViewModel.GetState());
+        databaseService.UpdatePrintSettings(copiedProfileViewModel.ToDataModel());
     }
 
     private void InjectPrinterDetails(PrintSettingsViewModel viewModel)
@@ -179,7 +151,7 @@ public partial class ActionsPageViewModel(MainViewModel mainViewModel, DialogSer
         foreach (var printerSettingsItem in viewModel.PrinterSettingProfiles)
         {
             printerSettingsItem.PrinterNameOptions = printerNameOptions;
-            
+
             printerSettingsItem.PropertyChanged += (sender, args) =>
             {
                 if (args.PropertyName != nameof(PrintSettingsProfileViewModel.PrinterName))
@@ -189,15 +161,25 @@ public partial class ActionsPageViewModel(MainViewModel mainViewModel, DialogSer
                 printerSettingsItem.PaperSizeOptions = new ObservableCollection<KeyValuePair<string, string>>(
                     availablePrinters.FirstOrDefault(f => f.Name == printerSettingsItem.PrinterName.Value)?.PaperSizes ?? []
                 );
+                
+                printerSettingsItem.PaperSizeOptions.Insert(0, new KeyValuePair<string, string>("(Default)", "(Default)"));
             
                 printerSettingsItem.SourceTrayOptions = new ObservableCollection<KeyValuePair<string, string>>(
                     availablePrinters.FirstOrDefault(f => f.Name == printerSettingsItem.PrinterName.Value)?.SourceTrays ?? []
                 );
-                
+
+                printerSettingsItem.SourceTrayOptions.Insert(0, new KeyValuePair<string, string>("(Default)", "(Default)"));
+
                 // Change paper size and source tray to first item
-                printerSettingsItem.PaperSize = printerSettingsItem.PaperSizeOptions.FirstOrDefault();
-                printerSettingsItem.SourceTray = printerSettingsItem.SourceTrayOptions.FirstOrDefault();
+                if (!printerSettingsItem.PaperSizeOptions.Any(f => f.Value == printerSettingsItem.PaperSize.Value))
+                    printerSettingsItem.PaperSize =  printerSettingsItem.PaperSizeOptions.FirstOrDefault();
+
+                if (!printerSettingsItem.SourceTrayOptions.Any(f => f.Value == printerSettingsItem.SourceTray.Value))
+                    printerSettingsItem.SourceTray = printerSettingsItem.SourceTrayOptions.FirstOrDefault();
             };
+            
+            // Force a printer name change for initial list
+            printerSettingsItem.RaiseOnPropertyChanged(nameof(printerSettingsItem.PrinterName));
         }
     }
 
@@ -229,6 +211,7 @@ public partial class ActionsPageViewModel(MainViewModel mainViewModel, DialogSer
         var confirmViewModel = new PrintSettingsViewModel()
         {
             Name = "New Print Settings",
+            PrinterSettingProfiles = databaseService.GetPrintSettingsProfiles().ToViewModels()
             // OnConfirm = async (vm) =>
             // {
             //     await Task.Delay(2000);
@@ -255,6 +238,7 @@ public partial class ActionsPageViewModel(MainViewModel mainViewModel, DialogSer
             return;
         
         PrinterSettings.Add(confirmViewModel);
+        databaseService.AddPrintSettings(confirmViewModel.ToDataModel());
     }
     
     [RelayCommand]
@@ -291,11 +275,11 @@ public partial class ActionsPageViewModel(MainViewModel mainViewModel, DialogSer
     }
 
     // ReSharper disable once InconsistentNaming
-    private async Task DeletePrintSettingsFromUIAsync(string id, bool warn = true)
+    private async Task<bool> DeletePrintSettingsFromUIAsync(string id, bool warn = true)
     {
         var index = PrinterSettings.IndexOf(PrinterSettings.First(x => x.Id == id));
         if (index == -1)
-            return;
+            return false;
 
         if (warn)
         {
@@ -310,7 +294,7 @@ public partial class ActionsPageViewModel(MainViewModel mainViewModel, DialogSer
 
             // Ignore if we clicked cancel
             if (!confirmViewModel.Confirmed)
-                return;
+                return false;
         }
 
         // Remove item
@@ -321,6 +305,8 @@ public partial class ActionsPageViewModel(MainViewModel mainViewModel, DialogSer
 
         if (PrinterSettings.Count > 0)
             SelectedPrintListItem!.PrinterSettingsId = PrinterSettings[index].Id;
+
+        return true;
     }
     
     // ReSharper disable once InconsistentNaming

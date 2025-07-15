@@ -12,42 +12,31 @@ public class PrinterService
     {
         var printers = new ObservableCollection<PrintersViewModel>();
         
-        printers.Add(new  PrintersViewModel { Id = "0", Name = "(Default)"});
+        printers.Add(new  PrintersViewModel { Id = "(Default)", Name = "(Default)"});
 
-        var index = 1;
-        
         if (OperatingSystem.IsWindowsVersionAtLeast(6, 1))
         {
             var printDocument = new PrintDocument();
 
             foreach (string printerName in PrinterSettings.InstalledPrinters)
             {
-                var printerDetailsViewModel = new PrintersViewModel { Id = index.ToString(), Name = printerName };
+                var printerDetailsViewModel = new PrintersViewModel { Id = printerName, Name = printerName };
 
                 printDocument.PrinterSettings.PrinterName = printerName;
 
                 // Add Default option
-                printerDetailsViewModel.PaperSizes.Add(new KeyValuePair<string, string>("0", "(Default)"));
+                printerDetailsViewModel.PaperSizes.Add(new KeyValuePair<string, string>("(Default)", "(Default)"));
             
-                var paperSizeIndex = 1;
                 foreach (PaperSize paperSize in printDocument.PrinterSettings.PaperSizes)
-                {
-                    printerDetailsViewModel.PaperSizes.Add(new KeyValuePair<string, string>(paperSizeIndex.ToString(), paperSize.PaperName));
-                    paperSizeIndex++;
-                }
+                    printerDetailsViewModel.PaperSizes.Add(new KeyValuePair<string, string>(paperSize.PaperName, paperSize.PaperName));
 
                 // Add Default option
-                printerDetailsViewModel.SourceTrays.Add(new KeyValuePair<string, string>("0", "(Default)"));
+                printerDetailsViewModel.SourceTrays.Add(new KeyValuePair<string, string>("(Default)", "(Default)"));
             
-                var sourceTrayIndex = 1;
                 foreach (PaperSource sourceTray in printDocument.PrinterSettings.PaperSources)
-                {
-                    printerDetailsViewModel.SourceTrays.Add(new KeyValuePair<string, string>(sourceTrayIndex.ToString(), sourceTray.SourceName));
-                    sourceTrayIndex++;
-                }
+                    printerDetailsViewModel.SourceTrays.Add(new KeyValuePair<string, string>(sourceTray.SourceName, sourceTray.SourceName));
 
                 printers.Add(printerDetailsViewModel);
-                index++;
             }
         }
         

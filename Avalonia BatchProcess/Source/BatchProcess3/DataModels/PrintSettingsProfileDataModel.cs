@@ -12,7 +12,7 @@ public class PrintSettingsProfileDataModel
     
     public string Type { get; set; } = "";
     
-    public string PrinterName { get; set; } = "";
+    public string PrinterName { get; set; } = "(Default)";
     
     public string PaperSize { get; set; } = "(Default)";
     
