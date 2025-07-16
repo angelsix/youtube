@@ -25,16 +25,16 @@ public class PrinterService
                 printDocument.PrinterSettings.PrinterName = printerName;
 
                 // Add Default option
-                printerDetailsViewModel.PaperSizes.Add(new KeyValuePair<string, string>("(Default)", "(Default)"));
+                printerDetailsViewModel.PaperSizes.Add("(Default)");
             
                 foreach (PaperSize paperSize in printDocument.PrinterSettings.PaperSizes)
-                    printerDetailsViewModel.PaperSizes.Add(new KeyValuePair<string, string>(paperSize.PaperName, paperSize.PaperName));
+                    printerDetailsViewModel.PaperSizes.Add(paperSize.PaperName);
 
                 // Add Default option
-                printerDetailsViewModel.SourceTrays.Add(new KeyValuePair<string, string>("(Default)", "(Default)"));
+                printerDetailsViewModel.SourceTrays.Add("(Default)");
             
                 foreach (PaperSource sourceTray in printDocument.PrinterSettings.PaperSources)
-                    printerDetailsViewModel.SourceTrays.Add(new KeyValuePair<string, string>(sourceTray.SourceName, sourceTray.SourceName));
+                    printerDetailsViewModel.SourceTrays.Add(sourceTray.SourceName);
 
                 printers.Add(printerDetailsViewModel);
             }

@@ -1,0 +1,22 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:vm="clr-namespace:BatchProcess3.ViewModels"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="350"
+             MinWidth="500" MinHeight="350"
+             Background="{StaticResource PrimaryBackground}"
+             Foreground="{StaticResource PrimaryForeground}"
+             x:DataType="vm:ErrorViewModel"
+             x:Class="BatchProcess3.Views.ErrorView">
+    
+    <Design.DataContext><vm:ErrorViewModel /></Design.DataContext>
+    
+    <Grid Margin="20" RowDefinitions="Auto, Auto, Auto, *">
+        <Label Grid.Row="0" Classes="h2" Content="😲 An Error Has Occurred 😲" />
+        <Label Grid.Row="1" Margin="0 10" Classes="sub1" Content="BatchProcess has experienced an unexpected error. Please report it to us" />
+        <Label Grid.Row="2" Content="{Binding Title}" />
+        <TextBox Grid.Row="3" IsReadOnly="True" Text="{Binding Description}" />
+    </Grid>
+    
+</UserControl>

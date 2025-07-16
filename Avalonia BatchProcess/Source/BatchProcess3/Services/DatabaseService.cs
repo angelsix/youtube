@@ -153,14 +153,18 @@ public class DatabaseService(ApplicationDbContext context) : IDisposable
     
     public void UpdatePrintSettings(PrintSettingsDataModel dataModel)
     {
+        // If it is not editable...
+        if (!dataModel.CanEdit)
+            throw new InvalidOperationException($"This print setting cannot be edited. {dataModel.Name}");
+        
         // Remove existing
-        DeletePrintSettings(dataModel.Id);
+        DeletePrintSettings(dataModel.Id, bypass: true, saveChanges: false);
         
         // Add new
         AddPrintSettings(dataModel);
     }
         
-    public void DeletePrintSettings(string id)
+    public void DeletePrintSettings(string id, bool bypass = false, bool saveChanges = true)
     {
         // Remove existing
         var existingItem = _context.PrintSettings.FirstOrDefault(f  => f.Id == id);
@@ -168,8 +172,14 @@ public class DatabaseService(ApplicationDbContext context) : IDisposable
         if (existingItem == null)
             return;
 
+        // If this item is not deletable...
+        if (!bypass && !existingItem.CanDelete)
+            throw new InvalidOperationException($"This print setting cannot be deleted. {existingItem.Name}");
+            
         _context.PrintSettings.Remove(existingItem);
-        _context.SaveChanges();
+        
+        if (saveChanges)
+            _context.SaveChanges();
     }
     
     #endregion

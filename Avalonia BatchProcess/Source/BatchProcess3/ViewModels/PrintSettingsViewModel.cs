@@ -89,13 +89,13 @@ public static class PrintSettingsViewModelExtensions
                 .Select(profile => new PrintSettingsProfileViewModel
                 {
                     Id = profile.Id,
-                    DrawingColor = new KeyValuePair<string, string>(profile.DrawingColor, profile.DrawingColor),
+                    DrawingColor = profile.DrawingColor,
                     Height = profile.Height,
-                    Orientation = new KeyValuePair<string, string>(profile.Orientation, profile.Orientation),
-                    PaperSize = new KeyValuePair<string, string>(profile.PaperSize, profile.PaperSize),
-                    PrinterName = new KeyValuePair<string, string>(profile.PrinterName, profile.PrinterName),
+                    Orientation = profile.Orientation,
+                    PaperSize = profile.PaperSize,
+                    PrinterName = profile.PrinterName,
                     ScaleToFit = profile.ScaleToFit,
-                    SourceTray = new KeyValuePair<string, string>(profile.SourceTray, profile.SourceTray),
+                    SourceTray = profile.SourceTray,
                     Type = profile.Type,
                     Width = profile.Width,
                 }))

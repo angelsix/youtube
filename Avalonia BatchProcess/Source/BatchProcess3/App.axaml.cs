@@ -78,6 +78,8 @@ public partial class App : Application
             {
                 DataContext  = services.GetRequiredService<MainViewModel>()
             };
+
+            // new ErrorWindow { DataContext = new  ErrorViewModel() }.Show();
         }
         else if (ApplicationLifetime is ISingleViewApplicationLifetime singleViewPlatform)
         {

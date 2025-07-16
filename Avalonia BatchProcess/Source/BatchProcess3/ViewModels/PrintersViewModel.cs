@@ -13,8 +13,8 @@ public partial class PrintersViewModel : ViewModelBase
     private string _name = string.Empty;
     
     [ObservableProperty]
-    private ObservableCollection<KeyValuePair<string, string>> _paperSizes = []; 
+    private ObservableCollection<string> _paperSizes = []; 
 
     [ObservableProperty]
-    private ObservableCollection<KeyValuePair<string, string>> _sourceTrays = []; 
+    private ObservableCollection<string> _sourceTrays = []; 
 }

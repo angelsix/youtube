@@ -15,19 +15,19 @@ public partial class PrintSettingsProfileViewModel : ViewModelBase
     private string _type = "A Size";
     
     [ObservableProperty]
-    private KeyValuePair<string, string> _printerName = new("(Default)", "(Default)");
+    private string _printerName = "(Default)";
 
     [ObservableProperty]
-    private ObservableCollection<KeyValuePair<string, string>> _printerNameOptions = [
-        new("(Default)", "(Default)")
+    private ObservableCollection<string> _printerNameOptions = [
+        "(Default)"
     ];
     
     [ObservableProperty]
-    private KeyValuePair<string, string> _paperSize = new("(Default)", "(Default)");
+    private string _paperSize = "(Default)";
     
     [ObservableProperty]
-    private ObservableCollection<KeyValuePair<string, string>> _paperSizeOptions = [
-        new("(Default)", "(Default)")
+    private ObservableCollection<string> _paperSizeOptions = [
+        "(Default)"
     ];
     
     [ObservableProperty]
@@ -37,32 +37,32 @@ public partial class PrintSettingsProfileViewModel : ViewModelBase
     private double _height;
     
     [ObservableProperty]
-    private KeyValuePair<string, string>  _orientation = new("(Default)", "(Default)");
+    private string  _orientation = "(Default)";
       
     [ObservableProperty]
-    private ObservableCollection<KeyValuePair<string, string>> _orientationOptions = [
-        new("(Default)", "(Default)"),
-        new("Portrait", "Portrait"),
-        new("Landscape", "Landscape")
+    private ObservableCollection<string> _orientationOptions = [
+        "(Default)",
+        "Portrait",
+        "Landscape"
     ];
     
     [ObservableProperty]
-    private KeyValuePair<string, string> _sourceTray = new("(Default)", "(Default)");
+    private string _sourceTray = "(Default)";
           
     [ObservableProperty]
-    private ObservableCollection<KeyValuePair<string, string>> _sourceTrayOptions = [
-        new("(Default)", "(Default)")
+    private ObservableCollection<string> _sourceTrayOptions = [
+        "(Default)"
     ];
 
     [ObservableProperty]
-    private KeyValuePair<string, string> _drawingColor = new("(Default)", "(Default)");
+    private string _drawingColor = "(Default)";
 
     [ObservableProperty]
-    private ObservableCollection<KeyValuePair<string, string>> _drawingColorOptions = [
-        new("(Default)", "(Default)"),
-        new("Automatic", "Automatic"),
-        new("Color / Greyscale", "Color / Greyscale"),
-        new("Black & White", "Black & White"),
+    private ObservableCollection<string> _drawingColorOptions = [
+        "(Default)",
+        "Automatic",
+        "Color / Greyscale",
+        "Black & White",
     ];
 
     [ObservableProperty]
@@ -77,13 +77,13 @@ public static class PrintSettingsProfileViewModelExtensions
         {
             Id = viewModel.Id,
             Type = viewModel.Type,
-            PrinterName = viewModel.PrinterName.Value,
-            DrawingColor = viewModel.DrawingColor.Value,
+            PrinterName = viewModel.PrinterName,
+            DrawingColor = viewModel.DrawingColor,
             Height = viewModel.Height,
             Width = viewModel.Width,
-            Orientation = viewModel.Orientation.Value,
-            SourceTray = viewModel.SourceTray.Value,
-            PaperSize = viewModel.PaperSize.Value,
+            Orientation = viewModel.Orientation,
+            SourceTray = viewModel.SourceTray,
+            PaperSize = viewModel.PaperSize,
             ScaleToFit = viewModel.ScaleToFit
         };
     }
@@ -98,13 +98,13 @@ public static class PrintSettingsProfileViewModelExtensions
         {
             Id = dataModel.Id,
             Type = dataModel.Type,
-            PrinterName = new KeyValuePair<string, string>(dataModel.PrinterName, dataModel.PrinterName),
-            DrawingColor = new KeyValuePair<string, string>(dataModel.DrawingColor, dataModel.DrawingColor),
+            PrinterName = dataModel.PrinterName,
+            DrawingColor = dataModel.DrawingColor,
             Height = dataModel.Height,
             Width = dataModel.Width,
-            Orientation = new KeyValuePair<string, string>(dataModel.Orientation, dataModel.Orientation),
-            SourceTray = new KeyValuePair<string, string>(dataModel.SourceTray, dataModel.SourceTray),
-            PaperSize = new KeyValuePair<string, string>(dataModel.PaperSize, dataModel.PaperSize),
+            Orientation = dataModel.Orientation,
+            SourceTray = dataModel.SourceTray,
+            PaperSize = dataModel.PaperSize,
             ScaleToFit = dataModel.ScaleToFit
         };
     }

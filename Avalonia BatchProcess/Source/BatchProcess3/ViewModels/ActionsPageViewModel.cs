@@ -144,8 +144,8 @@ public partial class ActionsPageViewModel(MainViewModel mainViewModel, DialogSer
         // Fetch live printers available on machine
         var availablePrinters = printerService.AvailablePrinters();
         
-        var printerNameOptions = new ObservableCollection<KeyValuePair<string, string>>(
-            availablePrinters.Select((f) => new KeyValuePair<string, string>(f.Id.ToString(), f.Name))
+        var printerNameOptions = new ObservableCollection<string>(
+            availablePrinters.Select((f) => f.Name)
         );
 
         foreach (var printerSettingsItem in viewModel.PrinterSettingProfiles)
@@ -158,23 +158,23 @@ public partial class ActionsPageViewModel(MainViewModel mainViewModel, DialogSer
                     return;
                 
                 // Printer changed, update paper size and tray
-                printerSettingsItem.PaperSizeOptions = new ObservableCollection<KeyValuePair<string, string>>(
-                    availablePrinters.FirstOrDefault(f => f.Name == printerSettingsItem.PrinterName.Value)?.PaperSizes ?? []
+                printerSettingsItem.PaperSizeOptions = new ObservableCollection<string>(
+                    availablePrinters.FirstOrDefault(f => f.Name == printerSettingsItem.PrinterName)?.PaperSizes ?? []
                 );
                 
-                printerSettingsItem.PaperSizeOptions.Insert(0, new KeyValuePair<string, string>("(Default)", "(Default)"));
+                printerSettingsItem.PaperSizeOptions.Insert(0,"(Default)");
             
-                printerSettingsItem.SourceTrayOptions = new ObservableCollection<KeyValuePair<string, string>>(
-                    availablePrinters.FirstOrDefault(f => f.Name == printerSettingsItem.PrinterName.Value)?.SourceTrays ?? []
+                printerSettingsItem.SourceTrayOptions = new ObservableCollection<string>(
+                    availablePrinters.FirstOrDefault(f => f.Name == printerSettingsItem.PrinterName)?.SourceTrays ?? []
                 );
 
-                printerSettingsItem.SourceTrayOptions.Insert(0, new KeyValuePair<string, string>("(Default)", "(Default)"));
+                printerSettingsItem.SourceTrayOptions.Insert(0, "(Default)");
 
                 // Change paper size and source tray to first item
-                if (!printerSettingsItem.PaperSizeOptions.Any(f => f.Value == printerSettingsItem.PaperSize.Value))
+                if (!printerSettingsItem.PaperSizeOptions.Any(f => f == printerSettingsItem.PaperSize))
                     printerSettingsItem.PaperSize =  printerSettingsItem.PaperSizeOptions.FirstOrDefault();
 
-                if (!printerSettingsItem.SourceTrayOptions.Any(f => f.Value == printerSettingsItem.SourceTray.Value))
+                if (!printerSettingsItem.SourceTrayOptions.Any(f => f == printerSettingsItem.SourceTray))
                     printerSettingsItem.SourceTray = printerSettingsItem.SourceTrayOptions.FirstOrDefault();
             };
             
