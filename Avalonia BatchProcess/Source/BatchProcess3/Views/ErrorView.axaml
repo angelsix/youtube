@@ -16,7 +16,7 @@
         <Label Grid.Row="0" Classes="h2" Content="😲 An Error Has Occurred 😲" />
         <Label Grid.Row="1" Margin="0 10" Classes="sub1" Content="BatchProcess has experienced an unexpected error. Please report it to us" />
         <Label Grid.Row="2" Content="{Binding Title}" />
-        <TextBox Grid.Row="3" IsReadOnly="True" Text="{Binding Description}" />
+        <TextBox Grid.Row="3" TextWrapping="Wrap" IsReadOnly="True" Text="{Binding Description}" />
     </Grid>
     
 </UserControl>

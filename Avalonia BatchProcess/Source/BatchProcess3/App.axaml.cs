@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 
 [assembly: XmlnsDefinition("https://github.com/avaloniaui", "BatchProcess3.Controls")]
 
@@ -78,8 +79,6 @@ public partial class App : Application
             {
                 DataContext  = services.GetRequiredService<MainViewModel>()
             };
-
-            // new ErrorWindow { DataContext = new  ErrorViewModel() }.Show();
         }
         else if (ApplicationLifetime is ISingleViewApplicationLifetime singleViewPlatform)
         {
@@ -87,6 +86,28 @@ public partial class App : Application
             {
                 DataContext = services.GetRequiredService<MainViewModel>()
             };
+        }
+
+        // Get last crash data
+        var lastCrash = CrashService.GetCrashData();
+
+        // If we crashed the last time...
+        if (lastCrash != null)
+        {
+            new ErrorWindow
+            {
+                DataContext = new ErrorViewModel
+                {
+                    Title = lastCrash.ErrorMessage,
+                    Description = $"BatchProcess crashed at '{lastCrash.Source}'\r\n" +
+                                  $"with the following error:\r\n\r\n" +
+                                  $"{lastCrash.ErrorMessage}.\r\n\r\n" +
+                                  $"Stack Trace:\r\n{lastCrash.StackTrace}"
+                }
+            }.Show();
+            
+            // Don't delete error log for 10 seconds
+            Task.Delay(10000).ContinueWith(_ => CrashService.ClearCrashData());
         }
 
         base.OnFrameworkInitializationCompleted();
