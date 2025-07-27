@@ -1,13 +1,9 @@
-﻿using Avalonia;
-using Avalonia.Svg.Skia;
-using BatchProcess3.Data;
-using BatchProcess3.Factories;
+﻿using BatchProcess3.DataStorage;
+using BatchProcess3.Dialog;
 using BatchProcess3.Interfaces;
-using BatchProcess3.Services;
+using BatchProcess3.MainApp;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Linq;
 

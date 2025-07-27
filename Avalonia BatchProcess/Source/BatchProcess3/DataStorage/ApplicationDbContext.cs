@@ -1,7 +1,7 @@
-﻿using BatchProcess3.DataModels;
+﻿using BatchProcess3.DataStorage.DataModels;
 using Microsoft.EntityFrameworkCore;
 
-namespace BatchProcess3.Data;
+namespace BatchProcess3.DataStorage;
 
 public class ApplicationDbContext : DbContext
 {
@@ -12,6 +12,8 @@ public class ApplicationDbContext : DbContext
     public DbSet<PrintSettingsDataModel>  PrintSettings { get; set; }
     
     public DbSet<ActionsTabPrintDataModel>  ActionsTabPrint { get; set; }
+
+    public DbSet<ActionsTabCustomPropertiesDataModel>  ActionsTabCustomProperties { get; set; }
     
     override protected void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -45,6 +47,10 @@ public class ApplicationDbContext : DbContext
         
         // Actions Tab Print
         modelBuilder.Entity<ActionsTabPrintDataModel>()
+            .HasKey(f => f.Id);
+        
+        // Actions Tab Custom Properties
+        modelBuilder.Entity<ActionsTabCustomPropertiesDataModel>()
             .HasKey(f => f.Id);
     }
 }

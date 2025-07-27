@@ -7,16 +7,16 @@
              Background="{DynamicResource PrimaryBackground}"
              Foreground="{DynamicResource PrimaryForeground}"
              x:DataType="vm:ActionsPageViewModel"
-             x:Class="BatchProcess3.Views.ActionsTabPrintView">
+             x:Class="BatchProcess3.Views.ActionsTabCustomPropertiesView">
     
     <Design.DataContext><vm:ActionsPageViewModel></vm:ActionsPageViewModel></Design.DataContext>
     
     <Grid ColumnDefinitions="*, 30, 3*">
         <!-- Print List Column -->
         <Grid RowDefinitions="Auto, 10, Auto, 10, Auto, 10, *">
-            <Label Classes="h2" Content="Print Actions" />
-            <TextBlock Grid.Row="2" Text="Print actions can be used to print drawings or models to specific printers with specific settings." TextWrapping="Wrap" Margin="0 -10 0 10"></TextBlock>
-            <Button Grid.Row="4" Classes="small outline" Content="New Print Action" Command="{Binding AddNewPrintItemCommand}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" />
+            <Label Classes="h2" Content="Custom Properties" />
+            <TextBlock Grid.Row="2" Text="Updating, deleting and editing of custom properties with advanced logic." TextWrapping="Wrap" Margin="0 -10 0 10"></TextBlock>
+            <Button Grid.Row="4" Classes="small outline" Content="New Custom Property Job" Command="{Binding AddNewPrintItemCommand}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" />
             <ListBox Grid.Row="6" 
                      SelectionChanged="SelectingItemsControl_OnSelectionChanged"
                      ItemsSource="{Binding PrintList}" 

@@ -1,4 +1,4 @@
-﻿using BatchProcess3.Data;
+﻿using BatchProcess3.MainApp;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace BatchProcess3.ViewModels;

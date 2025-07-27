@@ -1,9 +1,6 @@
-﻿using Avalonia;
-using Avalonia.Controls;
-using Avalonia.Markup.Xaml;
-using BatchProcess3.Data;
+﻿using Avalonia.Controls;
+using BatchProcess3.MainApp;
 using BatchProcess3.ViewModels;
-using System;
 
 namespace BatchProcess3.Views;
 

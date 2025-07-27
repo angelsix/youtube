@@ -6,7 +6,7 @@ using System.IO;
 using System.Reflection.PortableExecutable;
 using System.Text.Json;
 
-namespace BatchProcess3.Services;
+namespace BatchProcess3.Crash;
 
 public static class CrashService
 {
@@ -16,7 +16,7 @@ public static class CrashService
 
     private static readonly string _crashFilePath = System.IO.Path.Combine(_parentFolder, "lastcrash.json");
 
-    public static void SetCrashData(Exception ex)
+    public static bool SetCrashData(Exception ex)
     {
         try
         {
@@ -29,11 +29,15 @@ public static class CrashService
                 StackTrace = ex.StackTrace ?? string.Empty,
                 Source = ex.TargetSite?.ToString() ?? string.Empty
             }));
+
+            return true;
         }
         catch (Exception)
         {
             // TODO: Handle system message box or other way to inform user of crash
         }
+        
+        return false;
     }
 
     public static void ClearCrashData()

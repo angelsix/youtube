@@ -1,12 +1,11 @@
-﻿using BatchProcess3.Data;
-using BatchProcess3.DataModels;
+﻿using BatchProcess3.DataStorage.DataModels;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace BatchProcess3.Services;
+namespace BatchProcess3.DataStorage;
 
 public class DatabaseService(ApplicationDbContext context) : IDisposable
 {
@@ -26,7 +25,7 @@ public class DatabaseService(ApplicationDbContext context) : IDisposable
 
     #endregion
 
-    #region Print List
+    #region Print
     
     public List<ActionsTabPrintDataModel> GetPrintList()
     {
@@ -182,6 +181,40 @@ public class DatabaseService(ApplicationDbContext context) : IDisposable
             _context.SaveChanges();
     }
     
+    #endregion
+    
+    #region Custom Properties
+
+    public List<ActionsTabCustomPropertiesDataModel> GetCustomPropertiesList() =>
+        _context.ActionsTabCustomProperties.ToList();
+    
+    public void AddCustomPropertiesItem(ActionsTabCustomPropertiesDataModel dataModel)
+    {
+        _context.ActionsTabCustomProperties.Add(dataModel);
+        _context.SaveChanges();
+    }    
+    
+    public void UpdateCustomPropertiesItem(ActionsTabCustomPropertiesDataModel dataModel)
+    {
+        // Remove existing
+        DeleteCustomPropertiesItem(dataModel.Id);
+        
+        // Add new
+        AddCustomPropertiesItem(dataModel);
+    }
+        
+    public void DeleteCustomPropertiesItem(string id)
+    {
+        // Remove existing
+        var existingItem = _context.ActionsTabCustomProperties.FirstOrDefault(f  => f.Id == id);
+
+        if (existingItem == null)
+            return;
+
+        _context.ActionsTabCustomProperties.Remove(existingItem);
+        _context.SaveChanges();
+    }
+
     #endregion
 
     #region Settings

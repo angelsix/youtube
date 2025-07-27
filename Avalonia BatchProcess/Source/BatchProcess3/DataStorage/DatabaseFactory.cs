@@ -1,9 +1,7 @@
-﻿using BatchProcess3.Data;
-using BatchProcess3.Services;
-using BatchProcess3.ViewModels;
+﻿using BatchProcess3.ViewModels;
 using System;
 
-namespace BatchProcess3.Factories;
+namespace BatchProcess3.DataStorage;
 
 public class DatabaseFactory(Func<DatabaseService> factory)
 {

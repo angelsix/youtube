@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BatchProcess3.DataModels;
+namespace BatchProcess3.DataStorage.DataModels;
 
 public class ActionsTabPrintDataModel
 {

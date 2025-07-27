@@ -1,5 +1,7 @@
-﻿using BatchProcess3.Data;
-using BatchProcess3.Services;
+﻿using BatchProcess3.DataStorage;
+using BatchProcess3.Dialog;
+using BatchProcess3.MainApp;
+using BatchProcess3.Printer;
 using BatchProcess3.Views;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -15,15 +17,16 @@ namespace BatchProcess3.ViewModels;
 
 public partial class ActionsPageViewModel(MainViewModel mainViewModel, DialogService dialogService, PrinterService printerService, DatabaseService databaseService) : PageViewModel(ApplicationPageNames.Actions)
 {
-    // Design time only
-    public ActionsPageViewModel() : this(new MainViewModel(), new DialogService(() => null), new  PrinterService(), new DatabaseService(new ApplicationDbContext())) { }
-
+    #region Members
+    
+    #region Print
+    
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(PrintListHasItems))]
     private ObservableCollection<ActionsTabPrintViewModel> _printList = [];
     
     public bool PrintListHasItems => PrintList.Any();
-    
+
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(SelectedPrintListItem))]
     private string _selectedPrintListItemId = "";
@@ -34,22 +37,55 @@ public partial class ActionsPageViewModel(MainViewModel mainViewModel, DialogSer
     [ObservableProperty]
     private ObservableCollection<PrintSettingsViewModel> _printerSettings = [];
 
+    #endregion
+
+    #region Custom Properties
+
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(CustomPropertiesListHasItems))]
+    private ObservableCollection<ActionsTabCustomPropertiesViewModel> _customPropertiesList = [];
+
+    public bool CustomPropertiesListHasItems => CustomPropertiesList.Any();
+    
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(SelectedCustomPropertiesListItem))]
+    private string _selectedCustomPropertiesListItemId = "";
+    
+    public ActionsTabCustomPropertiesViewModel? SelectedCustomPropertiesListItem =>
+        CustomPropertiesList.FirstOrDefault(f => f.Id == SelectedCustomPropertiesListItemId);
+    
+    #endregion
+    
+    #endregion
+    
+    #region Constructor
+    
+    // Design time only
+    public ActionsPageViewModel() : this(new MainViewModel(), new DialogService(() => null), new  PrinterService(), new DatabaseService(new ApplicationDbContext())) { }
+
+    protected override void OnDesignTimeConstructor()
+    {
+        FetchPrintList();
+        FetchCustomPropertiesList();
+    }
+
+    #endregion
+    
+    #region Actions Page (Methods)
+    
     [RelayCommand]
     public void RefreshActionsPage(ActionsPageName actionsPageName)
     {
         switch (actionsPageName)
         {
             case ActionsPageName.Print: FetchPrintList(); break;
+            case ActionsPageName.CustomProperties: FetchCustomPropertiesList(); break;
         }
     }
 
-    [RelayCommand]
-    private void FetchPrintSettings()
-    {
-        var settings = databaseService.GetPrintSettings();
-
-        PrinterSettings = settings.ToViewModels();
-    }
+    #endregion
+    
+    #region Print (Methods)
     
     [RelayCommand]
     private void FetchPrintList()
@@ -87,102 +123,6 @@ public partial class ActionsPageViewModel(MainViewModel mainViewModel, DialogSer
         }
     }
 
-    protected override void OnDesignTimeConstructor() => FetchPrintList();
-    
-    [RelayCommand]
-    private async Task DeletePrintSettingsAsync(string id)
-    {
-        if (PrinterSettings.Count(x => x.Id == id) != 1)
-            // TODO: Throw/Warn?
-            return;
-        
-        if (await DeletePrintSettingsFromUIAsync(id))
-            databaseService.DeletePrintSettings(id);
-    }
-    
-    [RelayCommand]
-    private async Task DeletePrintItemAsync(string id)
-    {
-        if (PrintList.Count(x => x.Id == id) != 1)
-            // TODO: Throw/Warn?
-            return;
-
-        // If user selected to remove from UI (via Confirm dialog)
-        if (await DeletePrintItemFromUIAsync(id))
-            // Delete from database
-            databaseService.DeletePrintListItem(id);
-    }
-
-    [RelayCommand]
-    private async Task EditPrintSettingsAsync(string id)
-    {
-        var profileViewModel = PrinterSettings.FirstOrDefault(f => f.Id == id);
-
-        if (profileViewModel == null)
-            // TODO: Throw/warn?
-            return;
-
-        // Copy view model
-        var copiedProfileViewModel = new PrintSettingsViewModel();
-        copiedProfileViewModel.RestoreState(profileViewModel.GetState());
-        
-        InjectPrinterDetails(copiedProfileViewModel);
-        
-        await dialogService.ShowDialog(mainViewModel, copiedProfileViewModel);
-
-        // Ignore if we clicked cancel
-        if (!copiedProfileViewModel.Confirmed)
-            return;
-        
-        // Commit copied view model back
-        profileViewModel.RestoreState(copiedProfileViewModel.GetState());
-        databaseService.UpdatePrintSettings(copiedProfileViewModel.ToDataModel());
-    }
-
-    private void InjectPrinterDetails(PrintSettingsViewModel viewModel)
-    {
-        // Fetch live printers available on machine
-        var availablePrinters = printerService.AvailablePrinters();
-        
-        var printerNameOptions = new ObservableCollection<string>(
-            availablePrinters.Select((f) => f.Name)
-        );
-
-        foreach (var printerSettingsItem in viewModel.PrinterSettingProfiles)
-        {
-            printerSettingsItem.PrinterNameOptions = printerNameOptions;
-
-            printerSettingsItem.PropertyChanged += (sender, args) =>
-            {
-                if (args.PropertyName != nameof(PrintSettingsProfileViewModel.PrinterName))
-                    return;
-                
-                // Printer changed, update paper size and tray
-                printerSettingsItem.PaperSizeOptions = new ObservableCollection<string>(
-                    availablePrinters.FirstOrDefault(f => f.Name == printerSettingsItem.PrinterName)?.PaperSizes ?? []
-                );
-                
-                printerSettingsItem.PaperSizeOptions.Insert(0,"(Default)");
-            
-                printerSettingsItem.SourceTrayOptions = new ObservableCollection<string>(
-                    availablePrinters.FirstOrDefault(f => f.Name == printerSettingsItem.PrinterName)?.SourceTrays ?? []
-                );
-
-                printerSettingsItem.SourceTrayOptions.Insert(0, "(Default)");
-
-                // Change paper size and source tray to first item
-                if (!printerSettingsItem.PaperSizeOptions.Any(f => f == printerSettingsItem.PaperSize))
-                    printerSettingsItem.PaperSize =  printerSettingsItem.PaperSizeOptions.FirstOrDefault();
-
-                if (!printerSettingsItem.SourceTrayOptions.Any(f => f == printerSettingsItem.SourceTray))
-                    printerSettingsItem.SourceTray = printerSettingsItem.SourceTrayOptions.FirstOrDefault();
-            };
-            
-            // Force a printer name change for initial list
-            printerSettingsItem.RaiseOnPropertyChanged(nameof(printerSettingsItem.PrinterName));
-        }
-    }
-
     [RelayCommand]
     private void AddNewPrintItem()
     {
@@ -206,42 +146,6 @@ public partial class ActionsPageViewModel(MainViewModel mainViewModel, DialogSer
     }
 
     [RelayCommand]
-    private async Task AddNewPrintSettingsAsync()
-    {
-        var confirmViewModel = new PrintSettingsViewModel()
-        {
-            Name = "New Print Settings",
-            PrinterSettingProfiles = databaseService.GetPrintSettingsProfiles().ToViewModels()
-            // OnConfirm = async (vm) =>
-            // {
-            //     await Task.Delay(2000);
-            //
-            //     vm.ProgressText = "This is taking a while...";
-            //
-            //     await Task.Delay(2000);
-            //     
-            //     vm.StatusText = "Oh no, something went wrong...";
-            //
-            //     return true;
-            // }
-        };
-        
-        // TODO: Remove once new confirm view model dialog is pulled from database
-        confirmViewModel.RestoreState(confirmViewModel.GetState());
-        
-        InjectPrinterDetails(confirmViewModel);
-
-        await dialogService.ShowDialog(mainViewModel, confirmViewModel);
-
-        // Ignore if we clicked cancel
-        if (!confirmViewModel.Confirmed)
-            return;
-        
-        PrinterSettings.Add(confirmViewModel);
-        databaseService.AddPrintSettings(confirmViewModel.ToDataModel());
-    }
-    
-    [RelayCommand]
     private async Task CancelPrintItem()
     {
         // Ignore if nothing is selected
@@ -256,59 +160,6 @@ public partial class ActionsPageViewModel(MainViewModel mainViewModel, DialogSer
             SelectedPrintListItem.RestoreState();
     }
 
-    [RelayCommand]
-    private async Task SavePrintItemAsync()
-    {
-        // Ignore if no selection
-        if (SelectedPrintListItem == null)
-            return;
-        
-        // If the selected item is new...
-        if (SelectedPrintListItem.IsNewItem)
-            databaseService.AddPrintListItem(SelectedPrintListItem.ToDataModel());
-        else
-            databaseService.UpdatePrintListItem(SelectedPrintListItem.ToDataModel());
-        
-        // Flag new item as not new
-        SelectedPrintListItem.IsNewItem = false;
-        SelectedPrintListItem.SetSavedState();
-    }
-
-    // ReSharper disable once InconsistentNaming
-    private async Task<bool> DeletePrintSettingsFromUIAsync(string id, bool warn = true)
-    {
-        var index = PrinterSettings.IndexOf(PrinterSettings.First(x => x.Id == id));
-        if (index == -1)
-            return false;
-
-        if (warn)
-        {
-            var confirmViewModel = new ConfirmDialogViewModel
-            {
-                Title = $"Delete Print Profile?",
-                Message = $"Are you sure you want to delete '{PrinterSettings[index].Name}'?",
-                DialogWidth = 500,
-            };
-
-            await dialogService.ShowDialog(mainViewModel, confirmViewModel);
-
-            // Ignore if we clicked cancel
-            if (!confirmViewModel.Confirmed)
-                return false;
-        }
-
-        // Remove item
-        PrinterSettings.RemoveAt(index);
-
-        // Select the item below the deleted one
-        if (index > 0) index--;
-
-        if (PrinterSettings.Count > 0)
-            SelectedPrintListItem!.PrinterSettingsId = PrinterSettings[index].Id;
-
-        return true;
-    }
-    
     // ReSharper disable once InconsistentNaming
     private async Task<bool> DeletePrintItemFromUIAsync(string id, bool warn = true)
     {
@@ -355,4 +206,342 @@ public partial class ActionsPageViewModel(MainViewModel mainViewModel, DialogSer
 
         return true;
     }
+    [RelayCommand]
+    private async Task SavePrintItemAsync()
+    {
+        // Ignore if no selection
+        if (SelectedPrintListItem == null)
+            return;
+        
+        // If the selected item is new...
+        if (SelectedPrintListItem.IsNewItem)
+            databaseService.AddPrintListItem(SelectedPrintListItem.ToDataModel());
+        else
+            databaseService.UpdatePrintListItem(SelectedPrintListItem.ToDataModel());
+        
+        // Flag new item as not new
+        SelectedPrintListItem.IsNewItem = false;
+        SelectedPrintListItem.SetSavedState();
+    }
+
+    [RelayCommand]
+    private void FetchPrintSettings()
+    {
+        var settings = databaseService.GetPrintSettings();
+
+        PrinterSettings = settings.ToViewModels();
+    }
+
+    [RelayCommand]
+    private async Task EditPrintSettingsAsync(string id)
+    {
+        var profileViewModel = PrinterSettings.FirstOrDefault(f => f.Id == id);
+
+        if (profileViewModel == null)
+            // TODO: Throw/warn?
+            return;
+
+        // Copy view model
+        var copiedProfileViewModel = new PrintSettingsViewModel();
+        copiedProfileViewModel.RestoreState(profileViewModel.GetState());
+        
+        InjectPrinterDetails(copiedProfileViewModel);
+        
+        await dialogService.ShowDialog(mainViewModel, copiedProfileViewModel);
+
+        // Ignore if we clicked cancel
+        if (!copiedProfileViewModel.Confirmed)
+            return;
+        
+        // Commit copied view model back
+        profileViewModel.RestoreState(copiedProfileViewModel.GetState());
+        databaseService.UpdatePrintSettings(copiedProfileViewModel.ToDataModel());
+    }
+
+    [RelayCommand]
+    private async Task DeletePrintItemAsync(string id)
+    {
+        if (PrintList.Count(x => x.Id == id) != 1)
+            // TODO: Throw/Warn?
+            return;
+
+        // If user selected to remove from UI (via Confirm dialog)
+        if (await DeletePrintItemFromUIAsync(id))
+            // Delete from database
+            databaseService.DeletePrintListItem(id);
+    }
+
+    [RelayCommand]
+    private async Task DeletePrintSettingsAsync(string id)
+    {
+        if (PrinterSettings.Count(x => x.Id == id) != 1)
+            // TODO: Throw/Warn?
+            return;
+        
+        if (await DeletePrintSettingsFromUIAsync(id))
+            databaseService.DeletePrintSettings(id);
+    }
+
+    [RelayCommand]
+    private async Task AddNewPrintSettingsAsync()
+    {
+        var confirmViewModel = new PrintSettingsViewModel()
+        {
+            Name = "New Print Settings",
+            PrinterSettingProfiles = databaseService.GetPrintSettingsProfiles().ToViewModels()
+            // OnConfirm = async (vm) =>
+            // {
+            //     await Task.Delay(2000);
+            //
+            //     vm.ProgressText = "This is taking a while...";
+            //
+            //     await Task.Delay(2000);
+            //     
+            //     vm.StatusText = "Oh no, something went wrong...";
+            //
+            //     return true;
+            // }
+        };
+        
+        // TODO: Remove once new confirm view model dialog is pulled from database
+        confirmViewModel.RestoreState(confirmViewModel.GetState());
+        
+        InjectPrinterDetails(confirmViewModel);
+
+        await dialogService.ShowDialog(mainViewModel, confirmViewModel);
+
+        // Ignore if we clicked cancel
+        if (!confirmViewModel.Confirmed)
+            return;
+        
+        PrinterSettings.Add(confirmViewModel);
+        databaseService.AddPrintSettings(confirmViewModel.ToDataModel());
+    }
+    
+    // ReSharper disable once InconsistentNaming
+    private async Task<bool> DeletePrintSettingsFromUIAsync(string id, bool warn = true)
+    {
+        var index = PrinterSettings.IndexOf(PrinterSettings.First(x => x.Id == id));
+        if (index == -1)
+            return false;
+
+        if (warn)
+        {
+            var confirmViewModel = new ConfirmDialogViewModel
+            {
+                Title = $"Delete Print Profile?",
+                Message = $"Are you sure you want to delete '{PrinterSettings[index].Name}'?",
+                DialogWidth = 500,
+            };
+
+            await dialogService.ShowDialog(mainViewModel, confirmViewModel);
+
+            // Ignore if we clicked cancel
+            if (!confirmViewModel.Confirmed)
+                return false;
+        }
+
+        // Remove item
+        PrinterSettings.RemoveAt(index);
+
+        // Select the item below the deleted one
+        if (index > 0) index--;
+
+        if (SelectedPrintListItem != null && PrinterSettings.Count > 0)
+        {
+            SelectedPrintListItem.PrinterSettingsId = PrinterSettings[index].Id;
+            await SavePrintItemAsync();
+        }
+
+        return true;
+    }
+    
+    private void InjectPrinterDetails(PrintSettingsViewModel viewModel)
+    {
+        // Fetch live printers available on machine
+        var availablePrinters = printerService.AvailablePrinters();
+        
+        var printerNameOptions = new ObservableCollection<string>(
+            availablePrinters.Select((f) => f.Name)
+        );
+
+        foreach (var printerSettingsItem in viewModel.PrinterSettingProfiles)
+        {
+            printerSettingsItem.PrinterNameOptions = printerNameOptions;
+
+            printerSettingsItem.PropertyChanged += (sender, args) =>
+            {
+                if (args.PropertyName != nameof(PrintSettingsProfileViewModel.PrinterName))
+                    return;
+                
+                // Printer changed, update paper size and tray
+                printerSettingsItem.PaperSizeOptions = new ObservableCollection<string>(
+                    availablePrinters.FirstOrDefault(f => f.Name == printerSettingsItem.PrinterName)?.PaperSizes ?? []
+                );
+                
+                printerSettingsItem.PaperSizeOptions.Insert(0,"(Default)");
+            
+                printerSettingsItem.SourceTrayOptions = new ObservableCollection<string>(
+                    availablePrinters.FirstOrDefault(f => f.Name == printerSettingsItem.PrinterName)?.SourceTrays ?? []
+                );
+
+                printerSettingsItem.SourceTrayOptions.Insert(0, "(Default)");
+
+                // Change paper size and source tray to first item
+                if (!printerSettingsItem.PaperSizeOptions.Any(f => f == printerSettingsItem.PaperSize))
+                    printerSettingsItem.PaperSize =  printerSettingsItem.PaperSizeOptions.FirstOrDefault();
+
+                if (!printerSettingsItem.SourceTrayOptions.Any(f => f == printerSettingsItem.SourceTray))
+                    printerSettingsItem.SourceTray = printerSettingsItem.SourceTrayOptions.FirstOrDefault();
+            };
+            
+            // Force a printer name change for initial list
+            printerSettingsItem.RaiseOnPropertyChanged(nameof(printerSettingsItem.PrinterName));
+        }
+    }
+    
+    #endregion
+    
+    #region Custom Properties (Methods)
+    
+    [RelayCommand]
+    private void FetchCustomPropertiesList()
+    {
+        var customPropertiesList = databaseService.GetCustomPropertiesList();
+        
+        // TODO: Move this logic to a service / provider
+        string[] fieldTypeOptions =
+        [
+            "Text",
+            "Number",
+            "Date",
+            "YesNo"
+        ];
+        
+        // TODO: Move to ToViewModel inside of ActionsTabCustomPropertiesViewModel
+        CustomPropertiesList = new ObservableCollection<ActionsTabCustomPropertiesViewModel>(customPropertiesList
+            .OrderBy(f => f.JobName)
+            .Select(f => new ActionsTabCustomPropertiesViewModel()
+            {
+                Id = f.Id,
+                JobName = f.JobName,
+                Description = f.Description,
+                ChangeNameTo = f.ChangeNameTo,
+                CopyFromConfiguration = f.CopyFromConfiguration,
+                CopyToField = f.CopyToField,
+                ExcludeAssemblies = f.ExcludeAssemblies,
+                ExcludeParts = f.ExcludeParts,
+                FieldName = f.FieldName,
+                FilterLogic = f.FilterLogic,
+                SetAllConfigSpecificProperties = f.SetAllConfigSpecificProperties,
+                SetCustomProperty = f.SetCustomProperty,
+                SetNamedConfigurationProperties = f.SetNamedConfigurationProperties,
+                ValueRule = f.ValueRule,
+                ExcludeDrawings = f.ExcludeDrawings,
+                RuleType = f.RuleType,
+                FieldType = f.FieldType,
+                FieldTypeOptions = new ObservableCollection<string>(fieldTypeOptions)
+            }));
+
+        // Update CustomPropertiesListHasItems when collection changes
+        CustomPropertiesList.CollectionChanged += (_, _) => OnPropertyChanged(nameof(CustomPropertiesListHasItems));
+
+        if (CustomPropertiesList.Count > 0)
+        {
+            // Select first item
+            SelectedCustomPropertiesListItemId = CustomPropertiesList.First().Id;
+            
+            // Store last fetched database save states
+            foreach (var listItem in CustomPropertiesList)
+                listItem.SetSavedState();
+        }
+    }
+    
+    [RelayCommand]
+    private void AddNewCustomPropertiesItem()
+    {
+        // Create a new item
+        var newItem = new ActionsTabCustomPropertiesViewModel
+        {
+            Id = Guid.NewGuid().ToString("N"),
+            IsNewItem = true,
+            JobName = "New Custom Property Job",
+        };
+
+        // Add to the print list
+        CustomPropertiesList.Add(newItem);
+        
+        // Select item
+        SelectedCustomPropertiesListItemId = newItem.Id;
+    }
+
+    [RelayCommand]
+    private async Task CancelCustomPropertiesItem()
+    {
+        // Ignore if nothing is selected
+        if (SelectedCustomPropertiesListItem == null)
+            return;
+        
+        // If the selected item is new, delete it
+        // Otherwise, restore from save state
+        if (SelectedCustomPropertiesListItem.IsNewItem)
+            await DeleteCustomPropertiesItemFromUIAsync(SelectedCustomPropertiesListItem.Id, warn: false);
+        else
+            SelectedCustomPropertiesListItem.RestoreState();
+    }
+
+    // ReSharper disable once InconsistentNaming
+    private async Task<bool> DeleteCustomPropertiesItemFromUIAsync(string id, bool warn = true)
+    {
+        var index = CustomPropertiesList.IndexOf(CustomPropertiesList.First(x => x.Id == id));
+        if (index == -1)
+            return false;
+
+        if (warn)
+        {
+            var confirmViewModel = new ConfirmDialogViewModel
+            {
+                Title = $"Delete Custom Properties Item?",
+                Message = $"Are you sure you want to delete ' {CustomPropertiesList[index].JobName}'?",
+                DialogWidth = 500,
+            };
+
+            await dialogService.ShowDialog(mainViewModel, confirmViewModel);
+
+            // Ignore if we clicked cancel
+            if (!confirmViewModel.Confirmed)
+                return false;
+        }
+
+        // Remove item
+        CustomPropertiesList.RemoveAt(index);
+
+        // Select the item below the deleted one
+        if (index > 0) index--;
+
+        if (CustomPropertiesList.Count > 0)
+            SelectedCustomPropertiesListItemId = CustomPropertiesList[index].Id;
+
+        return true;
+    }
+    
+    [RelayCommand]
+    private async Task SaveCustomPropertiesItemAsync()
+    {
+        // Ignore if no selection
+        if (SelectedCustomPropertiesListItem == null)
+            return;
+        
+        // If the selected item is new...
+        if (SelectedCustomPropertiesListItem.IsNewItem)
+            databaseService.AddCustomPropertiesItem(SelectedCustomPropertiesListItem.ToDataModel());
+        else
+            databaseService.UpdateCustomPropertiesItem(SelectedCustomPropertiesListItem.ToDataModel());
+        
+        // Flag new item as not new
+        SelectedCustomPropertiesListItem.IsNewItem = false;
+        SelectedCustomPropertiesListItem.SetSavedState();
+    }
+
+    #endregion
 }

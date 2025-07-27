@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Drawing.Printing;
 
-namespace BatchProcess3.Services;
+namespace BatchProcess3.Printer;
 
 public class PrinterService
 {

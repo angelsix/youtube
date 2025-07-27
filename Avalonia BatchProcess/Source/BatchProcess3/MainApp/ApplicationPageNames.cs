@@ -1,4 +1,4 @@
-﻿namespace BatchProcess3.Data;
+﻿namespace BatchProcess3.MainApp;
 
 public enum ApplicationPageNames
 {

@@ -1,7 +1,5 @@
 ﻿using Avalonia;
-using BatchProcess3.Services;
-using BatchProcess3.ViewModels;
-using BatchProcess3.Views;
+using BatchProcess3.Crash;
 using System;
 using System.Diagnostics;
 
@@ -26,16 +24,17 @@ class Program
             var lastCrash = CrashService.GetCrashData();
             
             // Write a crash log
-            CrashService.SetCrashData(ex);
-
-            // If we previously crashed in under 10 seconds, don't re-open
-            if (lastCrash == null || lastCrash.CrashDate < DateTimeOffset.UtcNow - TimeSpan.FromSeconds(10))
+            if (CrashService.SetCrashData(ex))
             {
-                // Restart application
-                try { Process.Start(typeof(Program).Assembly.Location.Replace(".dll", ".exe")); }
-                catch
+                // If we previously crashed in under 10 seconds, don't re-open
+                if (lastCrash == null || lastCrash.CrashDate < DateTimeOffset.UtcNow - TimeSpan.FromSeconds(10))
                 {
-                    //Ignored
+                    // Restart application
+                    try { Process.Start(typeof(Program).Assembly.Location.Replace(".dll", ".exe")); }
+                    catch
+                    {
+                        //Ignored
+                    }
                 }
             }
         }

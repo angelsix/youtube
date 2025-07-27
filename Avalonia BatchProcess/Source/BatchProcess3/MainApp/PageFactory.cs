@@ -1,8 +1,7 @@
-﻿using BatchProcess3.Data;
-using BatchProcess3.ViewModels;
+﻿using BatchProcess3.ViewModels;
 using System;
 
-namespace BatchProcess3.Factories;
+namespace BatchProcess3.MainApp;
 
 public class PageFactory(Func<Type, PageViewModel> factory)
 {

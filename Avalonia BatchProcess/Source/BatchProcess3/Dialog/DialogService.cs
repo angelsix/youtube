@@ -6,7 +6,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace BatchProcess3.Services;
+namespace BatchProcess3.Dialog;
 
 public class DialogService(Func<TopLevel?> topLevel)
 {

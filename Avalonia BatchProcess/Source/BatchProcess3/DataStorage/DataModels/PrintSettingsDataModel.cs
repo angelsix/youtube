@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace BatchProcess3.DataModels;
+namespace BatchProcess3.DataStorage.DataModels;
 
 public class PrintSettingsDataModel
 {

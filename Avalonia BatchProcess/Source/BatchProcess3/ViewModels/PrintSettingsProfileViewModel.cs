@@ -1,4 +1,4 @@
-﻿using BatchProcess3.DataModels;
+﻿using BatchProcess3.DataStorage.DataModels;
 using CommunityToolkit.Mvvm.ComponentModel;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
