@@ -79,7 +79,7 @@
                     <Label Grid.Row="0" Grid.Column="0" Content="Job Name" VerticalAlignment="Center" />
                     <TextBox Name="JobNameTextBox" Grid.Row="0" Grid.Column="2" Text="{Binding  SelectedPrintListItem.JobName}" />
                     <Label Grid.Row="2" Grid.Column="0" Content="Description" />
-                    <TextBox Grid.Row="2" Grid.Column="2" Text="{Binding  SelectedPrintListItem.Description}" Height="80" TextWrapping="Wrap" />
+                    <TextBox Grid.Row="2" Grid.Column="2" AcceptsReturn="True" Text="{Binding  SelectedPrintListItem.Description}" Height="80" TextWrapping="Wrap" />
                     <Label Grid.Row="4" Grid.Column="0" Content="Print" VerticalAlignment="Center" />
                     <StackPanel Grid.Row="4" Grid.Column="2" Orientation="Horizontal" Spacing="10">
                         <CheckBox Content="Models" IsChecked="{Binding SelectedPrintListItem.PrintModels}" />

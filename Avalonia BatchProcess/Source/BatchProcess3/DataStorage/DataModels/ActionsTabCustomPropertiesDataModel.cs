@@ -12,15 +12,15 @@ public class ActionsTabCustomPropertiesDataModel
     
     public string Description { get; set; } = "";
 
-    public CustomPropertyRuleType RuleType { get; set; }
+    public CustomPropertiesRuleType RuleType { get; set; }
 
-    public string FilterLogic { get; set; }
+    public string FilterLogic { get; set; } = "";
 
     public bool SetCustomProperty { get; set; }
     
     public bool SetAllConfigSpecificProperties { get; set; }
     
-    public string SetNamedConfigurationProperties { get; set; }
+    public string SetNamedConfigurationProperties { get; set; } = "";
     
     public bool ExcludeParts { get; set; }
     
@@ -28,15 +28,15 @@ public class ActionsTabCustomPropertiesDataModel
     
     public bool ExcludeDrawings { get; set; }
     
-    public string FieldType { get; set; }
+    public CustomPropertiesFieldTypes FieldType { get; set; }
 
-    public string FieldName { get; set; }
+    public string FieldName { get; set; } = "";
     
-    public string ValueRule { get; set; }
+    public string ValueRule { get; set; } = "";
     
-    public string ChangeNameTo { get; set; }
+    public string ChangeNameTo { get; set; } = "";
     
-    public string CopyFromConfiguration { get; set; }
+    public string CopyFromConfiguration { get; set; } = "";
     
-    public string CopyToField { get; set; }
+    public string CopyToField { get; set; } = "";
 }

@@ -26,50 +26,85 @@ public partial class ActionsTabCustomPropertiesViewModel : ViewModelBase
     private bool _isNewItem;
     
     [ObservableProperty]
-    private CustomPropertyRuleType _ruleType;
+    [NotifyPropertyChangedFor(nameof(HasChanged))]
+    [NotifyPropertyChangedFor(nameof(FieldTypeIsVisible))]
+    [NotifyPropertyChangedFor(nameof(FieldNameIsVisible))]
+    [NotifyPropertyChangedFor(nameof(ChangeNameToIsVisible))]
+    [NotifyPropertyChangedFor(nameof(ValueRuleIsVisible))]
+    [NotifyPropertyChangedFor(nameof(CopyFromConfigurationIsVisible))]
+    [NotifyPropertyChangedFor(nameof(CopyToFieldIsVisible))]
+    private CustomPropertiesRuleType _ruleType;
 
     [ObservableProperty]
-    private string _filterLogic;
+    [NotifyPropertyChangedFor(nameof(HasChanged))]
+    private string _filterLogic = "";
 
     [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(HasChanged))]
     private bool _setCustomProperty;
     
     [ObservableProperty]
-    private bool _setAllConfigSpecificProperties;
+    [NotifyPropertyChangedFor(nameof(HasChanged))]
+    private bool _setConfigSpecificProperties;
     
     [ObservableProperty]
-    private string _setNamedConfigurationProperties;
+    [NotifyPropertyChangedFor(nameof(HasChanged))]
+    private string _setConfigurationPropertiesFilter = "";
     
     [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(HasChanged))]
     private bool _excludeParts;
     
     [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(HasChanged))]
     private bool _excludeAssemblies;
     
     [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(HasChanged))]
     private bool _excludeDrawings;
     
     [ObservableProperty]
-    private string _fieldType;
+    [NotifyPropertyChangedFor(nameof(HasChanged))]
+    private CustomPropertiesFieldTypes _fieldType;
+
+    [JsonIgnore]
+    public bool FieldTypeIsVisible => RuleType is CustomPropertiesRuleType.Add or CustomPropertiesRuleType.Update;
 
     [ObservableProperty]
-    private ObservableCollection<string> _fieldTypeOptions = [];
+    [NotifyPropertyChangedFor(nameof(HasChanged))]
+    private string _fieldName = "";
+    
+    [JsonIgnore]
+    public bool FieldNameIsVisible => RuleType is not CustomPropertiesRuleType.Clear;
 
     [ObservableProperty]
-    private string _fieldName;
+    [NotifyPropertyChangedFor(nameof(HasChanged))]
+    private string _valueRule = "";
     
-    [ObservableProperty]
-    private string _valueRule;
-    
-    [ObservableProperty]
-    private string _changeNameTo;
-    
-    [ObservableProperty]
-    private string _copyFromConfiguration;
-    
-    [ObservableProperty]
-    private string _copyToField;
+    [JsonIgnore]
+    public bool ValueRuleIsVisible => RuleType is CustomPropertiesRuleType.Add or CustomPropertiesRuleType.Update;
 
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(HasChanged))]
+    private string _changeNameTo = "";
+    
+    [JsonIgnore]
+    public bool ChangeNameToIsVisible => RuleType is CustomPropertiesRuleType.Update;
+    
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(HasChanged))]
+    private string _copyFromConfiguration = "";
+    
+    [JsonIgnore]
+    public bool CopyFromConfigurationIsVisible => RuleType is CustomPropertiesRuleType.Copy;
+    
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(HasChanged))]
+    private string _copyToField = "";
+
+    [JsonIgnore]
+    public bool CopyToFieldIsVisible => RuleType is CustomPropertiesRuleType.Copy;
+    
     [JsonIgnore]
     public new bool HasChanged => IsNewItem || (SavedState != "" && SavedState != JsonSerializer.Serialize(this, _jsonOptions));
 
@@ -88,9 +123,9 @@ public partial class ActionsTabCustomPropertiesViewModel : ViewModelBase
         FieldType = FieldType,
         FilterLogic = FilterLogic,
         RuleType = RuleType,
-        SetAllConfigSpecificProperties = SetAllConfigSpecificProperties,
+        SetAllConfigSpecificProperties = SetConfigSpecificProperties,
         SetCustomProperty = SetCustomProperty,
-        SetNamedConfigurationProperties = SetNamedConfigurationProperties,
+        SetNamedConfigurationProperties = SetConfigurationPropertiesFilter,
         ValueRule = ValueRule
     };
 }

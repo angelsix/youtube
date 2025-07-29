@@ -28,6 +28,7 @@ public partial class ActionsPageView : UserControl
         var actionsPage = selectedPage switch
         {
             ActionsTabPrintView => ActionsPageName.Print,
+            ActionsTabCustomPropertiesView => ActionsPageName.CustomProperties,
             _ => ActionsPageName.Unknown,
         };
 

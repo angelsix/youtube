@@ -197,13 +197,13 @@ public class DatabaseService(ApplicationDbContext context) : IDisposable
     public void UpdateCustomPropertiesItem(ActionsTabCustomPropertiesDataModel dataModel)
     {
         // Remove existing
-        DeleteCustomPropertiesItem(dataModel.Id);
+        DeleteCustomPropertiesListItem(dataModel.Id);
         
         // Add new
         AddCustomPropertiesItem(dataModel);
     }
         
-    public void DeleteCustomPropertiesItem(string id)
+    public void DeleteCustomPropertiesListItem(string id)
     {
         // Remove existing
         var existingItem = _context.ActionsTabCustomProperties.FirstOrDefault(f  => f.Id == id);

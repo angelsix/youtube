@@ -1,4 +1,5 @@
-﻿using BatchProcess3.DataStorage;
+﻿using BatchProcess3.CustomProperties;
+using BatchProcess3.DataStorage;
 using BatchProcess3.Dialog;
 using BatchProcess3.MainApp;
 using BatchProcess3.Printer;
@@ -53,6 +54,10 @@ public partial class ActionsPageViewModel(MainViewModel mainViewModel, DialogSer
     
     public ActionsTabCustomPropertiesViewModel? SelectedCustomPropertiesListItem =>
         CustomPropertiesList.FirstOrDefault(f => f.Id == SelectedCustomPropertiesListItemId);
+
+    public ObservableCollection<CustomPropertiesRuleType> CustomPropertiesRuleTypes => new(Enum.GetValues<CustomPropertiesRuleType>());
+    
+    public ObservableCollection<CustomPropertiesFieldTypes> CustomPropertiesFieldTypes => new(Enum.GetValues<CustomPropertiesFieldTypes>());
     
     #endregion
     
@@ -223,6 +228,19 @@ public partial class ActionsPageViewModel(MainViewModel mainViewModel, DialogSer
         SelectedPrintListItem.IsNewItem = false;
         SelectedPrintListItem.SetSavedState();
     }
+    
+    [RelayCommand]
+    private async Task DeletePrintItemAsync(string id)
+    {
+        if (PrintList.Count(x => x.Id == id) != 1)
+            // TODO: Throw/Warn?
+            return;
+
+        // If user selected to remove from UI (via Confirm dialog)
+        if (await DeletePrintItemFromUIAsync(id))
+            // Delete from database
+            databaseService.DeletePrintListItem(id);
+    }
 
     [RelayCommand]
     private void FetchPrintSettings()
@@ -256,19 +274,6 @@ public partial class ActionsPageViewModel(MainViewModel mainViewModel, DialogSer
         // Commit copied view model back
         profileViewModel.RestoreState(copiedProfileViewModel.GetState());
         databaseService.UpdatePrintSettings(copiedProfileViewModel.ToDataModel());
-    }
-
-    [RelayCommand]
-    private async Task DeletePrintItemAsync(string id)
-    {
-        if (PrintList.Count(x => x.Id == id) != 1)
-            // TODO: Throw/Warn?
-            return;
-
-        // If user selected to remove from UI (via Confirm dialog)
-        if (await DeletePrintItemFromUIAsync(id))
-            // Delete from database
-            databaseService.DeletePrintListItem(id);
     }
 
     [RelayCommand]
@@ -409,15 +414,6 @@ public partial class ActionsPageViewModel(MainViewModel mainViewModel, DialogSer
     {
         var customPropertiesList = databaseService.GetCustomPropertiesList();
         
-        // TODO: Move this logic to a service / provider
-        string[] fieldTypeOptions =
-        [
-            "Text",
-            "Number",
-            "Date",
-            "YesNo"
-        ];
-        
         // TODO: Move to ToViewModel inside of ActionsTabCustomPropertiesViewModel
         CustomPropertiesList = new ObservableCollection<ActionsTabCustomPropertiesViewModel>(customPropertiesList
             .OrderBy(f => f.JobName)
@@ -433,14 +429,13 @@ public partial class ActionsPageViewModel(MainViewModel mainViewModel, DialogSer
                 ExcludeParts = f.ExcludeParts,
                 FieldName = f.FieldName,
                 FilterLogic = f.FilterLogic,
-                SetAllConfigSpecificProperties = f.SetAllConfigSpecificProperties,
+                SetConfigSpecificProperties = f.SetAllConfigSpecificProperties,
                 SetCustomProperty = f.SetCustomProperty,
-                SetNamedConfigurationProperties = f.SetNamedConfigurationProperties,
+                SetConfigurationPropertiesFilter = f.SetNamedConfigurationProperties,
                 ValueRule = f.ValueRule,
                 ExcludeDrawings = f.ExcludeDrawings,
                 RuleType = f.RuleType,
-                FieldType = f.FieldType,
-                FieldTypeOptions = new ObservableCollection<string>(fieldTypeOptions)
+                FieldType = f.FieldType
             }));
 
         // Update CustomPropertiesListHasItems when collection changes
@@ -488,6 +483,19 @@ public partial class ActionsPageViewModel(MainViewModel mainViewModel, DialogSer
             await DeleteCustomPropertiesItemFromUIAsync(SelectedCustomPropertiesListItem.Id, warn: false);
         else
             SelectedCustomPropertiesListItem.RestoreState();
+    }
+
+    [RelayCommand]
+    private async Task DeleteCustomPropertiesItemAsync(string id)
+    {
+        if (CustomPropertiesList.Count(x => x.Id == id) != 1)
+            // TODO: Throw/Warn?
+            return;
+
+        // If user selected to remove from UI (via Confirm dialog)
+        if (await DeleteCustomPropertiesItemFromUIAsync(id))
+            // Delete from database
+            databaseService.DeleteCustomPropertiesListItem(id);
     }
 
     // ReSharper disable once InconsistentNaming
