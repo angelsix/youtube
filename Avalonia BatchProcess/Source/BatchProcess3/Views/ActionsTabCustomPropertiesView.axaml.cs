@@ -1,6 +1,4 @@
-﻿using Avalonia;
-using Avalonia.Controls;
-using Avalonia.Markup.Xaml;
+﻿using Avalonia.Controls;
 using BatchProcess3.ViewModels;
 
 namespace BatchProcess3.Views;
@@ -14,7 +12,7 @@ public partial class ActionsTabCustomPropertiesView : UserControl
 
     private void SelectingItemsControl_OnSelectionChanged(object? sender, SelectionChangedEventArgs e)
     {
-        if (e.AddedItems?.Count > 0 && e.AddedItems[0] is ActionsTabPrintViewModel viewModel)
+        if (e.AddedItems?.Count > 0 && e.AddedItems[0] is ActionsTabCustomPropertiesViewModel viewModel)
         {
             // When it is a newly created item
             if (viewModel.IsNewItem)

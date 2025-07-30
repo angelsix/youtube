@@ -45,3 +45,18 @@ public partial class ActionsTabImportFileViewModel : ViewModelBase
         AddToProject = AddToProject
     };
 }
+
+public static class ActionsTabImportFileViewModelExtensions
+{
+    public static ActionsTabImportFileViewModel ToViewModel(this ActionsTabImportFileDataModel dataModel) =>
+        new()
+        {
+            Id = dataModel.Id,
+            JobName = dataModel.JobName,
+            Description = dataModel.Description,
+            SaveLocation = dataModel.SaveLocation,
+            FileName = dataModel.FileName,
+            AddToProject = dataModel.AddToProject,
+            ImportArguments = dataModel.ImportArguments
+        };
+}

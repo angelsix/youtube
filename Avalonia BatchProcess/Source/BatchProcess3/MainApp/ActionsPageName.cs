@@ -2,13 +2,12 @@
 
 public enum ActionsPageName
 {
-    Unknown = 0,
-    Print = 1,
-    CustomProperties = 2,
-    FileInfo = 3,
-    SaveModelAs = 4,
-    SaveDrawingAs = 5,
-    ImportFile = 6,
-    DrawingTemplates = 7,
-    Macros = 8
+    Print = 0,
+    CustomProperties = 1,
+    FileInfo = 2,
+    SaveModelAs = 3,
+    SaveDrawingAs = 4,
+    ImportFile = 5,
+    DrawingTemplates = 6,
+    Macros = 7
 }

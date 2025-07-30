@@ -47,3 +47,18 @@ public partial class ActionsTabSaveModelViewModel : ViewModelBase
         SaveAllConfigurations = SaveAllConfigurations
     };
 }
+
+public static class ActionsTabSaveModelViewModelExtensions
+{
+    public static ActionsTabSaveModelViewModel ToViewModel(this ActionsTabSaveModelDataModel dataModel) =>
+        new()
+        {
+            Id = dataModel.Id,
+            JobName = dataModel.JobName,
+            Description = dataModel.Description,
+            SaveLocation = dataModel.SaveLocation,
+            ExportFormats = new ObservableCollection<string>(dataModel.ExportFormats.ToList()),
+            SaveAllConfigurations = dataModel.SaveAllConfigurations,
+            FileName = dataModel.FileName
+        };
+}

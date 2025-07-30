@@ -1,6 +1,5 @@
 ﻿using BatchProcess3.DataStorage.DataModels;
 using CommunityToolkit.Mvvm.ComponentModel;
-using System.Runtime.CompilerServices;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -8,50 +7,42 @@ namespace BatchProcess3.ViewModels;
 
 public partial class ActionsTabPrintViewModel : ViewModelBase
 {
-    [ObservableProperty]
-    [NotifyPropertyChangedFor(nameof(HasChanged))]
-    private string _id = "";
-    
-    [ObservableProperty]
-    [NotifyPropertyChangedFor(nameof(HasChanged))]
-    private string _jobName = "";
-    
-    [ObservableProperty]
-    [NotifyPropertyChangedFor(nameof(HasChanged))]
+    [ObservableProperty] [NotifyPropertyChangedFor(nameof(HasChanged))]
     private string _description = "";
-    
-    [ObservableProperty]
-    [NotifyPropertyChangedFor(nameof(HasChanged))]
-    private string _printDrawingRange = "";
-    
-    [ObservableProperty]
-    [NotifyPropertyChangedFor(nameof(HasChanged))]
-    private string _drawingExclusionList = "";
-    
+
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(DrawingExclusionListTitle))]
     [NotifyPropertyChangedFor(nameof(HasChanged))]
     private bool _drawingExclusionIsWhiteList;
-    
-    public string DrawingExclusionListTitle => DrawingExclusionIsWhiteList ? "White List" : "Black List";
-    
-    [ObservableProperty]
-    [NotifyPropertyChangedFor(nameof(HasChanged))]
-    private bool _printModels;
-    
-    [ObservableProperty]
-    [NotifyPropertyChangedFor(nameof(HasChanged))]
+
+    [ObservableProperty] [NotifyPropertyChangedFor(nameof(HasChanged))]
+    private string _drawingExclusionList = "";
+
+    [ObservableProperty] [NotifyPropertyChangedFor(nameof(HasChanged))]
+    private string _id = "";
+
+    [ObservableProperty] private bool _isNewItem;
+
+    [ObservableProperty] [NotifyPropertyChangedFor(nameof(HasChanged))]
+    private string _jobName = "";
+
+    [ObservableProperty] [NotifyPropertyChangedFor(nameof(HasChanged))]
+    private string _printDrawingRange = "";
+
+    [ObservableProperty] [NotifyPropertyChangedFor(nameof(HasChanged))]
     private bool _printDrawings;
 
-    [ObservableProperty]
-    private bool _isNewItem;
-    
-    [ObservableProperty]
-    [NotifyPropertyChangedFor(nameof(HasChanged))]
+    [ObservableProperty] [NotifyPropertyChangedFor(nameof(HasChanged))]
     private string? _printerSettingsId;
-    
+
+    [ObservableProperty] [NotifyPropertyChangedFor(nameof(HasChanged))]
+    private bool _printModels;
+
+    public string DrawingExclusionListTitle => DrawingExclusionIsWhiteList ? "White List" : "Black List";
+
     [JsonIgnore]
-    public new bool HasChanged => IsNewItem || (SavedState != "" && SavedState != JsonSerializer.Serialize(this, _jsonOptions));
+    public new bool HasChanged =>
+        IsNewItem || (SavedState != "" && SavedState != JsonSerializer.Serialize(this, _jsonOptions));
 
     public ActionsTabPrintDataModel ToDataModel() => new()
     {
@@ -65,4 +56,21 @@ public partial class ActionsTabPrintViewModel : ViewModelBase
         PrinterSettingsId = PrinterSettingsId,
         PrintModels = PrintModels
     };
+}
+
+public static class ActionsTabPrintViewModelExtensions
+{
+    public static ActionsTabPrintViewModel ToViewModel(this ActionsTabPrintDataModel dataModel) =>
+        new()
+        {
+            Id = dataModel.Id,
+            JobName = dataModel.JobName,
+            Description = dataModel.Description,
+            DrawingExclusionIsWhiteList = dataModel.DrawingExclusionIsWhiteList,
+            DrawingExclusionList = dataModel.DrawingExclusionList,
+            PrintDrawingRange = dataModel.PrintDrawingRange,
+            PrintDrawings = dataModel.PrintDrawings,
+            PrinterSettingsId = dataModel.PrinterSettingsId,
+            PrintModels = dataModel.PrintModels
+        };
 }

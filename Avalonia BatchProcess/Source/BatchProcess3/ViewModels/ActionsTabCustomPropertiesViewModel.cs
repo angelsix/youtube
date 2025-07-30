@@ -1,8 +1,6 @@
 ﻿using BatchProcess3.CustomProperties;
 using BatchProcess3.DataStorage.DataModels;
 using CommunityToolkit.Mvvm.ComponentModel;
-using System.Collections.ObjectModel;
-using System.Runtime.CompilerServices;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -10,21 +8,44 @@ namespace BatchProcess3.ViewModels;
 
 public partial class ActionsTabCustomPropertiesViewModel : ViewModelBase
 {
-    [ObservableProperty]
-    [NotifyPropertyChangedFor(nameof(HasChanged))]
-    private string _id = "";
-    
-    [ObservableProperty]
-    [NotifyPropertyChangedFor(nameof(HasChanged))]
-    private string _jobName = "";
-    
-    [ObservableProperty]
-    [NotifyPropertyChangedFor(nameof(HasChanged))]
+    [ObservableProperty] [NotifyPropertyChangedFor(nameof(HasChanged))]
+    private string _changeNameTo = "";
+
+    [ObservableProperty] [NotifyPropertyChangedFor(nameof(HasChanged))]
+    private string _copyFromConfiguration = "";
+
+    [ObservableProperty] [NotifyPropertyChangedFor(nameof(HasChanged))]
+    private string _copyToField = "";
+
+    [ObservableProperty] [NotifyPropertyChangedFor(nameof(HasChanged))]
     private string _description = "";
-    
-    [ObservableProperty]
-    private bool _isNewItem;
-    
+
+    [ObservableProperty] [NotifyPropertyChangedFor(nameof(HasChanged))]
+    private bool _excludeAssemblies;
+
+    [ObservableProperty] [NotifyPropertyChangedFor(nameof(HasChanged))]
+    private bool _excludeDrawings;
+
+    [ObservableProperty] [NotifyPropertyChangedFor(nameof(HasChanged))]
+    private bool _excludeParts;
+
+    [ObservableProperty] [NotifyPropertyChangedFor(nameof(HasChanged))]
+    private string _fieldName = "";
+
+    [ObservableProperty] [NotifyPropertyChangedFor(nameof(HasChanged))]
+    private CustomPropertiesFieldTypes _fieldType;
+
+    [ObservableProperty] [NotifyPropertyChangedFor(nameof(HasChanged))]
+    private string _filterLogic = "";
+
+    [ObservableProperty] [NotifyPropertyChangedFor(nameof(HasChanged))]
+    private string _id = "";
+
+    [ObservableProperty] private bool _isNewItem;
+
+    [ObservableProperty] [NotifyPropertyChangedFor(nameof(HasChanged))]
+    private string _jobName = "";
+
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(HasChanged))]
     [NotifyPropertyChangedFor(nameof(FieldTypeIsVisible))]
@@ -35,78 +56,35 @@ public partial class ActionsTabCustomPropertiesViewModel : ViewModelBase
     [NotifyPropertyChangedFor(nameof(CopyToFieldIsVisible))]
     private CustomPropertiesRuleType _ruleType;
 
-    [ObservableProperty]
-    [NotifyPropertyChangedFor(nameof(HasChanged))]
-    private string _filterLogic = "";
-
-    [ObservableProperty]
-    [NotifyPropertyChangedFor(nameof(HasChanged))]
-    private bool _setCustomProperty;
-    
-    [ObservableProperty]
-    [NotifyPropertyChangedFor(nameof(HasChanged))]
+    [ObservableProperty] [NotifyPropertyChangedFor(nameof(HasChanged))]
     private bool _setConfigSpecificProperties;
-    
-    [ObservableProperty]
-    [NotifyPropertyChangedFor(nameof(HasChanged))]
+
+    [ObservableProperty] [NotifyPropertyChangedFor(nameof(HasChanged))]
     private string _setConfigurationPropertiesFilter = "";
-    
-    [ObservableProperty]
-    [NotifyPropertyChangedFor(nameof(HasChanged))]
-    private bool _excludeParts;
-    
-    [ObservableProperty]
-    [NotifyPropertyChangedFor(nameof(HasChanged))]
-    private bool _excludeAssemblies;
-    
-    [ObservableProperty]
-    [NotifyPropertyChangedFor(nameof(HasChanged))]
-    private bool _excludeDrawings;
-    
-    [ObservableProperty]
-    [NotifyPropertyChangedFor(nameof(HasChanged))]
-    private CustomPropertiesFieldTypes _fieldType;
+
+    [ObservableProperty] [NotifyPropertyChangedFor(nameof(HasChanged))]
+    private bool _setCustomProperty;
+
+    [ObservableProperty] [NotifyPropertyChangedFor(nameof(HasChanged))]
+    private string _valueRule = "";
 
     [JsonIgnore]
     public bool FieldTypeIsVisible => RuleType is CustomPropertiesRuleType.Add or CustomPropertiesRuleType.Update;
 
-    [ObservableProperty]
-    [NotifyPropertyChangedFor(nameof(HasChanged))]
-    private string _fieldName = "";
-    
-    [JsonIgnore]
-    public bool FieldNameIsVisible => RuleType is not CustomPropertiesRuleType.Clear;
+    [JsonIgnore] public bool FieldNameIsVisible => RuleType is not CustomPropertiesRuleType.Clear;
 
-    [ObservableProperty]
-    [NotifyPropertyChangedFor(nameof(HasChanged))]
-    private string _valueRule = "";
-    
     [JsonIgnore]
     public bool ValueRuleIsVisible => RuleType is CustomPropertiesRuleType.Add or CustomPropertiesRuleType.Update;
 
-    [ObservableProperty]
-    [NotifyPropertyChangedFor(nameof(HasChanged))]
-    private string _changeNameTo = "";
-    
-    [JsonIgnore]
-    public bool ChangeNameToIsVisible => RuleType is CustomPropertiesRuleType.Update;
-    
-    [ObservableProperty]
-    [NotifyPropertyChangedFor(nameof(HasChanged))]
-    private string _copyFromConfiguration = "";
-    
-    [JsonIgnore]
-    public bool CopyFromConfigurationIsVisible => RuleType is CustomPropertiesRuleType.Copy;
-    
-    [ObservableProperty]
-    [NotifyPropertyChangedFor(nameof(HasChanged))]
-    private string _copyToField = "";
+    [JsonIgnore] public bool ChangeNameToIsVisible => RuleType is CustomPropertiesRuleType.Update;
+
+    [JsonIgnore] public bool CopyFromConfigurationIsVisible => RuleType is CustomPropertiesRuleType.Copy;
+
+    [JsonIgnore] public bool CopyToFieldIsVisible => RuleType is CustomPropertiesRuleType.Copy;
 
     [JsonIgnore]
-    public bool CopyToFieldIsVisible => RuleType is CustomPropertiesRuleType.Copy;
-    
-    [JsonIgnore]
-    public new bool HasChanged => IsNewItem || (SavedState != "" && SavedState != JsonSerializer.Serialize(this, _jsonOptions));
+    public new bool HasChanged =>
+        IsNewItem || (SavedState != "" && SavedState != JsonSerializer.Serialize(this, _jsonOptions));
 
     public ActionsTabCustomPropertiesDataModel ToDataModel() => new()
     {
@@ -115,7 +93,7 @@ public partial class ActionsTabCustomPropertiesViewModel : ViewModelBase
         JobName = JobName,
         ChangeNameTo = ChangeNameTo,
         CopyFromConfiguration = CopyFromConfiguration,
-        CopyToField =  CopyToField,
+        CopyToField = CopyToField,
         ExcludeAssemblies = ExcludeAssemblies,
         ExcludeDrawings = ExcludeDrawings,
         ExcludeParts = ExcludeParts,
@@ -128,4 +106,29 @@ public partial class ActionsTabCustomPropertiesViewModel : ViewModelBase
         SetNamedConfigurationProperties = SetConfigurationPropertiesFilter,
         ValueRule = ValueRule
     };
+}
+
+public static class ActionsTabCustomPropertiesViewModelExtensions
+{
+    public static ActionsTabCustomPropertiesViewModel ToViewModel(this ActionsTabCustomPropertiesDataModel dataModel) =>
+        new()
+        {
+            Id = dataModel.Id,
+            JobName = dataModel.JobName,
+            Description = dataModel.Description,
+            ChangeNameTo = dataModel.ChangeNameTo,
+            CopyFromConfiguration = dataModel.CopyFromConfiguration,
+            CopyToField = dataModel.CopyToField,
+            ExcludeAssemblies = dataModel.ExcludeAssemblies,
+            ExcludeParts = dataModel.ExcludeParts,
+            FieldName = dataModel.FieldName,
+            FilterLogic = dataModel.FilterLogic,
+            SetConfigSpecificProperties = dataModel.SetAllConfigSpecificProperties,
+            SetCustomProperty = dataModel.SetCustomProperty,
+            SetConfigurationPropertiesFilter = dataModel.SetNamedConfigurationProperties,
+            ValueRule = dataModel.ValueRule,
+            ExcludeDrawings = dataModel.ExcludeDrawings,
+            RuleType = dataModel.RuleType,
+            FieldType = dataModel.FieldType
+        };
 }

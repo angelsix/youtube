@@ -49,3 +49,18 @@ public partial class ActionsTabFileInfoViewModel : ViewModelBase
         Title = Title
     };
 }
+
+public static class ActionsTabFileInfoViewModelExtensions
+{
+    public static ActionsTabFileInfoViewModel ToViewModel(this ActionsTabFileInfoDataModel dataModel) => new()
+    {
+        Id = dataModel.Id,
+        Description = dataModel.Description,
+        JobName = dataModel.JobName,
+        Author = dataModel.Author,
+        Comments = dataModel.Comments,
+        Keywords = dataModel.Keywords,
+        Subject = dataModel.Subject,
+        Title = dataModel.Title
+    };
+}

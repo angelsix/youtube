@@ -6,61 +6,65 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Avalonia" />
-        <PackageReference Include="Avalonia.Desktop" />
-        <PackageReference Include="Avalonia.Controls.DataGrid" />
-        <PackageReference Include="Avalonia.Svg.Skia" />
-        <PackageReference Include="Avalonia.Themes.Fluent" />
-        <PackageReference Include="Avalonia.Fonts.Inter" />
+        <PackageReference Include="Avalonia"/>
+        <PackageReference Include="Avalonia.Desktop"/>
+        <PackageReference Include="Avalonia.Controls.DataGrid"/>
+        <PackageReference Include="Avalonia.Svg.Skia"/>
+        <PackageReference Include="Avalonia.Themes.Fluent"/>
+        <PackageReference Include="Avalonia.Fonts.Inter"/>
         <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
-        <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" />
-        <PackageReference Include="CommunityToolkit.Mvvm" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore" />
+        <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics"/>
+        <PackageReference Include="CommunityToolkit.Mvvm"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore"/>
         <PackageReference Include="Microsoft.EntityFrameworkCore.Design">
-          <PrivateAssets>all</PrivateAssets>
-          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" />
-        <PackageReference Include="Microsoft.Extensions.DependencyInjection"  />
-        <PackageReference Include="System.Drawing.Common" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite"/>
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection"/>
+        <PackageReference Include="System.Drawing.Common"/>
     </ItemGroup>
 
     <ItemGroup>
-      <None Remove="Assets\Images\logo.svg" />
-      <AvaloniaResource Include="Assets\Images\logo.svg" />
-      <None Remove="Assets\Fonts\Phosphor.ttf" />
-      <AvaloniaResource Include="Assets\Fonts\Phosphor.ttf" />
-      <None Remove="Assets\Fonts\Phosphor-Fill.ttf" />
-      <AvaloniaResource Include="Assets\Fonts\Phosphor-Fill.ttf" />
-      <None Remove="Assets\Images\icon.svg" />
-      <AvaloniaResource Include="Assets\Images\icon.svg" />
-      <None Remove="Assets\Images\background-settings.svg" />
-      <AvaloniaResource Include="Assets\Images\background-settings.svg" />
-      <None Remove="Assets\Images\background-actions.svg" />
-      <AvaloniaResource Include="Assets\Images\background-actions.svg" />
-      <None Remove="Assets\Fonts\NotoSansJP.ttf" />
-      <AvaloniaResource Include="Assets\Fonts\NotoSansJP.ttf" />
-      <None Remove="Assets\Images\icon.ico" />
-      <AvaloniaResource Include="Assets\Images\icon.ico" />
+        <None Remove="Assets\Images\logo.svg"/>
+        <AvaloniaResource Include="Assets\Images\logo.svg"/>
+        <None Remove="Assets\Fonts\Phosphor.ttf"/>
+        <AvaloniaResource Include="Assets\Fonts\Phosphor.ttf"/>
+        <None Remove="Assets\Fonts\Phosphor-Fill.ttf"/>
+        <AvaloniaResource Include="Assets\Fonts\Phosphor-Fill.ttf"/>
+        <None Remove="Assets\Images\icon.svg"/>
+        <AvaloniaResource Include="Assets\Images\icon.svg"/>
+        <None Remove="Assets\Images\background-settings.svg"/>
+        <AvaloniaResource Include="Assets\Images\background-settings.svg"/>
+        <None Remove="Assets\Images\background-actions.svg"/>
+        <AvaloniaResource Include="Assets\Images\background-actions.svg"/>
+        <None Remove="Assets\Fonts\NotoSansJP.ttf"/>
+        <AvaloniaResource Include="Assets\Fonts\NotoSansJP.ttf"/>
+        <None Remove="Assets\Images\icon.ico"/>
+        <AvaloniaResource Include="Assets\Images\icon.ico"/>
     </ItemGroup>
 
     <ItemGroup>
-      <Compile Update="Views\MainWindow.axaml.cs">
-        <DependentUpon>MainView.axaml</DependentUpon>
-        <SubType>Code</SubType>
-      </Compile>
-      <Compile Update="Views\ActionsPageView.axaml.cs">
-        <DependentUpon>ActionsPageView.axaml</DependentUpon>
-        <SubType>Code</SubType>
-      </Compile>
-      <Compile Update="Views\PrintSettingsView.axaml.cs">
-        <DependentUpon>PrinterSettingsView.axaml</DependentUpon>
-        <SubType>Code</SubType>
-      </Compile>
-      <Compile Update="Views\ActionsTabCustomPropertiesView.axaml.cs">
-        <DependentUpon>ActionsTabCustomPropertiesView.axaml</DependentUpon>
-        <SubType>Code</SubType>
-      </Compile>
+        <Compile Update="Views\MainWindow.axaml.cs">
+            <DependentUpon>MainView.axaml</DependentUpon>
+            <SubType>Code</SubType>
+        </Compile>
+        <Compile Update="Views\ActionsPageView.axaml.cs">
+            <DependentUpon>ActionsPageView.axaml</DependentUpon>
+            <SubType>Code</SubType>
+        </Compile>
+        <Compile Update="Views\PrintSettingsView.axaml.cs">
+            <DependentUpon>PrinterSettingsView.axaml</DependentUpon>
+            <SubType>Code</SubType>
+        </Compile>
+        <Compile Update="Views\ActionsTabCustomPropertiesView.axaml.cs">
+            <DependentUpon>ActionsTabCustomPropertiesView.axaml</DependentUpon>
+            <SubType>Code</SubType>
+        </Compile>
+        <Compile Update="Views\ActionsTabFileInfoView.axaml.cs">
+            <DependentUpon>ActionsTabFileInfoView.axaml</DependentUpon>
+            <SubType>Code</SubType>
+        </Compile>
     </ItemGroup>
 
 </Project>
