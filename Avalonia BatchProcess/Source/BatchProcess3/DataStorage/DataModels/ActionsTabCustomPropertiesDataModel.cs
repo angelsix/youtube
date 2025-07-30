@@ -1,42 +1,42 @@
 ﻿using BatchProcess3.CustomProperties;
 using System;
-using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace BatchProcess3.DataStorage.DataModels;
 
 public class ActionsTabCustomPropertiesDataModel
 {
-    public string Id { get; set; } = Guid.NewGuid().ToString("N");
-    
-    public string JobName { get; set; } = "";
-    
-    public string Description { get; set; } = "";
+    [MaxLength(100)] public string Id { get; set; } = Guid.NewGuid().ToString("N");
+
+    [MaxLength(200)] public string JobName { get; set; } = "";
+
+    [MaxLength(5000)] public string Description { get; set; } = "";
 
     public CustomPropertiesRuleType RuleType { get; set; }
 
-    public string FilterLogic { get; set; } = "";
+    [MaxLength(5000)] public string FilterLogic { get; set; } = "";
 
     public bool SetCustomProperty { get; set; }
-    
+
     public bool SetAllConfigSpecificProperties { get; set; }
-    
-    public string SetNamedConfigurationProperties { get; set; } = "";
-    
+
+    [MaxLength(1000)] public string SetNamedConfigurationProperties { get; set; } = "";
+
     public bool ExcludeParts { get; set; }
-    
+
     public bool ExcludeAssemblies { get; set; }
-    
+
     public bool ExcludeDrawings { get; set; }
-    
+
     public CustomPropertiesFieldTypes FieldType { get; set; }
 
-    public string FieldName { get; set; } = "";
-    
-    public string ValueRule { get; set; } = "";
-    
-    public string ChangeNameTo { get; set; } = "";
-    
-    public string CopyFromConfiguration { get; set; } = "";
-    
-    public string CopyToField { get; set; } = "";
+    [MaxLength(500)] public string FieldName { get; set; } = "";
+
+    [MaxLength(5000)] public string ValueRule { get; set; } = "";
+
+    [MaxLength(500)] public string ChangeNameTo { get; set; } = "";
+
+    [MaxLength(100)] public string CopyFromConfiguration { get; set; } = "";
+
+    [MaxLength(500)] public string CopyToField { get; set; } = "";
 }

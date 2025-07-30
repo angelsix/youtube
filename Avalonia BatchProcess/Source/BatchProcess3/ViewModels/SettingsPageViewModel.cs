@@ -22,6 +22,8 @@ public partial class SettingsPageViewModel : PageViewModel
 
     [ObservableProperty] private bool _allowDuplicateEntries;
 
+    [ObservableProperty] private ObservableCollection<string> _drawingTemplateSearchPaths = [];
+
     // TODO: Fetch from PDME
     [ObservableProperty] private ObservableCollection<string> _pdmeVaultNames = ["Vault 1", "Vault 2", "Vault 3"];
 
@@ -129,7 +131,8 @@ public partial class SettingsPageViewModel : PageViewModel
         AllowDuplicateEntries = AllowDuplicateEntries,
         PdmePassword = PdmePassword,
         PdmeUsername = PdmeUsername,
-        PdmeVaultName = PdmeVaultName
+        PdmeVaultName = PdmeVaultName,
+        DrawingTemplateSearchPaths = DrawingTemplateSearchPaths.ToList()
     };
 
 }

@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace BatchProcess3.DataStorage.DataModels;
 
-public class PrintSettingsDataModel
+public class ActionsTabMacrosDataModel
 {
     [MaxLength(100)]
     public string Id { get; set; } = Guid.NewGuid().ToString("N");
@@ -14,14 +13,16 @@ public class PrintSettingsDataModel
     
     [MaxLength(5000)]
     public string Description { get; set; } = "";
-
-    public bool CanEdit { get; set; }
     
-    public bool CanDelete { get; set; }
+    [MaxLength(1000)]
+    public string MacroPath { get; set; } = "";
     
-    public List<PrintSettingsProfileDataModel> PrinterSettingProfiles { get; set; }
+    [MaxLength(500)]
+    public string ModuleName { get; set; } = "";
+    
+    public bool ExcludeParts { get; set; }
+    
+    public bool ExcludeDrawings { get; set; }
 
-    public List<ActionsTabPrintDataModel> ActionsTabPrintDataModels { get; set; }
-
-    public int Copies { get; set; }
+    public bool ExcludeAssemblies { get; set; }
 }

@@ -64,7 +64,7 @@ public static class PrintSettingsViewModelExtensions
             CanEdit = viewModel.CanEdit,
             Copies = viewModel.Copies,
             Description = viewModel.Description,
-            Name = viewModel.Name,
+            JobName = viewModel.Name,
             PrinterSettingProfiles = viewModel.PrinterSettingProfiles.ToDataModels()
         };
     }
@@ -77,7 +77,7 @@ public static class PrintSettingsViewModelExtensions
     {
         return new PrintSettingsViewModel()
         {
-            Name = dataModel.Name,
+            Name = dataModel.JobName,
             Description = dataModel.Description,
             Id = dataModel.Id,
             Copies = dataModel.Copies,
@@ -105,7 +105,7 @@ public static class PrintSettingsViewModelExtensions
         this List<PrintSettingsDataModel> dataModels)
     {
         return new ObservableCollection<PrintSettingsViewModel>(dataModels
-            .OrderBy(f => f.Name)
+            .OrderBy(f => f.JobName)
             .Select(ToViewModel));
     }
 }

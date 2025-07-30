@@ -129,7 +129,7 @@ public class DatabaseService(ApplicationDbContext context) : IDisposable
             // Add default settings
             _context.PrintSettings.Add(new PrintSettingsDataModel()
             {
-                Name = "(Default)", 
+                JobName = "(Default)", 
                 Description = "Use all default settings", 
                 Copies = 1,
                 PrinterSettingProfiles = GetPrintSettingsProfiles()
@@ -154,7 +154,7 @@ public class DatabaseService(ApplicationDbContext context) : IDisposable
     {
         // If it is not editable...
         if (!dataModel.CanEdit)
-            throw new InvalidOperationException($"This print setting cannot be edited. {dataModel.Name}");
+            throw new InvalidOperationException($"This print setting cannot be edited. {dataModel.JobName}");
         
         // Remove existing
         DeletePrintSettings(dataModel.Id, bypass: true, saveChanges: false);
@@ -173,7 +173,7 @@ public class DatabaseService(ApplicationDbContext context) : IDisposable
 
         // If this item is not deletable...
         if (!bypass && !existingItem.CanDelete)
-            throw new InvalidOperationException($"This print setting cannot be deleted. {existingItem.Name}");
+            throw new InvalidOperationException($"This print setting cannot be deleted. {existingItem.JobName}");
             
         _context.PrintSettings.Remove(existingItem);
         
