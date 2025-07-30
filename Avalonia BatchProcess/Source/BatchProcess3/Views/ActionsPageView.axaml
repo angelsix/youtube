@@ -9,8 +9,10 @@
              Foreground="{DynamicResource PrimaryForeground}"
              x:DataType="vm:ActionsPageViewModel"
              x:Class="BatchProcess3.Views.ActionsPageView">
-    
-    <Design.DataContext><vm:ActionsPageViewModel></vm:ActionsPageViewModel></Design.DataContext>
+
+    <Design.DataContext>
+        <vm:ActionsPageViewModel />
+    </Design.DataContext>
 
     <Grid ColumnDefinitions="*" RowDefinitions="Auto, *">
         <!-- Header -->
@@ -19,8 +21,9 @@
                 <Image Source="{SvgImage /Assets/Images/background-actions.svg}" Stretch="UniformToFill" />
             </StackPanel>
             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                <Label Classes="h1" HorizontalAlignment="Center" Content="Actions"></Label>
-                <Label Classes="sub2" HorizontalAlignment="Center" Content="Create and manage all actions that can be used in a process"></Label>
+                <Label Classes="h1" HorizontalAlignment="Center" Content="Actions" />
+                <Label Classes="sub2" HorizontalAlignment="Center"
+                       Content="Create and manage all actions that can be used in a process" />
             </StackPanel>
         </Grid>
 
@@ -32,15 +35,27 @@
                 <TabItem Header="Custom Properties">
                     <local:ActionsTabCustomPropertiesView />
                 </TabItem>
-                <TabItem Header="File Info" />
-                <TabItem Header="Save Model As" />
-                <TabItem Header="Save Drawing As" />
-                <TabItem Header="Import File" />
-                <TabItem Header="Drawing Templates" />
-                <TabItem Header="Macros" />
+                <TabItem Header="File Info">
+                    <local:ActionsTabFileInfoView />
+                </TabItem>
+                <TabItem Header="Save Model As">
+                    <local:ActionsTabSaveModelView />
+                </TabItem>
+                <TabItem Header="Save Drawing As">
+                    <local:ActionsTabSaveDrawingView />
+                </TabItem>
+                <TabItem Header="Import File">
+                    <local:ActionsTabImportFileView />
+                </TabItem>
+                <TabItem Header="Drawing Templates">
+                    <local:ActionsTabDrawingTemplateView />
+                </TabItem>
+                <TabItem Header="Macros">
+                    <local:ActionsTabMacrosView />
+                </TabItem>
             </TabControl>
         </Border>
 
     </Grid>
-    
+
 </UserControl>
