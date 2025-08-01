@@ -16,7 +16,7 @@ public class ActionsTabSaveDrawingDataModel
 
     [MaxLength(1000)] public string SaveLocation { get; set; } = "";
 
-    [MaxLength(10000)] public List<string> SheetsFilter { get; set; } = [];
+    [MaxLength(10000)] public string SheetsFilter { get; set; } = "";
 
     [MaxLength(1000)] public List<string> ExportFormats { get; set; } = [];
 

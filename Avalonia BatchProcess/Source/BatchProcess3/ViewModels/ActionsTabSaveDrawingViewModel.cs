@@ -30,7 +30,7 @@ public partial class ActionsTabSaveDrawingViewModel : ViewModelBase
     private string _saveLocation = "";
 
     [ObservableProperty] [NotifyPropertyChangedFor(nameof(HasChanged))]
-    private ObservableCollection<string> _sheetsFilter = [];
+    private string _sheetsFilter = "";
 
     [ObservableProperty] [NotifyPropertyChangedFor(nameof(HasChanged))]
     private bool _singleDwgDxf;

@@ -106,6 +106,39 @@ public partial class ActionsPageViewModel(
     public ActionsTabSaveModelViewModel? SelectedSaveModelListItem =>
         SaveModelList.FirstOrDefault(f => f.Id == SelectedSaveModelListItemId);
 
+    public ObservableCollection<string> SaveModelFormats => [
+        "Lib Feat Part (*.sldfp)",
+        "Assembly file to Part (*.sldprt)",
+        "Part Templates (*.prtdot)",
+        "Assembly Templates (*.asmdot)",
+        "Form Tool (*.sldftp)",
+        "Parasolid (*.x_t)",
+        "Parasolid Binary (*.x_b)",
+        "DXF (*.dxf)",
+        "DWG (*.dwg)",
+        "IGES (*.igs)",
+        "STEP (*.step)",
+        "ACIS (*.sat)",
+        "VDAFS (*.vda)",
+        "VRML (*.wrl)",
+        "STL (*.stl)",
+        "eDrawings Part (*.eprt)",
+        "eDrawings Assembly (*.easm)",
+        "Adobe PDF (*.pdf)",
+        "Universal 3D (*.u3d)",
+        "3D XML (*.3dxml)",
+        "Adobe Photoshop (*.psd)",
+        "Adobe Illustrator (*.ai)",
+        "Microsoft XAML (*.xaml)",
+        "Catia Graphics (*.cgr)",
+        "ProE Part (*.prt)",
+        "ProE Assembly (*.asm)",
+        "JPEG (*.jpg)",
+        "HCG (*.hcg)",
+        "HOOPS HSF (*.hsf)",
+        "Tif (*.tif)"
+    ];
+    
     #endregion
 
     #region Save Drawing
@@ -121,6 +154,18 @@ public partial class ActionsPageViewModel(
     public ActionsTabSaveDrawingViewModel? SelectedSaveDrawingListItem =>
         SaveDrawingList.FirstOrDefault(f => f.Id == SelectedSaveDrawingListItemId);
 
+    public ObservableCollection<string> SaveDrawingFormats => [
+        "Detached Drawing (*.slddrw)",
+        "DXF (*.dxf)",
+        "DWG (*.dwg)",
+        "Photoshop File (*.psd)",
+        "Illustrator File (*.ai)",
+        "PDF (*.pdf)",
+        "eDrawing (*.edrw)",
+        "JPEG (*.jpg)",
+        "Tif (*.tif)"
+    ];
+        
     #endregion
 
     #region Import File
@@ -182,6 +227,12 @@ public partial class ActionsPageViewModel(
     {
         FetchPrintList();
         FetchCustomPropertiesList();
+        FetchFileInfoList();
+        FetchSaveModelList();
+        FetchSaveDrawingList();
+        FetchImportFileList();
+        FetchDrawingTemplateList();
+        FetchMacrosList();
     }
 
     #endregion
