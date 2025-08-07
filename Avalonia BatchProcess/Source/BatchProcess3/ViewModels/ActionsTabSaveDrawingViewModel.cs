@@ -12,8 +12,7 @@ public partial class ActionsTabSaveDrawingViewModel : ViewModelBase
     [ObservableProperty] [NotifyPropertyChangedFor(nameof(HasChanged))]
     private string _description = "";
 
-    [ObservableProperty] [NotifyPropertyChangedFor(nameof(HasChanged))]
-    private ObservableCollection<string> _exportFormats = [];
+    private ObservableCollection<KeyValueViewModel<string, bool>> _exportFormats = [];
 
     [ObservableProperty] [NotifyPropertyChangedFor(nameof(HasChanged))]
     private string _fileName = "";
@@ -41,6 +40,12 @@ public partial class ActionsTabSaveDrawingViewModel : ViewModelBase
     [ObservableProperty] [NotifyPropertyChangedFor(nameof(HasChanged))]
     private bool _singlePdf;
 
+    public ObservableCollection<KeyValueViewModel<string, bool>> ExportFormats
+    {
+        get => _exportFormats;
+        set => this.SetAndObserveEverything(value, ref _exportFormats, [nameof(HasChanged)]);
+    }
+
     [JsonIgnore]
     public new bool HasChanged =>
         IsNewItem || (SavedState != "" && SavedState != JsonSerializer.Serialize(this, _jsonOptions));
@@ -52,8 +57,8 @@ public partial class ActionsTabSaveDrawingViewModel : ViewModelBase
         JobName = JobName,
         FileName = FileName,
         SaveLocation = SaveLocation,
-        ExportFormats = ExportFormats.ToList(),
-        SheetsFilter = SheetsFilter.ToList(),
+        ExportFormats = ExportFormats.Where(f => f.Value).Select(f => f.Key).ToList(),
+        SheetsFilter = SheetsFilter,
         SingleDwgDxf = SingleDwgDxf,
         SingleEDrawing = SingleEDrawing,
         SinglePdf = SinglePdf
@@ -62,16 +67,19 @@ public partial class ActionsTabSaveDrawingViewModel : ViewModelBase
 
 public static class ActionsTabSaveDrawingViewModelExtensions
 {
-    public static ActionsTabSaveDrawingViewModel ToViewModel(this ActionsTabSaveDrawingDataModel dataModel) =>
+    public static ActionsTabSaveDrawingViewModel ToViewModel(this ActionsTabSaveDrawingDataModel dataModel,
+        ObservableCollection<string> exportFormats) =>
         new()
         {
             Id = dataModel.Id,
             JobName = dataModel.JobName,
             Description = dataModel.Description,
             SaveLocation = dataModel.SaveLocation,
-            ExportFormats = new ObservableCollection<string>(dataModel.ExportFormats.ToList()),
+            ExportFormats =
+                new ObservableCollection<KeyValueViewModel<string, bool>>(exportFormats.Select(f =>
+                    new KeyValueViewModel<string, bool>(f, dataModel.ExportFormats.Any(e => e == f)))),
             FileName = dataModel.FileName,
-            SheetsFilter = new ObservableCollection<string>(dataModel.SheetsFilter.ToList()),
+            SheetsFilter = dataModel.SheetsFilter,
             SingleDwgDxf = dataModel.SingleDwgDxf,
             SinglePdf = dataModel.SinglePdf,
             SingleEDrawing = dataModel.SingleEDrawing

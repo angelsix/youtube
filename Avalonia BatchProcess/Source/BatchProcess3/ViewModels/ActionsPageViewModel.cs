@@ -106,7 +106,8 @@ public partial class ActionsPageViewModel(
     public ActionsTabSaveModelViewModel? SelectedSaveModelListItem =>
         SaveModelList.FirstOrDefault(f => f.Id == SelectedSaveModelListItemId);
 
-    public ObservableCollection<string> SaveModelFormats => [
+    public ObservableCollection<string> SaveModelFormats =>
+    [
         "Lib Feat Part (*.sldfp)",
         "Assembly file to Part (*.sldprt)",
         "Part Templates (*.prtdot)",
@@ -138,7 +139,7 @@ public partial class ActionsPageViewModel(
         "HOOPS HSF (*.hsf)",
         "Tif (*.tif)"
     ];
-    
+
     #endregion
 
     #region Save Drawing
@@ -154,7 +155,8 @@ public partial class ActionsPageViewModel(
     public ActionsTabSaveDrawingViewModel? SelectedSaveDrawingListItem =>
         SaveDrawingList.FirstOrDefault(f => f.Id == SelectedSaveDrawingListItemId);
 
-    public ObservableCollection<string> SaveDrawingFormats => [
+    public ObservableCollection<string> SaveDrawingFormats =>
+    [
         "Detached Drawing (*.slddrw)",
         "DXF (*.dxf)",
         "DWG (*.dwg)",
@@ -165,7 +167,7 @@ public partial class ActionsPageViewModel(
         "JPEG (*.jpg)",
         "Tif (*.tif)"
     ];
-        
+
     #endregion
 
     #region Import File
@@ -921,7 +923,7 @@ public partial class ActionsPageViewModel(
 
         SaveDrawingList = new ObservableCollection<ActionsTabSaveDrawingViewModel>(list
             .OrderBy(f => f.JobName)
-            .Select(f => f.ToViewModel()));
+            .Select(f => f.ToViewModel(SaveDrawingFormats)));
 
         // Update SaveDrawingListHasItems when collection changes
         SaveDrawingList.CollectionChanged += (_, _) => OnPropertyChanged(nameof(SaveDrawingListHasItems));
@@ -942,7 +944,12 @@ public partial class ActionsPageViewModel(
         // Create a new item
         var newItem = new ActionsTabSaveDrawingViewModel
         {
-            Id = Guid.NewGuid().ToString("N"), IsNewItem = true, JobName = "New Save Drawing Job"
+            Id = Guid.NewGuid().ToString("N"),
+            IsNewItem = true,
+            JobName = "New Save Drawing Job",
+            ExportFormats =
+                new ObservableCollection<KeyValueViewModel<string, bool>>(
+                    SaveDrawingFormats.Select(f => new KeyValueViewModel<string, bool>(f, false)))
         };
 
         // Add to the print list

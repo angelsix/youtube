@@ -13,6 +13,7 @@
                 <Label Classes="sub2">Sub header 2</Label>
                 <Label Classes="sub1 success">Sub header 1 Success</Label>
                 <Label Classes="h1 success">Header 1 Success</Label>
+                <Label Classes="icon-only icon-outline subtle-hover">&#xE3E8;</Label>
             </StackPanel>
         </Border>
     </Design.PreviewWith>
@@ -21,52 +22,63 @@
     <Style Selector="Label">
         <!-- <Setter Property="Foreground" Value="{DynamicResource PrimaryForeground}"></Setter> -->
     </Style>
-    
+
     <Style Selector="Label.h1">
-        <Setter Property="FontSize" Value="34"></Setter>
-        <Setter Property="FontWeight" Value="Black"></Setter>
-        <Setter Property="Padding" Value="0"></Setter>
-        <Setter Property="Margin" Value="0"></Setter>
+        <Setter Property="FontSize" Value="34" />
+        <Setter Property="FontWeight" Value="Black" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="Margin" Value="0" />
     </Style>
-       
+
     <Style Selector="Label.h2">
-        <Setter Property="Padding" Value="0 0 8 0"></Setter>
-        <Setter Property="FontWeight" Value="Black"></Setter>
-        <Setter Property="FontSize" Value="20"></Setter>
+        <Setter Property="Padding" Value="0 0 8 0" />
+        <Setter Property="FontWeight" Value="Black" />
+        <Setter Property="FontSize" Value="20" />
     </Style>
-    
+
     <Style Selector="Label.sub1">
-        <Setter Property="FontSize" Value="13"></Setter>
-        <Setter Property="FontWeight" Value="Bold"></Setter>
-        <Setter Property="Padding" Value="0"></Setter>
-        <Setter Property="Margin" Value="0 -5 0 0"></Setter>
-        <Setter Property="Foreground" Value="{DynamicResource AlertGradient}"></Setter>
+        <Setter Property="FontSize" Value="13" />
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="Margin" Value="0 -5 0 0" />
+        <Setter Property="Foreground" Value="{DynamicResource AlertGradient}" />
     </Style>
- 
+
     <Style Selector="Label.sub2">
-        <Setter Property="FontSize" Value="11"></Setter>
-        <Setter Property="Padding" Value="0"></Setter>
-        <Setter Property="Margin" Value="0 -5 0 0"></Setter>
+        <Setter Property="FontSize" Value="11" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="Margin" Value="0 -5 0 0" />
     </Style>
-    
+
     <Style Selector="Label.success">
-        <Setter Property="Foreground" Value="{DynamicResource SuccessGradient}"></Setter>
+        <Setter Property="Foreground" Value="{DynamicResource SuccessGradient}" />
     </Style>
-    
+
     <Style Selector="Label.icon, Label.icon-only">
-        <Setter Property="FontFamily" Value="{DynamicResource PhosphorFill}"></Setter>
-        <Setter Property="FontSize" Value="19"></Setter>
-        <Setter Property="Padding" Value="0 2.5 -0.4 3"></Setter>
-        <Setter Property="Margin" Value="0 0 5 0"></Setter>
-    </Style>   
+        <Setter Property="FontFamily" Value="{DynamicResource PhosphorFill}" />
+        <Setter Property="FontSize" Value="19" />
+        <Setter Property="Padding" Value="0 2.5 -0.4 3" />
+        <Setter Property="Margin" Value="0 0 5 0" />
+    </Style>
 
     <Style Selector="Label.icon-only">
-        <Setter Property="Margin" Value="0"></Setter>
+        <Setter Property="Margin" Value="0" />
     </Style>
 
     <Style Selector="Label.icon-outline">
-        <Setter Property="FontFamily" Value="{DynamicResource Phosphor}"></Setter>
+        <Setter Property="FontFamily" Value="{DynamicResource Phosphor}" />
     </Style>
 
+    <Style Selector="Label.subtle-hover">
+        <Setter Property="Transitions">
+            <Transitions>
+                <BrushTransition Property="Foreground" Duration="0:0:0.1" />
+            </Transitions>
+        </Setter>
+        <Setter Property="Foreground" Value="{DynamicResource PrimaryHoverBackground}" />
+        <Style Selector="^:pointerover">
+            <Setter Property="Foreground" Value="{DynamicResource PrimaryForeground}" />
+        </Style>
+    </Style>
 
 </Styles>
