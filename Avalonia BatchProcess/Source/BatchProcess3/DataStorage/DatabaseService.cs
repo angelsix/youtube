@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using Tmds.DBus.Protocol;
 
 namespace BatchProcess3.DataStorage;
 
@@ -389,6 +391,45 @@ public class DatabaseService(ApplicationDbContext context) : IDisposable
         _context.ActionsTabDrawingTemplate.Remove(existingItem);
         _context.SaveChanges();
     }
+    
+    public void AddDrawingTemplatePaths(string[] paths)
+    {
+        // Ignore empty
+        if (paths.Length == 0)
+            return;
+        
+        // Get existing paths
+        var settings = GetSettings();
+        var existingPaths = settings.DrawingTemplatePaths;
+        
+        // Add if not already in the list
+        foreach (var path in paths)
+        {
+            if (!existingPaths.Any(f => string.Equals(f, path, StringComparison.InvariantCultureIgnoreCase)))
+                existingPaths.Add(path);
+        }
+        
+        // Sort alphabetically
+        settings.DrawingTemplatePaths = existingPaths.Order().ToList();
+        
+        // Save settings
+        SaveSettings(settings);
+    }
+    
+    public void DeleteDrawingTemplatePaths(string[] paths)
+    {
+        // Get settings
+        var settings = GetSettings();
+        
+        // Get paths to keep
+        var filteredPathsToKeep = settings.DrawingTemplatePaths.Where(p => paths.All(f => !string.Equals(f, p, StringComparison.InvariantCultureIgnoreCase)));
+        
+        // Update paths
+        settings.DrawingTemplatePaths = filteredPathsToKeep.ToList();
+        
+        // Save
+        SaveSettings(settings);
+    }
 
     #endregion
 
@@ -448,11 +489,18 @@ public class DatabaseService(ApplicationDbContext context) : IDisposable
 
     public void SaveSettings(SettingsDataModel settings)
     {
-        // Remove all settings
-        _context.Settings.RemoveRange(_context.Settings);
+        // If this already exists in the database
+        if (_context.Settings.Any(f => f.Id == settings.Id))
+            // Update it
+            _context.Settings.Update(settings);
+        else
+        {
+            // Remove all settings
+            _context.Settings.RemoveRange(_context.Settings);
 
-        // Add new settings
-        _context.Settings.Add(settings);
+            // Add new settings
+            _context.Settings.Add(settings);
+        }
 
         // Commit
         _context.SaveChanges();

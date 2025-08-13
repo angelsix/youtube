@@ -14,9 +14,12 @@
     </Design.DataContext>
 
     <Grid ColumnDefinitions="*, 30, 3*">
+
         <!-- Drawing Template List Column -->
         <Grid RowDefinitions="Auto, 10, Auto, 10, Auto, 10, *">
-            <Label Classes="h2" Content="Drawing Template Actions" />
+            <Label Classes="h2">
+                <TextBlock TextWrapping="Wrap" Text="Drawing Template Actions" />
+            </Label>
             <TextBlock Grid.Row="2"
                        Text="Drawing Template actions can be used to update, set or replace the sheet templates of a drawing."
                        TextWrapping="Wrap" Margin="0 -10 0 10" />
@@ -50,9 +53,11 @@
 
             </ListBox>
         </Grid>
-
-        <StackPanel Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10"
-                    Opacity="{Binding !DrawingTemplateListHasItems}">
+        
+        <StackPanel ZIndex="10" Name="NewActionStack" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10"
+                    Opacity="{Binding !DrawingTemplateListHasItems}"
+                    IsVisible="{Binding #NewActionStack.Opacity}"
+                    >
             <StackPanel.Styles>
                 <Style Selector="StackPanel">
                     <Setter Property="Transitions">
@@ -71,7 +76,10 @@
                     Margin="20" />
         </StackPanel>
 
-        <Grid Grid.Column="2" ColumnDefinitions="*, 30, *" Opacity="{Binding DrawingTemplateListHasItems}">
+        <Grid Grid.Column="2" 
+              ColumnDefinitions="*, 30, *" 
+              RowDefinitions="Auto, *, 10, Auto"
+              Opacity="{Binding DrawingTemplateListHasItems}">
             <Grid.Styles>
                 <Style Selector="Grid">
                     <Setter Property="Transitions">
@@ -83,46 +91,142 @@
             </Grid.Styles>
 
             <!-- General Settings Column -->
-            <Grid Grid.Column="0" RowDefinitions="Auto, 10, Auto, 10, Auto, 10, Auto, 10, Auto, 10, Auto, 10 *">
+            <Grid Grid.Column="0" RowDefinitions="Auto, 10, Auto, 10, Auto">
+                
                 <Label Classes="h2" Content="General Settings" />
                 <TextBlock Grid.Row="2" Text="Set the main properties of the Drawing Template job." Margin="0 -10 0 10" />
-                <Grid Grid.Row="4" ColumnDefinitions="140, 15, *" RowDefinitions="Auto, 15, Auto, 15, Auto">
+
+                <Grid Grid.Row="4" ColumnDefinitions="140, 15, *"
+                      RowDefinitions="Auto, 15, Auto, 15, Auto, 15, Auto, 15, Auto">
+
+                    <!-- Job Name -->
                     <Label Grid.Row="0" Grid.Column="0" Content="Job Name" VerticalAlignment="Center" />
                     <TextBox Name="JobNameTextBox" Grid.Row="0" Grid.Column="2"
                              Text="{Binding  SelectedDrawingTemplateListItem.JobName}" />
+ 
+                    <!-- Description -->
                     <Label Grid.Row="2" Grid.Column="0" Content="Description" />
                     <TextBox Grid.Row="2" Grid.Column="2" AcceptsReturn="True"
                              Text="{Binding  SelectedDrawingTemplateListItem.Description}" Height="80"
                              TextWrapping="Wrap" />
+
                 </Grid>
             </Grid>
+            
+            <Grid Grid.Column="2" ColumnDefinitions="Auto, 30, *" 
+                  RowDefinitions="Auto, 10, Auto, 10, Auto, 10, Auto, Auto">
+                
+                    <Label Grid.Row="0" Classes="h2" Content="Operation" />
+                    <TextBlock Grid.Row="2" Grid.ColumnSpan="3" Text="Specify the type of operation to perform." Margin="0 -10 0 10" />
 
-            <!-- Details Column -->
-            <Grid Grid.Column="2" RowDefinitions="Auto, 10, Auto, 10, Auto, 10, *">
-                <Label Grid.Row="0" Classes="h2" Content="Details" />
-                <TextBlock Grid.Row="2" Text="Specify the additional details." Margin="0 -10 0 10" />
+                    <!-- Operation -->
+                    <Label Grid.Row="4" Grid.Column="0" Content="Operation" VerticalAlignment="Center" />
+                    <ComboBox Grid.Row="4" Grid.Column="2"
+                              ItemsSource="{Binding DrawingTemplateOperations}"
+                              SelectedItem="{Binding SelectedDrawingTemplateListItem.Operation}"
+                              HorizontalAlignment="Stretch"
+                               />
 
-                <!-- Extra details here -->
+                    <!-- Current Template -->
+                    <Label Grid.Row="6" Grid.Column="0" VerticalAlignment="Center" Margin="0 0 0 10"
+                           IsVisible="{Binding SelectedDrawingTemplateListItem.CurrentTemplatePathIsVisible}"
+                           Content="Current Template" />
+                    <ComboBox Grid.Row="6" Grid.Column="2" Margin="0 0 0 10"
+                              IsVisible="{Binding SelectedDrawingTemplateListItem.CurrentTemplatePathIsVisible}"
+                              ItemsSource="{Binding DrawingTemplatePaths}"
+                              HorizontalAlignment="Stretch"
+                              ToolTip.Tip="{Binding SelectedDrawingTemplateListItem.CurrentTemplatePath}"
+                              SelectedItem="{Binding SelectedDrawingTemplateListItem.CurrentTemplatePath}">
+                        
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <Label ToolTip.Tip="{Binding }" Content="{Binding Converter={StaticResource FilenameConverter}}" />
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                        
+                    </ComboBox>
 
-                <StackPanel Grid.Row="6"
-                            VerticalAlignment="Bottom"
-                            HorizontalAlignment="Right"
-                            Orientation="Horizontal"
-                            Spacing="10"
-                            Opacity="{Binding SelectedDrawingTemplateListItem.HasChanged, FallbackValue=0}">
-                    <StackPanel.Styles>
-                        <Style Selector="StackPanel">
-                            <Setter Property="Transitions">
-                                <Transitions>
-                                    <DoubleTransition Property="Opacity" Duration="0:0:0.1" />
-                                </Transitions>
-                            </Setter>
-                        </Style>
-                    </StackPanel.Styles>
-                    <Button Content="Cancel" Classes="outline" Command="{Binding CancelDrawingTemplateItemCommand}" />
-                    <Button Content="Save" Classes="success" Command="{Binding SaveDrawingTemplateItemCommand}" />
-                </StackPanel>
+                    <!-- New Template -->
+                    <Label Grid.Row="7" Grid.Column="0"
+                           IsVisible="{Binding SelectedDrawingTemplateListItem.NewTemplatePathIsVisible}"
+                           Content="New Template" VerticalAlignment="Center" />
+                    <ComboBox Grid.Row="7" Grid.Column="2"
+                              IsVisible="{Binding SelectedDrawingTemplateListItem.NewTemplatePathIsVisible}"
+                              ItemsSource="{Binding DrawingTemplatePaths}"
+                              HorizontalAlignment="Stretch"
+                              ToolTip.Tip="{Binding SelectedDrawingTemplateListItem.NewTemplatePath}"
+                              SelectedItem="{Binding SelectedDrawingTemplateListItem.NewTemplatePath}">
+                        
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <Label ToolTip.Tip="{Binding }" Content="{Binding Converter={StaticResource FilenameConverter}}" />
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+
+                    </ComboBox>
             </Grid>
+            
+            <!-- Manage Templates -->
+            <Grid Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3" RowDefinitions="Auto, 10, *">
+                
+                <Grid Grid.Row="0" ColumnDefinitions="Auto, *" RowDefinitions="Auto, 10, Auto">
+                    <!-- Manage Templates -->
+                    <Label Grid.Column="0" Classes="h2" Content="Manage Templates" />
+                    <TextBlock Grid.Column="0" Grid.Row="2" TextWrapping="Wrap"
+                               Text="Manage the template locations that are available for Drawing Template Jobs."
+                               Margin="0 -10 0 10" />
+
+                    <!-- Action Buttons -->
+                    <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" Spacing="10">
+                    
+                        <!-- Add Templates -->
+                        <Button
+                            VerticalAlignment="Center"
+                            Command="{Binding AddDrawingTemplatePathsCommand}"
+                            Classes="small">
+                            <Label Classes="icon-only icon-outline" Content="&#xE3d4;" />
+                        </Button>
+                    
+                        <!-- Delete -->
+                        <Button
+                            VerticalAlignment="Center"
+                            IsEnabled="{Binding DrawingTemplateSelectedPaths.Count}"
+                            Command="{Binding DeleteDrawingTemplatePathsCommand}"
+                            Classes="small danger">
+                            <Label Classes="icon-only icon-outline" Content="&#xe4a6;" />
+                        </Button>
+                    
+                    </StackPanel>
+
+                </Grid>
+
+                <ListBox Grid.Row="2" Name="DrawingTemplateListBox"
+                         ItemsSource="{Binding DrawingTemplatePaths}"
+                         SelectedItems="{Binding DrawingTemplateSelectedPaths}"
+                         SelectionChanged="SelectingItemsControl_OnSelectionChanged"
+                         SelectionMode="Multiple" />
+
+            </Grid>
+            
+            <!-- Save / Cancel Buttons -->
+            <StackPanel Grid.Column="2" Grid.Row="3"
+                        VerticalAlignment="Bottom"
+                        HorizontalAlignment="Right"
+                        Orientation="Horizontal"
+                        Spacing="10"
+                        Opacity="{Binding SelectedDrawingTemplateListItem.HasChanged, FallbackValue=0}">
+                <StackPanel.Styles>
+                    <Style Selector="StackPanel">
+                        <Setter Property="Transitions">
+                            <Transitions>
+                                <DoubleTransition Property="Opacity" Duration="0:0:0.1" />
+                            </Transitions>
+                        </Setter>
+                    </Style>
+                </StackPanel.Styles>
+                <Button Content="Cancel" Classes="outline" Command="{Binding CancelDrawingTemplateItemCommand}" />
+                <Button Content="Save" Classes="success" Command="{Binding SaveDrawingTemplateItemCommand}" />
+            </StackPanel>
 
         </Grid>
 

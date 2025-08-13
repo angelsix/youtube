@@ -1,6 +1,8 @@
-﻿using BatchProcess3.CustomProperties;
+﻿using Avalonia.Platform.Storage;
+using BatchProcess3.CustomProperties;
 using BatchProcess3.DataStorage;
 using BatchProcess3.Dialog;
+using BatchProcess3.DrawingTemplates;
 using BatchProcess3.MainApp;
 using BatchProcess3.Printer;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -198,6 +200,13 @@ public partial class ActionsPageViewModel(
     public ActionsTabDrawingTemplateViewModel? SelectedDrawingTemplateListItem =>
         DrawingTemplateList.FirstOrDefault(f => f.Id == SelectedDrawingTemplateListItemId);
 
+    public ObservableCollection<DrawingTemplateOperation> DrawingTemplateOperations => new(Enum.GetValues<DrawingTemplateOperation>());
+
+    [ObservableProperty]
+    private ObservableCollection<string> _drawingTemplateSelectedPaths = [];
+
+    public ObservableCollection<string> DrawingTemplatePaths => new(databaseService.GetSettings().DrawingTemplatePaths);
+    
     #endregion
 
     #region Macros
@@ -800,7 +809,7 @@ public partial class ActionsPageViewModel(
 
         SaveModelList = new ObservableCollection<ActionsTabSaveModelViewModel>(list
             .OrderBy(f => f.JobName)
-            .Select(f => f.ToViewModel()));
+            .Select(f => f.ToViewModel(SaveModelFormats)));
 
         // Update SaveModelListHasItems when collection changes
         SaveModelList.CollectionChanged += (_, _) => OnPropertyChanged(nameof(SaveModelListHasItems));
@@ -1284,6 +1293,37 @@ public partial class ActionsPageViewModel(
         // Flag new item as not new
         SelectedDrawingTemplateListItem.IsNewItem = false;
         SelectedDrawingTemplateListItem.SetSavedState();
+    }
+
+    [RelayCommand]
+    private async Task AddDrawingTemplatePaths()
+    {
+        var paths = await dialogService.FilePicker(
+            title: "Select a drawing template", 
+            allowMultiple: true,
+            fileTypes: [
+                new FilePickerFileType("Drawing Template") { Patterns = ["*.slddrt"] }
+            ]);
+
+        // Add to database
+        databaseService.AddDrawingTemplatePaths(paths);
+        
+        // Let the UI know the paths have changed
+        RaiseOnPropertyChanged(nameof(DrawingTemplatePaths));
+    }
+
+    [RelayCommand]
+    private void DeleteDrawingTemplatePaths()
+    {
+        // Ignore empty list
+        if (DrawingTemplateSelectedPaths.Count == 0)
+            return;
+
+        // Delete from database
+        databaseService.DeleteDrawingTemplatePaths(DrawingTemplateSelectedPaths.ToArray());
+        
+        // Let the UI know the paths have changed
+        RaiseOnPropertyChanged(nameof(DrawingTemplatePaths));
     }
 
     #endregion

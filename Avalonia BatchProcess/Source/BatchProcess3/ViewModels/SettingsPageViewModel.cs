@@ -132,7 +132,7 @@ public partial class SettingsPageViewModel : PageViewModel
         PdmePassword = PdmePassword,
         PdmeUsername = PdmeUsername,
         PdmeVaultName = PdmeVaultName,
-        DrawingTemplateSearchPaths = DrawingTemplateSearchPaths.ToList()
+        DrawingTemplatePaths = DrawingTemplateSearchPaths.ToList()
     };
 
 }

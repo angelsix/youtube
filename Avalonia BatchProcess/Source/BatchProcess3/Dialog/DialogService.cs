@@ -37,4 +37,21 @@ public class DialogService(Func<TopLevel?> topLevel)
         if (path == null) return null;
         return path.IsAbsoluteUri ? path.LocalPath : path.OriginalString;
     }
+    
+    public async Task<string[]> FilePicker(string title = "Select a file", bool allowMultiple = false, FilePickerFileType[]? fileTypes = null)
+    {
+        fileTypes ??= [FilePickerFileTypes.All];
+        
+        var topLevelVisual = topLevel();
+        if (topLevelVisual == null) return [];
+        
+        var files = await topLevelVisual.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions()
+        {
+            AllowMultiple = allowMultiple,
+            Title = title,
+            FileTypeFilter = fileTypes
+        });
+
+        return files.Select(file => file.Path.IsAbsoluteUri ? file.Path.LocalPath : file.Path.OriginalString).ToArray();
+    }
 }

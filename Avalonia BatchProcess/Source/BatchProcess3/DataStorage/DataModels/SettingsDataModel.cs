@@ -29,5 +29,5 @@ public class SettingsDataModel
     public string PdmePassword { get; set; } = "";
     
     [MaxLength(100000)]
-    public List<string> DrawingTemplateSearchPaths { get; set; } = [];
+    public List<string> DrawingTemplatePaths { get; set; } = [];
 }
