@@ -85,20 +85,47 @@
             <Grid Grid.Column="0" RowDefinitions="Auto, 10, Auto, 10, Auto, 10, Auto, 10, Auto, 10, Auto, 10 *">
                 <Label Classes="h2" Content="General Settings" />
                 <TextBlock Grid.Row="2" Text="Set the main properties of the Macros job." Margin="0 -10 0 10" />
-                <Grid Grid.Row="4" ColumnDefinitions="140, 15, *" RowDefinitions="Auto, 15, Auto, 15, Auto">
+
+                <Grid Grid.Row="4" ColumnDefinitions="140, 15, *"
+                      RowDefinitions="Auto, 15, Auto, 15, Auto, 15, Auto, 15, Auto, Auto, Auto">
+
+                    <!-- Job Name -->
                     <Label Grid.Row="0" Grid.Column="0" Content="Job Name" VerticalAlignment="Center" />
                     <TextBox Name="JobNameTextBox" Grid.Row="0" Grid.Column="2"
                              Text="{Binding  SelectedMacrosListItem.JobName}" />
+
+                    <!-- Description -->
                     <Label Grid.Row="2" Grid.Column="0" Content="Description" />
                     <TextBox Grid.Row="2" Grid.Column="2" AcceptsReturn="True"
                              Text="{Binding  SelectedMacrosListItem.Description}" Height="80" TextWrapping="Wrap" />
+
+                    <!-- Macro Path -->
+                    <Label Grid.Row="4" Grid.Column="0" Content="Macro Path" VerticalAlignment="Center" />
+                    <TextBox Grid.Row="4" Grid.Column="4"
+                             Text="{Binding  SelectedMacrosListItem.MacroPath}" />
+
+                    <!-- Module Name -->
+                    <Label Grid.Row="6" Grid.Column="0" Content="Module Name" VerticalAlignment="Center" />
+                    <TextBox Grid.Row="6" Grid.Column="4"
+                             Text="{Binding  SelectedMacrosListItem.ModuleName}" />
+
+                    <!-- Exclude Parts -->
+                    <CheckBox Grid.Row="8" Grid.Column="4" Content="Exclude Parts"
+                              IsChecked="{Binding  SelectedMacrosListItem.ExcludeParts}" />
+
+                    <!-- Exclude Drawings -->
+                    <CheckBox Grid.Row="9" Grid.Column="4" Content="Exclude Drawings"
+                              IsChecked="{Binding  SelectedMacrosListItem.ExcludeDrawings}" />
+
+                    <!-- Exclude Assemblies -->
+                    <CheckBox Grid.Row="10" Grid.Column="4" Content="Exclude Assemblies"
+                              IsChecked="{Binding  SelectedMacrosListItem.ExcludeAssemblies}" />
+
                 </Grid>
             </Grid>
 
             <!-- Details Column -->
             <Grid Grid.Column="2" RowDefinitions="Auto, 10, Auto, 10, Auto, 10, *">
-                <Label Grid.Row="0" Classes="h2" Content="Details" />
-                <TextBlock Grid.Row="2" Text="Specify the additional details." Margin="0 -10 0 10" />
 
                 <!-- Extra details here -->
 

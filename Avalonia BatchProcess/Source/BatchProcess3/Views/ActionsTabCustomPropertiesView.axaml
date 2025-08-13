@@ -8,26 +8,31 @@
              Foreground="{DynamicResource PrimaryForeground}"
              x:DataType="vm:ActionsPageViewModel"
              x:Class="BatchProcess3.Views.ActionsTabCustomPropertiesView">
-    
-    <Design.DataContext><vm:ActionsPageViewModel></vm:ActionsPageViewModel></Design.DataContext>
-    
+
+    <Design.DataContext>
+        <vm:ActionsPageViewModel />
+    </Design.DataContext>
+
     <Grid ColumnDefinitions="*, 30, 3*">
         <!-- Custom Properties List Column -->
         <Grid RowDefinitions="Auto, 10, Auto, 10, Auto, 10, *">
             <Label Classes="h2" Content="Custom Properties" />
-            <TextBlock Grid.Row="2" Text="Updating, deleting and editing of custom properties with advanced logic." TextWrapping="Wrap" Margin="0 -10 0 10"></TextBlock>
-            <Button Grid.Row="4" Classes="small outline" Content="New Custom Property Action" Command="{Binding AddNewCustomPropertiesItemCommand}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" />
-            <ListBox Grid.Row="6" 
+            <TextBlock Grid.Row="2" Text="Updating, deleting and editing of custom properties with advanced logic"
+                       TextWrapping="Wrap" Margin="0 -10 0 10" />
+            <Button Grid.Row="4" Classes="small outline" Content="New Custom Property Action"
+                    Command="{Binding AddNewCustomPropertiesItemCommand}" HorizontalAlignment="Stretch"
+                    HorizontalContentAlignment="Center" />
+            <ListBox Grid.Row="6"
                      SelectionChanged="SelectingItemsControl_OnSelectionChanged"
-                     ItemsSource="{Binding CustomPropertiesList}" 
+                     ItemsSource="{Binding CustomPropertiesList}"
                      SelectedValueBinding="{Binding Id}"
                      SelectedValue="{Binding SelectedCustomPropertiesListItemId}">
                 <ListBox.ItemTemplate>
                     <DataTemplate x:DataType="vm:ActionsTabCustomPropertiesViewModel">
                         <Grid ColumnDefinitions="*, Auto">
-                            <Label Grid.Column="0" 
+                            <Label Grid.Column="0"
                                    FontWeight="{Binding HasChanged, Converter={StaticResource BooleanToBoldFontConverter}}"
-                                   Content="{Binding JobName}" 
+                                   Content="{Binding JobName}"
                                    VerticalAlignment="Center" />
                             <Button Grid.Column="1"
                                     Margin="0 -4 -4 -6"
@@ -41,31 +46,35 @@
                         </Grid>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
-                
+
             </ListBox>
         </Grid>
-        
-        <StackPanel Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10" Opacity="{Binding !CustomPropertiesListHasItems}">
+
+        <StackPanel Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10"
+                    Opacity="{Binding !CustomPropertiesListHasItems}">
             <StackPanel.Styles>
                 <Style Selector="StackPanel">
                     <Setter Property="Transitions">
                         <Transitions>
-                            <DoubleTransition Property="Opacity" Duration="0:0:0.1"></DoubleTransition>
+                            <DoubleTransition Property="Opacity" Duration="0:0:0.1" />
                         </Transitions>
                     </Setter>
                 </Style>
             </StackPanel.Styles>
-            <TextBlock Text="Custom Property Actions can be used to update, delete and manipulate custom properties with advanced rules." HorizontalAlignment="Center" />
+            <TextBlock
+                Text="Custom Property Actions can be used to update, delete and manipulate custom properties with advanced rules."
+                HorizontalAlignment="Center" />
             <TextBlock Text="To get started, create a new Custom Properties Action." HorizontalAlignment="Center" />
-            <Button Content="New Custom Properties Action" HorizontalAlignment="Center" Command="{Binding AddNewCustomPropertiesItemCommand}" Margin="20" />
+            <Button Content="New Custom Properties Action" HorizontalAlignment="Center"
+                    Command="{Binding AddNewCustomPropertiesItemCommand}" Margin="20" />
         </StackPanel>
-        
+
         <Grid Grid.Column="2" ColumnDefinitions="*, 30, *" Opacity="{Binding CustomPropertiesListHasItems}">
             <Grid.Styles>
                 <Style Selector="Grid">
                     <Setter Property="Transitions">
                         <Transitions>
-                            <DoubleTransition Property="Opacity" Duration="0:0:0.1"></DoubleTransition>
+                            <DoubleTransition Property="Opacity" Duration="0:0:0.1" />
                         </Transitions>
                     </Setter>
                 </Style>
@@ -74,63 +83,67 @@
             <!-- General Settings Column -->
             <Grid Grid.Column="0" RowDefinitions="Auto, 10, Auto, 10, Auto, 10, Auto, 10, Auto, 10, Auto, 10 *">
                 <Label Classes="h2" Content="General Settings" />
-                <TextBlock Grid.Row="2" Text="Set the main properties of the custom properties job." Margin="0 -10 0 10" />
-                
+                <TextBlock Grid.Row="2" Text="Set the main properties of the custom properties job."
+                           Margin="0 -10 0 10" />
+
                 <Grid Grid.Row="4" ColumnDefinitions="140, 15, *" RowDefinitions="Auto, 15, Auto, 15">
                     <Label Grid.Row="0" Grid.Column="0" Content="Job Name" VerticalAlignment="Center" />
-                    <TextBox Name="JobNameTextBox" Grid.Row="0" Grid.Column="2" Text="{Binding  SelectedCustomPropertiesListItem.JobName}" />
+                    <TextBox Name="JobNameTextBox" Grid.Row="0" Grid.Column="2"
+                             Text="{Binding  SelectedCustomPropertiesListItem.JobName}" />
                     <Label Grid.Row="2" Grid.Column="0" Content="Description" />
-                    <TextBox Grid.Row="2" Grid.Column="2" AcceptsReturn="True" Text="{Binding  SelectedCustomPropertiesListItem.Description}" Height="80" TextWrapping="Wrap" />
+                    <TextBox Grid.Row="2" Grid.Column="2" AcceptsReturn="True"
+                             Text="{Binding  SelectedCustomPropertiesListItem.Description}" Height="80"
+                             TextWrapping="Wrap" />
                 </Grid>
-                
+
                 <Label Grid.Row="6" Classes="h2" Content="Rule Action" />
                 <TextBlock Grid.Row="8" TextWrapping="Wrap"
                            Margin="0 -10 0 10"
                            Text="Select the type of action and then the appropriate fields for that type." />
-                
+
                 <Grid Grid.Row="10" ColumnDefinitions="140, 15, *" RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto">
-                    
+
                     <Label Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Content="Rule Type" />
                     <ComboBox Grid.Row="0" Grid.Column="2" HorizontalAlignment="Stretch" Margin="0 5"
                               SelectedItem="{Binding SelectedCustomPropertiesListItem.RuleType}"
                               ItemsSource="{Binding CustomPropertiesRuleTypes}" />
-                    
-                    <Label Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" 
+
+                    <Label Grid.Row="1" Grid.Column="0" VerticalAlignment="Center"
                            IsVisible="{Binding SelectedCustomPropertiesListItem.FieldNameIsVisible}"
                            Content="Field Name" />
                     <TextBox Grid.Row="1" Grid.Column="2" HorizontalAlignment="Stretch" Margin="0 5"
                              IsVisible="{Binding SelectedCustomPropertiesListItem.FieldNameIsVisible}"
                              Text="{Binding SelectedCustomPropertiesListItem.FieldName}" />
-                    
-                     <Label Grid.Row="2" Grid.Column="0" VerticalAlignment="Center"
-                            IsVisible="{Binding SelectedCustomPropertiesListItem.FieldTypeIsVisible}"
+
+                    <Label Grid.Row="2" Grid.Column="0" VerticalAlignment="Center"
+                           IsVisible="{Binding SelectedCustomPropertiesListItem.FieldTypeIsVisible}"
                            Content="Field Type" />
                     <ComboBox Grid.Row="2" Grid.Column="2" HorizontalAlignment="Stretch" Margin="0 5"
                               IsVisible="{Binding SelectedCustomPropertiesListItem.FieldTypeIsVisible}"
                               SelectedItem="{Binding SelectedCustomPropertiesListItem.FieldType}"
                               ItemsSource="{Binding CustomPropertiesFieldTypes}" />
-                    
+
                     <Label Grid.Row="3" Grid.Column="0" VerticalAlignment="Center"
                            IsVisible="{Binding SelectedCustomPropertiesListItem.ChangeNameToIsVisible}"
                            Content="Change Name To" />
                     <TextBox Grid.Row="3" Grid.Column="2" HorizontalAlignment="Stretch" Margin="0 5"
                              IsVisible="{Binding SelectedCustomPropertiesListItem.ChangeNameToIsVisible}"
                              Text="{Binding SelectedCustomPropertiesListItem.ChangeNameTo}" />
-                    
+
                     <Label Grid.Row="4" Grid.Column="0" VerticalAlignment="Center"
                            IsVisible="{Binding SelectedCustomPropertiesListItem.ValueRuleIsVisible}"
                            Content="Value Rule" />
                     <TextBox Grid.Row="4" Grid.Column="2" HorizontalAlignment="Stretch" Margin="0 5"
                              IsVisible="{Binding SelectedCustomPropertiesListItem.ValueRuleIsVisible}"
                              Text="{Binding SelectedCustomPropertiesListItem.ValueRule}" />
-                    
+
                     <Label Grid.Row="5" Grid.Column="0" VerticalAlignment="Center"
                            IsVisible="{Binding SelectedCustomPropertiesListItem.CopyFromConfigurationIsVisible}"
                            Content="Copy From Config" />
                     <TextBox Grid.Row="5" Grid.Column="2" HorizontalAlignment="Stretch" Margin="0 5"
                              IsVisible="{Binding SelectedCustomPropertiesListItem.CopyFromConfigurationIsVisible}"
                              Text="{Binding SelectedCustomPropertiesListItem.CopyFromConfiguration}" />
-                    
+
                     <Label Grid.Row="6" Grid.Column="0" VerticalAlignment="Center"
                            IsVisible="{Binding SelectedCustomPropertiesListItem.CopyToFieldIsVisible}"
                            Content="Copy To Field" />
@@ -138,47 +151,54 @@
                              IsVisible="{Binding SelectedCustomPropertiesListItem.CopyToFieldIsVisible}"
                              Text="{Binding SelectedCustomPropertiesListItem.CopyToField}" />
                 </Grid>
-                
+
             </Grid>
-            
+
             <!-- Configuration Column -->
             <Grid Grid.Column="2" RowDefinitions="Auto, 10, Auto, 10, Auto, 10, *">
-                
+
                 <Label Grid.Row="0" Classes="h2" Content="Configuration" />
                 <TextBlock Grid.Row="2" TextWrapping="Wrap"
                            Margin="0 -10 0 10"
                            Text="Set the specific options on configuring how the custom property rule is applied." />
-                
-                <StackPanel Grid.Row="4" Spacing="10">
-                    <CheckBox Content="Set Custom Properties" IsChecked="{Binding SelectedCustomPropertiesListItem.SetCustomProperty}" />
-                    <CheckBox Content="Set Configuration Specific Properties" IsChecked="{Binding SelectedCustomPropertiesListItem.SetConfigSpecificProperties}" />
-                    <TextBox IsVisible="{Binding SelectedCustomPropertiesListItem.SetConfigSpecificProperties}" Text="{Binding SelectedCustomPropertiesListItem.SetConfigurationPropertiesFilter}" />
-                    <CheckBox Content="Exclude Parts"  IsChecked="{Binding SelectedCustomPropertiesListItem.ExcludeParts}"/>
-                    <CheckBox Content="Exclude Assemblies" IsChecked="{Binding SelectedCustomPropertiesListItem.ExcludeAssemblies}" />
-                    <CheckBox Content="Exclude Drawings" IsChecked="{Binding SelectedCustomPropertiesListItem.ExcludeDrawings}" />
+
+                <StackPanel Grid.Row="4">
+                    <CheckBox Content="Set Custom Properties"
+                              IsChecked="{Binding SelectedCustomPropertiesListItem.SetCustomProperty}" />
+                    <CheckBox Content="Set Configuration Specific Properties"
+                              IsChecked="{Binding SelectedCustomPropertiesListItem.SetConfigSpecificProperties}" />
+                    <TextBox IsVisible="{Binding SelectedCustomPropertiesListItem.SetConfigSpecificProperties}"
+                             Margin="32 0 0 10"
+                             Text="{Binding SelectedCustomPropertiesListItem.SetConfigurationPropertiesFilter}" />
+                    <CheckBox Content="Exclude Parts"
+                              IsChecked="{Binding SelectedCustomPropertiesListItem.ExcludeParts}" />
+                    <CheckBox Content="Exclude Assemblies"
+                              IsChecked="{Binding SelectedCustomPropertiesListItem.ExcludeAssemblies}" />
+                    <CheckBox Content="Exclude Drawings"
+                              IsChecked="{Binding SelectedCustomPropertiesListItem.ExcludeDrawings}" />
                 </StackPanel>
-                
-                <StackPanel Grid.Row="6" 
-                            VerticalAlignment="Bottom" 
-                            HorizontalAlignment="Right" 
-                            Orientation="Horizontal" 
+
+                <StackPanel Grid.Row="6"
+                            VerticalAlignment="Bottom"
+                            HorizontalAlignment="Right"
+                            Orientation="Horizontal"
                             Spacing="10"
                             Opacity="{Binding SelectedCustomPropertiesListItem.HasChanged, FallbackValue=0}">
                     <StackPanel.Styles>
                         <Style Selector="StackPanel">
                             <Setter Property="Transitions">
                                 <Transitions>
-                                    <DoubleTransition Property="Opacity" Duration="0:0:0.1"></DoubleTransition>
+                                    <DoubleTransition Property="Opacity" Duration="0:0:0.1" />
                                 </Transitions>
                             </Setter>
                         </Style>
                     </StackPanel.Styles>
-                    <Button Content="Cancel" Classes="outline" Command="{Binding CancelCustomPropertiesItemCommand}"></Button>
-                    <Button Content="Save" Classes="success" Command="{Binding SaveCustomPropertiesItemCommand}"></Button>
+                    <Button Content="Cancel" Classes="outline" Command="{Binding CancelCustomPropertiesItemCommand}" />
+                    <Button Content="Save" Classes="success" Command="{Binding SaveCustomPropertiesItemCommand}" />
                 </StackPanel>
             </Grid>
-    
+
         </Grid>
-        
+
     </Grid>
 </UserControl>

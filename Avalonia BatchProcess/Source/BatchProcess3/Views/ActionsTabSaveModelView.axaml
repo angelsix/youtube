@@ -85,22 +85,59 @@
             <Grid Grid.Column="0" RowDefinitions="Auto, 10, Auto, 10, Auto, 10, Auto, 10, Auto, 10, Auto, 10 *">
                 <Label Classes="h2" Content="General Settings" />
                 <TextBlock Grid.Row="2" Text="Set the main properties of the Save Model job." Margin="0 -10 0 10" />
-                <Grid Grid.Row="4" ColumnDefinitions="140, 15, *" RowDefinitions="Auto, 15, Auto, 15, Auto">
+
+                <Grid Grid.Row="4" ColumnDefinitions="120, 10, 20, 5, *"
+                      RowDefinitions="Auto, 15, Auto, 15, Auto, 15, Auto, 15, Auto, 15, Auto, 15, Auto, 15, Auto">
+
+                    <!-- Job Name -->
                     <Label Grid.Row="0" Grid.Column="0" Content="Job Name" VerticalAlignment="Center" />
-                    <TextBox Name="JobNameTextBox" Grid.Row="0" Grid.Column="2"
+                    <TextBox Name="JobNameTextBox" Grid.Row="0" Grid.Column="4"
                              Text="{Binding  SelectedSaveModelListItem.JobName}" />
+
+                    <!-- Description -->
                     <Label Grid.Row="2" Grid.Column="0" Content="Description" />
-                    <TextBox Grid.Row="2" Grid.Column="2" AcceptsReturn="True"
+                    <TextBox Grid.Row="2" Grid.Column="4" AcceptsReturn="True"
                              Text="{Binding  SelectedSaveModelListItem.Description}" Height="80" TextWrapping="Wrap" />
+
+                    <!-- Filename -->
+                    <Label Grid.Row="4" Grid.Column="0" Content="Filename" VerticalAlignment="Center" />
+                    <TextBox Grid.Row="4" Grid.Column="4"
+                             Text="{Binding  SelectedSaveModelListItem.FileName}" />
+
+                    <!-- Save Location -->
+                    <Label Grid.Row="6" Grid.Column="0" Content="Save Location" VerticalAlignment="Center" />
+                    <TextBox Grid.Row="6" Grid.Column="4"
+                             Text="{Binding  SelectedSaveModelListItem.SaveLocation}" />
+
+                    <!-- Save All Configurations -->
+                    <Label Grid.Row="8" Grid.Column="2" VerticalAlignment="Center"
+                           Classes="icon-only icon-outline subtle-hover"
+                           Content="&#xE3E8;"
+                           ToolTip.Tip="Saves the model for every configuration as a separate file." />
+                    <CheckBox Grid.Row="8" Grid.Column="4" Content="Save All Configs"
+                              IsChecked="{Binding  SelectedSaveModelListItem.SaveAllConfigurations}" />
+
                 </Grid>
             </Grid>
 
             <!-- Details Column -->
-            <Grid Grid.Column="2" RowDefinitions="Auto, 10, Auto, 10, Auto, 10, *">
-                <Label Grid.Row="0" Classes="h2" Content="Details" />
-                <TextBlock Grid.Row="2" Text="Specify the additional details." Margin="0 -10 0 10" />
+            <Grid Grid.Column="2" RowDefinitions="Auto, 10, Auto, 10, *, 10, 40">
+                <Label Grid.Row="0" Classes="h2" Content="Save As Formats" />
+                <TextBlock Grid.Row="2" TextWrapping="Wrap"
+                           Text="Select all the formats you wish to export the model files to." Margin="0 -10 0 10" />
 
-                <!-- Extra details here -->
+                <!-- Export Formats -->
+                <ScrollViewer Grid.Row="4">
+                    <ItemsControl ItemsSource="{Binding SelectedSaveModelListItem.ExportFormats}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <CheckBox
+                                    IsChecked="{Binding Value}"
+                                    Content="{Binding Key}" />
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
 
                 <StackPanel Grid.Row="6"
                             VerticalAlignment="Bottom"

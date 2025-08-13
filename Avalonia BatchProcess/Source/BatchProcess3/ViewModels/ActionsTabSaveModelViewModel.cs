@@ -12,8 +12,7 @@ public partial class ActionsTabSaveModelViewModel : ViewModelBase
     [ObservableProperty] [NotifyPropertyChangedFor(nameof(HasChanged))]
     private string _description = "";
 
-    [ObservableProperty] [NotifyPropertyChangedFor(nameof(HasChanged))]
-    private ObservableCollection<string> _exportFormats = [];
+    private ObservableCollection<KeyValueViewModel<string, bool>> _exportFormats = [];
 
     [ObservableProperty] [NotifyPropertyChangedFor(nameof(HasChanged))]
     private string _fileName = "";
@@ -32,6 +31,12 @@ public partial class ActionsTabSaveModelViewModel : ViewModelBase
     [ObservableProperty] [NotifyPropertyChangedFor(nameof(HasChanged))]
     private string _saveLocation = "";
 
+    public ObservableCollection<KeyValueViewModel<string, bool>> ExportFormats
+    {
+        get => _exportFormats;
+        set => this.SetAndObserveEverything(value, ref _exportFormats, [nameof(HasChanged)]);
+    }
+
     [JsonIgnore]
     public new bool HasChanged =>
         IsNewItem || (SavedState != "" && SavedState != JsonSerializer.Serialize(this, _jsonOptions));
@@ -42,7 +47,7 @@ public partial class ActionsTabSaveModelViewModel : ViewModelBase
         Description = Description,
         JobName = JobName,
         SaveLocation = SaveLocation,
-        ExportFormats = ExportFormats.ToList(),
+        ExportFormats = ExportFormats.Where(f => f.Value).Select(f => f.Key).ToList(),
         FileName = FileName,
         SaveAllConfigurations = SaveAllConfigurations
     };
@@ -50,14 +55,17 @@ public partial class ActionsTabSaveModelViewModel : ViewModelBase
 
 public static class ActionsTabSaveModelViewModelExtensions
 {
-    public static ActionsTabSaveModelViewModel ToViewModel(this ActionsTabSaveModelDataModel dataModel) =>
+    public static ActionsTabSaveModelViewModel ToViewModel(this ActionsTabSaveModelDataModel dataModel,
+        ObservableCollection<string> exportFormats) =>
         new()
         {
             Id = dataModel.Id,
             JobName = dataModel.JobName,
             Description = dataModel.Description,
             SaveLocation = dataModel.SaveLocation,
-            ExportFormats = new ObservableCollection<string>(dataModel.ExportFormats.ToList()),
+            ExportFormats =
+                new ObservableCollection<KeyValueViewModel<string, bool>>(exportFormats.Select(f =>
+                    new KeyValueViewModel<string, bool>(f, dataModel.ExportFormats.Any(e => e == f)))),
             SaveAllConfigurations = dataModel.SaveAllConfigurations,
             FileName = dataModel.FileName
         };
