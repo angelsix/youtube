@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace BatchProcess3.DataStorage.DataModels;
 
-public class PrintSettingsProfileDataModel
+public class ActionPrintSettingsProfileDataModel
 {
     [MaxLength(100)]
     public string Id { get; set; } = Guid.NewGuid().ToString("N");
@@ -11,7 +11,7 @@ public class PrintSettingsProfileDataModel
     [MaxLength(100)]
     public string PrintSettingsDataModelId { get; set; } = "";
 
-    public PrintSettingsDataModel PrintSettingsDataModel { get; set; }
+    public ActionPrintSettingsDataModel ActionPrintSettingsDataModel { get; set; }
     
     [MaxLength(100)]
     public string Type { get; set; } = "";

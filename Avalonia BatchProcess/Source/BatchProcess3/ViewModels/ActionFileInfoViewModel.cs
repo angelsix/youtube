@@ -5,25 +5,14 @@ using System.Text.Json.Serialization;
 
 namespace BatchProcess3.ViewModels;
 
-public partial class ActionsTabFileInfoViewModel : ViewModelBase
+public partial class ActionFileInfoViewModel : ActionViewModel
 {
     [ObservableProperty] [NotifyPropertyChangedFor(nameof(HasChanged))]
     private string _author = "";
 
     [ObservableProperty] [NotifyPropertyChangedFor(nameof(HasChanged))]
     private string _comments = "";
-
-    [ObservableProperty] [NotifyPropertyChangedFor(nameof(HasChanged))]
-    private string _description = "";
-
-    [ObservableProperty] [NotifyPropertyChangedFor(nameof(HasChanged))]
-    private string _id = "";
-
-    [ObservableProperty] private bool _isNewItem;
-
-    [ObservableProperty] [NotifyPropertyChangedFor(nameof(HasChanged))]
-    private string _jobName = "";
-
+    
     [ObservableProperty] [NotifyPropertyChangedFor(nameof(HasChanged))]
     private string _keywords = "";
 
@@ -33,11 +22,7 @@ public partial class ActionsTabFileInfoViewModel : ViewModelBase
     [ObservableProperty] [NotifyPropertyChangedFor(nameof(HasChanged))]
     private string _title = "";
 
-    [JsonIgnore]
-    public new bool HasChanged =>
-        IsNewItem || (SavedState != "" && SavedState != JsonSerializer.Serialize(this, _jsonOptions));
-
-    public ActionsTabFileInfoDataModel ToDataModel() => new()
+    public new ActionFileInfoDataModel ToDataModel() => new()
     {
         Id = Id,
         Description = Description,
@@ -50,9 +35,9 @@ public partial class ActionsTabFileInfoViewModel : ViewModelBase
     };
 }
 
-public static class ActionsTabFileInfoViewModelExtensions
+public static class ActionFileInfoViewModelExtensions
 {
-    public static ActionsTabFileInfoViewModel ToViewModel(this ActionsTabFileInfoDataModel dataModel) => new()
+    public static ActionFileInfoViewModel ToViewModel(this ActionFileInfoDataModel dataModel) => new()
     {
         Id = dataModel.Id,
         Description = dataModel.Description,

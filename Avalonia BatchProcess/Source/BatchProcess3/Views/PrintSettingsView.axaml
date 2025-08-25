@@ -3,7 +3,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:BatchProcess3.ViewModels"
-             x:DataType="vm:PrintSettingsViewModel"
+             x:DataType="vm:ActionPrintSettingsViewModel"
              mc:Ignorable="d"
              MinWidth="300"
              Width="{Binding DialogWidth}"
@@ -14,7 +14,7 @@
              Background="Transparent"
              x:Class="BatchProcess3.Views.PrintSettingsView">
     
-    <Design.DataContext><vm:PrintSettingsViewModel></vm:PrintSettingsViewModel></Design.DataContext>
+    <Design.DataContext><vm:ActionPrintSettingsViewModel></vm:ActionPrintSettingsViewModel></Design.DataContext>
     
     <!-- Main Dialog Window -->
     <Border 

@@ -28,7 +28,7 @@
                      SelectedValueBinding="{Binding Id}"
                      SelectedValue="{Binding SelectedCustomPropertiesListItemId}">
                 <ListBox.ItemTemplate>
-                    <DataTemplate x:DataType="vm:ActionsTabCustomPropertiesViewModel">
+                    <DataTemplate x:DataType="vm:ActionCustomPropertiesViewModel">
                         <Grid ColumnDefinitions="*, Auto">
                             <Label Grid.Column="0"
                                    FontWeight="{Binding HasChanged, Converter={StaticResource BooleanToBoldFontConverter}}"

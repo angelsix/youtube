@@ -29,7 +29,7 @@
                      SelectedValueBinding="{Binding Id}"
                      SelectedValue="{Binding SelectedImportFileListItemId}">
                 <ListBox.ItemTemplate>
-                    <DataTemplate x:DataType="vm:ActionsTabImportFileViewModel">
+                    <DataTemplate x:DataType="vm:ActionImportFileViewModel">
                         <Grid ColumnDefinitions="*, Auto">
                             <Label Grid.Column="0"
                                    FontWeight="{Binding HasChanged, Converter={StaticResource BooleanToBoldFontConverter}}"

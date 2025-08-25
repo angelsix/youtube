@@ -12,7 +12,7 @@ public partial class ActionsTabImportFileView : UserControl
 
     private void SelectingItemsControl_OnSelectionChanged(object? sender, SelectionChangedEventArgs e)
     {
-        if (e.AddedItems?.Count > 0 && e.AddedItems[0] is ActionsTabImportFileViewModel viewModel)
+        if (e.AddedItems?.Count > 0 && e.AddedItems[0] is ActionImportFileViewModel viewModel)
         {
             // When it is a newly created item
             if (viewModel.IsNewItem)

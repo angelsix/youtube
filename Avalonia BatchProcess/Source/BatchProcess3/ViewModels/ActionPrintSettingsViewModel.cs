@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace BatchProcess3.ViewModels;
 
-public partial class PrintSettingsViewModel : ConfirmDialogViewModel
+public partial class ActionPrintSettingsViewModel : ConfirmDialogViewModel
 {
     [ObservableProperty] private string _id = Guid.NewGuid().ToString("N");
 
@@ -16,7 +16,7 @@ public partial class PrintSettingsViewModel : ConfirmDialogViewModel
 
     [ObservableProperty] private string _description = "";
 
-    [ObservableProperty] private ObservableCollection<PrintSettingsProfileViewModel> _printerSettingProfiles = [];
+    [ObservableProperty] private ObservableCollection<ActionPrintSettingsProfileViewModel> _printerSettingProfiles = [];
 
     [ObservableProperty] private bool _canEdit = true;
 
@@ -24,7 +24,7 @@ public partial class PrintSettingsViewModel : ConfirmDialogViewModel
 
     [ObservableProperty] private int _copies;
 
-    public PrintSettingsViewModel() : base()
+    public ActionPrintSettingsViewModel() : base()
     {
         Title = "Print Settings";
         Message = "Specify the printer settings to use for each paper size, or leave as default.";
@@ -40,7 +40,7 @@ public partial class PrintSettingsViewModel : ConfirmDialogViewModel
     private void DesignTimeData()
     {
         // TODO: Pull from database 
-        var printerSettingsItem = new PrintSettingsProfileViewModel
+        var printerSettingsItem = new ActionPrintSettingsProfileViewModel
         {
             Id = "2", Height = 200, Width = 140, ScaleToFit = true
         };
@@ -53,11 +53,11 @@ public partial class PrintSettingsViewModel : ConfirmDialogViewModel
     }
 }
 
-public static class PrintSettingsViewModelExtensions
+public static class ActionPrintSettingsViewModelExtensions
 {
-    public static PrintSettingsDataModel ToDataModel(this PrintSettingsViewModel viewModel)
+    public static ActionPrintSettingsDataModel ToDataModel(this ActionPrintSettingsViewModel viewModel)
     {
-        return new PrintSettingsDataModel()
+        return new ActionPrintSettingsDataModel()
         {
             Id = viewModel.Id,
             CanDelete = viewModel.CanDelete,
@@ -69,13 +69,13 @@ public static class PrintSettingsViewModelExtensions
         };
     }
 
-    public static List<PrintSettingsDataModel> ToDataModels(
-        this ObservableCollection<PrintSettingsViewModel> viewModels) =>
+    public static List<ActionPrintSettingsDataModel> ToDataModels(
+        this ObservableCollection<ActionPrintSettingsViewModel> viewModels) =>
         viewModels.Select(ToDataModel).ToList();
 
-    public static PrintSettingsViewModel ToViewModel(this PrintSettingsDataModel dataModel)
+    public static ActionPrintSettingsViewModel ToViewModel(this ActionPrintSettingsDataModel dataModel)
     {
-        return new PrintSettingsViewModel()
+        return new ActionPrintSettingsViewModel()
         {
             Name = dataModel.JobName,
             Description = dataModel.Description,
@@ -83,9 +83,9 @@ public static class PrintSettingsViewModelExtensions
             Copies = dataModel.Copies,
             CanEdit = dataModel.CanEdit,
             CanDelete = dataModel.CanDelete,
-            PrinterSettingProfiles = new ObservableCollection<PrintSettingsProfileViewModel>(dataModel.PrinterSettingProfiles
+            PrinterSettingProfiles = new ObservableCollection<ActionPrintSettingsProfileViewModel>(dataModel.PrinterSettingProfiles
                 .OrderBy(profile => profile.Type)
-                .Select(profile => new PrintSettingsProfileViewModel
+                .Select(profile => new ActionPrintSettingsProfileViewModel
                 {
                     Id = profile.Id,
                     DrawingColor = profile.DrawingColor,
@@ -101,10 +101,10 @@ public static class PrintSettingsViewModelExtensions
         };
     }
     
-    public static ObservableCollection<PrintSettingsViewModel> ToViewModels(
-        this List<PrintSettingsDataModel> dataModels)
+    public static ObservableCollection<ActionPrintSettingsViewModel> ToViewModels(
+        this List<ActionPrintSettingsDataModel> dataModels)
     {
-        return new ObservableCollection<PrintSettingsViewModel>(dataModels
+        return new ObservableCollection<ActionPrintSettingsViewModel>(dataModels
             .OrderBy(f => f.JobName)
             .Select(ToViewModel));
     }

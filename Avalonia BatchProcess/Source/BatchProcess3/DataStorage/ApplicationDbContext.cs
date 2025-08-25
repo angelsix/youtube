@@ -1,34 +1,52 @@
 ﻿using BatchProcess3.DataStorage.DataModels;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.IO;
 
 namespace BatchProcess3.DataStorage;
 
 public class ApplicationDbContext : DbContext
 {
     public DbSet<SettingsDataModel> Settings { get; set; }
+    
+    #region Actions
+    
+    public DbSet<ActionPrintSettingsProfileDataModel> ActionPrintSettingsProfile { get; set; }
 
-    public DbSet<PrintSettingsProfileDataModel> PrintSettingsProfile { get; set; }
+    public DbSet<ActionPrintSettingsDataModel> ActionPrintSettings { get; set; }
 
-    public DbSet<PrintSettingsDataModel> PrintSettings { get; set; }
+    public DbSet<ActionPrintDataModel> ActionPrint { get; set; }
 
-    public DbSet<ActionsTabPrintDataModel> ActionsTabPrint { get; set; }
+    public DbSet<ActionCustomPropertiesDataModel> ActionCustomProperties { get; set; }
 
-    public DbSet<ActionsTabCustomPropertiesDataModel> ActionsTabCustomProperties { get; set; }
+    public DbSet<ActionDrawingTemplateDataModel> ActionDrawingTemplate { get; set; }
 
-    public DbSet<ActionsTabDrawingTemplateDataModel> ActionsTabDrawingTemplate { get; set; }
+    public DbSet<ActionFileInfoDataModel> ActionFileInfo { get; set; }
 
-    public DbSet<ActionsTabFileInfoDataModel> ActionsTabFileInfo { get; set; }
+    public DbSet<ActionImportFileDataModel> ActionImportFile { get; set; }
 
-    public DbSet<ActionsTabImportFileDataModel> ActionsTabImportFile { get; set; }
+    public DbSet<ActionMacrosDataModel> ActionMacros { get; set; }
 
-    public DbSet<ActionsTabMacrosDataModel> ActionsTabMacros { get; set; }
+    public DbSet<ActionSaveDrawingDataModel> ActionSaveDrawing { get; set; }
 
-    public DbSet<ActionsTabSaveDrawingDataModel> ActionsTabSaveDrawing { get; set; }
+    public DbSet<ActionSaveModelDataModel> ActionSaveModel { get; set; }
 
-    public DbSet<ActionsTabSaveModelDataModel> ActionsTabSaveModel { get; set; }
+    #endregion
+  
+    public DbSet<ProcessDataModel> Processes { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) =>
-        optionsBuilder.UseSqlite("Data Source=settings.db");
+    #region Database Configuration
+
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        // Ensure folder exists
+        var storagePath =
+            Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "BatchProcess");
+        Directory.CreateDirectory(storagePath);
+        
+        optionsBuilder.UseSqlite(
+            $"Data Source={Path.Combine(storagePath, "settings.db")}");
+    }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -39,52 +57,28 @@ public class ApplicationDbContext : DbContext
             .HasKey(f => f.Id);
 
         // Print Settings Profile
-        modelBuilder.Entity<PrintSettingsProfileDataModel>()
+        modelBuilder.Entity<ActionPrintSettingsProfileDataModel>()
             .HasKey(f => f.Id);
-        modelBuilder.Entity<PrintSettingsProfileDataModel>()
-            .HasOne(f => f.PrintSettingsDataModel)
+        modelBuilder.Entity<ActionPrintSettingsProfileDataModel>()
+            .HasOne(f => f.ActionPrintSettingsDataModel)
             .WithMany(f => f.PrinterSettingProfiles)
             .OnDelete(DeleteBehavior.ClientCascade);
 
         // Print Settings
-        modelBuilder.Entity<PrintSettingsDataModel>()
-            .HasKey(f => f.Id);
-        modelBuilder.Entity<PrintSettingsDataModel>()
+        modelBuilder.Entity<ActionPrintSettingsDataModel>()
             .HasMany(f => f.ActionsTabPrintDataModels)
             .WithOne(f => f.PrinterSettings)
             .HasForeignKey(f => f.PrinterSettingsId)
             .OnDelete(DeleteBehavior.ClientCascade);
 
-        // Actions Tab: Custom Properties
-        modelBuilder.Entity<ActionsTabCustomPropertiesDataModel>()
+        // Actions
+        modelBuilder.Entity<ActionDataModel>()
             .HasKey(f => f.Id);
 
-        // Actions Tab: Drawing Templates
-        modelBuilder.Entity<ActionsTabDrawingTemplateDataModel>()
-            .HasKey(f => f.Id);
-
-        // Actions Tab: File Info
-        modelBuilder.Entity<ActionsTabFileInfoDataModel>()
-            .HasKey(f => f.Id);
-
-        // Actions Tab: Import File
-        modelBuilder.Entity<ActionsTabImportFileDataModel>()
-            .HasKey(f => f.Id);
-
-        // Actions Tab: Macros
-        modelBuilder.Entity<ActionsTabMacrosDataModel>()
-            .HasKey(f => f.Id);
-
-        // Actions Tab: Print
-        modelBuilder.Entity<ActionsTabCustomPropertiesDataModel>()
-            .HasKey(f => f.Id);
-
-        // Actions Tab: Save Drawings
-        modelBuilder.Entity<ActionsTabSaveDrawingDataModel>()
-            .HasKey(f => f.Id);
-
-        // Actions Tab: Save Models
-        modelBuilder.Entity<ActionsTabSaveModelDataModel>()
+        // Processes
+        modelBuilder.Entity<ProcessDataModel>()
             .HasKey(f => f.Id);
     }
+    
+    #endregion
 }

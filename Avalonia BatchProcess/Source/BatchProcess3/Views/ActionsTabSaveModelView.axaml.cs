@@ -12,7 +12,7 @@ public partial class ActionsTabSaveModelView : UserControl
 
     private void SelectingItemsControl_OnSelectionChanged(object? sender, SelectionChangedEventArgs e)
     {
-        if (e.AddedItems?.Count > 0 && e.AddedItems[0] is ActionsTabSaveModelViewModel viewModel)
+        if (e.AddedItems?.Count > 0 && e.AddedItems[0] is ActionSaveModelViewModel viewModel)
         {
             // When it is a newly created item
             if (viewModel.IsNewItem)

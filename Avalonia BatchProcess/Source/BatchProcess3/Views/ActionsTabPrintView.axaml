@@ -23,7 +23,7 @@
                      SelectedValueBinding="{Binding Id}"
                      SelectedValue="{Binding SelectedPrintListItemId}">
                 <ListBox.ItemTemplate>
-                    <DataTemplate x:DataType="vm:ActionsTabPrintViewModel">
+                    <DataTemplate x:DataType="vm:ActionPrintViewModel">
                         <Grid ColumnDefinitions="*, Auto">
                             <Label Grid.Column="0" 
                                    FontWeight="{Binding HasChanged, Converter={StaticResource BooleanToBoldFontConverter}}"
@@ -96,7 +96,7 @@
                          SelectedValueBinding="{Binding Id}"
                          SelectedValue="{Binding SelectedPrintListItem.PrinterSettingsId}">
                     <ListBox.ItemTemplate>
-                        <DataTemplate x:DataType="vm:PrintSettingsViewModel">
+                        <DataTemplate x:DataType="vm:ActionPrintSettingsViewModel">
                             <Grid ColumnDefinitions="*, 10, Auto, 10, Auto">
                                 
                                 <StackPanel>

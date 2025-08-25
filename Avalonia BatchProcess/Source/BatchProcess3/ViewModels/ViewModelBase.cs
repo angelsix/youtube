@@ -18,7 +18,7 @@ public class ViewModelBase : ObservableObject
     public string SavedState = "";
     
     [JsonIgnore]
-    public virtual bool HasChanged => SavedState != "" && SavedState != JsonSerializer.Serialize(this, _jsonOptions);
+    public virtual bool HasChanged => SavedState != "" && SavedState != JsonSerializer.Serialize(this, GetType(), _jsonOptions);
 
     public ViewModelBase()
     {

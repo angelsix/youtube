@@ -7,29 +7,27 @@ using System.Text.Json.Serialization;
 
 namespace BatchProcess3.ViewModels;
 
-public partial class ActionsTabSaveModelViewModel : ViewModelBase
+public partial class ActionSaveDrawingViewModel : ActionViewModel
 {
-    [ObservableProperty] [NotifyPropertyChangedFor(nameof(HasChanged))]
-    private string _description = "";
-
     private ObservableCollection<KeyValueViewModel<string, bool>> _exportFormats = [];
 
     [ObservableProperty] [NotifyPropertyChangedFor(nameof(HasChanged))]
     private string _fileName = "";
 
     [ObservableProperty] [NotifyPropertyChangedFor(nameof(HasChanged))]
-    private string _id = "";
-
-    [ObservableProperty] private bool _isNewItem;
-
-    [ObservableProperty] [NotifyPropertyChangedFor(nameof(HasChanged))]
-    private string _jobName = "";
-
-    [ObservableProperty] [NotifyPropertyChangedFor(nameof(HasChanged))]
-    private bool _saveAllConfigurations;
-
-    [ObservableProperty] [NotifyPropertyChangedFor(nameof(HasChanged))]
     private string _saveLocation = "";
+
+    [ObservableProperty] [NotifyPropertyChangedFor(nameof(HasChanged))]
+    private string _sheetsFilter = "";
+
+    [ObservableProperty] [NotifyPropertyChangedFor(nameof(HasChanged))]
+    private bool _singleDwgDxf;
+
+    [ObservableProperty] [NotifyPropertyChangedFor(nameof(HasChanged))]
+    private bool _singleEDrawing;
+
+    [ObservableProperty] [NotifyPropertyChangedFor(nameof(HasChanged))]
+    private bool _singlePdf;
 
     public ObservableCollection<KeyValueViewModel<string, bool>> ExportFormats
     {
@@ -37,25 +35,24 @@ public partial class ActionsTabSaveModelViewModel : ViewModelBase
         set => this.SetAndObserveEverything(value, ref _exportFormats, [nameof(HasChanged)]);
     }
 
-    [JsonIgnore]
-    public new bool HasChanged =>
-        IsNewItem || (SavedState != "" && SavedState != JsonSerializer.Serialize(this, _jsonOptions));
-
-    public ActionsTabSaveModelDataModel ToDataModel() => new()
+    public new ActionSaveDrawingDataModel ToDataModel() => new()
     {
         Id = Id,
         Description = Description,
         JobName = JobName,
+        FileName = FileName,
         SaveLocation = SaveLocation,
         ExportFormats = ExportFormats.Where(f => f.Value).Select(f => f.Key).ToList(),
-        FileName = FileName,
-        SaveAllConfigurations = SaveAllConfigurations
+        SheetsFilter = SheetsFilter,
+        SingleDwgDxf = SingleDwgDxf,
+        SingleEDrawing = SingleEDrawing,
+        SinglePdf = SinglePdf
     };
 }
 
-public static class ActionsTabSaveModelViewModelExtensions
+public static class ActionSaveDrawingViewModelExtensions
 {
-    public static ActionsTabSaveModelViewModel ToViewModel(this ActionsTabSaveModelDataModel dataModel,
+    public static ActionSaveDrawingViewModel ToViewModel(this ActionSaveDrawingDataModel dataModel,
         ObservableCollection<string> exportFormats) =>
         new()
         {
@@ -66,7 +63,10 @@ public static class ActionsTabSaveModelViewModelExtensions
             ExportFormats =
                 new ObservableCollection<KeyValueViewModel<string, bool>>(exportFormats.Select(f =>
                     new KeyValueViewModel<string, bool>(f, dataModel.ExportFormats.Any(e => e == f)))),
-            SaveAllConfigurations = dataModel.SaveAllConfigurations,
-            FileName = dataModel.FileName
+            FileName = dataModel.FileName,
+            SheetsFilter = dataModel.SheetsFilter,
+            SingleDwgDxf = dataModel.SingleDwgDxf,
+            SinglePdf = dataModel.SinglePdf,
+            SingleEDrawing = dataModel.SingleEDrawing
         };
 }

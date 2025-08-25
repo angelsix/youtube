@@ -6,7 +6,7 @@ using System.Text.Json.Serialization;
 
 namespace BatchProcess3.ViewModels;
 
-public partial class ActionsTabCustomPropertiesViewModel : ViewModelBase
+public partial class ActionCustomPropertiesViewModel : ActionViewModel
 {
     [ObservableProperty] [NotifyPropertyChangedFor(nameof(HasChanged))]
     private string _changeNameTo = "";
@@ -16,9 +16,6 @@ public partial class ActionsTabCustomPropertiesViewModel : ViewModelBase
 
     [ObservableProperty] [NotifyPropertyChangedFor(nameof(HasChanged))]
     private string _copyToField = "";
-
-    [ObservableProperty] [NotifyPropertyChangedFor(nameof(HasChanged))]
-    private string _description = "";
 
     [ObservableProperty] [NotifyPropertyChangedFor(nameof(HasChanged))]
     private bool _excludeAssemblies;
@@ -37,14 +34,6 @@ public partial class ActionsTabCustomPropertiesViewModel : ViewModelBase
 
     [ObservableProperty] [NotifyPropertyChangedFor(nameof(HasChanged))]
     private string _filterLogic = "";
-
-    [ObservableProperty] [NotifyPropertyChangedFor(nameof(HasChanged))]
-    private string _id = "";
-
-    [ObservableProperty] private bool _isNewItem;
-
-    [ObservableProperty] [NotifyPropertyChangedFor(nameof(HasChanged))]
-    private string _jobName = "";
 
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(HasChanged))]
@@ -81,12 +70,8 @@ public partial class ActionsTabCustomPropertiesViewModel : ViewModelBase
     [JsonIgnore] public bool CopyFromConfigurationIsVisible => RuleType is CustomPropertiesRuleType.Copy;
 
     [JsonIgnore] public bool CopyToFieldIsVisible => RuleType is CustomPropertiesRuleType.Copy;
-
-    [JsonIgnore]
-    public new bool HasChanged =>
-        IsNewItem || (SavedState != "" && SavedState != JsonSerializer.Serialize(this, _jsonOptions));
-
-    public ActionsTabCustomPropertiesDataModel ToDataModel() => new()
+    
+    public new ActionCustomPropertiesDataModel ToDataModel() => new()
     {
         Id = Id,
         Description = Description,
@@ -108,9 +93,9 @@ public partial class ActionsTabCustomPropertiesViewModel : ViewModelBase
     };
 }
 
-public static class ActionsTabCustomPropertiesViewModelExtensions
+public static class ActionCustomPropertiesViewModelExtensions
 {
-    public static ActionsTabCustomPropertiesViewModel ToViewModel(this ActionsTabCustomPropertiesDataModel dataModel) =>
+    public static ActionCustomPropertiesViewModel ToViewModel(this ActionCustomPropertiesDataModel dataModel) =>
         new()
         {
             Id = dataModel.Id,

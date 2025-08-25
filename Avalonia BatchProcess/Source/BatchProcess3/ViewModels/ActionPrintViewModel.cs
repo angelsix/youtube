@@ -5,11 +5,8 @@ using System.Text.Json.Serialization;
 
 namespace BatchProcess3.ViewModels;
 
-public partial class ActionsTabPrintViewModel : ViewModelBase
+public partial class ActionPrintViewModel : ActionViewModel
 {
-    [ObservableProperty] [NotifyPropertyChangedFor(nameof(HasChanged))]
-    private string _description = "";
-
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(DrawingExclusionListTitle))]
     [NotifyPropertyChangedFor(nameof(HasChanged))]
@@ -17,14 +14,6 @@ public partial class ActionsTabPrintViewModel : ViewModelBase
 
     [ObservableProperty] [NotifyPropertyChangedFor(nameof(HasChanged))]
     private string _drawingExclusionList = "";
-
-    [ObservableProperty] [NotifyPropertyChangedFor(nameof(HasChanged))]
-    private string _id = "";
-
-    [ObservableProperty] private bool _isNewItem;
-
-    [ObservableProperty] [NotifyPropertyChangedFor(nameof(HasChanged))]
-    private string _jobName = "";
 
     [ObservableProperty] [NotifyPropertyChangedFor(nameof(HasChanged))]
     private string _printDrawingRange = "";
@@ -40,11 +29,7 @@ public partial class ActionsTabPrintViewModel : ViewModelBase
 
     public string DrawingExclusionListTitle => DrawingExclusionIsWhiteList ? "White List" : "Black List";
 
-    [JsonIgnore]
-    public new bool HasChanged =>
-        IsNewItem || (SavedState != "" && SavedState != JsonSerializer.Serialize(this, _jsonOptions));
-
-    public ActionsTabPrintDataModel ToDataModel() => new()
+    public new ActionPrintDataModel ToDataModel() => new()
     {
         Id = Id,
         Description = Description,
@@ -58,9 +43,9 @@ public partial class ActionsTabPrintViewModel : ViewModelBase
     };
 }
 
-public static class ActionsTabPrintViewModelExtensions
+public static class ActionPrintViewModelExtensions
 {
-    public static ActionsTabPrintViewModel ToViewModel(this ActionsTabPrintDataModel dataModel) =>
+    public static ActionPrintViewModel ToViewModel(this ActionPrintDataModel dataModel) =>
         new()
         {
             Id = dataModel.Id,

@@ -5,11 +5,8 @@ using System.Text.Json.Serialization;
 
 namespace BatchProcess3.ViewModels;
 
-public partial class ActionsTabMacrosViewModel : ViewModelBase
+public partial class ActionMacrosViewModel : ActionViewModel
 {
-    [ObservableProperty] [NotifyPropertyChangedFor(nameof(HasChanged))]
-    private string _description = "";
-
     [ObservableProperty] [NotifyPropertyChangedFor(nameof(HasChanged))]
     private bool _excludeAssemblies;
 
@@ -20,24 +17,12 @@ public partial class ActionsTabMacrosViewModel : ViewModelBase
     private bool _excludeParts;
 
     [ObservableProperty] [NotifyPropertyChangedFor(nameof(HasChanged))]
-    private string _id = "";
-
-    [ObservableProperty] private bool _isNewItem;
-
-    [ObservableProperty] [NotifyPropertyChangedFor(nameof(HasChanged))]
-    private string _jobName = "";
-
-    [ObservableProperty] [NotifyPropertyChangedFor(nameof(HasChanged))]
     private string _macroPath = "";
 
     [ObservableProperty] [NotifyPropertyChangedFor(nameof(HasChanged))]
     private string _moduleName = "";
 
-    [JsonIgnore]
-    public new bool HasChanged =>
-        IsNewItem || (SavedState != "" && SavedState != JsonSerializer.Serialize(this, _jsonOptions));
-
-    public ActionsTabMacrosDataModel ToDataModel() => new()
+    public new ActionMacrosDataModel ToDataModel() => new()
     {
         Id = Id,
         Description = Description,
@@ -50,9 +35,9 @@ public partial class ActionsTabMacrosViewModel : ViewModelBase
     };
 }
 
-public static class ActionsTabMacrosViewModelExtensions
+public static class ActionMacrosViewModelExtensions
 {
-    public static ActionsTabMacrosViewModel ToViewModel(this ActionsTabMacrosDataModel dataModel) =>
+    public static ActionMacrosViewModel ToViewModel(this ActionMacrosDataModel dataModel) =>
         new()
         {
             Id = dataModel.Id,

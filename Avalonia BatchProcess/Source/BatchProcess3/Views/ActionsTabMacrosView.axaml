@@ -29,7 +29,7 @@
                      SelectedValueBinding="{Binding Id}"
                      SelectedValue="{Binding SelectedMacrosListItemId}">
                 <ListBox.ItemTemplate>
-                    <DataTemplate x:DataType="vm:ActionsTabMacrosViewModel">
+                    <DataTemplate x:DataType="vm:ActionMacrosViewModel">
                         <Grid ColumnDefinitions="*, Auto">
                             <Label Grid.Column="0"
                                    FontWeight="{Binding HasChanged, Converter={StaticResource BooleanToBoldFontConverter}}"

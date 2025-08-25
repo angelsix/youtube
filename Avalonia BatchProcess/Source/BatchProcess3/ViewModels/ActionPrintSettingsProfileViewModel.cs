@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace BatchProcess3.ViewModels;
 
-public partial class PrintSettingsProfileViewModel : ViewModelBase
+public partial class ActionPrintSettingsProfileViewModel : ViewModelBase
 {
     [ObservableProperty]
     private string _id = "-1";
@@ -69,11 +69,11 @@ public partial class PrintSettingsProfileViewModel : ViewModelBase
     private bool _scaleToFit;
 }
 
-public static class PrintSettingsProfileViewModelExtensions
+public static class ActionPrintSettingsProfileViewModelExtensions
 {
-    public static PrintSettingsProfileDataModel ToDataModel(this PrintSettingsProfileViewModel viewModel)
+    public static ActionPrintSettingsProfileDataModel ToDataModel(this ActionPrintSettingsProfileViewModel viewModel)
     {
-        return new PrintSettingsProfileDataModel()
+        return new ActionPrintSettingsProfileDataModel()
         {
             Id = viewModel.Id,
             Type = viewModel.Type,
@@ -88,13 +88,13 @@ public static class PrintSettingsProfileViewModelExtensions
         };
     }
 
-    public static List<PrintSettingsProfileDataModel> ToDataModels(
-        this ObservableCollection<PrintSettingsProfileViewModel> viewModels) =>
+    public static List<ActionPrintSettingsProfileDataModel> ToDataModels(
+        this ObservableCollection<ActionPrintSettingsProfileViewModel> viewModels) =>
         viewModels.Select(ToDataModel).ToList();
     
-    public static PrintSettingsProfileViewModel ToViewModel(this PrintSettingsProfileDataModel dataModel)
+    public static ActionPrintSettingsProfileViewModel ToViewModel(this ActionPrintSettingsProfileDataModel dataModel)
     {
-        return new PrintSettingsProfileViewModel()
+        return new ActionPrintSettingsProfileViewModel()
         {
             Id = dataModel.Id,
             Type = dataModel.Type,
@@ -109,8 +109,8 @@ public static class PrintSettingsProfileViewModelExtensions
         };
     }
 
-    public static ObservableCollection<PrintSettingsProfileViewModel> ToViewModels(
-        this List<PrintSettingsProfileDataModel> dataModels) =>
+    public static ObservableCollection<ActionPrintSettingsProfileViewModel> ToViewModels(
+        this List<ActionPrintSettingsProfileDataModel> dataModels) =>
         new(dataModels.Select(ToViewModel).ToList());
 
 }

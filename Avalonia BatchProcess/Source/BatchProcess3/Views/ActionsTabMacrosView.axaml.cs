@@ -12,7 +12,7 @@ public partial class ActionsTabMacrosView : UserControl
 
     private void SelectingItemsControl_OnSelectionChanged(object? sender, SelectionChangedEventArgs e)
     {
-        if (e.AddedItems?.Count > 0 && e.AddedItems[0] is ActionsTabMacrosViewModel viewModel)
+        if (e.AddedItems?.Count > 0 && e.AddedItems[0] is ActionMacrosViewModel viewModel)
         {
             // When it is a newly created item
             if (viewModel.IsNewItem)

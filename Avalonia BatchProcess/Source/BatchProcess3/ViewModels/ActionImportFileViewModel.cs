@@ -5,36 +5,21 @@ using System.Text.Json.Serialization;
 
 namespace BatchProcess3.ViewModels;
 
-public partial class ActionsTabImportFileViewModel : ViewModelBase
+public partial class ActionImportFileViewModel : ActionViewModel
 {
     [ObservableProperty] [NotifyPropertyChangedFor(nameof(HasChanged))]
     private bool _addToProject;
 
     [ObservableProperty] [NotifyPropertyChangedFor(nameof(HasChanged))]
-    private string _description = "";
-
-    [ObservableProperty] [NotifyPropertyChangedFor(nameof(HasChanged))]
     private string _fileName = "";
-
-    [ObservableProperty] [NotifyPropertyChangedFor(nameof(HasChanged))]
-    private string _id = "";
 
     [ObservableProperty] [NotifyPropertyChangedFor(nameof(HasChanged))]
     private string _importArguments = "";
 
-    [ObservableProperty] private bool _isNewItem;
-
-    [ObservableProperty] [NotifyPropertyChangedFor(nameof(HasChanged))]
-    private string _jobName = "";
-
     [ObservableProperty] [NotifyPropertyChangedFor(nameof(HasChanged))]
     private string _saveLocation = "";
 
-    [JsonIgnore]
-    public new bool HasChanged =>
-        IsNewItem || (SavedState != "" && SavedState != JsonSerializer.Serialize(this, _jsonOptions));
-
-    public ActionsTabImportFileDataModel ToDataModel() => new()
+    public new ActionImportFileDataModel ToDataModel() => new()
     {
         Id = Id,
         Description = Description,
@@ -46,9 +31,9 @@ public partial class ActionsTabImportFileViewModel : ViewModelBase
     };
 }
 
-public static class ActionsTabImportFileViewModelExtensions
+public static class ActionImportFileViewModelExtensions
 {
-    public static ActionsTabImportFileViewModel ToViewModel(this ActionsTabImportFileDataModel dataModel) =>
+    public static ActionImportFileViewModel ToViewModel(this ActionImportFileDataModel dataModel) =>
         new()
         {
             Id = dataModel.Id,

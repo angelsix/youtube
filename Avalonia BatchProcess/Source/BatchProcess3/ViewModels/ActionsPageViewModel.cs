@@ -20,56 +20,36 @@ public partial class ActionsPageViewModel(
     PrinterService printerService,
     DatabaseService databaseService) : PageViewModel(ApplicationPageNames.Actions)
 {
-    #region Actions Page (Methods)
-
-    [RelayCommand]
-    public void RefreshActionsPage(ActionsPageName actionsPageName)
-    {
-        switch (actionsPageName)
-        {
-            case ActionsPageName.Print: FetchPrintList(); break;
-            case ActionsPageName.CustomProperties: FetchCustomPropertiesList(); break;
-            case ActionsPageName.DrawingTemplates: FetchDrawingTemplateList(); break;
-            case ActionsPageName.FileInfo: FetchFileInfoList(); break;
-            case ActionsPageName.ImportFile: FetchImportFileList(); break;
-            case ActionsPageName.Macros: FetchMacrosList(); break;
-            case ActionsPageName.SaveDrawingAs: FetchSaveDrawingList(); break;
-            case ActionsPageName.SaveModelAs: FetchSaveModelList(); break;
-        }
-    }
-
-    #endregion
-
     #region Members
 
     #region Print
 
     [ObservableProperty] [NotifyPropertyChangedFor(nameof(PrintListHasItems))]
-    private ObservableCollection<ActionsTabPrintViewModel> _printList = [];
+    private ObservableCollection<ActionPrintViewModel> _printList = [];
 
     public bool PrintListHasItems => PrintList.Any();
 
     [ObservableProperty] [NotifyPropertyChangedFor(nameof(SelectedPrintListItem))]
     private string _selectedPrintListItemId = "";
 
-    public ActionsTabPrintViewModel? SelectedPrintListItem =>
+    public ActionPrintViewModel? SelectedPrintListItem =>
         PrintList.FirstOrDefault(f => f.Id == SelectedPrintListItemId);
 
-    [ObservableProperty] private ObservableCollection<PrintSettingsViewModel> _printerSettings = [];
+    [ObservableProperty] private ObservableCollection<ActionPrintSettingsViewModel> _printerSettings = [];
 
     #endregion
 
     #region Custom Properties
 
     [ObservableProperty] [NotifyPropertyChangedFor(nameof(CustomPropertiesListHasItems))]
-    private ObservableCollection<ActionsTabCustomPropertiesViewModel> _customPropertiesList = [];
+    private ObservableCollection<ActionCustomPropertiesViewModel> _customPropertiesList = [];
 
     public bool CustomPropertiesListHasItems => CustomPropertiesList.Any();
 
     [ObservableProperty] [NotifyPropertyChangedFor(nameof(SelectedCustomPropertiesListItem))]
     private string _selectedCustomPropertiesListItemId = "";
 
-    public ActionsTabCustomPropertiesViewModel? SelectedCustomPropertiesListItem =>
+    public ActionCustomPropertiesViewModel? SelectedCustomPropertiesListItem =>
         CustomPropertiesList.FirstOrDefault(f => f.Id == SelectedCustomPropertiesListItemId);
 
     public ObservableCollection<CustomPropertiesRuleType> CustomPropertiesRuleTypes =>
@@ -83,14 +63,14 @@ public partial class ActionsPageViewModel(
     #region File Info
 
     [ObservableProperty] [NotifyPropertyChangedFor(nameof(FileInfoListHasItems))]
-    private ObservableCollection<ActionsTabFileInfoViewModel> _fileInfoList = [];
+    private ObservableCollection<ActionFileInfoViewModel> _fileInfoList = [];
 
     public bool FileInfoListHasItems => FileInfoList.Any();
 
     [ObservableProperty] [NotifyPropertyChangedFor(nameof(SelectedFileInfoListItem))]
     private string _selectedFileInfoListItemId = "";
 
-    public ActionsTabFileInfoViewModel? SelectedFileInfoListItem =>
+    public ActionFileInfoViewModel? SelectedFileInfoListItem =>
         FileInfoList.FirstOrDefault(f => f.Id == SelectedFileInfoListItemId);
 
     #endregion
@@ -98,14 +78,14 @@ public partial class ActionsPageViewModel(
     #region Save Model
 
     [ObservableProperty] [NotifyPropertyChangedFor(nameof(SaveModelListHasItems))]
-    private ObservableCollection<ActionsTabSaveModelViewModel> _saveModelList = [];
+    private ObservableCollection<ActionSaveModelViewModel> _saveModelList = [];
 
     public bool SaveModelListHasItems => SaveModelList.Any();
 
     [ObservableProperty] [NotifyPropertyChangedFor(nameof(SelectedSaveModelListItem))]
     private string _selectedSaveModelListItemId = "";
 
-    public ActionsTabSaveModelViewModel? SelectedSaveModelListItem =>
+    public ActionSaveModelViewModel? SelectedSaveModelListItem =>
         SaveModelList.FirstOrDefault(f => f.Id == SelectedSaveModelListItemId);
 
     public ObservableCollection<string> SaveModelFormats =>
@@ -147,14 +127,14 @@ public partial class ActionsPageViewModel(
     #region Save Drawing
 
     [ObservableProperty] [NotifyPropertyChangedFor(nameof(SaveDrawingListHasItems))]
-    private ObservableCollection<ActionsTabSaveDrawingViewModel> _saveDrawingList = [];
+    private ObservableCollection<ActionSaveDrawingViewModel> _saveDrawingList = [];
 
     public bool SaveDrawingListHasItems => SaveDrawingList.Any();
 
     [ObservableProperty] [NotifyPropertyChangedFor(nameof(SelectedSaveDrawingListItem))]
     private string _selectedSaveDrawingListItemId = "";
 
-    public ActionsTabSaveDrawingViewModel? SelectedSaveDrawingListItem =>
+    public ActionSaveDrawingViewModel? SelectedSaveDrawingListItem =>
         SaveDrawingList.FirstOrDefault(f => f.Id == SelectedSaveDrawingListItemId);
 
     public ObservableCollection<string> SaveDrawingFormats =>
@@ -175,14 +155,14 @@ public partial class ActionsPageViewModel(
     #region Import File
 
     [ObservableProperty] [NotifyPropertyChangedFor(nameof(ImportFileListHasItems))]
-    private ObservableCollection<ActionsTabImportFileViewModel> _importFileList = [];
+    private ObservableCollection<ActionImportFileViewModel> _importFileList = [];
 
     public bool ImportFileListHasItems => ImportFileList.Any();
 
     [ObservableProperty] [NotifyPropertyChangedFor(nameof(SelectedImportFileListItem))]
     private string _selectedImportFileListItemId = "";
 
-    public ActionsTabImportFileViewModel? SelectedImportFileListItem =>
+    public ActionImportFileViewModel? SelectedImportFileListItem =>
         ImportFileList.FirstOrDefault(f => f.Id == SelectedImportFileListItemId);
 
     #endregion
@@ -190,14 +170,14 @@ public partial class ActionsPageViewModel(
     #region Drawing Templates
 
     [ObservableProperty] [NotifyPropertyChangedFor(nameof(DrawingTemplateListHasItems))]
-    private ObservableCollection<ActionsTabDrawingTemplateViewModel> _drawingTemplateList = [];
+    private ObservableCollection<ActionDrawingTemplateViewModel> _drawingTemplateList = [];
 
     public bool DrawingTemplateListHasItems => DrawingTemplateList.Any();
 
     [ObservableProperty] [NotifyPropertyChangedFor(nameof(SelectedDrawingTemplateListItem))]
     private string _selectedDrawingTemplateListItemId = "";
 
-    public ActionsTabDrawingTemplateViewModel? SelectedDrawingTemplateListItem =>
+    public ActionDrawingTemplateViewModel? SelectedDrawingTemplateListItem =>
         DrawingTemplateList.FirstOrDefault(f => f.Id == SelectedDrawingTemplateListItemId);
 
     public ObservableCollection<DrawingTemplateOperation> DrawingTemplateOperations => new(Enum.GetValues<DrawingTemplateOperation>());
@@ -212,14 +192,14 @@ public partial class ActionsPageViewModel(
     #region Macros
 
     [ObservableProperty] [NotifyPropertyChangedFor(nameof(MacrosListHasItems))]
-    private ObservableCollection<ActionsTabMacrosViewModel> _macrosList = [];
+    private ObservableCollection<ActionMacrosViewModel> _macrosList = [];
 
     public bool MacrosListHasItems => MacrosList.Any();
 
     [ObservableProperty] [NotifyPropertyChangedFor(nameof(SelectedMacrosListItem))]
     private string _selectedMacrosListItemId = "";
 
-    public ActionsTabMacrosViewModel? SelectedMacrosListItem =>
+    public ActionMacrosViewModel? SelectedMacrosListItem =>
         MacrosList.FirstOrDefault(f => f.Id == SelectedMacrosListItemId);
 
     #endregion
@@ -232,7 +212,28 @@ public partial class ActionsPageViewModel(
     public ActionsPageViewModel() : this(new MainViewModel(), new DialogService(() => null), new PrinterService(),
         new DatabaseService(new ApplicationDbContext()))
     {
+        if (!Avalonia.Controls.Design.IsDesignMode) throw new InvalidOperationException("Parameterless constructor is only for design time use");
     }
+    
+    #region Actions Page (Methods)
+
+    [RelayCommand]
+    public void RefreshActionsPage(ActionsPageName actionsPageName)
+    {
+        switch (actionsPageName)
+        {
+            case ActionsPageName.Print: FetchPrintList(); break;
+            case ActionsPageName.CustomProperties: FetchCustomPropertiesList(); break;
+            case ActionsPageName.DrawingTemplates: FetchDrawingTemplateList(); break;
+            case ActionsPageName.FileInfo: FetchFileInfoList(); break;
+            case ActionsPageName.ImportFile: FetchImportFileList(); break;
+            case ActionsPageName.Macros: FetchMacrosList(); break;
+            case ActionsPageName.SaveDrawingAs: FetchSaveDrawingList(); break;
+            case ActionsPageName.SaveModelAs: FetchSaveModelList(); break;
+        }
+    }
+
+    #endregion
 
     protected override void OnDesignTimeConstructor()
     {
@@ -257,7 +258,7 @@ public partial class ActionsPageViewModel(
 
         var list = databaseService.GetPrintList();
 
-        PrintList = new ObservableCollection<ActionsTabPrintViewModel>(list
+        PrintList = new ObservableCollection<ActionPrintViewModel>(list
             .OrderBy(f => f.JobName)
             .Select(f => f.ToViewModel()));
 
@@ -281,7 +282,7 @@ public partial class ActionsPageViewModel(
         var printerSettings = databaseService.GetPrintSettings();
 
         // Create a new item
-        var newItem = new ActionsTabPrintViewModel
+        var newItem = new ActionPrintViewModel
         {
             Id = Guid.NewGuid().ToString("N"),
             IsNewItem = true,
@@ -407,7 +408,7 @@ public partial class ActionsPageViewModel(
             return;
 
         // Copy view model
-        var copiedProfileViewModel = new PrintSettingsViewModel();
+        var copiedProfileViewModel = new ActionPrintSettingsViewModel();
         copiedProfileViewModel.RestoreState(profileViewModel.GetState());
 
         InjectPrinterDetails(copiedProfileViewModel);
@@ -437,7 +438,7 @@ public partial class ActionsPageViewModel(
     [RelayCommand]
     private async Task AddNewPrintSettingsAsync()
     {
-        var confirmViewModel = new PrintSettingsViewModel
+        var confirmViewModel = new ActionPrintSettingsViewModel
         {
             Name = "New Print Settings",
             PrinterSettingProfiles = databaseService.GetPrintSettingsProfiles().ToViewModels()
@@ -508,7 +509,7 @@ public partial class ActionsPageViewModel(
         return true;
     }
 
-    private void InjectPrinterDetails(PrintSettingsViewModel viewModel)
+    private void InjectPrinterDetails(ActionPrintSettingsViewModel viewModel)
     {
         // Fetch live printers available on machine
         var availablePrinters = printerService.AvailablePrinters();
@@ -523,7 +524,7 @@ public partial class ActionsPageViewModel(
 
             printerSettingsItem.PropertyChanged += (sender, args) =>
             {
-                if (args.PropertyName != nameof(PrintSettingsProfileViewModel.PrinterName))
+                if (args.PropertyName != nameof(ActionPrintSettingsProfileViewModel.PrinterName))
                     return;
 
                 // Printer changed, update paper size and tray
@@ -561,7 +562,7 @@ public partial class ActionsPageViewModel(
     {
         var list = databaseService.GetCustomPropertiesList();
 
-        CustomPropertiesList = new ObservableCollection<ActionsTabCustomPropertiesViewModel>(list
+        CustomPropertiesList = new ObservableCollection<ActionCustomPropertiesViewModel>(list
             .OrderBy(f => f.JobName)
             .Select(f => f.ToViewModel()));
 
@@ -582,7 +583,7 @@ public partial class ActionsPageViewModel(
     private void AddNewCustomPropertiesItem()
     {
         // Create a new item
-        var newItem = new ActionsTabCustomPropertiesViewModel
+        var newItem = new ActionCustomPropertiesViewModel
         {
             Id = Guid.NewGuid().ToString("N"), IsNewItem = true, JobName = "New Custom Property Job"
         };
@@ -684,7 +685,7 @@ public partial class ActionsPageViewModel(
     {
         var list = databaseService.GetFileInfoList();
 
-        FileInfoList = new ObservableCollection<ActionsTabFileInfoViewModel>(list
+        FileInfoList = new ObservableCollection<ActionFileInfoViewModel>(list
             .OrderBy(f => f.JobName)
             .Select(f => f.ToViewModel()));
 
@@ -705,7 +706,7 @@ public partial class ActionsPageViewModel(
     private void AddNewFileInfoItem()
     {
         // Create a new item
-        var newItem = new ActionsTabFileInfoViewModel
+        var newItem = new ActionFileInfoViewModel
         {
             Id = Guid.NewGuid().ToString("N"), IsNewItem = true, JobName = "New File Info Job"
         };
@@ -807,7 +808,7 @@ public partial class ActionsPageViewModel(
     {
         var list = databaseService.GetSaveModelList();
 
-        SaveModelList = new ObservableCollection<ActionsTabSaveModelViewModel>(list
+        SaveModelList = new ObservableCollection<ActionSaveModelViewModel>(list
             .OrderBy(f => f.JobName)
             .Select(f => f.ToViewModel(SaveModelFormats)));
 
@@ -828,7 +829,7 @@ public partial class ActionsPageViewModel(
     private void AddNewSaveModelItem()
     {
         // Create a new item
-        var newItem = new ActionsTabSaveModelViewModel
+        var newItem = new ActionSaveModelViewModel
         {
             Id = Guid.NewGuid().ToString("N"), IsNewItem = true, JobName = "New Save Model Job"
         };
@@ -930,7 +931,7 @@ public partial class ActionsPageViewModel(
     {
         var list = databaseService.GetSaveDrawingList();
 
-        SaveDrawingList = new ObservableCollection<ActionsTabSaveDrawingViewModel>(list
+        SaveDrawingList = new ObservableCollection<ActionSaveDrawingViewModel>(list
             .OrderBy(f => f.JobName)
             .Select(f => f.ToViewModel(SaveDrawingFormats)));
 
@@ -951,7 +952,7 @@ public partial class ActionsPageViewModel(
     private void AddNewSaveDrawingItem()
     {
         // Create a new item
-        var newItem = new ActionsTabSaveDrawingViewModel
+        var newItem = new ActionSaveDrawingViewModel
         {
             Id = Guid.NewGuid().ToString("N"),
             IsNewItem = true,
@@ -1058,7 +1059,7 @@ public partial class ActionsPageViewModel(
     {
         var list = databaseService.GetImportFileList();
 
-        ImportFileList = new ObservableCollection<ActionsTabImportFileViewModel>(list
+        ImportFileList = new ObservableCollection<ActionImportFileViewModel>(list
             .OrderBy(f => f.JobName)
             .Select(f => f.ToViewModel()));
 
@@ -1079,7 +1080,7 @@ public partial class ActionsPageViewModel(
     private void AddNewImportFileItem()
     {
         // Create a new item
-        var newItem = new ActionsTabImportFileViewModel
+        var newItem = new ActionImportFileViewModel
         {
             Id = Guid.NewGuid().ToString("N"), IsNewItem = true, JobName = "New Import File Job"
         };
@@ -1181,7 +1182,7 @@ public partial class ActionsPageViewModel(
     {
         var list = databaseService.GetDrawingTemplateList();
 
-        DrawingTemplateList = new ObservableCollection<ActionsTabDrawingTemplateViewModel>(list
+        DrawingTemplateList = new ObservableCollection<ActionDrawingTemplateViewModel>(list
             .OrderBy(f => f.JobName)
             .Select(f => f.ToViewModel()));
 
@@ -1202,7 +1203,7 @@ public partial class ActionsPageViewModel(
     private void AddNewDrawingTemplateItem()
     {
         // Create a new item
-        var newItem = new ActionsTabDrawingTemplateViewModel
+        var newItem = new ActionDrawingTemplateViewModel
         {
             Id = Guid.NewGuid().ToString("N"), IsNewItem = true, JobName = "New Drawing Template Job"
         };
@@ -1335,7 +1336,7 @@ public partial class ActionsPageViewModel(
     {
         var list = databaseService.GetMacrosList();
 
-        MacrosList = new ObservableCollection<ActionsTabMacrosViewModel>(list
+        MacrosList = new ObservableCollection<ActionMacrosViewModel>(list
             .OrderBy(f => f.JobName)
             .Select(f => f.ToViewModel()));
 
@@ -1356,7 +1357,7 @@ public partial class ActionsPageViewModel(
     private void AddNewMacrosItem()
     {
         // Create a new item
-        var newItem = new ActionsTabMacrosViewModel
+        var newItem = new ActionMacrosViewModel
         {
             Id = Guid.NewGuid().ToString("N"), IsNewItem = true, JobName = "New Macro Job"
         };
@@ -1432,11 +1433,11 @@ public partial class ActionsPageViewModel(
     }
 
     [RelayCommand]
-    private async Task SaveMacrosItemAsync()
+    private Task SaveMacrosItem()
     {
         // Ignore if no selection
         if (SelectedMacrosListItem == null)
-            return;
+            return Task.CompletedTask;
 
         // If the selected item is new...
         if (SelectedMacrosListItem.IsNewItem)
@@ -1447,6 +1448,8 @@ public partial class ActionsPageViewModel(
         // Flag new item as not new
         SelectedMacrosListItem.IsNewItem = false;
         SelectedMacrosListItem.SetSavedState();
+        
+        return Task.CompletedTask;
     }
 
     #endregion

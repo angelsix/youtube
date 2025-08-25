@@ -6,21 +6,10 @@ using System.Text.Json.Serialization;
 
 namespace BatchProcess3.ViewModels;
 
-public partial class ActionsTabDrawingTemplateViewModel : ViewModelBase
+public partial class ActionDrawingTemplateViewModel : ActionViewModel
 {
     [ObservableProperty] [NotifyPropertyChangedFor(nameof(HasChanged))]
     private string? _currentTemplatePath;
-
-    [ObservableProperty] [NotifyPropertyChangedFor(nameof(HasChanged))]
-    private string _description = "";
-
-    [ObservableProperty] [NotifyPropertyChangedFor(nameof(HasChanged))]
-    private string _id = "";
-
-    [ObservableProperty] private bool _isNewItem;
-
-    [ObservableProperty] [NotifyPropertyChangedFor(nameof(HasChanged))]
-    private string _jobName = "";
 
     [ObservableProperty] [NotifyPropertyChangedFor(nameof(HasChanged))]
     private string? _newTemplatePath;
@@ -35,11 +24,7 @@ public partial class ActionsTabDrawingTemplateViewModel : ViewModelBase
 
     public bool NewTemplatePathIsVisible => Operation is not DrawingTemplateOperation.Reload;
 
-    [JsonIgnore]
-    public new bool HasChanged =>
-        IsNewItem || (SavedState != "" && SavedState != JsonSerializer.Serialize(this, _jsonOptions));
-
-    public ActionsTabDrawingTemplateDataModel ToDataModel() => new()
+    public new ActionDrawingTemplateDataModel ToDataModel() => new()
     {
         Id = Id,
         Description = Description,
@@ -50,9 +35,9 @@ public partial class ActionsTabDrawingTemplateViewModel : ViewModelBase
     };
 }
 
-public static class ActionsTabDrawingTemplateViewModelExtensions
+public static class ActionDrawingTemplateViewModelExtensions
 {
-    public static ActionsTabDrawingTemplateViewModel ToViewModel(this ActionsTabDrawingTemplateDataModel dataModel) =>
+    public static ActionDrawingTemplateViewModel ToViewModel(this ActionDrawingTemplateDataModel dataModel) =>
         new()
         {
             Id = dataModel.Id,
