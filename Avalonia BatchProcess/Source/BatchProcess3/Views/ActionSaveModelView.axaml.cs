@@ -1,20 +1,18 @@
-﻿using Avalonia;
-using Avalonia.Controls;
-using Avalonia.Markup.Xaml;
+﻿using Avalonia.Controls;
 using BatchProcess3.ViewModels;
 
 namespace BatchProcess3.Views;
 
-public partial class ActionsTabPrintView : UserControl
+public partial class ActionSaveModelView : UserControl
 {
-    public ActionsTabPrintView()
+    public ActionSaveModelView()
     {
         InitializeComponent();
     }
 
     private void SelectingItemsControl_OnSelectionChanged(object? sender, SelectionChangedEventArgs e)
     {
-        if (e.AddedItems?.Count > 0 && e.AddedItems[0] is ActionPrintViewModel viewModel)
+        if (e.AddedItems?.Count > 0 && e.AddedItems[0] is ActionSaveModelViewModel viewModel)
         {
             // When it is a newly created item
             if (viewModel.IsNewItem)

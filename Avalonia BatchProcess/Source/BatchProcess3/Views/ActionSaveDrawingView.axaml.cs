@@ -3,16 +3,16 @@ using BatchProcess3.ViewModels;
 
 namespace BatchProcess3.Views;
 
-public partial class ActionsTabFileInfoView : UserControl
+public partial class ActionSaveDrawingView : UserControl
 {
-    public ActionsTabFileInfoView()
+    public ActionSaveDrawingView()
     {
         InitializeComponent();
     }
 
     private void SelectingItemsControl_OnSelectionChanged(object? sender, SelectionChangedEventArgs e)
     {
-        if (e.AddedItems?.Count > 0 && e.AddedItems[0] is ActionFileInfoViewModel viewModel)
+        if (e.AddedItems?.Count > 0 && e.AddedItems[0] is ActionSaveDrawingViewModel viewModel)
         {
             // When it is a newly created item
             if (viewModel.IsNewItem)

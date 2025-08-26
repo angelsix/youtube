@@ -3,9 +3,9 @@ using BatchProcess3.ViewModels;
 
 namespace BatchProcess3.Views;
 
-public partial class ActionsTabCustomPropertiesView : UserControl
+public partial class ActionCustomPropertiesView : UserControl
 {
-    public ActionsTabCustomPropertiesView()
+    public ActionCustomPropertiesView()
     {
         InitializeComponent();
     }

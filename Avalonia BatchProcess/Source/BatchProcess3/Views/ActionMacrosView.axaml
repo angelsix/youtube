@@ -7,29 +7,29 @@
              Background="{DynamicResource PrimaryBackground}"
              Foreground="{DynamicResource PrimaryForeground}"
              x:DataType="vm:ActionsPageViewModel"
-             x:Class="BatchProcess3.Views.ActionsTabImportFileView">
+             x:Class="BatchProcess3.Views.ActionMacrosView">
 
     <Design.DataContext>
         <vm:ActionsPageViewModel />
     </Design.DataContext>
 
     <Grid ColumnDefinitions="*, 30, 3*">
-        <!-- Import File List Column -->
+        <!-- Macros List Column -->
         <Grid RowDefinitions="Auto, 10, Auto, 10, Auto, 10, *">
-            <Label Classes="h2" Content="Import File Actions" />
+            <Label Classes="h2" Content="Macros Actions" />
             <TextBlock Grid.Row="2"
-                       Text="Import File actions can import various file formats using custom arguments."
+                       Text="Macros actions can be used to run macros on parts, drawings and assemblies."
                        TextWrapping="Wrap" Margin="0 -10 0 10" />
-            <Button Grid.Row="4" Classes="small outline" Content="New Import File Action"
-                    Command="{Binding AddNewImportFileItemCommand}" HorizontalAlignment="Stretch"
+            <Button Grid.Row="4" Classes="small outline" Content="New Macros Action"
+                    Command="{Binding AddNewMacrosItemCommand}" HorizontalAlignment="Stretch"
                     HorizontalContentAlignment="Center" />
             <ListBox Grid.Row="6"
                      SelectionChanged="SelectingItemsControl_OnSelectionChanged"
-                     ItemsSource="{Binding ImportFileList}"
+                     ItemsSource="{Binding MacrosList}"
                      SelectedValueBinding="{Binding Id}"
-                     SelectedValue="{Binding SelectedImportFileListItemId}">
+                     SelectedValue="{Binding SelectedMacrosListItemId}">
                 <ListBox.ItemTemplate>
-                    <DataTemplate x:DataType="vm:ActionImportFileViewModel">
+                    <DataTemplate x:DataType="vm:ActionMacrosViewModel">
                         <Grid ColumnDefinitions="*, Auto">
                             <Label Grid.Column="0"
                                    FontWeight="{Binding HasChanged, Converter={StaticResource BooleanToBoldFontConverter}}"
@@ -37,7 +37,7 @@
                                    VerticalAlignment="Center" />
                             <Button Grid.Column="1"
                                     Margin="0 -4 -4 -6"
-                                    Command="{Binding $parent[ListBox].((vm:ActionsPageViewModel)DataContext).DeleteImportFileItemCommand}"
+                                    Command="{Binding $parent[ListBox].((vm:ActionsPageViewModel)DataContext).DeleteMacrosItemCommand}"
                                     CommandParameter="{Binding Id}"
                                     IsVisible="{Binding $parent[ListBoxItem].IsSelected}"
                                     VerticalAlignment="Center"
@@ -52,7 +52,7 @@
         </Grid>
 
         <StackPanel Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10"
-                    Opacity="{Binding !ImportFileListHasItems}">
+                    Opacity="{Binding !MacrosListHasItems}">
             <StackPanel.Styles>
                 <Style Selector="StackPanel">
                     <Setter Property="Transitions">
@@ -62,15 +62,15 @@
                     </Setter>
                 </Style>
             </StackPanel.Styles>
-            <TextBlock Text="Import File actions can import various file formats using custom arguments."
+            <TextBlock Text="Macros actions can be used to run macros on parts, drawings and assemblies."
                        HorizontalAlignment="Center" />
-            <TextBlock Text="To get started, create a new Import File Action." HorizontalAlignment="Center" />
-            <Button Content="New Import File Action" HorizontalAlignment="Center"
-                    Command="{Binding AddNewImportFileItemCommand}"
+            <TextBlock Text="To get started, create a new Macros Action." HorizontalAlignment="Center" />
+            <Button Content="New Macros Action" HorizontalAlignment="Center"
+                    Command="{Binding AddNewMacrosItemCommand}"
                     Margin="20" />
         </StackPanel>
 
-        <Grid Grid.Column="2" ColumnDefinitions="*, 30, *" Opacity="{Binding ImportFileListHasItems}">
+        <Grid Grid.Column="2" ColumnDefinitions="*, 30, *" Opacity="{Binding MacrosListHasItems}">
             <Grid.Styles>
                 <Style Selector="Grid">
                     <Setter Property="Transitions">
@@ -84,48 +84,48 @@
             <!-- General Settings Column -->
             <Grid Grid.Column="0" RowDefinitions="Auto, 10, Auto, 10, Auto, 10, Auto, 10, Auto, 10, Auto, 10 *">
                 <Label Classes="h2" Content="General Settings" />
-                <TextBlock Grid.Row="2" Text="Set the main properties of the Import File job." Margin="0 -10 0 10" />
+                <TextBlock Grid.Row="2" Text="Set the main properties of the Macros job." Margin="0 -10 0 10" />
 
-                <Grid Grid.Row="4" ColumnDefinitions="120, 10, 20, 5, *"
-                      RowDefinitions="Auto, 15, Auto, 15, Auto, 15, Auto, 15, Auto, 15, Auto, 15, Auto">
+                <Grid Grid.Row="4" ColumnDefinitions="140, 15, *"
+                      RowDefinitions="Auto, 15, Auto, 15, Auto, 15, Auto, 15, Auto, Auto, Auto">
 
                     <!-- Job Name -->
                     <Label Grid.Row="0" Grid.Column="0" Content="Job Name" VerticalAlignment="Center" />
-                    <TextBox Name="JobNameTextBox" Grid.Row="0" Grid.Column="4"
-                             Text="{Binding  SelectedImportFileListItem.JobName}" />
+                    <TextBox Name="JobNameTextBox" Grid.Row="0" Grid.Column="2"
+                             Text="{Binding  SelectedMacrosListItem.JobName}" />
 
                     <!-- Description -->
                     <Label Grid.Row="2" Grid.Column="0" Content="Description" />
-                    <TextBox Grid.Row="2" Grid.Column="4" AcceptsReturn="True"
-                             Text="{Binding  SelectedImportFileListItem.Description}" Height="80" TextWrapping="Wrap" />
+                    <TextBox Grid.Row="2" Grid.Column="2" AcceptsReturn="True"
+                             Text="{Binding  SelectedMacrosListItem.Description}" Height="80" TextWrapping="Wrap" />
 
-                    <!-- Filename -->
-                    <Label Grid.Row="4" Grid.Column="0" Content="Filename" />
-                    <TextBox Grid.Row="4" Grid.Column="4" Text="{Binding  SelectedImportFileListItem.FileName}" />
+                    <!-- Macro Path -->
+                    <Label Grid.Row="4" Grid.Column="0" Content="Macro Path" VerticalAlignment="Center" />
+                    <TextBox Grid.Row="4" Grid.Column="4"
+                             Text="{Binding  SelectedMacrosListItem.MacroPath}" />
 
-                    <!-- Save Location -->
-                    <Label Grid.Row="6" Grid.Column="0" Content="Save Location" />
-                    <TextBox Grid.Row="6" Grid.Column="4" Text="{Binding  SelectedImportFileListItem.SaveLocation}" />
+                    <!-- Module Name -->
+                    <Label Grid.Row="6" Grid.Column="0" Content="Module Name" VerticalAlignment="Center" />
+                    <TextBox Grid.Row="6" Grid.Column="4"
+                             Text="{Binding  SelectedMacrosListItem.ModuleName}" />
 
-                    <!-- Import Arguments -->
-                    <Label Grid.Row="8" Grid.Column="0" Content="Import Arguments" Grid.ColumnSpan="2" />
-                    <TextBox Grid.Row="8" Grid.Column="4" Text="{Binding  SelectedImportFileListItem.ImportArguments}" />
+                    <!-- Exclude Parts -->
+                    <CheckBox Grid.Row="8" Grid.Column="4" Content="Exclude Parts"
+                              IsChecked="{Binding  SelectedMacrosListItem.ExcludeParts}" />
 
-                    <!-- Add to Project -->
-                    <Label Grid.Row="10" Grid.Column="2" VerticalAlignment="Center"
-                           Classes="icon-only icon-outline subtle-hover"
-                           Content="&#xE3E8;"
-                           ToolTip.Tip="Add imported file to project list once imported" />
-                    <CheckBox Grid.Row="10" Grid.Column="4" Content="Add to Project"
-                              IsChecked="{Binding  SelectedImportFileListItem.AddToProject}" />
+                    <!-- Exclude Drawings -->
+                    <CheckBox Grid.Row="9" Grid.Column="4" Content="Exclude Drawings"
+                              IsChecked="{Binding  SelectedMacrosListItem.ExcludeDrawings}" />
+
+                    <!-- Exclude Assemblies -->
+                    <CheckBox Grid.Row="10" Grid.Column="4" Content="Exclude Assemblies"
+                              IsChecked="{Binding  SelectedMacrosListItem.ExcludeAssemblies}" />
 
                 </Grid>
             </Grid>
 
             <!-- Details Column -->
             <Grid Grid.Column="2" RowDefinitions="Auto, 10, Auto, 10, Auto, 10, *">
-                <!-- <Label Grid.Row="0" Classes="h2" Content="Details" /> -->
-                <!-- <TextBlock Grid.Row="2" Text="Specify the additional details." Margin="0 -10 0 10" /> -->
 
                 <!-- Extra details here -->
 
@@ -134,7 +134,7 @@
                             HorizontalAlignment="Right"
                             Orientation="Horizontal"
                             Spacing="10"
-                            Opacity="{Binding SelectedImportFileListItem.HasChanged, FallbackValue=0}">
+                            Opacity="{Binding SelectedMacrosListItem.HasChanged, FallbackValue=0}">
                     <StackPanel.Styles>
                         <Style Selector="StackPanel">
                             <Setter Property="Transitions">
@@ -144,8 +144,8 @@
                             </Setter>
                         </Style>
                     </StackPanel.Styles>
-                    <Button Content="Cancel" Classes="outline" Command="{Binding CancelImportFileItemCommand}" />
-                    <Button Content="Save" Classes="success" Command="{Binding SaveImportFileItemCommand}" />
+                    <Button Content="Cancel" Classes="outline" Command="{Binding CancelMacrosItemCommand}" />
+                    <Button Content="Save" Classes="success" Command="{Binding SaveMacrosItemCommand}" />
                 </StackPanel>
             </Grid>
 
