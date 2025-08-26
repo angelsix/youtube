@@ -360,11 +360,11 @@ public partial class ActionsPageViewModel(
     }
 
     [RelayCommand]
-    private async Task SavePrintItemAsync()
+    private Task SavePrintItemAsync()
     {
         // Ignore if no selection
         if (SelectedPrintListItem == null)
-            return;
+            return Task.CompletedTask;
 
         // If the selected item is new...
         if (SelectedPrintListItem.IsNewItem)
@@ -375,6 +375,8 @@ public partial class ActionsPageViewModel(
         // Flag new item as not new
         SelectedPrintListItem.IsNewItem = false;
         SelectedPrintListItem.SetSavedState();
+
+        return Task.CompletedTask;
     }
 
     [RelayCommand]
@@ -541,11 +543,11 @@ public partial class ActionsPageViewModel(
                 printerSettingsItem.SourceTrayOptions.Insert(0, "(Default)");
 
                 // Change paper size and source tray to first item
-                if (!printerSettingsItem.PaperSizeOptions.Any(f => f == printerSettingsItem.PaperSize))
-                    printerSettingsItem.PaperSize = printerSettingsItem.PaperSizeOptions.FirstOrDefault();
+                if (printerSettingsItem.PaperSizeOptions.All(f => f != printerSettingsItem.PaperSize))
+                    printerSettingsItem.PaperSize = printerSettingsItem.PaperSizeOptions.FirstOrDefault() ?? "";
 
-                if (!printerSettingsItem.SourceTrayOptions.Any(f => f == printerSettingsItem.SourceTray))
-                    printerSettingsItem.SourceTray = printerSettingsItem.SourceTrayOptions.FirstOrDefault();
+                if (printerSettingsItem.SourceTrayOptions.All(f => f != printerSettingsItem.SourceTray))
+                    printerSettingsItem.SourceTray = printerSettingsItem.SourceTrayOptions.FirstOrDefault() ?? "";
             };
 
             // Force a printer name change for initial list
@@ -659,11 +661,11 @@ public partial class ActionsPageViewModel(
     }
 
     [RelayCommand]
-    private async Task SaveCustomPropertiesItemAsync()
+    private Task SaveCustomPropertiesItemAsync()
     {
         // Ignore if no selection
         if (SelectedCustomPropertiesListItem == null)
-            return;
+            return Task.CompletedTask;
 
         // If the selected item is new...
         if (SelectedCustomPropertiesListItem.IsNewItem)
@@ -674,6 +676,8 @@ public partial class ActionsPageViewModel(
         // Flag new item as not new
         SelectedCustomPropertiesListItem.IsNewItem = false;
         SelectedCustomPropertiesListItem.SetSavedState();
+
+        return Task.CompletedTask;
     }
 
     #endregion
@@ -782,11 +786,11 @@ public partial class ActionsPageViewModel(
     }
 
     [RelayCommand]
-    private async Task SaveFileInfoItemAsync()
+    private Task SaveFileInfoItemAsync()
     {
         // Ignore if no selection
         if (SelectedFileInfoListItem == null)
-            return;
+            return Task.CompletedTask;
 
         // If the selected item is new...
         if (SelectedFileInfoListItem.IsNewItem)
@@ -797,6 +801,8 @@ public partial class ActionsPageViewModel(
         // Flag new item as not new
         SelectedFileInfoListItem.IsNewItem = false;
         SelectedFileInfoListItem.SetSavedState();
+
+        return Task.CompletedTask;
     }
 
     #endregion
@@ -905,11 +911,11 @@ public partial class ActionsPageViewModel(
     }
 
     [RelayCommand]
-    private async Task SaveSaveModelItemAsync()
+    private Task SaveSaveModelItemAsync()
     {
         // Ignore if no selection
         if (SelectedSaveModelListItem == null)
-            return;
+            return Task.CompletedTask;
 
         // If the selected item is new...
         if (SelectedSaveModelListItem.IsNewItem)
@@ -920,6 +926,8 @@ public partial class ActionsPageViewModel(
         // Flag new item as not new
         SelectedSaveModelListItem.IsNewItem = false;
         SelectedSaveModelListItem.SetSavedState();
+        
+        return Task.CompletedTask;
     }
 
     #endregion
@@ -1033,11 +1041,11 @@ public partial class ActionsPageViewModel(
     }
 
     [RelayCommand]
-    private async Task SaveSaveDrawingItemAsync()
+    private Task SaveSaveDrawingItemAsync()
     {
         // Ignore if no selection
         if (SelectedSaveDrawingListItem == null)
-            return;
+            return Task.CompletedTask;
 
         // If the selected item is new...
         if (SelectedSaveDrawingListItem.IsNewItem)
@@ -1048,6 +1056,8 @@ public partial class ActionsPageViewModel(
         // Flag new item as not new
         SelectedSaveDrawingListItem.IsNewItem = false;
         SelectedSaveDrawingListItem.SetSavedState();
+
+        return Task.CompletedTask;
     }
 
     #endregion
@@ -1156,11 +1166,11 @@ public partial class ActionsPageViewModel(
     }
 
     [RelayCommand]
-    private async Task SaveImportFileItemAsync()
+    private Task SaveImportFileItemAsync()
     {
         // Ignore if no selection
         if (SelectedImportFileListItem == null)
-            return;
+            return Task.CompletedTask;
 
         // If the selected item is new...
         if (SelectedImportFileListItem.IsNewItem)
@@ -1171,6 +1181,8 @@ public partial class ActionsPageViewModel(
         // Flag new item as not new
         SelectedImportFileListItem.IsNewItem = false;
         SelectedImportFileListItem.SetSavedState();
+        
+        return Task.CompletedTask;
     }
 
     #endregion
@@ -1279,11 +1291,11 @@ public partial class ActionsPageViewModel(
     }
 
     [RelayCommand]
-    private async Task SaveDrawingTemplateItemAsync()
+    private Task SaveDrawingTemplateItemAsync()
     {
         // Ignore if no selection
         if (SelectedDrawingTemplateListItem == null)
-            return;
+            return Task.CompletedTask;
 
         // If the selected item is new...
         if (SelectedDrawingTemplateListItem.IsNewItem)
@@ -1294,6 +1306,8 @@ public partial class ActionsPageViewModel(
         // Flag new item as not new
         SelectedDrawingTemplateListItem.IsNewItem = false;
         SelectedDrawingTemplateListItem.SetSavedState();
+
+        return Task.CompletedTask;
     }
 
     [RelayCommand]

@@ -4,5 +4,5 @@ namespace BatchProcess3.Interfaces;
 
 public interface IDialogProvider
 {
-    DialogViewModel Dialog { get; set; }
+    DialogViewModel? Dialog { get; set; }
 }

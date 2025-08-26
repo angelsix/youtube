@@ -22,13 +22,12 @@ public static class CrashService
         {
             Directory.CreateDirectory(_parentFolder);
             
-            File.WriteAllText(_crashFilePath, JsonSerializer.Serialize(new CrashData
-            {
-                CrashDate = DateTimeOffset.UtcNow,
-                ErrorMessage = ex.Message,
-                StackTrace = ex.StackTrace ?? string.Empty,
-                Source = ex.TargetSite?.ToString() ?? string.Empty
-            }));
+            File.WriteAllText(_crashFilePath, JsonSerializer.Serialize(new CrashData(
+                CrashDate: DateTimeOffset.UtcNow,
+                ErrorMessage: ex.Message,
+                StackTrace: ex.StackTrace ?? string.Empty,
+                Source: ex.TargetSite?.ToString() ?? string.Empty))
+            );
 
             return true;
         }
@@ -47,7 +46,7 @@ public static class CrashService
             if (File.Exists(_crashFilePath))
                 File.Delete(_crashFilePath);
         }
-        catch (Exception ex)
+        catch (Exception)
         {
             // Ignored    
         }
@@ -60,7 +59,7 @@ public static class CrashService
             if (File.Exists(_crashFilePath))
                 return JsonSerializer.Deserialize<CrashData>(File.ReadAllText(_crashFilePath));
         }
-        catch (Exception ex)
+        catch (Exception)
         {
             ClearCrashData();
         }

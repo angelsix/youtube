@@ -6,13 +6,13 @@ namespace BatchProcess3.DataStorage.DataModels;
 
 public class ActionPrintSettingsDataModel : ActionDataModel
 {
-    public bool CanEdit { get; set; }
+    public bool CanEdit { get; init; }
     
-    public bool CanDelete { get; set; }
-    
-    public List<ActionPrintSettingsProfileDataModel> PrinterSettingProfiles { get; set; }
+    public bool CanDelete { get; init; }
 
-    public List<ActionPrintDataModel> ActionsTabPrintDataModels { get; set; }
+    public List<ActionPrintSettingsProfileDataModel> PrinterSettingProfiles { get; init; } = [];
 
-    public int Copies { get; set; }
+    public List<ActionPrintDataModel> ActionsTabPrintDataModels { get; init; } = [];
+
+    public int Copies { get; init; }
 }

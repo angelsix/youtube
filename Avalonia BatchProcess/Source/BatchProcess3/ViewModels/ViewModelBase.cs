@@ -14,8 +14,7 @@ public class ViewModelBase : ObservableObject
         NumberHandling = JsonNumberHandling.AllowNamedFloatingPointLiterals
     };
     
-    [property: JsonIgnore]
-    public string SavedState = "";
+    protected string SavedState = "";
     
     [JsonIgnore]
     public virtual bool HasChanged => SavedState != "" && SavedState != JsonSerializer.Serialize(this, GetType(), _jsonOptions);

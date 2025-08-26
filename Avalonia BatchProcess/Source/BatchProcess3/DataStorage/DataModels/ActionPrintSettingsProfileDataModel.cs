@@ -6,34 +6,34 @@ namespace BatchProcess3.DataStorage.DataModels;
 public class ActionPrintSettingsProfileDataModel
 {
     [MaxLength(100)]
-    public string Id { get; set; } = Guid.NewGuid().ToString("N");
+    public string Id { get; init; } = Guid.NewGuid().ToString("N");
     
     [MaxLength(100)]
-    public string PrintSettingsDataModelId { get; set; } = "";
+    public string PrintSettingsDataModelId { get; init; } = "";
 
-    public ActionPrintSettingsDataModel ActionPrintSettingsDataModel { get; set; }
+    public ActionPrintSettingsDataModel? ActionPrintSettingsDataModel { get; init; }
     
     [MaxLength(100)]
-    public string Type { get; set; } = "";
+    public string Type { get; init; } = "";
     
     [MaxLength(500)]
-    public string PrinterName { get; set; } = "(Default)";
+    public string PrinterName { get; init; } = "(Default)";
     
     [MaxLength(100)]
-    public string PaperSize { get; set; } = "(Default)";
+    public string PaperSize { get; init; } = "(Default)";
     
-    public double Width { get; set; } = -1;
+    public double Width { get; init; } = -1;
     
-    public double Height { get; set; } = -1;
-    
-    [MaxLength(100)]
-    public string  Orientation { get; set; } = "(Default)";
+    public double Height { get; init; } = -1;
     
     [MaxLength(100)]
-    public string SourceTray { get; set; } = "(Default)";
+    public string  Orientation { get; init; } = "(Default)";
+    
+    [MaxLength(100)]
+    public string SourceTray { get; init; } = "(Default)";
           
     [MaxLength(100)]
-    public string DrawingColor { get; set; } = "(Default)";
+    public string DrawingColor { get; init; } = "(Default)";
 
-    public bool ScaleToFit { get; set; }
+    public bool ScaleToFit { get; init; }
 }

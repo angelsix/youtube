@@ -28,7 +28,7 @@ public partial class MainViewModel : ViewModelBase, IDialogProvider
     private PageViewModel _currentPage;
     
     [ObservableProperty]
-    private DialogViewModel _dialog;
+    private DialogViewModel? _dialog;
 
     public bool HomePageIsActive => CurrentPage.PageName == ApplicationPageNames.Home;
     public bool ProcessPageIsActive => CurrentPage.PageName == ApplicationPageNames.Process;
