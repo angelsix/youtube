@@ -18,6 +18,9 @@ public partial class ActionViewModel : ViewModelBase
     
     [ObservableProperty] private bool _isNewItem;
 
+    [ObservableProperty] [NotifyPropertyChangedFor(nameof(HasChanged))]
+    private int _sortOrder;
+    
     [JsonIgnore]
     public override bool HasChanged =>
         IsNewItem || (SavedState != "" && SavedState != JsonSerializer.Serialize(this, GetType(), _jsonOptions));
@@ -27,6 +30,7 @@ public partial class ActionViewModel : ViewModelBase
         Id = Id,
         Description = Description,
         JobName = JobName,
+        SortOrder = SortOrder
     };
 }
 
@@ -37,6 +41,7 @@ public static class ActionViewModelExtensions
         {
             Id = dataModel.Id,
             JobName = dataModel.JobName,
-            Description = dataModel.Description
+            Description = dataModel.Description,
+            SortOrder = dataModel.SortOrder
         };
 }

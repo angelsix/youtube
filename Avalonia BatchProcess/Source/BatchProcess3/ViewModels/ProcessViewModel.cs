@@ -1,7 +1,10 @@
 ﻿
+using BatchProcess3.DataStorage;
 using BatchProcess3.DataStorage.DataModels;
 using BatchProcess3.MainApp;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text.Json;
@@ -9,7 +12,7 @@ using System.Text.Json.Serialization;
 
 namespace BatchProcess3.ViewModels;
 
-public partial class ProcessViewModel() : ViewModelBase
+public partial class ProcessViewModel : ViewModelBase
 {
     [ObservableProperty] [NotifyPropertyChangedFor(nameof(HasChanged))]
     private string _id = "";
