@@ -21,13 +21,13 @@
                        Text="Save Model actions can be used to export models in various formats."
                        TextWrapping="Wrap" Margin="0 -10 0 10" />
             <Button Grid.Row="4" Classes="small outline" Content="New Save Model Action"
-                    Command="{Binding AddNewSaveModelItemCommand}" HorizontalAlignment="Stretch"
+                    Command="{Binding SaveModelList.AddNewItemCommand}" HorizontalAlignment="Stretch"
                     HorizontalContentAlignment="Center" />
             <ListBox Grid.Row="6"
                      SelectionChanged="SelectingItemsControl_OnSelectionChanged"
-                     ItemsSource="{Binding SaveModelList}"
+                     ItemsSource="{Binding SaveModelList.List}"
                      SelectedValueBinding="{Binding Id}"
-                     SelectedValue="{Binding SelectedSaveModelListItemId}">
+                     SelectedValue="{Binding SaveModelList.SelectedItemId}">
                 <ListBox.ItemTemplate>
                     <DataTemplate x:DataType="vm:ActionSaveModelViewModel">
                         <Grid ColumnDefinitions="*, Auto">
@@ -37,7 +37,7 @@
                                    VerticalAlignment="Center" />
                             <Button Grid.Column="1"
                                     Margin="0 -4 -4 -6"
-                                    Command="{Binding $parent[ListBox].((vm:ActionsPageViewModel)DataContext).DeleteSaveModelItemCommand}"
+                                    Command="{Binding $parent[ListBox].((vm:ActionsPageViewModel)DataContext).SaveModelList.DeleteItemCommand}"
                                     CommandParameter="{Binding Id}"
                                     IsVisible="{Binding $parent[ListBoxItem].IsSelected}"
                                     VerticalAlignment="Center"
@@ -52,7 +52,7 @@
         </Grid>
 
         <StackPanel Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10"
-                    Opacity="{Binding !SaveModelListHasItems}">
+                    Opacity="{Binding !SaveModelList.HasItems}">
             <StackPanel.Styles>
                 <Style Selector="StackPanel">
                     <Setter Property="Transitions">
@@ -66,11 +66,11 @@
                        HorizontalAlignment="Center" />
             <TextBlock Text="To get started, create a new Save Model Action." HorizontalAlignment="Center" />
             <Button Content="New Save Model Action" HorizontalAlignment="Center"
-                    Command="{Binding AddNewSaveModelItemCommand}"
+                    Command="{Binding SaveModelList.AddNewItemCommand}"
                     Margin="20" />
         </StackPanel>
 
-        <Grid Grid.Column="2" ColumnDefinitions="*, 30, *" Opacity="{Binding SaveModelListHasItems}">
+        <Grid Grid.Column="2" ColumnDefinitions="*, 30, *" Opacity="{Binding SaveModelList.HasItems}">
             <Grid.Styles>
                 <Style Selector="Grid">
                     <Setter Property="Transitions">
@@ -92,22 +92,22 @@
                     <!-- Job Name -->
                     <Label Grid.Row="0" Grid.Column="0" Content="Job Name" VerticalAlignment="Center" />
                     <TextBox Name="JobNameTextBox" Grid.Row="0" Grid.Column="4"
-                             Text="{Binding  SelectedSaveModelListItem.JobName}" />
+                             Text="{Binding  SaveModelList.SelectedItem.JobName}" />
 
                     <!-- Description -->
                     <Label Grid.Row="2" Grid.Column="0" Content="Description" />
                     <TextBox Grid.Row="2" Grid.Column="4" AcceptsReturn="True"
-                             Text="{Binding  SelectedSaveModelListItem.Description}" Height="80" TextWrapping="Wrap" />
+                             Text="{Binding  SaveModelList.SelectedItem.Description}" Height="80" TextWrapping="Wrap" />
 
                     <!-- Filename -->
                     <Label Grid.Row="4" Grid.Column="0" Content="Filename" VerticalAlignment="Center" />
                     <TextBox Grid.Row="4" Grid.Column="4"
-                             Text="{Binding  SelectedSaveModelListItem.FileName}" />
+                             Text="{Binding  SaveModelList.SelectedItem.FileName}" />
 
                     <!-- Save Location -->
                     <Label Grid.Row="6" Grid.Column="0" Content="Save Location" VerticalAlignment="Center" />
                     <TextBox Grid.Row="6" Grid.Column="4"
-                             Text="{Binding  SelectedSaveModelListItem.SaveLocation}" />
+                             Text="{Binding  SaveModelList.SelectedItem.SaveLocation}" />
 
                     <!-- Save All Configurations -->
                     <Label Grid.Row="8" Grid.Column="2" VerticalAlignment="Center"
@@ -115,7 +115,7 @@
                            Content="&#xE3E8;"
                            ToolTip.Tip="Saves the model for every configuration as a separate file." />
                     <CheckBox Grid.Row="8" Grid.Column="4" Content="Save All Configs"
-                              IsChecked="{Binding  SelectedSaveModelListItem.SaveAllConfigurations}" />
+                              IsChecked="{Binding  SaveModelList.SelectedItem.SaveAllConfigurations}" />
 
                 </Grid>
             </Grid>
@@ -128,7 +128,7 @@
 
                 <!-- Export Formats -->
                 <ScrollViewer Grid.Row="4">
-                    <ItemsControl ItemsSource="{Binding SelectedSaveModelListItem.ExportFormats}">
+                    <ItemsControl ItemsSource="{Binding SaveModelList.SelectedItem.ExportFormats}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <CheckBox
@@ -144,7 +144,7 @@
                             HorizontalAlignment="Right"
                             Orientation="Horizontal"
                             Spacing="10"
-                            Opacity="{Binding SelectedSaveModelListItem.HasChanged, FallbackValue=0}">
+                            Opacity="{Binding SaveModelList.SelectedItem.HasChanged, FallbackValue=0}">
                     <StackPanel.Styles>
                         <Style Selector="StackPanel">
                             <Setter Property="Transitions">
@@ -154,8 +154,8 @@
                             </Setter>
                         </Style>
                     </StackPanel.Styles>
-                    <Button Content="Cancel" Classes="outline" Command="{Binding CancelSaveModelItemCommand}" />
-                    <Button Content="Save" Classes="success" Command="{Binding SaveSaveModelItemCommand}" />
+                    <Button Content="Cancel" Classes="outline" Command="{Binding SaveModelList.CancelItemCommand}" />
+                    <Button Content="Save" Classes="success" Command="{Binding SaveModelList.SaveItemCommand}" />
                 </StackPanel>
             </Grid>
 

@@ -6,7 +6,7 @@ using System.Text.Json.Serialization;
 
 namespace BatchProcess3.ViewModels;
 
-public partial class ActionCustomPropertiesViewModel : ActionViewModel
+public partial class ActionCustomPropertiesViewModel : ActionViewModel, ISelectableItemListViewModel
 {
     [ObservableProperty] [NotifyPropertyChangedFor(nameof(HasChanged))]
     private string _changeNameTo = "";

@@ -6,7 +6,7 @@ using System.Text.Json.Serialization;
 
 namespace BatchProcess3.ViewModels;
 
-public partial class ActionDrawingTemplateViewModel : ActionViewModel
+public partial class ActionDrawingTemplateViewModel : ActionViewModel, ISelectableItemListViewModel
 {
     [ObservableProperty] [NotifyPropertyChangedFor(nameof(HasChanged))]
     private string? _currentTemplatePath;

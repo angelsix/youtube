@@ -16,12 +16,12 @@
         <Grid RowDefinitions="Auto, 10, Auto, 10, Auto, 10, *">
             <Label Classes="h2" Content="Print Actions" />
             <TextBlock Grid.Row="2" Text="Print actions can be used to print drawings or models to specific printers with specific settings." TextWrapping="Wrap" Margin="0 -10 0 10"></TextBlock>
-            <Button Grid.Row="4" Classes="small outline" Content="New Print Action" Command="{Binding AddNewPrintItemCommand}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" />
+            <Button Grid.Row="4" Classes="small outline" Content="New Print Action" Command="{Binding PrintList.AddNewItemCommand}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" />
             <ListBox Grid.Row="6" 
                      SelectionChanged="SelectingItemsControl_OnSelectionChanged"
-                     ItemsSource="{Binding PrintList}" 
+                     ItemsSource="{Binding PrintList.List}" 
                      SelectedValueBinding="{Binding Id}"
-                     SelectedValue="{Binding SelectedPrintListItemId}">
+                     SelectedValue="{Binding PrintList.SelectedItemId}">
                 <ListBox.ItemTemplate>
                     <DataTemplate x:DataType="vm:ActionPrintViewModel">
                         <Grid ColumnDefinitions="*, Auto">
@@ -31,7 +31,7 @@
                                    VerticalAlignment="Center" />
                             <Button Grid.Column="1"
                                     Margin="0 -4 -4 -6"
-                                    Command="{Binding $parent[ListBox].((vm:ActionsPageViewModel)DataContext).DeletePrintItemCommand}"
+                                    Command="{Binding $parent[ListBox].((vm:ActionsPageViewModel)DataContext).PrintList.DeleteItemCommand}"
                                     CommandParameter="{Binding Id}"
                                     IsVisible="{Binding $parent[ListBoxItem].IsSelected}"
                                     VerticalAlignment="Center"
@@ -45,7 +45,7 @@
             </ListBox>
         </Grid>
         
-        <StackPanel Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10" Opacity="{Binding !PrintListHasItems}">
+        <StackPanel Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10" Opacity="{Binding !PrintList.HasItems}">
             <StackPanel.Styles>
                 <Style Selector="StackPanel">
                     <Setter Property="Transitions">
@@ -57,10 +57,10 @@
             </StackPanel.Styles>
             <TextBlock Text="Print actions can be used to print drawings and models with specific printer settings." HorizontalAlignment="Center" />
             <TextBlock Text="To get started, create a new Print Action." HorizontalAlignment="Center" />
-            <Button Content="New Print Action" HorizontalAlignment="Center" Command="{Binding AddNewPrintItemCommand}" Margin="20" />
+            <Button Content="New Print Action" HorizontalAlignment="Center" Command="{Binding PrintList.AddNewItemCommand}" Margin="20" />
         </StackPanel>
         
-        <Grid Grid.Column="2" ColumnDefinitions="*, 30, *" Opacity="{Binding PrintListHasItems}">
+        <Grid Grid.Column="2" ColumnDefinitions="*, 30, *" Opacity="{Binding PrintList.HasItems}">
             <Grid.Styles>
                 <Style Selector="Grid">
                     <Setter Property="Transitions">
@@ -77,13 +77,13 @@
                 <TextBlock Grid.Row="2" Text="Set the main properties of the print job." Margin="0 -10 0 10" />
                 <Grid Grid.Row="4" ColumnDefinitions="140, 15, *" RowDefinitions="Auto, 15, Auto, 15, Auto">
                     <Label Grid.Row="0" Grid.Column="0" Content="Job Name" VerticalAlignment="Center" />
-                    <TextBox Name="JobNameTextBox" Grid.Row="0" Grid.Column="2" Text="{Binding  SelectedPrintListItem.JobName}" />
+                    <TextBox Name="JobNameTextBox" Grid.Row="0" Grid.Column="2" Text="{Binding  PrintList.SelectedItem.JobName}" />
                     <Label Grid.Row="2" Grid.Column="0" Content="Description" />
-                    <TextBox Grid.Row="2" Grid.Column="2" AcceptsReturn="True" Text="{Binding  SelectedPrintListItem.Description}" Height="80" TextWrapping="Wrap" />
+                    <TextBox Grid.Row="2" Grid.Column="2" AcceptsReturn="True" Text="{Binding  PrintList.SelectedItem.Description}" Height="80" TextWrapping="Wrap" />
                     <Label Grid.Row="4" Grid.Column="0" Content="Print" VerticalAlignment="Center" />
                     <StackPanel Grid.Row="4" Grid.Column="2" Orientation="Horizontal" Spacing="10">
-                        <CheckBox Content="Models" IsChecked="{Binding SelectedPrintListItem.PrintModels}" />
-                        <CheckBox Content="Drawings" IsChecked="{Binding SelectedPrintListItem.PrintDrawings}" />
+                        <CheckBox Content="Models" IsChecked="{Binding PrintList.SelectedItem.PrintModels}" />
+                        <CheckBox Content="Drawings" IsChecked="{Binding PrintList.SelectedItem.PrintDrawings}" />
                     </StackPanel>
                 </Grid>
                 
@@ -94,7 +94,7 @@
                 <ListBox Grid.Row="12" 
                          ItemsSource="{Binding PrinterSettings}" 
                          SelectedValueBinding="{Binding Id}"
-                         SelectedValue="{Binding SelectedPrintListItem.PrinterSettingsId}">
+                         SelectedValue="{Binding PrintList.SelectedItem.PrinterSettingsId}">
                     <ListBox.ItemTemplate>
                         <DataTemplate x:DataType="vm:ActionPrintSettingsViewModel">
                             <Grid ColumnDefinitions="*, 10, Auto, 10, Auto">
@@ -141,14 +141,14 @@
                 <TextBlock Grid.Row="2" Text="Set the properties that apply only to drawings." Margin="0 -10 0 10" />
                 <Grid Grid.Row="4" ColumnDefinitions="140, 15, *" RowDefinitions="Auto, 15, Auto, 15, Auto">
                     <Label Grid.Row="0" Grid.Column="0" Content="Print Range" VerticalAlignment="Center" />
-                    <TextBox Grid.Row="0" Grid.Column="2" Text="{Binding  SelectedPrintListItem.PrintDrawingRange}" />
+                    <TextBox Grid.Row="0" Grid.Column="2" Text="{Binding  PrintList.SelectedItem.PrintDrawingRange}" />
                     <StackPanel Grid.Row="2" Grid.Column="0" Orientation="Horizontal">
                         <ToggleButton 
-                            IsChecked="{Binding SelectedPrintListItem.DrawingExclusionIsWhiteList}" 
-                            Content="{Binding SelectedPrintListItem.DrawingExclusionListTitle}"
+                            IsChecked="{Binding PrintList.SelectedItem.DrawingExclusionIsWhiteList}" 
+                            Content="{Binding PrintList.SelectedItem.DrawingExclusionListTitle}"
                             VerticalAlignment="Top" />
                     </StackPanel>
-                    <TextBox Grid.Row="2" Grid.Column="2" Text="{Binding  SelectedPrintListItem.DrawingExclusionList}" Height="80" TextWrapping="Wrap" AcceptsReturn="True" />
+                    <TextBox Grid.Row="2" Grid.Column="2" Text="{Binding  PrintList.SelectedItem.DrawingExclusionList}" Height="80" TextWrapping="Wrap" AcceptsReturn="True" />
                 </Grid>
                 
                 <StackPanel Grid.Row="6" 
@@ -156,7 +156,7 @@
                             HorizontalAlignment="Right" 
                             Orientation="Horizontal" 
                             Spacing="10"
-                            Opacity="{Binding SelectedPrintListItem.HasChanged, FallbackValue=0}">
+                            Opacity="{Binding PrintList.SelectedItem.HasChanged, FallbackValue=0}">
                     <StackPanel.Styles>
                         <Style Selector="StackPanel">
                             <Setter Property="Transitions">
@@ -166,8 +166,8 @@
                             </Setter>
                         </Style>
                     </StackPanel.Styles>
-                    <Button Content="Cancel" Classes="outline" Command="{Binding CancelPrintItemCommand}"></Button>
-                    <Button Content="Save" Classes="success" Command="{Binding SavePrintItemCommand}"></Button>
+                    <Button Content="Cancel" Classes="outline" Command="{Binding PrintList.CancelItemCommand}"></Button>
+                    <Button Content="Save" Classes="success" Command="{Binding PrintList.SaveItemCommand}"></Button>
                 </StackPanel>
             </Grid>
     

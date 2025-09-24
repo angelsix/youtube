@@ -5,7 +5,7 @@ using System.Text.Json.Serialization;
 
 namespace BatchProcess3.ViewModels;
 
-public partial class ActionFileInfoViewModel : ActionViewModel
+public partial class ActionFileInfoViewModel : ActionViewModel, ISelectableItemListViewModel
 {
     [ObservableProperty] [NotifyPropertyChangedFor(nameof(HasChanged))]
     private string _author = "";

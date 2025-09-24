@@ -22,73 +22,15 @@ public partial class ActionsPageViewModel(
 {
     #region Members
 
-    #region Print
-
-    [ObservableProperty] [NotifyPropertyChangedFor(nameof(PrintListHasItems))]
-    private ObservableCollection<ActionPrintViewModel> _printList = [];
-
-    public bool PrintListHasItems => PrintList.Any();
-
-    [ObservableProperty] [NotifyPropertyChangedFor(nameof(SelectedPrintListItem))]
-    private string _selectedPrintListItemId = "";
-
-    public ActionPrintViewModel? SelectedPrintListItem =>
-        PrintList.FirstOrDefault(f => f.Id == SelectedPrintListItemId);
-
     [ObservableProperty] private ObservableCollection<ActionPrintSettingsViewModel> _printerSettings = [];
-
-    #endregion
-
-    #region Custom Properties
-
-    [ObservableProperty] [NotifyPropertyChangedFor(nameof(CustomPropertiesListHasItems))]
-    private ObservableCollection<ActionCustomPropertiesViewModel> _customPropertiesList = [];
-
-    public bool CustomPropertiesListHasItems => CustomPropertiesList.Any();
-
-    [ObservableProperty] [NotifyPropertyChangedFor(nameof(SelectedCustomPropertiesListItem))]
-    private string _selectedCustomPropertiesListItemId = "";
-
-    public ActionCustomPropertiesViewModel? SelectedCustomPropertiesListItem =>
-        CustomPropertiesList.FirstOrDefault(f => f.Id == SelectedCustomPropertiesListItemId);
-
+    
     public ObservableCollection<CustomPropertiesRuleType> CustomPropertiesRuleTypes =>
         new(Enum.GetValues<CustomPropertiesRuleType>());
 
     public ObservableCollection<CustomPropertiesFieldTypes> CustomPropertiesFieldTypes =>
         new(Enum.GetValues<CustomPropertiesFieldTypes>());
 
-    #endregion
-
-    #region File Info
-
-    [ObservableProperty] [NotifyPropertyChangedFor(nameof(FileInfoListHasItems))]
-    private ObservableCollection<ActionFileInfoViewModel> _fileInfoList = [];
-
-    public bool FileInfoListHasItems => FileInfoList.Any();
-
-    [ObservableProperty] [NotifyPropertyChangedFor(nameof(SelectedFileInfoListItem))]
-    private string _selectedFileInfoListItemId = "";
-
-    public ActionFileInfoViewModel? SelectedFileInfoListItem =>
-        FileInfoList.FirstOrDefault(f => f.Id == SelectedFileInfoListItemId);
-
-    #endregion
-
-    #region Save Model
-
-    [ObservableProperty] [NotifyPropertyChangedFor(nameof(SaveModelListHasItems))]
-    private ObservableCollection<ActionSaveModelViewModel> _saveModelList = [];
-
-    public bool SaveModelListHasItems => SaveModelList.Any();
-
-    [ObservableProperty] [NotifyPropertyChangedFor(nameof(SelectedSaveModelListItem))]
-    private string _selectedSaveModelListItemId = "";
-
-    public ActionSaveModelViewModel? SelectedSaveModelListItem =>
-        SaveModelList.FirstOrDefault(f => f.Id == SelectedSaveModelListItemId);
-
-    public ObservableCollection<string> SaveModelFormats =>
+    public static ObservableCollection<string> SaveModelFormats =>
     [
         "Lib Feat Part (*.sldfp)",
         "Assembly file to Part (*.sldprt)",
@@ -121,23 +63,8 @@ public partial class ActionsPageViewModel(
         "HOOPS HSF (*.hsf)",
         "Tif (*.tif)"
     ];
-
-    #endregion
-
-    #region Save Drawing
-
-    [ObservableProperty] [NotifyPropertyChangedFor(nameof(SaveDrawingListHasItems))]
-    private ObservableCollection<ActionSaveDrawingViewModel> _saveDrawingList = [];
-
-    public bool SaveDrawingListHasItems => SaveDrawingList.Any();
-
-    [ObservableProperty] [NotifyPropertyChangedFor(nameof(SelectedSaveDrawingListItem))]
-    private string _selectedSaveDrawingListItemId = "";
-
-    public ActionSaveDrawingViewModel? SelectedSaveDrawingListItem =>
-        SaveDrawingList.FirstOrDefault(f => f.Id == SelectedSaveDrawingListItemId);
-
-    public ObservableCollection<string> SaveDrawingFormats =>
+    
+    public static ObservableCollection<string> SaveDrawingFormats =>
     [
         "Detached Drawing (*.slddrw)",
         "DXF (*.dxf)",
@@ -149,59 +76,218 @@ public partial class ActionsPageViewModel(
         "JPEG (*.jpg)",
         "Tif (*.tif)"
     ];
-
-    #endregion
-
-    #region Import File
-
-    [ObservableProperty] [NotifyPropertyChangedFor(nameof(ImportFileListHasItems))]
-    private ObservableCollection<ActionImportFileViewModel> _importFileList = [];
-
-    public bool ImportFileListHasItems => ImportFileList.Any();
-
-    [ObservableProperty] [NotifyPropertyChangedFor(nameof(SelectedImportFileListItem))]
-    private string _selectedImportFileListItemId = "";
-
-    public ActionImportFileViewModel? SelectedImportFileListItem =>
-        ImportFileList.FirstOrDefault(f => f.Id == SelectedImportFileListItemId);
-
-    #endregion
-
-    #region Drawing Templates
-
-    [ObservableProperty] [NotifyPropertyChangedFor(nameof(DrawingTemplateListHasItems))]
-    private ObservableCollection<ActionDrawingTemplateViewModel> _drawingTemplateList = [];
-
-    public bool DrawingTemplateListHasItems => DrawingTemplateList.Any();
-
-    [ObservableProperty] [NotifyPropertyChangedFor(nameof(SelectedDrawingTemplateListItem))]
-    private string _selectedDrawingTemplateListItemId = "";
-
-    public ActionDrawingTemplateViewModel? SelectedDrawingTemplateListItem =>
-        DrawingTemplateList.FirstOrDefault(f => f.Id == SelectedDrawingTemplateListItemId);
-
+    
     public ObservableCollection<DrawingTemplateOperation> DrawingTemplateOperations => new(Enum.GetValues<DrawingTemplateOperation>());
 
     [ObservableProperty]
     private ObservableCollection<string> _drawingTemplateSelectedPaths = [];
 
     public ObservableCollection<string> DrawingTemplatePaths => new(databaseService.GetSettings().DrawingTemplatePaths);
+
+    #region Selectable Lists
+
+    [ObservableProperty] private SelectableItemListViewModel<ActionPrintViewModel> _printList = new
+    (
+        title: "Print",
+        mainViewModel: mainViewModel,
+        dialogService: dialogService,
+        getList: () =>
+        {
+            var list = databaseService.GetPrintList();
+
+            return new ObservableCollection<ActionPrintViewModel>(list
+                .OrderBy(f => f.JobName)
+                .Select(f => f.ToViewModel()));
+        },
+        createItem: () =>
+        {
+            // Fetch printer settings
+            var printerSettings = databaseService.GetPrintSettings();
+            
+            return new ActionPrintViewModel
+            {
+                Id = Guid.NewGuid().ToString("N"), IsNewItem = true, JobName = "New Print Job",
+                PrinterSettingsId = printerSettings.FirstOrDefault()?.Id
+            };
+        },
+        deleteItem: databaseService.DeletePrintListItem,
+        addItem: (item) => databaseService.AddPrintListItem(item.ToDataModel()),
+        updateItem: (item) => databaseService.UpdatePrintListItem(item.ToDataModel())
+    );
     
-    #endregion
+    [ObservableProperty] private SelectableItemListViewModel<ActionCustomPropertiesViewModel> _customPropertiesList = new
+    (
+        title: "Custom Properties",
+        mainViewModel: mainViewModel,
+        dialogService: dialogService,
+        getList: () =>
+        {
+            var list = databaseService.GetCustomPropertiesList();
 
-    #region Macros
+            return new ObservableCollection<ActionCustomPropertiesViewModel>(list
+                .OrderBy(f => f.JobName)
+                .Select(f => f.ToViewModel()));
+        },
+        createItem: () => new ActionCustomPropertiesViewModel
+        {
+            Id = Guid.NewGuid().ToString("N"), IsNewItem = true, JobName = "New Custom Properties Job"
+        },
+        deleteItem: databaseService.DeleteCustomPropertiesListItem,
+        addItem: (item) => databaseService.AddCustomPropertiesItem(item.ToDataModel()),
+        updateItem: (item) => databaseService.UpdateCustomPropertiesItem(item.ToDataModel())
+    );
 
-    [ObservableProperty] [NotifyPropertyChangedFor(nameof(MacrosListHasItems))]
-    private ObservableCollection<ActionMacrosViewModel> _macrosList = [];
+    [ObservableProperty]
+    private SelectableItemListViewModel<ActionFileInfoViewModel> _fileInfoList = new
+    (
+        title: "File Info",
+        mainViewModel: mainViewModel,
+        dialogService: dialogService,
+        getList: () =>
+        {
+            var list = databaseService.GetFileInfoList();
 
-    public bool MacrosListHasItems => MacrosList.Any();
+            return new ObservableCollection<ActionFileInfoViewModel>(list
+                .OrderBy(f => f.JobName)
+                .Select(f => f.ToViewModel()));
+        },
+        createItem: () => new ActionFileInfoViewModel
+        {
+            Id = Guid.NewGuid().ToString("N"), IsNewItem = true, JobName = "New File Info Job"
+        },
+        deleteItem: databaseService.DeleteFileInfoListItem,
+        addItem: (item) => databaseService.AddFileInfoItem(item.ToDataModel()),
+        updateItem: (item) => databaseService.UpdateFileInfoItem(item.ToDataModel())
+    );
+    
+    [ObservableProperty]
+    private SelectableItemListViewModel<ActionSaveModelViewModel> _saveModelList = new
+    (
+        title: "Save Model",
+        mainViewModel: mainViewModel,
+        dialogService: dialogService,
+        getList: () =>
+        {
+            var list = databaseService.GetSaveModelList();
 
-    [ObservableProperty] [NotifyPropertyChangedFor(nameof(SelectedMacrosListItem))]
-    private string _selectedMacrosListItemId = "";
+            return new ObservableCollection<ActionSaveModelViewModel>(list
+                .OrderBy(f => f.JobName)
+                .Select(f => f.ToViewModel(exportFormats: SaveModelFormats)));
+        },
+        createItem: () => new ActionSaveModelViewModel
+        {
+            Id = Guid.NewGuid().ToString("N"), 
+            IsNewItem = true, 
+            JobName = "New Save Model Job",
+            ExportFormats =
+                new ObservableCollection<KeyValueViewModel<string, bool>>(
+                    SaveModelFormats.Select(f => new KeyValueViewModel<string, bool>(f, false)))
+        },
+        deleteItem: databaseService.DeleteSaveModelListItem,
+        addItem: (item) => databaseService.AddSaveModelItem(item.ToDataModel()),
+        updateItem: (item) => databaseService.UpdateSaveModelItem(item.ToDataModel())
+    );
+    
+    [ObservableProperty]
+    private SelectableItemListViewModel<ActionSaveDrawingViewModel> _saveDrawingList = new
+    (
+        title: "Save Drawing",
+        mainViewModel: mainViewModel,
+        dialogService: dialogService,
+        getList: () =>
+        {
+            var list = databaseService.GetSaveDrawingList();
 
-    public ActionMacrosViewModel? SelectedMacrosListItem =>
-        MacrosList.FirstOrDefault(f => f.Id == SelectedMacrosListItemId);
+            return new ObservableCollection<ActionSaveDrawingViewModel>(list
+                .OrderBy(f => f.JobName)
+                .Select(f => f.ToViewModel(exportFormats: SaveDrawingFormats)));
+        },
+        createItem: () => new ActionSaveDrawingViewModel
+        {
+            Id = Guid.NewGuid().ToString("N"), 
+            IsNewItem = true, 
+            JobName = "New Save Drawing Job",
+            ExportFormats =
+                new ObservableCollection<KeyValueViewModel<string, bool>>(
+                    SaveDrawingFormats.Select(f => new KeyValueViewModel<string, bool>(f, false)))
+        },
+        deleteItem: databaseService.DeleteSaveDrawingListItem,
+        addItem: (item) => databaseService.AddSaveDrawingItem(item.ToDataModel()),
+        updateItem: (item) => databaseService.UpdateSaveDrawingItem(item.ToDataModel())
+    );
+    
+    [ObservableProperty]
+    private SelectableItemListViewModel<ActionImportFileViewModel> _importFileList = new
+    (
+        title: "Import File",
+        mainViewModel: mainViewModel,
+        dialogService: dialogService,
+        getList: () =>
+        {
+            var list = databaseService.GetImportFileList();
 
+            return new ObservableCollection<ActionImportFileViewModel>(list
+                .OrderBy(f => f.JobName)
+                .Select(f => f.ToViewModel()));
+        },
+        createItem: () => new ActionImportFileViewModel
+        {
+            Id = Guid.NewGuid().ToString("N"), 
+            IsNewItem = true, 
+            JobName = "New Import File Job"
+        },
+        deleteItem: databaseService.DeleteImportFileListItem,
+        addItem: (item) => databaseService.AddImportFileItem(item.ToDataModel()),
+        updateItem: (item) => databaseService.UpdateImportFileItem(item.ToDataModel())
+    );
+
+    [ObservableProperty] private SelectableItemListViewModel<ActionDrawingTemplateViewModel> _drawingTemplateList = new
+    (
+        title: "Drawing Template",
+        mainViewModel: mainViewModel,
+        dialogService: dialogService,
+        getList: () =>
+        {
+            var list = databaseService.GetDrawingTemplateList();
+
+            return new ObservableCollection<ActionDrawingTemplateViewModel>(list
+                .OrderBy(f => f.JobName)
+                .Select(f => f.ToViewModel()));
+        },
+        createItem: () => new ActionDrawingTemplateViewModel
+        {
+            Id = Guid.NewGuid().ToString("N"), 
+            IsNewItem = true, 
+            JobName = "New Drawing Template Job"
+        },
+        deleteItem: databaseService.DeleteDrawingTemplateListItem,
+        addItem: (item) => databaseService.AddDrawingTemplateItem(item.ToDataModel()),
+        updateItem: (item) => databaseService.UpdateDrawingTemplateItem(item.ToDataModel())
+    );
+    
+    [ObservableProperty] private SelectableItemListViewModel<ActionMacrosViewModel> _macrosList = new
+    (
+        title: "Macros",
+        mainViewModel: mainViewModel,
+        dialogService: dialogService,
+        getList: () =>
+        {
+            var list = databaseService.GetMacrosList();
+
+            return new ObservableCollection<ActionMacrosViewModel>(list
+                .OrderBy(f => f.JobName)
+                .Select(f => f.ToViewModel()));
+        },
+        createItem: () => new ActionMacrosViewModel
+        {
+            Id = Guid.NewGuid().ToString("N"), 
+            IsNewItem = true, 
+            JobName = "New Macros Job"
+        },
+        deleteItem: databaseService.DeleteMacrosListItem,
+        addItem: (item) => databaseService.AddMacrosItem(item.ToDataModel()),
+        updateItem: (item) => databaseService.UpdateMacrosItem(item.ToDataModel())
+    );
     #endregion
 
     #endregion
@@ -214,6 +300,20 @@ public partial class ActionsPageViewModel(
     {
         if (!Avalonia.Controls.Design.IsDesignMode) throw new InvalidOperationException("Parameterless constructor is only for design time use");
     }
+
+    protected override void OnDesignTimeConstructor()
+    {
+        PrintList.FetchList();
+        CustomPropertiesList.FetchList();
+        FileInfoList.FetchList();
+        SaveModelList.FetchList();
+        SaveDrawingList.FetchList();
+        ImportFileList.FetchList();
+        DrawingTemplateList.FetchList();
+        MacrosList.FetchList();
+    }
+    
+    #endregion
     
     #region Actions Page (Methods)
 
@@ -222,176 +322,21 @@ public partial class ActionsPageViewModel(
     {
         switch (actionsPageName)
         {
-            case ActionsPageName.Print: FetchPrintList(); break;
-            case ActionsPageName.CustomProperties: FetchCustomPropertiesList(); break;
-            case ActionsPageName.DrawingTemplates: FetchDrawingTemplateList(); break;
-            case ActionsPageName.FileInfo: FetchFileInfoList(); break;
-            case ActionsPageName.ImportFile: FetchImportFileList(); break;
-            case ActionsPageName.Macros: FetchMacrosList(); break;
-            case ActionsPageName.SaveDrawingAs: FetchSaveDrawingList(); break;
-            case ActionsPageName.SaveModelAs: FetchSaveModelList(); break;
+            case ActionsPageName.Print: PrintList.FetchList(); break;
+            case ActionsPageName.CustomProperties: CustomPropertiesList.FetchList(); break;
+            case ActionsPageName.DrawingTemplates: DrawingTemplateList.FetchList(); break;
+            case ActionsPageName.FileInfo: FileInfoList.FetchList(); break;
+            case ActionsPageName.ImportFile: ImportFileList.FetchList(); break;
+            case ActionsPageName.Macros: MacrosList.FetchList(); break;
+            case ActionsPageName.SaveDrawingAs: SaveDrawingList.FetchList(); break;
+            case ActionsPageName.SaveModelAs: SaveModelList.FetchList(); break;
         }
     }
 
     #endregion
 
-    protected override void OnDesignTimeConstructor()
-    {
-        FetchPrintList();
-        FetchCustomPropertiesList();
-        FetchFileInfoList();
-        FetchSaveModelList();
-        FetchSaveDrawingList();
-        FetchImportFileList();
-        FetchDrawingTemplateList();
-        FetchMacrosList();
-    }
-
-    #endregion
-
-    #region Print (Methods)
-
-    [RelayCommand]
-    private void FetchPrintList()
-    {
-        FetchPrintSettings();
-
-        var list = databaseService.GetPrintList();
-
-        PrintList = new ObservableCollection<ActionPrintViewModel>(list
-            .OrderBy(f => f.JobName)
-            .Select(f => f.ToViewModel()));
-
-        // Update PrintListHasItems when collection changes
-        PrintList.CollectionChanged += (_, _) => OnPropertyChanged(nameof(PrintListHasItems));
-
-        if (PrintList.Count <= 0) return;
-
-        // Select first item
-        SelectedPrintListItemId = PrintList.First().Id;
-
-        // Store last fetched database save states
-        foreach (var printItem in PrintList)
-            printItem.SetSavedState();
-    }
-
-    [RelayCommand]
-    private void AddNewPrintItem()
-    {
-        // Fetch printer settings
-        var printerSettings = databaseService.GetPrintSettings();
-
-        // Create a new item
-        var newItem = new ActionPrintViewModel
-        {
-            Id = Guid.NewGuid().ToString("N"),
-            IsNewItem = true,
-            JobName = "New Print Item",
-            PrinterSettingsId = printerSettings.FirstOrDefault()?.Id
-        };
-
-        // Add to the print list
-        PrintList.Add(newItem);
-
-        // Select item
-        SelectedPrintListItemId = newItem.Id;
-    }
-
-    [RelayCommand]
-    private async Task CancelPrintItem()
-    {
-        // Ignore if nothing is selected
-        if (SelectedPrintListItem == null)
-            return;
-
-        // If the selected item is new, delete it
-        // Otherwise, restore from save state
-        if (SelectedPrintListItem.IsNewItem)
-            await DeletePrintItemFromUIAsync(SelectedPrintListItem.Id, false);
-        else
-            SelectedPrintListItem.RestoreState();
-    }
-
-    // ReSharper disable once InconsistentNaming
-    private async Task<bool> DeletePrintItemFromUIAsync(string id, bool warn = true)
-    {
-        var index = PrintList.IndexOf(PrintList.First(x => x.Id == id));
-        if (index == -1)
-            return false;
-
-        if (warn)
-        {
-            var confirmViewModel = new ConfirmDialogViewModel
-            {
-                Title = "Delete Print Item?",
-                Message = $"Are you sure you want to delete ' {PrintList[index].JobName}'?",
-                DialogWidth = 500
-                // OnConfirm = async (vm) =>
-                // {
-                //     await Task.Delay(2000);
-                //
-                //     vm.ProgressText = "This is taking a while...";
-                //
-                //     await Task.Delay(2000);
-                //     
-                //     vm.StatusText = "Oh no, something went wrong...";
-                //
-                //     return true;
-                // }
-            };
-
-            await dialogService.ShowDialog(mainViewModel, confirmViewModel);
-
-            // Ignore if we clicked cancel
-            if (!confirmViewModel.Confirmed)
-                return false;
-        }
-
-        // Remove item
-        PrintList.RemoveAt(index);
-
-        // Select the item below the deleted one
-        if (index > 0) index--;
-
-        if (PrintList.Count > 0)
-            SelectedPrintListItemId = PrintList[index].Id;
-
-        return true;
-    }
-
-    [RelayCommand]
-    private Task SavePrintItemAsync()
-    {
-        // Ignore if no selection
-        if (SelectedPrintListItem == null)
-            return Task.CompletedTask;
-
-        // If the selected item is new...
-        if (SelectedPrintListItem.IsNewItem)
-            databaseService.AddPrintListItem(SelectedPrintListItem.ToDataModel());
-        else
-            databaseService.UpdatePrintListItem(SelectedPrintListItem.ToDataModel());
-
-        // Flag new item as not new
-        SelectedPrintListItem.IsNewItem = false;
-        SelectedPrintListItem.SetSavedState();
-
-        return Task.CompletedTask;
-    }
-
-    [RelayCommand]
-    private async Task DeletePrintItemAsync(string id)
-    {
-        if (PrintList.Count(x => x.Id == id) != 1)
-            // TODO: Throw/Warn?
-            return;
-
-        // If user selected to remove from UI (via Confirm dialog)
-        if (await DeletePrintItemFromUIAsync(id))
-            // Delete from database
-            databaseService.DeletePrintListItem(id);
-    }
-
+    #region Printer Settings (Methods)
+    
     [RelayCommand]
     private void FetchPrintSettings()
     {
@@ -502,10 +447,10 @@ public partial class ActionsPageViewModel(
         // Select the item below the deleted one
         if (index > 0) index--;
 
-        if (SelectedPrintListItem != null && PrinterSettings.Count > 0)
+        if (PrintList.SelectedItem != null && PrinterSettings.Count > 0)
         {
-            SelectedPrintListItem.PrinterSettingsId = PrinterSettings[index].Id;
-            await SavePrintItemAsync();
+            PrintList.SelectedItem.PrinterSettingsId = PrinterSettings[index].Id;
+            await PrintList.SaveItemAsync();
         }
 
         return true;
@@ -556,759 +501,8 @@ public partial class ActionsPageViewModel(
     }
 
     #endregion
-
-    #region Custom Properties (Methods)
-
-    [RelayCommand]
-    private void FetchCustomPropertiesList()
-    {
-        var list = databaseService.GetCustomPropertiesList();
-
-        CustomPropertiesList = new ObservableCollection<ActionCustomPropertiesViewModel>(list
-            .OrderBy(f => f.JobName)
-            .Select(f => f.ToViewModel()));
-
-        // Update CustomPropertiesListHasItems when collection changes
-        CustomPropertiesList.CollectionChanged += (_, _) => OnPropertyChanged(nameof(CustomPropertiesListHasItems));
-
-        if (CustomPropertiesList.Count <= 0) return;
-
-        // Select first item
-        SelectedCustomPropertiesListItemId = CustomPropertiesList.First().Id;
-
-        // Store last fetched database save states
-        foreach (var listItem in CustomPropertiesList)
-            listItem.SetSavedState();
-    }
-
-    [RelayCommand]
-    private void AddNewCustomPropertiesItem()
-    {
-        // Create a new item
-        var newItem = new ActionCustomPropertiesViewModel
-        {
-            Id = Guid.NewGuid().ToString("N"), IsNewItem = true, JobName = "New Custom Property Job"
-        };
-
-        // Add to the print list
-        CustomPropertiesList.Add(newItem);
-
-        // Select item
-        SelectedCustomPropertiesListItemId = newItem.Id;
-    }
-
-    [RelayCommand]
-    private async Task CancelCustomPropertiesItem()
-    {
-        // Ignore if nothing is selected
-        if (SelectedCustomPropertiesListItem == null)
-            return;
-
-        // If the selected item is new, delete it
-        // Otherwise, restore from save state
-        if (SelectedCustomPropertiesListItem.IsNewItem)
-            await DeleteCustomPropertiesItemFromUIAsync(SelectedCustomPropertiesListItem.Id, false);
-        else
-            SelectedCustomPropertiesListItem.RestoreState();
-    }
-
-    [RelayCommand]
-    private async Task DeleteCustomPropertiesItemAsync(string id)
-    {
-        if (CustomPropertiesList.Count(x => x.Id == id) != 1)
-            // TODO: Throw/Warn?
-            return;
-
-        // If user selected to remove from UI (via Confirm dialog)
-        if (await DeleteCustomPropertiesItemFromUIAsync(id))
-            // Delete from database
-            databaseService.DeleteCustomPropertiesListItem(id);
-    }
-
-    // ReSharper disable once InconsistentNaming
-    private async Task<bool> DeleteCustomPropertiesItemFromUIAsync(string id, bool warn = true)
-    {
-        var index = CustomPropertiesList.IndexOf(CustomPropertiesList.First(x => x.Id == id));
-        if (index == -1)
-            return false;
-
-        if (warn)
-        {
-            var confirmViewModel = new ConfirmDialogViewModel
-            {
-                Title = "Delete Custom Properties Item?",
-                Message = $"Are you sure you want to delete ' {CustomPropertiesList[index].JobName}'?",
-                DialogWidth = 500
-            };
-
-            await dialogService.ShowDialog(mainViewModel, confirmViewModel);
-
-            // Ignore if we clicked cancel
-            if (!confirmViewModel.Confirmed)
-                return false;
-        }
-
-        // Remove item
-        CustomPropertiesList.RemoveAt(index);
-
-        // Select the item below the deleted one
-        if (index > 0) index--;
-
-        if (CustomPropertiesList.Count > 0)
-            SelectedCustomPropertiesListItemId = CustomPropertiesList[index].Id;
-
-        return true;
-    }
-
-    [RelayCommand]
-    private Task SaveCustomPropertiesItemAsync()
-    {
-        // Ignore if no selection
-        if (SelectedCustomPropertiesListItem == null)
-            return Task.CompletedTask;
-
-        // If the selected item is new...
-        if (SelectedCustomPropertiesListItem.IsNewItem)
-            databaseService.AddCustomPropertiesItem(SelectedCustomPropertiesListItem.ToDataModel());
-        else
-            databaseService.UpdateCustomPropertiesItem(SelectedCustomPropertiesListItem.ToDataModel());
-
-        // Flag new item as not new
-        SelectedCustomPropertiesListItem.IsNewItem = false;
-        SelectedCustomPropertiesListItem.SetSavedState();
-
-        return Task.CompletedTask;
-    }
-
-    #endregion
-
-    #region File Info (Methods)
-
-    [RelayCommand]
-    private void FetchFileInfoList()
-    {
-        var list = databaseService.GetFileInfoList();
-
-        FileInfoList = new ObservableCollection<ActionFileInfoViewModel>(list
-            .OrderBy(f => f.JobName)
-            .Select(f => f.ToViewModel()));
-
-        // Update FileInfoListHasItems when collection changes
-        FileInfoList.CollectionChanged += (_, _) => OnPropertyChanged(nameof(FileInfoListHasItems));
-
-        if (FileInfoList.Count <= 0) return;
-
-        // Select first item
-        SelectedFileInfoListItemId = FileInfoList.First().Id;
-
-        // Store last fetched database save states
-        foreach (var listItem in FileInfoList)
-            listItem.SetSavedState();
-    }
-
-    [RelayCommand]
-    private void AddNewFileInfoItem()
-    {
-        // Create a new item
-        var newItem = new ActionFileInfoViewModel
-        {
-            Id = Guid.NewGuid().ToString("N"), IsNewItem = true, JobName = "New File Info Job"
-        };
-
-        // Add to the print list
-        FileInfoList.Add(newItem);
-
-        // Select item
-        SelectedFileInfoListItemId = newItem.Id;
-    }
-
-    [RelayCommand]
-    private async Task CancelFileInfoItem()
-    {
-        // Ignore if nothing is selected
-        if (SelectedFileInfoListItem == null)
-            return;
-
-        // If the selected item is new, delete it
-        // Otherwise, restore from save state
-        if (SelectedFileInfoListItem.IsNewItem)
-            await DeleteFileInfoItemFromUIAsync(SelectedFileInfoListItem.Id, false);
-        else
-            SelectedFileInfoListItem.RestoreState();
-    }
-
-    [RelayCommand]
-    private async Task DeleteFileInfoItemAsync(string id)
-    {
-        if (FileInfoList.Count(x => x.Id == id) != 1)
-            // TODO: Throw/Warn?
-            return;
-
-        // If user selected to remove from UI (via Confirm dialog)
-        if (await DeleteFileInfoItemFromUIAsync(id))
-            // Delete from database
-            databaseService.DeleteFileInfoListItem(id);
-    }
-
-    // ReSharper disable once InconsistentNaming
-    private async Task<bool> DeleteFileInfoItemFromUIAsync(string id, bool warn = true)
-    {
-        var index = FileInfoList.IndexOf(FileInfoList.First(x => x.Id == id));
-        if (index == -1)
-            return false;
-
-        if (warn)
-        {
-            var confirmViewModel = new ConfirmDialogViewModel
-            {
-                Title = "Delete File Info Item?",
-                Message = $"Are you sure you want to delete ' {FileInfoList[index].JobName}'?",
-                DialogWidth = 500
-            };
-
-            await dialogService.ShowDialog(mainViewModel, confirmViewModel);
-
-            // Ignore if we clicked cancel
-            if (!confirmViewModel.Confirmed)
-                return false;
-        }
-
-        // Remove item
-        FileInfoList.RemoveAt(index);
-
-        // Select the item below the deleted one
-        if (index > 0) index--;
-
-        if (FileInfoList.Count > 0)
-            SelectedFileInfoListItemId = FileInfoList[index].Id;
-
-        return true;
-    }
-
-    [RelayCommand]
-    private Task SaveFileInfoItemAsync()
-    {
-        // Ignore if no selection
-        if (SelectedFileInfoListItem == null)
-            return Task.CompletedTask;
-
-        // If the selected item is new...
-        if (SelectedFileInfoListItem.IsNewItem)
-            databaseService.AddFileInfoItem(SelectedFileInfoListItem.ToDataModel());
-        else
-            databaseService.UpdateFileInfoItem(SelectedFileInfoListItem.ToDataModel());
-
-        // Flag new item as not new
-        SelectedFileInfoListItem.IsNewItem = false;
-        SelectedFileInfoListItem.SetSavedState();
-
-        return Task.CompletedTask;
-    }
-
-    #endregion
-
-    #region Save Model (Methods)
-
-    [RelayCommand]
-    private void FetchSaveModelList()
-    {
-        var list = databaseService.GetSaveModelList();
-
-        SaveModelList = new ObservableCollection<ActionSaveModelViewModel>(list
-            .OrderBy(f => f.JobName)
-            .Select(f => f.ToViewModel(SaveModelFormats)));
-
-        // Update SaveModelListHasItems when collection changes
-        SaveModelList.CollectionChanged += (_, _) => OnPropertyChanged(nameof(SaveModelListHasItems));
-
-        if (SaveModelList.Count <= 0) return;
-
-        // Select first item
-        SelectedSaveModelListItemId = SaveModelList.First().Id;
-
-        // Store last fetched database save states
-        foreach (var listItem in SaveModelList)
-            listItem.SetSavedState();
-    }
-
-    [RelayCommand]
-    private void AddNewSaveModelItem()
-    {
-        // Create a new item
-        var newItem = new ActionSaveModelViewModel
-        {
-            Id = Guid.NewGuid().ToString("N"), IsNewItem = true, JobName = "New Save Model Job"
-        };
-
-        // Add to the print list
-        SaveModelList.Add(newItem);
-
-        // Select item
-        SelectedSaveModelListItemId = newItem.Id;
-    }
-
-    [RelayCommand]
-    private async Task CancelSaveModelItem()
-    {
-        // Ignore if nothing is selected
-        if (SelectedSaveModelListItem == null)
-            return;
-
-        // If the selected item is new, delete it
-        // Otherwise, restore from save state
-        if (SelectedSaveModelListItem.IsNewItem)
-            await DeleteSaveModelItemFromUIAsync(SelectedSaveModelListItem.Id, false);
-        else
-            SelectedSaveModelListItem.RestoreState();
-    }
-
-    [RelayCommand]
-    private async Task DeleteSaveModelItemAsync(string id)
-    {
-        if (SaveModelList.Count(x => x.Id == id) != 1)
-            // TODO: Throw/Warn?
-            return;
-
-        // If user selected to remove from UI (via Confirm dialog)
-        if (await DeleteSaveModelItemFromUIAsync(id))
-            // Delete from database
-            databaseService.DeleteSaveModelListItem(id);
-    }
-
-    // ReSharper disable once InconsistentNaming
-    private async Task<bool> DeleteSaveModelItemFromUIAsync(string id, bool warn = true)
-    {
-        var index = SaveModelList.IndexOf(SaveModelList.First(x => x.Id == id));
-        if (index == -1)
-            return false;
-
-        if (warn)
-        {
-            var confirmViewModel = new ConfirmDialogViewModel
-            {
-                Title = "Delete Save Model Item?",
-                Message = $"Are you sure you want to delete ' {SaveModelList[index].JobName}'?",
-                DialogWidth = 500
-            };
-
-            await dialogService.ShowDialog(mainViewModel, confirmViewModel);
-
-            // Ignore if we clicked cancel
-            if (!confirmViewModel.Confirmed)
-                return false;
-        }
-
-        // Remove item
-        SaveModelList.RemoveAt(index);
-
-        // Select the item below the deleted one
-        if (index > 0) index--;
-
-        if (SaveModelList.Count > 0)
-            SelectedSaveModelListItemId = SaveModelList[index].Id;
-
-        return true;
-    }
-
-    [RelayCommand]
-    private Task SaveSaveModelItemAsync()
-    {
-        // Ignore if no selection
-        if (SelectedSaveModelListItem == null)
-            return Task.CompletedTask;
-
-        // If the selected item is new...
-        if (SelectedSaveModelListItem.IsNewItem)
-            databaseService.AddSaveModelItem(SelectedSaveModelListItem.ToDataModel());
-        else
-            databaseService.UpdateSaveModelItem(SelectedSaveModelListItem.ToDataModel());
-
-        // Flag new item as not new
-        SelectedSaveModelListItem.IsNewItem = false;
-        SelectedSaveModelListItem.SetSavedState();
-        
-        return Task.CompletedTask;
-    }
-
-    #endregion
-
-    #region Save Drawing (Methods)
-
-    [RelayCommand]
-    private void FetchSaveDrawingList()
-    {
-        var list = databaseService.GetSaveDrawingList();
-
-        SaveDrawingList = new ObservableCollection<ActionSaveDrawingViewModel>(list
-            .OrderBy(f => f.JobName)
-            .Select(f => f.ToViewModel(SaveDrawingFormats)));
-
-        // Update SaveDrawingListHasItems when collection changes
-        SaveDrawingList.CollectionChanged += (_, _) => OnPropertyChanged(nameof(SaveDrawingListHasItems));
-
-        if (SaveDrawingList.Count <= 0) return;
-
-        // Select first item
-        SelectedSaveDrawingListItemId = SaveDrawingList.First().Id;
-
-        // Store last fetched database save states
-        foreach (var listItem in SaveDrawingList)
-            listItem.SetSavedState();
-    }
-
-    [RelayCommand]
-    private void AddNewSaveDrawingItem()
-    {
-        // Create a new item
-        var newItem = new ActionSaveDrawingViewModel
-        {
-            Id = Guid.NewGuid().ToString("N"),
-            IsNewItem = true,
-            JobName = "New Save Drawing Job",
-            ExportFormats =
-                new ObservableCollection<KeyValueViewModel<string, bool>>(
-                    SaveDrawingFormats.Select(f => new KeyValueViewModel<string, bool>(f, false)))
-        };
-
-        // Add to the print list
-        SaveDrawingList.Add(newItem);
-
-        // Select item
-        SelectedSaveDrawingListItemId = newItem.Id;
-    }
-
-    [RelayCommand]
-    private async Task CancelSaveDrawingItem()
-    {
-        // Ignore if nothing is selected
-        if (SelectedSaveDrawingListItem == null)
-            return;
-
-        // If the selected item is new, delete it
-        // Otherwise, restore from save state
-        if (SelectedSaveDrawingListItem.IsNewItem)
-            await DeleteSaveDrawingItemFromUIAsync(SelectedSaveDrawingListItem.Id, false);
-        else
-            SelectedSaveDrawingListItem.RestoreState();
-    }
-
-    [RelayCommand]
-    private async Task DeleteSaveDrawingItemAsync(string id)
-    {
-        if (SaveDrawingList.Count(x => x.Id == id) != 1)
-            // TODO: Throw/Warn?
-            return;
-
-        // If user selected to remove from UI (via Confirm dialog)
-        if (await DeleteSaveDrawingItemFromUIAsync(id))
-            // Delete from database
-            databaseService.DeleteSaveDrawingListItem(id);
-    }
-
-    // ReSharper disable once InconsistentNaming
-    private async Task<bool> DeleteSaveDrawingItemFromUIAsync(string id, bool warn = true)
-    {
-        var index = SaveDrawingList.IndexOf(SaveDrawingList.First(x => x.Id == id));
-        if (index == -1)
-            return false;
-
-        if (warn)
-        {
-            var confirmViewModel = new ConfirmDialogViewModel
-            {
-                Title = "Delete Save Drawing Item?",
-                Message = $"Are you sure you want to delete ' {SaveDrawingList[index].JobName}'?",
-                DialogWidth = 500
-            };
-
-            await dialogService.ShowDialog(mainViewModel, confirmViewModel);
-
-            // Ignore if we clicked cancel
-            if (!confirmViewModel.Confirmed)
-                return false;
-        }
-
-        // Remove item
-        SaveDrawingList.RemoveAt(index);
-
-        // Select the item below the deleted one
-        if (index > 0) index--;
-
-        if (SaveDrawingList.Count > 0)
-            SelectedSaveDrawingListItemId = SaveDrawingList[index].Id;
-
-        return true;
-    }
-
-    [RelayCommand]
-    private Task SaveSaveDrawingItemAsync()
-    {
-        // Ignore if no selection
-        if (SelectedSaveDrawingListItem == null)
-            return Task.CompletedTask;
-
-        // If the selected item is new...
-        if (SelectedSaveDrawingListItem.IsNewItem)
-            databaseService.AddSaveDrawingItem(SelectedSaveDrawingListItem.ToDataModel());
-        else
-            databaseService.UpdateSaveDrawingItem(SelectedSaveDrawingListItem.ToDataModel());
-
-        // Flag new item as not new
-        SelectedSaveDrawingListItem.IsNewItem = false;
-        SelectedSaveDrawingListItem.SetSavedState();
-
-        return Task.CompletedTask;
-    }
-
-    #endregion
-
-    #region Import File (Methods)
-
-    [RelayCommand]
-    private void FetchImportFileList()
-    {
-        var list = databaseService.GetImportFileList();
-
-        ImportFileList = new ObservableCollection<ActionImportFileViewModel>(list
-            .OrderBy(f => f.JobName)
-            .Select(f => f.ToViewModel()));
-
-        // Update ImportFileListHasItems when collection changes
-        ImportFileList.CollectionChanged += (_, _) => OnPropertyChanged(nameof(ImportFileListHasItems));
-
-        if (ImportFileList.Count <= 0) return;
-
-        // Select first item
-        SelectedImportFileListItemId = ImportFileList.First().Id;
-
-        // Store last fetched database save states
-        foreach (var listItem in ImportFileList)
-            listItem.SetSavedState();
-    }
-
-    [RelayCommand]
-    private void AddNewImportFileItem()
-    {
-        // Create a new item
-        var newItem = new ActionImportFileViewModel
-        {
-            Id = Guid.NewGuid().ToString("N"), IsNewItem = true, JobName = "New Import File Job"
-        };
-
-        // Add to the print list
-        ImportFileList.Add(newItem);
-
-        // Select item
-        SelectedImportFileListItemId = newItem.Id;
-    }
-
-    [RelayCommand]
-    private async Task CancelImportFileItem()
-    {
-        // Ignore if nothing is selected
-        if (SelectedImportFileListItem == null)
-            return;
-
-        // If the selected item is new, delete it
-        // Otherwise, restore from save state
-        if (SelectedImportFileListItem.IsNewItem)
-            await DeleteImportFileItemFromUIAsync(SelectedImportFileListItem.Id, false);
-        else
-            SelectedImportFileListItem.RestoreState();
-    }
-
-    [RelayCommand]
-    private async Task DeleteImportFileItemAsync(string id)
-    {
-        if (ImportFileList.Count(x => x.Id == id) != 1)
-            // TODO: Throw/Warn?
-            return;
-
-        // If user selected to remove from UI (via Confirm dialog)
-        if (await DeleteImportFileItemFromUIAsync(id))
-            // Delete from database
-            databaseService.DeleteImportFileListItem(id);
-    }
-
-    // ReSharper disable once InconsistentNaming
-    private async Task<bool> DeleteImportFileItemFromUIAsync(string id, bool warn = true)
-    {
-        var index = ImportFileList.IndexOf(ImportFileList.First(x => x.Id == id));
-        if (index == -1)
-            return false;
-
-        if (warn)
-        {
-            var confirmViewModel = new ConfirmDialogViewModel
-            {
-                Title = "Delete Import File Item?",
-                Message = $"Are you sure you want to delete ' {ImportFileList[index].JobName}'?",
-                DialogWidth = 500
-            };
-
-            await dialogService.ShowDialog(mainViewModel, confirmViewModel);
-
-            // Ignore if we clicked cancel
-            if (!confirmViewModel.Confirmed)
-                return false;
-        }
-
-        // Remove item
-        ImportFileList.RemoveAt(index);
-
-        // Select the item below the deleted one
-        if (index > 0) index--;
-
-        if (ImportFileList.Count > 0)
-            SelectedImportFileListItemId = ImportFileList[index].Id;
-
-        return true;
-    }
-
-    [RelayCommand]
-    private Task SaveImportFileItemAsync()
-    {
-        // Ignore if no selection
-        if (SelectedImportFileListItem == null)
-            return Task.CompletedTask;
-
-        // If the selected item is new...
-        if (SelectedImportFileListItem.IsNewItem)
-            databaseService.AddImportFileItem(SelectedImportFileListItem.ToDataModel());
-        else
-            databaseService.UpdateImportFileItem(SelectedImportFileListItem.ToDataModel());
-
-        // Flag new item as not new
-        SelectedImportFileListItem.IsNewItem = false;
-        SelectedImportFileListItem.SetSavedState();
-        
-        return Task.CompletedTask;
-    }
-
-    #endregion
-
+    
     #region Drawing Template (Methods)
-
-    [RelayCommand]
-    private void FetchDrawingTemplateList()
-    {
-        var list = databaseService.GetDrawingTemplateList();
-
-        DrawingTemplateList = new ObservableCollection<ActionDrawingTemplateViewModel>(list
-            .OrderBy(f => f.JobName)
-            .Select(f => f.ToViewModel()));
-
-        // Update DrawingTemplateListHasItems when collection changes
-        DrawingTemplateList.CollectionChanged += (_, _) => OnPropertyChanged(nameof(DrawingTemplateListHasItems));
-
-        if (DrawingTemplateList.Count <= 0) return;
-
-        // Select first item
-        SelectedDrawingTemplateListItemId = DrawingTemplateList.First().Id;
-
-        // Store last fetched database save states
-        foreach (var listItem in DrawingTemplateList)
-            listItem.SetSavedState();
-    }
-
-    [RelayCommand]
-    private void AddNewDrawingTemplateItem()
-    {
-        // Create a new item
-        var newItem = new ActionDrawingTemplateViewModel
-        {
-            Id = Guid.NewGuid().ToString("N"), IsNewItem = true, JobName = "New Drawing Template Job"
-        };
-
-        // Add to the print list
-        DrawingTemplateList.Add(newItem);
-
-        // Select item
-        SelectedDrawingTemplateListItemId = newItem.Id;
-    }
-
-    [RelayCommand]
-    private async Task CancelDrawingTemplateItem()
-    {
-        // Ignore if nothing is selected
-        if (SelectedDrawingTemplateListItem == null)
-            return;
-
-        // If the selected item is new, delete it
-        // Otherwise, restore from save state
-        if (SelectedDrawingTemplateListItem.IsNewItem)
-            await DeleteDrawingTemplateItemFromUIAsync(SelectedDrawingTemplateListItem.Id, false);
-        else
-            SelectedDrawingTemplateListItem.RestoreState();
-    }
-
-    [RelayCommand]
-    private async Task DeleteDrawingTemplateItemAsync(string id)
-    {
-        if (DrawingTemplateList.Count(x => x.Id == id) != 1)
-            // TODO: Throw/Warn?
-            return;
-
-        // If user selected to remove from UI (via Confirm dialog)
-        if (await DeleteDrawingTemplateItemFromUIAsync(id))
-            // Delete from database
-            databaseService.DeleteDrawingTemplateListItem(id);
-    }
-
-    // ReSharper disable once InconsistentNaming
-    private async Task<bool> DeleteDrawingTemplateItemFromUIAsync(string id, bool warn = true)
-    {
-        var index = DrawingTemplateList.IndexOf(DrawingTemplateList.First(x => x.Id == id));
-        if (index == -1)
-            return false;
-
-        if (warn)
-        {
-            var confirmViewModel = new ConfirmDialogViewModel
-            {
-                Title = "Delete Drawing Template Item?",
-                Message = $"Are you sure you want to delete ' {DrawingTemplateList[index].JobName}'?",
-                DialogWidth = 500
-            };
-
-            await dialogService.ShowDialog(mainViewModel, confirmViewModel);
-
-            // Ignore if we clicked cancel
-            if (!confirmViewModel.Confirmed)
-                return false;
-        }
-
-        // Remove item
-        DrawingTemplateList.RemoveAt(index);
-
-        // Select the item below the deleted one
-        if (index > 0) index--;
-
-        if (DrawingTemplateList.Count > 0)
-            SelectedDrawingTemplateListItemId = DrawingTemplateList[index].Id;
-
-        return true;
-    }
-
-    [RelayCommand]
-    private Task SaveDrawingTemplateItemAsync()
-    {
-        // Ignore if no selection
-        if (SelectedDrawingTemplateListItem == null)
-            return Task.CompletedTask;
-
-        // If the selected item is new...
-        if (SelectedDrawingTemplateListItem.IsNewItem)
-            databaseService.AddDrawingTemplateItem(SelectedDrawingTemplateListItem.ToDataModel());
-        else
-            databaseService.UpdateDrawingTemplateItem(SelectedDrawingTemplateListItem.ToDataModel());
-
-        // Flag new item as not new
-        SelectedDrawingTemplateListItem.IsNewItem = false;
-        SelectedDrawingTemplateListItem.SetSavedState();
-
-        return Task.CompletedTask;
-    }
 
     [RelayCommand]
     private async Task AddDrawingTemplatePaths()
@@ -1339,131 +533,6 @@ public partial class ActionsPageViewModel(
         
         // Let the UI know the paths have changed
         RaiseOnPropertyChanged(nameof(DrawingTemplatePaths));
-    }
-
-    #endregion
-
-    #region Macros (Methods)
-
-    [RelayCommand]
-    private void FetchMacrosList()
-    {
-        var list = databaseService.GetMacrosList();
-
-        MacrosList = new ObservableCollection<ActionMacrosViewModel>(list
-            .OrderBy(f => f.JobName)
-            .Select(f => f.ToViewModel()));
-
-        // Update MacrosListHasItems when collection changes
-        MacrosList.CollectionChanged += (_, _) => OnPropertyChanged(nameof(MacrosListHasItems));
-
-        if (MacrosList.Count <= 0) return;
-
-        // Select first item
-        SelectedMacrosListItemId = MacrosList.First().Id;
-
-        // Store last fetched database save states
-        foreach (var listItem in MacrosList)
-            listItem.SetSavedState();
-    }
-
-    [RelayCommand]
-    private void AddNewMacrosItem()
-    {
-        // Create a new item
-        var newItem = new ActionMacrosViewModel
-        {
-            Id = Guid.NewGuid().ToString("N"), IsNewItem = true, JobName = "New Macro Job"
-        };
-
-        // Add to the print list
-        MacrosList.Add(newItem);
-
-        // Select item
-        SelectedMacrosListItemId = newItem.Id;
-    }
-
-    [RelayCommand]
-    private async Task CancelMacrosItem()
-    {
-        // Ignore if nothing is selected
-        if (SelectedMacrosListItem == null)
-            return;
-
-        // If the selected item is new, delete it
-        // Otherwise, restore from save state
-        if (SelectedMacrosListItem.IsNewItem)
-            await DeleteMacrosItemFromUIAsync(SelectedMacrosListItem.Id, false);
-        else
-            SelectedMacrosListItem.RestoreState();
-    }
-
-    [RelayCommand]
-    private async Task DeleteMacrosItemAsync(string id)
-    {
-        if (MacrosList.Count(x => x.Id == id) != 1)
-            // TODO: Throw/Warn?
-            return;
-
-        // If user selected to remove from UI (via Confirm dialog)
-        if (await DeleteMacrosItemFromUIAsync(id))
-            // Delete from database
-            databaseService.DeleteMacrosListItem(id);
-    }
-
-    // ReSharper disable once InconsistentNaming
-    private async Task<bool> DeleteMacrosItemFromUIAsync(string id, bool warn = true)
-    {
-        var index = MacrosList.IndexOf(MacrosList.First(x => x.Id == id));
-        if (index == -1)
-            return false;
-
-        if (warn)
-        {
-            var confirmViewModel = new ConfirmDialogViewModel
-            {
-                Title = "Delete Macro Item?",
-                Message = $"Are you sure you want to delete ' {MacrosList[index].JobName}'?",
-                DialogWidth = 500
-            };
-
-            await dialogService.ShowDialog(mainViewModel, confirmViewModel);
-
-            // Ignore if we clicked cancel
-            if (!confirmViewModel.Confirmed)
-                return false;
-        }
-
-        // Remove item
-        MacrosList.RemoveAt(index);
-
-        // Select the item below the deleted one
-        if (index > 0) index--;
-
-        if (MacrosList.Count > 0)
-            SelectedMacrosListItemId = MacrosList[index].Id;
-
-        return true;
-    }
-
-    [RelayCommand]
-    private Task SaveMacrosItem()
-    {
-        // Ignore if no selection
-        if (SelectedMacrosListItem == null)
-            return Task.CompletedTask;
-
-        // If the selected item is new...
-        if (SelectedMacrosListItem.IsNewItem)
-            databaseService.AddMacrosItem(SelectedMacrosListItem.ToDataModel());
-        else
-            databaseService.UpdateMacrosItem(SelectedMacrosListItem.ToDataModel());
-
-        // Flag new item as not new
-        SelectedMacrosListItem.IsNewItem = false;
-        SelectedMacrosListItem.SetSavedState();
-        
-        return Task.CompletedTask;
     }
 
     #endregion

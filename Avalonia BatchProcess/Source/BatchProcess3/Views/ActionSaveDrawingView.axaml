@@ -21,13 +21,13 @@
                        Text="Save Drawing actions can be used to export drawings in various formats."
                        TextWrapping="Wrap" Margin="0 -10 0 10" />
             <Button Grid.Row="4" Classes="small outline" Content="New Save Drawing Action"
-                    Command="{Binding AddNewSaveDrawingItemCommand}" HorizontalAlignment="Stretch"
+                    Command="{Binding SaveDrawingList.AddNewItemCommand}" HorizontalAlignment="Stretch"
                     HorizontalContentAlignment="Center" />
             <ListBox Grid.Row="6"
                      SelectionChanged="SelectingItemsControl_OnSelectionChanged"
-                     ItemsSource="{Binding SaveDrawingList}"
+                     ItemsSource="{Binding SaveDrawingList.List}"
                      SelectedValueBinding="{Binding Id}"
-                     SelectedValue="{Binding SelectedSaveDrawingListItemId}">
+                     SelectedValue="{Binding SaveDrawingList.SelectedItemId}">
                 <ListBox.ItemTemplate>
                     <DataTemplate x:DataType="vm:ActionSaveDrawingViewModel">
                         <Grid ColumnDefinitions="*, Auto">
@@ -37,7 +37,7 @@
                                    VerticalAlignment="Center" />
                             <Button Grid.Column="1"
                                     Margin="0 -4 -4 -6"
-                                    Command="{Binding $parent[ListBox].((vm:ActionsPageViewModel)DataContext).DeleteSaveDrawingItemCommand}"
+                                    Command="{Binding $parent[ListBox].((vm:ActionsPageViewModel)DataContext).SaveDrawingList.DeleteItemCommand}"
                                     CommandParameter="{Binding Id}"
                                     IsVisible="{Binding $parent[ListBoxItem].IsSelected}"
                                     VerticalAlignment="Center"
@@ -52,7 +52,7 @@
         </Grid>
 
         <StackPanel Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10"
-                    Opacity="{Binding !SaveDrawingListHasItems}">
+                    Opacity="{Binding !SaveDrawingList.HasItems}">
             <StackPanel.Styles>
                 <Style Selector="StackPanel">
                     <Setter Property="Transitions">
@@ -66,11 +66,11 @@
                        HorizontalAlignment="Center" />
             <TextBlock Text="To get started, create a new Save Drawing Action." HorizontalAlignment="Center" />
             <Button Content="New Save Drawing Action" HorizontalAlignment="Center"
-                    Command="{Binding AddNewSaveDrawingItemCommand}"
+                    Command="{Binding SaveDrawingList.AddNewItemCommand}"
                     Margin="20" />
         </StackPanel>
 
-        <Grid Grid.Column="2" ColumnDefinitions="*, 30, *" Opacity="{Binding SaveDrawingListHasItems}">
+        <Grid Grid.Column="2" ColumnDefinitions="*, 30, *" Opacity="{Binding SaveDrawingList.HasItems}">
             <Grid.Styles>
                 <Style Selector="Grid">
                     <Setter Property="Transitions">
@@ -92,27 +92,27 @@
                     <!-- Job Name -->
                     <Label Grid.Row="0" Grid.Column="0" Content="Job Name" VerticalAlignment="Center" />
                     <TextBox Name="JobNameTextBox" Grid.Row="0" Grid.Column="4"
-                             Text="{Binding  SelectedSaveDrawingListItem.JobName}" />
+                             Text="{Binding  SaveDrawingList.SelectedItem.JobName}" />
 
                     <!-- Description -->
                     <Label Grid.Row="2" Grid.Column="0" Content="Description" />
                     <TextBox Grid.Row="2" Grid.Column="4" AcceptsReturn="True"
-                             Text="{Binding  SelectedSaveDrawingListItem.Description}" Height="80" TextWrapping="Wrap" />
+                             Text="{Binding  SaveDrawingList.SelectedItem.Description}" Height="80" TextWrapping="Wrap" />
 
                     <!-- Filename -->
                     <Label Grid.Row="4" Grid.Column="0" Content="Filename" VerticalAlignment="Center" />
                     <TextBox Grid.Row="4" Grid.Column="4"
-                             Text="{Binding  SelectedSaveDrawingListItem.FileName}" />
+                             Text="{Binding  SaveDrawingList.SelectedItem.FileName}" />
 
                     <!-- Save Location -->
                     <Label Grid.Row="6" Grid.Column="0" Content="Save Location" VerticalAlignment="Center" />
                     <TextBox Grid.Row="6" Grid.Column="4"
-                             Text="{Binding  SelectedSaveDrawingListItem.SaveLocation}" />
+                             Text="{Binding  SaveDrawingList.SelectedItem.SaveLocation}" />
 
                     <!-- Sheets Filter -->
                     <Label Grid.Row="8" Grid.Column="0" Content="Sheets Filter" VerticalAlignment="Center" />
                     <TextBox Grid.Row="8" Grid.Column="4"
-                             Text="{Binding  SelectedSaveDrawingListItem.SheetsFilter}" />
+                             Text="{Binding  SaveDrawingList.SelectedItem.SheetsFilter}" />
 
                     <!-- Single PDF -->
                     <Label Grid.Row="10" Grid.Column="2" VerticalAlignment="Center"
@@ -120,7 +120,7 @@
                            Content="&#xE3E8;"
                            ToolTip.Tip="When saving a PDF save all sheets to a single PDF" />
                     <CheckBox Grid.Row="10" Grid.Column="4" Content="Single PDF"
-                              IsChecked="{Binding  SelectedSaveDrawingListItem.SinglePdf}" />
+                              IsChecked="{Binding  SaveDrawingList.SelectedItem.SinglePdf}" />
 
                     <!-- Single eDrawing -->
                     <Label Grid.Row="11" Grid.Column="2" VerticalAlignment="Center"
@@ -128,7 +128,7 @@
                            Content="&#xE3E8;"
                            ToolTip.Tip="When saving an eDrawing save all sheets to a single eDrawing" />
                     <CheckBox Grid.Row="11" Grid.Column="4" Content="Single eDrawing"
-                              IsChecked="{Binding  SelectedSaveDrawingListItem.SingleEDrawing}" />
+                              IsChecked="{Binding  SaveDrawingList.SelectedItem.SingleEDrawing}" />
 
                     <!-- Single DWG/DF -->
                     <Label Grid.Row="12" Grid.Column="2" VerticalAlignment="Center"
@@ -136,7 +136,7 @@
                            Content="&#xE3E8;"
                            ToolTip.Tip="When saving a DWG or DXF save all sheets to a single file" />
                     <CheckBox Grid.Row="12" Grid.Column="4" Content="Single DWG/DXF"
-                              IsChecked="{Binding  SelectedSaveDrawingListItem.SingleDwgDxf}" />
+                              IsChecked="{Binding  SaveDrawingList.SelectedItem.SingleDwgDxf}" />
 
                 </Grid>
             </Grid>
@@ -149,7 +149,7 @@
 
                 <!-- Export Formats -->
                 <ScrollViewer Grid.Row="4">
-                    <ItemsControl ItemsSource="{Binding SelectedSaveDrawingListItem.ExportFormats}">
+                    <ItemsControl ItemsSource="{Binding SaveDrawingList.SelectedItem.ExportFormats}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <CheckBox
@@ -165,7 +165,7 @@
                             HorizontalAlignment="Right"
                             Orientation="Horizontal"
                             Spacing="10"
-                            Opacity="{Binding SelectedSaveDrawingListItem.HasChanged, FallbackValue=0}">
+                            Opacity="{Binding SaveDrawingList.SelectedItem.HasChanged, FallbackValue=0}">
                     <StackPanel.Styles>
                         <Style Selector="StackPanel">
                             <Setter Property="Transitions">
@@ -175,8 +175,8 @@
                             </Setter>
                         </Style>
                     </StackPanel.Styles>
-                    <Button Content="Cancel" Classes="outline" Command="{Binding CancelSaveDrawingItemCommand}" />
-                    <Button Content="Save" Classes="success" Command="{Binding SaveSaveDrawingItemCommand}" />
+                    <Button Content="Cancel" Classes="outline" Command="{Binding SaveDrawingList.CancelItemCommand}" />
+                    <Button Content="Save" Classes="success" Command="{Binding SaveDrawingList.SaveItemCommand}" />
                 </StackPanel>
             </Grid>
 

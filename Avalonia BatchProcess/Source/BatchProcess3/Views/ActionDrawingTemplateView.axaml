@@ -24,13 +24,13 @@
                        Text="Drawing Template actions can be used to update, set or replace the sheet templates of a drawing."
                        TextWrapping="Wrap" Margin="0 -10 0 10" />
             <Button Grid.Row="4" Classes="small outline" Content="New Drawing Template Action"
-                    Command="{Binding AddNewDrawingTemplateItemCommand}" HorizontalAlignment="Stretch"
+                    Command="{Binding DrawingTemplateList.AddNewItemCommand}" HorizontalAlignment="Stretch"
                     HorizontalContentAlignment="Center" />
             <ListBox Grid.Row="6"
                      SelectionChanged="SelectingItemsControl_OnSelectionChanged"
-                     ItemsSource="{Binding DrawingTemplateList}"
+                     ItemsSource="{Binding DrawingTemplateList.List}"
                      SelectedValueBinding="{Binding Id}"
-                     SelectedValue="{Binding SelectedDrawingTemplateListItemId}">
+                     SelectedValue="{Binding DrawingTemplateList.SelectedItemId}">
                 <ListBox.ItemTemplate>
                     <DataTemplate x:DataType="vm:ActionDrawingTemplateViewModel">
                         <Grid ColumnDefinitions="*, Auto">
@@ -40,7 +40,7 @@
                                    VerticalAlignment="Center" />
                             <Button Grid.Column="1"
                                     Margin="0 -4 -4 -6"
-                                    Command="{Binding $parent[ListBox].((vm:ActionsPageViewModel)DataContext).DeleteDrawingTemplateItemCommand}"
+                                    Command="{Binding $parent[ListBox].((vm:ActionsPageViewModel)DataContext).DrawingTemplateList.DeleteItemCommand}"
                                     CommandParameter="{Binding Id}"
                                     IsVisible="{Binding $parent[ListBoxItem].IsSelected}"
                                     VerticalAlignment="Center"
@@ -55,7 +55,7 @@
         </Grid>
         
         <StackPanel ZIndex="10" Name="NewActionStack" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10"
-                    Opacity="{Binding !DrawingTemplateListHasItems}"
+                    Opacity="{Binding !DrawingTemplateList.HasItems}"
                     IsVisible="{Binding #NewActionStack.Opacity}"
                     >
             <StackPanel.Styles>
@@ -72,14 +72,14 @@
                 HorizontalAlignment="Center" />
             <TextBlock Text="To get started, create a new Drawing Template Action." HorizontalAlignment="Center" />
             <Button Content="New Drawing Template Action" HorizontalAlignment="Center"
-                    Command="{Binding AddNewDrawingTemplateItemCommand}"
+                    Command="{Binding DrawingTemplateList.AddNewItemCommand}"
                     Margin="20" />
         </StackPanel>
 
         <Grid Grid.Column="2" 
               ColumnDefinitions="*, 30, *" 
               RowDefinitions="Auto, *, 10, Auto"
-              Opacity="{Binding DrawingTemplateListHasItems}">
+              Opacity="{Binding DrawingTemplateList.HasItems}">
             <Grid.Styles>
                 <Style Selector="Grid">
                     <Setter Property="Transitions">
@@ -102,12 +102,12 @@
                     <!-- Job Name -->
                     <Label Grid.Row="0" Grid.Column="0" Content="Job Name" VerticalAlignment="Center" />
                     <TextBox Name="JobNameTextBox" Grid.Row="0" Grid.Column="2"
-                             Text="{Binding  SelectedDrawingTemplateListItem.JobName}" />
+                             Text="{Binding  DrawingTemplateList.SelectedItem.JobName}" />
  
                     <!-- Description -->
                     <Label Grid.Row="2" Grid.Column="0" Content="Description" />
                     <TextBox Grid.Row="2" Grid.Column="2" AcceptsReturn="True"
-                             Text="{Binding  SelectedDrawingTemplateListItem.Description}" Height="80"
+                             Text="{Binding  DrawingTemplateList.SelectedItem.Description}" Height="80"
                              TextWrapping="Wrap" />
 
                 </Grid>
@@ -123,20 +123,20 @@
                     <Label Grid.Row="4" Grid.Column="0" Content="Operation" VerticalAlignment="Center" />
                     <ComboBox Grid.Row="4" Grid.Column="2"
                               ItemsSource="{Binding DrawingTemplateOperations}"
-                              SelectedItem="{Binding SelectedDrawingTemplateListItem.Operation}"
+                              SelectedItem="{Binding DrawingTemplateList.SelectedItem.Operation}"
                               HorizontalAlignment="Stretch"
                                />
 
                     <!-- Current Template -->
                     <Label Grid.Row="6" Grid.Column="0" VerticalAlignment="Center" Margin="0 0 0 10"
-                           IsVisible="{Binding SelectedDrawingTemplateListItem.CurrentTemplatePathIsVisible}"
+                           IsVisible="{Binding DrawingTemplateList.SelectedItem.CurrentTemplatePathIsVisible}"
                            Content="Current Template" />
                     <ComboBox Grid.Row="6" Grid.Column="2" Margin="0 0 0 10"
-                              IsVisible="{Binding SelectedDrawingTemplateListItem.CurrentTemplatePathIsVisible}"
+                              IsVisible="{Binding DrawingTemplateList.SelectedItem.CurrentTemplatePathIsVisible}"
                               ItemsSource="{Binding DrawingTemplatePaths}"
                               HorizontalAlignment="Stretch"
-                              ToolTip.Tip="{Binding SelectedDrawingTemplateListItem.CurrentTemplatePath}"
-                              SelectedItem="{Binding SelectedDrawingTemplateListItem.CurrentTemplatePath}">
+                              ToolTip.Tip="{Binding DrawingTemplateList.SelectedItem.CurrentTemplatePath}"
+                              SelectedItem="{Binding DrawingTemplateList.SelectedItem.CurrentTemplatePath}">
                         
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
@@ -148,14 +148,14 @@
 
                     <!-- New Template -->
                     <Label Grid.Row="7" Grid.Column="0"
-                           IsVisible="{Binding SelectedDrawingTemplateListItem.NewTemplatePathIsVisible}"
+                           IsVisible="{Binding DrawingTemplateList.SelectedItem.NewTemplatePathIsVisible}"
                            Content="New Template" VerticalAlignment="Center" />
                     <ComboBox Grid.Row="7" Grid.Column="2"
-                              IsVisible="{Binding SelectedDrawingTemplateListItem.NewTemplatePathIsVisible}"
+                              IsVisible="{Binding DrawingTemplateList.SelectedItem.NewTemplatePathIsVisible}"
                               ItemsSource="{Binding DrawingTemplatePaths}"
                               HorizontalAlignment="Stretch"
-                              ToolTip.Tip="{Binding SelectedDrawingTemplateListItem.NewTemplatePath}"
-                              SelectedItem="{Binding SelectedDrawingTemplateListItem.NewTemplatePath}">
+                              ToolTip.Tip="{Binding DrawingTemplateList.SelectedItem.NewTemplatePath}"
+                              SelectedItem="{Binding DrawingTemplateList.SelectedItem.NewTemplatePath}">
                         
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
@@ -214,7 +214,7 @@
                         HorizontalAlignment="Right"
                         Orientation="Horizontal"
                         Spacing="10"
-                        Opacity="{Binding SelectedDrawingTemplateListItem.HasChanged, FallbackValue=0}">
+                        Opacity="{Binding DrawingTemplateList.SelectedItem.HasChanged, FallbackValue=0}">
                 <StackPanel.Styles>
                     <Style Selector="StackPanel">
                         <Setter Property="Transitions">
@@ -224,8 +224,8 @@
                         </Setter>
                     </Style>
                 </StackPanel.Styles>
-                <Button Content="Cancel" Classes="outline" Command="{Binding CancelDrawingTemplateItemCommand}" />
-                <Button Content="Save" Classes="success" Command="{Binding SaveDrawingTemplateItemCommand}" />
+                <Button Content="Cancel" Classes="outline" Command="{Binding DrawingTemplateList.CancelItemCommand}" />
+                <Button Content="Save" Classes="success" Command="{Binding DrawingTemplateList.SaveItemCommand}" />
             </StackPanel>
 
         </Grid>

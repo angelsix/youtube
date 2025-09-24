@@ -31,12 +31,12 @@
         <Grid RowDefinitions="Auto, 10, Auto, 10, Auto, 10, *">
             <Label Classes="h2" Content="Processes" />
             <TextBlock Grid.Row="2" Text="A list of processes. Each process is a set of actions to be performed on each file in a job." TextWrapping="Wrap" Margin="0 -10 0 10"></TextBlock>
-            <Button Grid.Row="4" Classes="small outline" Content="New Process" Command="{Binding AddNewProcessCommand}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" />
+            <Button Grid.Row="4" Classes="small outline" Content="New Process" Command="{Binding ProcessList.AddNewItemCommand}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" />
             <ListBox Grid.Row="6" 
                      SelectionChanged="SelectingItemsControl_OnSelectionChanged"
-                     ItemsSource="{Binding ProcessList}" 
+                     ItemsSource="{Binding ProcessList.List}" 
                      SelectedValueBinding="{Binding Id}"
-                     SelectedValue="{Binding SelectedProcessListItemId}">
+                     SelectedValue="{Binding ProcessList.SelectedItemId}">
                 <ListBox.ItemTemplate>
                     <DataTemplate x:DataType="vm:ProcessViewModel">
                         <Grid ColumnDefinitions="*, Auto">
@@ -46,7 +46,7 @@
                                    VerticalAlignment="Center" />
                             <Button Grid.Column="1"
                                     Margin="0 -4 -4 -6"
-                                    Command="{Binding $parent[ListBox].((vm:ProcessPageViewModel)DataContext).DeleteProcessItemCommand}"
+                                    Command="{Binding $parent[ListBox].((vm:ProcessPageViewModel)DataContext).ProcessList.DeleteItemCommand}"
                                     CommandParameter="{Binding Id}"
                                     IsVisible="{Binding $parent[ListBoxItem].IsSelected}"
                                     VerticalAlignment="Center"
@@ -60,7 +60,7 @@
             </ListBox>
         </Grid>
         
-        <StackPanel Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10" Opacity="{Binding !ProcessListHasItems}">
+        <StackPanel Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10" Opacity="{Binding !ProcessList.HasItems}">
             <StackPanel.Styles>
                 <Style Selector="StackPanel">
                     <Setter Property="Transitions">
@@ -72,10 +72,10 @@
             </StackPanel.Styles>
             <TextBlock Text="Processes can be used to run a set of actions on a set of files." HorizontalAlignment="Center" />
             <TextBlock Text="To get started, create a new Process." HorizontalAlignment="Center" />
-            <Button Content="New Process" HorizontalAlignment="Center" Command="{Binding AddNewProcessCommand}" Margin="20" />
+            <Button Content="New Process" HorizontalAlignment="Center" Command="{Binding ProcessList.AddNewItemCommand}" Margin="20" />
         </StackPanel>
         
-        <Grid Grid.Column="2" ColumnDefinitions="*, 30, *" Opacity="{Binding ProcessListHasItems}">
+        <Grid Grid.Column="2" ColumnDefinitions="*, 30, *" Opacity="{Binding ProcessList.HasItems}">
             <Grid.Styles>
                 <Style Selector="Grid">
                     <Setter Property="Transitions">
@@ -92,18 +92,18 @@
                 <TextBlock Grid.Row="2" Text="Set the main properties of the process." Margin="0 -10 0 10" />
                 <Grid Grid.Row="4" ColumnDefinitions="140, 15, *" RowDefinitions="Auto, 15, Auto">
                     <Label Grid.Row="0" Grid.Column="0" Content="Job Name" VerticalAlignment="Center" />
-                    <TextBox Name="JobNameTextBox" Grid.Row="0" Grid.Column="2" Text="{Binding  SelectedProcessListItem.JobName}" />
+                    <TextBox Name="JobNameTextBox" Grid.Row="0" Grid.Column="2" Text="{Binding  ProcessList.SelectedItem.JobName}" />
                     <Label Grid.Row="2" Grid.Column="0" Content="Description" />
-                    <TextBox Grid.Row="2" Grid.Column="2" AcceptsReturn="True" Text="{Binding  SelectedProcessListItem.Description}" Height="80" TextWrapping="Wrap" />
+                    <TextBox Grid.Row="2" Grid.Column="2" AcceptsReturn="True" Text="{Binding  ProcessList.SelectedItem.Description}" Height="80" TextWrapping="Wrap" />
                 </Grid>
                 
                 <Label Grid.Row="6" Classes="h2" Content="Actions List" />
                 <TextBlock Grid.Row="8" Text="Selects the actions to be used in this process." Margin="0 -10 0 0" />
 
                 <ListBox Grid.Row="12" 
-                         ItemsSource="{Binding SelectedProcessListItem.Actions}" 
+                         ItemsSource="{Binding ProcessList.SelectedItem.Actions}" 
                          SelectedValueBinding="{Binding Id}">
-                    <ListBox.ItemTemplate>
+                    <ListBox.ItemTemplate> 
                         <DataTemplate x:DataType="vm:ActionViewModel">
                             <Grid ColumnDefinitions="*, 10, Auto">
                                 
@@ -114,7 +114,7 @@
                                 
                                 <Panel Grid.Column="2">
                                     <Button Margin="0 -4 -4 -6"
-                                            Command="{Binding $parent[ListBox].((vm:ProcessPageViewModel)DataContext).DeleteSelectedProcessActionCommand}"
+                                            Command="{Binding $parent[ListBox].((vm:ProcessPageViewModel)DataContext).ProcessList.DeleteItemCommand}"
                                             CommandParameter="{Binding SortOrder}"
                                             IsVisible="{Binding $parent[ListBoxItem].IsSelected}"
                                             VerticalAlignment="Center"
@@ -142,7 +142,7 @@
                             HorizontalAlignment="Right" 
                             Orientation="Horizontal" 
                             Spacing="10"
-                            Opacity="{Binding SelectedProcessListItem.HasChanged, FallbackValue=0}">
+                            Opacity="{Binding ProcessList.SelectedItem.HasChanged, FallbackValue=0}">
                     <StackPanel.Styles>
                         <Style Selector="StackPanel">
                             <Setter Property="Transitions">
@@ -152,8 +152,8 @@
                             </Setter>
                         </Style>
                     </StackPanel.Styles>
-                    <Button Content="Cancel" Classes="outline" Command="{Binding CancelProcessItemCommand}"></Button>
-                    <Button Content="Save" Classes="success" Command="{Binding SaveProcessItemCommand}"></Button>
+                    <Button Content="Cancel" Classes="outline" Command="{Binding ProcessList.CancelItemCommand}"></Button>
+                    <Button Content="Save" Classes="success" Command="{Binding ProcessList.SaveItemCommand}"></Button>
                 </StackPanel>
             </Grid>
     

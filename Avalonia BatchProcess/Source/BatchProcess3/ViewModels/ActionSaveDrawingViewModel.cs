@@ -7,7 +7,7 @@ using System.Text.Json.Serialization;
 
 namespace BatchProcess3.ViewModels;
 
-public partial class ActionSaveDrawingViewModel : ActionViewModel
+public partial class ActionSaveDrawingViewModel : ActionViewModel, ISelectableItemListViewModel
 {
     private ObservableCollection<KeyValueViewModel<string, bool>> _exportFormats = [];
 

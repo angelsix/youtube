@@ -5,7 +5,7 @@ using System.Text.Json.Serialization;
 
 namespace BatchProcess3.ViewModels;
 
-public partial class ActionMacrosViewModel : ActionViewModel
+public partial class ActionMacrosViewModel : ActionViewModel, ISelectableItemListViewModel
 {
     [ObservableProperty] [NotifyPropertyChangedFor(nameof(HasChanged))]
     private bool _excludeAssemblies;
