@@ -7,7 +7,9 @@
                     <StackPanel Spacing="15">
                         <Button Content="Normal" />
                         <Button Classes="small" Content="Small" />
+                        <Button Classes="small" Content="+" />
                         <Button Classes="smaller" Content="Smaller" />
+                        <Button Classes="smaller" Content="+" />
                         <Button Classes="subtle" Content="Subtle" />
                         <IconButton IconText="&#xe2c2;" Classes="subtle" Content="Icon Subtle" />
                         <IconButton IconText="&#xe2c2;" Classes="outline" Content="Icon Outline" />
@@ -56,14 +58,14 @@
     <Style Selector=":is(Button).small">
         <Setter Property="FontSize" Value="14"></Setter>
         <Setter Property="CornerRadius" Value="6"></Setter>
-        <Setter Property="Padding" Value="6 2 6 2"></Setter>
+        <Setter Property="Padding" Value="6 2 6 3"></Setter>
     </Style>
         
     <!-- Smaller button -->
     <Style Selector=":is(Button).smaller">
         <Setter Property="FontSize" Value="12"></Setter>
         <Setter Property="CornerRadius" Value="5"></Setter>
-        <Setter Property="Padding" Value="3 0 3 0"></Setter>
+        <Setter Property="Padding" Value="3 0 3 2"></Setter>
     </Style>
 
     <!-- Normal button -->

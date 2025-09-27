@@ -3,12 +3,11 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:BatchProcess3.ViewModels"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             mc:Ignorable="d" d:DesignWidth="1100" d:DesignHeight="900"
              Background="{DynamicResource PrimaryBackground}"
              Foreground="{DynamicResource PrimaryForeground}"
              x:DataType="vm:ProcessPageViewModel"
              x:Class="BatchProcess3.Views.ProcessPageView">
-    
     
     <Design.DataContext><vm:ProcessPageViewModel></vm:ProcessPageViewModel></Design.DataContext>
     
@@ -133,9 +132,35 @@
             </Grid>
             
             <!-- Available Actions Column -->
-            <Grid Grid.Column="2" RowDefinitions="Auto, 10, Auto, 10, Auto, 10, *">
+            <Grid Grid.Column="2" RowDefinitions="Auto, 10, Auto, 10, *, 10, Auto">
                 <Label Grid.Row="0" Classes="h2" Content="Available Actions" />
                 <TextBlock Grid.Row="2" TextWrapping="Wrap" Text="Select the actions you would like to add to the process and click Add or Drag-and-Drop onto the list." Margin="0 -10 0 10" />
+                
+                <ListBox Grid.Row="4" ItemsSource="{Binding AvailableActionsList}">
+                    <ListBox.ItemContainerTheme>
+                        <ControlTheme 
+                            TargetType="ListBoxItem"
+                            BasedOn="{StaticResource {x:Type ListBoxItem}}"
+                            x:DataType="vm:AvailableActionItemViewModel">
+                            <Setter Property="IsEnabled" Value="{Binding IsSelectable}" />
+                            <Setter Property="Padding" Value="{Binding Padding}"></Setter>
+                        </ControlTheme>
+                    </ListBox.ItemContainerTheme>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid ColumnDefinitions="Auto, 10, *, Auto">
+                                <TextBlock Grid.Column="0" Foreground="{StaticResource ActiveGradient}" FontWeight="Black" 
+                                           Text="{Binding Category}" 
+                                           IsVisible="{Binding ActionViewModel, Converter={x:Static ObjectConverters.IsNull}}" />
+                                <TextBlock Grid.Column="0" Padding="5" 
+                                           Text="{Binding ActionViewModel.JobName}" 
+                                           IsVisible="{Binding ActionViewModel, Converter={x:Static ObjectConverters.IsNotNull}}" />
+                                <Button Grid.Column="3" Classes="smaller success" Content="+" 
+                                        IsVisible="{Binding $parent[ListBoxItem].IsSelected}" />
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
                 
                 <StackPanel Grid.Row="6" 
                             VerticalAlignment="Bottom" 
