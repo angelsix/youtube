@@ -8,6 +8,7 @@ using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -82,6 +83,12 @@ public partial class ProcessPageViewModel : PageViewModel
                 ActionViewModel = f.ToViewModel(),
                 Category = category
             }));
+            
+            // Edit all the Id's
+            returnList.ForEach(f =>
+            {
+                if (f.ActionViewModel != null) f.ActionViewModel.Id = $"{f.ActionViewModel.SortOrder}:{f.ActionViewModel.Id}";
+            });
 
             return returnList;
         }
@@ -116,6 +123,27 @@ public partial class ProcessPageViewModel : PageViewModel
     }
 
     protected override void OnDesignTimeConstructor() => Initialize(new  MainViewModel(), new DialogService(() => null), new DatabaseService(new ApplicationDbContext()));
+    
+    #endregion
+    
+    #region Commands
+
+    [RelayCommand]
+    private void AddActionToProcess(AvailableActionItemViewModel item)
+    {
+        if (ProcessList.SelectedItem == null) return;
+
+        if (item.ActionViewModel == null) return;
+        
+        var copy = new AvailableActionItemViewModel();
+        copy.RestoreState(item.GetState());
+
+        // Make the Id start with the process Id
+        if (copy.ActionViewModel != null)
+            copy.ActionViewModel.Id = $"{ProcessList.SelectedItemId}:{item.ActionViewModel.Id}";
+        
+        ProcessList.SelectedItem.Actions.Add(copy.ActionViewModel!);
+    }
     
     #endregion
 }

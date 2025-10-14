@@ -1,8 +1,10 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BatchProcess3.DataStorage.DataModels;
 
+[Table("ActionPrint")]
 public class ActionPrintDataModel : ActionDataModel
 {
     [MaxLength(500)]

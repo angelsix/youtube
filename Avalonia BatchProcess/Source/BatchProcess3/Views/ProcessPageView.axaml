@@ -106,7 +106,7 @@
                         <DataTemplate x:DataType="vm:ActionViewModel">
                             <Grid ColumnDefinitions="*, 10, Auto">
                                 
-                                <Label FontWeight="Black" 
+                                <Label
                                        Content="{Binding JobName}"
                                        ToolTip.Tip="{Binding Description}"
                                        />
@@ -114,7 +114,7 @@
                                 <Panel Grid.Column="2">
                                     <Button Margin="0 -4 -4 -6"
                                             Command="{Binding $parent[ListBox].((vm:ProcessPageViewModel)DataContext).ProcessList.DeleteItemCommand}"
-                                            CommandParameter="{Binding SortOrder}"
+                                            CommandParameter="{Binding Id}"
                                             IsVisible="{Binding $parent[ListBoxItem].IsSelected}"
                                             VerticalAlignment="Center"
                                             Classes="smaller danger">
@@ -155,8 +155,10 @@
                                 <TextBlock Grid.Column="0" Padding="5" 
                                            Text="{Binding ActionViewModel.JobName}" 
                                            IsVisible="{Binding ActionViewModel, Converter={x:Static ObjectConverters.IsNotNull}}" />
-                                <Button Grid.Column="3" Classes="smaller success" Content="+" 
-                                        IsVisible="{Binding $parent[ListBoxItem].IsSelected}" />
+                                <Button Grid.Column="3" Classes="small success" Content="+" Margin="0 0 10 0"
+                                        IsVisible="{Binding $parent[ListBoxItem].IsSelected}"
+                                        Command="{Binding $parent[ListBox].((vm:ProcessPageViewModel)DataContext).AddActionToProcessCommand}"
+                                        CommandParameter="{Binding }" />
                             </Grid>
                         </DataTemplate>
                     </ListBox.ItemTemplate>

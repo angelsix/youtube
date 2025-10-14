@@ -1,9 +1,11 @@
 ﻿using BatchProcess3.CustomProperties;
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BatchProcess3.DataStorage.DataModels;
 
+[Table("ActionCustomProperties")]
 public class ActionCustomPropertiesDataModel : ActionDataModel
 {
     public CustomPropertiesRuleType RuleType { get; set; }

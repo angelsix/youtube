@@ -29,8 +29,13 @@ public partial class ProcessViewModel : ViewModelBase, ISelectableItemListViewMo
 
     [ObservableProperty] private bool _isNewItem;
 
-    [ObservableProperty]
     private ObservableCollection<ActionViewModel> _actions = [];
+    
+    public ObservableCollection<ActionViewModel> Actions
+    {
+        get => _actions;
+        set => this.SetAndObserveEverything(value, ref _actions, [nameof(HasChanged)]);
+    }
 
     public ProcessDataModel ToDataModel() => new()
     {
