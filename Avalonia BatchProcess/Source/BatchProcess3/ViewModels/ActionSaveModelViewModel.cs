@@ -4,12 +4,13 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Threading;
 
 namespace BatchProcess3.ViewModels;
 
 public partial class ActionSaveModelViewModel : ActionViewModel, ISelectableItemListViewModel
 {
-    private ObservableCollection<KeyValueViewModel<string, bool>> _exportFormats = [];
+    private ObservableCollection<KeyValueViewModel<string, bool>> _exportFormats;
 
     [ObservableProperty] [NotifyPropertyChangedFor(nameof(HasChanged))]
     private string _fileName = "";
@@ -24,6 +25,13 @@ public partial class ActionSaveModelViewModel : ActionViewModel, ISelectableItem
     {
         get => _exportFormats;
         set => this.SetAndObserveEverything(value, ref _exportFormats, [nameof(HasChanged)]);
+    }
+
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
+    public ActionSaveModelViewModel()
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
+    {
+        ExportFormats = [];
     }
 
     public new ActionSaveModelDataModel ToDataModel() => new()

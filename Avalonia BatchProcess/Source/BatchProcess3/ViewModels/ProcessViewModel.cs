@@ -29,12 +29,19 @@ public partial class ProcessViewModel : ViewModelBase, ISelectableItemListViewMo
 
     [ObservableProperty] private bool _isNewItem;
 
-    private ObservableCollection<ActionViewModel> _actions = [];
+    private ObservableCollection<ProcessActionViewModel> _actions;
     
-    public ObservableCollection<ActionViewModel> Actions
+    public ObservableCollection<ProcessActionViewModel> Actions
     {
         get => _actions;
         set => this.SetAndObserveEverything(value, ref _actions, [nameof(HasChanged)]);
+    }
+
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
+    public ProcessViewModel()
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
+    {
+        Actions = [];
     }
 
     public ProcessDataModel ToDataModel() => new()

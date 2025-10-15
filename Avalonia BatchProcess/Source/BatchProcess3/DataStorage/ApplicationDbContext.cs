@@ -51,6 +51,11 @@ public class ApplicationDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
+        
+        // Actions (Concrete type)
+        modelBuilder.Entity<ActionDataModel>()
+            .UseTpcMappingStrategy()
+            .HasKey(f => f.Id);
 
         // Settings
         modelBuilder.Entity<SettingsDataModel>()
@@ -71,13 +76,16 @@ public class ApplicationDbContext : DbContext
             .HasForeignKey(f => f.PrinterSettingsId)
             .OnDelete(DeleteBehavior.ClientCascade);
 
-        // Actions
-        modelBuilder.Entity<ActionDataModel>()
-            .HasKey(f => f.Id);
-
         // Processes
         modelBuilder.Entity<ProcessDataModel>()
             .HasKey(f => f.Id);
+        
+        // Process Actions
+        modelBuilder.Entity<ProcessDataModel>()
+            .HasMany(f => f.Actions)
+            .WithOne(f => f.Process)
+            .HasForeignKey(f => f.ProcessId)
+            .OnDelete(DeleteBehavior.ClientCascade);
     }
     
     #endregion

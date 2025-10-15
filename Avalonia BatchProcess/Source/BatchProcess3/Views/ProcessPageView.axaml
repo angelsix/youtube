@@ -113,8 +113,8 @@
                                 
                                 <Panel Grid.Column="2">
                                     <Button Margin="0 -4 -4 -6"
-                                            Command="{Binding $parent[ListBox].((vm:ProcessPageViewModel)DataContext).ProcessList.DeleteItemCommand}"
-                                            CommandParameter="{Binding Id}"
+                                            Command="{Binding $parent[ListBox].((vm:ProcessPageViewModel)DataContext).DeleteActionFromProcessCommand}"
+                                            CommandParameter="{Binding }"
                                             IsVisible="{Binding $parent[ListBoxItem].IsSelected}"
                                             VerticalAlignment="Center"
                                             Classes="smaller danger">

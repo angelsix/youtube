@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BatchProcess3.DataStorage.DataModels;
 
-[Table("Action")]
+// [Table("Action")]
 public class ActionDataModel
 {
     [MaxLength(100)]

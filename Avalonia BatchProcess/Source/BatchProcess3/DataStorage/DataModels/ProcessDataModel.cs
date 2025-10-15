@@ -15,5 +15,5 @@ public class ProcessDataModel
     [MaxLength(5000)]
     public string Description { get; set; } = "";
 
-    public List<ActionDataModel> Actions { get; set; } = [];
+    public List<ProcessActionDataModel> Actions { get; set; } = [];
 }

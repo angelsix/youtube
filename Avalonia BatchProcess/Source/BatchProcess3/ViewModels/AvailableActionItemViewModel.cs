@@ -8,7 +8,7 @@ public partial class AvailableActionItemViewModel : ViewModelBase
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(IsSelectable))]
     [NotifyPropertyChangedFor(nameof(Padding))]
-    private ActionViewModel? _actionViewModel;
+    private ProcessActionViewModel? _actionViewModel;
     
     [ObservableProperty]
     private string? _category;

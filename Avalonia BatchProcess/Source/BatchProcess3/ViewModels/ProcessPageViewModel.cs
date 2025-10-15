@@ -69,7 +69,7 @@ public partial class ProcessPageViewModel : PageViewModel
             updateItem: (item) => databaseService.UpdateProcessItem(item.ToDataModel())
         );
 
-        List<AvailableActionItemViewModel> ToAvailableActionList<T>(string category, List<T> list)
+        List<AvailableActionItemViewModel> ToAvailableActionList<T>(string category, List<T> list)                          
             where T : ActionDataModel
         {
             var returnList = new List<AvailableActionItemViewModel> {
@@ -80,7 +80,7 @@ public partial class ProcessPageViewModel : PageViewModel
             // Add items
             returnList.AddRange(list.Select(f => new AvailableActionItemViewModel
             {
-                ActionViewModel = f.ToViewModel(),
+                ActionViewModel = f.ToProcessActionViewModel(),
                 Category = category
             }));
             
@@ -144,6 +144,9 @@ public partial class ProcessPageViewModel : PageViewModel
         
         ProcessList.SelectedItem.Actions.Add(copy.ActionViewModel!);
     }
-    
+
+    [RelayCommand]
+    private void DeleteActionFromProcess(ProcessActionViewModel item) => ProcessList.SelectedItem?.Actions.Remove(item);
+
     #endregion
 }
