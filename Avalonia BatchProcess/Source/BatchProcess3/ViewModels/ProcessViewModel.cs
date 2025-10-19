@@ -61,6 +61,8 @@ public static class ProcessViewModelExtensions
             Id = dataModel.Id,
             JobName = dataModel.JobName,
             Description = dataModel.Description,
-            Actions = new (dataModel.Actions.Select(f => f.ToViewModel()))
+            Actions = new (dataModel.Actions
+                .Select(f => f.ToViewModel())
+                .OrderBy(f => f.SortOrder))
         };
 }
