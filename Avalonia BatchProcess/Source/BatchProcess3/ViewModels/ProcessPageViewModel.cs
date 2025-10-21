@@ -66,8 +66,11 @@ public partial class ProcessPageViewModel : PageViewModel
             },
             deleteItem: databaseService.DeleteProcessItem,
             addItem: (item) => databaseService.AddProcessItem(item.ToDataModel()),
-            updateItem: (item) => databaseService.UpdateProcessItem(item.ToDataModel())
-        );
+            updateItem: (item) =>
+            {
+                UpdateActionSortOrder();
+                databaseService.UpdateProcessItem(item.ToDataModel());
+            });
 
         List<AvailableActionItemViewModel> ToAvailableActionList<T>(string category, List<T> list)                          
             where T : ActionDataModel
@@ -146,6 +149,7 @@ public partial class ProcessPageViewModel : PageViewModel
         UpdateActionSortOrder();
     }
 
+    [RelayCommand]
     private void UpdateActionSortOrder()
     {
         if (ProcessList.SelectedItem == null) return;

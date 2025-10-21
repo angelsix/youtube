@@ -97,11 +97,18 @@
                 </Grid>
                 
                 <Label Grid.Row="6" Classes="h2" Content="Actions List" />
-                <TextBlock Grid.Row="8" Text="Selects the actions to be used in this process." Margin="0 -10 0 0" />
+                <TextBlock Grid.Row="8" x:Name="TestText" Text="Selects the actions to be used in this process." Margin="0 -10 0 0" />
 
-                <ListBox Grid.Row="12" 
+                <ListBox Grid.Row="12" Classes="draggable"
                          ItemsSource="{Binding ProcessList.SelectedItem.Actions}" 
                          SelectedValueBinding="{Binding Id}">
+                    
+                    <Interaction.Behaviors>
+                        <CollectionChangedTrigger Collection="{Binding ProcessList.SelectedItem.Actions}">
+                            <InvokeCommandAction Command="{Binding UpdateActionSortOrderCommand}" />
+                        </CollectionChangedTrigger>
+                    </Interaction.Behaviors>
+                    
                     <ListBox.ItemTemplate> 
                         <DataTemplate x:DataType="vm:ProcessActionViewModel">
                             <Grid ColumnDefinitions="*, 10, Auto">
@@ -136,7 +143,8 @@
                 <Label Grid.Row="0" Classes="h2" Content="Available Actions" />
                 <TextBlock Grid.Row="2" TextWrapping="Wrap" Text="Select the actions you would like to add to the process and click Add or Drag-and-Drop onto the list." Margin="0 -10 0 10" />
                 
-                <ListBox Grid.Row="4" ItemsSource="{Binding AvailableActionsList}">
+                <ListBox Grid.Row="4"
+                         ItemsSource="{Binding AvailableActionsList}">
                     <ListBox.ItemContainerTheme>
                         <ControlTheme 
                             TargetType="ListBoxItem"
