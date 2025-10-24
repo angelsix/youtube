@@ -11,6 +11,14 @@
     
     <Design.DataContext><vm:ProcessPageViewModel></vm:ProcessPageViewModel></Design.DataContext>
     
+    <UserControl.Styles>
+        <Styles>
+            <Style Selector="FlyoutPresenter">
+                <Setter Property="Padding" Value="0" />
+            </Style>
+        </Styles>
+    </UserControl.Styles>
+    
     <Grid ColumnDefinitions="*" RowDefinitions="Auto, *">
         <!-- Header -->
         <Grid Name="HeaderGrid">
@@ -100,7 +108,9 @@
                 <TextBlock Grid.Row="8" x:Name="TestText" Text="Selects the actions to be used in this process." Margin="0 -10 0 0" />
 
                 <ListBox Grid.Row="12" Classes="draggable"
+                         x:Name="ActionsListBox"
                          ItemsSource="{Binding ProcessList.SelectedItem.Actions}" 
+                         PointerReleased="InputElement_OnPointerReleased"
                          SelectedValueBinding="{Binding Id}">
                     
                     <Interaction.Behaviors>
@@ -109,6 +119,37 @@
                         </CollectionChangedTrigger>
                     </Interaction.Behaviors>
                     
+                    <FlyoutBase.AttachedFlyout>
+                        <Flyout Placement="Pointer">
+                            <ListBox BorderThickness="0" Padding="10" 
+                                ItemsSource="{Binding AvailableActionsList}">
+                                <ListBox.ItemContainerTheme>
+                                    <ControlTheme 
+                                        TargetType="ListBoxItem"
+                                        BasedOn="{StaticResource {x:Type ListBoxItem}}"
+                                        x:DataType="vm:AvailableActionItemViewModel">
+                                        <Setter Property="IsEnabled" Value="{Binding IsSelectable}" />
+                                        <Setter Property="Padding" Value="0"></Setter>
+                                    </ControlTheme>
+                                </ListBox.ItemContainerTheme>
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border PointerReleased="ActionContextMenu_OnPointerReleased" Background="Transparent">
+                                            <Grid ColumnDefinitions="Auto, 10, *, Auto" Margin="5">
+                                                <TextBlock Grid.Column="0" Foreground="{StaticResource ActiveGradient}" FontWeight="Black" 
+                                                           Text="{Binding Category}" 
+                                                           IsVisible="{Binding ActionViewModel, Converter={x:Static ObjectConverters.IsNull}}" />
+                                                <TextBlock Grid.Column="0" Padding="5" 
+                                                           Text="{Binding ActionViewModel.JobName}" 
+                                                           IsVisible="{Binding ActionViewModel, Converter={x:Static ObjectConverters.IsNotNull}}" />
+                                            </Grid>
+                                        </Border>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                        </Flyout>
+                    </FlyoutBase.AttachedFlyout>
+                        
                     <ListBox.ItemTemplate> 
                         <DataTemplate x:DataType="vm:ProcessActionViewModel">
                             <Grid ColumnDefinitions="*, 10, Auto">

@@ -126,9 +126,9 @@ public partial class ProcessPageViewModel : PageViewModel
     #region Commands
 
     [RelayCommand]
-    private void AddActionToProcess(AvailableActionItemViewModel item) => InsertActionToProcess(item, -1);
+    public void AddActionToProcess(AvailableActionItemViewModel item) => InsertActionToProcess(item, -1);
     
-    private void InsertActionToProcess(AvailableActionItemViewModel item, int index)
+    public void InsertActionToProcess(AvailableActionItemViewModel item, int index)
     {
         if (ProcessList.SelectedItem == null) return;
 
