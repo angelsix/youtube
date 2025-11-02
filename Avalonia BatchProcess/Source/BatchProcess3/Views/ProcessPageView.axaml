@@ -19,7 +19,9 @@
         </Styles>
     </UserControl.Styles>
     
+    <!-- Header / Main Content Rows -->
     <Grid ColumnDefinitions="*" RowDefinitions="Auto, *">
+        
         <!-- Header -->
         <Grid Name="HeaderGrid">
             <StackPanel Height="100" ClipToBounds="True">
@@ -32,193 +34,51 @@
             </StackPanel>
         </Grid>
 
+        <!-- 3 Columns Outer padding -->
         <Border Grid.Row="1" Padding="25">
+            
+            <!-- 3 Main Columns -->
             <Grid ColumnDefinitions="*, 30, 3*">
-        <!-- Print List Column -->
-        <Grid RowDefinitions="Auto, 10, Auto, 10, Auto, 10, *">
-            <Label Classes="h2" Content="Processes" />
-            <TextBlock Grid.Row="2" Text="A list of processes. Each process is a set of actions to be performed on each file in a job." TextWrapping="Wrap" Margin="0 -10 0 10"></TextBlock>
-            <Button Grid.Row="4" Classes="small outline" Content="New Process" Command="{Binding ProcessList.AddNewItemCommand}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" />
-            <ListBox Grid.Row="6" 
-                     SelectionChanged="SelectingItemsControl_OnSelectionChanged"
-                     ItemsSource="{Binding ProcessList.List}" 
-                     SelectedValueBinding="{Binding Id}"
-                     SelectedValue="{Binding ProcessList.SelectedItemId}">
-                <ListBox.ItemTemplate>
-                    <DataTemplate x:DataType="vm:ProcessViewModel">
-                        <Grid ColumnDefinitions="*, Auto">
-                            <Label Grid.Column="0" 
-                                   FontWeight="{Binding HasChanged, Converter={StaticResource BooleanToBoldFontConverter}}"
-                                   Content="{Binding JobName}" 
-                                   VerticalAlignment="Center" />
-                            <Button Grid.Column="1"
-                                    Margin="0 -4 -4 -6"
-                                    Command="{Binding $parent[ListBox].((vm:ProcessPageViewModel)DataContext).ProcessList.DeleteItemCommand}"
-                                    CommandParameter="{Binding Id}"
-                                    IsVisible="{Binding $parent[ListBoxItem].IsSelected}"
-                                    VerticalAlignment="Center"
-                                    Classes="smaller danger">
-                                <Label Classes="icon-only icon-outline" Content="&#xe4a6;" />
-                            </Button>
-                        </Grid>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
                 
-            </ListBox>
-        </Grid>
-        
-        <StackPanel Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10" Opacity="{Binding !ProcessList.HasItems}">
-            <StackPanel.Styles>
-                <Style Selector="StackPanel">
-                    <Setter Property="Transitions">
-                        <Transitions>
-                            <DoubleTransition Property="Opacity" Duration="0:0:0.1"></DoubleTransition>
-                        </Transitions>
-                    </Setter>
-                </Style>
-            </StackPanel.Styles>
-            <TextBlock Text="Processes can be used to run a set of actions on a set of files." HorizontalAlignment="Center" />
-            <TextBlock Text="To get started, create a new Process." HorizontalAlignment="Center" />
-            <Button Content="New Process" HorizontalAlignment="Center" Command="{Binding ProcessList.AddNewItemCommand}" Margin="20" />
-        </StackPanel>
-        
-        <Grid Grid.Column="2" ColumnDefinitions="*, 30, *" Opacity="{Binding ProcessList.HasItems}">
-            <Grid.Styles>
-                <Style Selector="Grid">
-                    <Setter Property="Transitions">
-                        <Transitions>
-                            <DoubleTransition Property="Opacity" Duration="0:0:0.1"></DoubleTransition>
-                        </Transitions>
-                    </Setter>
-                </Style>
-            </Grid.Styles>
-
-            <!-- General Settings Column -->
-            <Grid Grid.Column="0" RowDefinitions="Auto, 10, Auto, 10, Auto, 10, Auto, 10, Auto, 10, Auto, 10 *">
-                <Label Classes="h2" Content="General Settings" />
-                <TextBlock Grid.Row="2" Text="Set the main properties of the process." Margin="0 -10 0 10" />
-                <Grid Grid.Row="4" ColumnDefinitions="140, 15, *" RowDefinitions="Auto, 15, Auto">
-                    <Label Grid.Row="0" Grid.Column="0" Content="Job Name" VerticalAlignment="Center" />
-                    <TextBox Name="JobNameTextBox" Grid.Row="0" Grid.Column="2" Text="{Binding  ProcessList.SelectedItem.JobName}" />
-                    <Label Grid.Row="2" Grid.Column="0" Content="Description" />
-                    <TextBox Grid.Row="2" Grid.Column="2" AcceptsReturn="True" Text="{Binding  ProcessList.SelectedItem.Description}" Height="80" TextWrapping="Wrap" />
-                </Grid>
-                
-                <Label Grid.Row="6" Classes="h2" Content="Actions List" />
-                <TextBlock Grid.Row="8" x:Name="TestText" Text="Selects the actions to be used in this process." Margin="0 -10 0 0" />
-
-                <ListBox Grid.Row="12" Classes="draggable"
-                         x:Name="ActionsListBox"
-                         ItemsSource="{Binding ProcessList.SelectedItem.Actions}" 
-                         PointerReleased="InputElement_OnPointerReleased"
-                         SelectedValueBinding="{Binding Id}">
+                <!-- Processes Column -->
+                <Grid RowDefinitions="Auto, 10, Auto, 10, Auto, 10, *">
                     
-                    <Interaction.Behaviors>
-                        <CollectionChangedTrigger Collection="{Binding ProcessList.SelectedItem.Actions}">
-                            <InvokeCommandAction Command="{Binding UpdateActionSortOrderCommand}" />
-                        </CollectionChangedTrigger>
-                    </Interaction.Behaviors>
+                    <Label Classes="h2" Content="Processes" />
+                    <TextBlock Grid.Row="2" Text="A list of processes. Each process is a set of actions to be performed on each file in a job." TextWrapping="Wrap" Margin="0 -10 0 10"></TextBlock>
+                    <Button Grid.Row="4" Classes="small outline" Content="New Process" Command="{Binding ProcessList.AddNewItemCommand}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" />
                     
-                    <FlyoutBase.AttachedFlyout>
-                        <Flyout Placement="Pointer">
-                            <ListBox BorderThickness="0" Padding="10" 
-                                ItemsSource="{Binding AvailableActionsList}">
-                                <ListBox.ItemContainerTheme>
-                                    <ControlTheme 
-                                        TargetType="ListBoxItem"
-                                        BasedOn="{StaticResource {x:Type ListBoxItem}}"
-                                        x:DataType="vm:AvailableActionItemViewModel">
-                                        <Setter Property="IsEnabled" Value="{Binding IsSelectable}" />
-                                        <Setter Property="Padding" Value="0"></Setter>
-                                    </ControlTheme>
-                                </ListBox.ItemContainerTheme>
-                                <ListBox.ItemTemplate>
-                                    <DataTemplate>
-                                        <Border PointerReleased="ActionContextMenu_OnPointerReleased" Background="Transparent">
-                                            <Grid ColumnDefinitions="Auto, 10, *, Auto" Margin="5">
-                                                <TextBlock Grid.Column="0" Foreground="{StaticResource ActiveGradient}" FontWeight="Black" 
-                                                           Text="{Binding Category}" 
-                                                           IsVisible="{Binding ActionViewModel, Converter={x:Static ObjectConverters.IsNull}}" />
-                                                <TextBlock Grid.Column="0" Padding="5" 
-                                                           Text="{Binding ActionViewModel.JobName}" 
-                                                           IsVisible="{Binding ActionViewModel, Converter={x:Static ObjectConverters.IsNotNull}}" />
-                                            </Grid>
-                                        </Border>
-                                    </DataTemplate>
-                                </ListBox.ItemTemplate>
-                            </ListBox>
-                        </Flyout>
-                    </FlyoutBase.AttachedFlyout>
-                        
-                    <ListBox.ItemTemplate> 
-                        <DataTemplate x:DataType="vm:ProcessActionViewModel">
-                            <Grid ColumnDefinitions="*, 10, Auto">
-                                
-                                <Label
-                                       Content="{Binding JobName}"
-                                       ToolTip.Tip="{Binding Description}"
-                                       />
-                                
-                                <Panel Grid.Column="2">
-                                    <Button Margin="0 -4 -4 -6"
-                                            Command="{Binding $parent[ListBox].((vm:ProcessPageViewModel)DataContext).DeleteActionFromProcessCommand}"
-                                            CommandParameter="{Binding }"
+                    <!-- Process List -->
+                    <ListBox Grid.Row="6" 
+                             SelectionChanged="SelectingItemsControl_OnSelectionChanged"
+                             ItemsSource="{Binding ProcessList.List}" 
+                             SelectedValueBinding="{Binding Id}"
+                             SelectedValue="{Binding ProcessList.SelectedItemId}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate x:DataType="vm:ProcessViewModel">
+                                <Grid ColumnDefinitions="*, Auto">
+                                    <Label Grid.Column="0" 
+                                           FontWeight="{Binding HasChanged, Converter={StaticResource BooleanToBoldFontConverter}}"
+                                           Content="{Binding JobName}" 
+                                           VerticalAlignment="Center" />
+                                    <Button Grid.Column="1"
+                                            Margin="0 -4 -4 -6"
+                                            Command="{Binding $parent[ListBox].((vm:ProcessPageViewModel)DataContext).ProcessList.DeleteItemCommand}"
+                                            CommandParameter="{Binding Id}"
                                             IsVisible="{Binding $parent[ListBoxItem].IsSelected}"
                                             VerticalAlignment="Center"
                                             Classes="smaller danger">
                                         <Label Classes="icon-only icon-outline" Content="&#xe4a6;" />
                                     </Button>
-                                </Panel>
-                            </Grid>
-                            
-                        </DataTemplate>
+                                </Grid>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
                         
-                    </ListBox.ItemTemplate>
+                    </ListBox>
                     
-                </ListBox>
+                </Grid>
                 
-            </Grid>
-            
-            <!-- Available Actions Column -->
-            <Grid Grid.Column="2" RowDefinitions="Auto, 10, Auto, 10, *, 10, Auto">
-                <Label Grid.Row="0" Classes="h2" Content="Available Actions" />
-                <TextBlock Grid.Row="2" TextWrapping="Wrap" Text="Select the actions you would like to add to the process and click Add or Drag-and-Drop onto the list." Margin="0 -10 0 10" />
-                
-                <ListBox Grid.Row="4"
-                         ItemsSource="{Binding AvailableActionsList}">
-                    <ListBox.ItemContainerTheme>
-                        <ControlTheme 
-                            TargetType="ListBoxItem"
-                            BasedOn="{StaticResource {x:Type ListBoxItem}}"
-                            x:DataType="vm:AvailableActionItemViewModel">
-                            <Setter Property="IsEnabled" Value="{Binding IsSelectable}" />
-                            <Setter Property="Padding" Value="{Binding Padding}"></Setter>
-                        </ControlTheme>
-                    </ListBox.ItemContainerTheme>
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <Grid ColumnDefinitions="Auto, 10, *, Auto">
-                                <TextBlock Grid.Column="0" Foreground="{StaticResource ActiveGradient}" FontWeight="Black" 
-                                           Text="{Binding Category}" 
-                                           IsVisible="{Binding ActionViewModel, Converter={x:Static ObjectConverters.IsNull}}" />
-                                <TextBlock Grid.Column="0" Padding="5" 
-                                           Text="{Binding ActionViewModel.JobName}" 
-                                           IsVisible="{Binding ActionViewModel, Converter={x:Static ObjectConverters.IsNotNull}}" />
-                                <Button Grid.Column="3" Classes="small success" Content="+" Margin="0 0 10 0"
-                                        IsVisible="{Binding $parent[ListBoxItem].IsSelected}"
-                                        Command="{Binding $parent[ListBox].((vm:ProcessPageViewModel)DataContext).AddActionToProcessCommand}"
-                                        CommandParameter="{Binding }" />
-                            </Grid>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
-                
-                <StackPanel Grid.Row="6" 
-                            VerticalAlignment="Bottom" 
-                            HorizontalAlignment="Right" 
-                            Orientation="Horizontal" 
-                            Spacing="10"
-                            Opacity="{Binding ProcessList.SelectedItem.HasChanged, FallbackValue=0}">
+                <!-- No items overlay -->
+                <StackPanel Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10" Opacity="{Binding !ProcessList.HasItems}">
                     <StackPanel.Styles>
                         <Style Selector="StackPanel">
                             <Setter Property="Transitions">
@@ -228,15 +88,173 @@
                             </Setter>
                         </Style>
                     </StackPanel.Styles>
-                    <Button Content="Cancel" Classes="outline" Command="{Binding ProcessList.CancelItemCommand}"></Button>
-                    <Button Content="Save" Classes="success" Command="{Binding ProcessList.SaveItemCommand}"></Button>
+                    <TextBlock Text="Processes can be used to run a set of actions on a set of files." HorizontalAlignment="Center" />
+                    <TextBlock Text="To get started, create a new Process." HorizontalAlignment="Center" />
+                    <Button Content="New Process" HorizontalAlignment="Center" Command="{Binding ProcessList.AddNewItemCommand}" Margin="20" />
                 </StackPanel>
+                
+                <!-- Right 2 columns -->
+                <Grid Grid.Column="2" ColumnDefinitions="*, 30, *" Opacity="{Binding ProcessList.HasItems}">
+                    
+                    <!-- Styles -->
+                    <Grid.Styles>
+                        <Style Selector="Grid">
+                            <Setter Property="Transitions">
+                                <Transitions>
+                                    <DoubleTransition Property="Opacity" Duration="0:0:0.1"></DoubleTransition>
+                                </Transitions>
+                            </Setter>
+                        </Style>
+                    </Grid.Styles>
+
+                    <!-- General Settings Column -->
+                    <Grid Grid.Column="0" RowDefinitions="Auto, 10, Auto, 10, Auto, 10, Auto, 10, Auto, 10, Auto, 10 *">
+                        <Label Classes="h2" Content="General Settings" />
+                        <TextBlock Grid.Row="2" Text="Set the main properties of the process." Margin="0 -10 0 10" />
+                        <Grid Grid.Row="4" ColumnDefinitions="140, 15, *" RowDefinitions="Auto, 15, Auto">
+                            <Label Grid.Row="0" Grid.Column="0" Content="Job Name" VerticalAlignment="Center" />
+                            <TextBox Name="JobNameTextBox" Grid.Row="0" Grid.Column="2" Text="{Binding  ProcessList.SelectedItem.JobName}" />
+                            <Label Grid.Row="2" Grid.Column="0" Content="Description" />
+                            <TextBox Grid.Row="2" Grid.Column="2" AcceptsReturn="True" Text="{Binding  ProcessList.SelectedItem.Description}" Height="80" TextWrapping="Wrap" />
+                        </Grid>
+                        
+                        <Label Grid.Row="6" Classes="h2" Content="Actions List" />
+                        <TextBlock Grid.Row="8" x:Name="TestText" Text="Selects the actions to be used in this process." Margin="0 -10 0 0" />
+
+                        <ListBox Grid.Row="12" Classes="draggable"
+                                 x:Name="ActionsListBox"
+                                 ItemsSource="{Binding ProcessList.SelectedItem.Actions}" 
+                                 PointerReleased="InputElement_OnPointerReleased"
+                                 SelectedValueBinding="{Binding Id}">
+                            
+                            <Interaction.Behaviors>
+                                <CollectionChangedTrigger Collection="{Binding ProcessList.SelectedItem.Actions}">
+                                    <InvokeCommandAction Command="{Binding UpdateActionSortOrderCommand}" />
+                                </CollectionChangedTrigger>
+                            </Interaction.Behaviors>
+                            
+                            <FlyoutBase.AttachedFlyout>
+                                <Flyout Placement="Pointer">
+                                    <ListBox BorderThickness="0" Padding="10" 
+                                        ItemsSource="{Binding AvailableActionsList}">
+                                        <ListBox.ItemContainerTheme>
+                                            <ControlTheme 
+                                                TargetType="ListBoxItem"
+                                                BasedOn="{StaticResource {x:Type ListBoxItem}}"
+                                                x:DataType="vm:AvailableActionItemViewModel">
+                                                <Setter Property="IsEnabled" Value="{Binding IsSelectable}" />
+                                                <Setter Property="Padding" Value="0"></Setter>
+                                            </ControlTheme>
+                                        </ListBox.ItemContainerTheme>
+                                        <ListBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <Border PointerReleased="ActionContextMenu_OnPointerReleased" Background="Transparent">
+                                                    <Grid ColumnDefinitions="Auto, 10, *, Auto" Margin="5">
+                                                        <TextBlock Grid.Column="0" Foreground="{StaticResource ActiveGradient}" FontWeight="Black" 
+                                                                   Text="{Binding Category}" 
+                                                                   IsVisible="{Binding ActionViewModel, Converter={x:Static ObjectConverters.IsNull}}" />
+                                                        <TextBlock Grid.Column="0" Padding="5" 
+                                                                   Text="{Binding ActionViewModel.JobName}" 
+                                                                   IsVisible="{Binding ActionViewModel, Converter={x:Static ObjectConverters.IsNotNull}}" />
+                                                    </Grid>
+                                                </Border>
+                                            </DataTemplate>
+                                        </ListBox.ItemTemplate>
+                                    </ListBox>
+                                </Flyout>
+                            </FlyoutBase.AttachedFlyout>
+                                
+                            <ListBox.ItemTemplate> 
+                                <DataTemplate x:DataType="vm:ProcessActionViewModel">
+                                    <Grid ColumnDefinitions="*, 10, Auto">
+                                        
+                                        <Label
+                                               Content="{Binding JobName}"
+                                               ToolTip.Tip="{Binding Description}"
+                                               />
+                                        
+                                        <Panel Grid.Column="2">
+                                            <Button Margin="0 -4 -4 -6"
+                                                    Command="{Binding $parent[ListBox].((vm:ProcessPageViewModel)DataContext).DeleteActionFromProcessCommand}"
+                                                    CommandParameter="{Binding }"
+                                                    IsVisible="{Binding $parent[ListBoxItem].IsSelected}"
+                                                    VerticalAlignment="Center"
+                                                    Classes="smaller danger">
+                                                <Label Classes="icon-only icon-outline" Content="&#xe4a6;" />
+                                            </Button>
+                                        </Panel>
+                                    </Grid>
+                                    
+                                </DataTemplate>
+                                
+                            </ListBox.ItemTemplate>
+                            
+                        </ListBox>
+                        
+                    </Grid>
+                    
+                    <!-- Available Actions Column -->
+                    <Grid Grid.Column="2" RowDefinitions="Auto, 10, Auto, 10, *, 10, Auto">
+                        <Label Grid.Row="0" Classes="h2" Content="Available Actions" />
+                        <TextBlock Grid.Row="2" TextWrapping="Wrap" Text="Select the actions you would like to add to the process and click Add or Drag-and-Drop onto the list." Margin="0 -10 0 10" />
+                        
+                        <!-- Actions List -->
+                        <ListBox Grid.Row="4"
+                                 ItemsSource="{Binding AvailableActionsList}">
+                            <ListBox.ItemContainerTheme>
+                                <ControlTheme 
+                                    TargetType="ListBoxItem"
+                                    BasedOn="{StaticResource {x:Type ListBoxItem}}"
+                                    x:DataType="vm:AvailableActionItemViewModel">
+                                    <Setter Property="IsEnabled" Value="{Binding IsSelectable}" />
+                                    <Setter Property="Padding" Value="{Binding Padding}"></Setter>
+                                </ControlTheme>
+                            </ListBox.ItemContainerTheme>
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid ColumnDefinitions="Auto, 10, *, Auto">
+                                        <TextBlock Grid.Column="0" Foreground="{StaticResource ActiveGradient}" FontWeight="Black" 
+                                                   Text="{Binding Category}" 
+                                                   IsVisible="{Binding ActionViewModel, Converter={x:Static ObjectConverters.IsNull}}" />
+                                        <TextBlock Grid.Column="0" Padding="5" 
+                                                   Text="{Binding ActionViewModel.JobName}" 
+                                                   IsVisible="{Binding ActionViewModel, Converter={x:Static ObjectConverters.IsNotNull}}" />
+                                        <Button Grid.Column="3" Classes="small success" Content="+" Margin="0 0 10 0"
+                                                IsVisible="{Binding $parent[ListBoxItem].IsSelected}"
+                                                Command="{Binding $parent[ListBox].((vm:ProcessPageViewModel)DataContext).AddActionToProcessCommand}"
+                                                CommandParameter="{Binding }" />
+                                    </Grid>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                        
+                        <!-- Cancel / Save Buttons -->
+                        <StackPanel Grid.Row="6" 
+                                    VerticalAlignment="Bottom" 
+                                    HorizontalAlignment="Right" 
+                                    Orientation="Horizontal" 
+                                    Spacing="10"
+                                    Opacity="{Binding ProcessList.SelectedItem.HasChanged, FallbackValue=0}">
+                            <StackPanel.Styles>
+                                <Style Selector="StackPanel">
+                                    <Setter Property="Transitions">
+                                        <Transitions>
+                                            <DoubleTransition Property="Opacity" Duration="0:0:0.1"></DoubleTransition>
+                                        </Transitions>
+                                    </Setter>
+                                </Style>
+                            </StackPanel.Styles>
+                            <Button Content="Cancel" Classes="outline" Command="{Binding ProcessList.CancelItemCommand}"></Button>
+                            <Button Content="Save" Classes="success" Command="{Binding ProcessList.SaveItemCommand}"></Button>
+                        </StackPanel>
+                    </Grid>
+            
+                </Grid>
+                
             </Grid>
-    
-        </Grid>
-        
-    </Grid>
+            
         </Border>
+        
     </Grid>
     
 </UserControl>
