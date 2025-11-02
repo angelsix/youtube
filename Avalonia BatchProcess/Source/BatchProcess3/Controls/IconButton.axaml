@@ -1,80 +1,86 @@
 ﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     x:ClassModifier="internal">
-  <Design.PreviewWith>
-    <Border Padding="20" Background="{DynamicResource PrimaryBackground}">
-      <Grid ColumnDefinitions="*, 30, *">
-        <StackPanel Spacing="20">
-          <IconButton IconText="&#xe7f2;" Height="100" Content="Click Me!" />
-          <IconButton IconText="&#xe7f2;" Content="Click Me!" />
-          <IconButton IconText="&#xe7f2;" />
-          <IconButton IconText="&#xe3e4;" Foreground="Red" Classes="accent" Content="Click Me!" />
-          <IconButton IconText="&#xe3e4;" Classes="outline" Content="Click Me!" />
-          <Button Content="Click Me!" />
-          <Button Classes="accent" Content="Click Me!" />
-        </StackPanel>
-        
-        <StackPanel Grid.Column="2" Spacing="20">
-          <IconButton IconText="&#xe7f2;" IsEnabled="False" Height="100" Content="Click Me!" />
-          <IconButton IconText="&#xe7f2;" IsEnabled="False" Content="Click Me!" />
-          <IconButton IconText="&#xe7f2;" IsEnabled="False" />
-          <IconButton IconText="&#xe3e4;" IsEnabled="False" Foreground="Red" Classes="accent" Content="Click Me!" />
-          <IconButton IconText="&#xe3e4;" IsEnabled="False" Classes="outline" Content="Click Me!" />
-          <Button Content="Click Me!" IsEnabled="False" />
-          <Button Classes="accent" Content="Click Me!" IsEnabled="False" />
-        </StackPanel>
-        
-      </Grid>
-    </Border>
-  </Design.PreviewWith>
+    <Design.PreviewWith>
+        <Border Padding="20" Background="{DynamicResource PrimaryBackground}">
+            <Grid ColumnDefinitions="*, 30, *">
+                <StackPanel Spacing="20">
+                    <IconButton IconText="&#xe7f2;" Height="100" Content="Click Me!" />
+                    <IconButton IconText="&#xe7f2;" Content="Click Me!" />
+                    <IconButton IconText="&#xe7f2;" />
+                    <IconButton IconText="&#xe3e4;" Foreground="Red" Classes="accent" Content="Click Me!" />
+                    <IconButton IconText="&#xe3e4;" Classes="outline icon-outline" Content="Click Me!" />
+                    <Button Content="Click Me!" />
+                    <Button Classes="accent" Content="Click Me!" />
+                </StackPanel>
 
-  <ControlTheme x:Key="{x:Type IconButton}" TargetType="IconButton">
-    <Setter Property="Background" Value="{DynamicResource ButtonBackground}" />
-    <Setter Property="Foreground" Value="{DynamicResource ButtonForeground}" />
-    <Setter Property="BorderBrush" Value="{DynamicResource ButtonBorderBrush}" />
-    <Setter Property="BorderThickness" Value="{DynamicResource ButtonBorderThemeThickness}" />
-    <Setter Property="CornerRadius" Value="{DynamicResource ControlCornerRadius}" />
-    <Setter Property="Padding" Value="{DynamicResource ButtonPadding}" />
-    <Setter Property="HorizontalAlignment" Value="Left" />
-    <Setter Property="VerticalAlignment" Value="Center" />
-    <Setter Property="RenderTransform" Value="none" />
-    <Setter Property="Transitions">
-      <Transitions>
-        <TransformOperationsTransition Property="RenderTransform" Duration="0:0:.075" />
-      </Transitions>
-    </Setter>
+                <StackPanel Grid.Column="2" Spacing="20">
+                    <IconButton IconText="&#xe7f2;" IsEnabled="False" Height="100" Content="Click Me!" />
+                    <IconButton IconText="&#xe7f2;" IsEnabled="False" Content="Click Me!" />
+                    <IconButton IconText="&#xe7f2;" IsEnabled="False" />
+                    <IconButton IconText="&#xe3e4;" IsEnabled="False" Foreground="Red" Classes="accent"
+                                Content="Click Me!" />
+                    <IconButton IconText="&#xe3e4;" IsEnabled="False" Classes="outline icon-outline" Content="Click Me!" />
+                    <Button Content="Click Me!" IsEnabled="False" />
+                    <Button Classes="accent" Content="Click Me!" IsEnabled="False" />
+                </StackPanel>
 
-    <Setter Property="Template">
-      <ControlTemplate>
-        <Border Background="{TemplateBinding Background}"
-                BorderBrush="{TemplateBinding BorderBrush}"
-                BorderThickness="{TemplateBinding BorderThickness}"
-                CornerRadius="{TemplateBinding CornerRadius}"
-                Padding="{TemplateBinding Padding}">
-          <StackPanel Orientation="Horizontal">
-            <Border Margin="0 0 -4 0">
-              <Label VerticalAlignment="Center"
-                     Foreground="{Binding $parent[IconButton].Foreground}" 
-                     Classes="icon"
-                     Content="{Binding $parent[IconButton].IconText}" />
-            </Border>
-            <ContentPresenter Content="{TemplateBinding Content}">
-              <ContentPresenter.ContentTemplate>
-                <DataTemplate DataType="x:Object">
-                    <ContentControl 
-                      VerticalAlignment="Center" 
-                      Margin="8 0 0 0"
-                      Foreground="{Binding $parent[IconButton].Foreground}"
-                      DataContext="{Binding $parent[IconButton].DataContext}" 
-                      Content="{Binding $parent[IconButton].Content}" />
-                </DataTemplate>
-              </ContentPresenter.ContentTemplate>
-            </ContentPresenter>
-          </StackPanel>
+            </Grid>
         </Border>
-      </ControlTemplate>
-    </Setter>
-    
+    </Design.PreviewWith>
+
+    <ControlTheme x:Key="{x:Type IconButton}" TargetType="IconButton">
+        <Setter Property="Background" Value="{DynamicResource ButtonBackground}" />
+        <Setter Property="Foreground" Value="{DynamicResource ButtonForeground}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource ButtonBorderBrush}" />
+        <Setter Property="BorderThickness" Value="{DynamicResource ButtonBorderThemeThickness}" />
+        <Setter Property="CornerRadius" Value="{DynamicResource ControlCornerRadius}" />
+        <Setter Property="Padding" Value="{DynamicResource ButtonPadding}" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="RenderTransform" Value="none" />
+        <Setter Property="Transitions">
+            <Transitions>
+                <TransformOperationsTransition Property="RenderTransform" Duration="0:0:.075" />
+            </Transitions>
+        </Setter>
+
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        CornerRadius="{TemplateBinding CornerRadius}"
+                        Padding="{TemplateBinding Padding}">
+                    <StackPanel Orientation="Horizontal">
+                        <Border Margin="-3 0 -4 0">
+                            <Label Name="IconLabel"
+                                   VerticalAlignment="Center"
+                                   Foreground="{Binding $parent[IconButton].Foreground}"
+                                   Content="{Binding $parent[IconButton].IconText}" />
+                        </Border>
+                        <ContentPresenter Content="{TemplateBinding Content}">
+                            <ContentPresenter.ContentTemplate>
+                                <DataTemplate DataType="x:Object">
+                                    <ContentControl
+                                        VerticalAlignment="Center"
+                                        Margin="8 0 0 0"
+                                        Foreground="{Binding $parent[IconButton].Foreground}"
+                                        DataContext="{Binding $parent[IconButton].DataContext}"
+                                        Content="{Binding $parent[IconButton].Content}" />
+                                </DataTemplate>
+                            </ContentPresenter.ContentTemplate>
+                        </ContentPresenter>
+                    </StackPanel>
+                </Border>
+            </ControlTemplate>
+        </Setter>
+
+        <!-- Icon Font (set in style so can be overridden) -->
+        <Style Selector="^ /template/ Label#IconLabel">
+            <Setter Property="FontFamily" Value="{DynamicResource PhosphorFill}" />
+        </Style>
+
         <!-- Button Styles -->
         <Style Selector="^:is(Button)">
             <Setter Property="FontSize" Value="17"></Setter>
@@ -262,6 +268,6 @@
             <Setter Property="Foreground" Value="{DynamicResource PrimaryBackground}"></Setter>
         </Style>
 
-    
-  </ControlTheme>
+
+    </ControlTheme>
 </ResourceDictionary>
