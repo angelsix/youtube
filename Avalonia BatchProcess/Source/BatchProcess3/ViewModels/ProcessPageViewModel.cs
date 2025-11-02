@@ -1,4 +1,5 @@
 ﻿
+using BatchProcess3.Actions;
 using BatchProcess3.DataStorage;
 using BatchProcess3.DataStorage.DataModels;
 using BatchProcess3.Dialog;
@@ -21,6 +22,7 @@ public partial class ProcessPageViewModel : PageViewModel
     private DatabaseService _databaseService;
     private MainViewModel _mainViewModel;
     private DialogService _dialogService;
+    private ActionService _actionService;
     
     #endregion
     
@@ -37,16 +39,22 @@ public partial class ProcessPageViewModel : PageViewModel
     public ProcessPageViewModel(
         MainViewModel mainViewModel,
         DialogService dialogService, 
-        DatabaseService databaseService) : base(ApplicationPageNames.Process)
+        DatabaseService databaseService,
+        ActionService actionService) : base(ApplicationPageNames.Process)
     {
-        Initialize(mainViewModel, dialogService, databaseService);
+        Initialize(mainViewModel, dialogService, databaseService, actionService);
     }
 
-    private void Initialize(MainViewModel mainViewModel, DialogService dialogService, DatabaseService databaseService)
+    private void Initialize(
+        MainViewModel mainViewModel, 
+        DialogService dialogService, 
+        DatabaseService databaseService,
+        ActionService actionService)
     {
         _mainViewModel = mainViewModel;
         _dialogService = dialogService;
         _databaseService = databaseService;
+        _actionService = actionService;
         
         ProcessList = new SelectableItemListViewModel<ProcessViewModel>(
             title: "Process",
@@ -72,54 +80,18 @@ public partial class ProcessPageViewModel : PageViewModel
                 databaseService.UpdateProcessItem(item.ToDataModel());
             });
 
-        List<AvailableActionItemViewModel> ToAvailableActionList<T>(string category, List<T> list)                          
-            where T : ActionDataModel
-        {
-            var returnList = new List<AvailableActionItemViewModel> {
-                // Add header
-                new() { Category = category } 
-            };
-
-            // Add items
-            returnList.AddRange(list.Select(f => new AvailableActionItemViewModel
-            {
-                ActionViewModel = f.ToProcessActionViewModel(),
-                Category = category
-            }));
-            
-            return returnList;
-        }
-
-        var prints = ToAvailableActionList("Print", databaseService.GetPrintList());
-        var customProperties = ToAvailableActionList("Custom Properties", databaseService.GetCustomPropertiesList());
-        var fileInfos =  ToAvailableActionList("File Info", _databaseService.GetFileInfoList());
-        var saveModels =  ToAvailableActionList("Save Model", _databaseService.GetSaveModelList());
-        var saveDrawings =  ToAvailableActionList("Save Drawing", databaseService.GetSaveDrawingList());
-        var importFiles =  ToAvailableActionList("Import Files", _databaseService.GetImportFileList());
-        var drawingTemplates =  ToAvailableActionList("Drawing Templates", _databaseService.GetDrawingTemplateList());
-        var macros = ToAvailableActionList("Macros",  _databaseService.GetMacrosList());
-
-        AvailableActionsList = new(
-            prints
-            .Concat(customProperties)
-            .Concat(fileInfos)
-            .Concat(saveModels)
-            .Concat(saveDrawings)
-            .Concat(importFiles)
-            .Concat(drawingTemplates)
-            .Concat(macros)
-        );
+        AvailableActionsList = _actionService.GetAvailableActionsList();
         
         ProcessList.FetchList();
     }
 
     // Design-time only
-    public ProcessPageViewModel() : this(new MainViewModel(), new DialogService(() => null), new DatabaseService(new ApplicationDbContext()))
+    public ProcessPageViewModel() : this(new MainViewModel(), new DialogService(() => null), new DatabaseService(new ApplicationDbContext()), new ActionService(new DatabaseService(new ApplicationDbContext())))
     {
         if (!Avalonia.Controls.Design.IsDesignMode) throw new InvalidOperationException("Parameterless constructor is only for design time use");
     }
 
-    protected override void OnDesignTimeConstructor() => Initialize(new  MainViewModel(), new DialogService(() => null), new DatabaseService(new ApplicationDbContext()));
+    protected override void OnDesignTimeConstructor() => Initialize(new  MainViewModel(), new DialogService(() => null), new DatabaseService(new ApplicationDbContext()), new ActionService(new DatabaseService(new ApplicationDbContext())));
     
     #endregion
     

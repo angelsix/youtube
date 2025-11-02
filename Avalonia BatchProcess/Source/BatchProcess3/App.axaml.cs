@@ -3,6 +3,7 @@ using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using Avalonia.Metadata;
+using BatchProcess3.Actions;
 using BatchProcess3.Crash;
 using BatchProcess3.DataStorage;
 using BatchProcess3.Dialog;
@@ -53,6 +54,8 @@ public partial class App : Application
         
          collection.AddSingleton<PageFactory>();
          collection.AddSingleton<DialogService>();
+
+         collection.AddTransient<ActionService>();
 
          collection.AddTransient<PrinterService>();
 

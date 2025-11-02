@@ -2,7 +2,99 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             mc:Ignorable="d" d:DesignWidth="1100" d:DesignHeight="900"
+             xmlns:vm="clr-namespace:BatchProcess3.ViewModels"
+             Background="{DynamicResource PrimaryBackground}"
+             Foreground="{DynamicResource PrimaryForeground}"
+             x:DataType="vm:HomePageViewModel"
              x:Class="BatchProcess3.Views.HomePageView">
-    Welcome to Home Page!
+    
+    <!-- Design-time view model -->
+    <Design.DataContext><vm:HomePageViewModel></vm:HomePageViewModel></Design.DataContext>
+    
+    <!-- Remove padding from flyouts -->
+    <UserControl.Styles>
+        <Styles>
+            <Style Selector="FlyoutPresenter">
+                <Setter Property="Padding" Value="0" />
+            </Style>
+        </Styles>
+    </UserControl.Styles>
+    
+    <!-- Header / Main Content Rows -->
+    <Grid ColumnDefinitions="*" RowDefinitions="Auto, *">
+        
+        <!-- Header -->
+        <Grid Name="HeaderGrid">
+            <StackPanel Height="100" ClipToBounds="True">
+                <Image Source="{SvgImage /Assets/Images/background-actions.svg}" Stretch="UniformToFill" />
+            </StackPanel>
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Label Classes="h1" HorizontalAlignment="Center" Content="No Connection" />
+                <Label Classes="sub2" HorizontalAlignment="Center"
+                       Content="Connect to an instance of SolidWorks to begin" />
+            </StackPanel>
+        </Grid>
+        
+        <!-- Padding -->
+        <Border Grid.Row="1" Padding="25">
+            
+            <!-- 2 Main Columns -->
+            <Grid ColumnDefinitions="3*, 30, 3*">
+                
+                <!-- SolidWorks List -->
+                <Grid RowDefinitions="Auto, 10, Auto, 10, Auto, 10, *">
+                    
+                    <!-- Title & Description -->
+                    <Label Classes="h2" Content="SolidWorks Files" />
+                    <TextBlock Grid.Row="2" HorizontalAlignment="Left" Text="Select and edit the list below of all SolidWorks files you want to run the actions on." TextWrapping="Wrap" Margin="0 -10 0 10"></TextBlock>
+
+                    <!-- SolidWorks Files ListBox -->
+                    <ListBox Grid.Row="6">
+                        
+                    </ListBox>
+                    
+                </Grid>
+                           
+                <!-- Actions List -->
+                <Grid Grid.Column="2" RowDefinitions="Auto, 10, Auto, 10, Auto, 10, *">
+                    
+                    <!-- Title & Description -->
+                    <Label Classes="h2" Content="Actions List" />
+                    <TextBlock Grid.Row="2" HorizontalAlignment="Left" Text="Select the actions and order in which to run them on the SolidWorks files." TextWrapping="Wrap" Margin="0 -10 0 10"></TextBlock>
+
+                    <!-- Actions ListBox -->
+                    <ListBox Grid.Row="6"
+                                 ItemsSource="{Binding AvailableActionsList}">
+                            <ListBox.ItemContainerTheme>
+                                <ControlTheme 
+                                    TargetType="ListBoxItem"
+                                    BasedOn="{StaticResource {x:Type ListBoxItem}}"
+                                    x:DataType="vm:AvailableActionItemViewModel">
+                                    <Setter Property="IsEnabled" Value="{Binding IsSelectable}" />
+                                    <Setter Property="Padding" Value="{Binding Padding}"></Setter>
+                                </ControlTheme>
+                            </ListBox.ItemContainerTheme>
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid ColumnDefinitions="Auto, 10, *, Auto">
+                                        <TextBlock Grid.Column="0" Foreground="{StaticResource ActiveGradient}" FontWeight="Black" 
+                                                   Text="{Binding Category}" 
+                                                   IsVisible="{Binding ActionViewModel, Converter={x:Static ObjectConverters.IsNull}}" />
+                                        <TextBlock Grid.Column="0" Padding="5" 
+                                                   Text="{Binding ActionViewModel.JobName}" 
+                                                   IsVisible="{Binding ActionViewModel, Converter={x:Static ObjectConverters.IsNotNull}}" />
+                                    </Grid>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    
+                </Grid>
+                
+            </Grid>
+            
+        </Border>
+    
+    </Grid>
+    
 </UserControl>

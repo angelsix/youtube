@@ -9,8 +9,10 @@
              x:DataType="vm:ProcessPageViewModel"
              x:Class="BatchProcess3.Views.ProcessPageView">
     
+    <!-- Design-time view model -->
     <Design.DataContext><vm:ProcessPageViewModel></vm:ProcessPageViewModel></Design.DataContext>
     
+    <!-- Remove padding from flyouts -->
     <UserControl.Styles>
         <Styles>
             <Style Selector="FlyoutPresenter">
@@ -34,7 +36,7 @@
             </StackPanel>
         </Grid>
 
-        <!-- 3 Columns Outer padding -->
+        <!-- Padding -->
         <Border Grid.Row="1" Padding="25">
             
             <!-- 3 Main Columns -->
