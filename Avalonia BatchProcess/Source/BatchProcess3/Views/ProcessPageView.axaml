@@ -12,6 +12,12 @@
     <!-- Design-time view model -->
     <Design.DataContext><vm:ProcessPageViewModel></vm:ProcessPageViewModel></Design.DataContext>
     
+    <Interaction.Behaviors>
+        <InitializedTrigger>
+            <InvokeCommandAction Command="{Binding InitializeCommand}"  />
+        </InitializedTrigger>
+    </Interaction.Behaviors>
+    
     <!-- Remove padding from flyouts -->
     <UserControl.Styles>
         <Styles>
@@ -126,7 +132,7 @@
                         <ListBox Grid.Row="12" Classes="draggable"
                                  x:Name="ActionsListBox"
                                  ItemsSource="{Binding ProcessList.SelectedItem.Actions}" 
-                                 PointerReleased="InputElement_OnPointerReleased"
+                                 PointerReleased="ActionsListBox_OnPointerReleased"
                                  SelectedValueBinding="{Binding Id}">
                             
                             <Interaction.Behaviors>
@@ -168,14 +174,19 @@
                                 
                             <ListBox.ItemTemplate> 
                                 <DataTemplate x:DataType="vm:ProcessActionViewModel">
-                                    <Grid ColumnDefinitions="*, 10, Auto">
+                                    <Grid ColumnDefinitions="Auto, 10, *, 10, Auto">
                                         
-                                        <Label
-                                               Content="{Binding JobName}"
-                                               ToolTip.Tip="{Binding Description}"
-                                               />
+                                        <Label Grid.Column="0" 
+                                               Content="{Binding SortOrderDisplayString}" 
+                                               FontSize="20" FontWeight="Bold"
+                                               VerticalAlignment="Center" />
+                                         
+                                        <StackPanel Grid.Column="2" Orientation="Vertical">
+                                            <Label Content="{Binding JobName}" />
+                                            <Label Content="{Binding Description}" Foreground="{DynamicResource PrimaryForegroundSubtle}" />
+                                        </StackPanel>
                                         
-                                        <Panel Grid.Column="2">
+                                        <Panel Grid.Column="4">
                                             <Button Margin="0 -4 -4 -6"
                                                     Command="{Binding $parent[ListBox].((vm:ProcessPageViewModel)DataContext).DeleteActionFromProcessCommand}"
                                                     CommandParameter="{Binding }"

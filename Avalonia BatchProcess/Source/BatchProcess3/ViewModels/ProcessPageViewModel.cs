@@ -15,47 +15,35 @@ using System.Threading.Tasks;
 
 namespace BatchProcess3.ViewModels;
 
-public partial class ProcessPageViewModel : PageViewModel
+public partial class ProcessPageViewModel(
+    MainViewModel mainViewModel,
+    DialogService dialogService, 
+    DatabaseService databaseService,
+    ActionService actionService) : PageViewModel(ApplicationPageNames.Process)
 {
-    #region Members
-
-    private DatabaseService _databaseService;
-    private MainViewModel _mainViewModel;
-    private DialogService _dialogService;
-    private ActionService _actionService;
-    
-    #endregion
-    
     #region Properties
 
-    [ObservableProperty] private SelectableItemListViewModel<ProcessViewModel> _processList;
+    [ObservableProperty] private SelectableItemListViewModel<ProcessViewModel>? _processList;
     
-    [ObservableProperty] private ObservableCollection<AvailableActionItemViewModel> _availableActionsList;
+    [ObservableProperty] private ObservableCollection<AvailableActionItemViewModel>? _availableActionsList;
     
     #endregion
 
     #region Constructor
 
-    public ProcessPageViewModel(
-        MainViewModel mainViewModel,
-        DialogService dialogService, 
-        DatabaseService databaseService,
-        ActionService actionService) : base(ApplicationPageNames.Process)
+    // Design-time only
+    public ProcessPageViewModel() : this(new MainViewModel(), new DialogService(() => null), new DatabaseService(new ApplicationDbContext()), new ActionService(new DatabaseService(new ApplicationDbContext())))
     {
-        Initialize(mainViewModel, dialogService, databaseService, actionService);
+        if (!Avalonia.Controls.Design.IsDesignMode) throw new InvalidOperationException("Parameterless constructor is only for design time use");
     }
-
-    private void Initialize(
-        MainViewModel mainViewModel, 
-        DialogService dialogService, 
-        DatabaseService databaseService,
-        ActionService actionService)
+    
+    #endregion
+    
+    #region Commands
+    
+    [RelayCommand]
+    private void Initialize()
     {
-        _mainViewModel = mainViewModel;
-        _dialogService = dialogService;
-        _databaseService = databaseService;
-        _actionService = actionService;
-        
         ProcessList = new SelectableItemListViewModel<ProcessViewModel>(
             title: "Process",
             mainViewModel: mainViewModel,
@@ -63,6 +51,8 @@ public partial class ProcessPageViewModel : PageViewModel
             getList: () =>
             {
                 var list = databaseService.GetProcessList();
+                
+                // TODO: Update job name and description for each action as they will be out of date
 
                 return new ObservableCollection<ProcessViewModel>(list
                     .OrderBy(f => f.JobName)
@@ -80,22 +70,10 @@ public partial class ProcessPageViewModel : PageViewModel
                 databaseService.UpdateProcessItem(item.ToDataModel());
             });
 
-        AvailableActionsList = _actionService.GetAvailableActionsList();
+        AvailableActionsList = actionService.GetAvailableActionsList();
         
         ProcessList.FetchList();
     }
-
-    // Design-time only
-    public ProcessPageViewModel() : this(new MainViewModel(), new DialogService(() => null), new DatabaseService(new ApplicationDbContext()), new ActionService(new DatabaseService(new ApplicationDbContext())))
-    {
-        if (!Avalonia.Controls.Design.IsDesignMode) throw new InvalidOperationException("Parameterless constructor is only for design time use");
-    }
-
-    protected override void OnDesignTimeConstructor() => Initialize(new  MainViewModel(), new DialogService(() => null), new DatabaseService(new ApplicationDbContext()), new ActionService(new DatabaseService(new ApplicationDbContext())));
-    
-    #endregion
-    
-    #region Commands
 
     [RelayCommand]
     public void AddActionToProcess(AvailableActionItemViewModel item) => InsertActionToProcess(item, -1);

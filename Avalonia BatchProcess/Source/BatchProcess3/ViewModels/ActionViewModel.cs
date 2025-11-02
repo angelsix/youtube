@@ -18,8 +18,12 @@ public partial class ActionViewModel : ViewModelBase
     
     [ObservableProperty] private bool _isNewItem;
 
-    [ObservableProperty] [NotifyPropertyChangedFor(nameof(HasChanged))]
+    [ObservableProperty] 
+    [NotifyPropertyChangedFor(nameof(HasChanged))]
+    [NotifyPropertyChangedFor(nameof(SortOrderDisplayString))]
     private int _sortOrder;
+
+    public string SortOrderDisplayString => $"{SortOrder + 1:00\\.}";
     
     [JsonIgnore]
     public override bool HasChanged =>

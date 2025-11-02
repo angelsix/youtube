@@ -34,7 +34,7 @@ public partial class App : Application
          collection.AddSingleton<MainViewModel>();
          collection.AddTransient<ActionsPageViewModel>();
          collection.AddTransient<HistoryPageViewModel>();
-         collection.AddTransient<HomePageViewModel>();
+         collection.AddSingleton<HomePageViewModel>();
          collection.AddTransient<MacrosPageViewModel>();
          collection.AddTransient<ProcessPageViewModel>();
          collection.AddTransient<ReporterPageViewModel>();

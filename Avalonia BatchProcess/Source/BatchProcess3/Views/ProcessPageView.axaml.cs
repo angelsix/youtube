@@ -29,7 +29,7 @@ public partial class ProcessPageView : UserControl
         }
     }
 
-    private void InputElement_OnPointerReleased(object? sender, PointerReleasedEventArgs e)
+    private void ActionsListBox_OnPointerReleased(object? sender, PointerReleasedEventArgs e)
     {
         if (sender is Control control && e.InitialPressMouseButton == MouseButton.Right)
             FlyoutBase.ShowAttachedFlyout(ActionsListBox);

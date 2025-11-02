@@ -4,6 +4,7 @@ using BatchProcess3.DataStorage.DataModels;
 using BatchProcess3.Dialog;
 using BatchProcess3.MainApp;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -58,6 +59,7 @@ public partial class HomePageViewModel : PageViewModel
         _databaseService = databaseService;
         _actionService = actionService;
 
+        Actions = [];
         AvailableActionsList = _actionService.GetAvailableActionsList();
     }
 
@@ -71,4 +73,37 @@ public partial class HomePageViewModel : PageViewModel
     
     #endregion
     
+    #region Commands
+    
+    public void InsertAction(AvailableActionItemViewModel item, int index)
+    {
+        if (item.ActionViewModel == null) return;
+        
+        var copy = new AvailableActionItemViewModel();
+        copy.RestoreState(item.GetState());
+
+        // Give the copy a new unique ID
+        copy.ActionViewModel!.Id = Guid.NewGuid().ToString("N");
+        
+        if (index <= -1 || index > Actions.Count || Actions.Count == 0)
+            Actions.Add(copy.ActionViewModel!);
+        else
+            Actions.Insert(index, copy.ActionViewModel!);
+        
+        // Update sort order
+        UpdateActionSortOrder();
+    }
+
+    [RelayCommand]
+    private void UpdateActionSortOrder()
+    {
+        foreach (var (action, index) in Actions.Select((f, i) => (f, i)))
+            // Sort order should match position in list
+            action.SortOrder = index;
+    }
+
+    [RelayCommand]
+    private void DeleteAction(ProcessActionViewModel item) => Actions.Remove(item);
+    
+    #endregion
 }
