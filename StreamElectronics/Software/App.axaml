@@ -19,6 +19,21 @@
     </Application.Styles>
              
      <Application.Resources>
-         <FontFamily x:Key="SegoeUI">avares://Assets/SegoeUI.ttf</FontFamily>
+         <ResourceDictionary>
+
+             <FontFamily x:Key="SegoeUI">avares://Assets/SegoeUI.ttf</FontFamily>
+
+             <SolidColorBrush x:Key="PrimaryForeground">White</SolidColorBrush>     
+             <SolidColorBrush x:Key="PrimaryBorder">#33FFFFFF</SolidColorBrush>     
+             <SolidColorBrush x:Key="PrimaryBackground">#0F1024</SolidColorBrush>     
+
+             <ResourceDictionary.MergedDictionaries>
+                 <MergeResourceInclude Source="/Controls/TextBox.axaml" />
+                 <MergeResourceInclude Source="/Controls/ToggleButton.axaml" />
+             </ResourceDictionary.MergedDictionaries>
+             
+         </ResourceDictionary>
+
      </Application.Resources>
+             
 </Application>

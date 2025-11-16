@@ -7,10 +7,10 @@
         Width="1000" Height="420"
         MinWidth="1000" MinHeight="420"
         WindowStartupLocation="CenterScreen"
-        Background="#0F1024"
+        Background="{DynamicResource PrimaryBackground}"
         x:Class="StreamElectronics.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
-        Foreground="White"
+        Foreground="{DynamicResource PrimaryForeground}"
         Icon="/Assets/bolt-icon.ico"
         Title="Stream Electronics">
 
@@ -39,8 +39,9 @@
             
             <!-- VISA Textbox + Checkbox -->
             <Grid Grid.Row="0" Grid.Column="2" ColumnDefinitions="*, 10, Auto" VerticalAlignment="Bottom">
-                <TextBox Grid.Column="0" Watermark="Enter VISA ID of instrument..." Height="40" VerticalAlignment="Center" />
-                <CheckBox Grid.Column="2" />
+                <TextBox Grid.Column="0" Watermark="Enter VISA ID of instrument..." Height="40">
+                </TextBox>
+                <ToggleButton Grid.Column="2" Height="40" />
             </Grid>
             
             <!-- Stream Overlay -->
