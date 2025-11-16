@@ -54,7 +54,9 @@
             
             <!-- VISA Textbox + Checkbox -->
             <Grid Grid.Row="0" Grid.Column="2" ColumnDefinitions="*, 10, Auto" VerticalAlignment="Bottom">
-                <TextBox Grid.Column="0" Watermark="Enter VISA ID of instrument..." Height="40" Text="{Binding VisaId}">
+                <TextBox Grid.Column="0" Watermark="Enter VISA ID of instrument..." Height="40"
+                         IsEnabled="{Binding #IsEnabledToggle.IsChecked, Converter={x:Static BoolConverters.Not}}"
+                         Text="{Binding VisaId}">
                 </TextBox>
                 <ToggleButton Name="IsEnabledToggle" Grid.Column="2" Height="40" IsChecked="{Binding IsEnabled}">
                     <Interaction.Behaviors>
@@ -68,7 +70,7 @@
             <!-- Stream Overlay -->
             <Border Grid.Row="2" Grid.Column="0" 
                     Background="#dd000000" CornerRadius="60"
-                    BorderBrush="Yellow" BorderThickness="2"
+                    BorderBrush="{Binding MultimeterColor}" BorderThickness="2"
                     Padding="30">
                 
                 <!-- Stream Overlay Inner Grid -->
@@ -77,19 +79,21 @@
                       HorizontalAlignment="Center">
                     
                     <!-- Stream Overlay Title -->
-                    <Label Grid.Row="0" Grid.ColumnSpan="2" Content="MULTIMETER" HorizontalAlignment="Center" FontStyle="Italic" FontSize="30" FontWeight="Black" />
+                    <Label Grid.Row="0" Grid.ColumnSpan="2" Content="{Binding ModeTitle}" HorizontalAlignment="Center" FontStyle="Italic" FontSize="30" FontWeight="Black" />
                     
                     <!-- Stream Overlay Big Text -->
                     <Viewbox Grid.Row="1" Grid.Column="0" Margin="0 20 0 20">
-                        <Label Content="5.102" FontWeight="Black"
+                        <Label Content="{Binding LiveValue}" FontWeight="Black"
                                Padding="0" Margin="0 -5 0 -3" FontSize="14"
-                               Foreground="Yellow"/>
+                               Foreground="{Binding MultimeterColor}"/>
                     </Viewbox>
                     
                     <!-- Stream Overlay Right Small Text -->
-                    <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Vertical" VerticalAlignment="Center" Spacing="10" Margin="15 0 0 0">
-                        <Label Content="V" HorizontalAlignment="Center" FontSize="70" FontWeight="Black" Padding="0" Margin="0 -25" />
-                        <Label Content="DC" HorizontalAlignment="Center" FontSize="30" FontWeight="Black" Padding="0" Margin="0 0" />
+                    <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Vertical" VerticalAlignment="Center" 
+                                Spacing="10" Margin="15 0 0 0"
+                                IsVisible="{Binding SymbolsVisible}">
+                        <Label Content="{Binding SymbolTop}" HorizontalAlignment="Center" FontSize="70" FontWeight="Black" Padding="0" Margin="0 -25" />
+                        <Label Content="{Binding SymbolBottom}" HorizontalAlignment="Center" FontSize="30" FontWeight="Black" Padding="0" Margin="0 0" />
                     </StackPanel>
                 </Grid>
                 
@@ -108,8 +112,8 @@
                 
                         <!-- Header Text -->
                         <StackPanel Spacing="10" Orientation="Vertical">
-                            <Label Content="RIGOL DM3068" FontSize="25" FontWeight="Black" Margin="0 -6 -10 -8" Padding="0" />
-                            <Label Content="Click below to change mode" FontSize="12" FontStyle="Italic" FontWeight="Light" Margin="0 -5" Padding="0" />
+                            <Label Content="{Binding DeviceName}" FontSize="25" FontWeight="Black" Margin="0 -6 -10 -8" Padding="0" />
+                            <Label Content="{Binding DeviceStatusShort}" ToolTip.Tip="{Binding DeviceStatus}" FontSize="12" FontStyle="Italic" FontWeight="Light" Margin="0 -5" Padding="0" />
                         </StackPanel>
                 
                         <!-- Header Pill -->
@@ -319,7 +323,7 @@
                     </Button>
                     
                     <!-- Button: Temperature -->
-                    <Button Grid.Row="4" Grid.Column="6" Classes="active"
+                    <Button Grid.Row="4" Grid.Column="6"
                             VerticalAlignment="Center" HorizontalAlignment="Center" 
                             BorderThickness="2"
                             CornerRadius="15"
