@@ -20,6 +20,12 @@
         <vm:MainWindowViewModel/>
     </Design.DataContext>
     
+    <Interaction.Behaviors>
+        <EventTriggerBehavior EventName="Loaded">
+            <InvokeCommandAction Command="{Binding InitalizeCommand}"></InvokeCommandAction>
+        </EventTriggerBehavior>
+    </Interaction.Behaviors>
+    
     <Window.Styles>
         <Style Selector="Button Viewbox Path">
             <Setter Property="Fill" Value="#7c7c7c"></Setter>
@@ -48,9 +54,15 @@
             
             <!-- VISA Textbox + Checkbox -->
             <Grid Grid.Row="0" Grid.Column="2" ColumnDefinitions="*, 10, Auto" VerticalAlignment="Bottom">
-                <TextBox Grid.Column="0" Watermark="Enter VISA ID of instrument..." Height="40">
+                <TextBox Grid.Column="0" Watermark="Enter VISA ID of instrument..." Height="40" Text="{Binding VisaId}">
                 </TextBox>
-                <ToggleButton Grid.Column="2" Height="40" />
+                <ToggleButton Name="IsEnabledToggle" Grid.Column="2" Height="40" IsChecked="{Binding IsEnabled}">
+                    <Interaction.Behaviors>
+                        <PropertyChangedTrigger Binding="{Binding #IsEnabledToggle.IsChecked}">
+                            <InvokeCommandAction Command="{Binding EnabledChangedCommand}" />
+                        </PropertyChangedTrigger>
+                    </Interaction.Behaviors>
+                </ToggleButton>
             </Grid>
             
             <!-- Stream Overlay -->
@@ -97,12 +109,12 @@
                         <!-- Header Text -->
                         <StackPanel Spacing="10" Orientation="Vertical">
                             <Label Content="RIGOL DM3068" FontSize="25" FontWeight="Black" Margin="0 -6 -10 -8" Padding="0" />
-                            <Label Content="Available modes below. Click to change mode" FontSize="12" FontStyle="Italic" FontWeight="Light" Margin="0 -5" Padding="0" />
+                            <Label Content="Click below to change mode" FontSize="12" FontStyle="Italic" FontWeight="Light" Margin="0 -5" Padding="0" />
                         </StackPanel>
                 
                         <!-- Header Pill -->
-                        <Border Grid.Column="2" Background="GreenYellow" Padding="8 2" CornerRadius="10" VerticalAlignment="Center">
-                            <Label Content="Live" Foreground="Black" FontWeight="Black" Padding="0" Margin="0" VerticalAlignment="Center" />
+                        <Border Grid.Column="2" Background="{Binding StatusBrush}" Padding="8 2" CornerRadius="10" VerticalAlignment="Center">
+                            <Label Content="{Binding ConnectedStatus}" Foreground="Black" FontWeight="Black" Padding="0" Margin="0" VerticalAlignment="Center" />
                         </Border>
                     </Grid>
                     

@@ -4,6 +4,8 @@ using Avalonia.Data.Core;
 using Avalonia.Data.Core.Plugins;
 using System.Linq;
 using Avalonia.Markup.Xaml;
+using Microsoft.Extensions.DependencyInjection;
+using StreamElectronics.Multimeter;
 using StreamElectronics.ViewModels;
 using StreamElectronics.Views;
 
@@ -18,6 +20,12 @@ public partial class App : Application
 
     public override void OnFrameworkInitializationCompleted()
     {
+        var collection = new ServiceCollection();
+        collection.AddTransient<DummyMultimeterService>();
+        collection.AddTransient<MainWindowViewModel>();
+
+        var services = collection.BuildServiceProvider();
+        
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
             // Avoid duplicate validations from both Avalonia and the CommunityToolkit. 
@@ -25,7 +33,7 @@ public partial class App : Application
             DisableAvaloniaDataAnnotationValidation();
             desktop.MainWindow = new MainWindow
             {
-                DataContext = new MainWindowViewModel(),
+                DataContext = services.GetRequiredService<MainWindowViewModel>()
             };
         }
 
