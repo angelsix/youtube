@@ -21,7 +21,7 @@ public partial class App : Application
     public override void OnFrameworkInitializationCompleted()
     {
         var collection = new ServiceCollection();
-        collection.AddTransient<DummyMultimeterService>();
+        collection.AddTransient<IMultimeterService, RigolMultimeterService>();
         collection.AddTransient<MainWindowViewModel>();
 
         var services = collection.BuildServiceProvider();

@@ -3,6 +3,7 @@
         xmlns:vm="using:StreamElectronics.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:mm="clr-namespace:StreamElectronics.Multimeter"
         mc:Ignorable="d" d:DesignWidth="1000" d:DesignHeight="420"
         Width="1000" Height="420"
         MinWidth="1000" MinHeight="420"
@@ -73,19 +74,32 @@
                     BorderBrush="{Binding MultimeterColor}" BorderThickness="2"
                     Padding="30">
                 
+                <Border.Transitions>
+                    <Transitions>
+                        <BrushTransition Property="BorderBrush" Duration="0:0:0.2"/>
+                    </Transitions>
+                </Border.Transitions>
+                
                 <!-- Stream Overlay Inner Grid -->
                 <Grid RowDefinitions="Auto, *" 
                       ColumnDefinitions="*, Auto"
                       HorizontalAlignment="Center">
                     
                     <!-- Stream Overlay Title -->
-                    <Label Grid.Row="0" Grid.ColumnSpan="2" Content="{Binding ModeTitle}" HorizontalAlignment="Center" FontStyle="Italic" FontSize="30" FontWeight="Black" />
+                    <Label Content="{Binding ModeTitle}" HorizontalAlignment="Center" FontStyle="Italic" FontSize="30" FontWeight="Black" />
                     
                     <!-- Stream Overlay Big Text -->
                     <Viewbox Grid.Row="1" Grid.Column="0" Margin="0 20 0 20">
                         <Label Content="{Binding LiveValue}" FontWeight="Black"
                                Padding="0" Margin="0 -5 0 -3" FontSize="14"
-                               Foreground="{Binding MultimeterColor}"/>
+                               Foreground="{Binding MultimeterColor}">
+                        
+                            <Label.Transitions>
+                                <Transitions>
+                                    <BrushTransition Property="Foreground" Duration="0:0:0.2"/>
+                                </Transitions>
+                            </Label.Transitions>
+                        </Label>
                     </Viewbox>
                     
                     <!-- Stream Overlay Right Small Text -->
@@ -111,9 +125,15 @@
                     <Grid Grid.Row="0" Grid.ColumnSpan="9" Grid.Column="0" ColumnDefinitions="*, 30, Auto">
                 
                         <!-- Header Text -->
-                        <StackPanel Spacing="10" Orientation="Vertical">
-                            <Label Content="{Binding DeviceName}" FontSize="25" FontWeight="Black" Margin="0 -6 -10 -8" Padding="0" />
-                            <Label Content="{Binding DeviceStatusShort}" ToolTip.Tip="{Binding DeviceStatus}" FontSize="12" FontStyle="Italic" FontWeight="Light" Margin="0 -5" Padding="0" />
+                        <StackPanel Spacing="10" Orientation="Vertical" Margin="0 -10">
+                            <Viewbox HorizontalAlignment="Left" VerticalAlignment="Bottom" MaxHeight="50" ToolTip.Tip="{Binding DeviceName}">
+                                <Label Content="{Binding DeviceName}" FontSize="25" FontWeight="Black" />
+                            </Viewbox>
+                                
+                            <Label Content="{Binding DeviceStatusShort}" 
+                                   ToolTip.Tip="{Binding DeviceStatus}" 
+                                   FontSize="12" FontStyle="Italic" FontWeight="Light" 
+                                   Margin="0 -15 0 -5" Padding="0" />
                         </StackPanel>
                 
                         <!-- Header Pill -->
@@ -123,7 +143,10 @@
                     </Grid>
                     
                     <!-- Button: V DC -->
-                    <Button Grid.Row="2" Grid.Column="0" Classes="active"
+                    <Button Grid.Row="2" Grid.Column="0" Name="ButtonVDC"
+                            Command="{Binding ChangeModeCommand}"
+                            CommandParameter="{x:Static mm:MultimeterMode.VoltageDC}"
+                            Classes.active="{Binding ButtonVDCActive}"
                             VerticalAlignment="Center" HorizontalAlignment="Center" 
                             BorderThickness="2"
                             CornerRadius="15"
@@ -148,7 +171,10 @@
                     </Button>
                     
                     <!-- Button: I DC -->
-                    <Button Grid.Row="2" Grid.Column="2"
+                    <Button Grid.Row="2" Grid.Column="2" Name="ButtonIDC"
+                            Classes.active="{Binding ButtonIDCActive}"
+                            Command="{Binding ChangeModeCommand}"
+                            CommandParameter="{x:Static mm:MultimeterMode.CurrentDC}"
                             VerticalAlignment="Center" HorizontalAlignment="Center" 
                             BorderThickness="2"
                             CornerRadius="15"
@@ -173,7 +199,10 @@
                     </Button>
                     
                     <!-- Button: Ohms -->
-                    <Button Grid.Row="2" Grid.Column="4" 
+                    <Button Grid.Row="2" Grid.Column="4" Name="ButtonOhms"
+                            Command="{Binding ChangeModeCommand}"
+                            CommandParameter="{x:Static mm:MultimeterMode.Resistance}"
+                            Classes.active="{Binding ButtonResistanceActive}"
                             VerticalAlignment="Center" HorizontalAlignment="Center" 
                             BorderThickness="2"
                             CornerRadius="15"
@@ -198,7 +227,10 @@
                     </Button>
                     
                     <!-- Button: Continuity -->
-                    <Button Grid.Row="2" Grid.Column="6" 
+                    <Button Grid.Row="2" Grid.Column="6" Name="ButtonContinuity"
+                            Classes.active="{Binding ButtonContinuityActive}"
+                            Command="{Binding ChangeModeCommand}"
+                            CommandParameter="{x:Static mm:MultimeterMode.Continuity}"
                             VerticalAlignment="Center" HorizontalAlignment="Center" 
                             BorderThickness="2"
                             CornerRadius="15"
@@ -223,7 +255,10 @@
                     </Button>
                     
                     <!-- Button: Diode -->
-                    <Button Grid.Row="2" Grid.Column="8" 
+                    <Button Grid.Row="2" Grid.Column="8" Name="ButtonDiode"
+                            Classes.active="{Binding ButtonDiodeActive}"
+                            Command="{Binding ChangeModeCommand}"
+                            CommandParameter="{x:Static mm:MultimeterMode.Diode}"
                             VerticalAlignment="Center" HorizontalAlignment="Center" 
                             BorderThickness="2"
                             CornerRadius="15"
@@ -248,7 +283,10 @@
                     </Button>
                     
                     <!-- Button: V AC -->
-                    <Button Grid.Row="4" Grid.Column="0" 
+                    <Button Grid.Row="4" Grid.Column="0" Name="ButtonVAC" 
+                            Classes.active="{Binding ButtonVACActive}"
+                            Command="{Binding ChangeModeCommand}"
+                            CommandParameter="{x:Static mm:MultimeterMode.VoltageAC}"
                             VerticalAlignment="Center" HorizontalAlignment="Center" 
                             BorderThickness="2"
                             CornerRadius="15"
@@ -273,7 +311,10 @@
                     </Button>
                     
                     <!-- Button: I AC -->
-                    <Button Grid.Row="4" Grid.Column="2" 
+                    <Button Grid.Row="4" Grid.Column="2" Name="ButtonIAC"
+                            Classes.active="{Binding ButtonIACActive}"
+                            Command="{Binding ChangeModeCommand}"
+                            CommandParameter="{x:Static mm:MultimeterMode.CurrentAC}"
                             VerticalAlignment="Center" HorizontalAlignment="Center" 
                             BorderThickness="2"
                             CornerRadius="15"
@@ -298,7 +339,10 @@
                     </Button>
                     
                     <!-- Button: Capacitance -->
-                    <Button Grid.Row="4" Grid.Column="4" 
+                    <Button Grid.Row="4" Grid.Column="4" Name="ButtonCapacitance"
+                            Classes.active="{Binding ButtonCapacitanceActive}"
+                            Command="{Binding ChangeModeCommand}"
+                            CommandParameter="{x:Static mm:MultimeterMode.Capacitance}"
                             VerticalAlignment="Center" HorizontalAlignment="Center" 
                             BorderThickness="2"
                             CornerRadius="15"
@@ -323,7 +367,10 @@
                     </Button>
                     
                     <!-- Button: Temperature -->
-                    <Button Grid.Row="4" Grid.Column="6"
+                    <Button Grid.Row="4" Grid.Column="6" Name="ButtonTemperature"
+                            Classes.active="{Binding ButtonTemperatureActive}"
+                            Command="{Binding ChangeModeCommand}"
+                            CommandParameter="{x:Static mm:MultimeterMode.Temperature}"
                             VerticalAlignment="Center" HorizontalAlignment="Center" 
                             BorderThickness="2"
                             CornerRadius="15"
@@ -363,7 +410,10 @@
                     </Button>
                     
                     <!-- Button: Frequency -->
-                    <Button Grid.Row="4" Grid.Column="8" 
+                    <Button Grid.Row="4" Grid.Column="8" Name="ButtonFrequency"
+                            Classes.active="{Binding ButtonFrequencyActive}"
+                            Command="{Binding ChangeModeCommand}"
+                            CommandParameter="{x:Static mm:MultimeterMode.Frequency}"
                             VerticalAlignment="Center" HorizontalAlignment="Center" 
                             BorderThickness="2"
                             CornerRadius="15"
