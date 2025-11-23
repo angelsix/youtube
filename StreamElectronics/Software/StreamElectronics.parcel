@@ -1,0 +1,35 @@
+{
+    "GeneralSettings": {
+        "NetProjectPath": "StreamElectronics.csproj",
+        "ApplicationName": "Stream Electronics",
+        "Version": "1.0.1",
+        "PackageName": {
+            "$type": "msbuild",
+            "property": "AssemblyName"
+        },
+        "AssemblyName": {
+            "$type": "msbuild",
+            "property": "AssemblyName"
+        }
+    },
+    "LinuxSettings": {
+        "CreateBinSymlink": "True"
+    },
+    "Win32Settings": {
+        "InstallerIcon": "Assets/bolt-icon.ico",
+        "Company": "AngelSix",
+        "CompanyFolder": "True",
+        "InstallerLicense": "Assets/license.txt",
+        "IncludeUninstaller": "True"
+    },
+    "MacOsSettings": {
+        "CreateBundle": true,
+        "BundleIdentifier": "com.CompanyName.StreamElectronics",
+        "SigningCredentialsType": "AdHoc"
+    },
+    "PublishSettings": {
+        "PublishSingleFile": "True",
+        "PublishReadyToRun": "True",
+        "ExtraBuildProperties": {}
+    }
+}
