@@ -24,7 +24,7 @@ public partial class ProcessActionViewModel : ActionViewModel
         JobName = JobName,
         SortOrder = SortOrder,
         ProcessId = ProcessId,
-        ActionId = ActionId
+        ActionId = ActionId ?? ""
     };
 }
 

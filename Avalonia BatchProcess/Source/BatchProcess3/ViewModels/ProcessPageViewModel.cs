@@ -32,7 +32,7 @@ public partial class ProcessPageViewModel(
     #region Constructor
 
     // Design-time only
-    public ProcessPageViewModel() : this(new MainViewModel(), new DialogService(() => null), new DatabaseService(new ApplicationDbContext()), new ActionService(new DatabaseService(new ApplicationDbContext())))
+    public ProcessPageViewModel() : this(new MainViewModel(), new DialogService(() => null), new DatabaseService(new ApplicationDbContext()), new ActionService(new DatabaseFactory(new Func<DatabaseService>(() => new DatabaseService(new ApplicationDbContext())))))
     {
         if (!Avalonia.Controls.Design.IsDesignMode) throw new InvalidOperationException("Parameterless constructor is only for design time use");
     }
@@ -80,8 +80,7 @@ public partial class ProcessPageViewModel(
     
     public void InsertActionToProcess(AvailableActionItemViewModel item, int index)
     {
-        if (ProcessList.SelectedItem == null) return;
-
+        if (ProcessList?.SelectedItem == null) return;
         if (item.ActionViewModel == null) return;
         
         var copy = new AvailableActionItemViewModel();
@@ -102,7 +101,7 @@ public partial class ProcessPageViewModel(
     [RelayCommand]
     private void UpdateActionSortOrder()
     {
-        if (ProcessList.SelectedItem == null) return;
+        if (ProcessList?.SelectedItem == null) return;
         
         foreach (var (action, index) in ProcessList.SelectedItem.Actions.Select((f, i) => (f, i)))
             // Sort order should match position in list
@@ -110,7 +109,7 @@ public partial class ProcessPageViewModel(
     }
 
     [RelayCommand]
-    private void DeleteActionFromProcess(ProcessActionViewModel item) => ProcessList.SelectedItem?.Actions.Remove(item);
+    private void DeleteActionFromProcess(ProcessActionViewModel item) => ProcessList?.SelectedItem?.Actions.Remove(item);
 
     #endregion
 }

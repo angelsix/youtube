@@ -7,11 +7,10 @@ namespace BatchProcess3.DataStorage.DataModels;
 [Table("ProcessAction")]
 public class ProcessActionDataModel : ActionDataModel
 {
-    [MaxLength(100)]
-    public string ActionId {get; set;}
+    [MaxLength(100)] public string ActionId { get; init; } = "";
 
     [MaxLength(100)]
-    public string ProcessId {get; set;}
+    public string ProcessId {get; init;} = "";
     
-    public ProcessDataModel Process {get; set;}
+    public ProcessDataModel? Process {get; set;}
 }

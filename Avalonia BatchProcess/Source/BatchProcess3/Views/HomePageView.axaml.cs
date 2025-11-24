@@ -1,9 +1,12 @@
 ﻿using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Controls.Presenters;
 using Avalonia.Controls.Primitives;
 using Avalonia.Input;
 using Avalonia.Markup.Xaml;
 using BatchProcess3.ViewModels;
+using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace BatchProcess3.Views;
 
@@ -29,5 +32,20 @@ public partial class HomePageView : UserControl
             FlyoutBase.GetAttachedFlyout(ActionsListBox)?.Hide();
             viewModel.InsertAction(itemViewModel, ActionsListBox.SelectedIndex + 1);
         }
+    }
+
+    private void ProcessListItem_OnPointerReleased(object? sender, PointerReleasedEventArgs e)
+    {
+        // Get selected item
+        if (sender is ListBox
+            {
+                DataContext: HomePageViewModel viewModel, SelectedItem: ProcessViewModel processViewModel
+            })
+        {
+            viewModel.ReplaceAvailableActionsList(processViewModel.Actions);
+        }
+
+        // Hide flyout
+        LoadProcessButton.Flyout?.Hide();
     }
 }

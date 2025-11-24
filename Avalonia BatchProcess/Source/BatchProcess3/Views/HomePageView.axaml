@@ -13,6 +13,12 @@
     <Design.DataContext>
         <vm:HomePageViewModel></vm:HomePageViewModel>
     </Design.DataContext>
+    
+    <Interaction.Behaviors>
+        <LoadedTrigger>
+            <InvokeCommandAction Command="{Binding InitializeCommand}" />
+        </LoadedTrigger>
+    </Interaction.Behaviors>
 
     <!-- Remove padding from flyouts -->
     <UserControl.Styles>
@@ -76,10 +82,25 @@
                     </StackPanel>
                     
                     <IconButton Grid.Column="2" Grid.Row="0"
+                                Name="LoadProcessButton"
                                 Classes="icon-outline"
                                 IconText="&#xE2F8;"
                                 Content="Load"
-                                VerticalAlignment="Center"></IconButton>
+                                VerticalAlignment="Center">
+                        <Button.Flyout>
+                            <Flyout>
+                                <ListBox ItemsSource="{Binding ProcessList}" 
+                                         PointerReleased="ProcessListItem_OnPointerReleased">
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding JobName}" 
+                                                       ToolTip.Tip="{Binding Description}" />
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListBox>
+                            </Flyout>
+                        </Button.Flyout>
+                    </IconButton>
 
                     <!-- Actions ListBox -->
                     <ListBox Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="3" Classes="draggable"

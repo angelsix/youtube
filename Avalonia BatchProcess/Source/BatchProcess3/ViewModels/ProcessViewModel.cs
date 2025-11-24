@@ -51,6 +51,8 @@ public partial class ProcessViewModel : ViewModelBase, ISelectableItemListViewMo
         JobName = JobName,
         Actions = Actions.Select(f => f.ToDataModel()).ToList()
     };
+
+    public override string ToString() => $"{JobName} ({Description})";
 }
 
 public static class ProcessViewModelExtensions
