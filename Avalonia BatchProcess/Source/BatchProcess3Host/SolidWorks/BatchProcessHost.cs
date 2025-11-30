@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using BatchProcess3.Core.SolidWorks;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace BatchProcess3Host.SolidWorks;

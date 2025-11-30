@@ -3,9 +3,11 @@
         xmlns:vm="using:BatchProcess3Host.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="250"
+        Width="400" Height="250"
         x:Class="BatchProcess3Host.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
+        WindowStartupLocation="CenterScreen"
         Icon="/Assets/avalonia-logo.ico"
         Title="BatchProcess3Host">
 
@@ -17,7 +19,7 @@
 
     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
         <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center" />
-        <ListBox Height="200" Width="450" ItemsSource="{Binding ActiveFilesList}">
+        <ListBox IsVisible="False" Height="200" Width="450" ItemsSource="{Binding ActiveFilesList}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Label Content="{Binding FileName}" />

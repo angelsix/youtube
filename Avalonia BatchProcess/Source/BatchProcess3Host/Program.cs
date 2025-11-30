@@ -1,4 +1,5 @@
 ﻿using Avalonia;
+using BatchProcess3.Core.SolidWorks;
 using BatchProcess3Host.SolidWorks;
 using BatchProcess3Host.ViewModels;
 using Microsoft.AspNetCore.Builder;
@@ -45,7 +46,10 @@ sealed class Program
             
             return $"Hello {viewModel.Greeting}!";
         });
-        
+                
+        WebApp.MapGet(BatchProcessHostUrls.SolidWorksActiveFileList, ([FromServices]BatchProcessHost host) 
+            => host.GetActiveFileReferences());
+
         // Start kestrel on background thread
         Task.Run(() => WebApp.RunAsync(_cts.Token));
 

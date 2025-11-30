@@ -9,6 +9,7 @@ using BatchProcess3.DataStorage;
 using BatchProcess3.Dialog;
 using BatchProcess3.MainApp;
 using BatchProcess3.Printer;
+using BatchProcess3.SolidWorks;
 using BatchProcess3.ViewModels;
 using BatchProcess3.Views;
 using Microsoft.EntityFrameworkCore;
@@ -58,6 +59,8 @@ public partial class App : Application
          collection.AddTransient<ActionService>();
 
          collection.AddTransient<PrinterService>();
+
+         collection.AddTransient<BatchProcessClient>();
 
          // Database services
          collection.AddTransient<ApplicationDbContext>();

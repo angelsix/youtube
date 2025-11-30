@@ -86,8 +86,12 @@
                     </StackPanel>
 
                     <!-- SolidWorks Files ListBox -->
-                    <ListBox Grid.Row="6">
-
+                    <ListBox Grid.Row="6" ItemsSource="{Binding SolidWorksFileList}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Label Content="{Binding FileName}" />
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
                     </ListBox>
 
                 </Grid>
