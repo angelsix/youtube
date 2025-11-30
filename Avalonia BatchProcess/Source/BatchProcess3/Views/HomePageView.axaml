@@ -59,6 +59,31 @@
                                Text="Select and edit the list below of all SolidWorks files you want to run the actions on."
                                TextWrapping="Wrap" Margin="0 -10 0 10">
                     </TextBlock>
+                    
+                    <StackPanel Grid.Row="4" Orientation="Horizontal">
+                        <StackPanel.Styles>
+                            <!-- All Buttons -->
+                            <Style Selector="StackPanel > Button">
+                                <Setter Property="CornerRadius" Value="0" />
+                            </Style>
+                            <!-- First -->
+                            <Style Selector="StackPanel > Button:nth-child(1)">
+                                <Setter Property="CornerRadius" Value="5 0 0 5" />
+                            </Style>
+                            <!-- Last -->
+                            <Style Selector="StackPanel > Button:nth-last-child(1)">
+                                <Setter Property="CornerRadius" Value="0 5 5 0" />
+                            </Style>
+                        </StackPanel.Styles>
+                        <Button><Image Source="/Assets/Images/home-context-openfile.png"></Image></Button>
+                        <Button><Image Source="/Assets/Images/home-context-drawing.png"></Image></Button>
+                        <Button><Image Source="/Assets/Images/home-context-folder.png"></Image></Button>
+                        <Button><Image Source="/Assets/Images/home-context-preview.png"></Image></Button>
+                        <Button><Image Source="/Assets/Images/home-context-delete.png"></Image></Button>
+                        <Button><Image Source="/Assets/Images/home-context-print.png"></Image></Button>
+                        <Button><Image Source="/Assets/Images/home-context-fileref.png"></Image></Button>
+                        <Button><Image Source="/Assets/Images/home-context-drawinglink.png"></Image></Button>
+                    </StackPanel>
 
                     <!-- SolidWorks Files ListBox -->
                     <ListBox Grid.Row="6">
