@@ -6,6 +6,8 @@ using System.Linq;
 using Avalonia.Markup.Xaml;
 using BatchProcess3Host.ViewModels;
 using BatchProcess3Host.Views;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
 namespace BatchProcess3Host;
 
@@ -25,7 +27,7 @@ public partial class App : Application
             DisableAvaloniaDataAnnotationValidation();
             desktop.MainWindow = new MainWindow
             {
-                DataContext = new MainWindowViewModel(),
+                DataContext = Program.WebApp?.Services.GetRequiredService<MainWindowViewModel>(),
             };
         }
 
