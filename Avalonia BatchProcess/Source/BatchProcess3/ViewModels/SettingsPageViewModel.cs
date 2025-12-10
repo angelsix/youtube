@@ -39,12 +39,6 @@ public partial class SettingsPageViewModel : PageViewModel
     [ObservableProperty]
     private ObservableCollection<string> _locationPaths = [];
 
-    // Design-time constructor
-    public SettingsPageViewModel() : this(new DatabaseFactory(() => new DatabaseService(new ApplicationDbContext())), new DialogService(() => null))
-    {
-        
-    }
-    
     public SettingsPageViewModel(DatabaseFactory databaseFactory, DialogService dialogService) : base(ApplicationPageNames.Settings)
     {
         _factory = databaseFactory;

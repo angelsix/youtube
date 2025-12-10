@@ -56,17 +56,6 @@ public partial class HomePageViewModel(
         SolidWorksFileList = new(await batchProcessClient.GetActiveFileReferencesAsync());
     }
     
-    // Design-time only
-    public HomePageViewModel() : this(
-        new MainViewModel(), 
-        new DialogService(() => null), 
-        new DatabaseFactory(() => new DatabaseService(new ApplicationDbContext())), 
-        new BatchProcessClient(),
-        new ActionService(new DatabaseFactory(() => new DatabaseService(new ApplicationDbContext()))))
-    {
-        if (!Avalonia.Controls.Design.IsDesignMode) throw new InvalidOperationException("Parameterless constructor is only for design time use");
-    }
-
     #endregion
     
     #region Commands

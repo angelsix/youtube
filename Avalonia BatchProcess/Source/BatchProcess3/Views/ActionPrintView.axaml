@@ -7,10 +7,10 @@
              Background="{DynamicResource PrimaryBackground}"
              Foreground="{DynamicResource PrimaryForeground}"
              x:DataType="vm:ActionsPageViewModel"
-             x:Class="BatchProcess3.Views.ActionPrintView">
-    
-    <Design.DataContext><vm:ActionsPageViewModel></vm:ActionsPageViewModel></Design.DataContext>
-    
+             x:Class="BatchProcess3.Views.ActionPrintView"
+             xmlns:design="clr-namespace:BatchProcess3.Design"
+             d:DataContext="{x:Static design:DesignData.ActionsPageViewModel}">
+
     <Grid ColumnDefinitions="*, 30, 3*">
         <!-- Print List Column -->
         <Grid RowDefinitions="Auto, 10, Auto, 10, Auto, 10, *">

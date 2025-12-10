@@ -8,9 +8,9 @@
              Background="{StaticResource PrimaryBackground}"
              Foreground="{StaticResource PrimaryForeground}"
              x:DataType="vm:ErrorViewModel"
-             x:Class="BatchProcess3.Views.ErrorView">
-    
-    <Design.DataContext><vm:ErrorViewModel /></Design.DataContext>
+             x:Class="BatchProcess3.Views.ErrorView"
+             xmlns:design="clr-namespace:BatchProcess3.Design"
+             d:DataContext="{x:Static design:DesignData.ErrorViewModel}">
     
     <Grid Margin="20" RowDefinitions="Auto, Auto, Auto, *">
         <Label Grid.Row="0" Classes="h2" Content="😲 An Error Has Occurred 😲" />

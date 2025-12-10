@@ -10,9 +10,10 @@
         Icon="/Assets/Images/icon.ico"
         WindowStartupLocation="CenterScreen"
         x:Class="BatchProcess3.MainWindow"
-        Title="BatchProcess v3.0.0">
+        xmlns:design="clr-namespace:BatchProcess3.Design"
+        Title="BatchProcess v3.0.0"
+        d:DataContext="{x:Static design:DesignData.MainViewModel}">
         
-        <Design.DataContext><vm:MainViewModel></vm:MainViewModel></Design.DataContext>
-        
-        <local:MainView />
+    <local:MainView />
+    
 </Window>

@@ -4,6 +4,7 @@ using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using Avalonia.Metadata;
 using BatchProcess3.Actions;
+using BatchProcess3.Bootstrap;
 using BatchProcess3.Crash;
 using BatchProcess3.DataStorage;
 using BatchProcess3.Dialog;
@@ -32,43 +33,11 @@ public partial class App : Application
     public override void OnFrameworkInitializationCompleted()
     {
          var collection = new ServiceCollection();
-         collection.AddSingleton<MainViewModel>();
-         collection.AddTransient<ActionsPageViewModel>();
-         collection.AddTransient<HistoryPageViewModel>();
-         collection.AddSingleton<HomePageViewModel>();
-         collection.AddTransient<MacrosPageViewModel>();
-         collection.AddTransient<ProcessPageViewModel>();
-         collection.AddTransient<ReporterPageViewModel>();
-         collection.AddTransient<SettingsPageViewModel>();
-        
-         collection.AddSingleton<Func<Type, PageViewModel>>(x => type => type switch
-         {
-             _ when type == typeof(HomePageViewModel) => x.GetRequiredService<HomePageViewModel>(),
-             _ when type == typeof(ProcessPageViewModel) => x.GetRequiredService<ProcessPageViewModel>(),
-             _ when type == typeof(MacrosPageViewModel) => x.GetRequiredService<MacrosPageViewModel>(),
-             _ when type == typeof(ActionsPageViewModel) => x.GetRequiredService<ActionsPageViewModel>(),
-             _ when type == typeof(ReporterPageViewModel) => x.GetRequiredService<ReporterPageViewModel>(),
-             _ when type == typeof(HistoryPageViewModel) => x.GetRequiredService<HistoryPageViewModel>(),
-             _ when type == typeof(SettingsPageViewModel) => x.GetRequiredService<SettingsPageViewModel>(),
-             _ => throw new InvalidOperationException($"Page of type {type?.FullName} has no view model"),
-         });
-        
-         collection.AddSingleton<PageFactory>();
-         collection.AddSingleton<DialogService>();
-
-         collection.AddTransient<ActionService>();
-
-         collection.AddTransient<PrinterService>();
-
-         collection.AddTransient<BatchProcessClient>();
-
-         // Database services
-         collection.AddTransient<ApplicationDbContext>();
-         collection.AddTransient<DatabaseService>();
-         collection.AddSingleton<Func<DatabaseService>>(x => x.GetRequiredService<DatabaseService>);
-         collection.AddSingleton<DatabaseFactory>();
-
-         // TopLevel provider
+         
+         // Inject common services
+         Bootstrapper.RegisterCommonServices(collection);
+         
+         // Register the TopLevel provider
          collection.AddSingleton<Func<TopLevel?>>(x => () =>
          {
              if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime topWindow)
@@ -78,7 +47,7 @@ public partial class App : Application
 
              return null;
          });
-
+        
          var services = collection.BuildServiceProvider();
             
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)

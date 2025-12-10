@@ -7,11 +7,9 @@
              Background="{DynamicResource PrimaryBackground}"
              Foreground="{DynamicResource PrimaryForeground}"
              x:DataType="vm:ActionsPageViewModel"
-             x:Class="BatchProcess3.Views.ActionFileInfoView">
-
-    <Design.DataContext>
-        <vm:ActionsPageViewModel />
-    </Design.DataContext>
+             x:Class="BatchProcess3.Views.ActionFileInfoView"
+             xmlns:design="clr-namespace:BatchProcess3.Design"
+             d:DataContext="{x:Static design:DesignData.ActionsPageViewModel}">
 
     <Grid ColumnDefinitions="*, 30, 3*">
         <!-- File Info List Column -->

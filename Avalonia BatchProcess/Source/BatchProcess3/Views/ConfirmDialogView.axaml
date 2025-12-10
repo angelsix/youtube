@@ -10,9 +10,9 @@
              Height="{Binding DialogHeight}"
              Foreground="{DynamicResource PrimaryForeground}"
              Background="Transparent"
-             x:Class="BatchProcess3.Views.ConfirmDialogView">
-    
-    <Design.DataContext><vm:ConfirmDialogViewModel></vm:ConfirmDialogViewModel></Design.DataContext>
+             x:Class="BatchProcess3.Views.ConfirmDialogView"
+             xmlns:design="clr-namespace:BatchProcess3.Design"
+             d:DataContext="{x:Static design:DesignData.ConfirmDialogViewModel}">
     
     <!-- Main Dialog Window -->
     <Border 

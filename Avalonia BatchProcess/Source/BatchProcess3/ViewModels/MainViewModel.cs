@@ -37,17 +37,6 @@ public partial class MainViewModel : ViewModelBase, IDialogProvider
     public bool ReporterPageIsActive => CurrentPage.PageName == ApplicationPageNames.Reporter;
     public bool HistoryPageIsActive => CurrentPage.PageName == ApplicationPageNames.History;
     public bool SettingsPageIsActive => CurrentPage.PageName == ApplicationPageNames.Settings;
-
-    /// <summary>
-    /// Design-time only constructor
-    /// </summary>
-// Allow nullable PageFactory for now in designer... ideally get it working
-#pragma warning disable CS8618, CS9264
-    public MainViewModel()
-    {
-        CurrentPage = new SettingsPageViewModel(new DatabaseFactory(() => new DatabaseService(new ApplicationDbContext())), new DialogService(() => null));
-    }
-#pragma warning restore CS8618, CS9264
     
     public MainViewModel(PageFactory pageFactory, DatabaseFactory databaseFactory)
     {

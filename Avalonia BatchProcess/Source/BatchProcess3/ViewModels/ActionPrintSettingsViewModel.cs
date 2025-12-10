@@ -49,7 +49,7 @@ public partial class ActionPrintSettingsViewModel : ConfirmDialogViewModel
         [
             printerSettingsItem, printerSettingsItem, printerSettingsItem, printerSettingsItem, printerSettingsItem,
             printerSettingsItem, printerSettingsItem, printerSettingsItem, printerSettingsItem, printerSettingsItem,
-        ];
+        ];  
     }
 }
 

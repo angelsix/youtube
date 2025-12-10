@@ -294,13 +294,6 @@ public partial class ActionsPageViewModel(
 
     #region Constructor
 
-    // Design time only
-    public ActionsPageViewModel() : this(new MainViewModel(), new DialogService(() => null), new PrinterService(),
-        new DatabaseService(new ApplicationDbContext()))
-    {
-        if (!Avalonia.Controls.Design.IsDesignMode) throw new InvalidOperationException("Parameterless constructor is only for design time use");
-    }
-
     protected override void OnDesignTimeConstructor()
     {
         PrintList.FetchList();

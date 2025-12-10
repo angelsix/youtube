@@ -8,10 +8,10 @@
              Foreground="{DynamicResource PrimaryForeground}"
              Loaded="Control_OnLoaded"
              x:DataType="vm:SettingsPageViewModel"
-             x:Class="BatchProcess3.Views.SettingsPageView">
+             x:Class="BatchProcess3.Views.SettingsPageView"
+             xmlns:design="clr-namespace:BatchProcess3.Design"
+             d:DataContext="{x:Static design:DesignData.SettingsPageViewModel}">
     
-        <Design.DataContext><vm:SettingsPageViewModel></vm:SettingsPageViewModel></Design.DataContext>
-
         <Grid ColumnDefinitions="*, *" RowDefinitions="Auto, Auto, *">
             <!-- Header -->
             <Grid Name="HeaderGrid" Grid.ColumnSpan="2">

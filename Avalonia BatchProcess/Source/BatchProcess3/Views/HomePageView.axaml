@@ -7,12 +7,9 @@
              Background="{DynamicResource PrimaryBackground}"
              Foreground="{DynamicResource PrimaryForeground}"
              x:DataType="vm:HomePageViewModel"
-             x:Class="BatchProcess3.Views.HomePageView">
-
-    <!-- Design-time view model -->
-    <Design.DataContext>
-        <vm:HomePageViewModel></vm:HomePageViewModel>
-    </Design.DataContext>
+             x:Class="BatchProcess3.Views.HomePageView"
+             xmlns:design="clr-namespace:BatchProcess3.Design"
+             d:DataContext="{x:Static design:DesignData.HomePageViewModel}">
     
     <Interaction.Behaviors>
         <LoadedTrigger>

@@ -28,16 +28,6 @@ public partial class ProcessPageViewModel(
     [ObservableProperty] private ObservableCollection<AvailableActionItemViewModel>? _availableActionsList;
     
     #endregion
-
-    #region Constructor
-
-    // Design-time only
-    public ProcessPageViewModel() : this(new MainViewModel(), new DialogService(() => null), new DatabaseService(new ApplicationDbContext()), new ActionService(new DatabaseFactory(new Func<DatabaseService>(() => new DatabaseService(new ApplicationDbContext())))))
-    {
-        if (!Avalonia.Controls.Design.IsDesignMode) throw new InvalidOperationException("Parameterless constructor is only for design time use");
-    }
-    
-    #endregion
     
     #region Commands
     

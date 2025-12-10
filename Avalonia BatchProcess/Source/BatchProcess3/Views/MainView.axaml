@@ -7,10 +7,10 @@
              xmlns:view="clr-namespace:BatchProcess3.Views"
              MinWidth="1400" MinHeight="800"
              x:DataType="vm:MainViewModel"
-             x:Class="BatchProcess3.Views.MainView">
+             x:Class="BatchProcess3.Views.MainView"
+             xmlns:design="clr-namespace:BatchProcess3.Design"
+             d:DataContext="{x:Static design:DesignData.MainViewModel}">
 
-        <Design.DataContext><vm:MainViewModel></vm:MainViewModel></Design.DataContext>
-        
         <Grid Background="{DynamicResource PrimaryBackground}" ColumnDefinitions="Auto, *">
                 
                 <ContentControl Grid.Column="1" Content="{Binding CurrentPage}" />

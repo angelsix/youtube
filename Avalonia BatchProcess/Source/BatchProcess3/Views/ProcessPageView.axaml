@@ -7,10 +7,9 @@
              Background="{DynamicResource PrimaryBackground}"
              Foreground="{DynamicResource PrimaryForeground}"
              x:DataType="vm:ProcessPageViewModel"
-             x:Class="BatchProcess3.Views.ProcessPageView">
-    
-    <!-- Design-time view model -->
-    <Design.DataContext><vm:ProcessPageViewModel></vm:ProcessPageViewModel></Design.DataContext>
+             x:Class="BatchProcess3.Views.ProcessPageView"
+             xmlns:design="clr-namespace:BatchProcess3.Design"
+             d:DataContext="{x:Static design:DesignData.ProcessPageViewModel}">
     
     <Interaction.Behaviors>
         <InitializedTrigger>
