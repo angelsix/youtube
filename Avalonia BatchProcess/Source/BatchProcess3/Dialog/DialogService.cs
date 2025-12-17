@@ -14,12 +14,32 @@ public class DialogService(Func<TopLevel?> topLevel)
         where TDialogViewModel : DialogViewModel
         where THost : IDialogProvider
     {
-        // Set host dialog to provided one
-        host.Dialog = dialogViewModel;
-        dialogViewModel.Show();
+        if (!Avalonia.Controls.Design.IsDesignMode)
+        {
+            // Set host dialog to provided one
+            host.Dialog = dialogViewModel;
+            dialogViewModel.Show();
 
-        // Wait for dialog to close
-        await dialogViewModel.WaitAsnyc();
+            // Wait for dialog to close
+            await dialogViewModel.WaitAsnyc();
+
+            return;
+        }
+        
+        // Fallback to design time
+        var dialogView = new ViewLocator().Build(dialogViewModel) ?? new ContentControl { Content =  dialogViewModel };
+        
+        // Show UI
+        if (DialogInjector.TryShow(dialogView))
+        {
+            // Setup and await view model calls
+            dialogViewModel.Show();
+            await dialogViewModel.WaitAsnyc();
+            dialogViewModel.Close();
+
+            // Close UI
+            DialogInjector.Close();
+        }
     }
 
     public async Task<string?> FolderPicker()

@@ -36,17 +36,6 @@ public partial class App : Application
          
          // Inject common services
          Bootstrapper.RegisterCommonServices(collection);
-         
-         // Register the TopLevel provider
-         collection.AddSingleton<Func<TopLevel?>>(x => () =>
-         {
-             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime topWindow)
-                 return TopLevel.GetTopLevel(topWindow.MainWindow);
-             else if (ApplicationLifetime is ISingleViewApplicationLifetime singleViewPlatform)
-                 return TopLevel.GetTopLevel(singleViewPlatform.MainView);
-
-             return null;
-         });
         
          var services = collection.BuildServiceProvider();
             

@@ -59,5 +59,8 @@ public static class Bootstrapper
          collection.AddTransient<DatabaseService>();
          collection.AddSingleton<Func<DatabaseService>>(x => x.GetRequiredService<DatabaseService>);
          collection.AddSingleton<DatabaseFactory>();
+         
+         // Add Top Level Locator
+         collection.AddTopLevelProvider();
     }
 }

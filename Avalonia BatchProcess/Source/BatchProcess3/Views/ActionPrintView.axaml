@@ -6,6 +6,9 @@
              mc:Ignorable="d" d:DesignWidth="1000" d:DesignHeight="620"
              Background="{DynamicResource PrimaryBackground}"
              Foreground="{DynamicResource PrimaryForeground}"
+             xmlns:dialog="clr-namespace:BatchProcess3.Dialog"
+             dialog:TopLevelLocator.Capture="True"
+             dialog:DialogInjector.AddDialog="True"
              x:DataType="vm:ActionsPageViewModel"
              x:Class="BatchProcess3.Views.ActionPrintView"
              xmlns:design="clr-namespace:BatchProcess3.Design"
@@ -174,4 +177,5 @@
         </Grid>
         
     </Grid>
+    
 </UserControl>

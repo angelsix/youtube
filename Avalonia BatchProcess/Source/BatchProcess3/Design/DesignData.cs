@@ -21,9 +21,6 @@ public static class DesignData
         
         // Register design-time only services
         
-        // Mock TopLevel service
-        collection.AddSingleton<Func<TopLevel?>>(x => () => null);
-        
         Services = collection.BuildServiceProvider();
     }
     
