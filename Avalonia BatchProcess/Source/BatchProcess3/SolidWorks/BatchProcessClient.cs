@@ -1,6 +1,9 @@
 ﻿using BatchProcess3.Core.SolidWorks;
+using CommunityToolkit.Mvvm.ComponentModel;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -9,6 +12,10 @@ namespace BatchProcess3.SolidWorks;
 
 public class BatchProcessClient
 {
+    public bool DummyData { get; set; } = true;
+    
+    private readonly string _dummyDataPath = @"..\..\..\..\BatchProcess3\SolidWorks\SampleFiles";
+    
     private readonly JsonSerializerOptions _jsonOptions = new JsonSerializerOptions
     {
         PropertyNameCaseInsensitive = true
@@ -23,6 +30,24 @@ public class BatchProcessClient
     
     public async Task<List<SolidWorksFileDetails>> GetActiveFileReferencesAsync()
     {
+        if (DummyData)
+        {
+            var files = Directory.GetFiles(_dummyDataPath)
+                .Select(Path.GetFullPath)
+                .Where(f => !Path.GetFileName(f).StartsWith("~$"))
+                .Where(f => f.EndsWith(".sldprt", StringComparison.InvariantCultureIgnoreCase) 
+                            || f.EndsWith(".sldasm", StringComparison.InvariantCultureIgnoreCase) 
+                            || f.EndsWith(".slddrw", StringComparison.InvariantCultureIgnoreCase))
+                .Select(f => new SolidWorksFileDetails(f)) .ToList();
+            
+            // By default, make the first *.sldasm the active file
+            files.FirstOrDefault(f => f.FileName.EndsWith(".sldasm", StringComparison.InvariantCultureIgnoreCase))
+                ?.IsActiveInSolidWorks = true;
+
+            // Return files
+            return files;
+        }
+
         try
         {
             var httpClient = new HttpClient();

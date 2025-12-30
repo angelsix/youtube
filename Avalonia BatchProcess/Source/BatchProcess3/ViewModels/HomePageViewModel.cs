@@ -53,9 +53,18 @@ public partial class HomePageViewModel(
         // Get SolidWorks file list from remote host
         // batchProcessClient.Connect(dbContext.GetSettings().SolidWorksHost);
         batchProcessClient.Connect("http://localhost:5000");
-        SolidWorksFileList = new(await batchProcessClient.GetActiveFileReferencesAsync());
+        await SetSolidWorksFileList();
     }
-    
+
+    private async Task SetSolidWorksFileList()
+    {
+        SolidWorksFileList = new ObservableCollection<SolidWorksFileDetails>(
+            (await batchProcessClient.GetActiveFileReferencesAsync())
+            .OrderByDescending(f => f.IsActiveInSolidWorks)
+            .ThenBy(f => f.FileName)
+            );
+    }
+
     #endregion
     
     #region Commands
