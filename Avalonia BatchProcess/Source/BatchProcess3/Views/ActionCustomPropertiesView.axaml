@@ -32,7 +32,7 @@
                     <DataTemplate x:DataType="vm:ActionCustomPropertiesViewModel">
                         <Grid ColumnDefinitions="*, Auto">
                             <Label Grid.Column="0"
-                                   FontWeight="{Binding HasChanged, Converter={StaticResource BooleanToBoldFontConverter}}"
+                                   FontFamily="{Binding HasChanged, Converter={StaticResource BooleanToBoldFontConverter}}"
                                    Content="{Binding JobName}"
                                    VerticalAlignment="Center" />
                             <Button Grid.Column="1"

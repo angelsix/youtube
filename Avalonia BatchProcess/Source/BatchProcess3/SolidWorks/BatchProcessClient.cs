@@ -14,7 +14,7 @@ public class BatchProcessClient
 {
     public bool DummyData { get; set; } = true;
     
-    private readonly string _dummyDataPath = @"..\..\..\..\BatchProcess3\SolidWorks\SampleFiles";
+    private readonly string _dummyDataPath = Path.Combine("..", "..", "..", "..", "BatchProcess3", "SolidWorks", "SampleFiles");
     
     private readonly JsonSerializerOptions _jsonOptions = new JsonSerializerOptions
     {
@@ -30,26 +30,26 @@ public class BatchProcessClient
     
     public async Task<List<SolidWorksFileDetails>> GetActiveFileReferencesAsync()
     {
-        if (DummyData)
-        {
-            var files = Directory.GetFiles(_dummyDataPath)
-                .Select(Path.GetFullPath)
-                .Where(f => !Path.GetFileName(f).StartsWith("~$"))
-                .Where(f => f.EndsWith(".sldprt", StringComparison.InvariantCultureIgnoreCase) 
-                            || f.EndsWith(".sldasm", StringComparison.InvariantCultureIgnoreCase) 
-                            || f.EndsWith(".slddrw", StringComparison.InvariantCultureIgnoreCase))
-                .Select(f => new SolidWorksFileDetails(f)) .ToList();
-            
-            // By default, make the first *.sldasm the active file
-            files.FirstOrDefault(f => f.FileName.EndsWith(".sldasm", StringComparison.InvariantCultureIgnoreCase))
-                ?.IsActiveInSolidWorks = true;
-
-            // Return files
-            return files;
-        }
-
         try
         {
+            if (DummyData)
+            {
+                var files = Directory.GetFiles(_dummyDataPath)
+                    .Select(Path.GetFullPath)
+                    .Where(f => !Path.GetFileName(f).StartsWith("~$"))
+                    .Where(f => f.EndsWith(".sldprt", StringComparison.InvariantCultureIgnoreCase) 
+                                || f.EndsWith(".sldasm", StringComparison.InvariantCultureIgnoreCase) 
+                                || f.EndsWith(".slddrw", StringComparison.InvariantCultureIgnoreCase))
+                    .Select(f => new SolidWorksFileDetails(f)) .ToList();
+                
+                // By default, make the first *.sldasm the active file
+                files.FirstOrDefault(f => f.FileName.EndsWith(".sldasm", StringComparison.InvariantCultureIgnoreCase))
+                    ?.IsActiveInSolidWorks = true;
+
+                // Return files
+                return files;
+            }
+
             var httpClient = new HttpClient();
 
             var response = await httpClient.GetAsync(_hostAddress + BatchProcessHostUrls.SolidWorksActiveFileList);
