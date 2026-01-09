@@ -20,4 +20,8 @@
     <ItemGroup>
         <ProjectReference Include="..\BatchProcess3\BatchProcess3.csproj"/>
     </ItemGroup>
+    
+    <Target Name="MacAppBundle" AfterTargets="Build" Condition="$([MSBuild]::IsOSPlatform('OSX'))">
+        <Exec Command="bash &quot;BuildScripts/create_mac_app.sh&quot; &quot;$(OutputPath)&quot;" />
+    </Target>
 </Project>
