@@ -1,0 +1,238 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="1100" d:DesignHeight="900"
+             xmlns:vm="clr-namespace:BatchProcess3.ViewModels"
+             Background="{DynamicResource PrimaryBackground}"
+             Foreground="{DynamicResource PrimaryForeground}"
+             x:DataType="pages:HomePageViewModel"
+             x:Class="BatchProcess3.Views.Pages.HomePageView"
+             xmlns:design="clr-namespace:BatchProcess3.Design"
+             xmlns:pages="clr-namespace:BatchProcess3.ViewModels.Pages"
+             xmlns:actions="clr-namespace:BatchProcess3.ViewModels.Actions"
+             d:DataContext="{x:Static design:DesignData.HomePageViewModel}">
+    
+    <Interaction.Behaviors>
+        <LoadedTrigger>
+            <InvokeCommandAction Command="{Binding InitializeCommand}" />
+        </LoadedTrigger>
+    </Interaction.Behaviors>
+
+    <!-- Remove padding from flyouts -->
+    <UserControl.Styles>
+        <Styles>
+            <Style Selector="FlyoutPresenter">
+                <Setter Property="Padding" Value="0" />
+            </Style>
+        </Styles>
+    </UserControl.Styles>
+
+    <!-- Header / Main Content Rows -->
+    <Grid ColumnDefinitions="*" RowDefinitions="Auto, *">
+
+        <!-- Header -->
+        <Grid Name="HeaderGrid">
+            <StackPanel Height="100" ClipToBounds="True">
+                <Image Source="{SvgImage /Assets/Images/background-actions.svg}" Stretch="UniformToFill" />
+            </StackPanel>
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Label Classes="h1" HorizontalAlignment="Center" Content="No Connection" />
+                <Label Classes="sub2" HorizontalAlignment="Center"
+                       Content="Connect to an instance of SolidWorks to begin" />
+            </StackPanel>
+        </Grid>
+
+        <!-- Padding -->
+        <Border Grid.Row="1" Padding="25">
+
+            <!-- 2 Main Columns + Bottom Button Row -->
+            <Grid ColumnDefinitions="3*, 3*" ColumnSpacing="30"
+                  RowDefinitions="*, Auto" RowSpacing="10">
+
+                <!-- SolidWorks List -->
+                <Grid RowDefinitions="Auto, Auto, Auto, *" RowSpacing="10">
+
+                    <!-- Title & Description -->
+                    <Label Classes="h2" Content="SolidWorks Files" />
+                    <TextBlock Grid.Row="1" HorizontalAlignment="Left"
+                               Text="Select and edit the list below of all SolidWorks files you want to run the actions on."
+                               TextWrapping="Wrap" Margin="0 -10 0 10">
+                    </TextBlock>
+                    
+                    <StackPanel Grid.Row="2" Orientation="Horizontal">
+                        <StackPanel.Styles>
+                            <!-- All Buttons -->
+                            <Style Selector="StackPanel > Button">
+                                <Setter Property="CornerRadius" Value="0" />
+                            </Style>
+                            <!-- First -->
+                            <Style Selector="StackPanel > Button:nth-child(1)">
+                                <Setter Property="CornerRadius" Value="5 0 0 5" />
+                            </Style>
+                            <!-- Last -->
+                            <Style Selector="StackPanel > Button:nth-last-child(1)">
+                                <Setter Property="CornerRadius" Value="0 5 5 0" />
+                            </Style>
+                        </StackPanel.Styles>
+                        <Button><Image Source="/Assets/Images/home-context-openfile.png"></Image></Button>
+                        <Button><Image Source="/Assets/Images/home-context-drawing.png"></Image></Button>
+                        <Button><Image Source="/Assets/Images/home-context-folder.png"></Image></Button>
+                        <Button><Image Source="/Assets/Images/home-context-preview.png"></Image></Button>
+                        <Button><Image Source="/Assets/Images/home-context-delete.png"></Image></Button>
+                        <Button><Image Source="/Assets/Images/home-context-print.png"></Image></Button>
+                        <Button><Image Source="/Assets/Images/home-context-fileref.png"></Image></Button>
+                        <Button><Image Source="/Assets/Images/home-context-drawinglink.png"></Image></Button>
+                    </StackPanel>
+
+                    <!-- SolidWorks Files ListBox -->
+                    <ListBox Grid.Row="3" ItemsSource="{Binding SolidWorksFileList}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Label Content="{Binding FileName}" ToolTip.Tip="{Binding FilePath}" Background="Transparent" />
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+
+                </Grid>
+
+                <!-- Actions List -->
+                <Grid Grid.Column="1" 
+                      ColumnSpacing="30"
+                      RowSpacing="10"
+                      RowDefinitions="Auto, Auto, *"
+                      ColumnDefinitions="*, Auto">
+
+                    <!-- Title & Description -->
+                    <StackPanel Grid.ColumnSpan="2" Orientation="Vertical" Spacing="10">
+                        <Label Classes="h2" Content="Actions List" />
+                        <TextBlock HorizontalAlignment="Left"
+                                   Text="Select the actions and order in which to run them on the SolidWorks files."
+                                   TextWrapping="Wrap" Margin="0 -10 0 10">
+                        </TextBlock>
+                    </StackPanel>
+                    
+                    <!-- Load button -->
+                    <IconButton Grid.Column="1" Grid.Row="1"
+                                Name="LoadProcessButton"
+                                Classes="icon-outline"
+                                IconText="&#xE2F8;"
+                                Content="Load"
+                                VerticalAlignment="Center">
+                        <Button.Flyout>
+                            <Flyout>
+                                <ListBox ItemsSource="{Binding ProcessList}" 
+                                         PointerReleased="ProcessListItem_OnPointerReleased">
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding JobName}" 
+                                                       ToolTip.Tip="{Binding Description}" />
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListBox>
+                            </Flyout>
+                        </Button.Flyout>
+                    </IconButton>
+
+                    <!-- Quick View / Save Checkboxes -->
+                    <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal">
+                        
+                        <CheckBox Content="Quick View Mode" />
+                        <CheckBox Content="Save Before Close" />
+                        
+                    </StackPanel>
+                    
+                    <!-- Actions ListBox -->
+                    <ListBox Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" Classes="draggable"
+                                 x:Name="ActionsListBox"
+                                 ItemsSource="{Binding Actions}" 
+                                 PointerReleased="ActionsListBox_OnPointerReleased"
+                                 SelectedValueBinding="{Binding Id}">
+                            
+                            <Interaction.Behaviors>
+                                <CollectionChangedTrigger Collection="{Binding Actions}">
+                                    <InvokeCommandAction Command="{Binding UpdateActionSortOrderCommand}" />
+                                </CollectionChangedTrigger>
+                            </Interaction.Behaviors>
+                            
+                            <FlyoutBase.AttachedFlyout>
+                                <Flyout Placement="Pointer">
+                                    <ListBox BorderThickness="0" Padding="10" 
+                                        ItemsSource="{Binding AvailableActionsList}">
+                                        <ListBox.ItemContainerTheme>
+                                            <ControlTheme 
+                                                TargetType="ListBoxItem"
+                                                BasedOn="{StaticResource {x:Type ListBoxItem}}"
+                                                x:DataType="vm:AvailableActionItemViewModel">
+                                                <Setter Property="IsEnabled" Value="{Binding IsSelectable}" />
+                                                <Setter Property="Padding" Value="0"></Setter>
+                                            </ControlTheme>
+                                        </ListBox.ItemContainerTheme>
+                                        <ListBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <Border PointerReleased="ActionContextMenu_OnPointerReleased" Background="Transparent">
+                                                    <Grid ColumnDefinitions="Auto, 10, *, Auto" Margin="5">
+                                                        <TextBlock Grid.Column="0" Foreground="{StaticResource ActiveGradient}" 
+                                                                   FontFamily="{DynamicResource NotoSansJP-Black}"
+                                                                   Text="{Binding Category}" 
+                                                                   IsVisible="{Binding ActionViewModel, Converter={x:Static ObjectConverters.IsNull}}" />
+                                                        <TextBlock Grid.Column="0" Padding="5" 
+                                                                   Text="{Binding ActionViewModel.JobName}" 
+                                                                   IsVisible="{Binding ActionViewModel, Converter={x:Static ObjectConverters.IsNotNull}}" />
+                                                    </Grid>
+                                                </Border>
+                                            </DataTemplate>
+                                        </ListBox.ItemTemplate>
+                                    </ListBox>
+                                </Flyout>
+                            </FlyoutBase.AttachedFlyout>
+                                
+                            <ListBox.ItemTemplate> 
+                                <DataTemplate x:DataType="actions:ProcessActionViewModel">
+                                    <Grid ColumnDefinitions="Auto, 10, *, 10, Auto">
+                                        
+                                        <Label Grid.Column="0" 
+                                               Content="{Binding SortOrderDisplayString}" 
+                                               FontSize="20" 
+                                               FontFamily="{DynamicResource NotoSansJP-Bold}"
+                                               VerticalAlignment="Center" />
+                                         
+                                        <StackPanel Grid.Column="2" Orientation="Vertical">
+                                            <Label Content="{Binding JobName}" />
+                                            <Label Content="{Binding Description}" Foreground="{DynamicResource PrimaryForegroundSubtle}" />
+                                        </StackPanel>
+                                        
+                                        <Panel Grid.Column="4">
+                                            <Button Margin="0 -4 -4 -6"
+                                                    Command="{Binding $parent[ListBox].((pages:HomePageViewModel)DataContext).DeleteActionCommand}"
+                                                    CommandParameter="{Binding }"
+                                                    IsVisible="{Binding $parent[ListBoxItem].IsSelected}"
+                                                    VerticalAlignment="Center"
+                                                    Classes="smaller danger">
+                                                <Label Classes="icon-only icon-outline" Content="&#xe4a6;" />
+                                            </Button>
+                                        </Panel>
+                                    </Grid>
+                                    
+                                </DataTemplate>
+                                
+                            </ListBox.ItemTemplate>
+                            
+                        </ListBox>
+
+                </Grid>
+
+                <!-- Run Button -->
+                <Button Grid.Row="1" Grid.Column="1"
+                        HorizontalAlignment="Right"
+                        Classes="success"
+                        Command="{Binding RunJobCommand}"
+                        Content="Run Job" />
+                
+            </Grid>
+
+        </Border>
+
+    </Grid>
+
+</UserControl>

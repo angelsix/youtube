@@ -1,0 +1,156 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:BatchProcess3.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="1000" d:DesignHeight="620"
+             Background="{DynamicResource PrimaryBackground}"
+             Foreground="{DynamicResource PrimaryForeground}"
+             x:DataType="pages:ActionsPageViewModel"
+             x:Class="BatchProcess3.Views.Actions.ActionFileInfoView"
+             xmlns:design="clr-namespace:BatchProcess3.Design"
+             xmlns:pages="clr-namespace:BatchProcess3.ViewModels.Pages"
+             xmlns:actions="clr-namespace:BatchProcess3.ViewModels.Actions"
+             d:DataContext="{x:Static design:DesignData.ActionsPageViewModel}">
+
+    <Grid ColumnDefinitions="*, 30, 3*">
+        <!-- File Info List Column -->
+        <Grid RowDefinitions="Auto, 10, Auto, 10, Auto, 10, *">
+            <Label Classes="h2" Content="File Info Actions" />
+            <TextBlock Grid.Row="2"
+                       Text="File Info actions can be used to set, update or clear file properties."
+                       TextWrapping="Wrap" Margin="0 -10 0 10" />
+            <Button Grid.Row="4" Classes="small outline" Content="New File Info Action"
+                    Command="{Binding FileInfoList.AddNewItemCommand}" HorizontalAlignment="Stretch"
+                    HorizontalContentAlignment="Center" />
+            <ListBox Grid.Row="6"
+                     SelectionChanged="SelectingItemsControl_OnSelectionChanged"
+                     ItemsSource="{Binding FileInfoList.List}"
+                     SelectedValueBinding="{Binding Id}"
+                     SelectedValue="{Binding FileInfoList.SelectedItemId}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate x:DataType="actions:ActionFileInfoViewModel">
+                        <Grid ColumnDefinitions="*, Auto">
+                            <Label Grid.Column="0"
+                                   FontWeight="{Binding HasChanged, Converter={StaticResource BooleanToBoldFontConverter}}"
+                                   Content="{Binding JobName}"
+                                   VerticalAlignment="Center" />
+                            <Button Grid.Column="1"
+                                    Margin="0 -4 -4 -6"
+                                    Command="{Binding $parent[ListBox].((pages:ActionsPageViewModel)DataContext).FileInfoList.DeleteItemCommand}"
+                                    CommandParameter="{Binding Id}"
+                                    IsVisible="{Binding $parent[ListBoxItem].IsSelected}"
+                                    VerticalAlignment="Center"
+                                    Classes="smaller danger">
+                                <Label Classes="icon-only icon-outline" Content="&#xe4a6;" />
+                            </Button>
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+
+            </ListBox>
+        </Grid>
+
+        <StackPanel Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10"
+                    Opacity="{Binding !FileInfoList.HasItems}">
+            <StackPanel.Styles>
+                <Style Selector="StackPanel">
+                    <Setter Property="Transitions">
+                        <Transitions>
+                            <DoubleTransition Property="Opacity" Duration="0:0:0.1" />
+                        </Transitions>
+                    </Setter>
+                </Style>
+            </StackPanel.Styles>
+            <TextBlock Text="File Info actions can be used to set, update or clear file properties."
+                       HorizontalAlignment="Center" />
+            <TextBlock Text="To get started, create a new File Info Action." HorizontalAlignment="Center" />
+            <Button Content="New File Info Action" HorizontalAlignment="Center"
+                    Command="{Binding FileInfoList.AddNewItemCommand}"
+                    Margin="20" />
+        </StackPanel>
+
+        <Grid Grid.Column="2" ColumnDefinitions="*, 30, *" Opacity="{Binding FileInfoList.HasItems}">
+            <Grid.Styles>
+                <Style Selector="Grid">
+                    <Setter Property="Transitions">
+                        <Transitions>
+                            <DoubleTransition Property="Opacity" Duration="0:0:0.1" />
+                        </Transitions>
+                    </Setter>
+                </Style>
+            </Grid.Styles>
+
+            <!-- General Settings Column -->
+            <Grid Grid.Column="0"
+                  RowDefinitions="Auto, 10, Auto, 10, Auto, 10, Auto, 10, Auto, 10, Auto, 10, Auto, 10, Auto, 10, Auto, 10 *">
+                <Label Classes="h2" Content="General Settings" />
+                <TextBlock Grid.Row="2" Text="Set the main properties of the File Info job." Margin="0 -10 0 10" />
+
+                <Grid Grid.Row="4" ColumnDefinitions="140, 15, *"
+                      RowDefinitions="Auto, 15, Auto, 15, Auto, 15, Auto, 15, Auto, 15, Auto, 15, Auto">
+
+                    <!-- Job Name -->
+                    <Label Grid.Row="0" Grid.Column="0" Content="Job Name" VerticalAlignment="Center" />
+                    <TextBox Name="JobNameTextBox" Grid.Row="0" Grid.Column="2"
+                             Text="{Binding  FileInfoList.SelectedItem.JobName}" />
+
+                    <!-- Description -->
+                    <Label Grid.Row="2" Grid.Column="0" Content="Description" />
+                    <TextBox Grid.Row="2" Grid.Column="2" AcceptsReturn="True"
+                             Text="{Binding  FileInfoList.SelectedItem.Description}" Height="80" TextWrapping="Wrap" />
+
+                    <!-- Title -->
+                    <Label Grid.Row="4" Grid.Column="0" Content="Title" VerticalAlignment="Center" />
+                    <TextBox Grid.Row="4" Grid.Column="2" Text="{Binding  FileInfoList.SelectedItem.Title}" />
+
+                    <!-- Subject -->
+                    <Label Grid.Row="6" Grid.Column="0" Content="Subject" VerticalAlignment="Center" />
+                    <TextBox Grid.Row="6" Grid.Column="2" Text="{Binding  FileInfoList.SelectedItem.Subject}" />
+
+                    <!-- Author -->
+                    <Label Grid.Row="8" Grid.Column="0" Content="Author" VerticalAlignment="Center" />
+                    <TextBox Grid.Row="8" Grid.Column="2" Text="{Binding  FileInfoList.SelectedItem.Author}" />
+
+                    <!-- Keywords -->
+                    <Label Grid.Row="10" Grid.Column="0" Content="Keywords" VerticalAlignment="Center" />
+                    <TextBox Grid.Row="10" Grid.Column="2" Text="{Binding  FileInfoList.SelectedItem.Keywords}" />
+
+                    <!-- Comments -->
+                    <Label Grid.Row="12" Grid.Column="0" Content="Comments" VerticalAlignment="Top" />
+                    <TextBox Grid.Row="12" Grid.Column="2" AcceptsReturn="True" Height="80"
+                             Text="{Binding  FileInfoList.SelectedItem.Comments}" />
+
+                </Grid>
+
+            </Grid>
+
+            <!-- Save / Close Column -->
+            <Grid Grid.Column="2" RowDefinitions="Auto, 10, Auto, 10, Auto, 10, *">
+
+                <!-- Extra details here -->
+
+                <StackPanel Grid.Row="6"
+                            VerticalAlignment="Bottom"
+                            HorizontalAlignment="Right"
+                            Orientation="Horizontal"
+                            Spacing="10"
+                            Opacity="{Binding FileInfoList.SelectedItem.HasChanged, FallbackValue=0}">
+                    <StackPanel.Styles>
+                        <Style Selector="StackPanel">
+                            <Setter Property="Transitions">
+                                <Transitions>
+                                    <DoubleTransition Property="Opacity" Duration="0:0:0.1" />
+                                </Transitions>
+                            </Setter>
+                        </Style>
+                    </StackPanel.Styles>
+                    <Button Content="Cancel" Classes="outline" Command="{Binding FileInfoList.CancelItemCommand}" />
+                    <Button Content="Save" Classes="success" Command="{Binding FileInfoList.SaveItemCommand}" />
+                </StackPanel>
+            </Grid>
+
+        </Grid>
+
+    </Grid>
+</UserControl>

@@ -1,0 +1,47 @@
+﻿using BatchProcess3.DataStorage.DataModels;
+using CommunityToolkit.Mvvm.ComponentModel;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+
+namespace BatchProcess3.ViewModels.Actions;
+
+public partial class ActionImportFileViewModel : ActionViewModel, ISelectableItemListViewModel
+{
+    [ObservableProperty] [NotifyPropertyChangedFor(nameof(HasChanged))]
+    private bool _addToProject;
+
+    [ObservableProperty] [NotifyPropertyChangedFor(nameof(HasChanged))]
+    private string _fileName = "";
+
+    [ObservableProperty] [NotifyPropertyChangedFor(nameof(HasChanged))]
+    private string _importArguments = "";
+
+    [ObservableProperty] [NotifyPropertyChangedFor(nameof(HasChanged))]
+    private string _saveLocation = "";
+
+    public new ActionImportFileDataModel ToDataModel() => new()
+    {
+        Id = Id,
+        Description = Description,
+        JobName = JobName,
+        FileName = FileName,
+        SaveLocation = SaveLocation,
+        ImportArguments = ImportArguments,
+        AddToProject = AddToProject
+    };
+}
+
+public static class ActionImportFileViewModelExtensions
+{
+    public static ActionImportFileViewModel ToViewModel(this ActionImportFileDataModel dataModel) =>
+        new()
+        {
+            Id = dataModel.Id,
+            JobName = dataModel.JobName,
+            Description = dataModel.Description,
+            SaveLocation = dataModel.SaveLocation,
+            FileName = dataModel.FileName,
+            AddToProject = dataModel.AddToProject,
+            ImportArguments = dataModel.ImportArguments
+        };
+}

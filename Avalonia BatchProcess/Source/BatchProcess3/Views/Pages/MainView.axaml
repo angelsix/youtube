@@ -1,0 +1,72 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="1400" d:DesignHeight="800"
+             xmlns:vm="clr-namespace:BatchProcess3.ViewModels"
+             xmlns:view="clr-namespace:BatchProcess3.Views"
+             MinWidth="1400" MinHeight="800"
+             x:DataType="pages:MainViewModel"
+             x:Class="BatchProcess3.Views.Pages.MainView"
+             xmlns:design="clr-namespace:BatchProcess3.Design"
+             xmlns:pages="clr-namespace:BatchProcess3.ViewModels.Pages"
+             d:DataContext="{x:Static design:DesignData.MainViewModel}">
+
+        <Grid Background="{DynamicResource PrimaryBackground}" ColumnDefinitions="Auto, *">
+                
+                <ContentControl Grid.Column="1" Content="{Binding CurrentPage}" />
+                
+                <Border Padding="20" Background="{DynamicResource PrimaryBackgroundGradient}">
+                        <Grid RowDefinitions="*, Auto">
+                                <StackPanel Spacing="12">
+                                        <Image PointerPressed="InputElement_OnPointerPressed" Source="{SvgImage /Assets/Images/logo.svg}" Width="220" IsVisible="{Binding SideMenuExpanded}"></Image>
+                                        <Image PointerPressed="InputElement_OnPointerPressed" Source="{SvgImage /Assets/Images/icon.svg}" Width="22" IsVisible="{Binding !SideMenuExpanded}"></Image>
+                                        
+                                        <IconButton Classes="subtle" IconText="&#xe2c2;" HorizontalAlignment="Stretch" Classes.active="{Binding HomePageIsActive}" Command="{Binding GoToHomeCommand}">
+                                                <Label Content="Home" IsVisible="{Binding SideMenuExpanded}"></Label>
+                                        </IconButton>
+                                        <IconButton Classes="subtle" IconText="&#xe346;"  HorizontalAlignment="Stretch" Classes.active="{Binding ProcessPageIsActive}" Command="{Binding GoToProcessCommand}">
+                                                <Label Content="Process" IsVisible="{Binding SideMenuExpanded}"></Label>
+                                        </IconButton>
+                                        <IconButton Classes="subtle" IconText="&#xe7f2;" HorizontalAlignment="Stretch" Classes.active="{Binding ActionsPageIsActive}" Command="{Binding GoToActionsCommand}">
+                                                <Label Content="Actions" IsVisible="{Binding SideMenuExpanded}"></Label>
+                                        </IconButton>
+                                        <IconButton Classes="subtle" IconText="&#xe3ee;"  HorizontalAlignment="Stretch" Classes.active="{Binding MacrosPageIsActive}" Command="{Binding GoToMacrosCommand}">
+                                                <Label Content="Macros" IsVisible="{Binding SideMenuExpanded}"></Label>
+                                        </IconButton>
+                                        <IconButton Classes="subtle" IconText="&#xeb7a;"  HorizontalAlignment="Stretch" Classes.active="{Binding ReporterPageIsActive}" Command="{Binding GoToReporterCommand}">
+                                                <Label Content="Reporter" IsVisible="{Binding SideMenuExpanded}"></Label>
+                                        </IconButton>
+                                        <IconButton Classes="subtle" IconText="&#xe03a;"  HorizontalAlignment="Stretch" Classes.active="{Binding HistoryPageIsActive}" Command="{Binding GoToHistoryCommand}">
+                                                <Label Content="History" IsVisible="{Binding SideMenuExpanded}"></Label>
+                                        </IconButton>
+                                </StackPanel>
+                                
+                                <Button Classes="transparent subtle" Grid.Row="1" Classes.active="{Binding SettingsPageIsActive}" Command="{Binding GoToSettingsCommand}">
+                                        <Label Classes="icon-only" Content="&#xe272;"></Label>
+                                </Button>
+                        </Grid>
+                </Border>
+                
+                <Grid Grid.Column="0" Grid.ColumnSpan="2" Name="DialogOverlay" IsVisible="{Binding #DialogOverlay.Opacity}" Opacity="{Binding Dialog.IsDialogOpen, FallbackValue=0}">
+                        
+                        <Grid.Styles>
+                                <Style Selector="Grid">
+                                        <Setter Property="Transitions">
+                                                <Transitions>
+                                                        <DoubleTransition Property="Opacity" Duration="0:0:0.1"></DoubleTransition>
+                                                </Transitions>
+                                        </Setter>
+                                </Style>
+                        </Grid.Styles>
+                        
+                        <Border Background="Black" Opacity="0.5"></Border>
+                        <ContentControl 
+                                Content="{Binding Dialog}" 
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                />
+                </Grid>
+        </Grid>
+    
+</UserControl>

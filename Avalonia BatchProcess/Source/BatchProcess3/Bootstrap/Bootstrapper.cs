@@ -9,8 +9,12 @@ using BatchProcess3.MainApp;
 using BatchProcess3.Printer;
 using BatchProcess3.SolidWorks;
 using BatchProcess3.ViewModels;
+using BatchProcess3.ViewModels.Actions;
+using BatchProcess3.ViewModels.Pages;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using HomePageViewModel = BatchProcess3.ViewModels.Pages.HomePageViewModel;
+using MainViewModel = BatchProcess3.ViewModels.Pages.MainViewModel;
 
 namespace BatchProcess3.Bootstrap;
 

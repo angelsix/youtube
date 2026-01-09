@@ -3,8 +3,11 @@ using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using BatchProcess3.Bootstrap;
 using BatchProcess3.ViewModels;
+using BatchProcess3.ViewModels.Actions;
+using BatchProcess3.ViewModels.Pages;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using HomePageViewModel = BatchProcess3.ViewModels.Pages.HomePageViewModel;
 
 namespace BatchProcess3.Design;
 

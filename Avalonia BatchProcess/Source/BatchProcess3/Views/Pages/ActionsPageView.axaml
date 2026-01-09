@@ -1,0 +1,62 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:BatchProcess3.ViewModels"
+             xmlns:local="clr-namespace:BatchProcess3.Views.Pages"
+             mc:Ignorable="d" d:DesignWidth="1100" d:DesignHeight="900"
+             Background="{DynamicResource PrimaryBackground}"
+             Foreground="{DynamicResource PrimaryForeground}"
+             x:DataType="pages:ActionsPageViewModel"
+             x:Class="BatchProcess3.Views.Pages.ActionsPageView"
+             xmlns:design="clr-namespace:BatchProcess3.Design"
+             xmlns:pages="clr-namespace:BatchProcess3.ViewModels.Pages"
+             xmlns:views="clr-namespace:BatchProcess3.Views"
+             xmlns:actions="clr-namespace:BatchProcess3.Views.Actions"
+             d:DataContext="{x:Static design:DesignData.ActionsPageViewModel}">
+
+    <Grid ColumnDefinitions="*" RowDefinitions="Auto, *">
+        <!-- Header -->
+        <Grid Name="HeaderGrid">
+            <StackPanel Height="100" ClipToBounds="True">
+                <Image Source="{SvgImage /Assets/Images/background-actions.svg}" Stretch="UniformToFill" />
+            </StackPanel>
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Label Classes="h1" HorizontalAlignment="Center" Content="Actions" />
+                <Label Classes="sub2" HorizontalAlignment="Center"
+                       Content="Create and manage all actions that can be used in a process" />
+            </StackPanel>
+        </Grid>
+
+        <Border Grid.Row="1" Padding="25">
+            <TabControl Name="ActionsTabControl" SelectionChanged="ActionsTab_OnSelectionChanged" Padding=" 0 15 0 0">
+                <TabItem Header="Print" IsSelected="True">
+                    <actions:ActionPrintView />
+                </TabItem>
+                <TabItem Header="Custom Properties">
+                    <actions:ActionCustomPropertiesView />
+                </TabItem>
+                <TabItem Header="File Info">
+                    <actions:ActionFileInfoView />
+                </TabItem>
+                <TabItem Header="Save Model As">
+                    <actions:ActionSaveModelView />
+                </TabItem>
+                <TabItem Header="Save Drawing As">
+                    <actions:ActionSaveDrawingView />
+                </TabItem>
+                <TabItem Header="Import File">
+                    <actions:ActionImportFileView />
+                </TabItem>
+                <TabItem Header="Drawing Templates">
+                    <actions:ActionDrawingTemplateView />
+                </TabItem>
+                <TabItem Header="Macros">
+                    <actions:ActionMacrosView />
+                </TabItem>
+            </TabControl>
+        </Border>
+
+    </Grid>
+
+</UserControl>
