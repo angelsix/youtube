@@ -32,16 +32,10 @@
     <Grid ColumnDefinitions="*" RowDefinitions="Auto, *">
 
         <!-- Header -->
-        <Grid Name="HeaderGrid">
-            <StackPanel Height="100" ClipToBounds="True">
-                <Image Source="{SvgImage /Assets/Images/background-actions.svg}" Stretch="UniformToFill" />
-            </StackPanel>
-            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                <Label Classes="h1" HorizontalAlignment="Center" Content="No Connection" />
-                <Label Classes="sub2" HorizontalAlignment="Center"
-                       Content="Connect to an instance of SolidWorks to begin" />
-            </StackPanel>
-        </Grid>
+        <HeaderBanner
+            BackgroundImage="{SvgImage /Assets/Images/background-actions.svg}"
+            Header="No Connection"
+            SubHeaderB="Connect to an instance of SolidWorks to begin" />
 
         <!-- Padding -->
         <Border Grid.Row="1" Padding="25">

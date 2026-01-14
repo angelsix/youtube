@@ -32,16 +32,10 @@
     <Grid ColumnDefinitions="*" RowDefinitions="Auto, *">
         
         <!-- Header -->
-        <Grid Name="HeaderGrid">
-            <StackPanel Height="100" ClipToBounds="True">
-                <Image Source="{SvgImage /Assets/Images/background-actions.svg}" Stretch="UniformToFill" />
-            </StackPanel>
-            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                <Label Classes="h1" HorizontalAlignment="Center" Content="Processes" />
-                <Label Classes="sub2" HorizontalAlignment="Center"
-                       Content="Create and manage all processes that can be used in a job" />
-            </StackPanel>
-        </Grid>
+        <HeaderBanner
+            BackgroundImage="{SvgImage /Assets/Images/background-actions.svg}"
+            Header="Processes"
+            SubHeaderB="Create and manage all processes that can be used in a job" />
 
         <!-- Padding -->
         <Border Grid.Row="1" Padding="25">

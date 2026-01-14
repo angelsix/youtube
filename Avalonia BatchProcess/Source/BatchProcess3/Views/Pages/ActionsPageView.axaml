@@ -14,19 +14,14 @@
              xmlns:views="clr-namespace:BatchProcess3.Views"
              xmlns:actions="clr-namespace:BatchProcess3.Views.Actions"
              d:DataContext="{x:Static design:DesignData.ActionsPageViewModel}">
-
+    
     <Grid ColumnDefinitions="*" RowDefinitions="Auto, *">
+        
         <!-- Header -->
-        <Grid Name="HeaderGrid">
-            <StackPanel Height="100" ClipToBounds="True">
-                <Image Source="{SvgImage /Assets/Images/background-actions.svg}" Stretch="UniformToFill" />
-            </StackPanel>
-            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                <Label Classes="h1" HorizontalAlignment="Center" Content="Actions" />
-                <Label Classes="sub2" HorizontalAlignment="Center"
-                       Content="Create and manage all actions that can be used in a process" />
-            </StackPanel>
-        </Grid>
+        <HeaderBanner
+            BackgroundImage="{SvgImage /Assets/Images/background-actions.svg}"
+            Header="Actions"
+            SubHeaderB="Create and manage all actions that can be used in a process" />
 
         <Border Grid.Row="1" Padding="25">
             <TabControl Name="ActionsTabControl" SelectionChanged="ActionsTab_OnSelectionChanged" Padding=" 0 15 0 0">
