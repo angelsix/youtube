@@ -69,18 +69,18 @@
                                 <Setter Property="CornerRadius" Value="0 5 5 0" />
                             </Style>
                         </StackPanel.Styles>
-                        <Button><Image Source="/Assets/Images/home-context-openfile.png"></Image></Button>
-                        <Button><Image Source="/Assets/Images/home-context-drawing.png"></Image></Button>
-                        <Button><Image Source="/Assets/Images/home-context-folder.png"></Image></Button>
+                        <Button Command="{Binding OpenFileCommand}"><Image Source="/Assets/Images/home-context-openfile.png"></Image></Button>
+                        <Button Command="{Binding FindDrawingCommand}"><Image Source="/Assets/Images/home-context-drawing.png"></Image></Button>
+                        <Button Command="{Binding OpenFolderCommand}"><Image Source="/Assets/Images/home-context-folder.png"></Image></Button>
                         <Button><Image Source="/Assets/Images/home-context-preview.png"></Image></Button>
-                        <Button><Image Source="/Assets/Images/home-context-delete.png"></Image></Button>
+                        <Button Command="{Binding DeleteFileCommand}"><Image Source="/Assets/Images/home-context-delete.png"></Image></Button>
                         <Button><Image Source="/Assets/Images/home-context-print.png"></Image></Button>
                         <Button><Image Source="/Assets/Images/home-context-fileref.png"></Image></Button>
                         <Button><Image Source="/Assets/Images/home-context-drawinglink.png"></Image></Button>
                     </StackPanel>
 
                     <!-- SolidWorks Files ListBox -->
-                    <ListBox Grid.Row="3" ItemsSource="{Binding SolidWorksFileList}">
+                    <ListBox Grid.Row="3" ItemsSource="{Binding SolidWorksFileList}" SelectedItem="{Binding SelectedSolidWorksFile}">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <Label Content="{Binding FileName}" ToolTip.Tip="{Binding FilePath}" Background="Transparent" />

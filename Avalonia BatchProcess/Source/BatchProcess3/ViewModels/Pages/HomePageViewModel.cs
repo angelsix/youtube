@@ -9,6 +9,8 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -28,6 +30,8 @@ public partial class HomePageViewModel(
     [ObservableProperty] private ObservableCollection<AvailableActionItemViewModel> _availableActionsList = [];
     
     [ObservableProperty] private ObservableCollection<SolidWorksFileDetails> _solidWorksFileList = [];
+
+    [ObservableProperty] private SolidWorksFileDetails? _selectedSolidWorksFile;
 
     private ObservableCollection<ProcessActionViewModel> _actions = [];
     
@@ -107,9 +111,73 @@ public partial class HomePageViewModel(
     private void DeleteAction(ProcessActionViewModel item) => Actions.Remove(item);
 
     [RelayCommand]
+    private void OpenFile()
+    {
+        if (SelectedSolidWorksFile is null) return;
+
+        Process.Start(new ProcessStartInfo
+        {
+            FileName = SelectedSolidWorksFile.FilePath,
+            UseShellExecute = true,
+        });
+    }
+
+    [RelayCommand]
+    private void OpenFolder()
+    {
+        if (SelectedSolidWorksFile is null) return;
+
+        var filePath = SelectedSolidWorksFile.FilePath;
+
+        if (OperatingSystem.IsWindows())
+            Process.Start("explorer", $"/select,\"{filePath}\"");
+        else if (OperatingSystem.IsMacOS())
+            Process.Start("open", $"-R \"{filePath}\"");
+    }
+
+    [RelayCommand]
+    private void FindDrawing() 
+    { 
+        if (SelectedSolidWorksFile is null) return;
+        
+        var drawingPath = Path.ChangeExtension(SelectedSolidWorksFile.FilePath, ".slddrw");
+
+        if (!File.Exists(drawingPath)) return;
+
+        // Fix case
+        drawingPath = Directory.GetFiles(Path.GetDirectoryName(drawingPath)!, Path.GetFileName(drawingPath)).First();
+
+        // Don't add if already in the list
+        if (SolidWorksFileList.Any(f => string.Equals(f.FilePath, drawingPath, StringComparison.OrdinalIgnoreCase)))
+            return;
+        
+        SolidWorksFileList.Add(new SolidWorksFileDetails(drawingPath));
+    }
+
+    [RelayCommand]
+    private async Task DeleteFileAsync()
+    {
+        if (SelectedSolidWorksFile is null) return;
+
+        var confirmViewModel = new ConfirmDialogViewModel
+        {
+            Title = "Delete File",
+            Message = $"Are you sure you want to remove '{SelectedSolidWorksFile.FileName}' from the list?",
+            DialogWidth = 400
+        };
+
+        await dialogService.ShowDialog(mainViewModel, confirmViewModel);
+
+        if (!confirmViewModel.Confirmed)
+            return;
+
+        SolidWorksFileList.Remove(SelectedSolidWorksFile);
+    }
+
+    [RelayCommand]
     private void RunJob()
     {
-           
+
     }
     
     #endregion
