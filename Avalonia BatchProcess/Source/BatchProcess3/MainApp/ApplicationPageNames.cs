@@ -9,5 +9,6 @@ public enum ApplicationPageNames
     Macros = 4,
     Reporter = 5,
     History = 6,
-    Settings = 7
+    Settings = 7,
+    Jobs = 8
 }

@@ -37,6 +37,8 @@ public static class DesignData
     
     public static SettingsPageViewModel SettingsPageViewModel => Services.GetRequiredService<SettingsPageViewModel>();
 
+    public static JobsPageViewModel JobsPageViewModel => Services.GetRequiredService<JobsPageViewModel>();
+
     public static ActionPrintSettingsViewModel ActionPrintSettingsViewModel => Services.GetRequiredService<ActionPrintSettingsViewModel>();
 
     public static ConfirmDialogViewModel ConfirmDialogViewModel => Services.GetRequiredService<ConfirmDialogViewModel>();

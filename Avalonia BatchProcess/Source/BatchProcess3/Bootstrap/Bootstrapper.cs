@@ -37,6 +37,7 @@ public static class Bootstrapper
              _ when type == typeof(ReporterPageViewModel) => x.GetRequiredService<ReporterPageViewModel>(),
              _ when type == typeof(HistoryPageViewModel) => x.GetRequiredService<HistoryPageViewModel>(),
              _ when type == typeof(SettingsPageViewModel) => x.GetRequiredService<SettingsPageViewModel>(),
+             _ when type == typeof(JobsPageViewModel) => x.GetRequiredService<JobsPageViewModel>(),
              _ => throw new InvalidOperationException($"Page of type {type?.FullName} has no view model"),
          });
         
@@ -50,6 +51,7 @@ public static class Bootstrapper
          collection.AddTransient<ProcessPageViewModel>();
          collection.AddTransient<ReporterPageViewModel>();
          collection.AddTransient<SettingsPageViewModel>();
+         collection.AddTransient<JobsPageViewModel>();
          collection.AddTransient<ActionService>();
          collection.AddTransient<PrinterService>();
          collection.AddTransient<BatchProcessClient>();

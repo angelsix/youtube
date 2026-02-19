@@ -25,6 +25,7 @@ public partial class MainViewModel : ViewModelBase, IDialogProvider
     [NotifyPropertyChangedFor(nameof(ReporterPageIsActive))]
     [NotifyPropertyChangedFor(nameof(HistoryPageIsActive))]
     [NotifyPropertyChangedFor(nameof(SettingsPageIsActive))]
+    [NotifyPropertyChangedFor(nameof(JobsPageIsActive))]
     private PageViewModel _currentPage;
     
     [ObservableProperty]
@@ -37,6 +38,7 @@ public partial class MainViewModel : ViewModelBase, IDialogProvider
     public bool ReporterPageIsActive => CurrentPage.PageName == ApplicationPageNames.Reporter;
     public bool HistoryPageIsActive => CurrentPage.PageName == ApplicationPageNames.History;
     public bool SettingsPageIsActive => CurrentPage.PageName == ApplicationPageNames.Settings;
+    public bool JobsPageIsActive => CurrentPage.PageName == ApplicationPageNames.Jobs;
     
     public MainViewModel(PageFactory pageFactory, DatabaseFactory databaseFactory)
     {
@@ -69,4 +71,6 @@ public partial class MainViewModel : ViewModelBase, IDialogProvider
     private void GoToHistory() => CurrentPage = _pageFactory.GetPageViewModel<HistoryPageViewModel>();
     [RelayCommand]
     private void GoToSettings() => CurrentPage = _pageFactory.GetPageViewModel<SettingsPageViewModel>();
+    [RelayCommand]
+    private void GoToJobs() => CurrentPage = _pageFactory.GetPageViewModel<JobsPageViewModel>();
   }
