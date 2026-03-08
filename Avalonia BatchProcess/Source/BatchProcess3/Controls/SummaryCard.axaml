@@ -1,0 +1,84 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="280" d:DesignHeight="120"
+             x:Class="BatchProcess3.Controls.SummaryCard"
+             xmlns:controls="clr-namespace:BatchProcess3.Controls"
+             x:DataType="controls:SummaryCard">
+
+    <UserControl.Styles>
+        <!-- Card button: remove default Button chrome so content stretches -->
+        <Style Selector="Button.card-btn">
+            <Setter Property="Template">
+                <ControlTemplate>
+                    <ContentPresenter Content="{TemplateBinding Content}"
+                                      HorizontalContentAlignment="Stretch"
+                                      VerticalContentAlignment="Stretch" />
+                </ControlTemplate>
+            </Setter>
+        </Style>
+    </UserControl.Styles>
+
+    <Panel>
+        <!-- Non-clickable card (when Command is null) -->
+        <Border IsVisible="{Binding $parent[controls:SummaryCard].Command, Converter={x:Static ObjectConverters.IsNull}}"
+                Background="{DynamicResource CardBackground}" BorderBrush="{DynamicResource CardBorder}"
+                BorderThickness="1" CornerRadius="10" Padding="16 18" ClipToBounds="True">
+            <Grid>
+                <Border Height="2" VerticalAlignment="Top" Margin="-16 -18 -16 0"
+                        Background="{Binding $parent[controls:SummaryCard].CardGradient}" />
+                <Viewbox Width="22" Height="22" HorizontalAlignment="Right" VerticalAlignment="Top" Opacity="0.25">
+                    <Path Fill="{Binding $parent[controls:SummaryCard].AccentBrush}" Data="{Binding $parent[controls:SummaryCard].IconData}" />
+                </Viewbox>
+                <StackPanel>
+                    <TextBlock Text="{Binding $parent[controls:SummaryCard].Header}" FontSize="11" Foreground="{DynamicResource LabelForeground}"
+                               FontFamily="{DynamicResource NotoSansJP-Semibold}"
+                               Margin="0 0 0 8" />
+                    <TextBlock Text="{Binding $parent[controls:SummaryCard].Value}" FontSize="26"
+                               FontFamily="{DynamicResource NotoSansJP-Bold}"
+                               Margin="0 0 0 6" />
+                    <TextBlock Text="{Binding $parent[controls:SummaryCard].Subtitle}" FontSize="11" Foreground="{DynamicResource SecondaryForeground}" />
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- Clickable card (when Command is set) -->
+        <Button IsVisible="{Binding $parent[controls:SummaryCard].Command, Converter={x:Static ObjectConverters.IsNotNull}}"
+                Classes="card-btn"
+                Command="{Binding $parent[controls:SummaryCard].Command}" CommandParameter="{Binding $parent[controls:SummaryCard].CommandParameter}"
+                HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                Cursor="Hand">
+            <Border Background="{DynamicResource CardBackground}" CornerRadius="10" Padding="16 18"
+                    ClipToBounds="True" BorderThickness="1.5"
+                    Classes.cardActive="{Binding $parent[controls:SummaryCard].IsActive}">
+                <Border.Styles>
+                    <Style Selector="Border.cardActive">
+                        <Setter Property="BorderBrush" Value="{Binding $parent[controls:SummaryCard].AccentBrush}" />
+                    </Style>
+                    <Style Selector="Border:not(.cardActive)">
+                        <Setter Property="BorderBrush" Value="{DynamicResource CardBorder}" />
+                    </Style>
+                </Border.Styles>
+                <Grid>
+                    <Border Height="2" VerticalAlignment="Top" Margin="-16 -18 -16 0"
+                            Background="{Binding $parent[controls:SummaryCard].CardGradient}"
+                            IsVisible="{Binding $parent[controls:SummaryCard].IsActive, Converter={x:Static BoolConverters.Not}}" />
+                    <Viewbox Width="22" Height="22" HorizontalAlignment="Right" VerticalAlignment="Top" Opacity="0.25">
+                        <Path Fill="{Binding $parent[controls:SummaryCard].AccentBrush}" Data="{Binding $parent[controls:SummaryCard].IconData}" />
+                    </Viewbox>
+                    <StackPanel>
+                        <TextBlock Text="{Binding $parent[controls:SummaryCard].Header}" FontSize="11" Foreground="{DynamicResource LabelForeground}"
+                                   FontFamily="{DynamicResource NotoSansJP-Semibold}"
+                                   Margin="0 0 0 8" />
+                        <TextBlock Text="{Binding $parent[controls:SummaryCard].Value}" FontSize="26"
+                                   FontFamily="{DynamicResource NotoSansJP-Bold}"
+                                   Margin="0 0 0 6" />
+                        <TextBlock Text="{Binding $parent[controls:SummaryCard].Subtitle}" FontSize="11" Foreground="{DynamicResource SecondaryForeground}" />
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </Button>
+    </Panel>
+
+</UserControl>

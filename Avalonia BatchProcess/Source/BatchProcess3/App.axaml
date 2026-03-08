@@ -9,7 +9,7 @@
     <Application.DataTemplates>
         <local:ViewLocator></local:ViewLocator>
     </Application.DataTemplates>
-             
+
     <Application.Styles>
         <FluentTheme />
         <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml"/>
@@ -19,9 +19,9 @@
         <StyleInclude Source="Styles/TextBox.axaml"></StyleInclude>
         <StyleInclude Source="Styles/General.axaml"></StyleInclude>
     </Application.Styles>
-             
+
      <Application.Resources>
-         
+
          <ResourceDictionary>
              <ResourceDictionary.MergedDictionaries>
                  <MergeResourceInclude Source="/Controls/ButtonSpinner.axaml"></MergeResourceInclude>
@@ -43,79 +43,214 @@
          <vc:JobStatusToProgressBrushConverter x:Key="JobStatusToProgressBrushConverter" />
          <vc:JobStatusToBadgeBackgroundConverter x:Key="JobStatusToBadgeBackgroundConverter" />
          <vc:JobStatusToBadgeForegroundConverter x:Key="JobStatusToBadgeForegroundConverter" />
-         
+         <vc:FractionToWidthConverter x:Key="FractionToWidthConverter" />
+
          <Thickness x:Key="PrimaryBorderThickness">2</Thickness>
-         
-         <SolidColorBrush x:Key="PrimaryForeground">#CFCFCF</SolidColorBrush>     
-         <SolidColorBrush x:Key="PrimaryForegroundSubtle">#aaa</SolidColorBrush>     
-         <SolidColorBrush x:Key="PrimaryBackground">#14172D</SolidColorBrush>     
-         
+
+         <!-- ======================== -->
+         <!--   Spacing Resources      -->
+         <!-- ======================== -->
+
+         <!-- Uniform (all sides) -->
+         <Thickness x:Key="SpacingXs">4</Thickness>
+         <Thickness x:Key="SpacingSm">8</Thickness>
+         <Thickness x:Key="SpacingMd">16</Thickness>
+         <Thickness x:Key="SpacingLg">28</Thickness>
+
+         <!-- Horizontal only (left/right) -->
+         <Thickness x:Key="SpacingHSm">8 0</Thickness>
+         <Thickness x:Key="SpacingHMd">16 0</Thickness>
+         <Thickness x:Key="SpacingHLg">28 0</Thickness>
+
+         <!-- Bottom only -->
+         <Thickness x:Key="SpacingBXs">0 0 0 4</Thickness>
+         <Thickness x:Key="SpacingBMd">0 0 0 16</Thickness>
+
+         <!-- ============================== -->
+         <!--   Corner Radius Resources     -->
+         <!-- ============================== -->
+
+         <CornerRadius x:Key="CornerSm">4</CornerRadius>
+         <CornerRadius x:Key="CornerMd">8</CornerRadius>
+         <CornerRadius x:Key="CornerLg">12</CornerRadius>
+         <CornerRadius x:Key="CornerPill">20</CornerRadius>
+
+         <!-- Page content layout (sides 28, varying top/bottom) -->
+         <Thickness x:Key="PagePaddingFirst">28 28 28 16</Thickness>
+         <Thickness x:Key="PagePaddingMiddle">28 0 28 16</Thickness>
+         <Thickness x:Key="PagePaddingLast">28 0 28 28</Thickness>
+
+         <!-- ==================== -->
+         <!--   Color Resources    -->
+         <!-- ==================== -->
+
+         <!-- Primary Colors -->
          <Color x:Key="PrimaryBackgroundColor1">#111214</Color>
          <Color x:Key="PrimaryBackgroundColor2">#151E3E</Color>
-         
+
+         <!-- Card/Layout Colors -->
+         <Color x:Key="CardBackgroundColor">#181b2e</Color>
+         <Color x:Key="CardBorderColor">#232640</Color>
+         <Color x:Key="CardBorderSubtleColor">#2e3252</Color>
+         <Color x:Key="HoverBackgroundColor">#1e2238</Color>
+         <Color x:Key="TableHeaderBackgroundColor">#131625</Color>
+         <Color x:Key="DialogOverlayColor">#000000</Color>
+
+         <!-- Text Colors -->
+         <Color x:Key="LabelForegroundColor">#4a5080</Color>
+         <Color x:Key="SecondaryForegroundColor">#7b82a8</Color>
+         <Color x:Key="LightForegroundColor">#e8eaf6</Color>
+         <Color x:Key="AccentPurpleColor">#c084fc</Color>
+
+         <!-- Accent Colors -->
+         <Color x:Key="CyanColor">#06b6d4</Color>
+         <Color x:Key="CyanLightColor">#0ea5e9</Color>
+         <Color x:Key="FuchsiaColor">#c026d3</Color>
+         <Color x:Key="FuchsiaLightColor">#e879f9</Color>
+         <Color x:Key="GreenColor">#22c55e</Color>
+         <Color x:Key="GreenDarkColor">#16a34a</Color>
+         <Color x:Key="RedColor">#ef4444</Color>
+         <Color x:Key="RedDarkColor">#dc2626</Color>
+         <Color x:Key="AmberColor">#f59e0b</Color>
+
+         <!-- Existing Gradient Stop Colors -->
+         <Color x:Key="DefaultGradientStopColor">#333B5A</Color>
+         <Color x:Key="ActiveTextStopColor">#7C59CD</Color>
+         <Color x:Key="ActiveGradientColor1">#6633DD</Color>
+         <Color x:Key="ActiveGradientColor2">#431B9F</Color>
+         <Color x:Key="HoverGradientColor1">#00ffff</Color>
+         <Color x:Key="HoverGradientColor2">#ff00ff</Color>
+         <Color x:Key="SuccessGradientColor1">#00ff00</Color>
+         <Color x:Key="SuccessGradientColor2">#009900</Color>
+         <Color x:Key="SuccessHoverGradientColor1">#44ff44</Color>
+         <Color x:Key="SuccessHoverGradientColor2">#55cc55</Color>
+         <Color x:Key="AlertGradientColor1">#ffff00</Color>
+         <Color x:Key="AlertGradientColor2">#ff8800</Color>
+         <Color x:Key="DangerGradientColor1">#ff0000</Color>
+         <Color x:Key="DangerGradientColor2">#aa0000</Color>
+         <Color x:Key="DangerHoverGradientColor1">#ff4444</Color>
+         <Color x:Key="DangerHoverGradientColor2">#bb1111</Color>
+
+         <!-- ============================== -->
+         <!--   SolidColorBrush Resources    -->
+         <!-- ============================== -->
+
+         <!-- Primary Brushes -->
+         <SolidColorBrush x:Key="PrimaryForeground">#CFCFCF</SolidColorBrush>
+         <SolidColorBrush x:Key="PrimaryForegroundSubtle">#aaa</SolidColorBrush>
+         <SolidColorBrush x:Key="PrimaryBackground">#14172D</SolidColorBrush>
+         <SolidColorBrush x:Key="PrimaryHoverBackground" Color="{DynamicResource DefaultGradientStopColor}" />
+         <SolidColorBrush x:Key="PrimaryHoverForeground">White</SolidColorBrush>
+
+         <!-- Card/Layout Brushes -->
+         <SolidColorBrush x:Key="CardBackground" Color="{DynamicResource CardBackgroundColor}" />
+         <SolidColorBrush x:Key="CardBorder" Color="{DynamicResource CardBorderColor}" />
+         <SolidColorBrush x:Key="CardBorderSubtle" Color="{DynamicResource CardBorderSubtleColor}" />
+         <SolidColorBrush x:Key="HoverBackground" Color="{DynamicResource HoverBackgroundColor}" />
+         <SolidColorBrush x:Key="TableHeaderBackground" Color="{DynamicResource TableHeaderBackgroundColor}" />
+         <SolidColorBrush x:Key="DialogOverlay" Color="{DynamicResource DialogOverlayColor}" />
+
+         <!-- Text Brushes -->
+         <SolidColorBrush x:Key="LabelForeground" Color="{DynamicResource LabelForegroundColor}" />
+         <SolidColorBrush x:Key="SecondaryForeground" Color="{DynamicResource SecondaryForegroundColor}" />
+         <SolidColorBrush x:Key="LightForeground" Color="{DynamicResource LightForegroundColor}" />
+         <SolidColorBrush x:Key="AccentPurple" Color="{DynamicResource AccentPurpleColor}" />
+
+         <!-- Accent Brushes -->
+         <SolidColorBrush x:Key="CyanAccent" Color="{DynamicResource CyanColor}" />
+         <SolidColorBrush x:Key="FuchsiaAccent" Color="{DynamicResource FuchsiaColor}" />
+         <SolidColorBrush x:Key="GreenAccent" Color="{DynamicResource GreenColor}" />
+         <SolidColorBrush x:Key="RedAccent" Color="{DynamicResource RedColor}" />
+         <SolidColorBrush x:Key="AmberAccent" Color="{DynamicResource AmberColor}" />
+
+         <!-- ================================ -->
+         <!--   LinearGradientBrush Resources  -->
+         <!-- ================================ -->
+
          <LinearGradientBrush x:Key="PrimaryBackgroundGradient" StartPoint="0%, 0%" EndPoint="100%, 0%">
              <GradientStop Offset="0" Color="{DynamicResource PrimaryBackgroundColor1}"></GradientStop>
              <GradientStop Offset="1" Color="{DynamicResource PrimaryBackgroundColor2}"></GradientStop>
          </LinearGradientBrush>
-         
-         <SolidColorBrush x:Key="PrimaryHoverBackground">#333B5A</SolidColorBrush>     
-         <SolidColorBrush x:Key="PrimaryHoverForeground">White</SolidColorBrush>
-         
+
          <LinearGradientBrush x:Key="DefaultGradient" StartPoint="0%, 0%" EndPoint="100%, 0%">
-             <GradientStop Offset="0" Color="#333B5A"></GradientStop>
-             <GradientStop Offset="1" Color="#333B5A"></GradientStop>
-         </LinearGradientBrush>
-         
-         <LinearGradientBrush x:Key="ActiveGradientText" StartPoint="0%, 0%" EndPoint="100%, 0%">
-             <GradientStop Offset="0" Color="#7C59CD"></GradientStop>
-             <GradientStop Offset="1" Color="#7C59CD"></GradientStop>
-         </LinearGradientBrush>
-         
-         <LinearGradientBrush x:Key="ActiveGradient" StartPoint="0%, 0%" EndPoint="100%, 0%">
-             <GradientStop Offset="0" Color="#6633DD"></GradientStop>
-             <GradientStop Offset="1" Color="#431B9F"></GradientStop>
-         </LinearGradientBrush>
-         
-         <LinearGradientBrush x:Key="ActiveHoverGradient" StartPoint="0%, 0%" EndPoint="100%, 0%">
-             <GradientStop Offset="0" Color="#6633DD"></GradientStop>
-             <GradientStop Offset="1" Color="#6633DD"></GradientStop>
-         </LinearGradientBrush>
-         
-         <LinearGradientBrush x:Key="HoverGradient" StartPoint="0%, 0%" EndPoint="100%, 0%">
-             <GradientStop Offset="0" Color="#00ffff"></GradientStop>
-             <GradientStop Offset="1" Color="#ff00ff"></GradientStop>
-         </LinearGradientBrush>
-         
-         <LinearGradientBrush x:Key="SuccessGradient" StartPoint="0%, 0%" EndPoint="100%, 0%">
-             <GradientStop Offset="0" Color="#00ff00"></GradientStop>
-             <GradientStop Offset="1" Color="#009900"></GradientStop>
-         </LinearGradientBrush>
-         
-         <LinearGradientBrush x:Key="SuccessHoverGradient" StartPoint="0%, 0%" EndPoint="100%, 0%">
-             <GradientStop Offset="0" Color="#44ff44"></GradientStop>
-             <GradientStop Offset="1" Color="#55cc55"></GradientStop>
-         </LinearGradientBrush>
-         
-         <LinearGradientBrush x:Key="AlertGradient" StartPoint="0%, 0%" EndPoint="100%, 0%">
-             <GradientStop Offset="0" Color="#ffff00"></GradientStop>
-             <GradientStop Offset="1" Color="#ff8800"></GradientStop>
-         </LinearGradientBrush>
-         
-         <LinearGradientBrush x:Key="AlertHoverGradient" StartPoint="0%, 0%" EndPoint="100%, 0%">
-             <GradientStop Offset="0" Color="#ffff00"></GradientStop>
-             <GradientStop Offset="1" Color="#ffff00"></GradientStop>
-         </LinearGradientBrush>
-         
-         <LinearGradientBrush x:Key="DangerGradient" StartPoint="0%, 0%" EndPoint="100%, 0%">
-             <GradientStop Offset="0" Color="#ff0000"></GradientStop>
-             <GradientStop Offset="1" Color="#aa0000"></GradientStop>
-         </LinearGradientBrush>
-         
-         <LinearGradientBrush x:Key="DangerHoverGradient" StartPoint="0%, 0%" EndPoint="100%, 0%">
-             <GradientStop Offset="0" Color="#ff4444"></GradientStop>
-             <GradientStop Offset="1" Color="#bb1111"></GradientStop>
+             <GradientStop Offset="0" Color="{DynamicResource DefaultGradientStopColor}"></GradientStop>
+             <GradientStop Offset="1" Color="{DynamicResource DefaultGradientStopColor}"></GradientStop>
          </LinearGradientBrush>
 
+         <LinearGradientBrush x:Key="ActiveGradientText" StartPoint="0%, 0%" EndPoint="100%, 0%">
+             <GradientStop Offset="0" Color="{DynamicResource ActiveTextStopColor}"></GradientStop>
+             <GradientStop Offset="1" Color="{DynamicResource ActiveTextStopColor}"></GradientStop>
+         </LinearGradientBrush>
+
+         <LinearGradientBrush x:Key="ActiveGradient" StartPoint="0%, 0%" EndPoint="100%, 0%">
+             <GradientStop Offset="0" Color="{DynamicResource ActiveGradientColor1}"></GradientStop>
+             <GradientStop Offset="1" Color="{DynamicResource ActiveGradientColor2}"></GradientStop>
+         </LinearGradientBrush>
+
+         <LinearGradientBrush x:Key="ActiveHoverGradient" StartPoint="0%, 0%" EndPoint="100%, 0%">
+             <GradientStop Offset="0" Color="{DynamicResource ActiveGradientColor1}"></GradientStop>
+             <GradientStop Offset="1" Color="{DynamicResource ActiveGradientColor1}"></GradientStop>
+         </LinearGradientBrush>
+
+         <LinearGradientBrush x:Key="HoverGradient" StartPoint="0%, 0%" EndPoint="100%, 0%">
+             <GradientStop Offset="0" Color="{DynamicResource HoverGradientColor1}"></GradientStop>
+             <GradientStop Offset="1" Color="{DynamicResource HoverGradientColor2}"></GradientStop>
+         </LinearGradientBrush>
+
+         <LinearGradientBrush x:Key="SuccessGradient" StartPoint="0%, 0%" EndPoint="100%, 0%">
+             <GradientStop Offset="0" Color="{DynamicResource SuccessGradientColor1}"></GradientStop>
+             <GradientStop Offset="1" Color="{DynamicResource SuccessGradientColor2}"></GradientStop>
+         </LinearGradientBrush>
+
+         <LinearGradientBrush x:Key="SuccessHoverGradient" StartPoint="0%, 0%" EndPoint="100%, 0%">
+             <GradientStop Offset="0" Color="{DynamicResource SuccessHoverGradientColor1}"></GradientStop>
+             <GradientStop Offset="1" Color="{DynamicResource SuccessHoverGradientColor2}"></GradientStop>
+         </LinearGradientBrush>
+
+         <LinearGradientBrush x:Key="AlertGradient" StartPoint="0%, 0%" EndPoint="100%, 0%">
+             <GradientStop Offset="0" Color="{DynamicResource AlertGradientColor1}"></GradientStop>
+             <GradientStop Offset="1" Color="{DynamicResource AlertGradientColor2}"></GradientStop>
+         </LinearGradientBrush>
+
+         <LinearGradientBrush x:Key="AlertHoverGradient" StartPoint="0%, 0%" EndPoint="100%, 0%">
+             <GradientStop Offset="0" Color="{DynamicResource AlertGradientColor1}"></GradientStop>
+             <GradientStop Offset="1" Color="{DynamicResource AlertGradientColor1}"></GradientStop>
+         </LinearGradientBrush>
+
+         <LinearGradientBrush x:Key="DangerGradient" StartPoint="0%, 0%" EndPoint="100%, 0%">
+             <GradientStop Offset="0" Color="{DynamicResource DangerGradientColor1}"></GradientStop>
+             <GradientStop Offset="1" Color="{DynamicResource DangerGradientColor2}"></GradientStop>
+         </LinearGradientBrush>
+
+         <LinearGradientBrush x:Key="DangerHoverGradient" StartPoint="0%, 0%" EndPoint="100%, 0%">
+             <GradientStop Offset="0" Color="{DynamicResource DangerHoverGradientColor1}"></GradientStop>
+             <GradientStop Offset="1" Color="{DynamicResource DangerHoverGradientColor2}"></GradientStop>
+         </LinearGradientBrush>
+
+         <!-- Card Top-Border Gradients -->
+         <LinearGradientBrush x:Key="CyanCardGradient" StartPoint="0%,50%" EndPoint="100%,50%">
+             <GradientStop Color="{DynamicResource CyanColor}" Offset="0" />
+             <GradientStop Color="{DynamicResource CyanLightColor}" Offset="1" />
+         </LinearGradientBrush>
+
+         <LinearGradientBrush x:Key="FuchsiaCardGradient" StartPoint="0%,50%" EndPoint="100%,50%">
+             <GradientStop Color="{DynamicResource FuchsiaColor}" Offset="0" />
+             <GradientStop Color="{DynamicResource FuchsiaLightColor}" Offset="1" />
+         </LinearGradientBrush>
+
+         <LinearGradientBrush x:Key="GreenCardGradient" StartPoint="0%,50%" EndPoint="100%,50%">
+             <GradientStop Color="{DynamicResource GreenColor}" Offset="0" />
+             <GradientStop Color="{DynamicResource GreenDarkColor}" Offset="1" />
+         </LinearGradientBrush>
+
+         <LinearGradientBrush x:Key="RedCardGradient" StartPoint="0%,50%" EndPoint="100%,50%">
+             <GradientStop Color="{DynamicResource RedColor}" Offset="0" />
+             <GradientStop Color="{DynamicResource RedDarkColor}" Offset="1" />
+         </LinearGradientBrush>
+
+         <!-- ==================== -->
+         <!--   Font Resources     -->
+         <!-- ==================== -->
 
          <FontFamily x:Key="Phosphor">/Assets/Fonts/Phosphor.ttf#Phosphor</FontFamily>
          <FontFamily x:Key="PhosphorFill">/Assets/Fonts/Phosphor-Fill.ttf#Phosphor-Fill</FontFamily>
@@ -130,6 +265,17 @@
          <FontFamily x:Key="NotoSansJP-Regular">/Assets/Fonts/NotoSansJP-Regular.ttf#Noto Sans JP</FontFamily>
          <FontFamily x:Key="NotoSansJP-Semibold">/Assets/Fonts/NotoSansJP-Semibold.ttf#Noto Sans JP</FontFamily>
          <FontFamily x:Key="NotoSansJP-Thin">/Assets/Fonts/NotoSansJP-Thin.ttf#Noto Sans JP</FontFamily>
+
+         <!-- ==================== -->
+         <!--   Icon Resources     -->
+         <!-- ==================== -->
+
+         <StreamGeometry x:Key="ClockIcon">M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm0 18c-4.4 0-8-3.6-8-8s3.6-8 8-8 8 3.6 8 8-3.6 8-8 8zm.5-13H11v6l5.2 3.2.8-1.3-4.5-2.7V7z</StreamGeometry>
+         <StreamGeometry x:Key="BoltIcon">M13 2L3 14h7l-2 8 10-12h-7z</StreamGeometry>
+         <StreamGeometry x:Key="CheckIcon">M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z</StreamGeometry>
+         <StreamGeometry x:Key="CloseIcon">M19 6.4L17.6 5 12 10.6 6.4 5 5 6.4 10.6 12 5 17.6 6.4 19 12 13.4 17.6 19 19 17.6 13.4 12z</StreamGeometry>
+         <StreamGeometry x:Key="SearchIcon">M15.5 14h-.79l-.28-.27A6.47 6.47 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z</StreamGeometry>
+         <StreamGeometry x:Key="SortIcon">M3 18h6v-2H3v2zM3 6v2h18V6H3zm0 7h12v-2H3v2z</StreamGeometry>
 
      </Application.Resources>
 </Application>

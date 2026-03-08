@@ -1,0 +1,37 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="100" d:DesignHeight="36"
+             x:Class="BatchProcess3.Controls.FilterButton"
+             xmlns:controls="clr-namespace:BatchProcess3.Controls"
+             x:DataType="controls:FilterButton">
+
+    <Button Command="{Binding $parent[controls:FilterButton].Command}" CommandParameter="{Binding $parent[controls:FilterButton].CommandParameter}"
+            Padding="14 7" FontSize="12" CornerRadius="7" Effect="{x:Null}"
+            BorderThickness="1" Cursor="Hand"
+            Classes.filterActive="{Binding $parent[controls:FilterButton].IsActive}">
+        <Button.Styles>
+            <!-- Active state: accent color background/border -->
+            <Style Selector="Button.filterActive">
+                <Setter Property="Background" Value="{Binding $parent[controls:FilterButton].AccentBrush}" />
+                <Setter Property="Foreground" Value="{DynamicResource PrimaryHoverForeground}" />
+                <Setter Property="BorderBrush" Value="{Binding $parent[controls:FilterButton].AccentBrush}" />
+            </Style>
+            <!-- Inactive state: subtle card background -->
+            <Style Selector="Button:not(.filterActive)">
+                <Setter Property="Background" Value="{DynamicResource CardBackground}" />
+                <Setter Property="Foreground" Value="{DynamicResource SecondaryForeground}" />
+                <Setter Property="BorderBrush" Value="{DynamicResource CardBorderSubtle}" />
+            </Style>
+            <!-- Inactive hover state -->
+            <Style Selector="Button:not(.filterActive):pointerover">
+                <Setter Property="Background" Value="{DynamicResource HoverBackground}" />
+                <Setter Property="Foreground" Value="{DynamicResource LightForeground}" />
+            </Style>
+        </Button.Styles>
+        <TextBlock Text="{Binding $parent[controls:FilterButton].Text}" FontSize="12"
+                   FontFamily="{DynamicResource NotoSansJP-Semibold}" />
+    </Button>
+
+</UserControl>

@@ -1,0 +1,25 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="200" d:DesignHeight="36"
+             x:Class="BatchProcess3.Controls.SortColumnHeader"
+             xmlns:controls="clr-namespace:BatchProcess3.Controls"
+             x:DataType="controls:SortColumnHeader">
+
+    <Button Command="{Binding $parent[controls:SortColumnHeader].Command}" CommandParameter="{Binding $parent[controls:SortColumnHeader].CommandParameter}"
+            HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"
+            Background="Transparent" BorderThickness="0" CornerRadius="0" Padding="16 11"
+            Effect="{x:Null}" Cursor="Hand">
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Text="{Binding $parent[controls:SortColumnHeader].Text}" FontSize="11"
+                       Foreground="{DynamicResource LabelForeground}"
+                       FontFamily="{DynamicResource NotoSansJP-Semibold}" />
+            <TextBlock Text="{Binding $parent[controls:SortColumnHeader].SortArrow}" FontSize="9"
+                       Foreground="{DynamicResource SecondaryForeground}"
+                       Margin="5 1 0 0" VerticalAlignment="Center"
+                       IsVisible="{Binding $parent[controls:SortColumnHeader].IsSortActive}" />
+        </StackPanel>
+    </Button>
+
+</UserControl>
