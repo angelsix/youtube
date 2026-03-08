@@ -2,9 +2,44 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="BatchProcess3.Views.Pages.JobsPageView">
+             mc:Ignorable="d" d:DesignWidth="1100" d:DesignHeight="900"
+             xmlns:pages="clr-namespace:BatchProcess3.ViewModels.Pages"
+             xmlns:design="clr-namespace:BatchProcess3.Design"
+             Background="{DynamicResource PrimaryBackground}"
+             Foreground="{DynamicResource PrimaryForeground}"
+             x:DataType="pages:JobsPageViewModel"
+             x:Class="BatchProcess3.Views.Pages.JobsPageView"
+             d:DataContext="{x:Static design:DesignData.JobsPageViewModel}"
+             Focusable="True">
 
+    <!-- Style the flyout presenter to match our theme -->
+    <UserControl.Styles>
+        <Style Selector="FlyoutPresenter">
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="Background" Value="#181b2e" />
+            <Setter Property="BorderBrush" Value="#2e3252" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="CornerRadius" Value="8" />
+        </Style>
+        <!-- Sort menu item hover style -->
+        <Style Selector="Border.sort-item">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Cursor" Value="Hand" />
+        </Style>
+        <Style Selector="Border.sort-item:pointerover">
+            <Setter Property="Background" Value="#1e2238" />
+        </Style>
+        <!-- Card button: remove StackPanel wrapper so content stretches -->
+        <Style Selector="Button.card-btn">
+            <Setter Property="Template">
+                <ControlTemplate>
+                    <ContentPresenter Content="{TemplateBinding Content}"
+                                      HorizontalContentAlignment="Stretch"
+                                      VerticalContentAlignment="Stretch" />
+                </ControlTemplate>
+            </Setter>
+        </Style>
+    </UserControl.Styles>
 
     <Grid ColumnDefinitions="*" RowDefinitions="Auto, *">
 
@@ -12,7 +47,542 @@
         <HeaderBanner
             BackgroundImage="{SvgImage /Assets/Images/background-actions.svg}"
             Header="Jobs"
-            SubHeaderB="Run and monitor batch processing jobs" />
+            SubHeaderB="An overview of all active and past jobs — track progress, status, and runtime at a glance." />
+
+        <!-- Scrollable Content -->
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <StackPanel Margin="28">
+
+                <!-- Summary Cards -->
+                <Grid ColumnDefinitions="*, 14, *, 14, *, 14, *" Margin="0 0 0 24">
+
+                    <!-- Total Runtime (non-clickable, first) -->
+                    <Border Grid.Column="0" Background="#181b2e" BorderBrush="#232640" BorderThickness="1" CornerRadius="10"
+                            Padding="16 18" ClipToBounds="True">
+                        <Grid>
+                            <Border Height="2" VerticalAlignment="Top" Margin="-16 -18 -16 0">
+                                <Border.Background>
+                                    <LinearGradientBrush StartPoint="0%,50%" EndPoint="100%,50%">
+                                        <GradientStop Color="#06b6d4" Offset="0" />
+                                        <GradientStop Color="#0ea5e9" Offset="1" />
+                                    </LinearGradientBrush>
+                                </Border.Background>
+                            </Border>
+                            <Viewbox Width="22" Height="22" HorizontalAlignment="Right" VerticalAlignment="Top" Opacity="0.25">
+                                <Path Fill="#06b6d4" Data="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm0 18c-4.4 0-8-3.6-8-8s3.6-8 8-8 8 3.6 8 8-3.6 8-8 8zm.5-13H11v6l5.2 3.2.8-1.3-4.5-2.7V7z" />
+                            </Viewbox>
+                            <StackPanel>
+                                <TextBlock Text="TOTAL RUNTIME" FontSize="11" Foreground="#4a5080"
+                                           FontFamily="{DynamicResource NotoSansJP-Semibold}"
+                                           Margin="0 0 0 8" />
+                                <TextBlock Text="{Binding TotalRuntime}" FontSize="26"
+                                           FontFamily="{DynamicResource NotoSansJP-Bold}"
+                                           Margin="0 0 0 6" />
+                                <TextBlock Text="Across all jobs" FontSize="11" Foreground="#7b82a8" />
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+
+                    <!-- Total Jobs (clickable → All) -->
+                    <Button Grid.Column="2" Classes="card-btn"
+                            Command="{Binding SetFilterCommand}" CommandParameter="All"
+                            HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                            Cursor="Hand">
+                        <Border Background="#181b2e" CornerRadius="10" Padding="16 18"
+                                ClipToBounds="True" BorderThickness="1.5"
+                                Classes.cardActive="{Binding IsFilterAll}">
+                            <Border.Styles>
+                                <Style Selector="Border.cardActive">
+                                    <Setter Property="BorderBrush" Value="#c026d3" />
+                                </Style>
+                                <Style Selector="Border:not(.cardActive)">
+                                    <Setter Property="BorderBrush" Value="#232640" />
+                                </Style>
+                            </Border.Styles>
+                            <Grid>
+                                <Border Height="2" VerticalAlignment="Top" Margin="-16 -18 -16 0"
+                                        IsVisible="{Binding IsFilterAll, Converter={x:Static BoolConverters.Not}}">
+                                    <Border.Background>
+                                        <LinearGradientBrush StartPoint="0%,50%" EndPoint="100%,50%">
+                                            <GradientStop Color="#c026d3" Offset="0" />
+                                            <GradientStop Color="#e879f9" Offset="1" />
+                                        </LinearGradientBrush>
+                                    </Border.Background>
+                                </Border>
+                                <Viewbox Width="22" Height="22" HorizontalAlignment="Right" VerticalAlignment="Top" Opacity="0.25">
+                                    <Path Fill="#c026d3" Data="M13 2L3 14h7l-2 8 10-12h-7z" />
+                                </Viewbox>
+                                <StackPanel>
+                                    <TextBlock Text="TOTAL JOBS" FontSize="11" Foreground="#4a5080"
+                                               FontFamily="{DynamicResource NotoSansJP-Semibold}"
+                                               Margin="0 0 0 8" />
+                                    <TextBlock Text="{Binding TotalJobs}" FontSize="26"
+                                               FontFamily="{DynamicResource NotoSansJP-Bold}"
+                                               Margin="0 0 0 6" />
+                                    <TextBlock FontSize="11" Foreground="#7b82a8">
+                                        <TextBlock.Text>
+                                            <MultiBinding StringFormat="{}{0} currently running">
+                                                <Binding Path="CurrentlyRunning" />
+                                            </MultiBinding>
+                                        </TextBlock.Text>
+                                    </TextBlock>
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+                    </Button>
+
+                    <!-- Successful (clickable) -->
+                    <Button Grid.Column="4" Classes="card-btn"
+                            Command="{Binding SetFilterCommand}" CommandParameter="Successful"
+                            HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                            Cursor="Hand">
+                        <Border Background="#181b2e" CornerRadius="10" Padding="16 18"
+                                ClipToBounds="True" BorderThickness="1.5"
+                                Classes.cardActive="{Binding IsFilterSuccessful}">
+                            <Border.Styles>
+                                <Style Selector="Border.cardActive">
+                                    <Setter Property="BorderBrush" Value="#22c55e" />
+                                </Style>
+                                <Style Selector="Border:not(.cardActive)">
+                                    <Setter Property="BorderBrush" Value="#232640" />
+                                </Style>
+                            </Border.Styles>
+                            <Grid>
+                                <Border Height="2" VerticalAlignment="Top" Margin="-16 -18 -16 0"
+                                        IsVisible="{Binding IsFilterSuccessful, Converter={x:Static BoolConverters.Not}}">
+                                    <Border.Background>
+                                        <LinearGradientBrush StartPoint="0%,50%" EndPoint="100%,50%">
+                                            <GradientStop Color="#22c55e" Offset="0" />
+                                            <GradientStop Color="#16a34a" Offset="1" />
+                                        </LinearGradientBrush>
+                                    </Border.Background>
+                                </Border>
+                                <Viewbox Width="22" Height="22" HorizontalAlignment="Right" VerticalAlignment="Top" Opacity="0.25">
+                                    <Path Fill="#22c55e" Data="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z" />
+                                </Viewbox>
+                                <StackPanel>
+                                    <TextBlock Text="SUCCESSFUL" FontSize="11" Foreground="#4a5080"
+                                               FontFamily="{DynamicResource NotoSansJP-Semibold}"
+                                               Margin="0 0 0 8" />
+                                    <TextBlock Text="{Binding SuccessfulJobs}" FontSize="26"
+                                               FontFamily="{DynamicResource NotoSansJP-Bold}"
+                                               Margin="0 0 0 6" />
+                                    <TextBlock Text="{Binding SuccessRate}" FontSize="11" Foreground="#7b82a8" />
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+                    </Button>
+
+                    <!-- Failed (clickable) -->
+                    <Button Grid.Column="6" Classes="card-btn"
+                            Command="{Binding SetFilterCommand}" CommandParameter="Failed"
+                            HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                            Cursor="Hand">
+                        <Border Background="#181b2e" CornerRadius="10" Padding="16 18"
+                                ClipToBounds="True" BorderThickness="1.5"
+                                Classes.cardActive="{Binding IsFilterFailed}">
+                            <Border.Styles>
+                                <Style Selector="Border.cardActive">
+                                    <Setter Property="BorderBrush" Value="#ef4444" />
+                                </Style>
+                                <Style Selector="Border:not(.cardActive)">
+                                    <Setter Property="BorderBrush" Value="#232640" />
+                                </Style>
+                            </Border.Styles>
+                            <Grid>
+                                <Border Height="2" VerticalAlignment="Top" Margin="-16 -18 -16 0"
+                                        IsVisible="{Binding IsFilterFailed, Converter={x:Static BoolConverters.Not}}">
+                                    <Border.Background>
+                                        <LinearGradientBrush StartPoint="0%,50%" EndPoint="100%,50%">
+                                            <GradientStop Color="#ef4444" Offset="0" />
+                                            <GradientStop Color="#dc2626" Offset="1" />
+                                        </LinearGradientBrush>
+                                    </Border.Background>
+                                </Border>
+                                <Viewbox Width="22" Height="22" HorizontalAlignment="Right" VerticalAlignment="Top" Opacity="0.25">
+                                    <Path Fill="#ef4444" Data="M19 6.4L17.6 5 12 10.6 6.4 5 5 6.4 10.6 12 5 17.6 6.4 19 12 13.4 17.6 19 19 17.6 13.4 12z" />
+                                </Viewbox>
+                                <StackPanel>
+                                    <TextBlock Text="FAILED" FontSize="11" Foreground="#4a5080"
+                                               FontFamily="{DynamicResource NotoSansJP-Semibold}"
+                                               Margin="0 0 0 8" />
+                                    <TextBlock Text="{Binding FailedJobs}" FontSize="26"
+                                               FontFamily="{DynamicResource NotoSansJP-Bold}"
+                                               Margin="0 0 0 6" />
+                                    <TextBlock Text="{Binding FailedSummary}" FontSize="11" Foreground="#7b82a8" />
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+                    </Button>
+
+                </Grid>
+
+                <!-- Toolbar -->
+                <Grid ColumnDefinitions="Auto, 10, Auto, *, Auto" Margin="0 0 0 14">
+
+                    <!-- Search Box -->
+                    <TextBox Grid.Column="0" Width="320"
+                             Watermark="Search jobs..."
+                             Text="{Binding SearchText}"
+                             CornerRadius="7"
+                             Padding="8 8 12 8"
+                             FontSize="13">
+                        <TextBox.InnerLeftContent>
+                            <Viewbox Width="14" Height="14" Margin="4 0 0 0" VerticalAlignment="Center">
+                                <Path Fill="#4a5080" Data="M15.5 14h-.79l-.28-.27A6.47 6.47 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" />
+                            </Viewbox>
+                        </TextBox.InnerLeftContent>
+                    </TextBox>
+
+                    <!-- Sort Button with Flyout -->
+                    <Button Grid.Column="2" Background="#181b2e" BorderBrush="#2e3252" BorderThickness="1"
+                            CornerRadius="7" Padding="12 7" Cursor="Hand"
+                            HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+                        <Button.Flyout>
+                            <Flyout Placement="BottomEdgeAlignedLeft">
+                                <StackPanel Width="200">
+                                    <!-- Sort menu header -->
+                                    <TextBlock Text="SORT BY" FontSize="10" Foreground="#4a5080"
+                                               FontFamily="{DynamicResource NotoSansJP-Semibold}"
+                                               Margin="14 10 14 6" />
+
+                                    <Button Command="{Binding SortByCommand}" CommandParameter="Name"
+                                            HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch"
+                                            Background="Transparent" BorderThickness="0" CornerRadius="0" Padding="14 8"
+                                            Effect="{x:Null}">
+                                        <Grid ColumnDefinitions="*, Auto">
+                                            <TextBlock Text="Job Name" FontSize="12" Foreground="#e8eaf6" VerticalAlignment="Center" />
+                                            <TextBlock Grid.Column="1" Text="{Binding SortArrowName}" FontSize="10" Foreground="#c084fc"
+                                                       VerticalAlignment="Center" IsVisible="{Binding IsSortByName}" />
+                                        </Grid>
+                                    </Button>
+
+                                    <Button Command="{Binding SortByCommand}" CommandParameter="Description"
+                                            HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch"
+                                            Background="Transparent" BorderThickness="0" CornerRadius="0" Padding="14 8"
+                                            Effect="{x:Null}">
+                                        <Grid ColumnDefinitions="*, Auto">
+                                            <TextBlock Text="Description" FontSize="12" Foreground="#e8eaf6" VerticalAlignment="Center" />
+                                            <TextBlock Grid.Column="1" Text="{Binding SortArrowDescription}" FontSize="10" Foreground="#c084fc"
+                                                       VerticalAlignment="Center" IsVisible="{Binding IsSortByDescription}" />
+                                        </Grid>
+                                    </Button>
+
+                                    <Button Command="{Binding SortByCommand}" CommandParameter="Progress"
+                                            HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch"
+                                            Background="Transparent" BorderThickness="0" CornerRadius="0" Padding="14 8"
+                                            Effect="{x:Null}">
+                                        <Grid ColumnDefinitions="*, Auto">
+                                            <TextBlock Text="Progress" FontSize="12" Foreground="#e8eaf6" VerticalAlignment="Center" />
+                                            <TextBlock Grid.Column="1" Text="{Binding SortArrowProgress}" FontSize="10" Foreground="#c084fc"
+                                                       VerticalAlignment="Center" IsVisible="{Binding IsSortByProgress}" />
+                                        </Grid>
+                                    </Button>
+
+                                    <Button Command="{Binding SortByCommand}" CommandParameter="Status"
+                                            HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch"
+                                            Background="Transparent" BorderThickness="0" CornerRadius="0" Padding="14 8"
+                                            Effect="{x:Null}">
+                                        <Grid ColumnDefinitions="*, Auto">
+                                            <TextBlock Text="Status" FontSize="12" Foreground="#e8eaf6" VerticalAlignment="Center" />
+                                            <TextBlock Grid.Column="1" Text="{Binding SortArrowStatus}" FontSize="10" Foreground="#c084fc"
+                                                       VerticalAlignment="Center" IsVisible="{Binding IsSortByStatus}" />
+                                        </Grid>
+                                    </Button>
+
+                                    <Button Command="{Binding SortByCommand}" CommandParameter="Date"
+                                            HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch"
+                                            Background="Transparent" BorderThickness="0" CornerRadius="0 0 8 8" Padding="14 8"
+                                            Effect="{x:Null}">
+                                        <Grid ColumnDefinitions="*, Auto">
+                                            <TextBlock Text="Date" FontSize="12" Foreground="#e8eaf6" VerticalAlignment="Center" />
+                                            <TextBlock Grid.Column="1" Text="{Binding SortArrowDate}" FontSize="10" Foreground="#c084fc"
+                                                       VerticalAlignment="Center" IsVisible="{Binding IsSortByDate}" />
+                                        </Grid>
+                                    </Button>
+                                </StackPanel>
+                            </Flyout>
+                        </Button.Flyout>
+                        <StackPanel Orientation="Horizontal" Spacing="6">
+                            <Viewbox Width="13" Height="13">
+                                <Path Fill="#7b82a8" Data="M3 18h6v-2H3v2zM3 6v2h18V6H3zm0 7h12v-2H3v2z" />
+                            </Viewbox>
+                            <TextBlock Text="Sort" FontSize="12" Foreground="#7b82a8" />
+                        </StackPanel>
+                    </Button>
+
+                    <!-- Filter Tabs -->
+                    <StackPanel Grid.Column="4" Orientation="Horizontal" Spacing="4">
+                        <Button Command="{Binding SetFilterCommand}" CommandParameter="All"
+                                Padding="14 7" FontSize="12" CornerRadius="7" Effect="{x:Null}"
+                                BorderThickness="1" Cursor="Hand"
+                                Classes.filterActive="{Binding IsFilterAll}">
+                            <Button.Styles>
+                                <Style Selector="Button.filterActive">
+                                    <Setter Property="Background" Value="#c026d3" />
+                                    <Setter Property="Foreground" Value="White" />
+                                    <Setter Property="BorderBrush" Value="#c026d3" />
+                                </Style>
+                                <Style Selector="Button:not(.filterActive)">
+                                    <Setter Property="Background" Value="#181b2e" />
+                                    <Setter Property="Foreground" Value="#7b82a8" />
+                                    <Setter Property="BorderBrush" Value="#2e3252" />
+                                </Style>
+                                <Style Selector="Button:not(.filterActive):pointerover">
+                                    <Setter Property="Background" Value="#1e2238" />
+                                    <Setter Property="Foreground" Value="#e8eaf6" />
+                                </Style>
+                            </Button.Styles>
+                            <TextBlock Text="All" FontSize="12" FontFamily="{DynamicResource NotoSansJP-Semibold}" />
+                        </Button>
+
+                        <Button Command="{Binding SetFilterCommand}" CommandParameter="Running"
+                                Padding="14 7" FontSize="12" CornerRadius="7" Effect="{x:Null}"
+                                BorderThickness="1" Cursor="Hand"
+                                Classes.filterActive="{Binding IsFilterRunning}">
+                            <Button.Styles>
+                                <Style Selector="Button.filterActive">
+                                    <Setter Property="Background" Value="#06b6d4" />
+                                    <Setter Property="Foreground" Value="White" />
+                                    <Setter Property="BorderBrush" Value="#06b6d4" />
+                                </Style>
+                                <Style Selector="Button:not(.filterActive)">
+                                    <Setter Property="Background" Value="#181b2e" />
+                                    <Setter Property="Foreground" Value="#7b82a8" />
+                                    <Setter Property="BorderBrush" Value="#2e3252" />
+                                </Style>
+                                <Style Selector="Button:not(.filterActive):pointerover">
+                                    <Setter Property="Background" Value="#1e2238" />
+                                    <Setter Property="Foreground" Value="#e8eaf6" />
+                                </Style>
+                            </Button.Styles>
+                            <TextBlock Text="Running" FontSize="12" FontFamily="{DynamicResource NotoSansJP-Semibold}" />
+                        </Button>
+
+                        <Button Command="{Binding SetFilterCommand}" CommandParameter="Successful"
+                                Padding="14 7" FontSize="12" CornerRadius="7" Effect="{x:Null}"
+                                BorderThickness="1" Cursor="Hand"
+                                Classes.filterActive="{Binding IsFilterSuccessful}">
+                            <Button.Styles>
+                                <Style Selector="Button.filterActive">
+                                    <Setter Property="Background" Value="#22c55e" />
+                                    <Setter Property="Foreground" Value="White" />
+                                    <Setter Property="BorderBrush" Value="#22c55e" />
+                                </Style>
+                                <Style Selector="Button:not(.filterActive)">
+                                    <Setter Property="Background" Value="#181b2e" />
+                                    <Setter Property="Foreground" Value="#7b82a8" />
+                                    <Setter Property="BorderBrush" Value="#2e3252" />
+                                </Style>
+                                <Style Selector="Button:not(.filterActive):pointerover">
+                                    <Setter Property="Background" Value="#1e2238" />
+                                    <Setter Property="Foreground" Value="#e8eaf6" />
+                                </Style>
+                            </Button.Styles>
+                            <TextBlock Text="Successful" FontSize="12" FontFamily="{DynamicResource NotoSansJP-Semibold}" />
+                        </Button>
+
+                        <Button Command="{Binding SetFilterCommand}" CommandParameter="Failed"
+                                Padding="14 7" FontSize="12" CornerRadius="7" Effect="{x:Null}"
+                                BorderThickness="1" Cursor="Hand"
+                                Classes.filterActive="{Binding IsFilterFailed}">
+                            <Button.Styles>
+                                <Style Selector="Button.filterActive">
+                                    <Setter Property="Background" Value="#ef4444" />
+                                    <Setter Property="Foreground" Value="White" />
+                                    <Setter Property="BorderBrush" Value="#ef4444" />
+                                </Style>
+                                <Style Selector="Button:not(.filterActive)">
+                                    <Setter Property="Background" Value="#181b2e" />
+                                    <Setter Property="Foreground" Value="#7b82a8" />
+                                    <Setter Property="BorderBrush" Value="#2e3252" />
+                                </Style>
+                                <Style Selector="Button:not(.filterActive):pointerover">
+                                    <Setter Property="Background" Value="#1e2238" />
+                                    <Setter Property="Foreground" Value="#e8eaf6" />
+                                </Style>
+                            </Button.Styles>
+                            <TextBlock Text="Failed" FontSize="12" FontFamily="{DynamicResource NotoSansJP-Semibold}" />
+                        </Button>
+
+                        <Button Command="{Binding SetFilterCommand}" CommandParameter="Paused"
+                                Padding="14 7" FontSize="12" CornerRadius="7" Effect="{x:Null}"
+                                BorderThickness="1" Cursor="Hand"
+                                Classes.filterActive="{Binding IsFilterPaused}">
+                            <Button.Styles>
+                                <Style Selector="Button.filterActive">
+                                    <Setter Property="Background" Value="#f59e0b" />
+                                    <Setter Property="Foreground" Value="White" />
+                                    <Setter Property="BorderBrush" Value="#f59e0b" />
+                                </Style>
+                                <Style Selector="Button:not(.filterActive)">
+                                    <Setter Property="Background" Value="#181b2e" />
+                                    <Setter Property="Foreground" Value="#7b82a8" />
+                                    <Setter Property="BorderBrush" Value="#2e3252" />
+                                </Style>
+                                <Style Selector="Button:not(.filterActive):pointerover">
+                                    <Setter Property="Background" Value="#1e2238" />
+                                    <Setter Property="Foreground" Value="#e8eaf6" />
+                                </Style>
+                            </Button.Styles>
+                            <TextBlock Text="Paused" FontSize="12" FontFamily="{DynamicResource NotoSansJP-Semibold}" />
+                        </Button>
+                    </StackPanel>
+
+                </Grid>
+
+                <!-- Jobs Table -->
+                <Border Background="#181b2e" BorderBrush="#232640" BorderThickness="1" CornerRadius="10"
+                        ClipToBounds="True">
+
+                    <Grid RowDefinitions="Auto, *">
+
+                        <!-- Table Header (clickable for sorting) -->
+                        <Border Background="#131625" BorderBrush="#232640" BorderThickness="0 0 0 1">
+                            <Grid ColumnDefinitions="2*, 3*, 180, 140, 190">
+
+                                <Button Grid.Column="0" Command="{Binding SortByCommand}" CommandParameter="Name"
+                                        HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"
+                                        Background="Transparent" BorderThickness="0" CornerRadius="0" Padding="16 11"
+                                        Effect="{x:Null}" Cursor="Hand">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="JOB NAME" FontSize="11" Foreground="#4a5080"
+                                                   FontFamily="{DynamicResource NotoSansJP-Semibold}" />
+                                        <TextBlock Text="{Binding SortArrowName}" FontSize="9" Foreground="#7b82a8"
+                                                   Margin="5 1 0 0" VerticalAlignment="Center"
+                                                   IsVisible="{Binding IsSortByName}" />
+                                    </StackPanel>
+                                </Button>
+
+                                <Button Grid.Column="1" Command="{Binding SortByCommand}" CommandParameter="Description"
+                                        HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"
+                                        Background="Transparent" BorderThickness="0" CornerRadius="0" Padding="16 11"
+                                        Effect="{x:Null}" Cursor="Hand">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="DESCRIPTION" FontSize="11" Foreground="#4a5080"
+                                                   FontFamily="{DynamicResource NotoSansJP-Semibold}" />
+                                        <TextBlock Text="{Binding SortArrowDescription}" FontSize="9" Foreground="#7b82a8"
+                                                   Margin="5 1 0 0" VerticalAlignment="Center"
+                                                   IsVisible="{Binding IsSortByDescription}" />
+                                    </StackPanel>
+                                </Button>
+
+                                <Button Grid.Column="2" Command="{Binding SortByCommand}" CommandParameter="Progress"
+                                        HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"
+                                        Background="Transparent" BorderThickness="0" CornerRadius="0" Padding="16 11"
+                                        Effect="{x:Null}" Cursor="Hand">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="PROGRESS" FontSize="11" Foreground="#4a5080"
+                                                   FontFamily="{DynamicResource NotoSansJP-Semibold}" />
+                                        <TextBlock Text="{Binding SortArrowProgress}" FontSize="9" Foreground="#7b82a8"
+                                                   Margin="5 1 0 0" VerticalAlignment="Center"
+                                                   IsVisible="{Binding IsSortByProgress}" />
+                                    </StackPanel>
+                                </Button>
+
+                                <Button Grid.Column="3" Command="{Binding SortByCommand}" CommandParameter="Status"
+                                        HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"
+                                        Background="Transparent" BorderThickness="0" CornerRadius="0" Padding="16 11"
+                                        Effect="{x:Null}" Cursor="Hand">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="STATUS" FontSize="11" Foreground="#4a5080"
+                                                   FontFamily="{DynamicResource NotoSansJP-Semibold}" />
+                                        <TextBlock Text="{Binding SortArrowStatus}" FontSize="9" Foreground="#7b82a8"
+                                                   Margin="5 1 0 0" VerticalAlignment="Center"
+                                                   IsVisible="{Binding IsSortByStatus}" />
+                                    </StackPanel>
+                                </Button>
+
+                                <Button Grid.Column="4" Command="{Binding SortByCommand}" CommandParameter="Date"
+                                        HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"
+                                        Background="Transparent" BorderThickness="0" CornerRadius="0" Padding="16 11"
+                                        Effect="{x:Null}" Cursor="Hand">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="DATE" FontSize="11" Foreground="#4a5080"
+                                                   FontFamily="{DynamicResource NotoSansJP-Semibold}" />
+                                        <TextBlock Text="{Binding SortArrowDate}" FontSize="9" Foreground="#7b82a8"
+                                                   Margin="5 1 0 0" VerticalAlignment="Center"
+                                                   IsVisible="{Binding IsSortByDate}" />
+                                    </StackPanel>
+                                </Button>
+
+                            </Grid>
+                        </Border>
+
+                        <!-- Table Rows -->
+                        <ItemsControl Grid.Row="1" ItemsSource="{Binding FilteredJobs}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate x:DataType="pages:JobItemViewModel">
+                                    <Border BorderBrush="#232640" BorderThickness="0 0 0 1"
+                                            Padding="0" Background="Transparent">
+                                        <Border.Styles>
+                                            <Style Selector="Border:pointerover">
+                                                <Setter Property="Background" Value="#1e2238" />
+                                            </Style>
+                                        </Border.Styles>
+                                        <Grid ColumnDefinitions="2*, 3*, 180, 140, 190" MinHeight="46">
+
+                                            <!-- Job Name -->
+                                            <TextBlock Grid.Column="0" Text="{Binding Name}"
+                                                       VerticalAlignment="Center" Margin="16 0"
+                                                       FontSize="13"
+                                                       FontFamily="{DynamicResource NotoSansJP-Semibold}" />
+
+                                            <!-- Description -->
+                                            <TextBlock Grid.Column="1" Text="{Binding Description}"
+                                                       VerticalAlignment="Center" Margin="16 0"
+                                                       FontSize="12" Foreground="#7b82a8"
+                                                       TextTrimming="CharacterEllipsis" />
+
+                                            <!-- Progress -->
+                                            <StackPanel Grid.Column="2" VerticalAlignment="Center" Margin="16 0">
+                                                <Border Height="5" CornerRadius="3" Background="#2e3252"
+                                                        ClipToBounds="True" Margin="0 0 0 5">
+                                                    <Border CornerRadius="3"
+                                                            Background="{Binding Status, Converter={StaticResource JobStatusToProgressBrushConverter}}"
+                                                            HorizontalAlignment="Stretch"
+                                                            RenderTransformOrigin="0,0.5">
+                                                        <Border.RenderTransform>
+                                                            <ScaleTransform ScaleX="{Binding ProgressFraction}" />
+                                                        </Border.RenderTransform>
+                                                    </Border>
+                                                </Border>
+                                                <TextBlock Text="{Binding ProgressText}" FontSize="11" Foreground="#4a5080" />
+                                            </StackPanel>
+
+                                            <!-- Status Badge -->
+                                            <Panel Grid.Column="3" Margin="16 0">
+                                                <Border VerticalAlignment="Center"
+                                                        HorizontalAlignment="Left"
+                                                        Background="{Binding Status, Converter={StaticResource JobStatusToBadgeBackgroundConverter}}"
+                                                        CornerRadius="20" Padding="10 5 12 5">
+                                                    <StackPanel Orientation="Horizontal" Spacing="6">
+                                                        <Ellipse Width="6" Height="6" VerticalAlignment="Center"
+                                                                 Fill="{Binding Status, Converter={StaticResource JobStatusToBadgeForegroundConverter}}" />
+                                                        <TextBlock Text="{Binding StatusText}" FontSize="11"
+                                                                   FontFamily="{DynamicResource NotoSansJP-Semibold}"
+                                                                   Foreground="{Binding Status, Converter={StaticResource JobStatusToBadgeForegroundConverter}}" />
+                                                    </StackPanel>
+                                                </Border>
+                                            </Panel>
+
+                                            <!-- Date -->
+                                            <TextBlock Grid.Column="4" Text="{Binding DateText}"
+                                                       VerticalAlignment="Center" Margin="16 0"
+                                                       FontSize="12" Foreground="#7b82a8" />
+
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+
+                    </Grid>
+
+                </Border>
+
+            </StackPanel>
+        </ScrollViewer>
 
     </Grid>
 
