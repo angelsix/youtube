@@ -3,30 +3,146 @@
         xmlns:vm="using:BatchProcess3Host.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="250"
-        Width="400" Height="250"
+        mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="500"
+        Width="600" Height="500"
         x:Class="BatchProcess3Host.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
         WindowStartupLocation="CenterScreen"
         Icon="/Assets/avalonia-logo.ico"
-        Title="BatchProcess3Host">
+        Title="BatchProcess Host">
 
     <Design.DataContext>
-        <!-- This only sets the DataContext for the previewer in an IDE,
-             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
         <vm:MainWindowViewModel />
     </Design.DataContext>
 
-    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-        <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center" />
-        <ListBox IsVisible="False" Height="200" Width="450" ItemsSource="{Binding ActiveFilesList}">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <Label Content="{Binding FileName}" />
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
-        <Button Command="{Binding IncrementValueCommand}" HorizontalAlignment="Center" Content="Increment Value" />    
-    </StackPanel>
+    <!-- Main Layout -->
+    <Grid RowDefinitions="Auto, Auto, *" Background="{DynamicResource PrimaryBackground}">
+
+        <!-- Header Section -->
+        <Border Padding="{DynamicResource SpacingLg}" Background="{DynamicResource PrimaryBackgroundGradient}">
+            <Grid ColumnDefinitions="Auto, *, Auto">
+
+                <!-- Title -->
+                <StackPanel Spacing="4">
+                    <TextBlock Classes="page-title" Text="BatchProcess Host" />
+                    <TextBlock Classes="subtle" Text="{Binding ServerStatus}" />
+                </StackPanel>
+
+                <!-- Status indicator -->
+                <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+                    <Ellipse Classes="status-dot" Fill="{DynamicResource GreenAccent}" />
+                    <TextBlock Classes="body" Text="Online" />
+                </StackPanel>
+
+            </Grid>
+        </Border>
+
+        <!-- Summary Row -->
+        <Grid Grid.Row="1" ColumnDefinitions="*, *, *" ColumnSpacing="12" Margin="{DynamicResource PagePaddingFirst}">
+
+            <!-- Active Jobs Card -->
+            <Border Classes="card">
+                <StackPanel Spacing="4">
+                    <TextBlock Classes="section-header" Text="ACTIVE JOBS" />
+                    <TextBlock Classes="page-title" Text="{Binding ActiveJobCount}" Foreground="{DynamicResource CyanAccent}" />
+                </StackPanel>
+            </Border>
+
+            <!-- Completed Jobs Card -->
+            <Border Grid.Column="1" Classes="card">
+                <StackPanel Spacing="4">
+                    <TextBlock Classes="section-header" Text="COMPLETED" />
+                    <TextBlock Classes="page-title" Text="{Binding CompletedJobCount}" Foreground="{DynamicResource GreenAccent}" />
+                </StackPanel>
+            </Border>
+
+            <!-- Total Jobs Card -->
+            <Border Grid.Column="2" Classes="card">
+                <StackPanel Spacing="4">
+                    <TextBlock Classes="section-header" Text="TOTAL RECEIVED" />
+                    <TextBlock Classes="page-title" Text="{Binding Jobs.Count}" Foreground="{DynamicResource FuchsiaAccent}" />
+                </StackPanel>
+            </Border>
+
+        </Grid>
+
+        <!-- Jobs List -->
+        <Border Grid.Row="2" Classes="card" Margin="{DynamicResource PagePaddingLast}" ClipToBounds="True">
+            <Grid RowDefinitions="Auto, *">
+
+                <!-- List Header -->
+                <TextBlock Classes="section-header" Text="JOB ACTIVITY" Margin="{DynamicResource SpacingBMd}" />
+
+                <!-- Empty State -->
+                <TextBlock Grid.Row="1" Classes="subtle"
+                           Text="No jobs received yet. Waiting for client..."
+                           HorizontalAlignment="Center" VerticalAlignment="Center"
+                           IsVisible="{Binding !Jobs.Count}" />
+
+                <!-- Job Items -->
+                <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                    <ItemsControl ItemsSource="{Binding Jobs}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <VirtualizingStackPanel />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate x:DataType="vm:HostJobItemViewModel">
+                                <Border Classes="job-row" MinHeight="56" Cursor="Hand"
+                                        Tapped="JobRow_OnTapped">
+                                    <Grid ColumnDefinitions="*, Auto" RowDefinitions="Auto, Auto, Auto" RowSpacing="4">
+
+                                        <!-- Job Name -->
+                                        <TextBlock Grid.Column="0" Classes="body" Text="{Binding JobName}" FontWeight="SemiBold" />
+
+                                        <!-- File Progress -->
+                                        <TextBlock Grid.Column="1" Classes="subtle" Text="{Binding ProgressText}" VerticalAlignment="Center" />
+
+                                        <!-- Progress Bar -->
+                                        <ProgressBar Grid.Row="1" Grid.ColumnSpan="2"
+                                                     Minimum="0" Maximum="1"
+                                                     Value="{Binding ProgressFraction}"
+                                                     Height="6"
+                                                     Foreground="{DynamicResource CyanAccent}"
+                                                     Background="{DynamicResource CardBorderSubtle}" />
+
+                                        <!-- Current Action (while running) -->
+                                        <TextBlock Grid.Row="2" Grid.ColumnSpan="2" Classes="subtle"
+                                                   Text="{Binding CurrentAction}"
+                                                   TextTrimming="CharacterEllipsis"
+                                                   IsVisible="{Binding !IsComplete}" />
+
+                                        <!-- Final Status (when complete) -->
+                                        <StackPanel Grid.Row="2" Grid.ColumnSpan="2"
+                                                    Orientation="Horizontal" Spacing="8"
+                                                    IsVisible="{Binding IsComplete}">
+                                            <TextBlock FontSize="{DynamicResource FontSizeSm}"
+                                                       Foreground="{DynamicResource GreenAccent}"
+                                                       Text="{Binding Status}"
+                                                       IsVisible="{Binding !ErrorCount}" />
+                                            <TextBlock FontSize="{DynamicResource FontSizeSm}"
+                                                       Foreground="{DynamicResource RedAccent}"
+                                                       IsVisible="{Binding ErrorCount}">
+                                                <TextBlock.Text>
+                                                    <MultiBinding StringFormat="{}{0} — {1} error(s)">
+                                                        <Binding Path="Status" />
+                                                        <Binding Path="ErrorCount" />
+                                                    </MultiBinding>
+                                                </TextBlock.Text>
+                                            </TextBlock>
+                                        </StackPanel>
+
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
+
+            </Grid>
+        </Border>
+
+    </Grid>
 
 </Window>

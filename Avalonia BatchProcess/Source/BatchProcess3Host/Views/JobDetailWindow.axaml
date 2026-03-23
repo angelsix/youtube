@@ -1,0 +1,163 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:BatchProcess3Host.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="650" d:DesignHeight="500"
+        Width="650" Height="500"
+        x:Class="BatchProcess3Host.Views.JobDetailWindow"
+        x:DataType="vm:JobDetailWindowViewModel"
+        WindowStartupLocation="CenterOwner"
+        Title="{Binding Title}">
+
+    <Design.DataContext>
+        <vm:JobDetailWindowViewModel />
+    </Design.DataContext>
+
+    <!-- Main Layout -->
+    <Grid RowDefinitions="Auto, Auto, Auto, *" Background="{DynamicResource PrimaryBackground}">
+
+        <!-- Header -->
+        <Border Padding="{DynamicResource SpacingMd}" Background="{DynamicResource PrimaryBackgroundGradient}">
+            <StackPanel Spacing="4">
+                <TextBlock Classes="page-title" Text="{Binding Title}" />
+                <TextBlock Classes="subtle" Text="{Binding Description}" TextTrimming="CharacterEllipsis" />
+            </StackPanel>
+        </Border>
+
+        <!-- Summary Cards -->
+        <Grid Grid.Row="1" ColumnDefinitions="*, *, *, *" ColumnSpacing="8" Margin="{DynamicResource PagePaddingFirst}">
+
+            <!-- Status -->
+            <Border Classes="card">
+                <StackPanel Spacing="2">
+                    <TextBlock Classes="section-header" Text="STATUS" />
+                    <TextBlock Classes="body" Text="{Binding StatusText}" FontWeight="Bold" />
+                </StackPanel>
+            </Border>
+
+            <!-- Progress -->
+            <Border Grid.Column="1" Classes="card">
+                <StackPanel Spacing="2">
+                    <TextBlock Classes="section-header" Text="PROGRESS" />
+                    <TextBlock Classes="body" Text="{Binding ProgressText}" FontWeight="Bold" />
+                </StackPanel>
+            </Border>
+
+            <!-- Elapsed -->
+            <Border Grid.Column="2" Classes="card">
+                <StackPanel Spacing="2">
+                    <TextBlock Classes="section-header" Text="ELAPSED" />
+                    <TextBlock Classes="body" Text="{Binding ElapsedText}" FontWeight="Bold" Foreground="{DynamicResource CyanAccent}" />
+                </StackPanel>
+            </Border>
+
+            <!-- Errors -->
+            <Border Grid.Column="3" Classes="card">
+                <StackPanel Spacing="2">
+                    <TextBlock Classes="section-header" Text="ERRORS" />
+                    <StackPanel Orientation="Horizontal" Spacing="4">
+                        <TextBlock Classes="body" Text="{Binding FailedCount}" FontWeight="Bold" Foreground="{DynamicResource RedAccent}" />
+                        <TextBlock Classes="body" Text="/" Foreground="{DynamicResource SecondaryForeground}" />
+                        <TextBlock Classes="body" Text="{Binding Steps.Count}" Foreground="{DynamicResource SecondaryForeground}" />
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+        </Grid>
+
+        <!-- Error List -->
+        <Border Grid.Row="2" Background="#1a0f0f10" CornerRadius="{DynamicResource CornerMd}"
+                Padding="{DynamicResource SpacingSm}" Margin="{DynamicResource PagePaddingMiddle}"
+                IsVisible="{Binding FailedCount}">
+            <StackPanel Spacing="4">
+                <TextBlock Classes="section-header" Foreground="{DynamicResource RedAccent}" Text="ERRORS" />
+                <ItemsControl ItemsSource="{Binding Errors}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding}" FontSize="11" Foreground="{DynamicResource RedAccent}"
+                                       TextWrapping="Wrap" Margin="0 1" />
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+        </Border>
+
+        <!-- Steps Table -->
+        <Border Grid.Row="3" Classes="card" Margin="{DynamicResource PagePaddingLast}" ClipToBounds="True">
+            <Grid RowDefinitions="Auto, *">
+
+                <!-- Table Header -->
+                <Border Background="{DynamicResource TableHeaderBackground}"
+                        BorderBrush="{DynamicResource CardBorder}" BorderThickness="0 0 0 1"
+                        Margin="-16 -16 -16 0" Padding="0">
+                    <Grid ColumnDefinitions="2.5*, 2.5*, 1.2*, 1*" MinHeight="30">
+                        <TextBlock Grid.Column="0" Text="FILE" FontSize="9" FontWeight="SemiBold"
+                                   Foreground="{DynamicResource LabelForeground}"
+                                   VerticalAlignment="Center" Margin="{DynamicResource SpacingHMd}" />
+                        <TextBlock Grid.Column="1" Text="ACTION" FontSize="9" FontWeight="SemiBold"
+                                   Foreground="{DynamicResource LabelForeground}"
+                                   VerticalAlignment="Center" Margin="{DynamicResource SpacingHMd}" />
+                        <TextBlock Grid.Column="2" Text="STATUS" FontSize="9" FontWeight="SemiBold"
+                                   Foreground="{DynamicResource LabelForeground}"
+                                   VerticalAlignment="Center" Margin="{DynamicResource SpacingHMd}" />
+                        <TextBlock Grid.Column="3" Text="TIME" FontSize="9" FontWeight="SemiBold"
+                                   Foreground="{DynamicResource LabelForeground}"
+                                   VerticalAlignment="Center" Margin="{DynamicResource SpacingHMd}" />
+                    </Grid>
+                </Border>
+
+                <!-- Table Rows -->
+                <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                    <ItemsControl ItemsSource="{Binding Steps}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <VirtualizingStackPanel />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate x:DataType="vm:HostStepItemViewModel">
+                                <Border Classes="job-row" MinHeight="32">
+                                    <Grid ColumnDefinitions="2.5*, 2.5*, 1.2*, 1*">
+
+                                        <!-- File -->
+                                        <TextBlock Grid.Column="0" Text="{Binding FileName}"
+                                                   VerticalAlignment="Center" Margin="{DynamicResource SpacingHMd}"
+                                                   FontSize="11" TextTrimming="CharacterEllipsis"
+                                                   ToolTip.Tip="{Binding ErrorMessage}" />
+
+                                        <!-- Action -->
+                                        <TextBlock Grid.Column="1" Text="{Binding ActionName}"
+                                                   VerticalAlignment="Center" Margin="{DynamicResource SpacingHMd}"
+                                                   FontSize="11" Foreground="{DynamicResource SecondaryForeground}" />
+
+                                        <!-- Status -->
+                                        <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="6"
+                                                    VerticalAlignment="Center" Margin="{DynamicResource SpacingHMd}">
+                                            <Ellipse Width="6" Height="6" VerticalAlignment="Center"
+                                                     Fill="{DynamicResource GreenAccent}"
+                                                     IsVisible="{Binding !IsFailed}" />
+                                            <Ellipse Width="6" Height="6" VerticalAlignment="Center"
+                                                     Fill="{DynamicResource RedAccent}"
+                                                     IsVisible="{Binding IsFailed}" />
+                                            <TextBlock Text="{Binding Status}" FontSize="11" />
+                                        </StackPanel>
+
+                                        <!-- Duration -->
+                                        <TextBlock Grid.Column="3" Text="{Binding DurationText}"
+                                                   VerticalAlignment="Center" Margin="{DynamicResource SpacingHMd}"
+                                                   FontSize="11" Foreground="{DynamicResource SecondaryForeground}" />
+
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
+
+            </Grid>
+        </Border>
+
+    </Grid>
+
+</Window>

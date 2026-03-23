@@ -109,9 +109,11 @@ SettingsDataModel                      # App settings (host, PDME vault, paths)
 
 Thin wrapper that starts the Avalonia app. Includes crash recovery with auto-restart (10-second cooldown). Has a post-build script (`BuildScripts/create_mac_app.sh`) that creates a macOS `.app` bundle.
 
-### BatchProcess3Host (SolidWorks Host)
+### BatchProcess3Host (Batch Processing Host)
 
-Runs **both** an Avalonia UI window and an ASP.NET Core Kestrel web server (`http://localhost:5000`) in a single process. Kestrel runs on a background thread; Avalonia runs on the main thread. When the UI closes, Kestrel is gracefully shut down via `CancellationToken`.
+Runs **both** an Avalonia UI dashboard and an ASP.NET Core Kestrel web server (`http://localhost:5000`) in a single process. Kestrel runs on a background thread; Avalonia runs on the main thread. When the UI closes, Kestrel is gracefully shut down via `CancellationToken`.
+
+The host accepts job requests from the client, simulates processing with random delays and failures, and reports progress back. The Avalonia UI shows a dark-themed dashboard with active/completed job counts and a live job activity feed.
 
 **API Endpoints:**
 
@@ -119,8 +121,21 @@ Runs **both** an Avalonia UI window and an ASP.NET Core Kestrel web server (`htt
 |--------|-------|---------|
 | GET | `/` | Test endpoint - returns SolidWorks version |
 | GET | `/solidworks/active/list` | Returns `List<SolidWorksFileDetails>` of files in the active assembly |
+| POST | `/jobs/submit` | Accepts a `BatchJobRequest`, starts background processing, returns `BatchJobResponse` |
+| GET | `/jobs/{id}/progress` | Returns `BatchJobProgressResponse` for a running/completed job |
 
-**Key Service:** `BatchProcessHost` - currently uses test files from `SolidWorks/Test Files/` directory. Will eventually call the SolidWorks COM API.
+**Key Services:**
+- `BatchProcessHost` — Returns test files from `SolidWorks/Test Files/` directory
+- `JobExecutionService` — Manages job execution with concurrent dictionary of job states, dummy processing with random delays (500-2000ms per action), ~10% failure rate per step
+
+**Key Directories:**
+
+| Directory | Purpose |
+|-----------|---------|
+| `Services/` | `JobExecutionService` - job execution and progress tracking |
+| `Themes/` | `DesignTokens.axaml` (colors, spacing, fonts), `Styles.axaml` (themed style classes) |
+| `ViewModels/` | `MainWindowViewModel`, `HostJobItemViewModel` |
+| `Views/` | `MainWindow` - dark-themed dashboard |
 
 ---
 
@@ -133,26 +148,35 @@ Runs **both** an Avalonia UI window and an ASP.NET Core Kestrel web server (`htt
 │  HomePageViewModel               │
 │    └── BatchProcessClient        │
 │         (HttpClient)             │
+│    RunJob → POST /jobs/submit    │
+│                                  │
+│  JobsPageViewModel               │
+│    └── Polls /jobs/{id}/progress │
+│         every 1 second           │
 └───────────┬──────────────────────┘
-            │  HTTP GET (JSON)
-            │  http://{host}:{port}/solidworks/active/list
+            │  HTTP GET/POST (JSON)
+            │  http://localhost:5000
             ▼
 ┌──────────────────────────────────┐
 │  BatchProcess3Host               │
 │                                  │
 │  Kestrel (ASP.NET Core)          │
-│    └── BatchProcessHost service  │
-│         └── SolidWorks COM API   │
+│    ├── BatchProcessHost service  │
+│    └── JobExecutionService       │
+│         └── Background tasks     │
 │                                  │
-│  Avalonia UI (status window)     │
+│  Avalonia UI (dashboard)         │
 └──────────────────────────────────┘
 
  Shared via BatchProcess3.Core:
    - BatchProcessHostUrls (endpoint constants)
    - SolidWorksFileDetails (data contract)
+   - BatchJobRequest / BatchJobResponse (job DTOs)
+   - BatchJobProgressResponse (progress DTO)
+   - JobActionInfo (action wire format)
 ```
 
-The Client connects to the Host via the address configured in Settings (`SettingsDataModel.SolidWorksHost`). During development, `BatchProcessClient.DummyData = true` bypasses the HTTP call and loads sample files from disk.
+The Client connects to the Host via the address configured in Settings (`SettingsDataModel.SolidWorksHost`). During development, `BatchProcessClient.DummyData = true` bypasses the file list HTTP call and loads sample files from disk. Job submission and progress polling always use HTTP.
 
 ---
 

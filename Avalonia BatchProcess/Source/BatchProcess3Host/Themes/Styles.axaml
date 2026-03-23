@@ -1,0 +1,78 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- Window base style -->
+    <Style Selector="Window">
+        <Setter Property="Background" Value="{DynamicResource PrimaryBackground}" />
+        <Setter Property="Foreground" Value="{DynamicResource PrimaryForeground}" />
+    </Style>
+
+    <!-- Page title -->
+    <Style Selector="TextBlock.page-title">
+        <Setter Property="FontSize" Value="{DynamicResource FontSizeXl}" />
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="Foreground" Value="{DynamicResource LightForeground}" />
+    </Style>
+
+    <!-- Section header -->
+    <Style Selector="TextBlock.section-header">
+        <Setter Property="FontSize" Value="{DynamicResource FontSizeXs}" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="Foreground" Value="{DynamicResource LabelForeground}" />
+    </Style>
+
+    <!-- Body text -->
+    <Style Selector="TextBlock.body">
+        <Setter Property="FontSize" Value="{DynamicResource FontSizeBody}" />
+        <Setter Property="Foreground" Value="{DynamicResource PrimaryForeground}" />
+    </Style>
+
+    <!-- Subtle text -->
+    <Style Selector="TextBlock.subtle">
+        <Setter Property="FontSize" Value="{DynamicResource FontSizeSm}" />
+        <Setter Property="Foreground" Value="{DynamicResource SecondaryForeground}" />
+    </Style>
+
+    <!-- Card container -->
+    <Style Selector="Border.card">
+        <Setter Property="Background" Value="{DynamicResource CardBackground}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource CardBorder}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius" Value="{DynamicResource CornerLg}" />
+        <Setter Property="Padding" Value="{DynamicResource SpacingMd}" />
+    </Style>
+
+    <!-- Job row with hover -->
+    <Style Selector="Border.job-row">
+        <Setter Property="BorderBrush" Value="{DynamicResource CardBorder}" />
+        <Setter Property="BorderThickness" Value="0 0 0 1" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Padding" Value="{DynamicResource SpacingHMd}" />
+    </Style>
+
+    <Style Selector="Border.job-row:pointerover">
+        <Setter Property="Background" Value="{DynamicResource HoverBackground}" />
+    </Style>
+
+    <!-- Status indicator dot -->
+    <Style Selector="Ellipse.status-dot">
+        <Setter Property="Width" Value="8" />
+        <Setter Property="Height" Value="8" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+
+    <!-- Progress bar track -->
+    <Style Selector="Border.progress-track">
+        <Setter Property="Height" Value="6" />
+        <Setter Property="CornerRadius" Value="{DynamicResource CornerSm}" />
+        <Setter Property="Background" Value="{DynamicResource CardBorderSubtle}" />
+    </Style>
+
+    <!-- Progress bar fill -->
+    <Style Selector="Border.progress-fill">
+        <Setter Property="Height" Value="6" />
+        <Setter Property="CornerRadius" Value="{DynamicResource CornerSm}" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
+    </Style>
+
+</Styles>

@@ -1,4 +1,4 @@
-﻿using Avalonia;
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using BatchProcess3.Actions;
@@ -26,6 +26,8 @@ public static class Bootstrapper
          collection.AddSingleton<MainViewModel>();
          collection.AddSingleton<HomePageViewModel>();
          collection.AddSingleton<DialogService>();
+         collection.AddSingleton<BatchProcessClient>();
+         collection.AddSingleton<JobsPageViewModel>();
 
          // Page Factory Callback
          collection.AddSingleton<Func<Type, PageViewModel>>(x => type => type switch
@@ -40,10 +42,10 @@ public static class Bootstrapper
              _ when type == typeof(JobsPageViewModel) => x.GetRequiredService<JobsPageViewModel>(),
              _ => throw new InvalidOperationException($"Page of type {type?.FullName} has no view model"),
          });
-        
+
          // Page Factory
          collection.AddSingleton<PageFactory>();
-         
+
          // Transient Services
          collection.AddTransient<ActionsPageViewModel>();
          collection.AddTransient<HistoryPageViewModel>();
@@ -51,21 +53,19 @@ public static class Bootstrapper
          collection.AddTransient<ProcessPageViewModel>();
          collection.AddTransient<ReporterPageViewModel>();
          collection.AddTransient<SettingsPageViewModel>();
-         collection.AddTransient<JobsPageViewModel>();
          collection.AddTransient<ActionService>();
          collection.AddTransient<PrinterService>();
-         collection.AddTransient<BatchProcessClient>();
 
          collection.AddTransient<ActionPrintSettingsViewModel>();
          collection.AddTransient<ConfirmDialogViewModel>();
          collection.AddTransient<ErrorViewModel>();
-         
+
          // Database services
          collection.AddTransient<ApplicationDbContext>();
          collection.AddTransient<DatabaseService>();
          collection.AddSingleton<Func<DatabaseService>>(x => x.GetRequiredService<DatabaseService>);
          collection.AddSingleton<DatabaseFactory>();
-         
+
          // Add Top Level Locator
          collection.AddTopLevelProvider();
     }

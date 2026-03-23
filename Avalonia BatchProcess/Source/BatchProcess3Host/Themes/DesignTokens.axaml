@@ -1,0 +1,132 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- ======================== -->
+    <!--   Spacing Resources      -->
+    <!-- ======================== -->
+
+    <!-- Uniform (all sides) -->
+    <Thickness x:Key="SpacingXs">4</Thickness>
+    <Thickness x:Key="SpacingSm">8</Thickness>
+    <Thickness x:Key="SpacingMd">16</Thickness>
+    <Thickness x:Key="SpacingLg">28</Thickness>
+
+    <!-- Horizontal only (left/right) -->
+    <Thickness x:Key="SpacingHSm">8 0</Thickness>
+    <Thickness x:Key="SpacingHMd">16 0</Thickness>
+    <Thickness x:Key="SpacingHLg">28 0</Thickness>
+
+    <!-- Bottom only -->
+    <Thickness x:Key="SpacingBXs">0 0 0 4</Thickness>
+    <Thickness x:Key="SpacingBMd">0 0 0 16</Thickness>
+
+    <!-- ============================== -->
+    <!--   Corner Radius Resources     -->
+    <!-- ============================== -->
+
+    <CornerRadius x:Key="CornerSm">4</CornerRadius>
+    <CornerRadius x:Key="CornerMd">8</CornerRadius>
+    <CornerRadius x:Key="CornerLg">12</CornerRadius>
+    <CornerRadius x:Key="CornerPill">20</CornerRadius>
+
+    <!-- Page content layout -->
+    <Thickness x:Key="PagePaddingFirst">28 28 28 16</Thickness>
+    <Thickness x:Key="PagePaddingMiddle">28 0 28 16</Thickness>
+    <Thickness x:Key="PagePaddingLast">28 0 28 28</Thickness>
+
+    <!-- ==================== -->
+    <!--   Color Resources    -->
+    <!-- ==================== -->
+
+    <!-- Primary Colors -->
+    <Color x:Key="PrimaryBackgroundColor1">#111214</Color>
+    <Color x:Key="PrimaryBackgroundColor2">#151E3E</Color>
+
+    <!-- Card/Layout Colors -->
+    <Color x:Key="CardBackgroundColor">#181b2e</Color>
+    <Color x:Key="CardBorderColor">#232640</Color>
+    <Color x:Key="CardBorderSubtleColor">#2e3252</Color>
+    <Color x:Key="HoverBackgroundColor">#1e2238</Color>
+    <Color x:Key="TableHeaderBackgroundColor">#131625</Color>
+
+    <!-- Text Colors -->
+    <Color x:Key="LabelForegroundColor">#4a5080</Color>
+    <Color x:Key="SecondaryForegroundColor">#7b82a8</Color>
+    <Color x:Key="LightForegroundColor">#e8eaf6</Color>
+
+    <!-- Accent Colors -->
+    <Color x:Key="CyanColor">#06b6d4</Color>
+    <Color x:Key="CyanLightColor">#0ea5e9</Color>
+    <Color x:Key="FuchsiaColor">#c026d3</Color>
+    <Color x:Key="FuchsiaLightColor">#e879f9</Color>
+    <Color x:Key="GreenColor">#22c55e</Color>
+    <Color x:Key="GreenDarkColor">#16a34a</Color>
+    <Color x:Key="RedColor">#ef4444</Color>
+    <Color x:Key="RedDarkColor">#dc2626</Color>
+    <Color x:Key="AmberColor">#f59e0b</Color>
+
+    <!-- ============================== -->
+    <!--   SolidColorBrush Resources    -->
+    <!-- ============================== -->
+
+    <SolidColorBrush x:Key="PrimaryForeground">#CFCFCF</SolidColorBrush>
+    <SolidColorBrush x:Key="PrimaryForegroundSubtle">#aaa</SolidColorBrush>
+    <SolidColorBrush x:Key="PrimaryBackground">#14172D</SolidColorBrush>
+
+    <SolidColorBrush x:Key="CardBackground" Color="{DynamicResource CardBackgroundColor}" />
+    <SolidColorBrush x:Key="CardBorder" Color="{DynamicResource CardBorderColor}" />
+    <SolidColorBrush x:Key="CardBorderSubtle" Color="{DynamicResource CardBorderSubtleColor}" />
+    <SolidColorBrush x:Key="HoverBackground" Color="{DynamicResource HoverBackgroundColor}" />
+    <SolidColorBrush x:Key="TableHeaderBackground" Color="{DynamicResource TableHeaderBackgroundColor}" />
+
+    <SolidColorBrush x:Key="LabelForeground" Color="{DynamicResource LabelForegroundColor}" />
+    <SolidColorBrush x:Key="SecondaryForeground" Color="{DynamicResource SecondaryForegroundColor}" />
+    <SolidColorBrush x:Key="LightForeground" Color="{DynamicResource LightForegroundColor}" />
+
+    <SolidColorBrush x:Key="CyanAccent" Color="{DynamicResource CyanColor}" />
+    <SolidColorBrush x:Key="FuchsiaAccent" Color="{DynamicResource FuchsiaColor}" />
+    <SolidColorBrush x:Key="GreenAccent" Color="{DynamicResource GreenColor}" />
+    <SolidColorBrush x:Key="RedAccent" Color="{DynamicResource RedColor}" />
+    <SolidColorBrush x:Key="AmberAccent" Color="{DynamicResource AmberColor}" />
+
+    <!-- ================================ -->
+    <!--   LinearGradientBrush Resources  -->
+    <!-- ================================ -->
+
+    <LinearGradientBrush x:Key="PrimaryBackgroundGradient" StartPoint="0%, 0%" EndPoint="100%, 0%">
+        <GradientStop Offset="0" Color="{DynamicResource PrimaryBackgroundColor1}" />
+        <GradientStop Offset="1" Color="{DynamicResource PrimaryBackgroundColor2}" />
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="CyanCardGradient" StartPoint="0%,50%" EndPoint="100%,50%">
+        <GradientStop Color="{DynamicResource CyanColor}" Offset="0" />
+        <GradientStop Color="{DynamicResource CyanLightColor}" Offset="1" />
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="GreenCardGradient" StartPoint="0%,50%" EndPoint="100%,50%">
+        <GradientStop Color="{DynamicResource GreenColor}" Offset="0" />
+        <GradientStop Color="{DynamicResource GreenDarkColor}" Offset="1" />
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="RedCardGradient" StartPoint="0%,50%" EndPoint="100%,50%">
+        <GradientStop Color="{DynamicResource RedColor}" Offset="0" />
+        <GradientStop Color="{DynamicResource RedDarkColor}" Offset="1" />
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="FuchsiaCardGradient" StartPoint="0%,50%" EndPoint="100%,50%">
+        <GradientStop Color="{DynamicResource FuchsiaColor}" Offset="0" />
+        <GradientStop Color="{DynamicResource FuchsiaLightColor}" Offset="1" />
+    </LinearGradientBrush>
+
+    <!-- ==================== -->
+    <!--   Font Resources     -->
+    <!-- ==================== -->
+
+    <x:Double x:Key="FontSizeXs">10</x:Double>
+    <x:Double x:Key="FontSizeSm">11</x:Double>
+    <x:Double x:Key="FontSizeBody">13</x:Double>
+    <x:Double x:Key="FontSizeMd">14</x:Double>
+    <x:Double x:Key="FontSizeLg">18</x:Double>
+    <x:Double x:Key="FontSizeXl">22</x:Double>
+
+</ResourceDictionary>

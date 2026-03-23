@@ -1,7 +1,14 @@
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using Avalonia.Threading;
+using BatchProcess3.Core.Jobs;
+using BatchProcess3.Dialog;
 using BatchProcess3.MainApp;
+using BatchProcess3.SolidWorks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
@@ -33,6 +40,25 @@ public partial class JobItemViewModel : ViewModelBase
     [ObservableProperty] private JobStatus _status;
     [ObservableProperty] private string _dateText = "";
     [ObservableProperty] private int _sortIndex;
+    [ObservableProperty] private long _elapsedMs;
+    [ObservableProperty] private ObservableCollection<JobStepDetail> _steps = [];
+    [ObservableProperty] private ObservableCollection<string> _errors = [];
+
+    /// <summary>
+    /// The job ID used to poll for progress from the host
+    /// </summary>
+    public string JobId { get; set; } = "";
+
+    public string ElapsedText
+    {
+        get
+        {
+            var ts = TimeSpan.FromMilliseconds(ElapsedMs);
+            return ts.TotalMinutes >= 1 ? $"{ts.Minutes}m {ts.Seconds}s" : $"{ts.TotalSeconds:0.0}s";
+        }
+    }
+
+    partial void OnElapsedMsChanged(long value) => OnPropertyChanged(nameof(ElapsedText));
 
     public double ProgressPercentage => TotalFiles > 0 ? (double)CompletedFiles / TotalFiles * 100 : 0;
     public double ProgressFraction => TotalFiles > 0 ? (double)CompletedFiles / TotalFiles : 0;
@@ -69,6 +95,11 @@ public partial class JobItemViewModel : ViewModelBase
 
 public partial class JobsPageViewModel : PageViewModel
 {
+    private readonly BatchProcessClient _batchProcessClient;
+    private readonly MainViewModel _mainViewModel;
+    private readonly DialogService _dialogService;
+    private readonly Dictionary<string, Timer> _pollingTimers = [];
+
     [ObservableProperty] private int _totalJobs;
     [ObservableProperty] private string _totalRuntime = "0h 0m";
     [ObservableProperty] private int _currentlyRunning;
@@ -105,9 +136,89 @@ public partial class JobsPageViewModel : PageViewModel
     [ObservableProperty] private ObservableCollection<JobItemViewModel> _allJobs = [];
     [ObservableProperty] private ObservableCollection<JobItemViewModel> _filteredJobs = [];
 
-    public JobsPageViewModel() : base(ApplicationPageNames.Jobs)
+    public JobsPageViewModel(BatchProcessClient batchProcessClient, MainViewModel mainViewModel, DialogService dialogService) : base(ApplicationPageNames.Jobs)
     {
-        LoadMockData();
+        _batchProcessClient = batchProcessClient;
+        _mainViewModel = mainViewModel;
+        _dialogService = dialogService;
+
+        // Start empty — no mock data
+        UpdateSummaryCards();
+        ApplyFilter();
+    }
+
+    /// <summary>
+    /// Adds a new job to the page and starts polling for its progress
+    /// </summary>
+    public void AddJob(BatchJobRequest request)
+    {
+        var jobItem = new JobItemViewModel
+        {
+            JobId = request.JobId,
+            Name = request.JobName,
+            Description = request.Description,
+            TotalFiles = request.Files.Count,
+            CompletedFiles = 0,
+            Status = JobStatus.Running,
+            DateText = $"Live — started {DateTime.Now:HH:mm}",
+            SortIndex = AllJobs.Count,
+        };
+
+        AllJobs.Insert(0, jobItem);
+        UpdateSummaryCards();
+        ApplyFilter();
+
+        // Start polling for progress
+        StartPolling(jobItem);
+    }
+
+    private void StartPolling(JobItemViewModel jobItem)
+    {
+        var timer = new Timer(async _ => await PollJobProgress(jobItem), null, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(1));
+        _pollingTimers[jobItem.JobId] = timer;
+    }
+
+    private async System.Threading.Tasks.Task PollJobProgress(JobItemViewModel jobItem)
+    {
+        var progress = await _batchProcessClient.GetJobProgressAsync(jobItem.JobId);
+
+        if (progress is null)
+            return;
+
+        await Dispatcher.UIThread.InvokeAsync(() =>
+        {
+            jobItem.CompletedFiles = progress.CompletedFiles;
+            jobItem.ElapsedMs = progress.ElapsedMs;
+            jobItem.Steps = new ObservableCollection<JobStepDetail>(progress.Steps);
+            jobItem.Errors = new ObservableCollection<string>(progress.Errors);
+
+            if (progress.IsComplete)
+            {
+                jobItem.Status = progress.Status switch
+                {
+                    "Success" => JobStatus.Success,
+                    "Failed" => JobStatus.Failed,
+                    _ => JobStatus.Failed
+                };
+
+                jobItem.DateText = $"Completed {DateTime.Now:MMM dd, yyyy HH:mm}";
+
+                // Stop polling
+                StopPolling(jobItem.JobId);
+
+                // Only rebuild the filtered list when status changes (not on every tick)
+                UpdateSummaryCards();
+                ApplyFilter();
+            }
+        });
+    }
+
+    private void StopPolling(string jobId)
+    {
+        if (_pollingTimers.Remove(jobId, out var timer))
+        {
+            timer.Dispose();
+        }
     }
 
     partial void OnSearchTextChanged(string value) => ApplyFilter();
@@ -131,6 +242,14 @@ public partial class JobsPageViewModel : PageViewModel
     private void NewJob()
     {
         // Placeholder for new job creation
+    }
+
+    [RelayCommand]
+    private async Task OpenJobDetailAsync(JobItemViewModel job)
+    {
+        var dialog = new JobDetailDialogViewModel();
+        dialog.LoadFromJob(job);
+        await _dialogService.ShowDialog(_mainViewModel, dialog);
     }
 
     [RelayCommand]
@@ -180,11 +299,9 @@ public partial class JobsPageViewModel : PageViewModel
         if (string.IsNullOrEmpty(search))
             return true;
 
-        // Direct substring match (case insensitive)
         if (text.Contains(search, StringComparison.OrdinalIgnoreCase))
             return true;
 
-        // Character-by-character fuzzy match: all search chars appear in order
         var textLower = text.ToLowerInvariant();
         var searchLower = search.ToLowerInvariant();
         var textIndex = 0;
@@ -230,7 +347,7 @@ public partial class JobsPageViewModel : PageViewModel
                 filtered = filtered.Where(j => j.Status == statusFilter.Value);
         }
 
-        // Apply fuzzy search across all relevant fields
+        // Apply fuzzy search
         if (!string.IsNullOrWhiteSpace(SearchText))
         {
             var search = SearchText.Trim();
@@ -276,28 +393,5 @@ public partial class JobsPageViewModel : PageViewModel
         var pausedCount = AllJobs.Count(j => j.Status == JobStatus.Paused);
         SuccessRate = TotalJobs > 0 ? $"{(double)SuccessfulJobs / TotalJobs * 100:0}% success rate" : "0% success rate";
         FailedSummary = $"{pausedCount} paused, {FailedJobs} error";
-    }
-
-    private void LoadMockData()
-    {
-        AllJobs =
-        [
-            new() { Name = "Weekly Export", Description = "Export all CAD drawings to PDF format", TotalFiles = 20, CompletedFiles = 12, Status = JobStatus.Running, DateText = "Live — started 09:42", SortIndex = 0 },
-            new() { Name = "Model Backup", Description = "Backup all active models to archive drive", TotalFiles = 50, CompletedFiles = 50, Status = JobStatus.Success, DateText = "Feb 19, 2025 08:15", SortIndex = 1 },
-            new() { Name = "Print Batch A3", Description = "Print selected A3 drawings to plotter", TotalFiles = 8, CompletedFiles = 8, Status = JobStatus.Success, DateText = "Feb 18, 2025 17:30", SortIndex = 2 },
-            new() { Name = "DXF Conversion", Description = "Convert DWG files to DXF for client delivery", TotalFiles = 35, CompletedFiles = 18, Status = JobStatus.Running, DateText = "Live — started 10:05", SortIndex = 3 },
-            new() { Name = "Archive 2024 Q4", Description = "Move completed Q4 files to cold storage", TotalFiles = 120, CompletedFiles = 67, Status = JobStatus.Paused, DateText = "Paused — Feb 17, 2025", SortIndex = 4 },
-            new() { Name = "Title Block Update", Description = "Apply new company title block to all sheets", TotalFiles = 15, CompletedFiles = 15, Status = JobStatus.Success, DateText = "Feb 17, 2025 14:22", SortIndex = 5 },
-            new() { Name = "Layer Cleanup", Description = "Remove unused layers from legacy drawings", TotalFiles = 40, CompletedFiles = 12, Status = JobStatus.Failed, DateText = "Feb 16, 2025 11:55", SortIndex = 6 },
-            new() { Name = "STEP Export Run", Description = "Export 3D models to STEP for manufacturing", TotalFiles = 22, CompletedFiles = 22, Status = JobStatus.Success, DateText = "Feb 15, 2025 09:00", SortIndex = 7 },
-            new() { Name = "Revision Stamp", Description = "Apply revision C stamp to all modified sheets", TotalFiles = 9, CompletedFiles = 4, Status = JobStatus.Running, DateText = "Live — started 10:33", SortIndex = 8 },
-            new() { Name = "File Rename Batch", Description = "Rename all files to new naming convention", TotalFiles = 60, CompletedFiles = 60, Status = JobStatus.Success, DateText = "Feb 14, 2025 16:45", SortIndex = 9 },
-            new() { Name = "Material BOM Export", Description = "Generate BOM reports from all assemblies", TotalFiles = 18, CompletedFiles = 5, Status = JobStatus.Failed, DateText = "Feb 13, 2025 13:10", SortIndex = 10 },
-            new() { Name = "Thumbnail Generation", Description = "Generate preview thumbnails for asset library", TotalFiles = 200, CompletedFiles = 140, Status = JobStatus.Paused, DateText = "Paused — Feb 12, 2025", SortIndex = 11 },
-        ];
-
-        TotalRuntime = "14h 32m";
-        UpdateSummaryCards();
-        ApplyFilter();
     }
 }

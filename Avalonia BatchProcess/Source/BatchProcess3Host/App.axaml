@@ -2,14 +2,33 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:Class="BatchProcess3Host.App"
              xmlns:local="using:BatchProcess3Host"
-             RequestedThemeVariant="Default">
-             <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
+             RequestedThemeVariant="Dark">
 
     <Application.DataTemplates>
         <local:ViewLocator/>
     </Application.DataTemplates>
-  
+
     <Application.Styles>
         <FluentTheme />
+        <StyleInclude Source="Themes/Styles.axaml" />
     </Application.Styles>
+
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <MergeResourceInclude Source="Themes/DesignTokens.axaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <!-- ==================== -->
+            <!--   Icon Resources     -->
+            <!-- ==================== -->
+
+            <StreamGeometry x:Key="ServerIcon">M4 1h16c1.1 0 2 .9 2 2v4c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V3c0-1.1.9-2 2-2zm0 8h16c1.1 0 2 .9 2 2v4c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2v-4c0-1.1.9-2 2-2zm0 8h16c1.1 0 2 .9 2 2v2c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2v-2c0-1.1.9-2 2-2zM6 4.5a1.5 1.5 0 100 3 1.5 1.5 0 000-3zm0 8a1.5 1.5 0 100 3 1.5 1.5 0 000-3z</StreamGeometry>
+            <StreamGeometry x:Key="CheckIcon">M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z</StreamGeometry>
+            <StreamGeometry x:Key="CloseIcon">M19 6.4L17.6 5 12 10.6 6.4 5 5 6.4 10.6 12 5 17.6 6.4 19 12 13.4 17.6 19 19 17.6 13.4 12z</StreamGeometry>
+            <StreamGeometry x:Key="BoltIcon">M13 2L3 14h7l-2 8 10-12h-7z</StreamGeometry>
+
+        </ResourceDictionary>
+    </Application.Resources>
+
 </Application>

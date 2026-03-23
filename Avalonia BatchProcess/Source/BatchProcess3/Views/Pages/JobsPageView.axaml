@@ -181,7 +181,8 @@
                         <ItemsControl.ItemTemplate>
                             <DataTemplate x:DataType="pages:JobItemViewModel">
                                 <Border Classes="table-row" BorderBrush="{DynamicResource CardBorder}" BorderThickness="0 0 0 1"
-                                        Padding="0" Background="Transparent">
+                                        Padding="0" Background="Transparent" Cursor="Hand"
+                                        Tapped="JobRow_OnTapped">
                                     <Border.Styles>
                                         <Style Selector="Border.table-row:pointerover">
                                             <Setter Property="Background" Value="{DynamicResource HoverBackground}" />

@@ -1,4 +1,5 @@
-﻿using BatchProcess3.DataStorage;
+using BatchProcess3.Core.Jobs;
+using BatchProcess3.DataStorage;
 using BatchProcess3.Dialog;
 using BatchProcess3.Interfaces;
 using BatchProcess3.MainApp;
@@ -13,7 +14,7 @@ public partial class MainViewModel : ViewModelBase, IDialogProvider
 {
     private readonly PageFactory _pageFactory;
     private readonly DatabaseFactory _databaseFactory;
-    
+
     [ObservableProperty]
     private bool _sideMenuExpanded = true;
 
@@ -27,7 +28,7 @@ public partial class MainViewModel : ViewModelBase, IDialogProvider
     [NotifyPropertyChangedFor(nameof(SettingsPageIsActive))]
     [NotifyPropertyChangedFor(nameof(JobsPageIsActive))]
     private PageViewModel _currentPage;
-    
+
     [ObservableProperty]
     private DialogViewModel? _dialog;
 
@@ -39,7 +40,7 @@ public partial class MainViewModel : ViewModelBase, IDialogProvider
     public bool HistoryPageIsActive => CurrentPage.PageName == ApplicationPageNames.History;
     public bool SettingsPageIsActive => CurrentPage.PageName == ApplicationPageNames.Settings;
     public bool JobsPageIsActive => CurrentPage.PageName == ApplicationPageNames.Jobs;
-    
+
     public MainViewModel(PageFactory pageFactory, DatabaseFactory databaseFactory)
     {
         _pageFactory = pageFactory ?? throw new ArgumentNullException(nameof(pageFactory));
@@ -50,19 +51,19 @@ public partial class MainViewModel : ViewModelBase, IDialogProvider
 
         CurrentPage = _pageFactory.GetPageViewModel<SettingsPageViewModel>();
     }
-    
+
     [RelayCommand]
     private void SideMenuResize() => SideMenuExpanded = !SideMenuExpanded;
 
     [RelayCommand]
     private void GoToHome() => CurrentPage = _pageFactory.GetPageViewModel<HomePageViewModel>();
-        
+
     [RelayCommand]
     private void GoToProcess() => CurrentPage = _pageFactory.GetPageViewModel<ProcessPageViewModel>();
 
     [RelayCommand]
     private void GoToActions() => CurrentPage = _pageFactory.GetPageViewModel<ActionsPageViewModel>();
-    
+
     [RelayCommand]
     private void GoToMacros() => CurrentPage = _pageFactory.GetPageViewModel<MacrosPageViewModel>();
     [RelayCommand]
@@ -73,4 +74,12 @@ public partial class MainViewModel : ViewModelBase, IDialogProvider
     private void GoToSettings() => CurrentPage = _pageFactory.GetPageViewModel<SettingsPageViewModel>();
     [RelayCommand]
     private void GoToJobs() => CurrentPage = _pageFactory.GetPageViewModel<JobsPageViewModel>();
-  }
+
+    /// <summary>
+    /// Navigate to Jobs page and add the newly submitted job
+    /// </summary>
+    public void NavigateToJobsWithNewJob(BatchJobRequest request)
+    {
+        CurrentPage = _pageFactory.GetPageViewModel<JobsPageViewModel>(vm => vm.AddJob(request));
+    }
+}

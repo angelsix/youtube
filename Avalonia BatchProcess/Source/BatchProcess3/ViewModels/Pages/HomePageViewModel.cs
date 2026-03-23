@@ -1,4 +1,5 @@
-﻿using BatchProcess3.Actions;
+using BatchProcess3.Actions;
+using BatchProcess3.Core.Jobs;
 using BatchProcess3.Core.SolidWorks;
 using BatchProcess3.DataStorage;
 using BatchProcess3.Dialog;
@@ -26,15 +27,15 @@ public partial class HomePageViewModel(
     #region Properties
 
     [ObservableProperty] private ObservableCollection<ProcessViewModel> _processList = [];
-    
+
     [ObservableProperty] private ObservableCollection<AvailableActionItemViewModel> _availableActionsList = [];
-    
+
     [ObservableProperty] private ObservableCollection<SolidWorksFileDetails> _solidWorksFileList = [];
 
     [ObservableProperty] private SolidWorksFileDetails? _selectedSolidWorksFile;
 
     private ObservableCollection<ProcessActionViewModel> _actions = [];
-    
+
     public ObservableCollection<ProcessActionViewModel> Actions
     {
         get => _actions;
@@ -46,7 +47,7 @@ public partial class HomePageViewModel(
 
     [ObservableProperty]
     private bool _saveOnClose = true;
-    
+
     #endregion Properties
 
     #region Constructor
@@ -60,7 +61,7 @@ public partial class HomePageViewModel(
         ProcessList = new ObservableCollection<ProcessViewModel>(dbContext.GetProcessList()
             .OrderBy(f => f.JobName)
             .Select(f => f.ToViewModel()));
-        
+
         // Get SolidWorks file list from remote host
         // batchProcessClient.Connect(dbContext.GetSettings().SolidWorksHost);
         batchProcessClient.Connect("http://localhost:5000");
@@ -77,24 +78,24 @@ public partial class HomePageViewModel(
     }
 
     #endregion
-    
+
     #region Commands
-    
+
     public void InsertAction(AvailableActionItemViewModel item, int index)
     {
         if (item.ActionViewModel == null) return;
-        
+
         var copy = new AvailableActionItemViewModel();
         copy.RestoreState(item.GetState());
 
         // Give the copy a new unique ID
         copy.ActionViewModel!.Id = Guid.NewGuid().ToString("N");
-        
+
         if (index <= -1 || index > Actions.Count || Actions.Count == 0)
             Actions.Add(copy.ActionViewModel!);
         else
             Actions.Insert(index, copy.ActionViewModel!);
-        
+
         // Update sort order
         UpdateActionSortOrder();
     }
@@ -136,10 +137,10 @@ public partial class HomePageViewModel(
     }
 
     [RelayCommand]
-    private void FindDrawing() 
-    { 
+    private void FindDrawing()
+    {
         if (SelectedSolidWorksFile is null) return;
-        
+
         var drawingPath = Path.ChangeExtension(SelectedSolidWorksFile.FilePath, ".slddrw");
 
         if (!File.Exists(drawingPath)) return;
@@ -150,7 +151,7 @@ public partial class HomePageViewModel(
         // Don't add if already in the list
         if (SolidWorksFileList.Any(f => string.Equals(f.FilePath, drawingPath, StringComparison.OrdinalIgnoreCase)))
             return;
-        
+
         SolidWorksFileList.Add(new SolidWorksFileDetails(drawingPath));
     }
 
@@ -175,11 +176,60 @@ public partial class HomePageViewModel(
     }
 
     [RelayCommand]
-    private void RunJob()
+    private async Task RunJobAsync()
     {
+        // Validate: must have files and actions
+        if (!SolidWorksFileList.Any() || !Actions.Any())
+        {
+            var errorViewModel = new ConfirmDialogViewModel
+            {
+                Title = "Cannot Run Job",
+                Message = "You need at least one file and one action to run a job.",
+                DialogWidth = 400
+            };
+            await dialogService.ShowDialog(mainViewModel, errorViewModel);
+            return;
+        }
 
+        // Build the job request
+        var request = new BatchJobRequest
+        {
+            JobId = Guid.NewGuid().ToString("N"),
+            JobName = Actions.Count == 1
+                ? Actions[0].JobName
+                : $"Batch — {Actions.Count} actions",
+            Description = string.Join(", ", Actions.Select(a => a.JobName)),
+            Files = SolidWorksFileList.Select(f => f.FilePath).ToList(),
+            Actions = Actions.Select(a => new JobActionInfo
+            {
+                ActionId = a.ActionId ?? a.Id,
+                JobName = a.JobName,
+                Description = a.Description,
+                SortOrder = a.SortOrder,
+            }).ToList(),
+            QuickView = QuickView,
+            SaveOnClose = SaveOnClose,
+        };
+
+        // Submit to host
+        var response = await batchProcessClient.SubmitJobAsync(request);
+
+        if (!response.Accepted)
+        {
+            var errorViewModel = new ConfirmDialogViewModel
+            {
+                Title = "Job Rejected",
+                Message = response.Message,
+                DialogWidth = 400
+            };
+            await dialogService.ShowDialog(mainViewModel, errorViewModel);
+            return;
+        }
+
+        // Add job to the Jobs page and navigate there
+        mainViewModel.NavigateToJobsWithNewJob(request);
     }
-    
+
     #endregion
 
     public async void ReplaceAvailableActionsList(ObservableCollection<ProcessActionViewModel> actions)
