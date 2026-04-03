@@ -10,6 +10,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
+using System.Net.Sockets;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -32,7 +34,7 @@ sealed class Program
         builder.Services.AddSingleton<MainWindowViewModel>();
         builder.Services.AddSingleton<BatchProcessHost>();
 
-        builder.WebHost.UseUrls("http://localhost:5000");
+        builder.WebHost.UseUrls($"http://0.0.0.0:{BatchProcessHostUrls.DefaultPort}");
 
         WebApp = builder.Build();
 
@@ -40,6 +42,8 @@ sealed class Program
         WebApp.MapGet("/", ([FromServices] BatchProcessHost host)
             => $"BatchProcess Host — {host.GetSolidWorksVersion()}");
 
+        WebApp.MapGet(BatchProcessHostUrls.Ping, () => new { Name = "BatchProcess Host", Version = "3.0.0" });
+        
         WebApp.MapGet(BatchProcessHostUrls.SolidWorksActiveFileList, ([FromServices] BatchProcessHost host)
             => host.GetActiveFileReferences());
 
@@ -54,6 +58,32 @@ sealed class Program
         {
             var progress = jobService.GetProgress(id);
             return progress is not null ? Microsoft.AspNetCore.Http.Results.Ok(progress) : Microsoft.AspNetCore.Http.Results.NotFound();
+        });
+        
+        // Start a UDP discovery listener - respond to broadcast discovery requests from clients
+        Task.Run(async () =>
+        {
+            using var udp = new UdpClient(BatchProcessHostUrls.DiscoveryPort);
+
+            try
+            {
+                // Infinite loop until cancelled
+                while (!_cts.IsCancellationRequested)
+                {
+                    var result = await udp.ReceiveAsync(_cts.Token);
+                    var message = Encoding.UTF8.GetString(result.Buffer);
+                    if (message == BatchProcessHostUrls.DiscoveryRequest)
+                    {
+                        var response = Encoding.UTF8.GetBytes(BatchProcessHostUrls.DiscoveryResponse);
+                        await udp.SendAsync(response, result.RemoteEndPoint, _cts.Token);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                // ignored
+            }
+            
         });
 
         // Start kestrel on background thread

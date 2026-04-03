@@ -27,6 +27,7 @@ public static class Bootstrapper
          collection.AddSingleton<HomePageViewModel>();
          collection.AddSingleton<DialogService>();
          collection.AddSingleton<BatchProcessClient>();
+         collection.AddSingleton<HostDiscoveryService>();
          collection.AddSingleton<JobsPageViewModel>();
 
          // Page Factory Callback

@@ -64,9 +64,10 @@
                             VerticalAlignment="Bottom"
                             Spacing="10"
                             IsVisible="{Binding !Busy}">
-                    <Button 
+                    <Button
                         Command="{Binding CancelCommand}"
                         Classes="danger outline"
+                        IsVisible="{Binding ShowCancelButton}"
                     >
                         <TextBlock MinWidth="70" TextAlignment="Center" Text="{Binding CancelText}" />
                     </Button>

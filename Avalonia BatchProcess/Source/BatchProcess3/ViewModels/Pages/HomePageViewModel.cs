@@ -64,7 +64,8 @@ public partial class HomePageViewModel(
 
         // Get SolidWorks file list from remote host
         // batchProcessClient.Connect(dbContext.GetSettings().SolidWorksHost);
-        batchProcessClient.Connect("http://localhost:5000");
+        var host = dbContext.GetSettings().SolidWorksHost;
+        batchProcessClient.Connect($"http://{host}:{BatchProcessHostUrls.DefaultPort}");
         await SetSolidWorksFileList();
     }
 
@@ -185,6 +186,8 @@ public partial class HomePageViewModel(
             {
                 Title = "Cannot Run Job",
                 Message = "You need at least one file and one action to run a job.",
+                ShowCancelButton = false,
+                ConfirmText = "OK",
                 DialogWidth = 400
             };
             await dialogService.ShowDialog(mainViewModel, errorViewModel);
@@ -220,6 +223,8 @@ public partial class HomePageViewModel(
             {
                 Title = "Job Rejected",
                 Message = response.Message,
+                ShowCancelButton = false,
+                ConfirmText = "OK",
                 DialogWidth = 400
             };
             await dialogService.ShowDialog(mainViewModel, errorViewModel);

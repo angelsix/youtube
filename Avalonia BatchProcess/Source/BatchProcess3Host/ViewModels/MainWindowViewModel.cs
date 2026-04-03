@@ -1,5 +1,6 @@
 using Avalonia.Controls;
 using Avalonia.Threading;
+using BatchProcess3.Core.SolidWorks;
 using BatchProcess3Host.Services;
 using BatchProcess3Host.Views;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -41,7 +42,7 @@ public partial class MainWindowViewModel : ViewModelBase
 {
     private readonly JobExecutionService? _jobService;
 
-    [ObservableProperty] private string _serverStatus = "Listening on http://localhost:5000";
+    [ObservableProperty] private string _serverStatus =$"Listening on Port {BatchProcessHostUrls.DefaultPort} & Discovery {BatchProcessHostUrls.DiscoveryPort}";
     [ObservableProperty] private int _activeJobCount;
     [ObservableProperty] private int _completedJobCount;
     [ObservableProperty] private ObservableCollection<HostJobItemViewModel> _jobs = [];

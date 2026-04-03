@@ -2,6 +2,7 @@
 using BatchProcess3.DataStorage.DataModels;
 using BatchProcess3.Dialog;
 using BatchProcess3.MainApp;
+using BatchProcess3.SolidWorks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System;
@@ -9,6 +10,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace BatchProcess3.ViewModels.Pages;
@@ -17,6 +19,8 @@ public partial class SettingsPageViewModel : PageViewModel
 {
     private readonly DatabaseFactory _factory;
     private readonly DialogService _dialogService;
+    private readonly HostDiscoveryService _hostDiscoveryService;
+    private CancellationTokenSource? _discoveryCts;
 
     [ObservableProperty] private bool _skipNoActionFiles;
 
@@ -33,16 +37,19 @@ public partial class SettingsPageViewModel : PageViewModel
     
     [ObservableProperty] private string _solidWorksHost = "";
 
-    // TODO: Fetch from network pings
-    [ObservableProperty] private ObservableCollection<string> _solidWorksHosts = ["localhost", "127.0.0.1", "192.168.0.10"];
+    [NotifyPropertyChangedFor(nameof(SolidWorksHost))]
+    [ObservableProperty] private ObservableCollection<string> _solidWorksHosts = [];
+
+    [ObservableProperty] private bool _isDiscoveringHosts;
     
     [ObservableProperty]
     private ObservableCollection<string> _locationPaths = [];
 
-    public SettingsPageViewModel(DatabaseFactory databaseFactory, DialogService dialogService) : base(ApplicationPageNames.Settings)
+    public SettingsPageViewModel(DatabaseFactory databaseFactory, DialogService dialogService, HostDiscoveryService hostDiscoveryService) : base(ApplicationPageNames.Settings)
     {
         _factory = databaseFactory;
         _dialogService = dialogService;
+        _hostDiscoveryService = hostDiscoveryService;
 
         LoadSettings();
     }
@@ -54,6 +61,43 @@ public partial class SettingsPageViewModel : PageViewModel
             if (e.PropertyName is nameof(SkipNoActionFiles) or nameof(AllowDuplicateEntries) or nameof(SolidWorksHost))
                 SaveSettings();
         };
+
+        _ = DiscoverHostsAsync();
+    }
+
+    [RelayCommand]
+    private async Task DiscoverHostsAsync()
+    {
+        // Cancel any previous discoveries
+        _discoveryCts?.CancelAsync();
+        _discoveryCts = new CancellationTokenSource();
+
+        IsDiscoveringHosts = true;
+
+        try
+        {
+            // Discover hosts
+            var hosts = await _hostDiscoveryService.DiscoverHostsAsync(_discoveryCts.Token);
+            SolidWorksHosts = new ObservableCollection<string>(hosts);
+
+            var originalHost = SolidWorksHost;
+            SolidWorksHost = "";
+            
+            // Preserve selection if already in list
+            if (!string.IsNullOrWhiteSpace(originalHost) && SolidWorksHosts.Contains(originalHost))
+                SolidWorksHost = originalHost;
+
+            // Select first item
+            SolidWorksHost = SolidWorksHosts.Count > 0 ? SolidWorksHosts[0] : "";
+        }
+        catch (Exception e)
+        {
+            // ignored
+        }
+        finally
+        {
+            IsDiscoveringHosts = false;
+        }
     }
 
     [RelayCommand]

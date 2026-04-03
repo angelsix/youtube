@@ -92,8 +92,11 @@ Macros, Actions and other custom files or templates."></TextBlock>
 
                         Enter the machines IP address, network name or localhost for this machine.
                     </TextBlock>
-                    <ComboBox Width="200" ItemsSource="{Binding SolidWorksHosts}" SelectedItem="{Binding SolidWorksHost}"></ComboBox>
-                    <Label Classes="sub1 success" Content="Connection established"></Label>
+                    <StackPanel Orientation="Horizontal" Spacing="10">
+                        <ComboBox Width="200" ItemsSource="{Binding SolidWorksHosts}" SelectedItem="{Binding SolidWorksHost}" />
+                        <IconButton Classes="outline small" IconText="&#xe094;" Content="Refresh" Command="{Binding DiscoverHostsCommand}" />
+                    </StackPanel>
+                    <Label Classes="sub1" Margin="0 5" Content="Scanning for hosts..." IsVisible="{Binding IsDiscoveringHosts}"></Label>
                 </StackPanel>
                 
                 <!-- PDM Enterprise -->

@@ -12,6 +12,7 @@ public partial class ConfirmDialogViewModel : DialogViewModel
     [ObservableProperty] private string _message = "Are you sure?";
     [ObservableProperty] private string _confirmText = "Yes";
     [ObservableProperty] private string _cancelText = "No";
+    [ObservableProperty] private bool _showCancelButton = true;
     [ObservableProperty] private string _iconText = "\xe4e0";
     [ObservableProperty] private string _statusText = "";
     [ObservableProperty] private string _progressText = "";
