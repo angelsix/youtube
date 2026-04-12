@@ -2,6 +2,8 @@
 using BatchProcess3.Crash;
 using System;
 using System.Diagnostics;
+using System.Threading.Tasks;
+using Velopack;
 
 namespace BatchProcess3.Desktop;
 
@@ -15,6 +17,9 @@ class Program
     {
         try
         {
+            VelopackApp.Build().Run();
+            _ = UpdateMyApp();
+            
             BuildAvaloniaApp()
                 .StartWithClassicDesktopLifetime(args);
         }
@@ -38,6 +43,24 @@ class Program
                 }
             }
         }
+    }
+    
+    private static async Task UpdateMyApp()
+    {
+        return;
+        
+        var mgr = new UpdateManager("https://the.place/you-host/updates");
+
+        // check for new version
+        var newVersion = await mgr.CheckForUpdatesAsync();
+        if (newVersion == null)
+            return; // no update available
+
+        // download new version
+        await mgr.DownloadUpdatesAsync(newVersion);
+
+        // install new version and restart app
+        mgr.ApplyUpdatesAndRestart(newVersion);
     }
     
     // Avalonia configuration, don't remove; also used by visual designer.

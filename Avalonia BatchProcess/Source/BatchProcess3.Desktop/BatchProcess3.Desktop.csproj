@@ -14,11 +14,12 @@
         <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" />
         <PackageReference Include="Microsoft.EntityFrameworkCore" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" />
+        <PackageReference Include="Velopack" />
         <PackageReference Include="Xaml.Behaviors.Avalonia" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\BatchProcess3\BatchProcess3.csproj"/>
+        <ProjectReference Include="..\BatchProcess3\BatchProcess3.csproj" />
     </ItemGroup>
     
     <Target Name="MacAppBundle" AfterTargets="Build" Condition="$([MSBuild]::IsOSPlatform('OSX'))">
