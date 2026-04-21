@@ -1,29 +1,31 @@
 ﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:prototype="using:Avalonia.Themes.Prototype"
+                    xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
                     x:ClassModifier="internal">
   <Design.PreviewWith>
-    <Border Padding="20" Background="White">
+    <Border Padding="20">
+      
       <Border.Styles>
         <prototype:PrototypeTheme />
       </Border.Styles>
-      <StackPanel Spacing="16">
-        <TextBlock Text="Button states" />
-        <StackPanel Orientation="Horizontal" Spacing="8">
+      
+      <StackPanel Spacing="20">
+        <Label Content="Button States" />
+        <StackPanel Orientation="Horizontal" Spacing="20">
           <Button Content="Default" />
-          <Button Classes="previewPointerOver" Content="Hover" />
+          <Button Classes="previewHover" Content="Hover" />
           <Button Classes="previewPressed" Content="Pressed" />
           <Button Content="Disabled" IsEnabled="False" />
         </StackPanel>
-
-        <TextBlock Text="Accent button states" />
-        <StackPanel Orientation="Horizontal" Spacing="8">
-          <Button Classes="accent" Content="Accent" />
-          <Button Classes="accent previewPointerOver" Content="Accent hover" />
-          <Button Classes="accent previewPressed" Content="Accent pressed" />
-          <Button Classes="accent" Content="Accent disabled" IsEnabled="False" />
+        <Label Content="Accent States" />
+        <StackPanel Orientation="Horizontal" Spacing="20">
+          <Button Classes="accent" Content="Default" />
+          <Button Classes="accent previewHover" Content="Hover" />
+          <Button Classes="accent previewPressed" Content="Pressed" />
+          <Button Classes="accent" Content="Disabled" IsEnabled="False" />
         </StackPanel>
       </StackPanel>
+      
     </Border>
   </Design.PreviewWith>
 
@@ -32,8 +34,8 @@
     <Setter Property="Foreground" Value="{DynamicResource ButtonForeground}" />
     <Setter Property="BorderBrush" Value="{DynamicResource ButtonBorderBrush}" />
     <Setter Property="BorderThickness" Value="{DynamicResource ButtonBorderThemeThickness}" />
-    <Setter Property="CornerRadius" Value="{DynamicResource ControlCornerRadius}" />
     <Setter Property="FontFamily" Value="Courier New, $Default" />
+    <Setter Property="CornerRadius" Value="{DynamicResource ControlCornerRadius}" />
     <Setter Property="Padding" Value="{DynamicResource ButtonPadding}" />
     <Setter Property="HorizontalAlignment" Value="Left" />
     <Setter Property="VerticalAlignment" Value="Center" />
@@ -57,15 +59,18 @@
                             Padding="{TemplateBinding Padding}"
                             HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                             VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
-          <Rectangle x:Name="PART_AccentDashedBorder"
-                     IsVisible="False"
-                     IsHitTestVisible="False"
+          
+          <Rectangle x:Name="PART_AccentBorder" 
+                     IsVisible="False" 
+                     IsHitTestVisible="False" 
                      Fill="Transparent"
-                     RadiusX="3"
-                     RadiusY="3"
                      Stroke="{TemplateBinding BorderBrush}"
-                     StrokeThickness="2"
-                     StrokeDashArray="3,2" />
+                     RadiusX="2"
+                     RadiusY="2"
+                     StrokeThickness="1"
+                     StrokeDashArray="3, 2, 6, 2"
+                     />
+          
         </Grid>
       </ControlTemplate>
     </Setter>
@@ -74,29 +79,17 @@
       <Setter Property="RecognizesAccessKey" Value="True" />
     </Style>
 
-    <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+    <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter, ^.previewHover /template/ ContentPresenter#PART_ContentPresenter">
       <Setter Property="Background" Value="{DynamicResource ButtonBackgroundPointerOver}" />
       <Setter Property="BorderBrush" Value="{DynamicResource ButtonBorderBrushPointerOver}" />
       <Setter Property="Foreground" Value="{DynamicResource ButtonForegroundPointerOver}" />
     </Style>
 
-    <Style Selector="^.previewPointerOver /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="Background" Value="{DynamicResource ButtonBackgroundPointerOver}" />
-      <Setter Property="BorderBrush" Value="{DynamicResource ButtonBorderBrushPointerOver}" />
-      <Setter Property="Foreground" Value="{DynamicResource ButtonForegroundPointerOver}" />
-    </Style>
-
-    <Style Selector="^:pressed">
+    <Style Selector="^:pressed, ^.previewPressed">
       <Setter Property="RenderTransform" Value="scale(0.98)" />
     </Style>
 
-    <Style Selector="^:pressed  /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="Background" Value="{DynamicResource ButtonBackgroundPressed}" />
-      <Setter Property="BorderBrush" Value="{DynamicResource ButtonBorderBrushPressed}" />
-      <Setter Property="Foreground" Value="{DynamicResource ButtonForegroundPressed}" />
-    </Style>
-
-    <Style Selector="^.previewPressed  /template/ ContentPresenter#PART_ContentPresenter">
+    <Style Selector="^:pressed  /template/ ContentPresenter#PART_ContentPresenter, ^.previewPressed /template/ ContentPresenter#PART_ContentPresenter">
       <Setter Property="Background" Value="{DynamicResource ButtonBackgroundPressed}" />
       <Setter Property="BorderBrush" Value="{DynamicResource ButtonBorderBrushPressed}" />
       <Setter Property="Foreground" Value="{DynamicResource ButtonForegroundPressed}" />
@@ -109,38 +102,28 @@
     </Style>
 
     <Style Selector="^.accent">
-      <Setter Property="BorderThickness" Value="2" />
-
+      
       <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
         <Setter Property="Background" Value="{DynamicResource AccentButtonBackground}" />
         <Setter Property="BorderBrush" Value="{DynamicResource AccentButtonBorderBrush}" />
-        <Setter Property="BorderThickness" Value="0" />
         <Setter Property="Foreground" Value="{DynamicResource AccentButtonForeground}" />
+        <Setter Property="BorderThickness" Value="0" />
       </Style>
-
-      <Style Selector="^ /template/ Rectangle#PART_AccentDashedBorder">
+      
+      <Style Selector="^ /template/ Rectangle#PART_AccentBorder">
         <Setter Property="IsVisible" Value="True" />
-        <Setter Property="Stroke" Value="{DynamicResource AccentButtonBorderBrush}" />
       </Style>
 
-      <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+      <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter, ^.previewHover /template/ ContentPresenter#PART_ContentPresenter">
         <Setter Property="Background" Value="{DynamicResource AccentButtonBackgroundPointerOver}" />
         <Setter Property="BorderBrush" Value="{DynamicResource AccentButtonBorderBrushPointerOver}" />
         <Setter Property="Foreground" Value="{DynamicResource AccentButtonForegroundPointerOver}" />
       </Style>
 
-      <Style Selector="^:pointerover /template/ Rectangle#PART_AccentDashedBorder">
-        <Setter Property="Stroke" Value="{DynamicResource AccentButtonBorderBrushPointerOver}" />
-      </Style>
-
-      <Style Selector="^:pressed  /template/ ContentPresenter#PART_ContentPresenter">
+      <Style Selector="^:pressed  /template/ ContentPresenter#PART_ContentPresenter, ^.previewPressed  /template/ ContentPresenter#PART_ContentPresenter">
         <Setter Property="Background" Value="{DynamicResource AccentButtonBackgroundPressed}" />
         <Setter Property="BorderBrush" Value="{DynamicResource AccentButtonBorderBrushPressed}" />
         <Setter Property="Foreground" Value="{DynamicResource AccentButtonForegroundPressed}" />
-      </Style>
-
-      <Style Selector="^:pressed /template/ Rectangle#PART_AccentDashedBorder">
-        <Setter Property="Stroke" Value="{DynamicResource AccentButtonBorderBrushPressed}" />
       </Style>
 
       <Style Selector="^:disabled /template/ ContentPresenter#PART_ContentPresenter">
@@ -148,30 +131,11 @@
         <Setter Property="BorderBrush" Value="{DynamicResource AccentButtonBorderBrushDisabled}" />
         <Setter Property="Foreground" Value="{DynamicResource AccentButtonForegroundDisabled}" />
       </Style>
-
-      <Style Selector="^:disabled /template/ Rectangle#PART_AccentDashedBorder">
-        <Setter Property="Stroke" Value="{DynamicResource AccentButtonBorderBrushDisabled}" />
+      
+      <Style Selector="^:disabled /template/ Rectangle#PART_AccentBorder">
+        <Setter Property="Opacity" Value="0.4" />
       </Style>
-
-      <Style Selector="^.previewPointerOver /template/ ContentPresenter#PART_ContentPresenter">
-        <Setter Property="Background" Value="{DynamicResource AccentButtonBackgroundPointerOver}" />
-        <Setter Property="BorderBrush" Value="{DynamicResource AccentButtonBorderBrushPointerOver}" />
-        <Setter Property="Foreground" Value="{DynamicResource AccentButtonForegroundPointerOver}" />
-      </Style>
-
-      <Style Selector="^.previewPointerOver /template/ Rectangle#PART_AccentDashedBorder">
-        <Setter Property="Stroke" Value="{DynamicResource AccentButtonBorderBrushPointerOver}" />
-      </Style>
-
-      <Style Selector="^.previewPressed /template/ ContentPresenter#PART_ContentPresenter">
-        <Setter Property="Background" Value="{DynamicResource AccentButtonBackgroundPressed}" />
-        <Setter Property="BorderBrush" Value="{DynamicResource AccentButtonBorderBrushPressed}" />
-        <Setter Property="Foreground" Value="{DynamicResource AccentButtonForegroundPressed}" />
-      </Style>
-
-      <Style Selector="^.previewPressed /template/ Rectangle#PART_AccentDashedBorder">
-        <Setter Property="Stroke" Value="{DynamicResource AccentButtonBorderBrushPressed}" />
-      </Style>
+      
     </Style>
   </ControlTheme>
 </ResourceDictionary>

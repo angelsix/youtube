@@ -4,40 +4,50 @@
   <ResourceDictionary.ThemeDictionaries>
     <ResourceDictionary x:Key="Default">
       <!-- Resources for Button.xaml -->
-      <LinearGradientBrush x:Key="AccentButtonBackground" StartPoint="0%,0%" EndPoint="0%,100%">
-        <GradientStop Color="#FFFFFFFF" Offset="0" />
-        <GradientStop Color="#FFBCBCBC" Offset="1" />
+      
+      <LinearGradientBrush x:Key="AccentButtonBackground" StartPoint="0%, 0%" EndPoint="0%, 100%">
+          <GradientStop Color="#00000000" Offset="0" />
+          <GradientStop Color="#44000000" Offset="1" />
       </LinearGradientBrush>
-      <LinearGradientBrush x:Key="AccentButtonBackgroundPointerOver" StartPoint="0%,0%" EndPoint="0%,100%">
-        <GradientStop Color="#FFFFFFFF" Offset="0" />
-        <GradientStop Color="#FFAAAAAA" Offset="1" />
+      
+      <LinearGradientBrush x:Key="AccentButtonBackgroundPointerOver" StartPoint="0%, 0%" EndPoint="0%, 100%">
+          <GradientStop Color="#00000000" Offset="0" />
+          <GradientStop Color="#66000000" Offset="1" />
       </LinearGradientBrush>
-      <LinearGradientBrush x:Key="AccentButtonBackgroundPressed" StartPoint="0%,0%" EndPoint="0%,100%">
-        <GradientStop Color="#FFD6D6D6" Offset="0" />
-        <GradientStop Color="#FF8F8F8F" Offset="1" />
+      
+      <LinearGradientBrush x:Key="AccentButtonBackgroundPressed" StartPoint="0%, 0%" EndPoint="0%, 100%">
+          <GradientStop Color="#00000000" Offset="0" />
+          <GradientStop Color="#AA000000" Offset="1" />
       </LinearGradientBrush>
-      <SolidColorBrush x:Key="AccentButtonBackgroundDisabled" Color="Transparent" />
-      <SolidColorBrush x:Key="AccentButtonForeground" Color="Black" />
-      <SolidColorBrush x:Key="AccentButtonForegroundPointerOver" Color="Black" />
-      <SolidColorBrush x:Key="AccentButtonForegroundPressed" Color="Black" />
-      <SolidColorBrush x:Key="AccentButtonForegroundDisabled" Color="#FF8A8A8A" />
-      <SolidColorBrush x:Key="AccentButtonBorderBrush" Color="Black" />
-      <SolidColorBrush x:Key="AccentButtonBorderBrushPointerOver" Color="Black" />
-      <SolidColorBrush x:Key="AccentButtonBorderBrushPressed" Color="Black" />
-      <SolidColorBrush x:Key="AccentButtonBorderBrushDisabled" Color="#FFC8C8C8" />
+      
+      <SolidColorBrush x:Key="AccentButtonBackgroundDisabled" Color="Transparent"  />
+      
+      <SolidColorBrush x:Key="AccentButtonForeground" Color="Black" Opacity="0.9" />
+      <SolidColorBrush x:Key="AccentButtonForegroundPointerOver" Color="Black" Opacity="0.9"  />
+      <SolidColorBrush x:Key="AccentButtonForegroundPressed" Color="Black" Opacity="0.9"  />
+      <SolidColorBrush x:Key="AccentButtonForegroundDisabled" Color="Black" Opacity="0.4" />
+      
+      <SolidColorBrush x:Key="AccentButtonBorderBrush" Color="Black" Opacity="0.8" />
+      <SolidColorBrush x:Key="AccentButtonBorderBrushPointerOver" Color="Black" Opacity="0.8" />
+      <SolidColorBrush x:Key="AccentButtonBorderBrushPressed" Color="Black" Opacity="0.8"  />
+      <SolidColorBrush x:Key="AccentButtonBorderBrushDisabled" Color="Black" Opacity="0.4"  />
+
       <Thickness x:Key="ButtonBorderThemeThickness">1</Thickness>
+      
       <SolidColorBrush x:Key="ButtonBackground" Color="Transparent" />
-      <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="#FFE0E0E0" />
-      <SolidColorBrush x:Key="ButtonBackgroundPressed" Color="#FFC8C8C8" />
-      <SolidColorBrush x:Key="ButtonBackgroundDisabled" Color="Transparent" />
-      <SolidColorBrush x:Key="ButtonForeground" Color="Black" />
-      <SolidColorBrush x:Key="ButtonForegroundPointerOver" Color="Black" />
-      <SolidColorBrush x:Key="ButtonForegroundPressed" Color="Black" />
-      <SolidColorBrush x:Key="ButtonForegroundDisabled" Color="#FF8A8A8A" />
-      <SolidColorBrush x:Key="ButtonBorderBrush" Color="Black" />
-      <SolidColorBrush x:Key="ButtonBorderBrushPointerOver" Color="Black" />
-      <SolidColorBrush x:Key="ButtonBorderBrushPressed" Color="Black" />
-      <SolidColorBrush x:Key="ButtonBorderBrushDisabled" Color="#FFC8C8C8" />
+      <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="Black" Opacity="0.1" />
+      <SolidColorBrush x:Key="ButtonBackgroundPressed" Color="Black" Opacity="0.2" />
+      <SolidColorBrush x:Key="ButtonBackgroundDisabled" Color="Transparent"  />
+      
+      <SolidColorBrush x:Key="ButtonForeground" Color="Black" Opacity="0.9" />
+      <SolidColorBrush x:Key="ButtonForegroundPointerOver" Color="Black" Opacity="0.9"  />
+      <SolidColorBrush x:Key="ButtonForegroundPressed" Color="Black" Opacity="0.9"  />
+      <SolidColorBrush x:Key="ButtonForegroundDisabled" Color="Black" Opacity="0.4" />
+      
+      <SolidColorBrush x:Key="ButtonBorderBrush" Color="Black" Opacity="0.8" />
+      <SolidColorBrush x:Key="ButtonBorderBrushPointerOver" Color="Black" Opacity="0.8" />
+      <SolidColorBrush x:Key="ButtonBorderBrushPressed" Color="Black" Opacity="0.8"  />
+      <SolidColorBrush x:Key="ButtonBorderBrushDisabled" Color="Black" Opacity="0.4"  />
 
       <!-- Resources for RepeatButton.xaml -->
       <StaticResource x:Key="RepeatButtonBackground" ResourceKey="SystemControlBackgroundBaseLowBrush" />
@@ -828,40 +838,31 @@
     </ResourceDictionary>
     <ResourceDictionary x:Key="Dark">
       <!-- Resources for Button.xaml -->
-      <LinearGradientBrush x:Key="AccentButtonBackground" StartPoint="0%,0%" EndPoint="0%,100%">
-        <GradientStop Color="#FFFFFFFF" Offset="0" />
-        <GradientStop Color="#FFBDBDBD" Offset="1" />
-      </LinearGradientBrush>
-      <LinearGradientBrush x:Key="AccentButtonBackgroundPointerOver" StartPoint="0%,0%" EndPoint="0%,100%">
-        <GradientStop Color="#FFF0F0F0" Offset="0" />
-        <GradientStop Color="#FFA8A8A8" Offset="1" />
-      </LinearGradientBrush>
-      <LinearGradientBrush x:Key="AccentButtonBackgroundPressed" StartPoint="0%,0%" EndPoint="0%,100%">
-        <GradientStop Color="#FFD6D6D6" Offset="0" />
-        <GradientStop Color="#FF8F8F8F" Offset="1" />
-      </LinearGradientBrush>
-      <SolidColorBrush x:Key="AccentButtonBackgroundDisabled" Color="Transparent" />
-      <SolidColorBrush x:Key="AccentButtonForeground" Color="Black" />
-      <SolidColorBrush x:Key="AccentButtonForegroundPointerOver" Color="Black" />
-      <SolidColorBrush x:Key="AccentButtonForegroundPressed" Color="Black" />
-      <SolidColorBrush x:Key="AccentButtonForegroundDisabled" Color="#FF8A8A8A" />
-      <SolidColorBrush x:Key="AccentButtonBorderBrush" Color="Black" />
-      <SolidColorBrush x:Key="AccentButtonBorderBrushPointerOver" Color="Black" />
-      <SolidColorBrush x:Key="AccentButtonBorderBrushPressed" Color="Black" />
-      <SolidColorBrush x:Key="AccentButtonBorderBrushDisabled" Color="#FFC8C8C8" />
+      <StaticResource x:Key="AccentButtonBackground" ResourceKey="SystemControlBackgroundAccentBrush" />
+      <SolidColorBrush x:Key="AccentButtonBackgroundPointerOver" Color="{DynamicResource SystemAccentColorLight1}" />
+      <SolidColorBrush x:Key="AccentButtonBackgroundPressed" Color="{DynamicResource SystemAccentColorDark1}" />
+      <StaticResource x:Key="AccentButtonBackgroundDisabled" ResourceKey="SystemControlBackgroundBaseLowBrush" />
+      <StaticResource x:Key="AccentButtonForeground" ResourceKey="SystemControlBackgroundChromeWhiteBrush" />
+      <StaticResource x:Key="AccentButtonForegroundPointerOver" ResourceKey="SystemControlBackgroundChromeWhiteBrush" />
+      <StaticResource x:Key="AccentButtonForegroundPressed" ResourceKey="SystemControlBackgroundChromeWhiteBrush" />
+      <StaticResource x:Key="AccentButtonForegroundDisabled" ResourceKey="SystemControlDisabledBaseMediumLowBrush" />
+      <StaticResource x:Key="AccentButtonBorderBrush" ResourceKey="SystemControlForegroundTransparentBrush" />
+      <StaticResource x:Key="AccentButtonBorderBrushPointerOver" ResourceKey="SystemControlForegroundTransparentBrush" />
+      <StaticResource x:Key="AccentButtonBorderBrushPressed" ResourceKey="SystemControlHighlightTransparentBrush" />
+      <StaticResource x:Key="AccentButtonBorderBrushDisabled" ResourceKey="SystemControlDisabledTransparentBrush" />
       <Thickness x:Key="ButtonBorderThemeThickness">1</Thickness>
-      <SolidColorBrush x:Key="ButtonBackground" Color="Transparent" />
-      <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="#FFE0E0E0" />
-      <SolidColorBrush x:Key="ButtonBackgroundPressed" Color="#FFC8C8C8" />
-      <SolidColorBrush x:Key="ButtonBackgroundDisabled" Color="Transparent" />
-      <SolidColorBrush x:Key="ButtonForeground" Color="Black" />
-      <SolidColorBrush x:Key="ButtonForegroundPointerOver" Color="Black" />
-      <SolidColorBrush x:Key="ButtonForegroundPressed" Color="Black" />
-      <SolidColorBrush x:Key="ButtonForegroundDisabled" Color="#FF8A8A8A" />
-      <SolidColorBrush x:Key="ButtonBorderBrush" Color="Black" />
-      <SolidColorBrush x:Key="ButtonBorderBrushPointerOver" Color="Black" />
-      <SolidColorBrush x:Key="ButtonBorderBrushPressed" Color="Black" />
-      <SolidColorBrush x:Key="ButtonBorderBrushDisabled" Color="#FFC8C8C8" />
+      <StaticResource x:Key="ButtonBackground" ResourceKey="SystemControlBackgroundBaseLowBrush" />
+      <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="{StaticResource SystemBaseHighColor}" Opacity="0.1" />
+      <StaticResource x:Key="ButtonBackgroundPressed" ResourceKey="SystemControlBackgroundBaseMediumLowBrush" />
+      <StaticResource x:Key="ButtonBackgroundDisabled" ResourceKey="SystemControlBackgroundBaseLowBrush" />
+      <StaticResource x:Key="ButtonForeground" ResourceKey="SystemControlForegroundBaseHighBrush" />
+      <StaticResource x:Key="ButtonForegroundPointerOver" ResourceKey="SystemControlHighlightBaseHighBrush" />
+      <StaticResource x:Key="ButtonForegroundPressed" ResourceKey="SystemControlHighlightBaseHighBrush" />
+      <StaticResource x:Key="ButtonForegroundDisabled" ResourceKey="SystemControlDisabledBaseMediumLowBrush" />
+      <StaticResource x:Key="ButtonBorderBrush" ResourceKey="SystemControlForegroundTransparentBrush" />
+      <StaticResource x:Key="ButtonBorderBrushPointerOver" ResourceKey="SystemControlForegroundTransparentBrush" />
+      <StaticResource x:Key="ButtonBorderBrushPressed" ResourceKey="SystemControlHighlightTransparentBrush" />
+      <StaticResource x:Key="ButtonBorderBrushDisabled" ResourceKey="SystemControlDisabledTransparentBrush" />
 
       <!-- Resources for RepeatButton.xaml -->
       <StaticResource x:Key="RepeatButtonBackground" ResourceKey="SystemControlBackgroundBaseLowBrush" />
