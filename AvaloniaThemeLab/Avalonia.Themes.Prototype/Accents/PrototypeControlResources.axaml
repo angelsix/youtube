@@ -3,21 +3,72 @@
                     x:ClassModifier="internal">
   <ResourceDictionary.ThemeDictionaries>
     <ResourceDictionary x:Key="Default">
-      <!-- Resources for Button.axaml -->
-      <LinearGradientBrush x:Key="AccentButtonBackground" StartPoint="0%, 0%" EndPoint="0%, 100%">
-        <GradientStop Color="#00000000" Offset="0" />
-        <GradientStop Color="#44000000" Offset="1" />
-      </LinearGradientBrush>
+        
+        <Color x:Key="ThemeColor1">White</Color>
+        <Color x:Key="ThemeColor2">#22000000</Color>
+        <Color x:Key="ThemeColor3">#44000000</Color>
+        <Color x:Key="ThemeColor4">#66000000</Color>
+        <Color x:Key="ThemeColor5">#AA000000</Color>
 
-      <LinearGradientBrush x:Key="AccentButtonBackgroundPointerOver" StartPoint="0%, 0%" EndPoint="0%, 100%">
-        <GradientStop Color="#00000000" Offset="0" />
-        <GradientStop Color="#66000000" Offset="1" />
-      </LinearGradientBrush>
+        <SolidColorBrush x:Key="ThemeColor1Brush" Color="{StaticResource ThemeColor1}" />
+        <SolidColorBrush x:Key="ThemeColor2Brush" Color="{StaticResource ThemeColor2}" />
+        <SolidColorBrush x:Key="ThemeColor3Brush" Color="{StaticResource ThemeColor3}" />
+        <SolidColorBrush x:Key="ThemeColor4Brush" Color="{StaticResource ThemeColor4}" />
+        <SolidColorBrush x:Key="ThemeColor5Brush" Color="{StaticResource ThemeColor5}" />
 
-      <LinearGradientBrush x:Key="AccentButtonBackgroundPressed" StartPoint="0%, 0%" EndPoint="0%, 100%">
-        <GradientStop Color="#00000000" Offset="0" />
-        <GradientStop Color="#AA000000" Offset="1" />
-      </LinearGradientBrush>
+        <LinearGradientBrush x:Key="ThemeColor1GradientBrush" StartPoint="0%, 0%" EndPoint="0%, 100%">
+            <GradientStop Color="{StaticResource ThemeColor1}" Offset="0" />
+            <GradientStop Color="{StaticResource ThemeColor2}" Offset="1" />
+        </LinearGradientBrush>
+        <LinearGradientBrush x:Key="ThemeColor2GradientBrush"  StartPoint="0%, 0%" EndPoint="0%, 100%">
+            <GradientStop Color="{StaticResource ThemeColor2}" Offset="0" />
+            <GradientStop Color="{StaticResource ThemeColor3}" Offset="1" />
+        </LinearGradientBrush>
+        <LinearGradientBrush x:Key="ThemeColor3GradientBrush"  StartPoint="0%, 0%" EndPoint="0%, 100%">
+            <GradientStop Color="{StaticResource ThemeColor3}" Offset="0" />
+            <GradientStop Color="{StaticResource ThemeColor4}" Offset="1" />
+        </LinearGradientBrush>
+        <LinearGradientBrush x:Key="ThemeColor4GradientBrush"  StartPoint="0%, 0%" EndPoint="0%, 100%">
+            <GradientStop Color="{StaticResource ThemeColor4}" Offset="0" />
+            <GradientStop Color="{StaticResource ThemeColor5}" Offset="1" />
+        </LinearGradientBrush>
+        <LinearGradientBrush x:Key="ThemeColor5GradientBrush"  StartPoint="0%, 0%" EndPoint="0%, 100%">
+            <GradientStop Color="{StaticResource ThemeColor5}" Offset="0" />
+            <GradientStop Color="{StaticResource ThemeColor4}" Offset="1" />
+        </LinearGradientBrush>
+        
+        <Color x:Key="ThemeColorAccent1">CornflowerBlue</Color>
+        <Color x:Key="ThemeColorAccent2">ForestGreen</Color>
+        <Color x:Key="ThemeColorAccent3">Yellow</Color>
+        <Color x:Key="ThemeColorAccent4">Orange</Color>
+        <Color x:Key="ThemeColorAccent5">Firebrick</Color>
+        
+        <SolidColorBrush x:Key="ThemeColorAccent1Brush" Color="{StaticResource ThemeColorAccent1}" />
+        <SolidColorBrush x:Key="ThemeColorAccent2Brush" Color="{StaticResource ThemeColorAccent2}" />
+        <SolidColorBrush x:Key="ThemeColorAccent3Brush" Color="{StaticResource ThemeColorAccent3}" />
+        <SolidColorBrush x:Key="ThemeColorAccent4Brush" Color="{StaticResource ThemeColorAccent4}" />
+        <SolidColorBrush x:Key="ThemeColorAccent5Brush" Color="{StaticResource ThemeColorAccent5}" />
+
+        <LinearGradientBrush x:Key="ThemeColorAccent1GradientBrush" StartPoint="0%, 0%" EndPoint="0%, 100%">
+            <GradientStop Color="{StaticResource ThemeColorAccent1}" Offset="0" />
+            <GradientStop Color="{StaticResource ThemeColorAccent2}" Offset="1" />
+        </LinearGradientBrush>
+        <LinearGradientBrush x:Key="ThemeColorAccent2GradientBrush"  StartPoint="0%, 0%" EndPoint="0%, 100%">
+            <GradientStop Color="{StaticResource ThemeColorAccent2}" Offset="0" />
+            <GradientStop Color="{StaticResource ThemeColorAccent3}" Offset="1" />
+        </LinearGradientBrush>
+        <LinearGradientBrush x:Key="ThemeColorAccent3GradientBrush"  StartPoint="0%, 0%" EndPoint="0%, 100%">
+            <GradientStop Color="{StaticResource ThemeColorAccent3}" Offset="0" />
+            <GradientStop Color="{StaticResource ThemeColorAccent4}" Offset="1" />
+        </LinearGradientBrush>
+        <LinearGradientBrush x:Key="ThemeColorAccent4GradientBrush"  StartPoint="0%, 0%" EndPoint="0%, 100%">
+            <GradientStop Color="{StaticResource ThemeColorAccent4}" Offset="0" />
+            <GradientStop Color="{StaticResource ThemeColorAccent5}" Offset="1" />
+        </LinearGradientBrush>
+        <LinearGradientBrush x:Key="ThemeColorAccent5GradientBrush"  StartPoint="0%, 0%" EndPoint="0%, 100%">
+            <GradientStop Color="{StaticResource ThemeColorAccent5}" Offset="0" />
+            <GradientStop Color="{StaticResource ThemeColorAccent4}" Offset="1" />
+        </LinearGradientBrush>
 
       <SolidColorBrush x:Key="AccentButtonBackgroundDisabled" Color="Transparent" />
 
@@ -31,21 +82,6 @@
       <SolidColorBrush x:Key="AccentButtonBorderBrushPressed" Color="Black" Opacity="0.8" />
       <SolidColorBrush x:Key="AccentButtonBorderBrushDisabled" Color="Black" Opacity="0.4" />
       <Thickness x:Key="ButtonBorderThemeThickness">1</Thickness>
-
-      <SolidColorBrush x:Key="ButtonBackground" Color="Transparent" />
-      <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="Black" Opacity="0.1" />
-      <SolidColorBrush x:Key="ButtonBackgroundPressed" Color="Black" Opacity="0.2" />
-      <SolidColorBrush x:Key="ButtonBackgroundDisabled" Color="Transparent" />
-
-      <SolidColorBrush x:Key="ButtonForeground" Color="Black" Opacity="0.9" />
-      <SolidColorBrush x:Key="ButtonForegroundPointerOver" Color="Black" Opacity="0.9" />
-      <SolidColorBrush x:Key="ButtonForegroundPressed" Color="Black" Opacity="0.9" />
-      <SolidColorBrush x:Key="ButtonForegroundDisabled" Color="Black" Opacity="0.4" />
-
-      <SolidColorBrush x:Key="ButtonBorderBrush" Color="Black" Opacity="0.8" />
-      <SolidColorBrush x:Key="ButtonBorderBrushPointerOver" Color="Black" Opacity="0.8" />
-      <SolidColorBrush x:Key="ButtonBorderBrushPressed" Color="Black" Opacity="0.8" />
-      <SolidColorBrush x:Key="ButtonBorderBrushDisabled" Color="Black" Opacity="0.4" />
 
       <!-- Resources for RepeatButton.axaml -->
       <StaticResource x:Key="RepeatButtonBackground" ResourceKey="SystemControlBackgroundBaseLowBrush" />

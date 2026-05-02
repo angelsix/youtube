@@ -10,17 +10,20 @@
         <ButtonSpinner ButtonSpinnerLocation="Left"
                        Content="Left spinner" />
         <ButtonSpinner BorderThickness="2"
-                       BorderBrush="Blue"
+                       BorderBrush="{DynamicResource ThemeColorAccent1Brush}"
                        Content="Right Border" />
         <ButtonSpinner ButtonSpinnerLocation="Left"
                        BorderThickness="2"
-                       BorderBrush="Blue"
+                       BorderBrush="{DynamicResource ThemeColorAccent1Brush}"
                        Content="Left Border" />
         <ButtonSpinner Content="Right disabled"
                        AllowSpin="False"/>
         <ButtonSpinner ButtonSpinnerLocation="Left"
                        Content="Left disabled"
                        AllowSpin="False" />
+        <ButtonSpinner ButtonSpinnerLocation="Left"
+                       Content="Fully disabled"
+                       IsEnabled="False" />
         <ButtonSpinner ShowButtonSpinner="False"
                        Content="Hide spinner" />
         <ButtonSpinner Content="Error">
@@ -43,11 +46,15 @@
 
   <ControlTheme x:Key="PrototypeButtonSpinnerRepeatButton" TargetType="RepeatButton">
     <Setter Property="MinWidth" Value="34" />
+    <Setter Property="Foreground" Value="{DynamicResource ThemeColor5Brush}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource ThemeColor5Brush}" />
+    <Setter Property="Background" Value="{DynamicResource ThemeColor1Brush}" />
     <Setter Property="Template">
       <ControlTemplate>
         <ContentPresenter x:Name="PART_ContentPresenter"
                           Background="{TemplateBinding Background}"
                           BorderBrush="{TemplateBinding BorderBrush}"
+                          Foreground="{TemplateBinding Foreground}"
                           BorderThickness="{TemplateBinding BorderThickness}"
                           Content="{TemplateBinding Content}"
                           ContentTemplate="{TemplateBinding ContentTemplate}"
@@ -56,25 +63,25 @@
                           VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
       </ControlTemplate>
     </Setter>
-    <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="Background" Value="{DynamicResource RepeatButtonBackgroundPointerOver}" />
+
+    <Style Selector="^:pointerover">
+      <Setter Property="Background" Value="{DynamicResource ThemeColor2Brush}" />
     </Style>
 
-    <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="Background" Value="{DynamicResource RepeatButtonBackgroundPressed}" />
+    <Style Selector="^:pressed">
+      <Setter Property="Background" Value="{DynamicResource ThemeColor3Brush}" />
     </Style>
 
-    <Style Selector="^:disabled /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="Background" Value="{DynamicResource RepeatButtonBackgroundDisabled}" />
-      <Setter Property="Foreground" Value="{DynamicResource RepeatButtonForegroundDisabled}" />
+    <Style Selector="^:disabled">
+      <Setter Property="Opacity" Value="0.3" />
     </Style>
   </ControlTheme>
 
   <ControlTheme x:Key="{x:Type ButtonSpinner}" TargetType="ButtonSpinner">
-    <Setter Property="Foreground" Value="{DynamicResource TextControlForeground}" />
+    <Setter Property="Foreground" Value="{DynamicResource ThemeColor5Brush}" />
     <Setter Property="Padding" Value="10, 0" />
-    <Setter Property="Background" Value="{DynamicResource TextControlBackground}" />
-    <Setter Property="BorderBrush" Value="{DynamicResource TextControlBorderBrush}" />
+    <Setter Property="Background" Value="{DynamicResource ThemeColor1Brush}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource ThemeColor5Brush}" />
     <Setter Property="BorderThickness" Value="{DynamicResource TextControlBorderThemeThickness}" />
     <Setter Property="CornerRadius" Value="{DynamicResource ControlCornerRadius}" />
     <Setter Property="MinHeight" Value="{DynamicResource TextControlThemeMinHeight}" />
@@ -149,8 +156,13 @@
       </Style>
     </Style>
     <Style Selector="^:error">
-      <Setter Property="BorderBrush" Value="{DynamicResource SystemErrorTextColor}" />
+      <Setter Property="BorderBrush" Value="{DynamicResource ThemeColorAccent5Brush}" />
     </Style>
+    
+    <Style Selector="^:disabled">
+      <Setter Property="Opacity" Value="0.5" />
+    </Style>
+    
   </ControlTheme>
 
 </ResourceDictionary>
