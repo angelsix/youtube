@@ -2,8 +2,25 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="400"
+        Width="400" Height="400"
+        xmlns:generic="using:System.Collections.Generic"
         x:Class="AvaloniaThemeLab.MainWindow"
         Title="AvaloniaThemeLab">
-    Welcome to Avalonia!
+    <StackPanel Spacing="20" Margin="20">
+        <AutoCompleteBox Width="200">
+            <AutoCompleteBox.ItemsSource>
+                <generic:List x:TypeArguments="x:String">
+                    Alabama
+                    Alaska
+                    Arizona
+                    Arkansas
+                    California
+                    Colorado
+                    Connecticut
+                    Delaware
+                </generic:List>
+            </AutoCompleteBox.ItemsSource>
+        </AutoCompleteBox>
+    </StackPanel>
 </Window>
