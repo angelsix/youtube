@@ -9,16 +9,9 @@
 
     <ItemGroup>
         <PackageReference Include="Avalonia" Version="12.0.1"/>
-    </ItemGroup>
-
-    <ItemGroup>
-        <!-- Transitional cross-repo project refs until AngelSix.ThemeEngine is published on nuget.org.
-             After publish, both lines collapse to a single <PackageReference Include="AngelSix.ThemeEngine" Version="1.0.0" />
-             since that package bundles the SourceGen analyzer under analyzers/dotnet/cs. -->
-        <ProjectReference Include="..\..\..\angelsix-consulting\Avalonia Themes\AngelSix.ThemeEngine\AngelSix.ThemeEngine.csproj"/>
-        <ProjectReference Include="..\..\..\angelsix-consulting\Avalonia Themes\AngelSix.ThemeEngine.SourceGen\AngelSix.ThemeEngine.SourceGen.csproj"
-                          OutputItemType="Analyzer"
-                          ReferenceOutputAssembly="false"/>
+        <!-- AngelSix.ThemeEngine bundles both the runtime library and the SourceGen analyzer
+             (analyzers/dotnet/cs) — a single reference gets both wired automatically. -->
+        <PackageReference Include="AngelSix.ThemeEngine" Version="1.0.0"/>
     </ItemGroup>
 
 </Project>

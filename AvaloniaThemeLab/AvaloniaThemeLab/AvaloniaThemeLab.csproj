@@ -12,6 +12,7 @@
         <PackageReference Include="Avalonia.Desktop" Version="12.0.1"/>
         <PackageReference Include="Avalonia.Fonts.Inter" Version="12.0.1"/>
         <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.9"/>
+        <PackageReference Include="AngelSix.ThemeEngine" Version="1.0.0"/>
         <PackageReference Include="AvaloniaUI.DiagnosticsSupport" Version="2.2.1">
             <IncludeAssets Condition="'$(Configuration)' != 'Debug'">None</IncludeAssets>
             <PrivateAssets Condition="'$(Configuration)' != 'Debug'">All</PrivateAssets>
@@ -19,10 +20,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <!-- Transitional: cross-repo project ref until AngelSix.ThemeEngine is published on nuget.org.
-           After publish, replace with <PackageReference Include="AngelSix.ThemeEngine" Version="1.0.0" />
-           which bundles both the runtime library and the SourceGen analyzer in a single install. -->
-      <ProjectReference Include="..\..\..\angelsix-consulting\Avalonia Themes\AngelSix.ThemeEngine\AngelSix.ThemeEngine.csproj" />
       <ProjectReference Include="..\Avalonia.Themes.Prototype\Avalonia.Themes.Prototype.csproj" />
     </ItemGroup>
 </Project>
