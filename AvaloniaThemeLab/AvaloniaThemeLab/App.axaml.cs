@@ -3,6 +3,7 @@ using AngelSix.ThemeEngine;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
+using Avalonia.Themes.Prototype;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace AvaloniaThemeLab;
@@ -25,7 +26,7 @@ public partial class App : Application
     {
         var services = new ServiceCollection();
 
-        services.AddSingleton(new ThemeContext());
+        services.AddSingleton(new ThemeContext(new DefaultTheme()));
 
         return services.BuildServiceProvider();
     }

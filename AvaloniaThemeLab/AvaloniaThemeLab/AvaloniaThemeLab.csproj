@@ -19,7 +19,10 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\AngelSix.ThemeEngine\AngelSix.ThemeEngine.csproj" />
+      <!-- Transitional: cross-repo project ref until AngelSix.ThemeEngine is published on nuget.org.
+           After publish, replace with <PackageReference Include="AngelSix.ThemeEngine" Version="1.0.0" />
+           which bundles both the runtime library and the SourceGen analyzer in a single install. -->
+      <ProjectReference Include="..\..\..\angelsix-consulting\Avalonia Themes\AngelSix.ThemeEngine\AngelSix.ThemeEngine.csproj" />
       <ProjectReference Include="..\Avalonia.Themes.Prototype\Avalonia.Themes.Prototype.csproj" />
     </ItemGroup>
 </Project>

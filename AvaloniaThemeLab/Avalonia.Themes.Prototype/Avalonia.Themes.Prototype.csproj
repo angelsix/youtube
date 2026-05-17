@@ -12,9 +12,10 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\AngelSix.ThemeEngine\AngelSix.ThemeEngine.csproj"/>
-        <!-- Transitional: cross-repo project ref until AngelSix.ThemeEngine.SourceGen is on nuget.org.
-             After publish, replace with <PackageReference Include="AngelSix.ThemeEngine.SourceGen" Version="1.0.0" />. -->
+        <!-- Transitional cross-repo project refs until AngelSix.ThemeEngine is published on nuget.org.
+             After publish, both lines collapse to a single <PackageReference Include="AngelSix.ThemeEngine" Version="1.0.0" />
+             since that package bundles the SourceGen analyzer under analyzers/dotnet/cs. -->
+        <ProjectReference Include="..\..\..\angelsix-consulting\Avalonia Themes\AngelSix.ThemeEngine\AngelSix.ThemeEngine.csproj"/>
         <ProjectReference Include="..\..\..\angelsix-consulting\Avalonia Themes\AngelSix.ThemeEngine.SourceGen\AngelSix.ThemeEngine.SourceGen.csproj"
                           OutputItemType="Analyzer"
                           ReferenceOutputAssembly="false"/>

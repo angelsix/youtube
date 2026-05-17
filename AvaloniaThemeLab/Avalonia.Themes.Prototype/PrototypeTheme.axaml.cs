@@ -28,10 +28,12 @@ namespace Avalonia.Themes.Prototype
         /// <param name="sp">The parent's service provider.</param>
         public PrototypeTheme(IServiceProvider? sp = null)
         {
-            // Guarantee a ThemeContext exists so generated markup extensions resolve even when
-            // hosted outside the DI bootstrap (designer previews, ad-hoc XAML loads, etc).
+            // Designer-preview fallback. ThemeContext has no parameterless constructor any more
+            // (it requires a [Theme]-attributed instance), so when no DI bootstrap has set
+            // Resolver we initialise with the prototype DefaultTheme so {theme:...} extensions
+            // still resolve in designer previews and ad-hoc XAML loads.
             if (ThemeContext.Resolver is null)
-                _ = new ThemeContext();
+                _ = new ThemeContext(new DefaultTheme());
 
             AvaloniaXamlLoader.Load(sp, this);
             
