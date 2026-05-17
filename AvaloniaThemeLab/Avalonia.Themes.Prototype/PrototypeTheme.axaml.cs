@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using AngelSix.ThemeEngine;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using Avalonia.Styling;
@@ -27,6 +28,11 @@ namespace Avalonia.Themes.Prototype
         /// <param name="sp">The parent's service provider.</param>
         public PrototypeTheme(IServiceProvider? sp = null)
         {
+            // Guarantee a ThemeContext exists so generated markup extensions resolve even when
+            // hosted outside the DI bootstrap (designer previews, ad-hoc XAML loads, etc).
+            if (ThemeContext.Resolver is null)
+                _ = new ThemeContext();
+
             AvaloniaXamlLoader.Load(sp, this);
             
             _compactStyles = (ResourceDictionary)GetAndRemove("CompactStyles");
