@@ -1,4 +1,4 @@
-﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
@@ -29,13 +29,13 @@
   </Design.PreviewWith>
 
   <ControlTheme x:Key="{x:Type Button}" TargetType="Button">
-    <Setter Property="Background" Value="{theme:ThemeColor1Brush}" />
-    <Setter Property="Foreground" Value="{theme:ThemeColor5Brush}" />
-    <Setter Property="BorderBrush" Value="{theme:ThemeColor5Brush}" />
-    <Setter Property="BorderThickness" Value="{theme:ButtonBorderThemeThickness}" />
+    <Setter Property="Background" Value="{theme:SurfaceBrush}" />
+    <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
+    <Setter Property="BorderBrush" Value="{theme:OnSurfaceBrush}" />
+    <Setter Property="BorderThickness" Value="{theme:Thickness}" />
     <Setter Property="FontFamily" Value="Courier New, $Default" />
-    <Setter Property="CornerRadius" Value="{theme:ControlCornerRadius}" />
-    <Setter Property="Padding" Value="{theme:ButtonPadding}" />
+    <Setter Property="CornerRadius" Value="{theme:RadiusSm}" />
+    <Setter Property="Padding" Value="6, 4, 6, 4" />
     <Setter Property="HorizontalAlignment" Value="Left" />
     <Setter Property="VerticalAlignment" Value="Center" />
     <Setter Property="RenderTransform" Value="none" />
@@ -77,7 +77,7 @@
     </Style>
 
     <Style Selector="^:pointerover, ^.previewHover">
-      <Setter Property="Background" Value="{theme:ThemeColor2Brush}" />
+      <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}" />
     </Style>
 
     <Style Selector="^:pressed, ^.previewPressed">
@@ -85,11 +85,11 @@
     </Style>
 
     <Style Selector="^:pressed, ^.previewPressed">
-      <Setter Property="Background" Value="{theme:ThemeColor4Brush}" />
+      <Setter Property="Background" Value="{theme:SurfaceOverlayStrongBrush}" />
     </Style>
 
     <Style Selector="^:disabled">
-      <Setter Property="Opacity" Value="0.5" />
+      <Setter Property="Opacity" Value="0.3" />
     </Style>
 
     <Style Selector="^.accent">
