@@ -25,3 +25,9 @@ This project had no agent docs at the root. Created the standard `AgentDocumenta
 Category: Context
 
 AvaloniaThemeLab (a lab under this repo) uses the `AngelSix.ThemeEngine` package; its bundled analyzer regenerates the theme markup extensions at compile time. Don't commit a `Generated/ThemeExtensions.g.cs` (or any `Generated/` copy) — a stale committed copy broke the build here when the engine's `ThemeContext` API changed after the move from in-repo source to NuGet. The engine's source lives in the separate `angelsix-consulting` repo.
+
+### 2026-05-29: Glossary added
+
+Category: System change
+
+Built `AgentDocumentation/Glossary.md` via the `project-glossary` skill, closing the only gap in the wellness plan. Kept deliberately minimal: this repo is a grab-bag of code samples for YouTube videos with no shared domain. Locked "Sample" as the canonical word for a top-level project folder, plus Channel, Video, Series, and Lab.
