@@ -7,9 +7,15 @@
 
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
+        xmlns:theme="using:AngelSix.ThemeEngine.Generated"
         x:ClassModifier="internal">
   <Design.PreviewWith>
     <Border Padding="20" Width="200">
+      <Border.Styles>
+        <prototype:PrototypeTheme />
+      </Border.Styles>
+
       <StackPanel Spacing="20">
         <ListBoxItem Theme="{DynamicResource PrototypeDateTimePickerItem}">Standard Item</ListBoxItem>
         <ListBoxItem Theme="{DynamicResource PrototypeDateTimePickerItem}" Classes="MonthItem">Month Item</ListBoxItem>
@@ -33,7 +39,7 @@
       </Style>
       <Style Selector="^/template/ ContentPresenter">
         <Setter Property="Background" Value="Transparent" />
-        <Setter Property="Foreground" Value="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
+        <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}"/>
       </Style>
     </Style>
     <Style Selector="^.MonthItem">
@@ -44,7 +50,7 @@
 
   <!-- This is used for both the accept/dismiss & repeatbuttons in the presenter-->
   <ControlTheme x:Key="PrototypeDateTimePickerButton" TargetType="Button">
-    <Setter Property="Background" Value="{DynamicResource DateTimePickerFlyoutButtonBackground}" />
+    <Setter Property="Background" Value="Transparent" />
     <Setter Property="Height" Value="22" />
     <Setter Property="HorizontalContentAlignment" Value="Center"/>
     <Setter Property="VerticalContentAlignment" Value="Center"/>
@@ -57,10 +63,10 @@
         <Border Background="{TemplateBinding Background}">
           <ContentPresenter x:Name="PART_ContentPresenter"
                   Background="{TemplateBinding Background}"
-                  BorderBrush="{DynamicResource DateTimePickerFlyoutButtonBorderBrush}"
-                  BorderThickness="{DynamicResource DateTimeFlyoutButtonBorderThickness}"
+                  BorderBrush="Transparent"
+                  BorderThickness="{theme:Thickness}"
                   Content="{TemplateBinding Content}"
-                  Foreground="{DynamicResource SystemControlHighlightAltBaseHighBrush}"
+                  Foreground="{theme:OnSurfaceBrush}"
                   ContentTemplate="{TemplateBinding ContentTemplate}"
                   Padding="{TemplateBinding Padding}"
                   HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
@@ -71,15 +77,15 @@
     </Setter>
 
     <Style Selector="^:pointerover /template/ ContentPresenter">
-      <Setter Property="Background" Value="{DynamicResource DateTimePickerFlyoutButtonBackgroundPointerOver}"/>
-      <Setter Property="BorderBrush" Value="{DynamicResource DateTimePickerFlyoutButtonBorderBrushPointerOver}"/>
-      <Setter Property="Foreground" Value="{DynamicResource DateTimePickerFlyoutButtonForegroundPointerOver}"/>
+      <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}"/>
+      <Setter Property="BorderBrush" Value="Transparent"/>
+      <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}"/>
     </Style>
 
     <Style Selector="^:pressed /template/ ContentPresenter">
-      <Setter Property="Background" Value="{DynamicResource DateTimePickerFlyoutButtonBackgroundPressed}"/>
-      <Setter Property="BorderBrush" Value="{DynamicResource DateTimePickerFlyoutButtonBorderBrushPressed}"/>
-      <Setter Property="Foreground" Value="{DynamicResource DateTimePickerFlyoutButtonForegroundPressed}"/>
+      <Setter Property="Background" Value="{theme:SurfaceOverlayMediumBrush}"/>
+      <Setter Property="BorderBrush" Value="Transparent"/>
+      <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}"/>
     </Style>
   </ControlTheme>
 
@@ -88,7 +94,7 @@
     <Setter Property="Height" Value="22" />
     <Setter Property="HorizontalAlignment" Value="Stretch" />
     <Setter Property="Focusable" Value="False" />
-    <Setter Property="Background" Value="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}" />
+    <Setter Property="Background" Value="{theme:SurfaceBrush}" />
     <Setter Property="IsVisible" Value="False"/>
     <Setter Property="Content">
       <Template>
@@ -104,7 +110,7 @@
     <Setter Property="Height" Value="22" />
     <Setter Property="HorizontalAlignment" Value="Stretch" />
     <Setter Property="Focusable" Value="False" />
-    <Setter Property="Background" Value="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}" />
+    <Setter Property="Background" Value="{theme:SurfaceBrush}" />
     <Setter Property="IsVisible" Value="False"/>
     <Setter Property="Content">
       <Template>

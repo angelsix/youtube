@@ -8,9 +8,14 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:sys="using:System"
+        xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
+        xmlns:theme="using:AngelSix.ThemeEngine.Generated"
         x:ClassModifier="internal">
   <Design.PreviewWith>
     <Border Padding="20" Height="500">
+      <Border.Styles>
+        <prototype:PrototypeTheme />
+      </Border.Styles>
       <StackPanel Spacing="20" VerticalAlignment="Center">
         <TimePicker />
         <TimePicker CornerRadius="10" />
@@ -59,23 +64,23 @@
     </Style>
 
     <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="Background" Value="{DynamicResource TimePickerButtonBackgroundPressed}"/>
-      <Setter Property="Foreground" Value="{DynamicResource TimePickerButtonForegroundPressed}"/>
+      <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}"/>
+      <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}"/>
     </Style>
 
     <Style Selector="^:disabled /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="BorderBrush" Value="{DynamicResource TimePickerButtonBorderBrushDisabled}"/>
-      <Setter Property="Background" Value="{DynamicResource TimePickerButtonBackgroundDisabled}"/>
-      <Setter Property="Foreground" Value="{DynamicResource TimePickerButtonForegroundDisabled}"/>
+      <Setter Property="BorderBrush" Value="{theme:AccentBorderBrush}"/>
+      <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}"/>
+      <Setter Property="Foreground" Value="{theme:OnSurfaceDimBrush}"/>
     </Style>
   </ControlTheme>
 
   <ControlTheme x:Key="{x:Type TimePicker}" TargetType="TimePicker">
-    <Setter Property="Foreground" Value="{DynamicResource TimePickerButtonForeground}" />
-    <Setter Property="Background" Value="{DynamicResource TimePickerButtonBackground}"/>
-    <Setter Property="BorderBrush" Value="{DynamicResource TimePickerButtonBorderBrush}"/>
-    <Setter Property="BorderThickness" Value="{DynamicResource TimePickerBorderThemeThickness}"/>
-    <Setter Property="CornerRadius" Value="{DynamicResource ControlCornerRadius}" />
+    <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
+    <Setter Property="Background" Value="{theme:SurfaceBrush}"/>
+    <Setter Property="BorderBrush" Value="{theme:AccentBorderBrush}"/>
+    <Setter Property="BorderThickness" Value="{theme:Thickness}"/>
+    <Setter Property="CornerRadius" Value="{theme:RadiusSm}" />
     <Setter Property="HorizontalAlignment" Value="Left" />
     <Setter Property="VerticalAlignment" Value="Center" />
     <Setter Property="MinWidth" Value="{DynamicResource TimePickerThemeMinWidth}" />
@@ -104,13 +109,13 @@
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch">
                   <TextBlock x:Name="PART_HourTextBlock"
-                      Text="{DynamicResource StringTimePickerHourText}"
+                      Text="hour"
                       HorizontalAlignment="Center"
                       Padding="{DynamicResource TimePickerHostPadding}" />
                 </Border>
 
                 <Rectangle Name="PART_FirstColumnDivider"
-                           Fill="{DynamicResource TimePickerSpacerFill}"
+                           Fill="{theme:SurfaceOverlayWeakBrush}"
                            HorizontalAlignment="Center"
                            Width="{DynamicResource TimePickerSpacerThemeWidth}"
                            Grid.Column="1" />
@@ -120,13 +125,13 @@
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch">
                   <TextBlock x:Name="PART_MinuteTextBlock"
-                             Text="{DynamicResource StringTimePickerMinuteText}"
+                             Text="minute"
                              HorizontalAlignment="Center"
                              Padding="{DynamicResource TimePickerHostPadding}"/>
                 </Border>
 
                 <Rectangle Name="PART_SecondColumnDivider"
-                           Fill="{DynamicResource TimePickerSpacerFill}"
+                           Fill="{theme:SurfaceOverlayWeakBrush}"
                            HorizontalAlignment="Center"
                            Width="{DynamicResource TimePickerSpacerThemeWidth}"
                            Grid.Column="3" />
@@ -136,13 +141,13 @@
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch">
                   <TextBlock x:Name="PART_SecondTextBlock"
-                             Text="{DynamicResource StringTimePickerSecondText}"
+                             Text="second"
                              HorizontalAlignment="Center"
                              Padding="{DynamicResource TimePickerHostPadding}"/>
                 </Border>
 
                 <Rectangle Name="PART_ThirdColumnDivider"
-                           Fill="{DynamicResource TimePickerSpacerFill}"
+                           Fill="{theme:SurfaceOverlayWeakBrush}"
                            HorizontalAlignment="Center"
                            Width="{DynamicResource TimePickerSpacerThemeWidth}"
                            Grid.Column="5" />
@@ -172,15 +177,15 @@
     </Setter>
     
     <Style Selector="^:disabled /template/ Rectangle">
-      <Setter Property="Fill" Value="{DynamicResource TimePickerSpacerFillDisabled}"/>
+      <Setter Property="Fill" Value="{theme:SurfaceOverlayWeakBrush}"/>
     </Style>
 
     <Style Selector="^:hasnotime /template/ Button#PART_FlyoutButton TextBlock">
-      <Setter Property="Foreground" Value="{DynamicResource TextControlPlaceholderForeground}"/>
+      <Setter Property="Foreground" Value="{theme:OnSurfaceDimBrush}"/>
     </Style>
 
     <Style Selector="^:error /template/ Button#PART_FlyoutButton">
-      <Setter Property="BorderBrush" Value="{DynamicResource SystemControlErrorTextForegroundBrush}"/>
+      <Setter Property="BorderBrush" Value="{theme:AccentErrorBrush}"/>
     </Style>
   </ControlTheme>
 
@@ -188,10 +193,10 @@
     <Setter Property="Width" Value="242" />
     <Setter Property="MinWidth" Value="242" />
     <Setter Property="MaxHeight" Value="398" />
-    <Setter Property="Background" Value="{DynamicResource TimePickerFlyoutPresenterBackground}" />
-    <Setter Property="BorderBrush" Value="{DynamicResource TimePickerFlyoutPresenterBorderBrush}" />
-    <Setter Property="BorderThickness" Value="{DynamicResource DateTimeFlyoutBorderThickness}" />
-    <Setter Property="CornerRadius" Value="{DynamicResource OverlayCornerRadius}" />
+    <Setter Property="Background" Value="{theme:SurfaceBrush}" />
+    <Setter Property="BorderBrush" Value="{theme:AccentBorderBrush}" />
+    <Setter Property="BorderThickness" Value="{theme:Thickness}" />
+    <Setter Property="CornerRadius" Value="{theme:RadiusMd}" />
     <Setter Property="Template">
       <ControlTemplate>
         <Border Name="Background"
@@ -199,7 +204,7 @@
                 BorderBrush="{TemplateBinding BorderBrush}"
                 BorderThickness="{TemplateBinding BorderThickness}"
                 CornerRadius="{TemplateBinding CornerRadius}"
-                Padding="{DynamicResource DateTimeFlyoutBorderPadding}"
+                Padding="0"
                 MaxHeight="398">
           <Grid Name="ContentPanel" RowDefinitions="*,Auto">
             <Grid Name="PART_PickerContainer">
@@ -253,23 +258,23 @@
               </Panel>
 
               <Rectangle x:Name="HighlightRect" ZIndex="-1"
-                         Fill="{DynamicResource TimePickerFlyoutPresenterHighlightFill}"
+                         Fill="{theme:AccentPrimaryBrush}"
                          Grid.Column="0"
                          Grid.ColumnSpan="7"
                          VerticalAlignment="Center"
                          Height="{DynamicResource TimePickerFlyoutPresenterHighlightHeight}" />
               <Rectangle Name="PART_FirstSpacer"
-                         Fill="{DynamicResource TimePickerFlyoutPresenterSpacerFill}"
+                         Fill="{theme:SurfaceOverlayWeakBrush}"
                          HorizontalAlignment="Center"
                          Width="{DynamicResource TimePickerSpacerThemeWidth}"
                          Grid.Column="1" />
               <Rectangle Name="PART_SecondSpacer"
-                         Fill="{DynamicResource TimePickerFlyoutPresenterSpacerFill}"
+                         Fill="{theme:SurfaceOverlayWeakBrush}"
                          HorizontalAlignment="Center"
                          Width="{DynamicResource TimePickerSpacerThemeWidth}"
                          Grid.Column="3" />
               <Rectangle Name="PART_ThirdSpacer"
-                         Fill="{DynamicResource TimePickerFlyoutPresenterSpacerFill}"
+                         Fill="{theme:SurfaceOverlayWeakBrush}"
                          HorizontalAlignment="Center"
                          Width="{DynamicResource TimePickerSpacerThemeWidth}"
                          Grid.Column="5" />
@@ -280,7 +285,7 @@
                   ColumnDefinitions="*,*">
               <Rectangle Height="{DynamicResource TimePickerSpacerThemeWidth}" 
                          VerticalAlignment="Top"
-                         Fill="{DynamicResource TimePickerFlyoutPresenterSpacerFill}"
+                         Fill="{theme:SurfaceOverlayWeakBrush}"
                          Grid.ColumnSpan="2"/>
               <Button Name="PART_AcceptButton"
                       Grid.Column="0"

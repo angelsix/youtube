@@ -1,12 +1,17 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
+                    xmlns:theme="using:AngelSix.ThemeEngine.Generated"
                     x:ClassModifier="internal">
   <Design.PreviewWith>
-    <Border Background="{DynamicResource SystemAccentColor}"
+    <Border Background="{theme:AccentPrimaryBrush}"
             Margin="16"
             Padding="48"
             Width="400"
             Height="200">
+      <Border.Styles>
+        <prototype:PrototypeTheme />
+      </Border.Styles>
       <Border.ContextMenu>
         <ContextMenu>
           <MenuItem Header="Standard _Menu Item" />
@@ -34,14 +39,14 @@
   <Thickness x:Key="MenuFlyoutScrollerMargin">0,4,0,4</Thickness>
 
   <ControlTheme x:Key="{x:Type ContextMenu}" TargetType="ContextMenu">
-    <Setter Property="Background" Value="{DynamicResource MenuFlyoutPresenterBackground}" />
-    <Setter Property="BorderBrush" Value="{DynamicResource MenuFlyoutPresenterBorderBrush}" />
-    <Setter Property="BorderThickness" Value="{DynamicResource MenuFlyoutPresenterBorderThemeThickness}" />
-    <Setter Property="CornerRadius" Value="{DynamicResource OverlayCornerRadius}" />
+    <Setter Property="Background" Value="{theme:SurfaceBrush}" />
+    <Setter Property="BorderBrush" Value="{theme:AccentBorderBrush}" />
+    <Setter Property="BorderThickness" Value="{theme:Thickness}" />
+    <Setter Property="CornerRadius" Value="{theme:RadiusMd}" />
     <Setter Property="Focusable" Value="True" />
-    <Setter Property="MaxWidth" Value="{DynamicResource FlyoutThemeMaxWidth}" />
-    <Setter Property="MinHeight" Value="{DynamicResource MenuFlyoutThemeMinHeight}" />
-    <Setter Property="Padding" Value="{DynamicResource MenuFlyoutPresenterThemePadding}" />
+    <Setter Property="MaxWidth" Value="456" />
+    <Setter Property="MinHeight" Value="{theme:ControlHeight}" />
+    <Setter Property="Padding" Value="0" />
     <Setter Property="HorizontalAlignment" Value="Stretch" />
     <Setter Property="WindowManagerAddShadowHint" Value="False" />
     <Setter Property="Template">
@@ -57,7 +62,7 @@
           <ScrollViewer Theme="{StaticResource PrototypeMenuScrollViewer}">
             <ItemsPresenter Name="PART_ItemsPresenter"
                             ItemsPanel="{TemplateBinding ItemsPanel}"
-                            Margin="{DynamicResource MenuFlyoutScrollerMargin}"
+                            Margin="{theme:Edges Vertical={theme:SpacingSm}}"
                             KeyboardNavigation.TabNavigation="Continue"
                             Grid.IsSharedSizeScope="True" />
           </ScrollViewer>

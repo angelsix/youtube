@@ -1,8 +1,14 @@
 ﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
+                    xmlns:theme="using:AngelSix.ThemeEngine.Generated"
                     x:ClassModifier="internal">
   <Design.PreviewWith>
     <Border Padding="0">
+      <Border.Styles>
+        <prototype:PrototypeTheme />
+      </Border.Styles>
+
       <ListBox>
         <ListBoxItem IsEnabled="False">Disabled</ListBoxItem>
         <ListBoxItem Background="#66000000"
@@ -33,45 +39,45 @@
     </Setter>
 
     <Style Selector="^:disabled /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="Foreground" Value="{DynamicResource SystemControlDisabledBaseMediumLowBrush}" />
+      <Setter Property="Foreground" Value="{theme:OnSurfaceDimBrush}" />
     </Style>
 
     <!--  PointerOver State  -->
     <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="Background" Value="{DynamicResource SystemControlHighlightListLowBrush}" />
-      <Setter Property="Foreground" Value="{DynamicResource SystemControlHighlightAltBaseHighBrush}" />
+      <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}" />
+      <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
     </Style>
 
     <!--  Pressed State  -->
     <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="Background" Value="{DynamicResource SystemControlHighlightListMediumBrush}" />
-      <Setter Property="Foreground" Value="{DynamicResource SystemControlHighlightAltBaseHighBrush}" />
+      <Setter Property="Background" Value="{theme:SurfaceOverlayMediumBrush}" />
+      <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
     </Style>
 
     <!--  Selected State  -->
     <Style Selector="^:selected">
 
       <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
-        <Setter Property="Background" Value="{DynamicResource SystemControlHighlightListAccentLowBrush}" />
-        <Setter Property="Foreground" Value="{DynamicResource SystemControlHighlightAltBaseHighBrush}" />
+        <Setter Property="Background" Value="{theme:AccentPrimaryBrush}" />
+        <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
       </Style>
 
       <!--  Selected Unfocused State  -->
       <Style Selector="^:not(:focus) /template/ ContentPresenter#PART_ContentPresenter">
-        <Setter Property="Background" Value="{DynamicResource SystemControlHighlightListAccentLowBrush}" />
-        <Setter Property="Foreground" Value="{DynamicResource SystemControlHighlightAltBaseHighBrush}" />
+        <Setter Property="Background" Value="{theme:AccentPrimaryBrush}" />
+        <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
       </Style>
 
       <!--  Selected PointerOver State  -->
       <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
-        <Setter Property="Background" Value="{DynamicResource SystemControlHighlightListAccentMediumBrush}" />
-        <Setter Property="Foreground" Value="{DynamicResource SystemControlHighlightAltBaseHighBrush}" />
+        <Setter Property="Background" Value="{theme:AccentPrimaryBrush}" />
+        <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
       </Style>
 
       <!--  Selected Pressed State  -->
       <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter">
-        <Setter Property="Background" Value="{DynamicResource SystemControlHighlightListAccentHighBrush}" />
-        <Setter Property="Foreground" Value="{DynamicResource SystemControlHighlightAltBaseHighBrush}" />
+        <Setter Property="Background" Value="{theme:AccentPrimaryBrush}" />
+        <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
       </Style>
     </Style>
   </ControlTheme>

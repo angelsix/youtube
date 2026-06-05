@@ -1,14 +1,16 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
+                    xmlns:theme="using:AngelSix.ThemeEngine.Generated"
                     x:ClassModifier="internal">
 
   <x:Double x:Key="CaptionButtonWidth">45</x:Double>
   <x:Double x:Key="CaptionButtonHeight">30</x:Double>
 
   <ControlTheme x:Key="PrototypeDrawnCaptionButton" TargetType="Button">
-    <Setter Property="Background" Value="{DynamicResource CaptionButtonBackground}" />
-    <Setter Property="BorderBrush" Value="{DynamicResource CaptionButtonBorderBrush}" />
-    <Setter Property="Foreground" Value="{DynamicResource CaptionButtonForeground}"/>
+    <Setter Property="Background" Value="{theme:SurfaceBrush}" />
+    <Setter Property="BorderBrush" Value="{theme:AccentBorderBrush}" />
+    <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}"/>
     <Setter Property="Width" Value="{DynamicResource CaptionButtonWidth}"/>
     <Setter Property="Height" Value="{DynamicResource CaptionButtonHeight}"/>
     <Setter Property="VerticalAlignment" Value="Stretch"/>
@@ -41,14 +43,14 @@
           <WindowDrawnDecorationsContent.Underlay>
             <Panel x:Name="PART_UnderlayWrapper">
               <Border x:Name="PART_WindowBorder"
-                      Background="{DynamicResource SystemControlBackgroundAltHighBrush}"
+                      Background="{theme:SurfaceBrush}"
                       BorderThickness="{TemplateBinding FrameThickness}"
-                      BorderBrush="{DynamicResource SystemControlForegroundBaseMediumBrush}"
+                      BorderBrush="{theme:AccentBorderBrush}"
                       IsHitTestVisible="False" />
               <!-- Titlebar: background, title text, and drag area live in underlay -->
               <Panel x:Name="PART_TitleBar" VerticalAlignment="Top"
                      Height="{TemplateBinding TitleBarHeight}"
-                     Background="{DynamicResource SystemControlBackgroundAltHighBrush}"
+                     Background="{theme:SurfaceBrush}"
                      IsVisible="{TemplateBinding HasTitleBar}"
                      WindowDecorationProperties.ElementRole="TitleBar" />
 
@@ -82,7 +84,7 @@
                   <Viewbox Width="11" Margin="2">
                     <Path Name="FullScreenButtonPath"
                           Stretch="UniformToFill"
-                          Fill="{DynamicResource CaptionButtonForeground}"
+                          Fill="{theme:OnSurfaceBrush}"
                           Data="M2048 2048v-819h-205v469l-1493 -1493h469v-205h-819v819h205v-469l1493 1493h-469v205h819z" />
                   </Viewbox>
                 </Button>
@@ -91,7 +93,7 @@
                         WindowDecorationProperties.ElementRole="MinimizeButton">
                   <Viewbox Width="11" Margin="2">
                     <Path Stretch="UniformToFill"
-                          Fill="{DynamicResource CaptionButtonForeground}"
+                          Fill="{theme:OnSurfaceBrush}"
                           Data="M2048 1229v-205h-2048v205h2048z" />
                   </Viewbox>
                 </Button>
@@ -104,7 +106,7 @@
                     </Viewbox.RenderTransform>
                     <Path Name="RestoreButtonPath"
                           Stretch="UniformToFill"
-                          Fill="{DynamicResource CaptionButtonForeground}"
+                          Fill="{theme:OnSurfaceBrush}"
                           Data="M2048 2048v-2048h-2048v2048h2048zM1843 1843h-1638v-1638h1638v1638z"/>
                   </Viewbox>
                 </Button>
@@ -115,7 +117,7 @@
                         WindowDecorationProperties.ElementRole="CloseButton">
                   <Viewbox Width="11" Margin="2">
                     <Path Stretch="UniformToFill"
-                          Fill="{DynamicResource CaptionButtonForeground}"
+                          Fill="{theme:OnSurfaceBrush}"
                           Data="M1169 1024l879 -879l-145 -145l-879 879l-879 -879l-145 145l879 879l-879 879l145 145l879 -879l879 879l145 -145z" />
                   </Viewbox>
                 </Button>
@@ -126,7 +128,7 @@
           <WindowDrawnDecorationsContent.FullscreenPopover>
             <Panel Height="{TemplateBinding DefaultTitleBarHeight}"
                    VerticalAlignment="Top"
-                   Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}"
+                   Background="{theme:SurfaceBrush}"
                    WindowDecorationProperties.ElementRole="TitleBar">
               <TextBlock Text="{TemplateBinding Title}"
                          VerticalAlignment="Center"
@@ -141,7 +143,7 @@
                         WindowDecorationProperties.ElementRole="FullScreenButton">
                   <Viewbox Width="11" Margin="2">
                     <Path Stretch="UniformToFill"
-                          Fill="{DynamicResource CaptionButtonForeground}"
+                          Fill="{theme:OnSurfaceBrush}"
                           Data="M205 1024h819v-819h-205v469l-674 -674l-145 145l674 674h-469v205zM1374 1229h469v-205h-819v819h205v-469l674 674l145 -145z" />
                   </Viewbox>
                 </Button>
@@ -152,7 +154,7 @@
                         WindowDecorationProperties.ElementRole="CloseButton">
                   <Viewbox Width="11" Margin="2">
                     <Path Stretch="UniformToFill"
-                          Fill="{DynamicResource CaptionButtonForeground}"
+                          Fill="{theme:OnSurfaceBrush}"
                           Data="M1169 1024l879 -879l-145 -145l-879 879l-879 -879l-145 145l879 879l-879 879l145 145l879 -879l879 879l145 -145z" />
                   </Viewbox>
                 </Button>

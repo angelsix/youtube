@@ -1,8 +1,14 @@
 ﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
+                    xmlns:theme="using:AngelSix.ThemeEngine.Generated"
                     x:ClassModifier="internal">
   <Design.PreviewWith>
     <Border Padding="20">
+      <Border.Styles>
+        <prototype:PrototypeTheme />
+      </Border.Styles>
+
       <StackPanel Spacing="20">
         <RepeatButton Content="Click Me!" />
         <RepeatButton Content="Disabled" IsEnabled="False" />
@@ -12,12 +18,12 @@
   </Design.PreviewWith>
 
   <ControlTheme x:Key="{x:Type RepeatButton}" TargetType="RepeatButton">
-    <Setter Property="Background" Value="{DynamicResource RepeatButtonBackground}" />
-    <Setter Property="Foreground" Value="{DynamicResource RepeatButtonForeground}" />
-    <Setter Property="BorderBrush" Value="{DynamicResource RepeatButtonBorderBrush}" />
-    <Setter Property="BorderThickness" Value="{DynamicResource ButtonBorderThemeThickness}" />
-    <Setter Property="CornerRadius" Value="{DynamicResource ControlCornerRadius}" />
-    <Setter Property="Padding" Value="{StaticResource ButtonPadding}" />
+    <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}" />
+    <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
+    <Setter Property="BorderBrush" Value="Transparent" />
+    <Setter Property="BorderThickness" Value="{theme:Thickness}" />
+    <Setter Property="CornerRadius" Value="{theme:RadiusSm}" />
+    <Setter Property="Padding" Value="{theme:Edges Horizontal={theme:SpacingXl}, Vertical={theme:SpacingLg}}" />
     <Setter Property="HorizontalAlignment" Value="Left" />
     <Setter Property="VerticalAlignment" Value="Center" />
     <Setter Property="RenderTransform" Value="none" />
@@ -37,9 +43,9 @@
     </Setter>
 
     <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="Background" Value="{DynamicResource RepeatButtonBackgroundPointerOver}" />
-      <Setter Property="BorderBrush" Value="{DynamicResource RepeatButtonBorderBrushPointerOver}" />
-      <Setter Property="Foreground" Value="{DynamicResource RepeatButtonForegroundPointerOver}" />
+      <Setter Property="Background" Value="{theme:OnSurfaceBrush}" />
+      <Setter Property="BorderBrush" Value="Transparent" />
+      <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
     </Style>
 
     <Style Selector="^:pressed">
@@ -47,15 +53,15 @@
     </Style>
 
     <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="Background" Value="{DynamicResource RepeatButtonBackgroundPressed}" />
-      <Setter Property="BorderBrush" Value="{DynamicResource RepeatButtonBorderBrushPressed}" />
-      <Setter Property="Foreground" Value="{DynamicResource RepeatButtonForegroundPressed}" />
+      <Setter Property="Background" Value="{theme:SurfaceOverlayMediumBrush}" />
+      <Setter Property="BorderBrush" Value="Transparent" />
+      <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
     </Style>
 
     <Style Selector="^:disabled /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="Background" Value="{DynamicResource RepeatButtonBackgroundDisabled}" />
-      <Setter Property="BorderBrush" Value="{DynamicResource RepeatButtonBorderBrushDisabled}" />
-      <Setter Property="Foreground" Value="{DynamicResource RepeatButtonForegroundDisabled}" />
+      <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}" />
+      <Setter Property="BorderBrush" Value="Transparent" />
+      <Setter Property="Foreground" Value="{theme:OnSurfaceDimBrush}" />
     </Style>
   </ControlTheme>
 </ResourceDictionary>

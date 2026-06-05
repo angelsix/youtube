@@ -7,21 +7,27 @@
 
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
+                    xmlns:theme="using:AngelSix.ThemeEngine.Generated"
                     x:ClassModifier="internal">
   <Design.PreviewWith>
     <Border Padding="20">
+      <Border.Styles>
+        <prototype:PrototypeTheme />
+      </Border.Styles>
+
       <Calendar />
     </Border>
   </Design.PreviewWith>
 
   <ControlTheme x:Key="{x:Type Calendar}" TargetType="Calendar">
-    <Setter Property="Foreground" Value="{DynamicResource CalendarViewForeground}" />
-    <Setter Property="Background" Value="{DynamicResource CalendarViewBackground}" />
-    <Setter Property="BorderBrush" Value="{DynamicResource CalendarViewBorderBrush}" />
+    <Setter Property="Foreground" Value="{theme:OnSurfaceDimBrush}" />
+    <Setter Property="Background" Value="{theme:SurfaceBrush}" />
+    <Setter Property="BorderBrush" Value="{theme:AccentBorderBrush}" />
     <Setter Property="BorderThickness" Value="1" />
     <Setter Property="HorizontalAlignment" Value="Left" />
     <Setter Property="VerticalAlignment" Value="Center" />
-    <Setter Property="FontSize" Value="{DynamicResource CalendarFontSize}" />
+    <Setter Property="FontSize" Value="{theme:FontSizeXl}" />
     <Setter Property="Template">
       <ControlTemplate>
         <StackPanel

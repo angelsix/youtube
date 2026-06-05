@@ -1,9 +1,15 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:converters="using:Avalonia.Controls.Converters"
+                    xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
+                    xmlns:theme="using:AngelSix.ThemeEngine.Generated"
                     x:ClassModifier="internal">
   <Design.PreviewWith>
     <Border Padding="20">
+      <Border.Styles>
+        <prototype:PrototypeTheme />
+      </Border.Styles>
+
       <StackPanel Orientation="Horizontal" Spacing="10">
         <StackPanel Spacing="10">
           <ProgressBar Value="5" Maximum="10" />
@@ -26,12 +32,12 @@
   <converters:StringFormatConverter x:Key="StringFormatConverter"/>
 
   <ControlTheme x:Key="{x:Type ProgressBar}" TargetType="ProgressBar">
-    <Setter Property="Foreground" Value="{DynamicResource SystemControlHighlightAccentBrush}" />
-    <Setter Property="Background" Value="{DynamicResource SystemControlBackgroundBaseLowBrush}" />
-    <Setter Property="BorderThickness" Value="{DynamicResource ProgressBarBorderThemeThickness}" />
-    <Setter Property="CornerRadius" Value="{DynamicResource ControlCornerRadius}" />
-    <Setter Property="BorderBrush" Value="{DynamicResource SystemControlHighlightTransparentBrush}" />
-    <Setter Property="MinHeight" Value="{DynamicResource ProgressBarThemeMinHeight}" />
+    <Setter Property="Foreground" Value="{theme:AccentPrimaryBrush}" />
+    <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}" />
+    <Setter Property="BorderThickness" Value="0" />
+    <Setter Property="CornerRadius" Value="{theme:RadiusSm}" />
+    <Setter Property="BorderBrush" Value="Transparent" />
+    <Setter Property="MinHeight" Value="4" />
     <Setter Property="VerticalAlignment" Value="Center" />
     <Setter Property="Template">
       <ControlTemplate TargetType="ProgressBar">
@@ -77,7 +83,7 @@
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                 IsVisible="{TemplateBinding ShowProgressText}">
-              <TextBlock Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}">
+              <TextBlock Foreground="{theme:OnSurfaceBrush}">
                   <TextBlock.Text>
                     <MultiBinding Converter="{StaticResource StringFormatConverter}">
                       <TemplateBinding Property="ProgressTextFormat"/>

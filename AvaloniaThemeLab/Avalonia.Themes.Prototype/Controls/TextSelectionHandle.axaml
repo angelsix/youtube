@@ -1,7 +1,12 @@
 ﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
+                    xmlns:theme="using:AngelSix.ThemeEngine.Generated">
   <Design.PreviewWith>
     <Grid>
+      <Grid.Styles>
+        <prototype:PrototypeTheme />
+      </Grid.Styles>
       <Border>
         <Image Stretch="Uniform" HorizontalAlignment="Left"
                Cursor="Arrow"
@@ -17,10 +22,10 @@
   <DrawingImage x:Key="TextSelectionHandleDrawing">
     <DrawingImage.Drawing>
       <GeometryDrawing Geometry="{DynamicResource TextSelectionHandlePath}"
-                       Brush="{DynamicResource TextControlSelectionHighlightColor}"
+                       Brush="{theme:AccentPrimaryBrush}"
                        >
         <GeometryDrawing.Pen>
-          <Pen Thickness="0.5" Brush="{DynamicResource SystemControlForegroundBaseHighBrush}" LineJoin="Round"/>
+          <Pen Thickness="0.5" Brush="{theme:OnSurfaceBrush}" LineJoin="Round"/>
         </GeometryDrawing.Pen>
       </GeometryDrawing>
     </DrawingImage.Drawing>
@@ -29,10 +34,10 @@
   <DrawingImage x:Key="TextCaretHandleDrawing">
     <DrawingImage.Drawing>
       <GeometryDrawing Geometry="{DynamicResource TextCaretHandlePath}"
-                       Brush="{DynamicResource TextControlSelectionHighlightColor}"
+                       Brush="{theme:AccentPrimaryBrush}"
                        >
         <GeometryDrawing.Pen>
-          <Pen Thickness="0.5" Brush="{DynamicResource SystemControlForegroundBaseHighBrush}" LineJoin="Round"/>
+          <Pen Thickness="0.5" Brush="{theme:OnSurfaceBrush}" LineJoin="Round"/>
         </GeometryDrawing.Pen>
       </GeometryDrawing>
     </DrawingImage.Drawing>
@@ -73,7 +78,7 @@
   <ControlTheme x:Key="{x:Type TextSelectionHandle}"
                 TargetType="TextSelectionHandle">
     <Setter Property="Background"
-            Value="{DynamicResource TextControlSelectionHighlightColor}" />
+            Value="{theme:AccentPrimaryBrush}" />
     <Setter Property="HorizontalAlignment"
             Value="Center" />
     <Setter Property="Template">

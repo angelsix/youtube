@@ -8,9 +8,15 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:sys="using:System"
+        xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
+        xmlns:theme="using:AngelSix.ThemeEngine.Generated"
         x:ClassModifier="internal">
   <Design.PreviewWith>
     <Border Padding="20" Height="500">
+      <Border.Styles>
+        <prototype:PrototypeTheme />
+      </Border.Styles>
+
       <StackPanel Spacing="20" VerticalAlignment="Center">
         <DatePicker />
         <DatePicker CornerRadius="10" />
@@ -60,23 +66,23 @@
     </Style>
     
     <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="Background" Value="{DynamicResource DatePickerButtonBackgroundPressed}"/>
-      <Setter Property="Foreground" Value="{DynamicResource DatePickerButtonForegroundPressed}"/>
+      <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}"/>
+      <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}"/>
     </Style>
 
     <Style Selector="^:disabled /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="BorderBrush" Value="{DynamicResource DatePickerButtonBorderBrushDisabled}"/>
-      <Setter Property="Background" Value="{DynamicResource DatePickerButtonBackgroundDisabled}"/>
-      <Setter Property="Foreground" Value="{DynamicResource DatePickerButtonForegroundDisabled}"/>
+      <Setter Property="BorderBrush" Value="{theme:AccentBorderBrush}"/>
+      <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}"/>
+      <Setter Property="Foreground" Value="{theme:OnSurfaceDimBrush}"/>
     </Style>
   </ControlTheme>
   
   <ControlTheme x:Key="{x:Type DatePicker}" TargetType="DatePicker">
-    <Setter Property="Foreground" Value="{DynamicResource DatePickerButtonForeground}" />
-    <Setter Property="Background" Value="{DynamicResource DatePickerButtonBackground}"/>
-    <Setter Property="BorderBrush" Value="{DynamicResource DatePickerButtonBorderBrush}"/>
+    <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
+    <Setter Property="Background" Value="{theme:SurfaceBrush}"/>
+    <Setter Property="BorderBrush" Value="{theme:AccentBorderBrush}"/>
     <Setter Property="BorderThickness" Value="1"/>
-    <Setter Property="CornerRadius" Value="{DynamicResource ControlCornerRadius}" />
+    <Setter Property="CornerRadius" Value="{theme:RadiusSm}" />
     <Setter Property="HorizontalAlignment" Value="Left" />
     <Setter Property="VerticalAlignment" Value="Center" />
     <Setter Property="MinWidth" Value="{DynamicResource DatePickerThemeMinWidth}" />
@@ -99,19 +105,19 @@
                     VerticalAlignment="Stretch"
                     TemplatedControl.IsTemplateFocusTarget="True">
               <Grid Name="PART_ButtonContentGrid" ColumnDefinitions="78*,Auto,132*,Auto,78*">
-                <TextBlock Name="PART_DayTextBlock" Text="{DynamicResource StringDatePickerDayText}" HorizontalAlignment="Center"
+                <TextBlock Name="PART_DayTextBlock" Text="day" HorizontalAlignment="Center"
                            Padding="{DynamicResource DatePickerHostPadding}" />
-                <TextBlock Name="PART_MonthTextBlock" Text="{DynamicResource StringDatePickerMonthText}" TextAlignment="Left"
+                <TextBlock Name="PART_MonthTextBlock" Text="month" TextAlignment="Left"
                            Padding="{DynamicResource DatePickerHostMonthPadding}" />
-                <TextBlock Name="PART_YearTextBlock" Text="{DynamicResource StringDatePickerYearText}" HorizontalAlignment="Center"
+                <TextBlock Name="PART_YearTextBlock" Text="year" HorizontalAlignment="Center"
                            Padding="{DynamicResource DatePickerHostPadding}" />
                 <Rectangle x:Name="PART_FirstSpacer"
-                      Fill="{DynamicResource DatePickerSpacerFill}"
+                      Fill="{theme:AccentBorderBrush}"
                       HorizontalAlignment="Center"
                       Width="1"
                       Grid.Column="1" />
                 <Rectangle x:Name="PART_SecondSpacer"
-                      Fill="{DynamicResource DatePickerSpacerFill}"
+                      Fill="{theme:AccentBorderBrush}"
                       HorizontalAlignment="Center"
                       Width="1"
                       Grid.Column="3" />
@@ -130,16 +136,16 @@
     </Setter>
 
     <Style Selector="^:disabled /template/ Rectangle">
-      <Setter Property="Fill" Value="{DynamicResource DatePickerSpacerFillDisabled}"/>
+      <Setter Property="Fill" Value="{theme:AccentBorderBrush}"/>
     </Style>
 
     <!-- Changes foreground for watermark text when SelectedDate is null-->
     <Style Selector="^:hasnodate /template/ Button#PART_FlyoutButton TextBlock">
-      <Setter Property="Foreground" Value="{DynamicResource TextControlPlaceholderForeground}"/>
+      <Setter Property="Foreground" Value="{theme:OnSurfaceDimBrush}"/>
     </Style>
 
     <Style Selector="^:error /template/ Button#PART_FlyoutButton">
-      <Setter Property="BorderBrush" Value="{DynamicResource SystemControlErrorTextForegroundBrush}"/>
+      <Setter Property="BorderBrush" Value="{theme:AccentErrorBrush}"/>
     </Style>
   </ControlTheme>
 
@@ -148,16 +154,16 @@
     <Setter Property="Width" Value="296" />
     <Setter Property="MinWidth" Value="296" />
     <Setter Property="MaxHeight" Value="398" />
-    <Setter Property="Background" Value="{DynamicResource DatePickerFlyoutPresenterBackground}" />
-    <Setter Property="BorderBrush" Value="{DynamicResource DatePickerFlyoutPresenterBorderBrush}" />
-    <Setter Property="BorderThickness" Value="{DynamicResource DateTimeFlyoutBorderThickness}" />
-    <Setter Property="CornerRadius" Value="{DynamicResource OverlayCornerRadius}" />
+    <Setter Property="Background" Value="{theme:SurfaceBrush}" />
+    <Setter Property="BorderBrush" Value="{theme:AccentBorderBrush}" />
+    <Setter Property="BorderThickness" Value="{theme:Thickness}" />
+    <Setter Property="CornerRadius" Value="{theme:RadiusMd}" />
     <Setter Property="Template">
       <ControlTemplate>
         <Border Name="Background" Background="{TemplateBinding Background}"
                 BorderBrush="{TemplateBinding BorderBrush}"
                 BorderThickness="{TemplateBinding BorderThickness}"
-                Padding="{DynamicResource DateTimeFlyoutBorderPadding}"
+                Padding="0"
                 MaxHeight="398" CornerRadius="{TemplateBinding CornerRadius}">
           <Grid Name="ContentRoot" RowDefinitions="*,Auto">
             <Grid Name="PART_PickerContainer">
@@ -201,16 +207,16 @@
                 <RepeatButton Name="PART_YearDownButton" Theme="{StaticResource PrototypeDateTimePickerDownButton}"/>
               </Panel>
               <Rectangle Name="HighlightRect" IsHitTestVisible="False" ZIndex="-1"
-                         Fill="{DynamicResource DatePickerFlyoutPresenterHighlightFill}"
+                         Fill="{theme:AccentPrimaryBrush}"
                          Grid.Column="0" Grid.ColumnSpan="5" VerticalAlignment="Center"
                          Height="{DynamicResource DatePickerFlyoutPresenterHighlightHeight}" />
               <Rectangle Name="PART_FirstSpacer"
-                         Fill="{DynamicResource DatePickerFlyoutPresenterSpacerFill}"
+                         Fill="{theme:AccentBorderBrush}"
                          HorizontalAlignment="Center"
                          Width="{DynamicResource DatePickerSpacerThemeWidth}"
                          Grid.Column="1" />
               <Rectangle Name="PART_SecondSpacer"
-                         Fill="{DynamicResource DatePickerFlyoutPresenterSpacerFill}"
+                         Fill="{theme:AccentBorderBrush}"
                          HorizontalAlignment="Center"
                          Width="{DynamicResource DatePickerSpacerThemeWidth}"
                          Grid.Column="3" />
@@ -219,9 +225,9 @@
             <Grid Name="AcceptDismissGrid"
                   Grid.Row="1"
                   ColumnDefinitions="*,*">
-              <Rectangle Height="{DynamicResource DatePickerSpacerThemeWidth}" 
+              <Rectangle Height="{DynamicResource DatePickerSpacerThemeWidth}"
                          VerticalAlignment="Top"
-                         Fill="{DynamicResource DatePickerFlyoutPresenterSpacerFill}"
+                         Fill="{theme:AccentBorderBrush}"
                          Grid.ColumnSpan="2"/>
               <Button Name="PART_AcceptButton"
                       Grid.Column="0"

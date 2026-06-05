@@ -1,8 +1,14 @@
 ﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
+                    xmlns:theme="using:AngelSix.ThemeEngine.Generated"
                     x:ClassModifier="internal">
   <Design.PreviewWith>
     <Border Padding="20">
+      <Border.Styles>
+        <prototype:PrototypeTheme />
+      </Border.Styles>
+
       <StackPanel Spacing="20">
         <ToggleButton Content="Click Me!" />
         <ToggleButton Content="Disabled" IsEnabled="False" />
@@ -12,12 +18,12 @@
   </Design.PreviewWith>
 
   <ControlTheme x:Key="{x:Type ToggleButton}" TargetType="ToggleButton">
-    <Setter Property="Background" Value="{DynamicResource ToggleButtonBackground}" />
-    <Setter Property="Foreground" Value="{DynamicResource ToggleButtonForeground}" />
-    <Setter Property="BorderBrush" Value="{DynamicResource ToggleButtonBorderBrush}" />
-    <Setter Property="BorderThickness" Value="{DynamicResource ToggleButtonBorderThemeThickness}" />
-    <Setter Property="CornerRadius" Value="{DynamicResource ControlCornerRadius}" />
-    <Setter Property="Padding" Value="{DynamicResource ButtonPadding}" />
+    <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}" />
+    <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
+    <Setter Property="BorderBrush" Value="Transparent" />
+    <Setter Property="BorderThickness" Value="{theme:Thickness}" />
+    <Setter Property="CornerRadius" Value="{theme:RadiusSm}" />
+    <Setter Property="Padding" Value="{theme:Edges Horizontal={theme:SpacingXl}, Vertical={theme:SpacingLg}}" />
     <Setter Property="HorizontalAlignment" Value="Left" />
     <Setter Property="VerticalAlignment" Value="Center" />
     <Setter Property="RenderTransform" Value="none" />
@@ -47,9 +53,9 @@
     </Style>
 
     <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="Background" Value="{DynamicResource ToggleButtonBackgroundPointerOver}" />
-      <Setter Property="BorderBrush" Value="{DynamicResource ToggleButtonBorderBrushPointerOver}" />
-      <Setter Property="Foreground" Value="{DynamicResource ToggleButtonForegroundPointerOver}" />
+      <Setter Property="Background" Value="{theme:OnSurfaceBrush}" />
+      <Setter Property="BorderBrush" Value="Transparent" />
+      <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
     </Style>
 
     <Style Selector="^:pressed">
@@ -57,66 +63,66 @@
     </Style>
 
     <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="Background" Value="{DynamicResource ToggleButtonBackgroundPressed}" />
-      <Setter Property="BorderBrush" Value="{DynamicResource ToggleButtonBorderBrushPressed}" />
-      <Setter Property="Foreground" Value="{DynamicResource ToggleButtonForegroundPressed}" />
+      <Setter Property="Background" Value="{theme:SurfaceOverlayMediumBrush}" />
+      <Setter Property="BorderBrush" Value="Transparent" />
+      <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
     </Style>
 
     <Style Selector="^:disabled /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="Background" Value="{DynamicResource ToggleButtonBackgroundDisabled}" />
-      <Setter Property="BorderBrush" Value="{DynamicResource ToggleButtonBorderBrushDisabled}" />
-      <Setter Property="Foreground" Value="{DynamicResource ToggleButtonForegroundDisabled}" />
+      <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}" />
+      <Setter Property="BorderBrush" Value="Transparent" />
+      <Setter Property="Foreground" Value="{theme:OnSurfaceDimBrush}" />
     </Style>
 
     <Style Selector="^:indeterminate">
       <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
-        <Setter Property="Background" Value="{DynamicResource ToggleButtonBackgroundIndeterminate}" />
-        <Setter Property="BorderBrush" Value="{DynamicResource ToggleButtonBorderBrushIndeterminate}" />
-        <Setter Property="Foreground" Value="{DynamicResource ToggleButtonForegroundIndeterminate}" />
+        <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
       </Style>
 
       <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
-        <Setter Property="Background" Value="{DynamicResource ToggleButtonBackgroundIndeterminatePointerOver}" />
-        <Setter Property="BorderBrush" Value="{DynamicResource ToggleButtonBorderBrushIndeterminatePointerOver}" />
-        <Setter Property="Foreground" Value="{DynamicResource ToggleButtonForegroundIndeterminatePointerOver}" />
+        <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}" />
+        <Setter Property="BorderBrush" Value="{theme:AccentBorderBrush}" />
+        <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
       </Style>
 
       <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter">
-        <Setter Property="Background" Value="{DynamicResource ToggleButtonBackgroundIndeterminatePressed}" />
-        <Setter Property="BorderBrush" Value="{DynamicResource ToggleButtonBorderBrushIndeterminatePressed}" />
-        <Setter Property="Foreground" Value="{DynamicResource ToggleButtonForegroundIndeterminatePressed}" />
+        <Setter Property="Background" Value="{theme:SurfaceOverlayMediumBrush}" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
       </Style>
 
       <Style Selector="^:disabled /template/ ContentPresenter#PART_ContentPresenter">
-        <Setter Property="Background" Value="{DynamicResource ToggleButtonBackgroundIndeterminateDisabled}" />
-        <Setter Property="BorderBrush" Value="{DynamicResource ToggleButtonBorderBrushIndeterminateDisabled}" />
-        <Setter Property="Foreground" Value="{DynamicResource ToggleButtonForegroundIndeterminateDisabled}" />
+        <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="Foreground" Value="{theme:OnSurfaceDimBrush}" />
       </Style>
     </Style>
 
     <Style Selector="^:checked">
       <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
-        <Setter Property="Background" Value="{DynamicResource ToggleButtonBackgroundChecked}" />
-        <Setter Property="BorderBrush" Value="{DynamicResource ToggleButtonBorderBrushChecked}" />
-        <Setter Property="Foreground" Value="{DynamicResource ToggleButtonForegroundChecked}" />
+        <Setter Property="Background" Value="{theme:AccentPrimaryBrush}" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="Foreground" Value="{theme:SurfaceBrush}" />
       </Style>
 
       <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
-        <Setter Property="Background" Value="{DynamicResource ToggleButtonBackgroundCheckedPointerOver}" />
-        <Setter Property="BorderBrush" Value="{DynamicResource ToggleButtonBorderBrushCheckedPointerOver}" />
-        <Setter Property="Foreground" Value="{DynamicResource ToggleButtonForegroundCheckedPointerOver}" />
+        <Setter Property="Background" Value="{theme:AccentPrimaryLight1Brush}" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="Foreground" Value="{theme:SurfaceBrush}" />
       </Style>
 
       <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter">
-        <Setter Property="Background" Value="{DynamicResource ToggleButtonBackgroundCheckedPressed}" />
-        <Setter Property="BorderBrush" Value="{DynamicResource ToggleButtonBorderBrushCheckedPressed}" />
-        <Setter Property="Foreground" Value="{DynamicResource ToggleButtonForegroundCheckedPressed}" />
+        <Setter Property="Background" Value="{theme:SurfaceOverlayMediumBrush}" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="Foreground" Value="{theme:SurfaceBrush}" />
       </Style>
 
       <Style Selector="^:disabled /template/ ContentPresenter#PART_ContentPresenter">
-        <Setter Property="Background" Value="{DynamicResource ToggleButtonBackgroundCheckedDisabled}" />
-        <Setter Property="BorderBrush" Value="{DynamicResource ToggleButtonBorderBrushCheckedDisabled}" />
-        <Setter Property="Foreground" Value="{DynamicResource ToggleButtonForegroundCheckedDisabled}" />
+        <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="Foreground" Value="{theme:OnSurfaceDimBrush}" />
       </Style>
     </Style>
   </ControlTheme>

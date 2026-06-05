@@ -1,9 +1,15 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:generic="using:System.Collections.Generic"
+                    xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
+                    xmlns:theme="using:AngelSix.ThemeEngine.Generated"
                     x:ClassModifier="internal">
   <Design.PreviewWith>
     <Border Padding="20">
+      <Border.Styles>
+        <prototype:PrototypeTheme />
+      </Border.Styles>
+
       <AutoCompleteBox Width="200">
         <AutoCompleteBox.ItemsSource>
           <generic:List x:TypeArguments="x:String">
@@ -23,14 +29,14 @@
 
     <ControlTheme x:Key="{x:Type AutoCompleteBox}" TargetType="AutoCompleteBox">
       <Setter Property="VerticalAlignment" Value="Top" />
-      <Setter Property="Foreground" Value="{DynamicResource TextControlForeground}" />
-      <Setter Property="Background" Value="{DynamicResource TextControlBackground}" />
-      <Setter Property="PlaceholderForeground" Value="{DynamicResource TextControlPlaceholderForeground}" />
-      <Setter Property="BorderBrush" Value="{DynamicResource TextControlBorderBrush}" />
-      <Setter Property="BorderThickness" Value="{DynamicResource TextControlBorderThemeThickness}" />
-      <Setter Property="CornerRadius" Value="{DynamicResource ControlCornerRadius}" />
-      <Setter Property="Padding" Value="{DynamicResource TextControlThemePadding}" />
-      <Setter Property="MaxDropDownHeight" Value="{DynamicResource AutoCompleteListMaxHeight}" />
+      <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
+      <Setter Property="Background" Value="{theme:SurfaceBrush}" />
+      <Setter Property="PlaceholderForeground" Value="{theme:OnSurfaceDimBrush}" />
+      <Setter Property="BorderBrush" Value="{theme:AccentBorderBrush}" />
+      <Setter Property="BorderThickness" Value="{theme:Thickness}" />
+      <Setter Property="CornerRadius" Value="{theme:RadiusSm}" />
+      <Setter Property="Padding" Value="{theme:Edges Left={theme:SpacingXxl}, Top={theme:SpacingLg}, Right={theme:SpacingLg}, Bottom={theme:SpacingMd}}" />
+      <Setter Property="MaxDropDownHeight" Value="374" />
       <Setter Property="Template">
         <ControlTemplate>
           <Grid Name="PART_LayoutRoot">
@@ -59,16 +65,16 @@
                    IsLightDismissEnabled="True"
                    PlacementTarget="{TemplateBinding}">
               <Border Name="PART_SuggestionsContainer"
-                      Padding="{DynamicResource AutoCompleteListMargin}"
-                      BorderThickness="{DynamicResource AutoCompleteListBorderThemeThickness}"
-                      BorderBrush="{DynamicResource AutoCompleteBoxSuggestionsListBorderBrush}"
-                      Background="{DynamicResource AutoCompleteBoxSuggestionsListBackground}"
-                      CornerRadius="{DynamicResource OverlayCornerRadius}">
+                      Padding="{theme:Edges Vertical={theme:SpacingSm}}"
+                      BorderThickness="{theme:Thickness}"
+                      BorderBrush="{theme:AccentBorderBrush}"
+                      Background="{theme:SurfaceBrush}"
+                      CornerRadius="{theme:RadiusMd}">
                 <ListBox Name="PART_SelectingItemsControl"
                          BorderThickness="0"
                          Background="Transparent"
                          ItemTemplate="{TemplateBinding ItemTemplate}"
-                         Margin="{DynamicResource AutoCompleteListPadding}"
+                         Margin="-1,0,-1,0"
                          ScrollViewer.IsScrollChainingEnabled="False" />
               </Border>
             </Popup>

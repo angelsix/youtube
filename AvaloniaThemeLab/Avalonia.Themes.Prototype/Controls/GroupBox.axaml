@@ -1,21 +1,29 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:converters="clr-namespace:Avalonia.Controls.Converters;assembly=Avalonia.Controls"
+                    xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
+                    xmlns:theme="using:AngelSix.ThemeEngine.Generated"
                     x:ClassModifier="internal">
   <Design.PreviewWith>
-    <GroupBox Padding="10" Margin="10">
-      <TextBlock Text="Hello World" />
-    </GroupBox>
+    <Border Padding="20">
+      <Border.Styles>
+        <prototype:PrototypeTheme />
+      </Border.Styles>
+
+      <GroupBox Padding="10" Margin="10">
+        <TextBlock Text="Hello World" />
+      </GroupBox>
+    </Border>
   </Design.PreviewWith>
   <converters:BorderGapMaskConverter x:Key="BorderGapMaskConverter" />
 
   <ControlTheme x:Key="{x:Type GroupBox}"
                 TargetType="GroupBox">
-    <Setter Property="BorderThickness" Value="{DynamicResource GroupBoxBorderThickness}" />
-    <Setter Property="Background" Value="{DynamicResource GroupBoxBackground}" />
-    <Setter Property="BorderBrush" Value="{DynamicResource GroupBoxBorderBrush}" />
-    <Setter Property="Padding" Value="{DynamicResource GroupBoxPadding}" />
-    <Setter Property="CornerRadius" Value="{DynamicResource ControlCornerRadius}" />
+    <Setter Property="BorderThickness" Value="{theme:Thickness}" />
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="BorderBrush" Value="{theme:AccentBorderBrush}" />
+    <Setter Property="Padding" Value="{theme:Edges All={theme:SpacingMd}}" />
+    <Setter Property="CornerRadius" Value="{theme:RadiusSm}" />
     <Setter Property="Template">
       <ControlTemplate>
         <Grid x:Name="RootGrid" UseLayoutRounding="true" ColumnDefinitions="6,Auto,*,6" RowDefinitions="Auto,Auto,*,6">
@@ -56,8 +64,8 @@
                   Grid.Column="1">
             <ContentPresenter Name="PART_HeaderPresenter"
                               Content="{TemplateBinding Header}"
-                              FontSize="{DynamicResource GroupBoxHeaderFontSize}"
-                              Foreground="{DynamicResource GroupBoxHeaderForeground}"
+                              FontSize="{theme:FontSizeLg}"
+                              Foreground="{theme:OnSurfaceBrush}"
                               ContentTemplate="{TemplateBinding HeaderTemplate}"
                               HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                               VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"

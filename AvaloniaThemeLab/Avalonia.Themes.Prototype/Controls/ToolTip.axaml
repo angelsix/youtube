@@ -1,9 +1,15 @@
 ﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:sys="using:System"
+                    xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
+                    xmlns:theme="using:AngelSix.ThemeEngine.Generated"
                     x:ClassModifier="internal">
   <Design.PreviewWith>
     <Border Padding="20">
+      <Border.Styles>
+        <prototype:PrototypeTheme />
+      </Border.Styles>
+
       <StackPanel Spacing="20">
         <ToolTip Opacity="1">Text Content</ToolTip>
         <ToolTip Opacity="1">Very long text content which should exceed the maximum with of the tooltip and wrap.</ToolTip>
@@ -20,14 +26,14 @@
   <sys:Double x:Key="ToolTipContentMaxWidth">320</sys:Double>
 
   <ControlTheme x:Key="{x:Type ToolTip}" TargetType="ToolTip">
-    <Setter Property="Foreground" Value="{DynamicResource ToolTipForeground}" />
-    <Setter Property="Background" Value="{DynamicResource ToolTipBackground}" />
-    <Setter Property="BorderBrush" Value="{DynamicResource ToolTipBorderBrush}" />
-    <Setter Property="BorderThickness" Value="{DynamicResource ToolTipBorderThemeThickness}" />
-    <Setter Property="FontSize" Value="{DynamicResource ToolTipContentThemeFontSize}" />
-    <Setter Property="Padding" Value="{DynamicResource ToolTipBorderThemePadding}" />
+    <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
+    <Setter Property="Background" Value="{theme:SurfaceBrush}" />
+    <Setter Property="BorderBrush" Value="{theme:AccentBorderBrush}" />
+    <Setter Property="BorderThickness" Value="{theme:Thickness}" />
+    <Setter Property="FontSize" Value="{theme:FontSizeSm}" />
+    <Setter Property="Padding" Value="{theme:Edges Horizontal={theme:SpacingXl}, Vertical={theme:SpacingLg}}" />
     <Setter Property="MaxWidth" Value="{DynamicResource ToolTipContentMaxWidth}" />
-    <Setter Property="CornerRadius" Value="{DynamicResource OverlayCornerRadius}" />
+    <Setter Property="CornerRadius" Value="{theme:RadiusMd}" />
     <Setter Property="Opacity" Value="0" />
     <Setter Property="Transitions">
       <Transitions>

@@ -1,8 +1,14 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
+                    xmlns:theme="using:AngelSix.ThemeEngine.Generated"
                     x:ClassModifier="internal">
   <Design.PreviewWith>
     <Border Padding="20">
+      <Border.Styles>
+        <prototype:PrototypeTheme />
+      </Border.Styles>
+
       <StackPanel Spacing="20">
         <CheckBox>Unchecked</CheckBox>
         <CheckBox IsChecked="True">Checked</CheckBox>
@@ -21,11 +27,11 @@
     <Setter Property="VerticalAlignment" Value="Center" />
     <Setter Property="HorizontalContentAlignment" Value="Left" />
     <Setter Property="VerticalContentAlignment" Value="Center" />
-    <Setter Property="CornerRadius" Value="{DynamicResource DefaultCornerRadius}" />
-    <Setter Property="Foreground" Value="{DynamicResource ThemeColor5Brush}" />
-    <Setter Property="Background" Value="{DynamicResource ThemeColor1Brush}" />
-    <Setter Property="BorderBrush" Value="{DynamicResource ThemeColor3Brush}" />
-    <Setter Property="BorderThickness" Value="{DynamicResource DefaultStrokeThickness}"></Setter>
+    <Setter Property="CornerRadius" Value="{theme:RadiusMd}" />
+    <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
+    <Setter Property="Background" Value="{theme:SurfaceBrush}" />
+    <Setter Property="BorderBrush" Value="{theme:SurfaceOverlayMediumBrush}" />
+    <Setter Property="BorderThickness" Value="{theme:Thickness}"></Setter>
     <Setter Property="Template">
       <ControlTemplate>
         <Grid x:Name="RootGrid" ColumnDefinitions="Auto,*">
@@ -49,14 +55,14 @@
                     UseLayoutRounding="False" />
 
             <!-- Checkbox Tick -->
-            <Border Padding="{StaticResource SmallPaddingThickness}">
+            <Border Padding="{theme:Edges All={theme:SpacingMd}}">
               
               <Panel>
                 <!-- Tick -->
-                <Viewbox UseLayoutRounding="False" Width="{StaticResource CheckboxSize}" Height="{Binding Width, RelativeSource={RelativeSource Self}}">
+                <Viewbox UseLayoutRounding="False" Width="15" Height="{Binding Width, RelativeSource={RelativeSource Self}}">
                     <Path x:Name="CheckGlyph"
                           Opacity="0"
-                          Fill="{DynamicResource ThemeColorAccent1}"
+                          Fill="{theme:AccentPrimaryBrush}"
                           Stretch="Uniform"
                           Data="{StaticResource CheckMarkPathData}"
                           />
@@ -65,8 +71,8 @@
                 <!-- Indeterminate rectangle -->
                 <Border x:Name="IndeterminateBox"
                         Opacity="0"
-                        CornerRadius="{StaticResource SmallCornerRadius}" 
-                        Background="{StaticResource ThemeColor1Brush}" />
+                        CornerRadius="{theme:RadiusSm}"
+                        Background="{theme:SurfaceBrush}" />
               </Panel>
 
             </Border>
@@ -93,8 +99,8 @@
     <!-- Checked State -->
     <Style Selector="^:checked">
       
-      <Setter Property="Background" Value="{StaticResource ThemeColor2Brush}" />
-      <Setter Property="BorderBrush" Value="{StaticResource ThemeColor4Brush}" />
+      <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}" />
+      <Setter Property="BorderBrush" Value="{theme:SurfaceOverlayStrongBrush}" />
 
       <Style Selector="^ /template/ Path#CheckGlyph">
         <Setter Property="Opacity" Value="1" />
@@ -112,18 +118,18 @@
     
     <!-- Unchecked PointerOver State -->
     <Style Selector="^:pointerover">
-      <Setter Property="BorderBrush" Value="{DynamicResource ThemeColor5Brush}" />
-      <Setter Property="Background" Value="{DynamicResource ThemeColor1Brush}" />
+      <Setter Property="BorderBrush" Value="{theme:OnSurfaceBrush}" />
+      <Setter Property="Background" Value="{theme:SurfaceBrush}" />
     </Style>
     
     <!-- Indeterminate hover override -->
     <Style Selector="^:indeterminate">
-      <Setter Property="Background" Value="{StaticResource ThemeColor2Brush}" />
+      <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}" />
     </Style>
     
     <!-- Pressed State -->
     <Style Selector="^:pressed">
-      <Setter Property="Background" Value="{DynamicResource ThemeColor3Brush}" />
+      <Setter Property="Background" Value="{theme:SurfaceOverlayMediumBrush}" />
     </Style>
 
   </ControlTheme>

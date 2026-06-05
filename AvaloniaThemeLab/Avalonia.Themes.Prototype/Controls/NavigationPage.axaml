@@ -1,7 +1,12 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
+                    xmlns:theme="using:AngelSix.ThemeEngine.Generated">
   <Design.PreviewWith>
     <Border Width="400" Height="600">
+      <Border.Styles>
+        <prototype:PrototypeTheme />
+      </Border.Styles>
       <NavigationPage />
     </Border>
   </Design.PreviewWith>
@@ -10,8 +15,8 @@
 
   <StreamGeometry x:Key="NavigationPageBackIcon">M12.7347,4.20949 C13.0332,3.92233 13.508,3.93153 13.7952,4.23005 C14.0823,4.52857 14.0731,5.00335 13.7746,5.29051 L5.50039,13.25 L24.2532,13.25 C24.6674,13.25 25.0032,13.5858 25.0032,13.9999982 C25.0032,14.4142 24.6674,14.75 24.2532,14.75 L5.50137,14.75 L13.7746,22.7085 C14.0731,22.9957 14.0823,23.4705 13.7952,23.769 C13.508,24.0675 13.0332,24.0767 12.7347,23.7896 L3.30673,14.7202 C2.89776,14.3268 2.89776,13.6723 3.30673,13.2788 L12.7347,4.20949 Z</StreamGeometry>
 
-  <SolidColorBrush x:Key="NavigationBarBackground" Color="{DynamicResource SystemChromeMediumColor}" />
-  <SolidColorBrush x:Key="NavigationBarForeground" Color="{DynamicResource SystemBaseMediumColor}" />
+  <SolidColorBrush x:Key="NavigationBarBackground" Color="{theme:Surface}" />
+  <SolidColorBrush x:Key="NavigationBarForeground" Color="{theme:OnSurfaceDim}" />
 
   <ControlTheme x:Key="{x:Type NavigationPage}" TargetType="NavigationPage">
     <!-- Transparent keeps the hit-test surface active for the back-swipe gesture edge area. -->
@@ -83,16 +88,16 @@
                   <Setter Property="CornerRadius" Value="4" />
                 </Style>
                 <Style Selector="Button#PART_BackButton:pointerover /template/ ContentPresenter#PART_ContentPresenter">
-                  <Setter Property="Background" Value="{DynamicResource SubtleFillColorSecondaryBrush}" />
+                  <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}" />
                 </Style>
                 <Style Selector="Button#PART_BackButton:pressed /template/ ContentPresenter#PART_ContentPresenter">
-                  <Setter Property="Background" Value="{DynamicResource SubtleFillColorTertiaryBrush}" />
+                  <Setter Property="Background" Value="{theme:SurfaceOverlayMediumBrush}" />
                 </Style>
                 <Style Selector="Button#PART_BackButton:disabled">
                   <Setter Property="Opacity" Value="0.4" />
                 </Style>
                 <Style Selector="Button#PART_BackButton:focus-visible /template/ ContentPresenter#PART_ContentPresenter">
-                  <Setter Property="BorderBrush" Value="{DynamicResource SystemControlForegroundBaseHighBrush}" />
+                  <Setter Property="BorderBrush" Value="{theme:OnSurfaceBrush}" />
                   <Setter Property="BorderThickness" Value="2" />
                   <Setter Property="CornerRadius" Value="4" />
                 </Style>
@@ -104,10 +109,10 @@
                   <Setter Property="CornerRadius" Value="0" />
                 </Style>
                 <Style Selector="Button#PART_OverflowButton:pointerover /template/ ContentPresenter#PART_ContentPresenter">
-                  <Setter Property="Background" Value="{DynamicResource SubtleFillColorSecondaryBrush}" />
+                  <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}" />
                 </Style>
                 <Style Selector="Button#PART_OverflowButton:pressed /template/ ContentPresenter#PART_ContentPresenter">
-                  <Setter Property="Background" Value="{DynamicResource SubtleFillColorTertiaryBrush}" />
+                  <Setter Property="Background" Value="{theme:SurfaceOverlayMediumBrush}" />
                 </Style>
               </Grid.Styles>
 

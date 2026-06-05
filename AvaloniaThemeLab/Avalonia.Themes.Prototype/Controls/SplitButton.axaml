@@ -1,9 +1,14 @@
 ﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:converters="using:Avalonia.Controls.Converters"
+        xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
+        xmlns:theme="using:AngelSix.ThemeEngine.Generated"
         x:ClassModifier="internal">
   <Design.PreviewWith>
     <Border Padding="60">
+      <Border.Styles>
+        <prototype:PrototypeTheme />
+      </Border.Styles>
       <StackPanel Spacing="20">
         <SplitButton Content="SplitButton">
           <SplitButton.Flyout>
@@ -40,6 +45,9 @@
   <converters:MarginMultiplierConverter x:Key="SecondaryButtonBorderMultiplier" Right="True" Top="True" Bottom="True" Indent="1" />
   <converters:MarginMultiplierConverter x:Key="SeparatorBorderMultiplier" Top="True" Bottom="True" Indent="1" />
 
+  <converters:CornerRadiusFilterConverter x:Key="SplitButtonRightCornerRadiusFilterConverter" Filter="TopRight, BottomRight" />
+  <converters:CornerRadiusFilterConverter x:Key="SplitButtonLeftCornerRadiusFilterConverter" Filter="TopLeft, BottomLeft" />
+
   <ControlTheme x:Key="PrototypeSplitButtonComponent" TargetType="Button">
     <Setter Property="Template">
       <ControlTemplate>
@@ -61,67 +69,67 @@
     </Style>
 
     <Style Selector="^:pointerover /template/ ContentPresenter">
-      <Setter Property="Background" Value="{DynamicResource SplitButtonBackgroundPointerOver}" />
-      <Setter Property="BorderBrush" Value="{DynamicResource SplitButtonBorderBrushPointerOver}" />
-      <Setter Property="Foreground" Value="{DynamicResource SplitButtonForegroundPointerOver}" />
+      <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}" />
+      <Setter Property="BorderBrush" Value="Transparent" />
+      <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
     </Style>
 
     <Style Selector="^:pressed /template/ ContentPresenter">
-      <Setter Property="Background" Value="{DynamicResource SplitButtonBackgroundPressed}" />
-      <Setter Property="BorderBrush" Value="{DynamicResource SplitButtonBorderBrushPressed}" />
-      <Setter Property="Foreground" Value="{DynamicResource SplitButtonForegroundPressed}" />
+      <Setter Property="Background" Value="{theme:SurfaceOverlayMediumBrush}" />
+      <Setter Property="BorderBrush" Value="Transparent" />
+      <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
     </Style>
 
     <Style Selector="^:disabled /template/ ContentPresenter">
-      <Setter Property="Background" Value="{DynamicResource SplitButtonBackgroundDisabled}" />
-      <Setter Property="BorderBrush" Value="{DynamicResource SplitButtonBorderBrushDisabled}" />
-      <Setter Property="Foreground" Value="{DynamicResource SplitButtonForegroundDisabled}" />
+      <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}" />
+      <Setter Property="BorderBrush" Value="Transparent" />
+      <Setter Property="Foreground" Value="{theme:OnSurfaceDimBrush}" />
     </Style>
 
     <Style Selector="^[Tag=flyout-open] /template/ ContentPresenter">
-      <Setter Property="Background" Value="{DynamicResource SplitButtonBackgroundPressed}" />
-      <Setter Property="BorderBrush" Value="{DynamicResource SplitButtonBorderBrushPressed}" />
-      <Setter Property="Foreground" Value="{DynamicResource SplitButtonForegroundPressed}" />
+      <Setter Property="Background" Value="{theme:SurfaceOverlayMediumBrush}" />
+      <Setter Property="BorderBrush" Value="Transparent" />
+      <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
     </Style>
 
     <Style Selector="^[Tag=checked]">
       <Style Selector="^ /template/ ContentPresenter">
-        <Setter Property="Background" Value="{DynamicResource SplitButtonBackgroundChecked}" />
-        <Setter Property="BorderBrush" Value="{DynamicResource SplitButtonBorderBrushChecked}" />
-        <Setter Property="Foreground" Value="{DynamicResource SplitButtonForegroundChecked}" />
+        <Setter Property="Background" Value="{theme:AccentPrimaryBrush}" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="Foreground" Value="{theme:SurfaceBrush}" />
       </Style>
 
       <Style Selector="^:pointerover /template/ ContentPresenter">
-        <Setter Property="Background" Value="{DynamicResource SplitButtonBackgroundCheckedPointerOver}" />
-        <Setter Property="BorderBrush" Value="{DynamicResource SplitButtonBorderBrushCheckedPointerOver}" />
-        <Setter Property="Foreground" Value="{DynamicResource SplitButtonForegroundCheckedPointerOver}" />
+        <Setter Property="Background" Value="{theme:AccentPrimaryLight1Brush}" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="Foreground" Value="{theme:SurfaceBrush}" />
       </Style>
 
       <Style Selector="^:pressed /template/ ContentPresenter">
-        <Setter Property="Background" Value="{DynamicResource SplitButtonBackgroundCheckedPressed}" />
-        <Setter Property="BorderBrush" Value="{DynamicResource SplitButtonBorderBrushCheckedPressed}" />
-        <Setter Property="Foreground" Value="{DynamicResource SplitButtonForegroundCheckedPressed}" />
+        <Setter Property="Background" Value="{theme:AccentPrimaryDark1Brush}" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="Foreground" Value="{theme:SurfaceBrush}" />
       </Style>
 
       <Style Selector="^:disabled /template/ ContentPresenter">
-        <Setter Property="Background" Value="{DynamicResource SplitButtonBackgroundCheckedDisabled}" />
-        <Setter Property="BorderBrush" Value="{DynamicResource SplitButtonBorderBrushCheckedDisabled}" />
-        <Setter Property="TextElement.Foreground" Value="{DynamicResource SplitButtonForegroundCheckedDisabled}" />
+        <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="TextElement.Foreground" Value="{theme:OnSurfaceDimBrush}" />
       </Style>
     </Style>
 
     <Style Selector="^[Tag=checked-flyout-open] /template/ ContentPresenter">
-      <Setter Property="Background" Value="{DynamicResource SplitButtonBackgroundCheckedPressed}" />
-      <Setter Property="BorderBrush" Value="{DynamicResource SplitButtonBorderBrushCheckedPressed}" />
-      <Setter Property="Foreground" Value="{DynamicResource SplitButtonForegroundCheckedPressed}" />
+      <Setter Property="Background" Value="{theme:AccentPrimaryDark1Brush}" />
+      <Setter Property="BorderBrush" Value="Transparent" />
+      <Setter Property="Foreground" Value="{theme:SurfaceBrush}" />
     </Style>
   </ControlTheme>
 
   <ControlTheme x:Key="{x:Type SplitButton}" TargetType="SplitButton">
-    <Setter Property="Background" Value="{DynamicResource SplitButtonBackground}" />
-    <Setter Property="Foreground" Value="{DynamicResource SplitButtonForeground}" />
-    <Setter Property="BorderBrush" Value="{DynamicResource SplitButtonBorderBrush}" />
-    <Setter Property="BorderThickness" Value="{DynamicResource SplitButtonBorderThemeThickness}" />
+    <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}" />
+    <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
+    <Setter Property="BorderBrush" Value="Transparent" />
+    <Setter Property="BorderThickness" Value="{theme:Thickness}" />
     <Setter Property="MinHeight" Value="{DynamicResource SplitButtonMinHeight}" />
     <Setter Property="HorizontalAlignment" Value="Left" />
     <Setter Property="VerticalAlignment" Value="Center" />
@@ -129,8 +137,8 @@
     <Setter Property="VerticalContentAlignment" Value="Center" />
     <Setter Property="KeyboardNavigation.IsTabStop" Value="True" />
     <Setter Property="Focusable" Value="True" />
-    <Setter Property="Padding" Value="{DynamicResource ButtonPadding}" />
-    <Setter Property="CornerRadius" Value="{DynamicResource ControlCornerRadius}" />
+    <Setter Property="Padding" Value="{theme:Edges Horizontal={theme:SpacingXl}, Vertical={theme:SpacingLg}}" />
+    <Setter Property="CornerRadius" Value="{theme:RadiusSm}" />
     <Setter Property="Template">
       <ControlTemplate>
         <Grid>
@@ -152,7 +160,7 @@
                   ContentTemplate="{TemplateBinding ContentTemplate}"
                   Command="{TemplateBinding Command}"
                   CommandParameter="{TemplateBinding CommandParameter}"
-                  CornerRadius="{TemplateBinding CornerRadius, Converter={StaticResource LeftCornerRadiusFilterConverter}}"
+                  CornerRadius="{TemplateBinding CornerRadius, Converter={StaticResource SplitButtonLeftCornerRadiusFilterConverter}}"
                   HorizontalAlignment="Stretch"
                   VerticalAlignment="Stretch"
                   HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
@@ -176,7 +184,7 @@
                   Foreground="{TemplateBinding Foreground}"
                   Background="{TemplateBinding Background}"
                   BorderThickness="{TemplateBinding BorderThickness, Converter={StaticResource SecondaryButtonBorderMultiplier}}"
-                  CornerRadius="{TemplateBinding CornerRadius, Converter={StaticResource RightCornerRadiusFilterConverter}}"
+                  CornerRadius="{TemplateBinding CornerRadius, Converter={StaticResource SplitButtonRightCornerRadiusFilterConverter}}"
                   Padding="0"
                   HorizontalContentAlignment="Center"
                   VerticalContentAlignment="Center"

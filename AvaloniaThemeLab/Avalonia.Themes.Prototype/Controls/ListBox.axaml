@@ -1,8 +1,14 @@
 ﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
+                    xmlns:theme="using:AngelSix.ThemeEngine.Generated"
                     x:ClassModifier="internal">
   <Design.PreviewWith>
     <Border Padding="20">
+      <Border.Styles>
+        <prototype:PrototypeTheme />
+      </Border.Styles>
+
       <ListBox>
         <ListBoxItem>Test</ListBoxItem>
         <ListBoxItem>Test</ListBoxItem>
@@ -13,10 +19,10 @@
   </Design.PreviewWith>
 
   <ControlTheme x:Key="{x:Type ListBox}" TargetType="ListBox">
-    <Setter Property="Foreground" Value="{DynamicResource SystemControlForegroundBaseHighBrush}" />
-    <Setter Property="Background" Value="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}" />
-    <Setter Property="BorderBrush" Value="{DynamicResource SystemControlForegroundBaseHighBrush}" />
-    <Setter Property="BorderThickness" Value="{DynamicResource ListBoxBorderThemeThickness}" />
+    <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
+    <Setter Property="Background" Value="{theme:SurfaceBrush}" />
+    <Setter Property="BorderBrush" Value="{theme:OnSurfaceBrush}" />
+    <Setter Property="BorderThickness" Value="0" />
     <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
     <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
     <Setter Property="ScrollViewer.IsScrollChainingEnabled" Value="True" />

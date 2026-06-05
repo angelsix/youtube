@@ -1,8 +1,13 @@
 ﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
+                    xmlns:theme="using:AngelSix.ThemeEngine.Generated"
                     x:ClassModifier="internal">
     <Design.PreviewWith>
       <Border Padding="20">
+        <Border.Styles>
+          <prototype:PrototypeTheme />
+        </Border.Styles>
         <StackPanel Spacing="20">
           <DropDownButton Content="Click Me!" />
           <DropDownButton Content="Disabled" IsEnabled="False" />
@@ -13,17 +18,17 @@
     <x:Double x:Key="DropDownButtonMinHeight">32</x:Double>
     
     <ControlTheme x:Key="{x:Type DropDownButton}" TargetType="DropDownButton">
-      <Setter Property="Background" Value="{DynamicResource ButtonBackground}" />
-      <Setter Property="Foreground" Value="{DynamicResource ButtonForeground}" />
-      <Setter Property="BorderBrush" Value="{DynamicResource ButtonBorderBrush}" />
-      <Setter Property="BorderThickness" Value="{DynamicResource ButtonBorderThemeThickness}" />
-      <Setter Property="Padding" Value="{DynamicResource ButtonPadding}" />
+      <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}" />
+      <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
+      <Setter Property="BorderBrush" Value="Transparent" />
+      <Setter Property="BorderThickness" Value="{theme:Thickness}" />
+      <Setter Property="Padding" Value="{theme:Edges Horizontal={theme:SpacingXl}, Vertical={theme:SpacingLg}}" />
       <Setter Property="MinHeight" Value="{DynamicResource DropDownButtonMinHeight}" />
       <Setter Property="HorizontalAlignment" Value="Left" />
       <Setter Property="VerticalAlignment" Value="Center" />
       <Setter Property="HorizontalContentAlignment" Value="Stretch" />
       <Setter Property="VerticalContentAlignment" Value="Center" />
-      <Setter Property="CornerRadius" Value="{DynamicResource ControlCornerRadius}" />
+      <Setter Property="CornerRadius" Value="{theme:RadiusSm}" />
       <Setter Property="Template">
         <Setter.Value>
           <ControlTemplate>
@@ -57,7 +62,7 @@
                           Data="M1939 486L2029 576L1024 1581L19 576L109 486L1024 1401L1939 486Z"
                           HorizontalAlignment="Right"
                           VerticalAlignment="Center"
-                          Foreground="{DynamicResource ComboBoxDropDownGlyphForeground}"/>
+                          Foreground="{theme:OnSurfaceDimBrush}"/>
               </Grid>
             </Border>
           </ControlTemplate>
@@ -70,12 +75,12 @@
 
       <!--  PointerOver State  -->
       <Style Selector="^:pointerover /template/ Border#RootBorder">
-        <Setter Property="Background" Value="{DynamicResource ButtonBackgroundPointerOver}" />
-        <Setter Property="BorderBrush" Value="{DynamicResource ButtonBorderBrushPointerOver}" />
-        <Setter Property="TextElement.Foreground" Value="{DynamicResource ButtonForegroundPointerOver}" />
+        <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="TextElement.Foreground" Value="{theme:OnSurfaceBrush}" />
       </Style>
       <Style Selector="^:pointerover /template/ PathIcon#DropDownGlyph">
-        <Setter Property="Foreground" Value="{DynamicResource ButtonForegroundPointerOver}" />
+        <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
       </Style>
 
       <!--  Pressed State  -->
@@ -84,22 +89,22 @@
       </Style>
 
       <Style Selector="^:pressed /template/ Border#RootBorder">
-        <Setter Property="Background" Value="{DynamicResource ButtonBackgroundPressed}" />
-        <Setter Property="BorderBrush" Value="{DynamicResource ButtonBorderBrushPressed}" />
-        <Setter Property="TextElement.Foreground" Value="{DynamicResource ButtonForegroundPressed}" />
+        <Setter Property="Background" Value="{theme:SurfaceOverlayMediumBrush}" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="TextElement.Foreground" Value="{theme:OnSurfaceBrush}" />
       </Style>
       <Style Selector="^:pressed /template/ PathIcon#DropDownGlyph">
-        <Setter Property="Foreground" Value="{DynamicResource ButtonForegroundPressed}" />
+        <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
       </Style>
 
       <!--  Disabled State  -->
       <Style Selector="^:disabled /template/ Border#RootBorder">
-        <Setter Property="Background" Value="{DynamicResource ButtonBackgroundDisabled}" />
-        <Setter Property="BorderBrush" Value="{DynamicResource ButtonBorderBrushDisabled}" />
-        <Setter Property="TextElement.Foreground" Value="{DynamicResource ButtonForegroundDisabled}" />
+        <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="TextElement.Foreground" Value="{theme:OnSurfaceDimBrush}" />
       </Style>
       <Style Selector="^:disabled /template/ PathIcon#DropDownGlyph">
-        <Setter Property="Foreground" Value="{DynamicResource ButtonForegroundDisabled}" />
+        <Setter Property="Foreground" Value="{theme:OnSurfaceDimBrush}" />
       </Style>
     </ControlTheme>
   

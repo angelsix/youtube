@@ -1,9 +1,15 @@
 ﻿<ResourceDictionary
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
+    xmlns:theme="using:AngelSix.ThemeEngine.Generated"
     x:ClassModifier="internal">
   <Design.PreviewWith>
     <Border Padding="20">
+      <Border.Styles>
+        <prototype:PrototypeTheme />
+      </Border.Styles>
+
       <StackPanel Spacing="20">
         <TabItem Header="Leaf" />
         <TabItem Header="Arch" IsSelected="True" />
@@ -17,11 +23,11 @@
   <x:Double x:Key="TabItemPipeThickness">2</x:Double>
 
   <ControlTheme x:Key="{x:Type TabItem}" TargetType="TabItem">
-    <Setter Property="FontSize" Value="{DynamicResource TabItemHeaderFontSize}" />
-    <Setter Property="FontWeight" Value="{DynamicResource TabItemHeaderThemeFontWeight}" />
-    <Setter Property="Background" Value="{DynamicResource TabItemHeaderBackgroundUnselected}" />
-    <Setter Property="Foreground" Value="{DynamicResource TabItemHeaderForegroundUnselected}" />
-    <Setter Property="Padding" Value="{DynamicResource TabItemHeaderMargin}" />
+    <Setter Property="FontSize" Value="{theme:FontSizeXxl}" />
+    <Setter Property="FontWeight" Value="SemiLight" />
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="Foreground" Value="{theme:OnSurfaceDimBrush}" />
+    <Setter Property="Padding" Value="{theme:Edges Horizontal={theme:SpacingXxl}}" />
     <Setter Property="Margin" Value="0" />
     <Setter Property="MinHeight" Value="{DynamicResource TabItemMinHeight}" />
     <Setter Property="VerticalContentAlignment" Value="Center" />
@@ -43,8 +49,8 @@
                 ContentTemplate="{TemplateBinding HeaderTemplate}"
                 />
             <Border Name="PART_SelectedPipe"
-                    Background="{DynamicResource TabItemHeaderSelectedPipeFill}"
-                    CornerRadius="{DynamicResource ControlCornerRadius}"
+                    Background="{theme:AccentPrimaryBrush}"
+                    CornerRadius="{theme:RadiusSm}"
                     IsVisible="False"/>
           </Panel>
         </Border>
@@ -58,8 +64,8 @@
     <!--  Selected state  -->
     <!--  We don't use selector to PART_LayoutRoot, so developer can override selected item background with TabStripItem.Background  -->
     <Style Selector="^:selected">
-      <Setter Property="Background" Value="{DynamicResource TabItemHeaderBackgroundSelected}" />
-      <Setter Property="Foreground" Value="{DynamicResource TabItemHeaderForegroundSelected}" />
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
     </Style>
     <Style Selector="^:selected /template/ Border#PART_SelectedPipe">
       <Setter Property="IsVisible" Value="True" />
@@ -67,32 +73,32 @@
 
     <!--  PointerOver state  -->
     <Style Selector="^:pointerover /template/ Border#PART_LayoutRoot">
-      <Setter Property="Background" Value="{DynamicResource TabItemHeaderBackgroundUnselectedPointerOver}" />
-      <Setter Property="TextElement.Foreground" Value="{DynamicResource TabItemHeaderForegroundUnselectedPointerOver}" />
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="TextElement.Foreground" Value="{theme:OnSurfaceDimBrush}" />
     </Style>
 
     <!--  Selected PointerOver state  -->
     <Style Selector="^:selected:pointerover /template/ Border#PART_LayoutRoot">
-      <Setter Property="Background" Value="{DynamicResource TabItemHeaderBackgroundSelectedPointerOver}" />
-      <Setter Property="TextElement.Foreground" Value="{DynamicResource TabItemHeaderForegroundSelectedPointerOver}" />
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="TextElement.Foreground" Value="{theme:OnSurfaceDimBrush}" />
     </Style>
 
     <!--  Pressed state  -->
     <Style Selector="^:pressed /template/ Border#PART_LayoutRoot">
-      <Setter Property="Background" Value="{DynamicResource TabItemHeaderBackgroundUnselectedPressed}" />
-      <Setter Property="TextElement.Foreground" Value="{DynamicResource TabItemHeaderForegroundUnselectedPressed}" />
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="TextElement.Foreground" Value="{theme:OnSurfaceDimBrush}" />
     </Style>
 
     <!--  Selected Pressed state  -->
     <Style Selector="^:selected:pressed /template/ Border#PART_LayoutRoot">
-      <Setter Property="Background" Value="{DynamicResource TabItemHeaderBackgroundSelectedPressed}" />
-      <Setter Property="TextElement.Foreground" Value="{DynamicResource TabItemHeaderForegroundSelectedPressed}" />
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="TextElement.Foreground" Value="{theme:OnSurfaceDimBrush}" />
     </Style>
 
     <!--  Disabled state  -->
     <Style Selector="^:disabled /template/ Border#PART_LayoutRoot">
-      <Setter Property="Background" Value="{DynamicResource TabItemHeaderBackgroundDisabled}" />
-      <Setter Property="TextElement.Foreground" Value="{DynamicResource TabItemHeaderForegroundDisabled}" />
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="TextElement.Foreground" Value="{theme:OnSurfaceDimBrush}" />
     </Style>
 
     <!--  TabStripPlacement States Group  -->

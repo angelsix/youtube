@@ -1,12 +1,14 @@
 ﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
+                    xmlns:theme="using:AngelSix.ThemeEngine.Generated"
                     x:ClassModifier="internal">
   <ControlTheme x:Key="{x:Type Separator}" TargetType="Separator">
-    <Setter Property="Background" Value="{DynamicResource SystemControlForegroundBaseMediumLowBrush}" />
+    <Setter Property="Background" Value="{theme:AccentBorderBrush}" />
     <Setter Property="Focusable" Value="False" />
-    <Setter Property="Height" Value="{DynamicResource MenuFlyoutSeparatorThemeHeight}" />
+    <Setter Property="Height" Value="1" />
     <Setter Property="HorizontalAlignment" Value="Stretch" />
-    <Setter Property="Margin" Value="{DynamicResource MenuFlyoutSeparatorThemePadding}" />
+    <Setter Property="Margin" Value="{theme:Edges Horizontal={theme:SpacingXxl}, Vertical={theme:SpacingMd}}" />
     <Setter Property="Template">
       <ControlTemplate>
         <Border Padding="{TemplateBinding Margin}"

@@ -1,9 +1,14 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:sys="using:System"
+                    xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
+                    xmlns:theme="using:AngelSix.ThemeEngine.Generated"
                     x:ClassModifier="internal">
   <Design.PreviewWith>
     <Border Margin="20, 20, 20, 200">
+      <Border.Styles>
+        <prototype:PrototypeTheme />
+      </Border.Styles>
       <CalendarDatePicker Width="200" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" />
     </Border>
   </Design.PreviewWith>
@@ -12,7 +17,7 @@
   <x:Double x:Key="CalendarDatePickerMinHeight">32</x:Double>
 
   <ControlTheme x:Key="PrototypeCalendarDatePickerButton" TargetType="Button">
-    <Setter Property="TextElement.Foreground" Value="{DynamicResource CalendarDatePickerCalendarGlyphForeground}" />
+    <Setter Property="TextElement.Foreground" Value="{theme:OnSurfaceDimBrush}" />
     <Setter Property="Margin" Value="2,0,4,0" />
     <Setter Property="Width" Value="20" />
     <Setter Property="Template">
@@ -61,12 +66,12 @@
   </ControlTheme>
 
   <ControlTheme x:Key="{x:Type CalendarDatePicker}" TargetType="CalendarDatePicker">
-    <Setter Property="Background" Value="{DynamicResource CalendarDatePickerBackground}" />
-    <Setter Property="Foreground" Value="{DynamicResource CalendarDatePickerForeground}" />
-    <Setter Property="PlaceholderForeground" Value="{DynamicResource TextControlPlaceholderForeground}" />
-    <Setter Property="BorderBrush" Value="{DynamicResource CalendarDatePickerBorderBrush}" />
-    <Setter Property="BorderThickness" Value="{DynamicResource CalendarDatePickerBorderThemeThickness}" />
-    <Setter Property="CornerRadius" Value="{DynamicResource ControlCornerRadius}" />
+    <Setter Property="Background" Value="{theme:SurfaceBrush}" />
+    <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
+    <Setter Property="PlaceholderForeground" Value="{theme:OnSurfaceDimBrush}" />
+    <Setter Property="BorderBrush" Value="{theme:AccentBorderBrush}" />
+    <Setter Property="BorderThickness" Value="{theme:Thickness}" />
+    <Setter Property="CornerRadius" Value="{theme:RadiusSm}" />
     <Setter Property="MinHeight" Value="{DynamicResource CalendarDatePickerMinHeight}" />
     <Setter Property="HorizontalAlignment" Value="Left" />
     <Setter Property="VerticalAlignment" Value="Center" />
@@ -115,7 +120,7 @@
                       <Setter Property="BorderBrush" Value="Transparent" />
                     </Style>
                     <Style Selector="^ /template/ TextBlock#PART_Placeholder, ^ TextBlock#PART_FloatingPlaceholder">
-                      <Setter Property="TextElement.Foreground" Value="{DynamicResource CalendarDatePickerTextForegroundDisabled}" />
+                      <Setter Property="TextElement.Foreground" Value="{theme:OnSurfaceDimBrush}" />
                     </Style>
                   </Style>
                 </TextBox.Styles>
@@ -143,38 +148,38 @@
 
     <!-- Pressed State -->
     <Style Selector="^:pressed /template/ Border#Background">
-      <Setter Property="Background" Value="{DynamicResource CalendarDatePickerBackgroundPressed}" />
-      <Setter Property="BorderBrush" Value="{DynamicResource CalendarDatePickerBorderBrushPressed}" />
+      <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}" />
+      <Setter Property="BorderBrush" Value="{theme:AccentBorderBrush}" />
     </Style>
 
     <!-- Pointer-over State -->
     <Style Selector="^:pointerover /template/ Border#Background">
-      <Setter Property="Background" Value="{DynamicResource CalendarDatePickerBackgroundPointerOver}" />
-      <Setter Property="BorderBrush" Value="{DynamicResource CalendarDatePickerBorderBrushPointerOver}" />
+      <Setter Property="Background" Value="{theme:SurfaceBrush}" />
+      <Setter Property="BorderBrush" Value="{theme:AccentBorderBrush}" />
     </Style>
 
     <!-- Disabled State -->
     <Style Selector="^:disabled">
       <Style Selector="^ /template/ Border#Background">
-        <Setter Property="Background" Value="{DynamicResource CalendarDatePickerBackgroundDisabled}" />
-        <Setter Property="BorderBrush" Value="{DynamicResource CalendarDatePickerBorderBrushDisabled}" />
+        <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}" />
+        <Setter Property="BorderBrush" Value="{theme:SurfaceOverlayWeakBrush}" />
       </Style>
 
       <Style Selector="^ /template/ Button#PART_Button">
-        <Setter Property="TextElement.Foreground" Value="{DynamicResource CalendarDatePickerCalendarGlyphForegroundDisabled}" />
+        <Setter Property="TextElement.Foreground" Value="{theme:OnSurfaceDimBrush}" />
       </Style>
     </Style>
 
     <!-- Focused State -->
     <Style Selector="^:focus-within:not(CalendarDatePicker:focus) /template/ Border#Background">
-      <Setter Property="Background" Value="{DynamicResource TextControlBackgroundFocused}" />
-      <Setter Property="BorderBrush" Value="{DynamicResource TextControlBorderBrushFocused}" />
-      <Setter Property="BorderThickness" Value="{DynamicResource TextControlBorderThemeThicknessFocused}" />
+      <Setter Property="Background" Value="{theme:SurfaceBrush}" />
+      <Setter Property="BorderBrush" Value="{theme:AccentPrimaryBrush}" />
+      <Setter Property="BorderThickness" Value="2" />
     </Style>
 
     <!-- Error State -->
     <Style Selector="^:error /template/ Border#Background">
-      <Setter Property="BorderBrush" Value="{DynamicResource SystemControlErrorTextForegroundBrush}" />
+      <Setter Property="BorderBrush" Value="{theme:AccentErrorBrush}" />
     </Style>
   </ControlTheme>
 </ResourceDictionary>

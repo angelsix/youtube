@@ -3,9 +3,14 @@
         xmlns:dialogs="using:Avalonia.Dialogs"
         xmlns:internal="using:Avalonia.Dialogs.Internal"
         xmlns:converters="clr-namespace:Avalonia.Controls.Converters;assembly=Avalonia.Controls"
+        xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
+        xmlns:theme="using:AngelSix.ThemeEngine.Generated"
         x:ClassModifier="internal">
   <Design.PreviewWith>
     <Border Padding="20" Width="800" Height="500">
+      <Border.Styles>
+        <prototype:PrototypeTheme />
+      </Border.Styles>
       <dialogs:ManagedFileChooser/>
     </Border>
   </Design.PreviewWith>
@@ -134,7 +139,7 @@
         </internal:ResourceSelectorConverter>
       </ResourceDictionary>
     </ControlTheme.Resources>
-    <Setter Property="Background" Value="{DynamicResource SystemRegionBrush}"/>
+    <Setter Property="Background" Value="{theme:SurfaceBrush}"/>
     <Setter Property="Template"
             x:DataType="internal:ManagedFileChooserViewModel">
       <ControlTemplate>
@@ -160,7 +165,7 @@
               </ListBox.ItemTemplate>
             </ListBox>
             <DockPanel x:Name="NavBar" DockPanel.Dock="Top" Margin="8,5,8,0" VerticalAlignment="Center">
-              <Rectangle Fill="{DynamicResource SystemControlHighlightAltBaseMediumLowBrush}" Height="1" Margin="0,5,0,0" DockPanel.Dock="Bottom"/>
+              <Rectangle Fill="{theme:AccentBorderBrush}" Height="1" Margin="0,5,0,0" DockPanel.Dock="Bottom"/>
               <DockPanel Margin="4,0">
                 <Button Command="{Binding GoUp}" DockPanel.Dock="Left" Margin="0,0,8,0">
                   <Path Data="M 0 7 L 7 0 L 14 7 M 7 0 L 7 16" Stroke="{CompiledBinding $parent[Button].Foreground}" StrokeThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,1,0,-1"/>
@@ -177,19 +182,19 @@
               </DockPanel>
             </DockPanel>
             <DockPanel Margin="8,0,8,5" DockPanel.Dock="Bottom">
-              <Rectangle Fill="{DynamicResource SystemControlHighlightAltBaseMediumLowBrush}" Height="1" Margin="0,0,0,5" DockPanel.Dock="Top"/>
+              <Rectangle Fill="{theme:AccentBorderBrush}" Height="1" Margin="0,0,0,5" DockPanel.Dock="Top"/>
               <DockPanel Margin="4,0">
                 <DockPanel DockPanel.Dock="Top" Margin="0,0,0,4">
                   <ComboBox DockPanel.Dock="Right"
                       IsVisible="{Binding ShowFilters}"
                       ItemsSource="{Binding Filters}"
                       SelectedItem="{Binding SelectedFilter}" />
-                  <TextBox Text="{Binding FileName}" PlaceholderText="{DynamicResource StringManagedFileChooserFileNamePlaceholder}" IsVisible="{Binding !SelectingFolder}" />
+                  <TextBox Text="{Binding FileName}" PlaceholderText="File name" IsVisible="{Binding !SelectingFolder}" />
                 </DockPanel>
-                <CheckBox IsChecked="{Binding ShowHiddenFiles}" Content="{DynamicResource StringManagedFileChooserShowHiddenFilesText}" DockPanel.Dock="Left"/>
+                <CheckBox IsChecked="{Binding ShowHiddenFiles}" Content="Show hidden files" DockPanel.Dock="Left"/>
                 <UniformGrid x:Name="Finalize" HorizontalAlignment="Right" Rows="1">
-                  <Button Command="{Binding Ok}" MinWidth="80" Content="{DynamicResource StringManagedFileChooserOkText}" />
-                  <Button Command="{Binding Cancel}" MinWidth="80" Content="{DynamicResource StringManagedFileChooserCancelText}" />
+                  <Button Command="{Binding Ok}" MinWidth="80" Content="OK" />
+                  <Button Command="{Binding Cancel}" MinWidth="80" Content="Cancel" />
                 </UniformGrid>
               </DockPanel>
             </DockPanel>
@@ -209,7 +214,7 @@
                 </Grid.ColumnDefinitions>
                 <Grid.Styles>
                   <Style Selector="GridSplitter">
-                    <Setter Property="Background" Value="{DynamicResource SystemControlHighlightAltBaseMediumLowBrush}"/>
+                    <Setter Property="Background" Value="{theme:AccentBorderBrush}"/>
                     <Setter Property="Template">
                       <ControlTemplate>
                         <Border VerticalAlignment="Stretch" BorderThickness="0" Background="#01000000">
@@ -219,13 +224,13 @@
                     </Setter>
                   </Style>
                 </Grid.Styles>
-                <TextBlock Grid.Column="1" Text="{DynamicResource StringManagedFileChooserNameColumn}" />
+                <TextBlock Grid.Column="1" Text="Name" />
                 <GridSplitter Grid.Column="2" />
-                <TextBlock Grid.Column="3" Text="{DynamicResource StringManagedFileChooserDateModifiedColumn}" />
+                <TextBlock Grid.Column="3" Text="Date Modified" />
                 <GridSplitter Grid.Column="4" />
-                <TextBlock Grid.Column="5" Text="{DynamicResource StringManagedFileChooserTypeColumn}" />
+                <TextBlock Grid.Column="5" Text="Type" />
                 <GridSplitter Grid.Column="6" />
-                <TextBlock Grid.Column="7" Text="{DynamicResource StringManagedFileChooserSizeColumn}" />
+                <TextBlock Grid.Column="7" Text="Size" />
                 <GridSplitter Grid.Column="8" />
               </Grid>
               <ListBox x:Name="PART_Files"
@@ -277,7 +282,7 @@
     </Setter>
     <Style Selector="^ /template/ ListBox#QuickLinks">
       <Setter Property="Margin" Value="0"/>
-      <Setter Property="Background" Value="{DynamicResource SystemControlBackgroundChromeMediumBrush}"/>
+      <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}"/>
       <Setter Property="BorderThickness" Value="0"/>
       <Setter Property="Width" Value="240"/>
       <Setter Property="Padding" Value="0,20"/>
@@ -300,7 +305,7 @@
             <ControlTemplate>
               <Border x:Name="LayoutRoot" CornerRadius="2" Margin="10,0">
                 <Panel>
-                  <Border x:Name="SelectedLine" HorizontalAlignment="Left" Margin="2,6" CornerRadius="0.5" Width="3" Background="{DynamicResource SystemControlHighlightAccentBrush}" IsVisible="{TemplateBinding IsSelected}"/>
+                  <Border x:Name="SelectedLine" HorizontalAlignment="Left" Margin="2,6" CornerRadius="0.5" Width="3" Background="{theme:AccentPrimaryBrush}" IsVisible="{TemplateBinding IsSelected}"/>
                   <ContentPresenter Name="PART_ContentPresenter"
                               Background="Transparent"
                               BorderBrush="Transparent"
@@ -317,10 +322,10 @@
           </Setter>
 
           <Style Selector="^:pointerover /template/ Border#LayoutRoot">
-            <Setter Property="Background" Value="{DynamicResource SystemControlBackgroundAltMediumBrush}"/>
+            <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}"/>
           </Style>
           <Style Selector="^:selected /template/ Border#LayoutRoot">
-            <Setter Property="Background" Value="{DynamicResource SystemControlBackgroundAltMediumHighBrush}"/>
+            <Setter Property="Background" Value="{theme:SurfaceOverlayMediumBrush}"/>
           </Style>
         </ControlTheme>
       </Setter>
@@ -356,26 +361,17 @@
                 CornerRadius="{TemplateBinding CornerRadius}"
                 Padding="{TemplateBinding Padding}">
           <StackPanel Spacing="10">
-            <TextBlock TextWrapping="Wrap">
-              <TextBlock.Text>
-                <MultiBinding>
-                  <MultiBinding.Converter>
-                    <converters:StringFormatConverter />
-                  </MultiBinding.Converter>
-                  <DynamicResource ResourceKey="StringManagedFileChooserOverwritePromptFileAlreadyExistsText"/>
-                  <Binding Path ="FileName" RelativeSource="{RelativeSource TemplatedParent}" />
-                </MultiBinding>
-              </TextBlock.Text>
-            </TextBlock>
+            <TextBlock TextWrapping="Wrap"
+                       Text="{Binding FileName, RelativeSource={RelativeSource TemplatedParent}, StringFormat='{}{0} already exists. Do you want to replace it?'}" />
             <StackPanel HorizontalAlignment="Right"
                         Spacing="10"
                         Orientation="Horizontal">
-              <Button Classes="accent" Content="{DynamicResource StringManagedFileChooserOverwritePromptConfirmText}"
+              <Button Classes="accent" Content="Yes"
                       MinWidth="80"
                       HorizontalContentAlignment="Center"
                       IsDefault="True"
                       Command="{Binding Confirm, RelativeSource={RelativeSource TemplatedParent}}" />
-              <Button Content="{DynamicResource StringManagedFileChooserOverwritePromptCancelText}"
+              <Button Content="No"
                       MinWidth="80"
                       IsCancel="True"
                       HorizontalContentAlignment="Center"

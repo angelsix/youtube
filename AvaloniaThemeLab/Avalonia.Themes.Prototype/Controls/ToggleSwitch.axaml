@@ -1,9 +1,14 @@
 ﻿<ResourceDictionary
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
+    xmlns:theme="using:AngelSix.ThemeEngine.Generated"
     x:ClassModifier="internal">
   <Design.PreviewWith>
     <StackPanel Margin="20" Width="250" Spacing="24">
+      <StackPanel.Styles>
+        <prototype:PrototypeTheme />
+      </StackPanel.Styles>
       <StackPanel Spacing="12" >
         <ToggleSwitch/>
         <ToggleSwitch IsChecked="True" />
@@ -22,7 +27,7 @@
   <x:Double x:Key="ToggleSwitchThemeMinWidth">0</x:Double>
 
   <ControlTheme x:Key="{x:Type ToggleSwitch}" TargetType="ToggleSwitch">
-    <Setter Property="Foreground" Value="{DynamicResource ToggleSwitchContentForeground}" />
+    <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
     <Setter Property="HorizontalAlignment" Value="Left" />
     <Setter Property="VerticalAlignment" Value="Center" />
     <Setter Property="HorizontalContentAlignment" Value="Left" />
@@ -69,7 +74,7 @@
                 x:Name="SwitchAreaGrid"
                 Grid.RowSpan="3"
                 Grid.ColumnSpan="3"
-                Background="{DynamicResource ToggleSwitchContainerBackground}"
+                Background="Transparent"
                 Margin="0,5"
                 TemplatedControl.IsTemplateFocusTarget="True" />
 
@@ -96,9 +101,9 @@
                 Grid.Row="1"
                 Width="40"
                 Height="20"
-                Background="{DynamicResource ToggleSwitchFillOff}"
-                BorderBrush="{DynamicResource ToggleSwitchStrokeOff}"
-                BorderThickness="{DynamicResource ToggleSwitchOuterBorderStrokeThickness}"
+                Background="Transparent"
+                BorderBrush="{theme:AccentBorderBrush}"
+                BorderThickness="{theme:Thickness}"
                 CornerRadius="10" />
 
             <Border
@@ -106,9 +111,9 @@
                 Grid.Row="1"
                 Width="40"
                 Height="20"
-                Background="{DynamicResource ToggleSwitchFillOn}"
-                BorderBrush="{DynamicResource ToggleSwitchStrokeOn}"
-                BorderThickness="{DynamicResource ToggleSwitchOnStrokeThickness}"
+                Background="{theme:AccentPrimaryBrush}"
+                BorderBrush="{theme:OnSurfaceBrush}"
+                BorderThickness="0"
                 CornerRadius="10" />
 
             <Canvas
@@ -121,12 +126,12 @@
               <Grid x:Name="PART_MovingKnobs" Width="20" Height="20">
                 <Ellipse
                   x:Name="SwitchKnobOn"
-                  Fill="{DynamicResource ToggleSwitchKnobFillOn}"
+                  Fill="{theme:SurfaceBrush}"
                   Width="10"
                   Height="10" />
                 <Ellipse
                   x:Name="SwitchKnobOff"
-                  Fill="{DynamicResource ToggleSwitchKnobFillOff}"
+                  Fill="{theme:OnSurfaceBrush}"
                   Width="10"
                   Height="10" />
               </Grid>
@@ -146,71 +151,71 @@
 
     <!--  PointerOverState  -->
     <Style Selector="^:pointerover /template/ Border#OuterBorder">
-      <Setter Property="BorderBrush" Value="{DynamicResource ToggleSwitchStrokeOffPointerOver}" />
-      <Setter Property="Background" Value="{DynamicResource ToggleSwitchFillOffPointerOver}" />
+      <Setter Property="BorderBrush" Value="{theme:OnSurfaceDimBrush}" />
+      <Setter Property="Background" Value="Transparent" />
     </Style>
 
     <Style Selector="^:pointerover /template/ Ellipse#SwitchKnobOff">
-      <Setter Property="Fill" Value="{DynamicResource ToggleSwitchKnobFillOffPointerOver}" />
+      <Setter Property="Fill" Value="{theme:OnSurfaceBrush}" />
     </Style>
 
     <Style Selector="^:pointerover /template/ Ellipse#SwitchKnobOn">
-      <Setter Property="Fill" Value="{DynamicResource ToggleSwitchKnobFillOnPointerOver}" />
+      <Setter Property="Fill" Value="{theme:SurfaceBrush}" />
     </Style>
 
     <Style Selector="^:pointerover /template/ Border#SwitchKnobBounds">
-      <Setter Property="Background" Value="{DynamicResource ToggleSwitchFillOnPointerOver}" />
-      <Setter Property="BorderBrush" Value="{DynamicResource ToggleSwitchStrokeOnPointerOver}" />
+      <Setter Property="Background" Value="{theme:AccentPrimaryLight1Brush}" />
+      <Setter Property="BorderBrush" Value="{theme:AccentPrimaryBrush}" />
     </Style>
 
     <Style Selector="^:pointerover /template/ Grid#SwitchAreaGrid">
-      <Setter Property="Background" Value="{DynamicResource ToggleSwitchContainerBackgroundPointerOver}" />
+      <Setter Property="Background" Value="Transparent" />
     </Style>
 
     <!--  PressedState  -->
     <Style Selector="^:pressed /template/ Border#OuterBorder">
-      <Setter Property="BorderBrush" Value="{DynamicResource ToggleSwitchStrokeOffPressed}" />
-      <Setter Property="Background" Value="{DynamicResource ToggleSwitchFillOffPressed}" />
+      <Setter Property="BorderBrush" Value="{theme:OnSurfaceBrush}" />
+      <Setter Property="Background" Value="{theme:OnSurfaceDimBrush}" />
     </Style>
 
     <Style Selector="^:pressed /template/ Border#SwitchKnobBounds">
-      <Setter Property="Background" Value="{DynamicResource ToggleSwitchFillOnPressed}" />
-      <Setter Property="BorderBrush" Value="{DynamicResource ToggleSwitchStrokeOnPressed}" />
+      <Setter Property="Background" Value="{theme:AccentPrimaryDark1Brush}" />
+      <Setter Property="BorderBrush" Value="{theme:OnSurfaceDimBrush}" />
     </Style>
 
     <Style Selector="^:pressed /template/ Ellipse#SwitchKnobOff">
-      <Setter Property="Fill" Value="{DynamicResource ToggleSwitchKnobFillOffPressed}" />
+      <Setter Property="Fill" Value="{theme:OnSurfaceBrush}" />
     </Style>
 
     <Style Selector="^:pressed /template/ Ellipse#SwitchKnobOn">
-      <Setter Property="Fill" Value="{DynamicResource ToggleSwitchKnobFillOnPressed}" />
+      <Setter Property="Fill" Value="{theme:SurfaceBrush}" />
     </Style>
 
     <Style Selector="^:pressed /template/ Grid#SwitchAreaGrid">
-      <Setter Property="Background" Value="{DynamicResource ToggleSwitchContainerBackgroundPressed}" />
+      <Setter Property="Background" Value="Transparent" />
     </Style>
 
     <!--  DisabledState  -->
     <Style Selector="^:disabled">
-      <Setter Property="Foreground" Value="{DynamicResource ToggleSwitchHeaderForegroundDisabled}" />
+      <Setter Property="Foreground" Value="{theme:OnSurfaceDimBrush}" />
     </Style>
 
     <Style Selector="^:disabled /template/ Border#OuterBorder">
-      <Setter Property="BorderBrush" Value="{DynamicResource ToggleSwitchStrokeOffDisabled}" />
-      <Setter Property="Background" Value="{DynamicResource ToggleSwitchFillOffDisabled}" />
+      <Setter Property="BorderBrush" Value="{theme:OnSurfaceDimBrush}" />
+      <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}" />
     </Style>
 
     <Style Selector="^:disabled /template/ Ellipse#SwitchKnobOff">
-      <Setter Property="Fill" Value="{DynamicResource ToggleSwitchKnobFillOffDisabled}" />
+      <Setter Property="Fill" Value="{theme:OnSurfaceDimBrush}" />
     </Style>
 
     <Style Selector="^:disabled /template/ Ellipse#SwitchKnobOn">
-      <Setter Property="Fill" Value="{DynamicResource ToggleSwitchKnobFillOnDisabled}" />
+      <Setter Property="Fill" Value="{theme:SurfaceOverlayWeakBrush}" />
     </Style>
 
     <Style Selector="^:disabled /template/ Border#SwitchKnobBounds">
-      <Setter Property="Background" Value="{DynamicResource ToggleSwitchFillOnDisabled}" />
-      <Setter Property="BorderBrush" Value="{DynamicResource ToggleSwitchStrokeOnDisabled}" />
+      <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}" />
+      <Setter Property="BorderBrush" Value="{theme:OnSurfaceDimBrush}" />
     </Style>
 
     <!--  CheckedState  -->

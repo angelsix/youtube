@@ -1,10 +1,12 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
+                    xmlns:theme="using:AngelSix.ThemeEngine.Generated"
                     x:ClassModifier="internal">
   <ControlTheme x:Key="{x:Type OverlayPopupHost}" TargetType="OverlayPopupHost">
-    <Setter Property="Foreground" Value="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
-    <Setter Property="FontSize" Value="{DynamicResource ControlContentThemeFontSize}"/>
-    <Setter Property="FontFamily" Value="{DynamicResource ContentControlThemeFontFamily}" />
+    <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}"/>
+    <Setter Property="FontSize" Value="{theme:FontSizeMd}"/>
+    <Setter Property="FontFamily" Value="{theme:FontFamily}" />
     <Setter Property="FontWeight" Value="Normal" />
     <Setter Property="FontStyle" Value="Normal" />
     <Setter Property="Inline.TextDecorations" Value="" />

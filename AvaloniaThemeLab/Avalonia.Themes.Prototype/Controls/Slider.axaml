@@ -1,9 +1,14 @@
 ﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:sys="using:System"
+                    xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
+                    xmlns:theme="using:AngelSix.ThemeEngine.Generated"
                     x:ClassModifier="internal">
   <Design.PreviewWith>
     <Border Margin="20" Width="400" Height="600">
+      <Border.Styles>
+        <prototype:PrototypeTheme />
+      </Border.Styles>
       <DockPanel LastChildFill="True">
         <StackPanel Spacing="10" DockPanel.Dock="Top">
           <Slider Value="50" />
@@ -52,8 +57,8 @@
           <Border Name="FocusTarget" Margin="0,-10" Background="Transparent" />
           <Border Name="TrackBackground"
                   Background="{TemplateBinding Background}"
-                  CornerRadius="{DynamicResource ControlCornerRadius}"
-                  Height="{DynamicResource SliderTrackThemeHeight}"
+                  CornerRadius="{theme:RadiusSm}"
+                  Height="2"
                   VerticalAlignment="Center"/>
         </Grid>
       </ControlTemplate>
@@ -67,8 +72,8 @@
           <Border Name="FocusTarget" Margin="0,-10" Background="Transparent" />
           <Border Name="TrackBackground"
                   Background="{TemplateBinding Background}"
-                  CornerRadius="{DynamicResource ControlCornerRadius}"
-                  Width="{DynamicResource SliderTrackThemeHeight}"
+                  CornerRadius="{theme:RadiusSm}"
+                  Width="2"
                   HorizontalAlignment="Center"/>
         </Grid>
       </ControlTemplate>
@@ -88,9 +93,9 @@
   </ControlTheme>
 
   <ControlTheme x:Key="{x:Type Slider}" TargetType="Slider">
-    <Setter Property="Background" Value="{DynamicResource SliderTrackFill}" />
-    <Setter Property="BorderThickness" Value="{DynamicResource SliderBorderThemeThickness}" />
-    <Setter Property="Foreground" Value="{DynamicResource SliderTrackValueFill}" />
+    <Setter Property="Background" Value="{theme:OnSurfaceDimBrush}" />
+    <Setter Property="BorderThickness" Value="0" />
+    <Setter Property="Foreground" Value="{theme:AccentPrimaryBrush}" />
     <Style Selector="^:horizontal">
       <Setter Property="Template">
         <ControlTemplate>
@@ -101,7 +106,7 @@
                 CornerRadius="{TemplateBinding CornerRadius}">
                 <Grid x:Name="SliderContainer"
                       Margin="{TemplateBinding Padding}"
-                      Background="{DynamicResource SliderContainerBackground}">
+                      Background="Transparent">
                   <Grid.Styles>
                     <Style Selector="TickBar">
                       <Setter Property="ReservedSpace" Value="{Binding #PART_Track.Thumb.Bounds}" />
@@ -124,13 +129,13 @@
                         Orientation="{TemplateBinding Slider.Orientation}"
                         Minimum="{TemplateBinding Slider.Minimum}"
                         Maximum="{TemplateBinding Slider.Maximum}"
-                        Height="{DynamicResource SliderOutsideTickBarThemeHeight}"
+                        Height="4"
                         Margin="0,0,0,4"
                         VerticalAlignment="Bottom"
                         Placement="Top" 
                         IsVisible="False"
                         IsDirectionReversed="{TemplateBinding IsDirectionReversed}"
-                        Fill="{DynamicResource SliderTickBarFill}"/>
+                        Fill="{theme:OnSurfaceDimBrush}"/>
                     <TickBar
                         Name="BottomTickBar"
                         Grid.Row="2"
@@ -140,13 +145,13 @@
                         Orientation="{TemplateBinding Slider.Orientation}"
                         Minimum="{TemplateBinding Slider.Minimum}"
                         Maximum="{TemplateBinding Slider.Maximum}"
-                        Height="{DynamicResource SliderOutsideTickBarThemeHeight}"
+                        Height="4"
                         Margin="0,4,0,0"
                         VerticalAlignment="Top"
                         Placement="Bottom"
                         IsVisible="False"
                         IsDirectionReversed="{TemplateBinding IsDirectionReversed}"
-                        Fill="{DynamicResource SliderTickBarFill}" />
+                        Fill="{theme:OnSurfaceDimBrush}" />
                     <Track
                         Name="PART_Track"
                         Grid.Row="1"
@@ -176,7 +181,7 @@
                           Height="{DynamicResource SliderHorizontalThumbHeight}"
                           Margin="0"
                           Padding="0"
-                          Background="{DynamicResource SliderThumbBackground}"
+                          Background="{theme:AccentPrimaryBrush}"
                           BorderThickness="0"
                           Theme="{StaticResource PrototypeSliderThumbTheme}"
                           DataContext="{TemplateBinding Value}"/>
@@ -198,7 +203,7 @@
                 CornerRadius="{TemplateBinding CornerRadius}">
                 <Grid x:Name="SliderContainer"
                       Grid.Row="1"
-                      Background="{DynamicResource SliderContainerBackground}"
+                      Background="Transparent"
                       Margin="{TemplateBinding Padding}">
                   <Grid.Styles>
                     <Style Selector="TickBar">
@@ -222,13 +227,13 @@
                         Orientation="{TemplateBinding Slider.Orientation}"
                         Minimum="{TemplateBinding Slider.Minimum}"
                         Maximum="{TemplateBinding Slider.Maximum}"
-                        Width="{DynamicResource SliderOutsideTickBarThemeHeight}"
+                        Width="4"
                         Margin="0,0,4,0"
                         HorizontalAlignment="Right"
                         Placement="Left"
                         IsVisible="False"
                         IsDirectionReversed="{TemplateBinding IsDirectionReversed}"
-                        Fill="{DynamicResource SliderTickBarFill}"/>
+                        Fill="{theme:OnSurfaceDimBrush}"/>
                     <TickBar 
                         Name="RightTickBar"
                         Grid.RowSpan="3"
@@ -238,13 +243,13 @@
                         Orientation="{TemplateBinding Slider.Orientation}"
                         Minimum="{TemplateBinding Slider.Minimum}"
                         Maximum="{TemplateBinding Slider.Maximum}"
-                        Width="{DynamicResource SliderOutsideTickBarThemeHeight}"
+                        Width="4"
                         Margin="4,0,0,0"
                         HorizontalAlignment="Left"
                         Placement="Right" 
                         IsVisible="False"
                         IsDirectionReversed="{TemplateBinding IsDirectionReversed}"
-                        Fill="{DynamicResource SliderTickBarFill}"/>
+                        Fill="{theme:OnSurfaceDimBrush}"/>
                     <Track
                         Name="PART_Track"
                         Grid.RowSpan="3"
@@ -275,7 +280,7 @@
                           Height="{DynamicResource SliderVerticalThumbHeight}"
                           Margin="0"
                           Padding="0"
-                          Background="{DynamicResource SliderThumbBackground}"
+                          Background="{theme:AccentPrimaryBrush}"
                           BorderThickness="0"
                           Theme="{StaticResource PrototypeSliderThumbTheme}"
                           DataContext="{TemplateBinding Value}" />
@@ -309,22 +314,22 @@
     <!--  PointerOver State  -->
     <Style Selector="^:pointerover">
       <Style Selector="^ /template/ Grid#SliderContainer">
-        <Setter Property="Background" Value="{DynamicResource SliderContainerBackgroundDisabled}" />
+        <Setter Property="Background" Value="Transparent" />
       </Style>
       <Style Selector="^ /template/ RepeatButton#PART_IncreaseButton">
-        <Setter Property="Background" Value="{DynamicResource SliderTrackFillPointerOver}" />
+        <Setter Property="Background" Value="{theme:OnSurfaceDimBrush}" />
       </Style>
 
       <Style Selector="^ /template/ Thumb">
-        <Setter Property="Background" Value="{DynamicResource SliderThumbBackgroundPointerOver}" />
+        <Setter Property="Background" Value="{theme:AccentPrimaryLight1Brush}" />
       </Style>
 
       <Style Selector="^ /template/ Grid#SliderContainer">
-        <Setter Property="Background" Value="{DynamicResource SliderContainerBackgroundPointerOver}" />
+        <Setter Property="Background" Value="Transparent" />
       </Style>
 
       <Style Selector="^ /template/ RepeatButton#PART_DecreaseButton">
-        <Setter Property="Background" Value="{DynamicResource SliderTrackValueFillPointerOver}" />
+        <Setter Property="Background" Value="{theme:AccentPrimaryBrush}" />
       </Style>
 
     </Style>
@@ -332,43 +337,43 @@
     <!--  Pressed State  -->
     <Style Selector="^:pressed">
       <Style Selector="^ /template/ Grid#SliderContainer">
-        <Setter Property="Background" Value="{DynamicResource SliderContainerBackgroundPressed}" />
+        <Setter Property="Background" Value="Transparent" />
       </Style>
       <Style Selector="^ /template/ RepeatButton#PART_DecreaseButton">
-        <Setter Property="Background" Value="{DynamicResource SliderTrackValueFillPressed}" />
+        <Setter Property="Background" Value="{theme:AccentPrimaryBrush}" />
       </Style>
       <Style Selector="^ /template/ RepeatButton#PART_IncreaseButton">
-        <Setter Property="Background" Value="{DynamicResource SliderTrackFillPressed}" />
+        <Setter Property="Background" Value="{theme:OnSurfaceDimBrush}" />
       </Style>
 
       <Style Selector="^ /template/ Thumb">
-        <Setter Property="Background" Value="{DynamicResource SliderThumbBackgroundPressed}" />
+        <Setter Property="Background" Value="{theme:AccentPrimaryDark1Brush}" />
       </Style>
     </Style>
 
     <!--  Disabled State  -->
     <Style Selector="^:disabled">
       <Style Selector="^ /template/ RepeatButton#PART_DecreaseButton">
-        <Setter Property="Background" Value="{DynamicResource SliderTrackValueFillDisabled}" />
+        <Setter Property="Background" Value="{theme:OnSurfaceDimBrush}" />
       </Style>
 
       <Style Selector="^ /template/ RepeatButton#PART_IncreaseButton">
-        <Setter Property="Background" Value="{DynamicResource SliderTrackFillDisabled}" />
+        <Setter Property="Background" Value="{theme:OnSurfaceDimBrush}" />
       </Style>
 
       <Style Selector="^ /template/ Thumb">
-        <Setter Property="Background" Value="{DynamicResource SliderThumbBackgroundDisabled}" />
+        <Setter Property="Background" Value="{theme:OnSurfaceDimBrush}" />
       </Style>
 
       <Style Selector="^ /template/ TickBar">
-        <Setter Property="Fill" Value="{DynamicResource SliderTickBarFillDisabled}" />
+        <Setter Property="Fill" Value="{theme:OnSurfaceDimBrush}" />
       </Style>
     </Style>
 
     <Style Selector="^:error">
-      <Setter Property="Foreground" Value="{DynamicResource SystemControlErrorTextForegroundBrush}" />
+      <Setter Property="Foreground" Value="{theme:AccentErrorBrush}" />
       <Style Selector="^ /template/ Thumb">
-        <Setter Property="Background" Value="{DynamicResource SystemControlErrorTextForegroundBrush}" />
+        <Setter Property="Background" Value="{theme:AccentErrorBrush}" />
       </Style>
     </Style>
 

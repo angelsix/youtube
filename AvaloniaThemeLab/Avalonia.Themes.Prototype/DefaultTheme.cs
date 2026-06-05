@@ -40,11 +40,29 @@ public class DefaultTheme
     public virtual Color AccentNeutral => Color.Parse("#D0D0D8");
     public virtual Color AccentBorder => Color.Parse("#D0C0E0");
 
-    // Sizing tokens
+    // Spacing scale
     public virtual double SpacingSm => 2 * BaseSize;
     public virtual double SpacingMd => 4 * BaseSize;
     public virtual double SpacingLg => 6 * BaseSize;
-    public virtual double SpacingXl => 12 * BaseSize;
+    public virtual double SpacingXl => 8 * BaseSize;
+    public virtual double SpacingXxl => 12 * BaseSize;
+
+    // Type scale (font sizes)
+    public virtual double FontSizeSm => 12 * BaseSize;
+    public virtual double FontSizeMd => 14 * BaseSize;
+    public virtual double FontSizeLg => 16 * BaseSize;
+    public virtual double FontSizeXl => 20 * BaseSize;
+    public virtual double FontSizeXxl => 24 * BaseSize;
+
+    // Control metrics
+    public virtual double ControlHeight => 32 * BaseSize;
+    public virtual double ControlMinWidth => 64 * BaseSize;
+    public virtual double IconSize => 20 * BaseSize;
+
+    // Typeface
+    public virtual FontFamily FontFamily => new FontFamily("Inter, $Default");
+
+    // Shape tokens
     public virtual CornerRadius RadiusSm => new CornerRadius(3 * BaseSize);
     public virtual CornerRadius RadiusMd => new CornerRadius(6 * BaseSize);
     public virtual Thickness Thickness => new Thickness(BaseSize);

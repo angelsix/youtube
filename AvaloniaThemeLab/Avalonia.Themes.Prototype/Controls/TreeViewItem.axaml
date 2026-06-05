@@ -1,11 +1,16 @@
 ﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:converters="using:Avalonia.Controls.Converters"
+        xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
+        xmlns:theme="using:AngelSix.ThemeEngine.Generated"
         x:ClassModifier="internal">
 
   <Design.PreviewWith>
     <Border Padding="20"
             MinWidth="300">
+      <Border.Styles>
+        <prototype:PrototypeTheme />
+      </Border.Styles>
       <TreeView>
         <TreeViewItem Header="Level 1" IsExpanded="True">
           <TreeViewItem Header="Level 2.1" IsSelected="True" IsExpanded="True">
@@ -39,7 +44,7 @@
                 VerticalAlignment="Center">
           <Path x:Name="ChevronPath"
                 Data="{StaticResource TreeViewItemCollapsedChevronPathData}"
-                Fill="{DynamicResource TreeViewItemForeground}"
+                Fill="{theme:OnSurfaceBrush}"
                 Stretch="Uniform"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center" />
@@ -54,11 +59,11 @@
 
   <ControlTheme x:Key="{x:Type TreeViewItem}" TargetType="TreeViewItem">
     <Setter Property="Padding" Value="0" />
-    <Setter Property="Background" Value="{DynamicResource TreeViewItemBackground}" />
-    <Setter Property="BorderBrush" Value="{DynamicResource TreeViewItemBorderBrush}" />
-    <Setter Property="BorderThickness" Value="{DynamicResource TreeViewItemBorderThemeThickness}" />
-    <Setter Property="Foreground" Value="{DynamicResource TreeViewItemForeground}" />
-    <Setter Property="MinHeight" Value="{DynamicResource TreeViewItemMinHeight}" />
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="BorderBrush" Value="Transparent" />
+    <Setter Property="BorderThickness" Value="{theme:Thickness}" />
+    <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
+    <Setter Property="MinHeight" Value="{theme:ControlHeight}" />
     <Setter Property="VerticalAlignment" Value="Center" />
     <Setter Property="Template">
       <ControlTemplate>
@@ -107,65 +112,65 @@
 
     <!--  PointerOver state  -->
     <Style Selector="^ /template/ Border#PART_LayoutRoot:pointerover">
-      <Setter Property="Background" Value="{DynamicResource TreeViewItemBackgroundPointerOver}" />
-      <Setter Property="BorderBrush" Value="{DynamicResource TreeViewItemBorderBrushPointerOver}" />
+      <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}" />
+      <Setter Property="BorderBrush" Value="Transparent" />
     </Style>
     <Style Selector="^ /template/ Border#PART_LayoutRoot:pointerover > ContentPresenter#PART_HeaderPresenter">
-      <Setter Property="Foreground" Value="{DynamicResource TreeViewItemForegroundPointerOver}" />
+      <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
     </Style>
 
     <!--  Pressed state  -->
     <Style Selector="^:pressed /template/ Border#PART_LayoutRoot:pointerover">
-      <Setter Property="Background" Value="{DynamicResource TreeViewItemBackgroundPressed}" />
-      <Setter Property="BorderBrush" Value="{DynamicResource TreeViewItemBorderBrushPressed}" />
+      <Setter Property="Background" Value="{theme:SurfaceOverlayMediumBrush}" />
+      <Setter Property="BorderBrush" Value="Transparent" />
     </Style>
     <Style Selector="^:pressed /template/ Border#PART_LayoutRoot:pointerover > ContentPresenter#PART_HeaderPresenter">
-      <Setter Property="Foreground" Value="{DynamicResource TreeViewItemForegroundPressed}" />
+      <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
     </Style>
 
     <!--  Disabled state  -->
     <Style Selector="^:disabled /template/ Border#PART_LayoutRoot">
-      <Setter Property="Background" Value="{DynamicResource TreeViewItemBackgroundDisabled}" />
-      <Setter Property="BorderBrush" Value="{DynamicResource TreeViewItemBorderBrushDisabled}" />
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="BorderBrush" Value="Transparent" />
     </Style>
     <Style Selector="^:disabled /template/ ContentPresenter#PART_HeaderPresenter">
-      <Setter Property="Foreground" Value="{DynamicResource TreeViewItemForegroundDisabled}" />
+      <Setter Property="Foreground" Value="{theme:OnSurfaceDimBrush}" />
     </Style>
 
     <!--  Selected state  -->
     <Style Selector="^:selected /template/ Border#PART_LayoutRoot">
-      <Setter Property="Background" Value="{DynamicResource TreeViewItemBackgroundSelected}" />
-      <Setter Property="BorderBrush" Value="{DynamicResource TreeViewItemBorderBrushSelected}" />
+      <Setter Property="Background" Value="{theme:AccentPrimaryBrush}" />
+      <Setter Property="BorderBrush" Value="Transparent" />
     </Style>
     <Style Selector="^:selected /template/ Border#PART_LayoutRoot > ContentPresenter#PART_HeaderPresenter">
-      <Setter Property="Foreground" Value="{DynamicResource TreeViewItemForegroundSelected}" />
+      <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
     </Style>
 
     <!--  Selected PointerOver state  -->
     <Style Selector="^:selected /template/ Border#PART_LayoutRoot:pointerover">
-      <Setter Property="Background" Value="{DynamicResource TreeViewItemBackgroundSelectedPointerOver}" />
-      <Setter Property="BorderBrush" Value="{DynamicResource TreeViewItemBorderBrushSelectedPointerOver}" />
+      <Setter Property="Background" Value="{theme:AccentPrimaryBrush}" />
+      <Setter Property="BorderBrush" Value="Transparent" />
     </Style>
     <Style Selector="^:selected /template/ Border#PART_LayoutRoot:pointerover > ContentPresenter#PART_HeaderPresenter">
-      <Setter Property="Foreground" Value="{DynamicResource TreeViewItemForegroundSelectedPointerOver}" />
+      <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
     </Style>
 
     <!--  Selected Pressed state  -->
     <Style Selector="^:pressed:selected /template/ Border#PART_LayoutRoot:pointerover">
-      <Setter Property="Background" Value="{DynamicResource TreeViewItemBackgroundSelectedPressed}" />
-      <Setter Property="BorderBrush" Value="{DynamicResource TreeViewItemBorderBrushSelectedPressed}" />
+      <Setter Property="Background" Value="{theme:SurfaceOverlayMediumBrush}" />
+      <Setter Property="BorderBrush" Value="Transparent" />
     </Style>
     <Style Selector="^:pressed:selected /template/ Border#PART_LayoutRoot:pointerover > ContentPresenter#PART_HeaderPresenter">
-      <Setter Property="Foreground" Value="{DynamicResource TreeViewItemForegroundSelectedPressed}" />
+      <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
     </Style>
 
     <!--  Disabled Selected state  -->
     <Style Selector="^:disabled:selected /template/ Border#PART_LayoutRoot">
-      <Setter Property="Background" Value="{DynamicResource TreeViewItemBackgroundSelectedDisabled}" />
-      <Setter Property="BorderBrush" Value="{DynamicResource TreeViewItemBorderBrushSelectedDisabled}" />
+      <Setter Property="Background" Value="{theme:OnSurfaceDimBrush}" />
+      <Setter Property="BorderBrush" Value="Transparent" />
     </Style>
     <Style Selector="^:disabled:selected /template/ Border#PART_LayoutRoot > ContentPresenter#PART_HeaderPresenter">
-      <Setter Property="Foreground" Value="{DynamicResource TreeViewItemForegroundSelectedDisabled}" />
+      <Setter Property="Foreground" Value="{theme:OnSurfaceDimBrush}" />
     </Style>
 
     <Style Selector="^:empty /template/ ToggleButton#PART_ExpandCollapseChevron">

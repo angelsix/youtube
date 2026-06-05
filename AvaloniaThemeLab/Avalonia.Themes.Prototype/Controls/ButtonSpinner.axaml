@@ -2,19 +2,25 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:sys="using:System"
                     xmlns:converters="using:Avalonia.Controls.Converters"
+                    xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
+                    xmlns:theme="using:AngelSix.ThemeEngine.Generated"
                     x:ClassModifier="internal">
   <Design.PreviewWith>
     <Border Padding="20">
+      <Border.Styles>
+        <prototype:PrototypeTheme />
+      </Border.Styles>
+
       <StackPanel Spacing="20">
         <ButtonSpinner Content="Right spinner" />
         <ButtonSpinner ButtonSpinnerLocation="Left"
                        Content="Left spinner" />
         <ButtonSpinner BorderThickness="2"
-                       BorderBrush="{DynamicResource ThemeColorAccent1Brush}"
+                       BorderBrush="{theme:AccentPrimaryBrush}"
                        Content="Right Border" />
         <ButtonSpinner ButtonSpinnerLocation="Left"
                        BorderThickness="2"
-                       BorderBrush="{DynamicResource ThemeColorAccent1Brush}"
+                       BorderBrush="{theme:AccentPrimaryBrush}"
                        Content="Left Border" />
         <ButtonSpinner Content="Right disabled"
                        AllowSpin="False"/>
@@ -46,9 +52,9 @@
 
   <ControlTheme x:Key="PrototypeButtonSpinnerRepeatButton" TargetType="RepeatButton">
     <Setter Property="MinWidth" Value="34" />
-    <Setter Property="Foreground" Value="{DynamicResource ThemeColor5Brush}" />
-    <Setter Property="BorderBrush" Value="{DynamicResource ThemeColor5Brush}" />
-    <Setter Property="Background" Value="{DynamicResource ThemeColor1Brush}" />
+    <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
+    <Setter Property="BorderBrush" Value="{theme:OnSurfaceBrush}" />
+    <Setter Property="Background" Value="{theme:SurfaceBrush}" />
     <Setter Property="Template">
       <ControlTemplate>
         <ContentPresenter x:Name="PART_ContentPresenter"
@@ -65,11 +71,11 @@
     </Setter>
 
     <Style Selector="^:pointerover">
-      <Setter Property="Background" Value="{DynamicResource ThemeColor2Brush}" />
+      <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}" />
     </Style>
 
     <Style Selector="^:pressed">
-      <Setter Property="Background" Value="{DynamicResource ThemeColor3Brush}" />
+      <Setter Property="Background" Value="{theme:SurfaceOverlayMediumBrush}" />
     </Style>
 
     <Style Selector="^:disabled">
@@ -78,14 +84,14 @@
   </ControlTheme>
 
   <ControlTheme x:Key="{x:Type ButtonSpinner}" TargetType="ButtonSpinner">
-    <Setter Property="Foreground" Value="{DynamicResource ThemeColor5Brush}" />
+    <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
     <Setter Property="Padding" Value="10, 0" />
-    <Setter Property="Background" Value="{DynamicResource ThemeColor1Brush}" />
-    <Setter Property="BorderBrush" Value="{DynamicResource ThemeColor5Brush}" />
-    <Setter Property="BorderThickness" Value="{DynamicResource TextControlBorderThemeThickness}" />
-    <Setter Property="CornerRadius" Value="{DynamicResource ControlCornerRadius}" />
-    <Setter Property="MinHeight" Value="{DynamicResource TextControlThemeMinHeight}" />
-    <Setter Property="MinWidth" Value="{DynamicResource TextControlThemeMinWidth}" />
+    <Setter Property="Background" Value="{theme:SurfaceBrush}" />
+    <Setter Property="BorderBrush" Value="{theme:OnSurfaceBrush}" />
+    <Setter Property="BorderThickness" Value="{theme:Thickness}" />
+    <Setter Property="CornerRadius" Value="{theme:RadiusSm}" />
+    <Setter Property="MinHeight" Value="{theme:ControlHeight}" />
+    <Setter Property="MinWidth" Value="{theme:ControlMinWidth}" />
     <Setter Property="HorizontalContentAlignment" Value="Stretch" />
     <Setter Property="VerticalContentAlignment" Value="Center" />
     <Setter Property="Focusable" Value="True"/>
@@ -156,7 +162,7 @@
       </Style>
     </Style>
     <Style Selector="^:error">
-      <Setter Property="BorderBrush" Value="{DynamicResource ThemeColorAccent5Brush}" />
+      <Setter Property="BorderBrush" Value="{theme:AccentErrorBrush}" />
     </Style>
     
     <Style Selector="^:disabled">

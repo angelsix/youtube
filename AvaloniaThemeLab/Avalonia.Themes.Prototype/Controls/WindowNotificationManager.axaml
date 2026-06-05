@@ -1,6 +1,8 @@
 ﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     x:DataType="WindowNotificationManager"
+                    xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
+                    xmlns:theme="using:AngelSix.ThemeEngine.Generated"
                     x:ClassModifier="internal">
   <ControlTheme x:Key="{x:Type WindowNotificationManager}" TargetType="WindowNotificationManager">
     <Setter Property="Margin" Value="0 0" />
@@ -12,7 +14,7 @@
               <StackPanel
                   Margin="12"
                   Spacing="8"
-                  TextElement.Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}">
+                  TextElement.Foreground="{theme:OnSurfaceBrush}">
                 <TextBlock FontWeight="Medium" Text="{Binding Title}" />
                 <TextBlock
                     MaxHeight="80"
@@ -24,7 +26,7 @@
             <DataTemplate DataType="x:String">
               <TextBlock
                   Margin="12"
-                  Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"
+                  Foreground="{theme:OnSurfaceBrush}"
                   Text="{Binding}" />
             </DataTemplate>
           </ReversibleStackPanel.DataTemplates>

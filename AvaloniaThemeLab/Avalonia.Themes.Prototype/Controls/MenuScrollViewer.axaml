@@ -1,10 +1,15 @@
 ﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:converters="using:Avalonia.Controls.Converters"
+                    xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
+                    xmlns:theme="using:AngelSix.ThemeEngine.Generated"
                     x:ClassModifier="internal">
 
   <Design.PreviewWith>
     <ScrollViewer Theme="{DynamicResource PrototypeMenuScrollViewer}" Width="200" Height="200">
+      <ScrollViewer.Styles>
+        <prototype:PrototypeTheme />
+      </ScrollViewer.Styles>
       <StackPanel Spacing="20">
         <TextBlock>Item 1</TextBlock>
         <TextBlock>Item 2</TextBlock>
@@ -41,12 +46,12 @@
                 <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="Viewport.Height" />
               </MultiBinding>
             </RepeatButton.IsVisible>
-            <Viewbox Width="{DynamicResource ScrollBarButtonArrowIconFontSize}"
-                     Height="{DynamicResource ScrollBarButtonArrowIconFontSize}">
+            <Viewbox Width="8"
+                     Height="8">
               <Path VerticalAlignment="Center"
                     HorizontalAlignment="Center"
                     Data="M 19.091797 14.970703 L 10 5.888672 L 0.908203 14.970703 L 0.029297 14.091797 L 10 4.111328 L 19.970703 14.091797 Z"
-                    Fill="{DynamicResource ScrollBarButtonArrowForeground}"
+                    Fill="{theme:OnSurfaceBrush}"
                     Width="20"
                     Height="20" />
             </Viewbox>
@@ -67,12 +72,12 @@
                 <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="Viewport.Height" />
               </MultiBinding>
             </RepeatButton.IsVisible>
-            <Viewbox Width="{DynamicResource ScrollBarButtonArrowIconFontSize}"
-                     Height="{DynamicResource ScrollBarButtonArrowIconFontSize}">
+            <Viewbox Width="8"
+                     Height="8">
               <Path VerticalAlignment="Center"
                     HorizontalAlignment="Center"
                     Data="M 18.935547 4.560547 L 19.814453 5.439453 L 10 15.253906 L 0.185547 5.439453 L 1.064453 4.560547 L 10 13.496094 Z"
-                    Fill="{DynamicResource ScrollBarButtonArrowForeground}"
+                    Fill="{theme:OnSurfaceBrush}"
                     Width="20"
                     Height="20" />
             </Viewbox>
@@ -87,7 +92,7 @@
       </ControlTemplate>
     </Setter>
     <Style Selector="^ /template/ RepeatButton:pointerover > Viewbox > Path">
-      <Setter Property="Fill" Value="{DynamicResource ScrollBarButtonArrowForegroundPointerOver}" />
+      <Setter Property="Fill" Value="{theme:OnSurfaceBrush}" />
     </Style>
   </ControlTheme>
 </ResourceDictionary>

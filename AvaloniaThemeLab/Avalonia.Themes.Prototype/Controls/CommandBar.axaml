@@ -1,8 +1,14 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
+                    xmlns:theme="using:AngelSix.ThemeEngine.Generated"
                     x:ClassModifier="internal">
   <Design.PreviewWith>
     <Border Padding="20" Width="600">
+      <Border.Styles>
+        <prototype:PrototypeTheme />
+      </Border.Styles>
+
       <StackPanel Spacing="12">
         <CommandBar>
           <CommandBarButton Label="New">
@@ -65,12 +71,12 @@
 
     <!-- Hover -->
     <Style Selector="^:pointerover /template/ Border#PART_Border">
-      <Setter Property="Background" Value="{DynamicResource SystemControlHighlightListLowBrush}" />
+      <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}" />
     </Style>
 
     <!-- Pressed -->
     <Style Selector="^:pressed /template/ Border#PART_Border">
-      <Setter Property="Background" Value="{DynamicResource SystemControlHighlightListMediumBrush}" />
+      <Setter Property="Background" Value="{theme:SurfaceOverlayMediumBrush}" />
     </Style>
 
     <!-- Compact: hide label, reduce width -->
@@ -147,17 +153,17 @@
 
     <!-- Hover -->
     <Style Selector="^:pointerover /template/ Border#PART_Border">
-      <Setter Property="Background" Value="{DynamicResource SystemControlHighlightListLowBrush}" />
+      <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}" />
     </Style>
 
     <!-- Pressed -->
     <Style Selector="^:pressed /template/ Border#PART_Border">
-      <Setter Property="Background" Value="{DynamicResource SystemControlHighlightListMediumBrush}" />
+      <Setter Property="Background" Value="{theme:SurfaceOverlayMediumBrush}" />
     </Style>
 
     <!-- Checked -->
     <Style Selector="^:checked /template/ Border#PART_Border">
-      <Setter Property="Background" Value="{DynamicResource SystemControlHighlightAccentBrush}" />
+      <Setter Property="Background" Value="{theme:AccentPrimaryBrush}" />
     </Style>
 
     <!-- Compact: hide label, reduce width -->
@@ -202,7 +208,7 @@
     <Setter Property="Margin" Value="8,4" />
     <Setter Property="Template">
       <ControlTemplate>
-        <Border Background="{DynamicResource SystemControlForegroundBaseMediumLowBrush}"
+        <Border Background="{theme:AccentBorderBrush}"
                 Width="{TemplateBinding Width}"
                 Height="{TemplateBinding Height}"
                 MinHeight="{TemplateBinding MinHeight}" />
@@ -222,7 +228,7 @@
   <!-- CommandBar ControlTheme -->
   <ControlTheme x:Key="{x:Type CommandBar}" TargetType="CommandBar">
     <Setter Property="HorizontalAlignment" Value="Stretch" />
-    <Setter Property="Background" Value="{DynamicResource SystemControlBackgroundChromeMediumBrush}" />
+    <Setter Property="Background" Value="{theme:SurfaceBrush}" />
     <Setter Property="MinHeight" Value="48" />
     <Setter Property="Padding" Value="4,0" />
     <Setter Property="ItemWidthBottom" Value="70" />
@@ -280,10 +286,10 @@
                    Placement="Bottom"
                    IsLightDismissEnabled="True"
                    WindowManagerAddShadowHint="True">
-              <Border Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}"
-                      BorderBrush="{DynamicResource SystemControlForegroundBaseMediumLowBrush}"
+              <Border Background="{theme:SurfaceBrush}"
+                      BorderBrush="{theme:AccentBorderBrush}"
                       BorderThickness="1"
-                      CornerRadius="{DynamicResource OverlayCornerRadius}"
+                      CornerRadius="{theme:RadiusMd}"
                       Padding="4"
                       MinWidth="160">
                 <ItemsControl x:Name="PART_OverflowPresenter"

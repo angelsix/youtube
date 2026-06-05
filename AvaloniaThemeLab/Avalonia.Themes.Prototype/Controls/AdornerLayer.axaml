@@ -1,5 +1,7 @@
 ﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
+                    xmlns:theme="using:AngelSix.ThemeEngine.Generated"
                     x:ClassModifier="internal">
   <Thickness x:Key="SystemControlFocusVisualMargin">0</Thickness>
   <Thickness x:Key="SystemControlFocusVisualPrimaryThickness">2</Thickness>
@@ -9,10 +11,10 @@
     <Setter Property="DefaultFocusAdorner">
       <FocusAdornerTemplate>
         <Border BorderThickness="{DynamicResource SystemControlFocusVisualPrimaryThickness}"
-                BorderBrush="{DynamicResource SystemControlFocusVisualPrimaryBrush}"
+                BorderBrush="{theme:OnSurfaceBrush}"
                 Margin="{DynamicResource SystemControlFocusVisualMargin}">
           <Border BorderThickness="{DynamicResource SystemControlFocusVisualSecondaryThickness}"
-                  BorderBrush="{DynamicResource SystemControlFocusVisualSecondaryBrush}" />
+                  BorderBrush="{theme:SurfaceBrush}" />
         </Border>
       </FocusAdornerTemplate>
     </Setter>

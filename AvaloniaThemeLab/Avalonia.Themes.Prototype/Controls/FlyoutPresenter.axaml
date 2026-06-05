@@ -1,28 +1,29 @@
 ﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
+                    xmlns:theme="using:AngelSix.ThemeEngine.Generated"
                     x:ClassModifier="internal">
-  <Thickness x:Key="FlyoutBorderThemeThickness">1</Thickness>
   <ControlTheme x:Key="{x:Type FlyoutPresenter}" TargetType="FlyoutPresenter">
     <Setter Property="HorizontalContentAlignment" Value="Stretch" />
     <Setter Property="VerticalContentAlignment" Value="Stretch" />
-    <Setter Property="Background" Value="{DynamicResource FlyoutPresenterBackground}" />
-    <Setter Property="BorderBrush" Value="{DynamicResource FlyoutBorderThemeBrush}" />
-    <Setter Property="BorderThickness" Value="{DynamicResource FlyoutBorderThemeThickness}" />
-    <Setter Property="Padding" Value="{DynamicResource FlyoutContentThemePadding}" />
-    <Setter Property="MinWidth" Value="{DynamicResource FlyoutThemeMinWidth}" />
-    <Setter Property="MaxWidth" Value="{DynamicResource FlyoutThemeMaxWidth}" />
-    <Setter Property="MinHeight" Value="{DynamicResource FlyoutThemeMinHeight}" />
-    <Setter Property="MaxHeight" Value="{DynamicResource FlyoutThemeMaxHeight}" />
+    <Setter Property="Background" Value="{theme:SurfaceBrush}" />
+    <Setter Property="BorderBrush" Value="{theme:AccentBorderBrush}" />
+    <Setter Property="BorderThickness" Value="{theme:Thickness}" />
+    <Setter Property="Padding" Value="{theme:Edges All={theme:SpacingXxl}}" />
+    <Setter Property="MinWidth" Value="96" />
+    <Setter Property="MaxWidth" Value="456" />
+    <Setter Property="MinHeight" Value="40" />
+    <Setter Property="MaxHeight" Value="758" />
     <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
     <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
-    <Setter Property="CornerRadius" Value="{DynamicResource OverlayCornerRadius}" />
+    <Setter Property="CornerRadius" Value="{theme:RadiusMd}" />
     <Setter Property="Template">
       <ControlTemplate>
         <Border Name="LayoutRoot"
                 Background="{TemplateBinding Background}"
                 BorderBrush="{TemplateBinding BorderBrush}"
                 BorderThickness="{TemplateBinding BorderThickness}"
-                Padding="{DynamicResource FlyoutBorderThemePadding}"
+                Padding="0"
                 CornerRadius="{TemplateBinding CornerRadius}">
           <ScrollViewer HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
                         VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}">

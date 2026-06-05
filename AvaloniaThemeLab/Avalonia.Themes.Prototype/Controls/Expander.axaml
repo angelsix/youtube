@@ -1,9 +1,15 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
+                    xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+                    xmlns:converters="using:Avalonia.Controls.Converters"
                     x:ClassModifier="internal">
 
   <Design.PreviewWith>
     <Border Padding="20">
+      <Border.Styles>
+        <prototype:PrototypeTheme />
+      </Border.Styles>
       <StackPanel Orientation="Vertical" Spacing="20" Width="350" Height="600">
         <Expander ExpandDirection="Up" Header="Expand Up">
           <StackPanel>
@@ -45,6 +51,11 @@
     </Border>
   </Design.PreviewWith>
 
+  <converters:CornerRadiusFilterConverter x:Key="TopCornerRadiusFilterConverter" Filter="TopLeft, TopRight" />
+  <converters:CornerRadiusFilterConverter x:Key="RightCornerRadiusFilterConverter" Filter="TopRight, BottomRight" />
+  <converters:CornerRadiusFilterConverter x:Key="BottomCornerRadiusFilterConverter" Filter="BottomLeft, BottomRight" />
+  <converters:CornerRadiusFilterConverter x:Key="LeftCornerRadiusFilterConverter" Filter="TopLeft, BottomLeft" />
+
   <!-- Shared header/content -->
   <x:Double x:Key="ExpanderMinHeight">48</x:Double>
 
@@ -65,10 +76,10 @@
   <Thickness x:Key="ExpanderContentDownBorderThickness">1,0,1,1</Thickness>
 
   <ControlTheme x:Key="PrototypeExpanderToggleButtonTheme" TargetType="ToggleButton">
-    <Setter Property="Background" Value="{DynamicResource ExpanderHeaderBackground}" />
-    <Setter Property="BorderBrush" Value="{DynamicResource ExpanderHeaderBorderBrush}" />
-    <Setter Property="BorderThickness" Value="{DynamicResource ExpanderHeaderBorderThickness}" />
-    <Setter Property="Foreground" Value="{DynamicResource ExpanderHeaderForeground}" />
+    <Setter Property="Background" Value="{theme:SurfaceBrush}" />
+    <Setter Property="BorderBrush" Value="{theme:SurfaceOverlayWeakBrush}" />
+    <Setter Property="BorderThickness" Value="{theme:Thickness}" />
+    <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
     <Setter Property="Padding" Value="{DynamicResource ExpanderHeaderPadding}" />
     <Setter Property="HorizontalAlignment" Value="Stretch" />
     <Setter Property="HorizontalContentAlignment" Value="{DynamicResource ExpanderHeaderHorizontalContentAlignment}" />
@@ -94,16 +105,16 @@
                     Width="{DynamicResource ExpanderChevronButtonSize}"
                     Height="{DynamicResource ExpanderChevronButtonSize}"
                     Margin="{DynamicResource ExpanderChevronMargin}"
-                    CornerRadius="{DynamicResource ControlCornerRadius}"
-                    BorderBrush="{DynamicResource ExpanderChevronBorderBrush}"
+                    CornerRadius="{theme:RadiusSm}"
+                    BorderBrush="Transparent"
                     BorderThickness="{DynamicResource ExpanderChevronBorderThickness}"
-                    Background="{DynamicResource ExpanderChevronBackground}">
+                    Background="Transparent">
               <Path x:Name="ExpandCollapseChevron"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     RenderTransformOrigin="50%,50%"
                     Stretch="None"
-                    Stroke="{DynamicResource ExpanderChevronForeground}"
+                    Stroke="{theme:OnSurfaceBrush}"
                     StrokeThickness="1">
                 <Path.RenderTransform>
                   <RotateTransform />
@@ -140,50 +151,50 @@
 
     <!-- PointerOver -->
     <Style Selector="^:pointerover /template/ Border#ToggleButtonBackground">
-      <Setter Property="Background" Value="{DynamicResource ExpanderHeaderBackgroundPointerOver}" />
-      <Setter Property="BorderBrush" Value="{DynamicResource ExpanderHeaderBorderBrushPointerOver}" />
+      <Setter Property="Background" Value="{theme:SurfaceBrush}" />
+      <Setter Property="BorderBrush" Value="{theme:SurfaceOverlayWeakBrush}" />
     </Style>
     <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="Foreground" Value="{DynamicResource ExpanderHeaderForegroundPointerOver}" />
+      <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
     </Style>
     <Style Selector="^:pointerover /template/ Border#ExpandCollapseChevronBorder">
-      <Setter Property="Background" Value="{DynamicResource ExpanderChevronBackgroundPointerOver}" />
-      <Setter Property="BorderBrush" Value="{DynamicResource ExpanderChevronBorderBrushPointerOver}" />
+      <Setter Property="Background" Value="{theme:OnSurfaceBrush}" />
+      <Setter Property="BorderBrush" Value="Transparent" />
     </Style>
     <Style Selector="^:pointerover /template/ Path#ExpandCollapseChevron">
-      <Setter Property="Stroke" Value="{DynamicResource ExpanderChevronForegroundPointerOver}" />
+      <Setter Property="Stroke" Value="{theme:OnSurfaceBrush}" />
     </Style>
 
     <!-- Pressed -->
     <Style Selector="^:pressed /template/ Border#ToggleButtonBackground">
-      <Setter Property="Background" Value="{DynamicResource ExpanderHeaderBackgroundPressed}" />
-      <Setter Property="BorderBrush" Value="{DynamicResource ExpanderHeaderBorderBrushPressed}" />
+      <Setter Property="Background" Value="{theme:SurfaceBrush}" />
+      <Setter Property="BorderBrush" Value="{theme:SurfaceOverlayWeakBrush}" />
     </Style>
     <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="Foreground" Value="{DynamicResource ExpanderHeaderForegroundPressed}" />
+      <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
     </Style>
     <Style Selector="^:pressed /template/ Border#ExpandCollapseChevronBorder">
-      <Setter Property="Background" Value="{DynamicResource ExpanderChevronBackgroundPressed}" />
-      <Setter Property="BorderBrush" Value="{DynamicResource ExpanderChevronBorderBrushPressed}" />
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="BorderBrush" Value="Transparent" />
     </Style>
     <Style Selector="^:pressed /template/ Path#ExpandCollapseChevron">
-      <Setter Property="Stroke" Value="{DynamicResource ExpanderChevronForegroundPressed}" />
+      <Setter Property="Stroke" Value="{theme:OnSurfaceBrush}" />
     </Style>
 
     <!-- Disabled -->
     <Style Selector="^:disabled /template/ Border#ToggleButtonBackground">
-      <Setter Property="Background" Value="{DynamicResource ExpanderHeaderBackgroundDisabled}" />
-      <Setter Property="BorderBrush" Value="{DynamicResource ExpanderHeaderBorderBrushDisabled}" />
+      <Setter Property="Background" Value="{theme:SurfaceBrush}" />
+      <Setter Property="BorderBrush" Value="{theme:SurfaceOverlayWeakBrush}" />
     </Style>
     <Style Selector="^:disabled /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="Foreground" Value="{DynamicResource ExpanderHeaderForegroundDisabled}" />
+      <Setter Property="Foreground" Value="{theme:OnSurfaceDimBrush}" />
     </Style>
     <Style Selector="^:disabled /template/ Border#ExpandCollapseChevronBorder">
-      <Setter Property="Background" Value="{DynamicResource ExpanderChevronBackgroundDisabled}" />
-      <Setter Property="BorderBrush" Value="{DynamicResource ExpanderChevronBorderBrushDisabled}" />
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="BorderBrush" Value="Transparent" />
     </Style>
     <Style Selector="^:disabled /template/ Path#ExpandCollapseChevron">
-      <Setter Property="Stroke" Value="{DynamicResource ExpanderChevronForegroundDisabled}" />
+      <Setter Property="Stroke" Value="{theme:OnSurfaceDimBrush}" />
     </Style>
 
   </ControlTheme>
@@ -214,15 +225,15 @@
 
   <ControlTheme x:Key="{x:Type Expander}" TargetType="Expander">
     <Setter Property="IsTabStop" Value="False"/>
-    <Setter Property="MinWidth" Value="{DynamicResource FlyoutThemeMinWidth}" />
+    <Setter Property="MinWidth" Value="96" />
     <Setter Property="MinHeight" Value="{DynamicResource ExpanderMinHeight}" />
-    <Setter Property="Background" Value="{DynamicResource ExpanderContentBackground}" />
-    <Setter Property="BorderBrush" Value="{DynamicResource ExpanderContentBorderBrush}" />
+    <Setter Property="Background" Value="{theme:SurfaceBrush}" />
+    <Setter Property="BorderBrush" Value="{theme:SurfaceOverlayWeakBrush}" />
     <Setter Property="BorderThickness" Value="{DynamicResource ExpanderContentDownBorderThickness}" />
     <Setter Property="Padding" Value="{DynamicResource ExpanderContentPadding}" />
     <Setter Property="HorizontalAlignment" Value="Left" />
     <Setter Property="VerticalAlignment" Value="Center" />
-    <Setter Property="CornerRadius" Value="{DynamicResource ControlCornerRadius}" />
+    <Setter Property="CornerRadius" Value="{theme:RadiusSm}" />
     <Setter Property="Template">
       <ControlTemplate>
         <DockPanel MinWidth="{TemplateBinding MinWidth}"
