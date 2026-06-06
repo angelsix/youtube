@@ -6,7 +6,7 @@ A minimal design token system for Avalonia.Themes.Prototype — a small set of m
 ## The plan
 
 ### Scope
-Only the theme class (`DefaultTheme.cs` and the ThemeEngine integration). No control files will be touched at this stage.
+Originally the theme class only (`DefaultTheme.cs` + ThemeEngine integration). **Phase 2 (2026-06-06):** the control files in `Controls/` were migrated off their stranded inline resources *and* inline layout literals onto these tokens — heights, thicknesses, paddings/margins (via `{theme:Edges}`), fonts, radii (uniform via `{theme:Radius*}`, per-corner via `{prototype:Corners}`), and GridLength row/column sizes (via `{prototype:GridPixels}`) now resolve to tokens; large/off-scale one-offs (incl. the window caption buttons) use `{prototype:Scaled}`, so **everything scales with `BaseSize`**. The only remaining literals are intentional `0`s and icon-drawing geometry (path coordinates, `StrokeThickness`, small glyph `Width`/`Height`), deferred to a later resource-sharing pass.
 
 ### Colours — 13 base tokens
 
@@ -40,7 +40,24 @@ Each accent auto-derives Dark1/2/3 and Light1/2/3 via HSL steps. Overlay levels 
 | `SpacingXl` | `x:Double` | `12` | `12 × BaseSize` |
 | `RadiusSm` | `CornerRadius` | `3` | `CornerRadius(3 × BaseSize)` |
 | `RadiusMd` | `CornerRadius` | `6` | `CornerRadius(6 × BaseSize)` |
-| `Thickness` | `Thickness` | `1` | `Thickness(1 × BaseSize)` |
+| `ControlHeightSm` | `x:Double` | `32` | `32 × BaseSize` — standard control height |
+| `ControlHeightMd` | `x:Double` | `40` | `40 × BaseSize` — picker/flyout rows |
+| `ControlHeightLg` | `x:Double` | `48` | `48 × BaseSize` — nav bars, tab headers, tall controls |
+| `ThicknessSm` | `Thickness` | `1` | `Thickness(1 × BaseSize)` — standard borders |
+| `ThicknessMd` | `Thickness` | `2` | `Thickness(2 × BaseSize)` — emphasis/focus/selection |
+| `ThicknessLg` | `Thickness` | `3` | `Thickness(3 × BaseSize)` |
+| `ThicknessXl` | `Thickness` | `4` | `Thickness(4 × BaseSize)` |
+| `ThicknessXxl` | `Thickness` | `6` | `Thickness(6 × BaseSize)` |
+
+Thickness mirrors the spacing scale (spacing values halved), all `BaseSize`-driven. Control height is a partial ascending scale (extend to a centred 5-tier if it ever needs more than these).
+
+### Off-scale policy
+
+- **Near a scale value** → snap to the nearest existing token (don't invent a token for a one-off).
+- **Deliberately off-scale / exceptionally large** (e.g. picker min/max widths, a header that wants 2× the largest spacing) → multiply the closest existing token *inside that control* with the `{prototype:Scaled Value={theme:Token}, By=N}` markup extension, never a hard-coded literal — so the value still scales with `BaseSize`/zoom. Never bloat the theme for a single exception.
+- **GridLength row/column sizes** can't bind to a double token directly, so use `{prototype:GridPixels Value={theme:Token}}` to turn a spacing token into a pixel `GridLength`.
+
+Both `Scaled` and `GridPixels` mirror the theme engine's `{theme:Edges}` design: each takes its input as a bindable `BindingBase` woven into a `MultiBinding`, so they're decoupled from the theme system and stay reactive to `BaseSize`/theme changes.
 
 Each getter in `DefaultTheme.cs` returns a value that incorporates `BaseSize` multiplication. XAML has no idea the value is derived — it just receives a number.
 

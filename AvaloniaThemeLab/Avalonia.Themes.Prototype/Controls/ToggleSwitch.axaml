@@ -21,10 +21,6 @@
     </StackPanel>
   </Design.PreviewWith>
 
-  <Thickness x:Key="ToggleSwitchTopHeaderMargin">0,0,0,6</Thickness>
-  <GridLength x:Key="ToggleSwitchPreContentMargin">6</GridLength>
-  <GridLength x:Key="ToggleSwitchPostContentMargin">6</GridLength>
-  <x:Double x:Key="ToggleSwitchThemeMinWidth">0</x:Double>
 
   <ControlTheme x:Key="{x:Type ToggleSwitch}" TargetType="ToggleSwitch">
     <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
@@ -50,18 +46,18 @@
               VerticalAlignment="Top"
               Content="{TemplateBinding Content}"
               ContentTemplate="{TemplateBinding ContentTemplate}"
-              Margin="{DynamicResource ToggleSwitchTopHeaderMargin}" />
+              Margin="{theme:Edges Bottom={theme:SpacingLg}}" />
 
           <Grid
               Grid.Row="1"
-              MinWidth="{DynamicResource ToggleSwitchThemeMinWidth}"
+              MinWidth="0"
               HorizontalAlignment="Left"
               VerticalAlignment="Top">
 
             <Grid.RowDefinitions>
-              <RowDefinition Height="{DynamicResource ToggleSwitchPreContentMargin}" />
+              <RowDefinition Height="{theme:GridPixels Value={theme:SpacingLg}}" />
               <RowDefinition Height="Auto" />
-              <RowDefinition Height="{DynamicResource ToggleSwitchPostContentMargin}" />
+              <RowDefinition Height="{theme:GridPixels Value={theme:SpacingLg}}" />
             </Grid.RowDefinitions>
 
             <Grid.ColumnDefinitions>
@@ -75,7 +71,7 @@
                 Grid.RowSpan="3"
                 Grid.ColumnSpan="3"
                 Background="Transparent"
-                Margin="0,5"
+                Margin="{theme:Edges Top={theme:SpacingLg}, Bottom={theme:SpacingLg}}"
                 TemplatedControl.IsTemplateFocusTarget="True" />
 
             <ContentPresenter
@@ -103,8 +99,8 @@
                 Height="20"
                 Background="Transparent"
                 BorderBrush="{theme:AccentBorderBrush}"
-                BorderThickness="{theme:Thickness}"
-                CornerRadius="10" />
+                BorderThickness="{theme:ThicknessSm}"
+                CornerRadius="{theme:RadiusMd}" />
 
             <Border
                 x:Name="SwitchKnobBounds"
@@ -114,7 +110,7 @@
                 Background="{theme:AccentPrimaryBrush}"
                 BorderBrush="{theme:OnSurfaceBrush}"
                 BorderThickness="0"
-                CornerRadius="10" />
+                CornerRadius="{theme:RadiusMd}" />
 
             <Canvas
                 x:Name="PART_SwitchKnob"

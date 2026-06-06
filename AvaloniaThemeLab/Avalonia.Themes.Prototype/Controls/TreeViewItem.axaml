@@ -25,16 +25,13 @@
     </Border>
   </Design.PreviewWith>
 
-  <x:Double x:Key="TreeViewItemIndent">16</x:Double>
-  <x:Double x:Key="TreeViewItemExpandCollapseChevronSize">12</x:Double>
-  <Thickness x:Key="TreeViewItemExpandCollapseChevronMargin">12, 0, 12, 0</Thickness>
   <StreamGeometry x:Key="TreeViewItemCollapsedChevronPathData">M 1,0 10,10 l -9,10 -1,-1 L 8,10 -0,1 Z</StreamGeometry>
   <StreamGeometry x:Key="TreeViewItemExpandedChevronPathData">M0,1 L10,10 20,1 19,0 10,8 1,0 Z</StreamGeometry>
 
   <ControlTheme x:Key="PrototypeTreeViewExpandCollapseChevron" TargetType="ToggleButton">
     <Setter Property="Margin" Value="0" />
-    <Setter Property="Width" Value="{StaticResource TreeViewItemExpandCollapseChevronSize}" />
-    <Setter Property="Height" Value="{StaticResource TreeViewItemExpandCollapseChevronSize}" />
+    <Setter Property="Width" Value="{theme:FontSizeSm}" />
+    <Setter Property="Height" Value="{theme:FontSizeSm}" />
     <Setter Property="Template">
       <ControlTemplate>
         <Border Background="Transparent"
@@ -61,9 +58,9 @@
     <Setter Property="Padding" Value="0" />
     <Setter Property="Background" Value="Transparent" />
     <Setter Property="BorderBrush" Value="Transparent" />
-    <Setter Property="BorderThickness" Value="{theme:Thickness}" />
+    <Setter Property="BorderThickness" Value="{theme:ThicknessSm}" />
     <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
-    <Setter Property="MinHeight" Value="{theme:ControlHeight}" />
+    <Setter Property="MinHeight" Value="{theme:ControlHeightSm}" />
     <Setter Property="VerticalAlignment" Value="Center" />
     <Setter Property="Template">
       <ControlTemplate>
@@ -82,11 +79,11 @@
               <Grid.Margin>
                 <MultiBinding Converter="{x:Static converters:TreeViewItemIndentConverter.Instance}">
                   <Binding Path="Level" RelativeSource="{RelativeSource TemplatedParent}" />
-                  <DynamicResource ResourceKey="TreeViewItemIndent" />
+                  <theme:SpacingXxl />
                 </MultiBinding>
               </Grid.Margin>
               <Panel Name="PART_ExpandCollapseChevronContainer"
-                     Margin="{StaticResource TreeViewItemExpandCollapseChevronMargin}">
+                     Margin="{theme:Edges Horizontal={theme:SpacingXxl}}">
                 <ToggleButton Name="PART_ExpandCollapseChevron"
                               Theme="{StaticResource PrototypeTreeViewExpandCollapseChevron}"
                               Focusable="False"
@@ -177,7 +174,7 @@
       <Setter Property="IsVisible" Value="False" />
     </Style>
     <Style Selector="^:empty /template/ Panel#PART_ExpandCollapseChevronContainer">
-      <Setter Property="Width" Value="{StaticResource TreeViewItemExpandCollapseChevronSize}" />
+      <Setter Property="Width" Value="{theme:FontSizeSm}" />
     </Style>
   </ControlTheme>
 </ResourceDictionary>

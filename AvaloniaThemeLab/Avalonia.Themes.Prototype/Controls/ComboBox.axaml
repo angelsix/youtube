@@ -55,26 +55,22 @@
     </Border>
   </Design.PreviewWith>
 
-  <Thickness x:Key="ComboBoxTopHeaderMargin">0,0,0,4</Thickness>
   <x:Int32 x:Key="ComboBoxPopupMaxNumberOfItems">15</x:Int32>
   <x:Int32 x:Key="ComboBoxPopupMaxNumberOfItemsThatCanBeShownOnOneSide">7</x:Int32>
 
-  <Thickness x:Key="ComboBoxPadding">12,5,0,7</Thickness>
-  <Thickness x:Key="ComboBoxEditableTextPadding">11,5,32,6</Thickness>
-  <x:Double x:Key="ComboBoxMinHeight">32</x:Double>
 
   <ControlTheme x:Key="{x:Type ComboBox}" TargetType="ComboBox">
-    <Setter Property="Padding" Value="{DynamicResource ComboBoxPadding}" />
+    <Setter Property="Padding" Value="{theme:Edges Left={theme:SpacingXxl}, Top={theme:SpacingMd}, Bottom={theme:SpacingXl}}" />
     <Setter Property="FocusAdorner" Value="{x:Null}" />
     <Setter Property="MaxDropDownHeight" Value="504" />
     <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
     <Setter Property="Background" Value="{theme:SurfaceBrush}" />
     <Setter Property="BorderBrush" Value="{theme:AccentBorderBrush}" />
-    <Setter Property="BorderThickness" Value="{theme:Thickness}" />
+    <Setter Property="BorderThickness" Value="{theme:ThicknessSm}" />
     <Setter Property="CornerRadius" Value="{theme:RadiusSm}" />
     <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
     <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
-    <Setter Property="MinHeight" Value="{DynamicResource ComboBoxMinHeight}" />
+    <Setter Property="MinHeight" Value="{theme:ControlHeightSm}" />
     <Setter Property="HorizontalContentAlignment" Value="Stretch" />
     <Setter Property="VerticalContentAlignment" Value="Center" />
     <Setter Property="HorizontalAlignment" Value="Left" />
@@ -138,14 +134,13 @@
               <TextBox.Resources>
                 <SolidColorBrush x:Key="TextControlBackgroundFocused">Transparent</SolidColorBrush>
                 <SolidColorBrush x:Key="TextControlBackgroundPointerOver">Transparent</SolidColorBrush>
-                <Thickness x:Key="TextControlBorderThemeThicknessFocused">0</Thickness>
               </TextBox.Resources>
             </TextBox>
 
             <Border x:Name="DropDownOverlay"
                     Grid.Column="1"
                     Background="Transparent"
-                    Margin="0,1,1,1"
+                    Margin="{theme:Edges Top={theme:BaseSize}, Right={theme:BaseSize}, Bottom={theme:BaseSize}}"
                     Width="30"
                     IsVisible="False"
                     HorizontalAlignment="Right" />
@@ -156,7 +151,7 @@
                       IsHitTestVisible="False"
                       Height="12"
                       Width="12"
-                      Margin="0,0,10,0"
+                      Margin="{theme:Edges Right={theme:SpacingXxl}}"
                       HorizontalAlignment="Right"
                       VerticalAlignment="Center"
                       Foreground="{theme:OnSurfaceDimBrush}"
@@ -173,7 +168,7 @@
               <Border x:Name="PopupBorder"
                       Background="{theme:SurfaceBrush}"
                       BorderBrush="{theme:AccentBorderBrush}"
-                      BorderThickness="{theme:Thickness}"
+                      BorderThickness="{theme:ThicknessSm}"
                       Padding="0"
                       HorizontalAlignment="Stretch"
                       CornerRadius="{theme:RadiusMd}">

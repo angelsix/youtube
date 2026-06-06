@@ -54,8 +54,12 @@ public class DefaultTheme
     public virtual double FontSizeXl => 20 * BaseSize;
     public virtual double FontSizeXxl => 24 * BaseSize;
 
+    // Control height scale
+    public virtual double ControlHeightSm => 32 * BaseSize;
+    public virtual double ControlHeightMd => 40 * BaseSize;
+    public virtual double ControlHeightLg => 48 * BaseSize;
+
     // Control metrics
-    public virtual double ControlHeight => 32 * BaseSize;
     public virtual double ControlMinWidth => 64 * BaseSize;
     public virtual double IconSize => 20 * BaseSize;
 
@@ -65,7 +69,13 @@ public class DefaultTheme
     // Shape tokens
     public virtual CornerRadius RadiusSm => new CornerRadius(3 * BaseSize);
     public virtual CornerRadius RadiusMd => new CornerRadius(6 * BaseSize);
-    public virtual Thickness Thickness => new Thickness(BaseSize);
+
+    // Thickness scale (uniform border/outline thicknesses, spacing scale halved)
+    public virtual Thickness ThicknessSm => new Thickness(1 * BaseSize);
+    public virtual Thickness ThicknessMd => new Thickness(2 * BaseSize);
+    public virtual Thickness ThicknessLg => new Thickness(3 * BaseSize);
+    public virtual Thickness ThicknessXl => new Thickness(4 * BaseSize);
+    public virtual Thickness ThicknessXxl => new Thickness(6 * BaseSize);
 
     #endregion Source Properties
 

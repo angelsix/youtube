@@ -28,7 +28,7 @@
 
   <!-- Theme for the items displayed in the selectors -->
   <ControlTheme x:Key="PrototypeDateTimePickerItem" TargetType="ListBoxItem" BasedOn="{StaticResource {x:Type ListBoxItem}}">
-    <Setter Property="Padding" Value="{DynamicResource DatePickerFlyoutPresenterItemPadding}"/>
+    <Setter Property="Padding" Value="{theme:Edges Top={theme:SpacingMd}, Bottom={theme:SpacingLg}}"/>
     <Setter Property="VerticalContentAlignment" Value="Center" />
     <Setter Property="HorizontalContentAlignment" Value="Center" />
 
@@ -43,7 +43,7 @@
       </Style>
     </Style>
     <Style Selector="^.MonthItem">
-      <Setter Property="Padding" Value="{DynamicResource DatePickerFlyoutPresenterMonthPadding}"/>
+      <Setter Property="Padding" Value="{theme:Edges Left={theme:SpacingXl}, Top={theme:SpacingMd}, Bottom={theme:SpacingLg}}"/>
       <Setter Property="HorizontalContentAlignment" Value="Left" />
     </Style>
   </ControlTheme>
@@ -64,7 +64,7 @@
           <ContentPresenter x:Name="PART_ContentPresenter"
                   Background="{TemplateBinding Background}"
                   BorderBrush="Transparent"
-                  BorderThickness="{theme:Thickness}"
+                  BorderThickness="{theme:ThicknessSm}"
                   Content="{TemplateBinding Content}"
                   Foreground="{theme:OnSurfaceBrush}"
                   ContentTemplate="{TemplateBinding ContentTemplate}"

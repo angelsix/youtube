@@ -11,13 +11,12 @@
         <Image Stretch="Uniform" HorizontalAlignment="Left"
                Cursor="Arrow"
                Name="PART_HandlePathIcon"
-               Height="{DynamicResource TextSelectHandleSize}"
+               Height="{theme:ControlHeightSm}"
                Source="{DynamicResource TextSelectionHandleDrawing}">
         </Image>
       </Border>
     </Grid>
   </Design.PreviewWith>
-  <x:Double x:Key="TextSelectHandleSize">32</x:Double>
 
   <DrawingImage x:Key="TextSelectionHandleDrawing">
     <DrawingImage.Drawing>
@@ -85,11 +84,11 @@
       <Setter.Value>
         <ControlTemplate>
           <Grid>
-            <Border Padding="0,0,0,10" IsHitTestVisible="True" Background="Transparent">
+            <Border Padding="{theme:Edges Bottom={theme:SpacingXxl}}" IsHitTestVisible="True" Background="Transparent">
               <Image Stretch="Uniform"
                      Cursor="Arrow"
                      Name="PART_HandlePathIcon"
-                     Height="{DynamicResource TextSelectHandleSize}"
+                     Height="{theme:ControlHeightSm}"
                      Source="{DynamicResource TextSelectionHandleDrawing}"/>
             </Border>
             <Border Background="Transparent"

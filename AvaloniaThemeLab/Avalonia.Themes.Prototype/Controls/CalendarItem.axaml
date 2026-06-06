@@ -85,13 +85,13 @@
               <Button Name="PART_HeaderButton"
                       Theme="{StaticResource PrototypeCalendarButton}"
                       Foreground="{TemplateBinding Foreground}"
-                      Padding="12,0,0,0"
+                      Padding="{theme:Edges Left={theme:SpacingXxl}}"
                       HorizontalContentAlignment="Left" />
               <Button Name="PART_PreviousButton"
                       Grid.Column="1"
                       Theme="{StaticResource PrototypeCalendarButton}"
                       Foreground="{TemplateBinding Foreground}"
-                      Padding="1"
+                      Padding="{theme:Edges All={theme:BaseSize}}"
                       HorizontalContentAlignment="Left">
                 <!--Path mimics Segoe MDL2 Assets font glyph used in WinUI-->
                 <Path Stroke="{theme:OnSurfaceDimBrush}"
@@ -104,7 +104,7 @@
                       Grid.Column="2"
                       Theme="{StaticResource PrototypeCalendarButton}"
                       Foreground="{TemplateBinding Foreground}"
-                      Padding="1"
+                      Padding="{theme:Edges All={theme:BaseSize}}"
                       HorizontalContentAlignment="Left">
                 <!--Path mimics Segoe MDL2 Assets font glyph used in WinUI-->
                 <Path Stroke="{theme:OnSurfaceDimBrush}"
@@ -115,7 +115,7 @@
               </Button>
             </Grid>
             <!--Border below is used only for MonthView but it can't be moved inside of Grid because CalendarItem expects it to be empty and it will cause side-effects-->
-            <Border Name="BackgroundLayer" Background="{TemplateBinding BorderBrush}" Margin="0,38,0,0" IsVisible="{Binding #PART_MonthView.IsVisible}" Grid.Row="1" />
+            <Border Name="BackgroundLayer" Background="{TemplateBinding BorderBrush}" Margin="{theme:Edges Top={theme:Scaled Value={theme:BaseSize}, By=38}}" IsVisible="{Binding #PART_MonthView.IsVisible}" Grid.Row="1" />
             <Grid Name="PART_MonthView" Grid.Row="1" IsVisible="False" MinHeight="290">
               <Grid.RowDefinitions>
                 <!--This should always be the week day names??-->

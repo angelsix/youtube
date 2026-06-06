@@ -56,31 +56,16 @@
   <converters:CornerRadiusFilterConverter x:Key="BottomCornerRadiusFilterConverter" Filter="BottomLeft, BottomRight" />
   <converters:CornerRadiusFilterConverter x:Key="LeftCornerRadiusFilterConverter" Filter="TopLeft, BottomLeft" />
 
-  <!-- Shared header/content -->
-  <x:Double x:Key="ExpanderMinHeight">48</x:Double>
-
-  <!-- Header -->
+  <!-- Header content alignment -->
   <HorizontalAlignment x:Key="ExpanderHeaderHorizontalContentAlignment">Stretch</HorizontalAlignment>
   <VerticalAlignment x:Key="ExpanderHeaderVerticalContentAlignment">Center</VerticalAlignment>
-  <Thickness x:Key="ExpanderHeaderPadding">16,0,0,0</Thickness>
-  <Thickness x:Key="ExpanderHeaderBorderThickness">1</Thickness>
-  <Thickness x:Key="ExpanderChevronBorderThickness">0</Thickness>
-  <Thickness x:Key="ExpanderChevronMargin">20,0,8,0</Thickness>
-  <x:Double x:Key="ExpanderChevronButtonSize">32</x:Double>
-
-  <!-- Content -->
-  <Thickness x:Key="ExpanderContentPadding">16</Thickness>
-  <Thickness x:Key="ExpanderContentLeftBorderThickness">1,1,0,1</Thickness>
-  <Thickness x:Key="ExpanderContentUpBorderThickness">1,1,1,0</Thickness>
-  <Thickness x:Key="ExpanderContentRightBorderThickness">0,1,1,1</Thickness>
-  <Thickness x:Key="ExpanderContentDownBorderThickness">1,0,1,1</Thickness>
 
   <ControlTheme x:Key="PrototypeExpanderToggleButtonTheme" TargetType="ToggleButton">
     <Setter Property="Background" Value="{theme:SurfaceBrush}" />
     <Setter Property="BorderBrush" Value="{theme:SurfaceOverlayWeakBrush}" />
-    <Setter Property="BorderThickness" Value="{theme:Thickness}" />
+    <Setter Property="BorderThickness" Value="{theme:ThicknessSm}" />
     <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
-    <Setter Property="Padding" Value="{DynamicResource ExpanderHeaderPadding}" />
+    <Setter Property="Padding" Value="{theme:Edges Left={theme:SpacingXxl}}" />
     <Setter Property="HorizontalAlignment" Value="Stretch" />
     <Setter Property="HorizontalContentAlignment" Value="{DynamicResource ExpanderHeaderHorizontalContentAlignment}" />
     <Setter Property="VerticalContentAlignment" Value="{DynamicResource ExpanderHeaderVerticalContentAlignment}" />
@@ -102,12 +87,12 @@
                               Margin="{TemplateBinding Padding}"/>
             <Border x:Name="ExpandCollapseChevronBorder"
                     Grid.Column="1"
-                    Width="{DynamicResource ExpanderChevronButtonSize}"
-                    Height="{DynamicResource ExpanderChevronButtonSize}"
-                    Margin="{DynamicResource ExpanderChevronMargin}"
+                    Width="{theme:ControlHeightSm}"
+                    Height="{theme:ControlHeightSm}"
+                    Margin="{theme:Edges Left={theme:SpacingXxl}, Right={theme:SpacingXl}}"
                     CornerRadius="{theme:RadiusSm}"
                     BorderBrush="Transparent"
-                    BorderThickness="{DynamicResource ExpanderChevronBorderThickness}"
+                    BorderThickness="0"
                     Background="Transparent">
               <Path x:Name="ExpandCollapseChevron"
                     HorizontalAlignment="Center"
@@ -226,11 +211,11 @@
   <ControlTheme x:Key="{x:Type Expander}" TargetType="Expander">
     <Setter Property="IsTabStop" Value="False"/>
     <Setter Property="MinWidth" Value="96" />
-    <Setter Property="MinHeight" Value="{DynamicResource ExpanderMinHeight}" />
+    <Setter Property="MinHeight" Value="{theme:ControlHeightLg}" />
     <Setter Property="Background" Value="{theme:SurfaceBrush}" />
     <Setter Property="BorderBrush" Value="{theme:SurfaceOverlayWeakBrush}" />
-    <Setter Property="BorderThickness" Value="{DynamicResource ExpanderContentDownBorderThickness}" />
-    <Setter Property="Padding" Value="{DynamicResource ExpanderContentPadding}" />
+    <Setter Property="BorderThickness" Value="{theme:Edges Left={theme:BaseSize}, Right={theme:BaseSize}, Bottom={theme:BaseSize}}" />
+    <Setter Property="Padding" Value="{theme:Edges All={theme:SpacingXxl}}" />
     <Setter Property="HorizontalAlignment" Value="Left" />
     <Setter Property="VerticalAlignment" Value="Center" />
     <Setter Property="CornerRadius" Value="{theme:RadiusSm}" />
@@ -333,16 +318,16 @@
     </Style>
 
     <Style Selector="^:left /template/ Border#ExpanderContent">
-      <Setter Property="BorderThickness" Value="{DynamicResource ExpanderContentLeftBorderThickness}" />
+      <Setter Property="BorderThickness" Value="{theme:Edges Left={theme:BaseSize}, Top={theme:BaseSize}, Bottom={theme:BaseSize}}" />
     </Style>
     <Style Selector="^:up /template/ Border#ExpanderContent">
-      <Setter Property="BorderThickness" Value="{DynamicResource ExpanderContentUpBorderThickness}" />
+      <Setter Property="BorderThickness" Value="{theme:Edges Left={theme:BaseSize}, Top={theme:BaseSize}, Right={theme:BaseSize}}" />
     </Style>
     <Style Selector="^:right /template/ Border#ExpanderContent">
-      <Setter Property="BorderThickness" Value="{DynamicResource ExpanderContentRightBorderThickness}" />
+      <Setter Property="BorderThickness" Value="{theme:Edges Top={theme:BaseSize}, Right={theme:BaseSize}, Bottom={theme:BaseSize}}" />
     </Style>
     <Style Selector="^:down /template/ Border#ExpanderContent">
-      <Setter Property="BorderThickness" Value="{DynamicResource ExpanderContentDownBorderThickness}" />
+      <Setter Property="BorderThickness" Value="{theme:Edges Left={theme:BaseSize}, Right={theme:BaseSize}, Bottom={theme:BaseSize}}" />
     </Style>
   </ControlTheme>
 </ResourceDictionary>

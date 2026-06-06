@@ -12,20 +12,20 @@
           <ReversibleStackPanel.DataTemplates>
             <DataTemplate DataType="INotification">
               <StackPanel
-                  Margin="12"
-                  Spacing="8"
+                  Margin="{theme:Edges All={theme:SpacingXxl}}"
+                  Spacing="{theme:SpacingXl}"
                   TextElement.Foreground="{theme:OnSurfaceBrush}">
                 <TextBlock FontWeight="Medium" Text="{Binding Title}" />
                 <TextBlock
                     MaxHeight="80"
-                    Margin="0,0,12,0"
+                    Margin="{theme:Edges Right={theme:SpacingXxl}}"
                     Text="{Binding Message}"
                     TextWrapping="Wrap" />
               </StackPanel>
             </DataTemplate>
             <DataTemplate DataType="x:String">
               <TextBlock
-                  Margin="12"
+                  Margin="{theme:Edges All={theme:SpacingXxl}}"
                   Foreground="{theme:OnSurfaceBrush}"
                   Text="{Binding}" />
             </DataTemplate>

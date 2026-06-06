@@ -34,16 +34,6 @@
     </Border>
   </Design.PreviewWith>
 
-  <x:Double x:Key="DatePickerFlyoutPresenterHighlightHeight">40</x:Double>
-  <x:Double x:Key="DatePickerFlyoutPresenterItemHeight">40</x:Double>
-  <x:Double x:Key="DatePickerFlyoutPresenterAcceptDismissHostGridHeight">41</x:Double>
-  <x:Double x:Key="DatePickerThemeMinWidth">296</x:Double>
-  <x:Double x:Key="DatePickerThemeMaxWidth">456</x:Double>
-  <Thickness x:Key="DatePickerFlyoutPresenterItemPadding">0,3,0,6</Thickness>
-  <Thickness x:Key="DatePickerFlyoutPresenterMonthPadding">9,3,0,6</Thickness>
-  <Thickness x:Key="DatePickerHostPadding">0,3,0,6</Thickness>
-  <Thickness x:Key="DatePickerHostMonthPadding">9,3,0,6</Thickness>
-  <x:Double x:Key="DatePickerSpacerThemeWidth">1</x:Double>
 
   <ControlTheme x:Key="PrototypeDatePickerFlyoutButton" TargetType="Button">
     <Setter Property="RenderTransform" Value="none" />
@@ -85,8 +75,8 @@
     <Setter Property="CornerRadius" Value="{theme:RadiusSm}" />
     <Setter Property="HorizontalAlignment" Value="Left" />
     <Setter Property="VerticalAlignment" Value="Center" />
-    <Setter Property="MinWidth" Value="{DynamicResource DatePickerThemeMinWidth}" />
-    <Setter Property="MaxWidth" Value="{DynamicResource DatePickerThemeMaxWidth}" />
+    <Setter Property="MinWidth" Value="{theme:Scaled Value={theme:BaseSize}, By=296}" />
+    <Setter Property="MaxWidth" Value="{theme:Scaled Value={theme:BaseSize}, By=456}" />
     <Setter Property="Template">
       <ControlTemplate>
         <DataValidationErrors>
@@ -106,11 +96,11 @@
                     TemplatedControl.IsTemplateFocusTarget="True">
               <Grid Name="PART_ButtonContentGrid" ColumnDefinitions="78*,Auto,132*,Auto,78*">
                 <TextBlock Name="PART_DayTextBlock" Text="day" HorizontalAlignment="Center"
-                           Padding="{DynamicResource DatePickerHostPadding}" />
+                           Padding="{theme:Edges Top={theme:SpacingMd}, Bottom={theme:SpacingLg}}" />
                 <TextBlock Name="PART_MonthTextBlock" Text="month" TextAlignment="Left"
-                           Padding="{DynamicResource DatePickerHostMonthPadding}" />
+                           Padding="{theme:Edges Left={theme:SpacingXl}, Top={theme:SpacingMd}, Bottom={theme:SpacingLg}}" />
                 <TextBlock Name="PART_YearTextBlock" Text="year" HorizontalAlignment="Center"
-                           Padding="{DynamicResource DatePickerHostPadding}" />
+                           Padding="{theme:Edges Top={theme:SpacingMd}, Bottom={theme:SpacingLg}}" />
                 <Rectangle x:Name="PART_FirstSpacer"
                       Fill="{theme:AccentBorderBrush}"
                       HorizontalAlignment="Center"
@@ -156,7 +146,7 @@
     <Setter Property="MaxHeight" Value="398" />
     <Setter Property="Background" Value="{theme:SurfaceBrush}" />
     <Setter Property="BorderBrush" Value="{theme:AccentBorderBrush}" />
-    <Setter Property="BorderThickness" Value="{theme:Thickness}" />
+    <Setter Property="BorderThickness" Value="{theme:ThicknessSm}" />
     <Setter Property="CornerRadius" Value="{theme:RadiusMd}" />
     <Setter Property="Template">
       <ControlTemplate>
@@ -178,7 +168,7 @@
                               VerticalScrollBarVisibility="Hidden">
                   <DateTimePickerPanel Name="PART_MonthSelector"
                                        PanelType="Month"
-                                       ItemHeight="{DynamicResource DatePickerFlyoutPresenterItemHeight}"
+                                       ItemHeight="{theme:ControlHeightMd}"
                                        ShouldLoop="True" />
                 </ScrollViewer>
                 <RepeatButton Name="PART_MonthUpButton" Theme="{StaticResource PrototypeDateTimePickerUpButton}"/>
@@ -189,7 +179,7 @@
                               VerticalScrollBarVisibility="Hidden">
                   <DateTimePickerPanel Name="PART_DaySelector"
                                        PanelType="Day"
-                                       ItemHeight="{DynamicResource DatePickerFlyoutPresenterItemHeight}"
+                                       ItemHeight="{theme:ControlHeightMd}"
                                        ShouldLoop="True" />
                 </ScrollViewer>
                 <RepeatButton Name="PART_DayUpButton" Theme="{StaticResource PrototypeDateTimePickerUpButton}"/>
@@ -200,7 +190,7 @@
                               VerticalScrollBarVisibility="Hidden">
                   <DateTimePickerPanel Name="PART_YearSelector"
                                        PanelType="Year"
-                                       ItemHeight="{DynamicResource DatePickerFlyoutPresenterItemHeight}"
+                                       ItemHeight="{theme:ControlHeightMd}"
                                        ShouldLoop="False" />
                 </ScrollViewer>
                 <RepeatButton Name="PART_YearUpButton" Theme="{StaticResource PrototypeDateTimePickerUpButton}"/>
@@ -209,30 +199,30 @@
               <Rectangle Name="HighlightRect" IsHitTestVisible="False" ZIndex="-1"
                          Fill="{theme:AccentPrimaryBrush}"
                          Grid.Column="0" Grid.ColumnSpan="5" VerticalAlignment="Center"
-                         Height="{DynamicResource DatePickerFlyoutPresenterHighlightHeight}" />
+                         Height="{theme:ControlHeightMd}" />
               <Rectangle Name="PART_FirstSpacer"
                          Fill="{theme:AccentBorderBrush}"
                          HorizontalAlignment="Center"
-                         Width="{DynamicResource DatePickerSpacerThemeWidth}"
+                         Width="{theme:BaseSize}"
                          Grid.Column="1" />
               <Rectangle Name="PART_SecondSpacer"
                          Fill="{theme:AccentBorderBrush}"
                          HorizontalAlignment="Center"
-                         Width="{DynamicResource DatePickerSpacerThemeWidth}"
+                         Width="{theme:BaseSize}"
                          Grid.Column="3" />
             </Grid>
 
             <Grid Name="AcceptDismissGrid"
                   Grid.Row="1"
                   ColumnDefinitions="*,*">
-              <Rectangle Height="{DynamicResource DatePickerSpacerThemeWidth}"
+              <Rectangle Height="{theme:BaseSize}"
                          VerticalAlignment="Top"
                          Fill="{theme:AccentBorderBrush}"
                          Grid.ColumnSpan="2"/>
               <Button Name="PART_AcceptButton"
                       Grid.Column="0"
                       Theme="{StaticResource PrototypeDateTimePickerButton}"
-                      Height="{DynamicResource DatePickerFlyoutPresenterAcceptDismissHostGridHeight}"
+                      Height="{theme:ControlHeightMd}"
                       HorizontalAlignment="Stretch"
                       VerticalAlignment="Stretch">
                 <Path Stroke="{Binding $parent[Button].Foreground}"
@@ -243,7 +233,7 @@
               <Button Name="PART_DismissButton"
                       Grid.Column="1"
                       Theme="{StaticResource PrototypeDateTimePickerButton}"
-                      Height="{DynamicResource DatePickerFlyoutPresenterAcceptDismissHostGridHeight}"
+                      Height="{theme:ControlHeightMd}"
                       HorizontalAlignment="Stretch" 
                       VerticalAlignment="Stretch">
                 <Path Stroke="{Binding $parent[Button].Foreground}" 

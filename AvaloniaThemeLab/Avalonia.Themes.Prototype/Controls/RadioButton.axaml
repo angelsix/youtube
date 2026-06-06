@@ -17,7 +17,6 @@
     </Border>
   </Design.PreviewWith>
   
-  <x:Double x:Key="RadioButtonMinHeight">32</x:Double>
   
   <ControlTheme x:Key="{x:Type RadioButton}" TargetType="RadioButton">
     <Setter Property="Background" Value="Transparent" />
@@ -38,7 +37,7 @@
             BorderThickness="{TemplateBinding BorderThickness}"
             CornerRadius="{TemplateBinding CornerRadius}">
           <Grid ColumnDefinitions="20,*">
-            <Grid Height="{DynamicResource RadioButtonMinHeight}" VerticalAlignment="Top">
+            <Grid Height="{theme:ControlHeightSm}" VerticalAlignment="Top">
 
               <Ellipse
                   Name="OuterEllipse"
@@ -46,7 +45,7 @@
                   Height="20"
                   Fill="Transparent"
                   Stroke="{theme:AccentBorderBrush}"
-                  StrokeThickness="{theme:Thickness}"
+                  StrokeThickness="{theme:ThicknessSm}"
                   UseLayoutRounding="False" />
 
               <Ellipse
@@ -56,7 +55,7 @@
                   Fill="{theme:AccentPrimaryBrush}"
                   Opacity="0"
                   Stroke="{theme:AccentPrimaryBrush}"
-                  StrokeThickness="{theme:Thickness}"
+                  StrokeThickness="{theme:ThicknessSm}"
                   UseLayoutRounding="False" />
 
               <Ellipse

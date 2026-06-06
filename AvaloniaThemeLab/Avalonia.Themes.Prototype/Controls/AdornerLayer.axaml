@@ -3,17 +3,12 @@
                     xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
                     x:ClassModifier="internal">
-  <Thickness x:Key="SystemControlFocusVisualMargin">0</Thickness>
-  <Thickness x:Key="SystemControlFocusVisualPrimaryThickness">2</Thickness>
-  <Thickness x:Key="SystemControlFocusVisualSecondaryThickness">1</Thickness>
-  
   <ControlTheme x:Key="{x:Type AdornerLayer}" TargetType="AdornerLayer">
     <Setter Property="DefaultFocusAdorner">
       <FocusAdornerTemplate>
-        <Border BorderThickness="{DynamicResource SystemControlFocusVisualPrimaryThickness}"
-                BorderBrush="{theme:OnSurfaceBrush}"
-                Margin="{DynamicResource SystemControlFocusVisualMargin}">
-          <Border BorderThickness="{DynamicResource SystemControlFocusVisualSecondaryThickness}"
+        <Border BorderThickness="{theme:ThicknessMd}"
+                BorderBrush="{theme:OnSurfaceBrush}">
+          <Border BorderThickness="{theme:ThicknessSm}"
                   BorderBrush="{theme:SurfaceBrush}" />
         </Border>
       </FocusAdornerTemplate>

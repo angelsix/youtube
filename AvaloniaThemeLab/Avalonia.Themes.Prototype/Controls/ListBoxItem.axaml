@@ -19,10 +19,9 @@
       </ListBox>
     </Border>
   </Design.PreviewWith>
-  <Thickness x:Key="ListBoxItemPadding">12,9,12,12</Thickness>
   <ControlTheme x:Key="{x:Type ListBoxItem}" TargetType="ListBoxItem">
     <Setter Property="Background" Value="Transparent" />
-    <Setter Property="Padding" Value="{DynamicResource ListBoxItemPadding}" />
+    <Setter Property="Padding" Value="{theme:Edges Left={theme:SpacingXxl}, Top={theme:SpacingXl}, Right={theme:SpacingXxl}, Bottom={theme:SpacingXxl}}" />
     <Setter Property="Template">
       <ControlTemplate>
         <ContentPresenter Name="PART_ContentPresenter"

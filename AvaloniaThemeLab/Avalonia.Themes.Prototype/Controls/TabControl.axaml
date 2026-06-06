@@ -23,7 +23,6 @@
     </Border>
   </Design.PreviewWith>
 
-  <Thickness x:Key="TabControlTopPlacementItemMargin">0 0 0 2</Thickness>
 
   <ControlTheme x:Key="{x:Type TabControl}" TargetType="TabControl">
     <Setter Property="Margin" Value="0" />
@@ -64,7 +63,7 @@
       <Setter Property="Orientation" Value="Vertical" />
     </Style>
     <Style Selector="^[TabStripPlacement=Top] /template/ ItemsPresenter#PART_ItemsPresenter">
-      <Setter Property="Margin" Value="{DynamicResource TabControlTopPlacementItemMargin}" />
+      <Setter Property="Margin" Value="{theme:Edges Bottom={theme:SpacingSm}}" />
     </Style>
   </ControlTheme>
 </ResourceDictionary>

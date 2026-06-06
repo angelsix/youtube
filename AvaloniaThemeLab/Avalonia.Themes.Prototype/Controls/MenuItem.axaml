@@ -55,9 +55,6 @@
   </Design.PreviewWith>
 
   <conv:PlatformKeyGestureConverter x:Key="KeyGestureConverter" />
-  <x:Double x:Key="MenuFlyoutSubItemPopupHorizontalOffset">-4</x:Double>
-  <Thickness x:Key="MenuIconPresenterMargin">0,0,12,0</Thickness>
-  <Thickness x:Key="MenuInputGestureTextMargin">24,0,0,0</Thickness>
   <StreamGeometry x:Key="MenuItemChevronPathData">M 1,0 10,10 l -9,10 -1,-1 L 8,10 -0,1 Z</StreamGeometry>
 
   <ControlTheme x:Key="{x:Type MenuItem}" TargetType="MenuItem">
@@ -91,14 +88,14 @@
                               x:Name="PART_ToggleIconPresenter"
                               IsVisible="False"
                               Theme="{StaticResource PrototypeMenuItemIconTheme}"
-                              Margin="{DynamicResource MenuIconPresenterMargin}" />
+                              Margin="{theme:Edges Right={theme:SpacingXxl}}" />
 
               <ContentControl Grid.Column="1"
                               x:Name="PART_IconPresenter"
                               IsVisible="False"
                               Theme="{StaticResource PrototypeMenuItemIconTheme}"
                               Content="{TemplateBinding Icon}"
-                              Margin="{DynamicResource MenuIconPresenterMargin}" />
+                              Margin="{theme:Edges Right={theme:SpacingXxl}}" />
 
               <ContentPresenter Name="PART_HeaderPresenter"
                                 Content="{TemplateBinding Header}"
@@ -108,7 +105,7 @@
                                 Grid.Column="2"/>
               <TextBlock x:Name="PART_InputGestureText"
                          Grid.Column="3"
-                         Margin="{DynamicResource MenuInputGestureTextMargin}"
+                         Margin="{theme:Edges Left={theme:Scaled Value={theme:SpacingXxl}, By=2}}"
                          Text="{TemplateBinding InputGesture, Converter={StaticResource KeyGestureConverter}}"
                          HorizontalAlignment="Right"
                          VerticalAlignment="Center"
@@ -127,15 +124,15 @@
           <Popup Name="PART_Popup"
                  WindowManagerAddShadowHint="False"
                  Placement="RightEdgeAlignedTop"
-                 HorizontalOffset="{DynamicResource MenuFlyoutSubItemPopupHorizontalOffset}"
+                 HorizontalOffset="{theme:Scaled Value={theme:SpacingMd}, By=-1}"
                  IsLightDismissEnabled="False"
                  IsOpen="{TemplateBinding IsSubMenuOpen, Mode=TwoWay}">
             <Border Background="{theme:SurfaceBrush}"
                     BorderBrush="{theme:AccentBorderBrush}"
-                    BorderThickness="{theme:Thickness}"
+                    BorderThickness="{theme:ThicknessSm}"
                     Padding="0"
                     MaxWidth="456"
-                    MinHeight="{theme:ControlHeight}"
+                    MinHeight="{theme:ControlHeightSm}"
                     HorizontalAlignment="Stretch"
                     CornerRadius="{theme:RadiusMd}">
               <ScrollViewer Theme="{StaticResource PrototypeMenuScrollViewer}">
@@ -236,7 +233,7 @@
       <Setter Property="Content">
         <Template>
           <Ellipse Fill="{Binding $parent[MenuItem].Foreground}"
-                   Margin="4" Width="8" Height="8" />
+                   Margin="{theme:Edges All={theme:SpacingMd}}" Width="8" Height="8" />
         </Template>
       </Setter>
     </Style>

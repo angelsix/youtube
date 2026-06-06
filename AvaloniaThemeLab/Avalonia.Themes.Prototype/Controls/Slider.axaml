@@ -39,22 +39,12 @@
     </Border>
   </Design.PreviewWith>
   
-  <Thickness x:Key="SliderTopHeaderMargin">0,0,0,4</Thickness>
-  <GridLength x:Key="SliderPreContentMargin">15</GridLength>
-  <GridLength x:Key="SliderPostContentMargin">15</GridLength>
-  <x:Double x:Key="SliderHorizontalHeight">32</x:Double>
-  <x:Double x:Key="SliderVerticalWidth">32</x:Double>
-  <CornerRadius x:Key="SliderThumbCornerRadius">10</CornerRadius>
-  <x:Double x:Key="SliderHorizontalThumbWidth">20</x:Double>
-  <x:Double x:Key="SliderHorizontalThumbHeight">20</x:Double>
-  <x:Double x:Key="SliderVerticalThumbWidth">20</x:Double>
-  <x:Double x:Key="SliderVerticalThumbHeight">20</x:Double>
 
   <ControlTheme x:Key="PrototypeSliderHorizontalRepeatButton" TargetType="RepeatButton">
     <Setter Property="Template">
       <ControlTemplate>
         <Grid>
-          <Border Name="FocusTarget" Margin="0,-10" Background="Transparent" />
+          <Border Name="FocusTarget" Margin="{theme:Edges Vertical={theme:Scaled Value={theme:IconSize}, By=-0.5}}" Background="Transparent" />
           <Border Name="TrackBackground"
                   Background="{TemplateBinding Background}"
                   CornerRadius="{theme:RadiusSm}"
@@ -69,7 +59,7 @@
     <Setter Property="Template">
       <ControlTemplate>
         <Grid>
-          <Border Name="FocusTarget" Margin="0,-10" Background="Transparent" />
+          <Border Name="FocusTarget" Margin="{theme:Edges Vertical={theme:Scaled Value={theme:IconSize}, By=-0.5}}" Background="Transparent" />
           <Border Name="TrackBackground"
                   Background="{TemplateBinding Background}"
                   CornerRadius="{theme:RadiusSm}"
@@ -87,7 +77,7 @@
             Background="{TemplateBinding Background}"
             BorderBrush="{TemplateBinding BorderBrush}"
             BorderThickness="{TemplateBinding BorderThickness}"
-            CornerRadius="{DynamicResource SliderThumbCornerRadius}" />
+            CornerRadius="{theme:RadiusMd}" />
       </ControlTemplate>
     </Setter>
   </ControlTheme>
@@ -114,12 +104,12 @@
                   </Grid.Styles>
                   <Grid
                       x:Name="HorizontalTemplate"
-                      MinHeight="{DynamicResource SliderHorizontalHeight}"
+                      MinHeight="{theme:ControlHeightSm}"
                       ColumnDefinitions="Auto,Auto,*">
                     <Grid.RowDefinitions>
-                      <RowDefinition Height="{DynamicResource SliderPreContentMargin}" />
+                      <RowDefinition Height="{theme:GridPixels Value={theme:SpacingXxl}}" />
                       <RowDefinition Height="Auto" />
-                      <RowDefinition Height="{DynamicResource SliderPostContentMargin}" />
+                      <RowDefinition Height="{theme:GridPixels Value={theme:SpacingXxl}}" />
                     </Grid.RowDefinitions>
                     <TickBar
                         Name="TopTickBar"
@@ -130,7 +120,7 @@
                         Minimum="{TemplateBinding Slider.Minimum}"
                         Maximum="{TemplateBinding Slider.Maximum}"
                         Height="4"
-                        Margin="0,0,0,4"
+                        Margin="{theme:Edges Bottom={theme:SpacingMd}}"
                         VerticalAlignment="Bottom"
                         Placement="Top" 
                         IsVisible="False"
@@ -146,7 +136,7 @@
                         Minimum="{TemplateBinding Slider.Minimum}"
                         Maximum="{TemplateBinding Slider.Maximum}"
                         Height="4"
-                        Margin="0,4,0,0"
+                        Margin="{theme:Edges Top={theme:SpacingMd}}"
                         VerticalAlignment="Top"
                         Placement="Bottom"
                         IsVisible="False"
@@ -177,8 +167,8 @@
                       </Track.IncreaseButton>
                       <Thumb
                           Name="thumb"
-                          Width="{DynamicResource SliderHorizontalThumbWidth}"
-                          Height="{DynamicResource SliderHorizontalThumbHeight}"
+                          Width="{theme:IconSize}"
+                          Height="{theme:IconSize}"
                           Margin="0"
                           Padding="0"
                           Background="{theme:AccentPrimaryBrush}"
@@ -212,12 +202,12 @@
                   </Grid.Styles>
                   <Grid
                       x:Name="VerticalTemplate"
-                      MinWidth="{DynamicResource SliderVerticalWidth}"
+                      MinWidth="{theme:ControlHeightSm}"
                       RowDefinitions="*,Auto,Auto">
                     <Grid.ColumnDefinitions>
-                      <ColumnDefinition Width="{DynamicResource SliderPreContentMargin}" />
+                      <ColumnDefinition Width="{theme:GridPixels Value={theme:SpacingXxl}}" />
                       <ColumnDefinition Width="Auto" />
-                      <ColumnDefinition Width="{DynamicResource SliderPostContentMargin}" />
+                      <ColumnDefinition Width="{theme:GridPixels Value={theme:SpacingXxl}}" />
                     </Grid.ColumnDefinitions>
                     <TickBar
                         Name="LeftTickBar"
@@ -228,7 +218,7 @@
                         Minimum="{TemplateBinding Slider.Minimum}"
                         Maximum="{TemplateBinding Slider.Maximum}"
                         Width="4"
-                        Margin="0,0,4,0"
+                        Margin="{theme:Edges Right={theme:SpacingMd}}"
                         HorizontalAlignment="Right"
                         Placement="Left"
                         IsVisible="False"
@@ -244,7 +234,7 @@
                         Minimum="{TemplateBinding Slider.Minimum}"
                         Maximum="{TemplateBinding Slider.Maximum}"
                         Width="4"
-                        Margin="4,0,0,0"
+                        Margin="{theme:Edges Left={theme:SpacingMd}}"
                         HorizontalAlignment="Left"
                         Placement="Right" 
                         IsVisible="False"
@@ -276,8 +266,8 @@
                       </Track.IncreaseButton>
                       <Thumb
                           Name="SliderThumb"
-                          Width="{DynamicResource SliderVerticalThumbWidth}"
-                          Height="{DynamicResource SliderVerticalThumbHeight}"
+                          Width="{theme:IconSize}"
+                          Height="{theme:IconSize}"
                           Margin="0"
                           Padding="0"
                           Background="{theme:AccentPrimaryBrush}"

@@ -15,15 +15,14 @@
       </Border>
     </Design.PreviewWith>
   
-    <x:Double x:Key="DropDownButtonMinHeight">32</x:Double>
     
     <ControlTheme x:Key="{x:Type DropDownButton}" TargetType="DropDownButton">
       <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}" />
       <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
       <Setter Property="BorderBrush" Value="Transparent" />
-      <Setter Property="BorderThickness" Value="{theme:Thickness}" />
+      <Setter Property="BorderThickness" Value="{theme:ThicknessSm}" />
       <Setter Property="Padding" Value="{theme:Edges Horizontal={theme:SpacingXl}, Vertical={theme:SpacingLg}}" />
-      <Setter Property="MinHeight" Value="{DynamicResource DropDownButtonMinHeight}" />
+      <Setter Property="MinHeight" Value="{theme:ControlHeightSm}" />
       <Setter Property="HorizontalAlignment" Value="Left" />
       <Setter Property="VerticalAlignment" Value="Center" />
       <Setter Property="HorizontalContentAlignment" Value="Stretch" />
@@ -58,7 +57,7 @@
                           IsHitTestVisible="False" 
                           Height="12" 
                           Width="12"
-                          Margin="0,0,10,0"
+                          Margin="{theme:Edges Right={theme:SpacingXxl}}"
                           Data="M1939 486L2029 576L1024 1581L19 576L109 486L1024 1401L1939 486Z"
                           HorizontalAlignment="Right"
                           VerticalAlignment="Center"

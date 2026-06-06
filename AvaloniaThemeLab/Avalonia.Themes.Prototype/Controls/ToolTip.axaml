@@ -23,16 +23,15 @@
     </Border>
   </Design.PreviewWith>
 
-  <sys:Double x:Key="ToolTipContentMaxWidth">320</sys:Double>
 
   <ControlTheme x:Key="{x:Type ToolTip}" TargetType="ToolTip">
     <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
     <Setter Property="Background" Value="{theme:SurfaceBrush}" />
     <Setter Property="BorderBrush" Value="{theme:AccentBorderBrush}" />
-    <Setter Property="BorderThickness" Value="{theme:Thickness}" />
+    <Setter Property="BorderThickness" Value="{theme:ThicknessSm}" />
     <Setter Property="FontSize" Value="{theme:FontSizeSm}" />
     <Setter Property="Padding" Value="{theme:Edges Horizontal={theme:SpacingXl}, Vertical={theme:SpacingLg}}" />
-    <Setter Property="MaxWidth" Value="{DynamicResource ToolTipContentMaxWidth}" />
+    <Setter Property="MaxWidth" Value="{theme:Scaled Value={theme:ControlMinWidth}, By=5}" />
     <Setter Property="CornerRadius" Value="{theme:RadiusMd}" />
     <Setter Property="Opacity" Value="0" />
     <Setter Property="Transitions">

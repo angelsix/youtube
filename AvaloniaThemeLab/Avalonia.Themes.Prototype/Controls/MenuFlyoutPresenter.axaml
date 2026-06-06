@@ -6,10 +6,10 @@
   <ControlTheme x:Key="{x:Type MenuFlyoutPresenter}" TargetType="MenuFlyoutPresenter">
     <Setter Property="Background" Value="{theme:SurfaceBrush}" />
     <Setter Property="BorderBrush" Value="{theme:AccentBorderBrush}" />
-    <Setter Property="BorderThickness" Value="{theme:Thickness}" />
+    <Setter Property="BorderThickness" Value="{theme:ThicknessSm}" />
     <Setter Property="Padding" Value="0" />
     <Setter Property="MaxWidth" Value="456" />
-    <Setter Property="MinHeight" Value="{theme:ControlHeight}" />
+    <Setter Property="MinHeight" Value="{theme:ControlHeightSm}" />
     <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
     <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
     <Setter Property="CornerRadius" Value="{theme:RadiusMd}" />
@@ -35,7 +35,7 @@
     </Setter>
   </ControlTheme>
   <ControlTheme x:Key="HorizontalMenuFlyoutPresenter" TargetType="MenuFlyoutPresenter"  BasedOn="{StaticResource {x:Type MenuFlyoutPresenter}}">
-    <Setter Property="MinWidth" Value="{theme:ControlHeight}" />
+    <Setter Property="MinWidth" Value="{theme:ControlHeightSm}" />
     <Setter Property="ItemsPanel">
       <ItemsPanelTemplate>
         <StackPanel Orientation="Horizontal"/>

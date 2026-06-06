@@ -51,7 +51,7 @@
                 CornerRadius="{TemplateBinding CornerRadius}"
                 Padding="{TemplateBinding Padding}">
           <StackPanel x:Name="PART_LayoutRoot"
-                      Spacing="4"
+                      Spacing="{theme:SpacingMd}"
                       HorizontalAlignment="Center"
                       VerticalAlignment="Center">
             <ContentPresenter x:Name="PART_IconPresenter"
@@ -133,7 +133,7 @@
                 CornerRadius="{TemplateBinding CornerRadius}"
                 Padding="{TemplateBinding Padding}">
           <StackPanel x:Name="PART_LayoutRoot"
-                      Spacing="4"
+                      Spacing="{theme:SpacingMd}"
                       HorizontalAlignment="Center"
                       VerticalAlignment="Center">
             <ContentPresenter x:Name="PART_IconPresenter"
@@ -249,7 +249,7 @@
                       DockPanel.Dock="Right"
                       Background="Transparent"
                       BorderThickness="0"
-                      Padding="12,0"
+                      Padding="{theme:Edges Left={theme:SpacingXxl}, Right={theme:SpacingXxl}}"
                       MinWidth="40"
                       VerticalAlignment="Stretch"
                       FontSize="16"
@@ -273,7 +273,7 @@
                             ClipToBounds="True">
                 <ItemsControl.ItemsPanel>
                   <ItemsPanelTemplate>
-                    <StackPanel Orientation="Horizontal" Spacing="2" />
+                    <StackPanel Orientation="Horizontal" Spacing="{theme:SpacingSm}" />
                   </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
               </ItemsControl>
@@ -288,15 +288,15 @@
                    WindowManagerAddShadowHint="True">
               <Border Background="{theme:SurfaceBrush}"
                       BorderBrush="{theme:AccentBorderBrush}"
-                      BorderThickness="1"
+                      BorderThickness="{theme:ThicknessSm}"
                       CornerRadius="{theme:RadiusMd}"
-                      Padding="4"
+                      Padding="{theme:Edges All={theme:SpacingMd}}"
                       MinWidth="160">
                 <ItemsControl x:Name="PART_OverflowPresenter"
                               ItemsSource="{Binding OverflowItems, RelativeSource={RelativeSource TemplatedParent}}">
                   <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
-                      <StackPanel Spacing="2" />
+                      <StackPanel Spacing="{theme:SpacingSm}" />
                     </ItemsPanelTemplate>
                   </ItemsControl.ItemsPanel>
                 </ItemsControl>

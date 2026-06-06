@@ -17,7 +17,6 @@
 
   <StreamGeometry x:Key="DrawerPaneButtonIcon">M3 17h18a1 1 0 0 1 .117 1.993L21 19H3a1 1 0 0 1-.117-1.993L3 17h18H3Zm0-6 18-.002a1 1 0 0 1 .117 1.993l-.117.007L3 13a1 1 0 0 1-.117-1.993L3 11l18-.002L3 11Zm0-6h18a1 1 0 0 1 .117 1.993L21 7H3a1 1 0 0 1-.117-1.993L3 5h18H3Z</StreamGeometry>
 
-  <x:Double x:Key="NavigationControlNavBarHeight">48</x:Double>
   <SolidColorBrush x:Key="NavigationControlNavBarBackground" Color="{theme:Surface}" />
 
   <ControlTheme x:Key="{x:Type DrawerPage}" TargetType="DrawerPage">
@@ -83,8 +82,8 @@
             <DockPanel Name="PART_ContentDock">
               <Border
                 Name="PART_TopBar"
-                Padding="5"
-                Height="{DynamicResource NavigationControlNavBarHeight}"
+                Padding="{theme:Edges All={theme:SpacingLg}}"
+                Height="{theme:ControlHeightLg}"
                 Background="{DynamicResource NavigationControlNavBarBackground}"
                 DockPanel.Dock="Top">
                 <DockPanel HorizontalAlignment="Stretch">
@@ -123,14 +122,14 @@
                                   VerticalContentAlignment="Center"
                                   FontSize="16"
                                   FontWeight="SemiBold"
-                                  Margin="8,0,0,0"
+                                  Margin="{theme:Edges Left={theme:SpacingXl}}"
                                   IsVisible="{TemplateBinding Header, Converter={x:Static ObjectConverters.IsNotNull}}" />
                 </DockPanel>
               </Border>
               <Border
                 Name="PART_BottomBar"
-                Padding="5"
-                Height="{DynamicResource NavigationControlNavBarHeight}"
+                Padding="{theme:Edges All={theme:SpacingLg}}"
+                Height="{theme:ControlHeightLg}"
                 Background="{DynamicResource NavigationControlNavBarBackground}"
                 DockPanel.Dock="Bottom"
                 IsVisible="False">
@@ -170,7 +169,7 @@
                                   VerticalContentAlignment="Center"
                                   FontSize="16"
                                   FontWeight="SemiBold"
-                                  Margin="8,0,0,0"
+                                  Margin="{theme:Edges Left={theme:SpacingXl}}"
                                   IsVisible="{TemplateBinding Header, Converter={x:Static ObjectConverters.IsNotNull}}" />
                 </DockPanel>
               </Border>

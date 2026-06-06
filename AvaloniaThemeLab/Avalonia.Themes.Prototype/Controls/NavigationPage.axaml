@@ -81,7 +81,7 @@
                   VerticalAlignment="Top"
                   ClipToBounds="True"
                   Height="{TemplateBinding EffectiveBarHeight}">
-            <Grid Margin="12,0,0,0" ColumnDefinitions="Auto, *, Auto">
+            <Grid Margin="{theme:Edges Left={theme:SpacingXxl}}" ColumnDefinitions="Auto, *, Auto">
               <Grid.Styles>
                 <Style Selector="Button#PART_BackButton /template/ ContentPresenter#PART_ContentPresenter">
                   <Setter Property="Background" Value="Transparent" />
@@ -122,7 +122,7 @@
                       Foreground="{DynamicResource NavigationBarForeground}"
                       IsVisible="{TemplateBinding IsBackButtonEffectivelyVisible}"
                       VerticalAlignment="Stretch"
-                      Padding="8,0"
+                      Padding="{theme:Edges Left={theme:SpacingXl}, Right={theme:SpacingXl}}"
                       ToolTip.Tip="{x:Null}">
                 <Panel Background="Transparent">
                   <Path Data="{DynamicResource NavigationPageBackIcon}"
@@ -149,7 +149,7 @@
                                 VerticalAlignment="Center"
                                 HorizontalAlignment="Stretch"
                                 HorizontalContentAlignment="Stretch"
-                                Margin="0,0,12,0" />
+                                Margin="{theme:Edges Right={theme:SpacingXxl}}" />
 
               <ContentPresenter Name="PART_TopCommandBar"
                                 Grid.Column="2"

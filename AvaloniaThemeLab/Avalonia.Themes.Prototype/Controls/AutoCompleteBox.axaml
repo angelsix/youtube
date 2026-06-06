@@ -13,14 +13,14 @@
       <AutoCompleteBox Width="200">
         <AutoCompleteBox.ItemsSource>
           <generic:List x:TypeArguments="x:String">
-            Alabama
-            Alaska
-            Arizona
-            Arkansas
-            California
-            Colorado
-            Connecticut
-            Delaware
+            <x:String>Alabama</x:String>
+            <x:String>Alaska</x:String>
+            <x:String>Arizona</x:String>
+            <x:String>Arkansas</x:String>
+            <x:String>California</x:String>
+            <x:String>Colorado</x:String>
+            <x:String>Connecticut</x:String>
+            <x:String>Delaware</x:String>
           </generic:List>
         </AutoCompleteBox.ItemsSource>
       </AutoCompleteBox>
@@ -32,11 +32,11 @@
       <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
       <Setter Property="Background" Value="{theme:SurfaceBrush}" />
       <Setter Property="PlaceholderForeground" Value="{theme:OnSurfaceDimBrush}" />
-      <Setter Property="BorderBrush" Value="{theme:AccentBorderBrush}" />
-      <Setter Property="BorderThickness" Value="{theme:Thickness}" />
+      <Setter Property="BorderBrush" Value="{theme:OnSurfaceBrush}" />
+      <Setter Property="BorderThickness" Value="{theme:ThicknessSm}" />
       <Setter Property="CornerRadius" Value="{theme:RadiusSm}" />
       <Setter Property="Padding" Value="{theme:Edges Left={theme:SpacingXxl}, Top={theme:SpacingLg}, Right={theme:SpacingLg}, Bottom={theme:SpacingMd}}" />
-      <Setter Property="MaxDropDownHeight" Value="374" />
+      <Setter Property="MaxDropDownHeight" Value="{theme:Scaled Value={theme:ControlHeightSm}, By=12}" />
       <Setter Property="Template">
         <ControlTemplate>
           <Grid Name="PART_LayoutRoot">
@@ -66,7 +66,7 @@
                    PlacementTarget="{TemplateBinding}">
               <Border Name="PART_SuggestionsContainer"
                       Padding="{theme:Edges Vertical={theme:SpacingSm}}"
-                      BorderThickness="{theme:Thickness}"
+                      BorderThickness="{theme:ThicknessSm}"
                       BorderBrush="{theme:AccentBorderBrush}"
                       Background="{theme:SurfaceBrush}"
                       CornerRadius="{theme:RadiusMd}">
@@ -74,7 +74,7 @@
                          BorderThickness="0"
                          Background="Transparent"
                          ItemTemplate="{TemplateBinding ItemTemplate}"
-                         Margin="-1,0,-1,0"
+                         Margin="{theme:Edges Left={theme:Scaled Value={theme:BaseSize}, By=-1}, Right={theme:Scaled Value={theme:BaseSize}, By=-1}}"
                          ScrollViewer.IsScrollChainingEnabled="False" />
               </Border>
             </Popup>
