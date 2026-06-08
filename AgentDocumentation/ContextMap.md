@@ -17,10 +17,10 @@ A monorepo of ~22 solutions / 32 projects where **each top-level folder is an in
 Active / substantial .NET Samples (the ones you are most likely asked to change):
 
 - **`AvaloniaThemeLab/`** — `AvaloniaThemeLab.sln` (net10.0). A **Lab**: ongoing Avalonia theming playground. Has its own `AgentDocumentation/` and `Plans/` — treat it as the most "live" Sample. Pairs with `Avalonia.Themes.Prototype` project.
-- **`Avalonia BatchProcess/Source/`** — `BatchProcess3.sln` (net7.0). Multi-project Avalonia app: `BatchProcess3` (UI), `.Core`, `.Desktop`, `BatchProcess3Host`. Uses central package management (`Directory.Packages.props`) and has its own `Agents.md`.
-- **`AvaloniaLoudnessMeter/`** — `AvaloniaLoudnessMeter.sln` (net10.0): `AvaloniaLoudnessMeter` (UI) + `.Desktop` head. Has `Directory.Build.props`.
+- **`Avalonia BatchProcess/Source/`** — `BatchProcess3.sln` (net10.0). Multi-project Avalonia app: `BatchProcess3` (UI), `.Core`, `.Desktop`, `BatchProcess3Host`. Uses central package management (`Directory.Packages.props`) and has its own `Agents.md`.
+- **`AvaloniaLoudnessMeter/`** — `AvaloniaLoudnessMeter.sln` (net7.0): `AvaloniaLoudnessMeter` (UI) + `.Desktop` head. Has `Directory.Build.props`.
 - **`StreamElectronics/Software/`** — `StreamElectronics.csproj`, an Avalonia app (note: **project with no `.sln`** — one of the reasons proj count > sln count; also a `.parcel`/Parcel-style layout with `Multimeter/`, `Controls/`, `ViewLocator.cs`).
-- **`PrototypeTheme/`** — `Avalonia.Themes.Prototype` Lab (sibling/earlier cut of the ThemeLab prototype theme).
+- **`PrototypeTheme/`** — empty/abandoned shell: contains **no source**, only stale build artifacts under `PrototypeTheme/Avalonia.Themes.Prototype/obj/`. The live `Avalonia.Themes.Prototype` project actually lives inside `AvaloniaThemeLab/Avalonia.Themes.Prototype/` (with `DefaultTheme.cs`, `Controls/`, etc.).
 
 Teaching Samples (small, single-purpose, mostly legacy):
 
