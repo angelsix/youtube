@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Avalonia Style Precedence</title>
+<style>
+  :root{
+    --bg:#0e1016; --panel:#161a24; --panel2:#1c2230; --line:#262d3d;
+    --text:#d7dbe6; --muted:#8b93a7; --mono:#cdd6f4;
+    --tag:#7aa2f7; --attr:#9ece6a; --str:#e0af68; --cmt:#5b677e;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--bg); color:var(--text);
+    font:15px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    padding:48px 20px 90px;
+  }
+  .wrap{max-width:940px; margin:0 auto}
+  h1{font-size:30px; margin:0 0 6px; letter-spacing:-.02em}
+  h2{font-size:20px; margin:46px 0 8px; letter-spacing:-.01em}
+  .sub{color:var(--muted); margin:0 0 10px}
+  code{font-family:"SF Mono",Menlo,Consolas,monospace; font-size:13px; color:var(--mono)}
+  pre{
+    background:var(--panel2); border:1px solid var(--line); border-radius:10px;
+    padding:12px 14px; margin:0; overflow:hidden;
+  }
+  pre code{
+    font-size:12.5px; display:block;
+    white-space:pre-wrap; overflow-wrap:anywhere; word-break:break-word;
+  }
+  .tag{color:var(--tag)} .attr{color:var(--attr)} .str{color:var(--str)} .cmt{color:var(--cmt)}
+  .hl{background:rgba(224,175,104,.18); border-radius:4px; padding:0 2px}
+
+  /* ladder */
+  .ladder{display:flex; flex-direction:column; gap:10px; margin-top:12px}
+  .row{
+    display:grid; grid-template-columns:56px 150px minmax(0,1fr); gap:14px; align-items:center;
+    background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:11px 14px;
+  }
+  @media(max-width:620px){ .row{grid-template-columns:48px 1fr} .row pre{grid-column:1/-1} }
+  .num{font:800 19px/1 "SF Mono",monospace; text-align:center; border-radius:9px; padding:11px 0; color:#0e1016}
+  .lbl{font-weight:600}
+  .lbl small{display:block; color:var(--muted); font-weight:400; font-size:12px}
+  .row pre{background:var(--panel2); min-width:0}
+  .b-1{background:#f472b6} .b0{background:#f59e0b} .b1{background:#22c55e} .b2{background:#06b6d4} .b3{background:#7aa2f7} .b4{background:#6b7280}
+
+  /* gotcha comparison */
+  .cmp{display:grid; grid-template-columns:1fr; gap:14px; margin-top:14px}
+  @media(min-width:740px){.cmp{grid-template-columns:1fr 1fr}}
+  .card{border-radius:12px; border:1px solid; padding:14px 15px; min-width:0}
+  .card.good{background:rgba(34,197,94,.07); border-color:rgba(34,197,94,.4)}
+  .card.bad{background:rgba(239,68,68,.07); border-color:rgba(239,68,68,.4)}
+  .card .head{display:flex; align-items:center; gap:10px; margin-bottom:10px}
+  .badge{font:800 16px/1 "SF Mono",monospace; padding:8px 11px; border-radius:9px; color:#0e1016}
+  .badge.p2{background:#06b6d4} .badge.p0{background:#f59e0b}
+  .card .what{font-weight:700; font-size:14px}
+  .card .verdict{margin-top:11px; font-size:13px}
+  .card.good .verdict{color:#7be0a0} .card.bad .verdict{color:#ff9d9d}
+  .card pre{background:#11151f}
+
+  .principle{background:#10243a; border:1px solid #244a66; border-radius:12px; padding:16px 20px; margin:16px 0; color:#dce9f7}
+  .principle b{color:#7fd1ff}
+
+  .pill{display:inline-block; font:800 11px/1 monospace; padding:4px 8px; border-radius:999px}
+  .pill.win{background:rgba(34,197,94,.16); color:#5ee08a; border:1px solid rgba(34,197,94,.45)}
+  .pill.lose{background:rgba(239,68,68,.16); color:#ff8b8b; border:1px solid rgba(239,68,68,.45)}
+
+  .case{border-radius:12px; padding:14px 16px; margin:12px 0; border:1px solid}
+  .case.bad{background:rgba(239,68,68,.06); border-color:rgba(239,68,68,.35)}
+  .case.good{background:rgba(34,197,94,.06); border-color:rgba(34,197,94,.35)}
+  .case h3{margin:0 0 10px; font-size:15px}
+  .case.bad h3{color:#ff9d9d} .case.good h3{color:#7be0a0}
+  .case pre + pre{margin-top:8px}
+
+  ul.rules li{margin:7px 0}
+  footer{margin-top:52px; color:var(--muted); font-size:12.5px; border-top:1px solid var(--line); padding-top:16px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <h1>Avalonia Style Precedence</h1>
+  <p class="sub">When more than one thing sets the same property, Avalonia picks a winner by priority. <strong>The lowest number wins.</strong></p>
+
+  <h2>The ladder</h2>
+  <p class="sub">From <code>Avalonia.Data.BindingPriority</code>. Same property shown six ways — whichever is present with the lowest number is what renders.</p>
+  <div class="ladder">
+
+    <div class="row">
+      <div class="num b-1">-1</div>
+      <div class="lbl">Animation<small>always wins</small></div>
+      <pre><code><span class="tag">&lt;Setter</span> <span class="attr">Property</span>=<span class="str">"Opacity"</span> <span class="attr">Value</span>=<span class="str">"1"</span><span class="tag">/&gt;</span>   <span class="cmt">&lt;!-- inside &lt;Animation&gt; / &lt;Transition&gt; --&gt;</span></code></pre>
+    </div>
+
+    <div class="row">
+      <div class="num b0">0</div>
+      <div class="lbl">LocalValue<small>anything set inline on the element</small></div>
+      <pre><code><span class="tag">&lt;Border</span> <span class="attr">BorderThickness</span>=<span class="str">"2"</span><span class="tag">/&gt;</span>   <span class="cmt">&lt;!-- a literal, or a {Binding} --&gt;</span></code></pre>
+    </div>
+
+    <div class="row">
+      <div class="num b1">1</div>
+      <div class="lbl">StyleTrigger<small>:pseudo-class or .class selector</small></div>
+      <pre><code><span class="tag">&lt;Style</span> <span class="attr">Selector</span>=<span class="str">"Border:pointerover"</span><span class="tag">&gt;</span><span class="tag">&lt;Setter</span> <span class="attr">Property</span>=<span class="str">"BorderThickness"</span> <span class="attr">Value</span>=<span class="str">"3"</span><span class="tag">/&gt;&lt;/Style&gt;</span></code></pre>
+    </div>
+
+    <div class="row">
+      <div class="num b2">2</div>
+      <div class="lbl">Template<small>a {TemplateBinding}, assigned directly</small></div>
+      <pre><code><span class="tag">&lt;Border</span> <span class="attr">BorderThickness</span>=<span class="str">"{TemplateBinding BorderThickness}"</span><span class="tag">/&gt;</span></code></pre>
+    </div>
+
+    <div class="row">
+      <div class="num b3">3</div>
+      <div class="lbl">Style<small>plain selector, no activator</small></div>
+      <pre><code><span class="tag">&lt;Style</span> <span class="attr">Selector</span>=<span class="str">"Border"</span><span class="tag">&gt;</span><span class="tag">&lt;Setter</span> <span class="attr">Property</span>=<span class="str">"BorderThickness"</span> <span class="attr">Value</span>=<span class="str">"1"</span><span class="tag">/&gt;&lt;/Style&gt;</span></code></pre>
+    </div>
+
+    <div class="row">
+      <div class="num b4">4</div>
+      <div class="lbl">Inherited<small>flows down from a parent</small></div>
+      <pre><code><span class="cmt">&lt;!-- e.g. FontSize inherited from a parent; nothing set on this element --&gt;</span></code></pre>
+    </div>
+
+  </div>
+
+  <p class="principle" style="margin-top:18px">
+    The two everyday cases: a <b>plain style</b> (3) sets the baseline look, and a <b>:pseudo-class style</b> (1) overrides it for a state like <code>:pointerover</code>.
+    A style can also override a <b>Template</b> (2) value — that's how a templated control gets a look from its template that a state then changes.
+    But notice <b>LocalValue (0) beats every style</b>: anything set inline on the element wins over all of them.
+  </p>
+
+  <h2>The gotcha that catches everyone</h2>
+  <p class="sub">These two lines look almost identical. Both set <code>BorderThickness</code>; both contain <code>{TemplateBinding&nbsp;BorderThickness}</code>. <strong>One can be overridden by a style — one can&rsquo;t.</strong></p>
+
+  <div class="cmp">
+    <div class="card good">
+      <div class="head"><span class="badge p2">2</span><span class="what">Template &mdash; overridable</span></div>
+      <pre><code><span class="attr">BorderThickness</span>=<span class="str">"<span class="hl">{TemplateBinding BorderThickness}</span>"</span></code></pre>
+      <div class="verdict">The value assigned to the property <em>is</em> a TemplateBinding → priority <strong>2</strong>. A <code>:pseudo</code> style (1) <strong>can</strong> override it.</div>
+    </div>
+
+    <div class="card bad">
+      <div class="head"><span class="badge p0">0</span><span class="what">LocalValue &mdash; not overridable</span></div>
+      <pre><code><span class="attr">BorderThickness</span>=<span class="str">"{SomeExtension Value=<span class="hl">{TemplateBinding BorderThickness}</span>}"</span></code></pre>
+      <div class="verdict">The value assigned is whatever <code>{SomeExtension}</code> builds (a Binding/MultiBinding) → priority <strong>0</strong>. <strong>No style can beat it.</strong></div>
+    </div>
+  </div>
+
+  <div class="principle">
+    <b>The rule that explains it:</b> priority comes from the <b>outermost</b> binding actually assigned to the property &mdash; <b>not</b> from whatever is nested inside it.
+    A <code>{TemplateBinding}</code> wrapped inside another markup extension (a <code>{Binding}</code>, a <code>{MultiBinding}</code>, or any custom one) is no longer &ldquo;a TemplateBinding&rdquo; to the property &mdash; it is just a <b>data source feeding the outer binding</b>. The property receives the outer binding, and a plain Binding/MultiBinding set inline is <b>LocalValue (0)</b>. Only a <code>{TemplateBinding}</code> assigned <b>directly</b> is <b>Template (2)</b>.
+  </div>
+
+  <h2>What that looks like in practice</h2>
+  <p class="sub">A control template sets a value inline, and a pseudo-class style tries to change it for one state. If the inline value is a wrapped binding (LocalValue 0), the state override silently does nothing.</p>
+
+  <div class="case bad">
+    <h3>✗ Inline binding (0) vs a pseudo-class style (1) &mdash; the style is ignored</h3>
+    <pre><code><span class="cmt">&lt;!-- in the template: a custom extension wrapping a TemplateBinding --&gt;</span>
+<span class="tag">&lt;RepeatButton</span> <span class="attr">BorderThickness</span>=<span class="str">"{SomeExtension Value={TemplateBinding BorderThickness}}"</span><span class="tag">/&gt;</span>   <span class="cmt">// 0</span> <span class="pill win">WINS</span></code></pre>
+    <pre><code><span class="tag">&lt;Style</span> <span class="attr">Selector</span>=<span class="str">"^:left /template/ RepeatButton"</span><span class="tag">&gt;</span><span class="tag">&lt;Setter</span> <span class="attr">Property</span>=<span class="str">"BorderThickness"</span> <span class="attr">Value</span>=<span class="str">"0"</span><span class="tag">/&gt;&lt;/Style&gt;</span>   <span class="cmt">// 1</span> <span class="pill lose">LOSES</span></code></pre>
+    <p class="sub" style="margin:10px 0 0">Tell-tale sign: the override has no effect <em>and</em> even a literal <code>"0"</code> in it is ignored → the property is pinned by an inline LocalValue.</p>
+  </div>
+
+  <div class="case good">
+    <h3>✓ Drive both states from styles &mdash; now it&rsquo;s style-vs-style</h3>
+    <pre><code><span class="cmt">&lt;!-- no inline value on the element; the default is a plain style (3) --&gt;</span>
+<span class="tag">&lt;Style</span> <span class="attr">Selector</span>=<span class="str">"^ /template/ RepeatButton"</span><span class="tag">&gt;</span><span class="tag">&lt;Setter</span> <span class="attr">Property</span>=<span class="str">"BorderThickness"</span> <span class="attr">Value</span>=<span class="str">"{SomeExtension Value={TemplateBinding BorderThickness}}"</span><span class="tag">/&gt;&lt;/Style&gt;</span>   <span class="cmt">// 3</span></code></pre>
+    <pre><code><span class="tag">&lt;Style</span> <span class="attr">Selector</span>=<span class="str">"^:left /template/ RepeatButton"</span><span class="tag">&gt;</span><span class="tag">&lt;Setter</span> <span class="attr">Property</span>=<span class="str">"BorderThickness"</span> <span class="attr">Value</span>=<span class="str">"0"</span><span class="tag">/&gt;&lt;/Style&gt;</span>   <span class="cmt">// 1</span> <span class="pill win">WINS</span></code></pre>
+    <p class="sub" style="margin:10px 0 0">Neither value is a LocalValue now. The default sits at Style (3); the <code>:left</code> trigger at StyleTrigger (1) wins when active.</p>
+  </div>
+
+  <h2>Rules of thumb</h2>
+  <ul class="rules">
+    <li><strong>Priority = the outermost binding assigned to the property.</strong> A nested <code>{TemplateBinding}</code> doesn&rsquo;t count &mdash; it&rsquo;s only a source.</li>
+    <li>Only a <code>{TemplateBinding}</code> assigned <em>directly</em> is Template (2). Wrap it in <em>anything</em> and the property gets a LocalValue (0).</li>
+    <li>If a state must be able to override a value, set that value from a <strong>style</strong> &mdash; not as an inline binding on the element.</li>
+    <li>Override does nothing <em>and</em> a literal in it is ignored too → you&rsquo;re fighting an inline LocalValue.</li>
+    <li>Selector specificity can&rsquo;t help &mdash; the priority band is decided first; a more specific StyleTrigger still loses to a LocalValue.</li>
+    <li>Writing a markup extension meant for templates? Set <code>multi.Priority = BindingPriority.Template</code> so it behaves like a real <code>{TemplateBinding}</code> when used inline.</li>
+  </ul>
+
+  <footer>
+    Avalonia value precedence (lowest wins): <code>-1 Animation · 0 LocalValue · 1 StyleTrigger · 2 Template · 3 Style · 4 Inherited</code>.
+    Source: <code>Avalonia.Data.BindingPriority</code>.
+  </footer>
+
+</div>
+</body>
+</html>

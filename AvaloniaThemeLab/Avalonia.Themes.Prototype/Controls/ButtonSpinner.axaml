@@ -1,7 +1,6 @@
 ﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:sys="using:System"
-                    xmlns:converters="using:Avalonia.Controls.Converters"
                     xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
                     x:ClassModifier="internal">
@@ -45,31 +44,9 @@
     </Border>
   </Design.PreviewWith>
 
-  <converters:MarginMultiplierConverter x:Key="ButtonSpinnerLeftThickness" Indent="1" Left="True" />
-  <converters:MarginMultiplierConverter x:Key="ButtonSpinnerRightThickness" Indent="1" Right="True" />
   <StreamGeometry x:Key="ButtonSpinnerIncreaseButtonIcon">M0,9 L10,0 20,9 19,10 10,2 1,10 z</StreamGeometry>
-  <StreamGeometry x:Key="ButtonSpinnerDecreaseButtonIcon">M0,1 L10,10 20,1 19,0 10,8 1,0 z</StreamGeometry>
 
   <ControlTheme x:Key="PrototypeButtonSpinnerRepeatButton" TargetType="RepeatButton">
-    <Setter Property="MinWidth" Value="34" />
-    <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
-    <Setter Property="BorderBrush" Value="{theme:OnSurfaceBrush}" />
-    <Setter Property="Background" Value="{theme:SurfaceBrush}" />
-    <Setter Property="Template">
-      <ControlTemplate>
-        <ContentPresenter x:Name="PART_ContentPresenter"
-                          Background="{TemplateBinding Background}"
-                          BorderBrush="{TemplateBinding BorderBrush}"
-                          Foreground="{TemplateBinding Foreground}"
-                          BorderThickness="{TemplateBinding BorderThickness}"
-                          Content="{TemplateBinding Content}"
-                          ContentTemplate="{TemplateBinding ContentTemplate}"
-                          Padding="{TemplateBinding Padding}"
-                          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                          VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
-      </ControlTemplate>
-    </Setter>
-
     <Style Selector="^:pointerover">
       <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}" />
     </Style>
@@ -85,7 +62,7 @@
 
   <ControlTheme x:Key="{x:Type ButtonSpinner}" TargetType="ButtonSpinner">
     <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
-    <Setter Property="Padding" Value="10, 0" />
+    <Setter Property="Padding" Value="{theme:Edges Horizontal={theme:SpacingXl}}" />
     <Setter Property="Background" Value="{theme:SurfaceBrush}" />
     <Setter Property="BorderBrush" Value="{theme:OnSurfaceBrush}" />
     <Setter Property="BorderThickness" Value="{theme:ThicknessSm}" />
@@ -109,19 +86,17 @@
                           DockPanel.Dock="Right"
                           Orientation="Horizontal"
                           IsVisible="{TemplateBinding ShowButtonSpinner}">
+                
                 <RepeatButton Name="PART_IncreaseButton"
                               IsTabStop="{TemplateBinding IsTabStop}"
                               Theme="{StaticResource PrototypeButtonSpinnerRepeatButton}"
                               Background="{TemplateBinding Background}"
                               BorderBrush="{TemplateBinding BorderBrush}"
-                              BorderThickness="{TemplateBinding BorderThickness, Converter={StaticResource ButtonSpinnerLeftThickness}}"
                               VerticalAlignment="Stretch"
                               VerticalContentAlignment="Center"
-                              Foreground="{TemplateBinding Foreground}"
-                              MinWidth="34">
-                  <PathIcon Width="16"
-                            Height="8"
-                            Data="{StaticResource ButtonSpinnerIncreaseButtonIcon}" />
+                              Padding="{theme:Edges All={theme:SpacingXl}}"
+                              Foreground="{TemplateBinding Foreground}">
+                  <PathIcon Data="{StaticResource ButtonSpinnerIncreaseButtonIcon}" />
                 </RepeatButton>
 
                 <RepeatButton Name="PART_DecreaseButton"
@@ -129,15 +104,19 @@
                               Theme="{StaticResource PrototypeButtonSpinnerRepeatButton}"
                               Background="{TemplateBinding Background}"
                               BorderBrush="{TemplateBinding BorderBrush}"
-                              BorderThickness="{TemplateBinding BorderThickness, Converter={StaticResource ButtonSpinnerLeftThickness}}"
                               VerticalAlignment="Stretch"
                               VerticalContentAlignment="Center"
                               Foreground="{TemplateBinding Foreground}"
-                              MinWidth="34">
-                  <PathIcon Width="16"
-                            Height="8"
-                            Data="{StaticResource ButtonSpinnerDecreaseButtonIcon}" />
+                              Padding="{theme:Edges All={theme:SpacingXl}}"
+                              >
+                  <PathIcon Data="{StaticResource ButtonSpinnerIncreaseButtonIcon}"
+                            RenderTransformOrigin="50%,50%">
+                    <PathIcon.RenderTransform>
+                      <RotateTransform Angle="180" />
+                    </PathIcon.RenderTransform>
+                  </PathIcon>
                 </RepeatButton>
+                
               </StackPanel>
 
               <ContentPresenter Name="PART_ContentPresenter"
@@ -153,12 +132,15 @@
         </DataValidationErrors>
       </ControlTemplate>
     </Setter>
+    <Style Selector="^ /template/ RepeatButton">
+      <Setter Property="BorderThickness" Value="{theme:Edges Left={TemplateBinding BorderThickness}}"/>
+    </Style>
     <Style Selector="^:left">
       <Style Selector="^ /template/ StackPanel#PART_SpinnerPanel">
         <Setter Property="DockPanel.Dock" Value="Left"/>
       </Style>
       <Style Selector="^ /template/ RepeatButton">
-        <Setter Property="BorderThickness" Value="{TemplateBinding BorderThickness, Converter={StaticResource ButtonSpinnerRightThickness}}"/>
+        <Setter Property="BorderThickness" Value="{theme:Edges Right={TemplateBinding BorderThickness}}"/>
       </Style>
     </Style>
     <Style Selector="^:error">

@@ -61,7 +61,7 @@ public class DefaultTheme
 
     // Control metrics
     public virtual double ControlMinWidth => 64 * BaseSize;
-    public virtual double IconSize => 20 * BaseSize;
+    public virtual double IconSize => 16 * BaseSize;
 
     // Typeface
     public virtual FontFamily FontFamily => new FontFamily("Inter, $Default");
