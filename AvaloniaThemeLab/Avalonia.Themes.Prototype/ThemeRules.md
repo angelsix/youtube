@@ -80,7 +80,8 @@ Every rule includes a justification so the reasoning is clear and auditable.
 - `HorizontalAlignment`, `VerticalAlignment`
 - `HorizontalContentAlignment`, `VerticalContentAlignment` — these are especially important because they control how content is positioned inside the control. If omitted, they fall through to the control's base-class default (often `Stretch`/`Center`), which may not match what the theme expects. Always bind them to the appropriate theme alignment tokens (e.g. `ControlHorizontalContentAlignment`, `ControlVerticalContentAlignment`) so the theme's layout intent is honoured everywhere.
 - `MinHeight`, `MinWidth` (or `ControlHeightSm`/`ControlMinWidth` tokens)
-- `Opacity` or `RenderTransform` (for transition states)
+- `RenderTransform` / `Transitions` — for press/state animations, use `{theme:TransformScale Value={theme:PressedScale}}`
+- `Opacity` (for disabled states, use `{theme:DisabledOpacity}`)
 
 ---
 
@@ -93,7 +94,10 @@ Every rule includes a justification so the reasoning is clear and auditable.
 **Patterns for manipulating existing tokens:**
 - Use `{theme:SurfaceOverlayWeakBrush}` / `{theme:SurfaceOverlayMediumBrush}` / `{theme:SurfaceOverlayStrongBrush}` for hover/pressed/disabled states instead of adding per-control accent tokens.
 - Use shade variants (`{theme:AccentPrimaryDark1Brush}`) for press-depth instead of separate press colours.
+- Use `{theme:AccentHoverOverlayBrush}` / `{theme:AccentPressedOverlayBrush}` for accent-toned overlays (the accent colour itself at low opacity).
 - Combine `{theme:Scaled Value={theme:BaseSize}, By=X}` for position/size adjustments instead of a new token.
+- For accent disabled opacity, multiply the base disabled opacity: `{theme:Scaled Value={theme:DisabledOpacity}, By=1.4}` (accent colours are naturally lighter so need higher disabled opacity).
+- `StrokeDashArray` is a **specific visual choice**, not a theme token — hard-code it in the template with an explaining comment.
 
 ---
 
@@ -158,27 +162,93 @@ A comment explaining WHY a non-obvious element exists IS appropriate, because th
 
 ---
 
-## Applying the Rules to Button.axaml
+## Rule 10: Theme Engine Extensions — Compose Tokens, Don't Inline Them
 
-The current Button.axaml has the following violations that should be cleaned up before we proceed to the calendar controls:
+**Statement:** When a theme token's value needs to be transformed (e.g. `double` → `TransformOperations` for `RenderTransform`, or `CornerRadius` → individual `double` corners for `Shape.RadiusX/Y`), add a hand-written markup extension to the `AngelSix.ThemeEngine` runtime library in the `AngelSix.ThemeEngine.Generated` namespace, following the pattern of existing extensions. Do NOT inline the transformation in the control's XAML or create control-specific converters.
 
-| Rule | Issue | Current | Should Be |
-|------|-------|---------|-----------|
-| Rule 6 | `FontFamily` hard-coded | `"Courier New, $Default"` | `{theme:FontFamily}` |
-| Rule 6 | `Padding` hard-coded | `"6, 4, 6, 4"` | `{theme:Edges Horizontal={theme:SpacingXl}}` or similar |
-| Rule 6 | `HorizontalAlignment` hard-coded to `Left` | `Value="Left"` | `{theme:...}` or at minimum leave it settable |
-| Rule 6 | `VerticalAlignment` hard-coded to `Center` | `Value="Center"` | `{theme:...}` or at minimum leave it settable |
+**Known extensions and their syntax:**
 
-Additionally, `RenderTransform` and `Transitions` for the pressed scale effect are currently set as direct ControlTheme setters. This is fine per Rule 3 (the transform is a non-visual behavioural property), but worth noting.
+| Extension | Syntax | Purpose |
+|-----------|--------|---------|
+| `Edges` | `{theme:Edges Left={theme:Token}, Top={theme:Token}}` | Compose a `Thickness` from individual edge tokens |
+| `Scaled` | `{theme:Scaled Value={theme:Token}, By=X}` | Multiply a token by a constant factor |
+| `Corners` | `{theme:Corners Radius={theme:RadiusSm}, Top=True}` | Apply a `CornerRadius` to selected corners only |
+| `TransformScale` | `{theme:TransformScale Value={theme:PressedScale}, By=1}` | Wrap a double token into a `TransformOperations` for `RenderTransform` |
+
+All live in `Angelsix-consulting/Avalonia Themes/AngelSix.ThemeEngine/`. After adding a new one, rebuild the NuGet package and push to nuget.org.
 
 ---
 
-## Suggested New Theme Tokens (if needed for calendar controls)
+## Rule 11: State Style Ordering Convention
 
-After reviewing the calendar controls against the existing `DefaultTheme`, the current token set covers the needs well. The calendar files already use `{theme:...}` tokens appropriately. The only possible additions if they prove genuinely useful across multiple controls:
+**Statement:** State styles within a ControlTheme should appear in this order for consistency across all controls:
 
-1. **`FocusBorderBrush`** — several controls (CalendarButton, CalendarDayButton, TextBox) style focus visuals with accent or border colours. A dedicated focus token would give a single point of control. But this can also be achieved with `AccentPrimaryBrush` for now.
+1. Template (the structural layout)
+2. Named sub-element styles (e.g. `^ /template/ ContentPresenter`)
+3. Default hover state (`^:pointerover`)
+4. Default pressed state (`^:pressed`)
+5. Default disabled state (`^:disabled`)
+6. Focus state (`^:focus-visible`)
+7. Accent class (`^.accent`) and its sub-states (hover, pressed, disabled)
+8. Any additional class or nested styles
 
-2. **`FontWeightSemiBold`** — CalendarDayButton and CalendarButton use hard-coded `SemiBold` for selected/today text. A token would let this be themed. However, it's a single value used in a narrow context, so it's borderline — `FontWeight="SemiBold"` as a theme setter directly on the ControlTheme is probably fine.
+This order ensures that more specific styles (accent) come after the defaults they build upon, and that the template is always first since it defines the visual tree that everything else targets.
 
-**Recommendation:** Do NOT add new tokens yet. The existing set is sufficient for the calendar controls. Add only when a value is needed in 3+ unrelated controls.
+---
+
+## Reference: Button.axaml (correctly themed control)
+
+The Button control has been fully converted and serves as the reference implementation. Key features:
+- All 10+ visual setters bound to theme tokens (Rule 1)
+- `TemplateBinding` exclusively inside the template (Rule 2)
+- `PART_AccentBorder` visuals set via `^ /template/` style (Rule 3)
+- All alignment, font, and padding properties exposed as theme-bound setters (Rule 4/6)
+- State styles in order: hover → pressed → disabled → focus → accent → accent sub-states (Rule 11)
+- Comments label sections only — no implementation descriptions (Rule 8)
+- `StrokeDashArray` is the sole hard-coded value in the template, documented as a visual-style exception
+- Press animation: `{theme:TransformScale Value={theme:PressedScale}, By=1}`
+- Disabled opacity: `{theme:DisabledOpacity}` (accent disabled: `{theme:Scaled Value={theme:DisabledOpacity}, By=1.4}`)
+- Focus state: `BorderBrush="{theme:AccentFocusBrush}"`, `BorderThickness="{theme:ThicknessMd}"`
+- Designer preview includes: Default, Hover, Pressed, Focused, Disabled — plus all accent variants
+
+See `Controls/Button.axaml` for the full implementation.
+
+---
+
+## Suggested New Theme Tokens (if needed for future controls)
+
+After reviewing the calendar controls against the existing `DefaultTheme`, the current token set covers their needs well. The calendar files already use `{theme:...}` tokens appropriately.
+
+**Token already added during this session:**
+- `AccentFocus` / `AccentFocusBrush` — a dedicated focus-indicator colour (distinct from accent primary)
+- `AnimationFastMs` (75ms), `AnimationNormalMs` (150ms), `AnimationSlowMs` (300ms) — animation timing
+- `PressedScale` (0.98) — uniform press animation factor
+- `RadiusSmDouble` / `RadiusMdDouble` — `double` versions for `Shape.RadiusX/Y`
+
+**If a value is genuinely needed across 3+ unrelated controls, consider:**
+- `FocusBorderBrush` — already covered by `AccentFocusBrush`
+- `FontWeightSemiBold` — already exists in the theme
+
+**Rule:** Add a new token only when the same value would be genuinely useful across multiple controls and is a fundamental design dimension. Prefer manipulating existing tokens first.
+
+---
+
+## Current token inventory (DefaultTheme.cs)
+
+| Category | Tokens |
+|----------|--------|
+| **Theme identity** | `ThemeName`, `BaseSize` |
+| **Colour (13)** | `Surface`, `OnSurface`, `OnSurfaceDim`, `SurfaceOverlay`, `AccentPrimary`, `AccentSuccess`, `AccentWarning`, `AccentError`, `AccentInfo`, `AccentDestructive`, `AccentSubtle`, `AccentNeutral`, `AccentBorder`, **`AccentFocus`** |
+| **Spacing (5)** | `SpacingSm` (2), `SpacingMd` (4), `SpacingLg` (8), `SpacingXl` (12), `SpacingXxl` (16) |
+| **Type scale** | `FontSizeSm` (12), `FontSizeMd` (14), `FontSizeLg` (16), `FontSizeXl` (20), `FontSizeXxl` (24) |
+| **Typeface** | `FontFamily`, `FontWeightRegular`, `FontWeightSemiBold`, `FontWeightBold` |
+| **Control height** | `ControlHeightSm` (32), `ControlHeightMd` (40), `ControlHeightLg` (48) |
+| **Control metrics** | `ControlMinWidth` (64), `IconSize` (16) |
+| **Shape** | `RadiusSm` (3), `RadiusMd` (6), `RadiusSmDouble` (3), `RadiusMdDouble` (6) |
+| **Thickness (5)** | `ThicknessSm` (1), `ThicknessMd` (2), `ThicknessLg` (3), `ThicknessXl` (4), `ThicknessXxl` (6) |
+| **Alignment** | `ControlHorizontalAlignment` (Left), `ControlVerticalAlignment` (Center), `ControlHorizontalContentAlignment` (Center), `ControlVerticalContentAlignment` (Center), `ContainerHorizontalAlignment` (Stretch), `ContainerVerticalAlignment` (Stretch) |
+| **Accent specific** | `AccentBorderStrokeThickness` (2), `AccentFontWeight` (SemiBold), `AccentHoverOverlayBrush`, `AccentPressedOverlayBrush` |
+| **State** | `DisabledOpacity` (0.3), `PressedScale` (0.98) |
+| **Animation** | `AnimationFastMs` (75), `AnimationNormalMs` (150), `AnimationSlowMs` (300) |
+| **Derived brushes** | All 13 colours as brushes, 3 surface overlay brushes (weak/medium/strong), 9 accents × 3 shades × 2 (dark/light), all shade brushes |
+| **Dark variant** | `DefaultThemeDark` — overrides `Surface`, `OnSurface`, `OnSurfaceDim`, `SurfaceOverlay`, `AccentDestructive` |
