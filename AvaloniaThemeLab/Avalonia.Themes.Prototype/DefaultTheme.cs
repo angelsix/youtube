@@ -31,22 +31,23 @@ public class DefaultTheme
     public virtual Color OnSurfaceDim => Color.Parse("#7A7A8E");
     public virtual Color SurfaceOverlay => Color.Parse("#000000");
 
-    public virtual Color AccentPrimary => Color.Parse("#87CEEB");
-    public virtual Color AccentSuccess => Color.Parse("#98D8AA");
-    public virtual Color AccentWarning => Color.Parse("#F5D79E");
-    public virtual Color AccentError => Color.Parse("#F2A0A0");
-    public virtual Color AccentInfo => Color.Parse("#FFB366");
-    public virtual Color AccentDestructive => Color.Parse("#CB6D6D");
-    public virtual Color AccentSubtle => Color.Parse("#C8A8E8");
-    public virtual Color AccentNeutral => Color.Parse("#D0D0D8");
-    public virtual Color AccentBorder => Color.Parse("#D0C0E0");
+    public virtual Color AccentPrimary => Color.Parse("#5BA3C9");
+    public virtual Color AccentSuccess => Color.Parse("#6DB87E");
+    public virtual Color AccentWarning => Color.Parse("#E0B860");
+    public virtual Color AccentError => Color.Parse("#D47A7A");
+    public virtual Color AccentInfo => Color.Parse("#E89F4A");
+    public virtual Color AccentDestructive => Color.Parse("#C17070");
+    public virtual Color AccentSubtle => Color.Parse("#B088C8");
+    public virtual Color AccentNeutral => Color.Parse("#B0B0B8");
+    public virtual Color AccentBorder => Color.Parse("#B8A8C8");
+    public virtual Color AccentFocus => Color.Parse("#4A90D9");
 
     // Spacing scale
     public virtual double SpacingSm => 2 * BaseSize;
     public virtual double SpacingMd => 4 * BaseSize;
-    public virtual double SpacingLg => 6 * BaseSize;
-    public virtual double SpacingXl => 8 * BaseSize;
-    public virtual double SpacingXxl => 12 * BaseSize;
+    public virtual double SpacingLg => 8 * BaseSize;
+    public virtual double SpacingXl => 12 * BaseSize;
+    public virtual double SpacingXxl => 16 * BaseSize;
 
     // Type scale (font sizes)
     public virtual double FontSizeSm => 12 * BaseSize;
@@ -66,6 +67,27 @@ public class DefaultTheme
 
     // Typeface
     public virtual FontFamily FontFamily => new FontFamily("Inter, $Default");
+    public virtual FontWeight FontWeightRegular => FontWeight.Normal;
+    public virtual FontWeight FontWeightSemiBold => FontWeight.SemiBold;
+    public virtual FontWeight FontWeightBold => FontWeight.Bold;
+
+    // Accent visual properties (for highlighted/prominent elements)
+    public virtual double AccentBorderStrokeThickness => 2 * BaseSize;
+    public virtual FontWeight AccentFontWeight => FontWeight.SemiBold;
+
+    // Accent overlay states — light overlay of the accent colour itself, matching the button's
+    // default SurfaceOverlay pattern but keyed to the accent hue for a tonally-consistent highlight.
+    public virtual SolidColorBrush AccentHoverOverlayBrush => ColorOverlayBrush(AccentPrimary, 0.08);
+    public virtual SolidColorBrush AccentPressedOverlayBrush => ColorOverlayBrush(AccentPrimary, 0.20);
+
+    // State visual properties
+    public virtual double DisabledOpacity => 0.3;
+    public virtual double PressedScale => 0.98;
+
+    // Animation timing (seconds)
+    public virtual TimeSpan AnimationFastMs => TimeSpan.FromMilliseconds(75);
+    public virtual TimeSpan AnimationNormalMs => TimeSpan.FromMilliseconds(150);
+    public virtual TimeSpan AnimationSlowMs => TimeSpan.FromMilliseconds(300);
 
     // Control alignment defaults (for interactive controls: buttons, inputs, pickers, etc.)
     public virtual HorizontalAlignment ControlHorizontalAlignment => HorizontalAlignment.Left;
@@ -80,6 +102,10 @@ public class DefaultTheme
     // Shape tokens
     public virtual CornerRadius RadiusSm => new CornerRadius(3 * BaseSize);
     public virtual CornerRadius RadiusMd => new CornerRadius(6 * BaseSize);
+
+    // Corner radius as a plain double (for Shape.RadiusX/Y which accept double, not CornerRadius)
+    public virtual double RadiusSmDouble => 3 * BaseSize;
+    public virtual double RadiusMdDouble => 6 * BaseSize;
 
     // Thickness scale (uniform border/outline thicknesses, spacing scale halved)
     public virtual Thickness ThicknessSm => new Thickness(1 * BaseSize);
@@ -106,6 +132,7 @@ public class DefaultTheme
     public virtual SolidColorBrush AccentSubtleBrush => new(AccentSubtle);
     public virtual SolidColorBrush AccentNeutralBrush => new(AccentNeutral);
     public virtual SolidColorBrush AccentBorderBrush => new(AccentBorder);
+    public virtual SolidColorBrush AccentFocusBrush => new(AccentFocus);
 
     // Overlay brushes (derived from SurfaceOverlay with opacity)
     public virtual SolidColorBrush SurfaceOverlayWeakBrush => ColorOverlayBrush(SurfaceOverlay, 0.08);

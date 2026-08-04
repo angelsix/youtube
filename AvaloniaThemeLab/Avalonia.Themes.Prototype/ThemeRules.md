@@ -115,23 +115,38 @@ Every rule includes a justification so the reasoning is clear and auditable.
 
 ---
 
-## Rule 8: Every Major Section Must Be Commented with Purpose
+## Rule 8: Section Comments Should Say What the Section Is, Not What It Does
 
-**Statement:** Every logical section of a control's XAML file — the ControlTheme itself, the Template, each state style block, and any non-obvious visual elements (especially ones with names like `PART_*`) — MUST have an inline comment explaining what it does and why it exists. Comments should answer "what is this for?" not restate "this is a setter."
+**Statement:** Every logical section of a control XAML file — visual defaults, template, state styles, class styles — should have a brief label comment stating what it is. The comment names the section so glancing down the file you can navigate: "hover state", "pressed state", "accent class", "template". Do NOT explain what the styles inside do — the XAML already says that. Do NOT explain why something works — save that for the one element that genuinely needs it (e.g. a workaround rectangle).
 
-**Justification:** Without comments, maintainers must reverse-engineer every element to understand intent. A comment like "Dashed accent border for the `accent` class style — visible as a focus/keyboard indicator when the accent border is shown" saves future you (and contributors) from guessing. This is especially important for workaround elements (e.g. the `PART_AccentBorder` rectangle) whose purpose is not obvious from the markup alone.
+**Justification:** A file of 20 style blocks with no section labels forces the reader to parse every selector to find the block they want. Short labels like "Hover state" or "Accent class" act as headings, making the file scannable. But restating the implementation ("hides solid border, shows dashed overlay") is fragile — if you change the implementation the comment is now wrong, and it adds no value because the implementation is already visible in the setters beneath it.
 
 **Pattern:**
 ```xml
-<!-- Dashed focus border, visible only when the .accent class is applied -->
+<!-- Template -->
+<Setter Property="Template"> ... </Setter>
+
+<!-- Hover state -->
+<Style Selector="^:pointerover"> ... </Style>
+
+<!-- Accent class -->
+<Style Selector="^.accent"> ... </Style>
+```
+
+**Not:**
+```xml
+<!-- Bad: explains what the style does (redundant — read the setters) -->
+<!-- Hides the solid border and reveals a dashed overlay -->
+<Style Selector="^.accent"> ... </Style>
+```
+
+**Exception — workaround elements:**
+A comment explaining WHY a non-obvious element exists IS appropriate, because the XAML cannot express that. Keep it concise:
+```xml
+<!-- Accent border overlay (required: ContentPresenter lacks StrokeDashArray) -->
 <Rectangle x:Name="PART_AccentBorder" ... />
 ```
 
-Not:
-```xml
-<!-- A rectangle -->
-<Rectangle x:Name="PART_AccentBorder" ... />
-```
 
 ---
 
