@@ -1,4 +1,4 @@
-﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:sys="using:System"
                     xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
@@ -14,11 +14,9 @@
         <ButtonSpinner Content="Right spinner" />
         <ButtonSpinner ButtonSpinnerLocation="Left"
                        Content="Left spinner" />
-        <ButtonSpinner BorderThickness="2"
-                       BorderBrush="{theme:AccentPrimaryBrush}"
+        <ButtonSpinner BorderBrush="{theme:AccentPrimaryBrush}"
                        Content="Right Border" />
         <ButtonSpinner ButtonSpinnerLocation="Left"
-                       BorderThickness="2"
                        BorderBrush="{theme:AccentPrimaryBrush}"
                        Content="Left Border" />
         <ButtonSpinner Content="Right disabled"
@@ -47,30 +45,55 @@
   <StreamGeometry x:Key="ButtonSpinnerIncreaseButtonIcon">M0,9 L10,0 20,9 19,10 10,2 1,10 z</StreamGeometry>
 
   <ControlTheme x:Key="PrototypeButtonSpinnerRepeatButton" TargetType="RepeatButton">
+
+    <!-- Visual defaults -->
+    <Setter Property="FontFamily" Value="{theme:FontFamily}" />
+    <Setter Property="FontWeight" Value="{theme:FontWeightRegular}" />
+    <Setter Property="FontSize" Value="{theme:FontSizeMd}" />
+
+    <!-- Press animation -->
+    <Setter Property="RenderTransform" Value="none" />
+    <Setter Property="Transitions">
+      <Transitions>
+        <TransformOperationsTransition Property="RenderTransform" Duration="{theme:AnimationFastMs}" />
+      </Transitions>
+    </Setter>
+
+    <!-- Hover state -->
     <Style Selector="^:pointerover">
       <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}" />
     </Style>
 
+    <!-- Pressed state -->
     <Style Selector="^:pressed">
       <Setter Property="Background" Value="{theme:SurfaceOverlayMediumBrush}" />
+      <Setter Property="RenderTransform" Value="{theme:TransformScale Value={theme:PressedScale}}" />
     </Style>
 
+    <!-- Disabled state -->
     <Style Selector="^:disabled">
-      <Setter Property="Opacity" Value="0.3" />
+      <Setter Property="Opacity" Value="{theme:DisabledOpacity}" />
     </Style>
   </ControlTheme>
 
   <ControlTheme x:Key="{x:Type ButtonSpinner}" TargetType="ButtonSpinner">
+
+    <!-- Visual defaults -->
     <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
     <Setter Property="Padding" Value="{theme:Edges Horizontal={theme:SpacingXl}}" />
     <Setter Property="Background" Value="{theme:SurfaceBrush}" />
     <Setter Property="BorderBrush" Value="{theme:OnSurfaceBrush}" />
     <Setter Property="BorderThickness" Value="{theme:ThicknessSm}" />
     <Setter Property="CornerRadius" Value="{theme:RadiusSm}" />
+    <Setter Property="FontFamily" Value="{theme:FontFamily}" />
+    <Setter Property="FontWeight" Value="{theme:FontWeightRegular}" />
+    <Setter Property="FontSize" Value="{theme:FontSizeMd}" />
     <Setter Property="MinHeight" Value="{theme:ControlHeightSm}" />
     <Setter Property="MinWidth" Value="{theme:ControlMinWidth}" />
-    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-    <Setter Property="VerticalContentAlignment" Value="Center" />
+    <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
+    <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
+    <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
+    <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
     <Setter Property="Focusable" Value="True"/>
     <Setter Property="Template">
       <ControlTemplate>
@@ -95,7 +118,10 @@
                               VerticalAlignment="Stretch"
                               VerticalContentAlignment="Center"
                               Padding="{theme:Edges All={theme:SpacingXl}}"
-                              Foreground="{TemplateBinding Foreground}">
+                              Foreground="{TemplateBinding Foreground}"
+                              FontFamily="{TemplateBinding FontFamily}"
+                              FontWeight="{TemplateBinding FontWeight}"
+                              FontSize="{TemplateBinding FontSize}">
                   <PathIcon Data="{StaticResource ButtonSpinnerIncreaseButtonIcon}" />
                 </RepeatButton>
 
@@ -108,7 +134,9 @@
                               VerticalContentAlignment="Center"
                               Foreground="{TemplateBinding Foreground}"
                               Padding="{theme:Edges All={theme:SpacingXl}}"
-                              >
+                              FontFamily="{TemplateBinding FontFamily}"
+                              FontWeight="{TemplateBinding FontWeight}"
+                              FontSize="{TemplateBinding FontSize}">
                   <PathIcon Data="{StaticResource ButtonSpinnerIncreaseButtonIcon}"
                             RenderTransformOrigin="50%,50%">
                     <PathIcon.RenderTransform>
@@ -126,7 +154,10 @@
                                 Content="{TemplateBinding Content}"
                                 HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                                 VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                                Padding="{TemplateBinding Padding}" />
+                                Padding="{TemplateBinding Padding}"
+                                FontFamily="{TemplateBinding FontFamily}"
+                                FontWeight="{TemplateBinding FontWeight}"
+                                FontSize="{TemplateBinding FontSize}" />
             </DockPanel>
           </Border>
         </DataValidationErrors>
@@ -166,12 +197,25 @@
         <Setter Property="CornerRadius" Value="{theme:Corners Radius={TemplateBinding CornerRadius}, Left=True}"/>
       </Style>
     </Style>
+    <!-- Hover state -->
+    <Style Selector="^:pointerover /template/ Border">
+      <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}" />
+    </Style>
+
+    <!-- Focus state -->
+    <Style Selector="^:focus-visible /template/ Border">
+      <Setter Property="BorderBrush" Value="{theme:AccentFocusBrush}" />
+      <Setter Property="BorderThickness" Value="{theme:ThicknessMd}" />
+    </Style>
+
+    <!-- Error state -->
     <Style Selector="^:error">
       <Setter Property="BorderBrush" Value="{theme:AccentErrorBrush}" />
     </Style>
-    
+
+    <!-- Disabled state -->
     <Style Selector="^:disabled">
-      <Setter Property="Opacity" Value="0.5" />
+      <Setter Property="Opacity" Value="{theme:DisabledOpacity}" />
     </Style>
     
     
