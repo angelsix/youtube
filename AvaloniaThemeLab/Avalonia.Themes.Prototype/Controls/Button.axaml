@@ -28,16 +28,35 @@
     </Border>
   </Design.PreviewWith>
 
+  <!-- ============================================================
+       ControlTheme: {x:Type Button}
+       Replaces the stock Avalonia Button with a clean token-based
+       theme.  Default states: normal, :pointerover, :pressed,
+       :disabled.  Additional class: .accent (dashed focus ring).
+       ============================================================ -->
   <ControlTheme x:Key="{x:Type Button}" TargetType="Button">
+
+    <!--
+      Visual property defaults — all bound to theme tokens so a theme
+      swap restyles every button without touching this file.
+    -->
     <Setter Property="Background" Value="{theme:SurfaceBrush}" />
     <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
     <Setter Property="BorderBrush" Value="{theme:OnSurfaceBrush}" />
     <Setter Property="BorderThickness" Value="{theme:ThicknessSm}" />
-    <Setter Property="FontFamily" Value="Courier New, $Default" />
+    <Setter Property="FontFamily" Value="{theme:FontFamily}" />
     <Setter Property="CornerRadius" Value="{theme:RadiusSm}" />
-    <Setter Property="Padding" Value="6, 4, 6, 4" />
-    <Setter Property="HorizontalAlignment" Value="Left" />
-    <Setter Property="VerticalAlignment" Value="Center" />
+    <Setter Property="Padding" Value="{theme:Edges Horizontal={theme:SpacingLg}, Vertical={theme:SpacingMd}}" />
+    <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
+    <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
+    <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
+    <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
+
+    <!--
+      Press animation: a subtle scale-down on :pressed.  The transition
+      is driven off RenderTransform so hover/opacity changes are not
+      caught in the same animation curve.
+    -->
     <Setter Property="RenderTransform" Value="none" />
     <Setter Property="Transitions">
       <Transitions>
@@ -45,9 +64,18 @@
       </Transitions>
     </Setter>
 
+    <!--
+      Template — the structural layout of the button.
+      All bindings use {TemplateBinding} exclusively (Rule 2) so that
+      consumers can style every visual property through the theme.
+    -->
     <Setter Property="Template">
       <ControlTemplate>
         <Grid>
+          <!--
+            Content surface: renders the button label/icon and applies
+            the themed background, border, corner radius and padding.
+          -->
           <ContentPresenter x:Name="PART_ContentPresenter"
                             Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
@@ -59,6 +87,13 @@
                             HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                             VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
 
+          <!--
+            Dashed accent border — hidden by default.
+            Only made visible when the .accent class is applied (see
+            style below).  Renders on top of the content surface as a
+            decorative focus/keyboard ring that replaces the normal
+            solid border with a dashed stroke.
+          -->
           <Rectangle x:Name="PART_AccentBorder"
                      IsVisible="False"
                      IsHitTestVisible="False"
@@ -72,14 +107,25 @@
       </ControlTemplate>
     </Setter>
 
+    <!--
+      Enable access key (Alt+letter) on the content presenter.
+    -->
     <Style Selector="^ /template/ ContentPresenter">
       <Setter Property="RecognizesAccessKey" Value="True" />
     </Style>
 
+    <!-- ============================================================
+         State: :pointerover (and designer preview .previewHover)
+         Light overlay on the button background.
+         ============================================================ -->
     <Style Selector="^:pointerover, ^.previewHover">
       <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}" />
     </Style>
 
+    <!-- ============================================================
+         State: :pressed (and designer preview .previewPressed)
+         Subtle scale-down for tactile feedback + strong overlay.
+         ============================================================ -->
     <Style Selector="^:pressed, ^.previewPressed">
       <Setter Property="RenderTransform" Value="scale(0.98)" />
     </Style>
@@ -88,10 +134,19 @@
       <Setter Property="Background" Value="{theme:SurfaceOverlayStrongBrush}" />
     </Style>
 
+    <!-- ============================================================
+         State: :disabled
+         Reduced opacity to visually disable without altering colours.
+         ============================================================ -->
     <Style Selector="^:disabled">
       <Setter Property="Opacity" Value="0.3" />
     </Style>
 
+    <!-- ============================================================
+         Class: .accent
+         Removes the solid outer border and reveals the dashed accent
+         border overlay (PART_AccentBorder) for a "highlighted" look.
+         ============================================================ -->
     <Style Selector="^.accent">
       <Setter Property="BorderThickness" Value="0" />
 

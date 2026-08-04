@@ -1,5 +1,6 @@
 using AngelSix.ThemeEngine;
 using Avalonia;
+using Avalonia.Layout;
 using Avalonia.Media;
 
 namespace Avalonia.Themes.Prototype;
@@ -65,6 +66,16 @@ public class DefaultTheme
 
     // Typeface
     public virtual FontFamily FontFamily => new FontFamily("Inter, $Default");
+
+    // Control alignment defaults (for interactive controls: buttons, inputs, pickers, etc.)
+    public virtual HorizontalAlignment ControlHorizontalAlignment => HorizontalAlignment.Left;
+    public virtual VerticalAlignment ControlVerticalAlignment => VerticalAlignment.Center;
+    public virtual HorizontalAlignment ControlHorizontalContentAlignment => HorizontalAlignment.Center;
+    public virtual VerticalAlignment ControlVerticalContentAlignment => VerticalAlignment.Center;
+
+    // Container alignment defaults (for structural elements that stretch to fill: list items, panels, etc.)
+    public virtual HorizontalAlignment ContainerHorizontalAlignment => HorizontalAlignment.Stretch;
+    public virtual VerticalAlignment ContainerVerticalAlignment => VerticalAlignment.Stretch;
 
     // Shape tokens
     public virtual CornerRadius RadiusSm => new CornerRadius(3 * BaseSize);
