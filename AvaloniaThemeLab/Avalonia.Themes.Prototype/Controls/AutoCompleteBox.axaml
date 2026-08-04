@@ -10,40 +10,78 @@
         <prototype:PrototypeTheme />
       </Border.Styles>
 
-      <AutoCompleteBox Width="200">
-        <AutoCompleteBox.ItemsSource>
-          <generic:List x:TypeArguments="x:String">
-            <x:String>Alabama</x:String>
-            <x:String>Alaska</x:String>
-            <x:String>Arizona</x:String>
-            <x:String>Arkansas</x:String>
-            <x:String>California</x:String>
-            <x:String>Colorado</x:String>
-            <x:String>Connecticut</x:String>
-            <x:String>Delaware</x:String>
-          </generic:List>
-        </AutoCompleteBox.ItemsSource>
-      </AutoCompleteBox>
+      <StackPanel Spacing="20">
+        <Label Content="AutoCompleteBox States" />
+        <StackPanel Orientation="Horizontal" Spacing="20">
+          <AutoCompleteBox Width="200" PlaceholderText="Default">
+            <AutoCompleteBox.ItemsSource>
+              <generic:List x:TypeArguments="x:String">
+                <x:String>Alabama</x:String>
+                <x:String>Alaska</x:String>
+                <x:String>Arizona</x:String>
+                <x:String>Arkansas</x:String>
+              </generic:List>
+            </AutoCompleteBox.ItemsSource>
+          </AutoCompleteBox>
+          <AutoCompleteBox Width="200" Classes="previewFocused" PlaceholderText="Focused">
+            <AutoCompleteBox.ItemsSource>
+              <generic:List x:TypeArguments="x:String">
+                <x:String>Alabama</x:String>
+                <x:String>Alaska</x:String>
+              </generic:List>
+            </AutoCompleteBox.ItemsSource>
+          </AutoCompleteBox>
+          <AutoCompleteBox Width="200" IsEnabled="False" Text="Disabled">
+            <AutoCompleteBox.ItemsSource>
+              <generic:List x:TypeArguments="x:String">
+                <x:String>Alabama</x:String>
+                <x:String>Alaska</x:String>
+              </generic:List>
+            </AutoCompleteBox.ItemsSource>
+          </AutoCompleteBox>
+        </StackPanel>
+      </StackPanel>
     </Border>
   </Design.PreviewWith>
 
-    <ControlTheme x:Key="{x:Type AutoCompleteBox}" TargetType="AutoCompleteBox">
-      <Setter Property="VerticalAlignment" Value="Top" />
-      <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
-      <Setter Property="Background" Value="{theme:SurfaceBrush}" />
-      <Setter Property="PlaceholderForeground" Value="{theme:OnSurfaceDimBrush}" />
-      <Setter Property="BorderBrush" Value="{theme:OnSurfaceBrush}" />
-      <Setter Property="BorderThickness" Value="{theme:ThicknessSm}" />
-      <Setter Property="CornerRadius" Value="{theme:RadiusSm}" />
-      <Setter Property="Padding" Value="{theme:Edges Left={theme:SpacingXxl}, Top={theme:SpacingLg}, Right={theme:SpacingLg}, Bottom={theme:SpacingMd}}" />
-      <Setter Property="MaxDropDownHeight" Value="{theme:Scaled Value={theme:ControlHeightSm}, By=12}" />
-      <Setter Property="Template">
-        <ControlTemplate>
+  <!-- ============================================================
+       ControlTheme: {x:Type AutoCompleteBox}
+       ============================================================ -->
+
+  <ControlTheme x:Key="{x:Type AutoCompleteBox}" TargetType="AutoCompleteBox">
+
+    <!-- Visual defaults -->
+    <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
+    <Setter Property="Background" Value="{theme:SurfaceBrush}" />
+    <Setter Property="PlaceholderForeground" Value="{theme:OnSurfaceDimBrush}" />
+    <Setter Property="BorderBrush" Value="{theme:OnSurfaceBrush}" />
+    <Setter Property="BorderThickness" Value="{theme:ThicknessSm}" />
+    <Setter Property="CornerRadius" Value="{theme:RadiusSm}" />
+    <Setter Property="FontFamily" Value="{theme:FontFamily}" />
+    <Setter Property="FontWeight" Value="{theme:FontWeightRegular}" />
+    <Setter Property="FontSize" Value="{theme:FontSizeMd}" />
+    <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
+    <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
+    <Setter Property="Padding" Value="{theme:Edges Left={theme:SpacingXxl}, Top={theme:SpacingLg}, Right={theme:SpacingLg}, Bottom={theme:SpacingMd}}" />
+    <Setter Property="MinHeight" Value="{theme:ControlHeightSm}" />
+    <Setter Property="MaxDropDownHeight" Value="{theme:Scaled Value={theme:ControlHeightSm}, By=12}" />
+
+    <!-- Press animation -->
+    <Setter Property="RenderTransform" Value="none" />
+    <Setter Property="Transitions">
+      <Transitions>
+        <TransformOperationsTransition Property="RenderTransform" Duration="{theme:AnimationFastMs}" />
+      </Transitions>
+    </Setter>
+
+    <!-- Template -->
+    <Setter Property="Template">
+      <ControlTemplate>
+        <DataValidationErrors>
           <Grid Name="PART_LayoutRoot">
             <TextBox Name="PART_TextBox"
                      PlaceholderText="{TemplateBinding PlaceholderText}"
                      PlaceholderForeground="{TemplateBinding PlaceholderForeground}"
-                     Width="{TemplateBinding Width}"
                      Foreground="{TemplateBinding Foreground}"
                      Background="{TemplateBinding Background}"
                      BorderBrush="{TemplateBinding BorderBrush}"
@@ -52,12 +90,15 @@
                      CaretIndex="{TemplateBinding CaretIndex, Mode=TwoWay}"
                      ClearSelectionOnLostFocus="{TemplateBinding ClearSelectionOnLostFocus}"
                      Padding="{TemplateBinding Padding}"
+                     FontFamily="{TemplateBinding FontFamily}"
+                     FontWeight="{TemplateBinding FontWeight}"
+                     FontSize="{TemplateBinding FontSize}"
                      Margin="0"
                      DataValidationErrors.Errors="{TemplateBinding (DataValidationErrors.Errors)}"
                      MaxLength="{TemplateBinding MaxLength}"
                      InnerLeftContent="{TemplateBinding InnerLeftContent}"
-                     InnerRightContent="{TemplateBinding InnerRightContent}"
-                     />
+                     InnerRightContent="{TemplateBinding InnerRightContent}" />
+
             <Popup Name="PART_Popup"
                    WindowManagerAddShadowHint="False"
                    MinWidth="{Binding Bounds.Width, RelativeSource={RelativeSource TemplatedParent}}"
@@ -65,7 +106,6 @@
                    IsLightDismissEnabled="True"
                    PlacementTarget="{TemplateBinding}">
               <Border Name="PART_SuggestionsContainer"
-                      Padding="{theme:Edges Vertical={theme:SpacingSm}}"
                       BorderThickness="{theme:ThicknessSm}"
                       BorderBrush="{theme:AccentBorderBrush}"
                       Background="{theme:SurfaceBrush}"
@@ -74,13 +114,40 @@
                          BorderThickness="0"
                          Background="Transparent"
                          ItemTemplate="{TemplateBinding ItemTemplate}"
-                         Margin="{theme:Edges Left={theme:Scaled Value={theme:BaseSize}, By=-1}, Right={theme:Scaled Value={theme:BaseSize}, By=-1}}"
                          ScrollViewer.IsScrollChainingEnabled="False" />
               </Border>
             </Popup>
           </Grid>
-        </ControlTemplate>
-      </Setter>
-    </ControlTheme>
+        </DataValidationErrors>
+      </ControlTemplate>
+    </Setter>
+
+    <!-- Popup suggestions container padding -->
+    <Style Selector="^ /template/ Border#PART_SuggestionsContainer">
+      <Setter Property="Padding" Value="{theme:Edges Vertical={theme:SpacingSm}}" />
+    </Style>
+
+    <!-- Popup listbox margin -->
+    <Style Selector="^ /template/ ListBox#PART_SelectingItemsControl">
+      <Setter Property="Margin" Value="{theme:Edges Left={theme:Scaled Value={theme:BaseSize}, By=-1}, Right={theme:Scaled Value={theme:BaseSize}, By=-1}}" />
+    </Style>
+
+    <!-- Hover state -->
+    <Style Selector="^:pointerover /template/ TextBox#PART_TextBox">
+      <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}" />
+    </Style>
+
+    <!-- Disabled state -->
+    <Style Selector="^:disabled">
+      <Setter Property="Opacity" Value="{theme:DisabledOpacity}" />
+    </Style>
+
+    <!-- Focus state -->
+    <Style Selector="^:focus-visible, ^.previewFocused /template/ TextBox#PART_TextBox">
+      <Setter Property="BorderBrush" Value="{theme:AccentFocusBrush}" />
+      <Setter Property="BorderThickness" Value="{theme:ThicknessMd}" />
+    </Style>
+
+  </ControlTheme>
 
 </ResourceDictionary>

@@ -33,6 +33,21 @@ Every rule includes a justification so the reasoning is clear and auditable.
 
 ---
 
+## ❗ Known Gotchas — Properties Not All Controls Expose
+
+Some properties that are always part of the common setter checklist (Rule 4) do not exist on certain controls. Adding them as `Setter` statements causes `AVLN2000` at build time because the property isn't declared on the control's class in Avalonia's API surface.
+
+**Known offenders:**
+
+| Property | Missing On | Workaround |
+|----------|-----------|------------|
+| `HorizontalContentAlignment`, `VerticalContentAlignment` | `AutoCompleteBox` | The inner `TextBox` in the template already uses its natural alignment and stretches to fill the grid cell. The control simply doesn't expose these for styling; do NOT add them as setters. |
+| `MinWidth`, `MinHeight` | `AutoCompleteBox` (no `MinWidth`) | Size constraints must be set on the `TextBox` element inside the template via `^ /template/` style, or on the grid root. |
+
+**Rule of thumb:** If a build-time `AVLN2000` says a property "cannot be resolved" on the control type, check the Avalonia API for that control — don't assume it's a misspelling. Remove the setter and (if the inner element needs the value) push it down to a `^ /template/` style instead.
+
+---
+
 ## Rule 1: All Control Theme Setters Must Bind to Theme Tokens
 
 **Statement:** Every `Setter` at the `ControlTheme` level (i.e. direct children of the `<ControlTheme>` element) that sets a visual property MUST source its value from a theme token (`{theme:...}`) or a `{StaticResource}` defined within the same file. No hard-coded colours, sizes, brushes, or thicknesses at the ControlTheme level.
