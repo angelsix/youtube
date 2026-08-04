@@ -116,6 +116,17 @@ public class DefaultTheme
 
     #endregion Source Properties
 
+    #region Icon Gallery
+
+    /// <summary>
+    /// The icon gallery for this theme. Override this to swap the entire icon set.
+    /// XAML accesses individual glyphs via <c>{icons:GlyphName}</c> (markup extension
+    /// in <c>AngelSix.ThemeEngine.Generated</c>), which drills into this property.
+    /// </summary>
+    public virtual ThemeIconGallery Icons => new();
+
+    #endregion
+
     #region Derived Properties
 
     // Colour brushes

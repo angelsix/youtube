@@ -2,6 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+                    xmlns:icons="using:AngelSix.ThemeEngine.Icons"
                     xmlns:converters="using:Avalonia.Controls.Converters"
                     x:ClassModifier="internal">
 
@@ -186,25 +187,25 @@
 
   <ControlTheme x:Key="PrototypeExpanderToggleButtonUpTheme" TargetType="ToggleButton" BasedOn="{StaticResource PrototypeExpanderToggleButtonTheme}">
     <Style Selector="^ /template/ Path#ExpandCollapseChevron">
-      <Setter Property="Data" Value="M 0 7 L 7 0 L 14 7" />
+      <Setter Property="Data" Value="{icons:ChevronUpGlyph}" />
     </Style>
   </ControlTheme>
 
   <ControlTheme x:Key="PrototypeExpanderToggleButtonDownTheme" TargetType="ToggleButton" BasedOn="{StaticResource PrototypeExpanderToggleButtonTheme}">
     <Style Selector="^ /template/ Path#ExpandCollapseChevron">
-      <Setter Property="Data" Value="M 0 0 L 7 7 L 14 0" />
+      <Setter Property="Data" Value="{icons:ChevronDownGlyph}" />
     </Style>
   </ControlTheme>
 
   <ControlTheme x:Key="PrototypeExpanderToggleButtonLeftTheme" TargetType="ToggleButton" BasedOn="{StaticResource PrototypeExpanderToggleButtonTheme}">
     <Style Selector="^ /template/ Path#ExpandCollapseChevron">
-      <Setter Property="Data" Value="M 7 0 L 0 7 L 7 14" />
+      <Setter Property="Data" Value="{icons:ChevronLeftGlyph}" />
     </Style>
   </ControlTheme>
 
   <ControlTheme x:Key="PrototypeExpanderToggleButtonRightTheme" TargetType="ToggleButton" BasedOn="{StaticResource PrototypeExpanderToggleButtonTheme}">
     <Style Selector="^ /template/ Path#ExpandCollapseChevron">
-      <Setter Property="Data" Value="M 0 0 L 7 7 L 0 14" />
+      <Setter Property="Data" Value="{icons:ChevronRightGlyph}" />
     </Style>
   </ControlTheme>
 

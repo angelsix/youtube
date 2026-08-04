@@ -1,0 +1,122 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
+                    xmlns:icons="using:AngelSix.ThemeEngine.Icons"
+                    x:Class="Avalonia.Themes.Prototype.IconGalleryPreview"
+                    x:ClassModifier="internal">
+  <Design.PreviewWith>
+    <Border Background="#FFFFFFFF" ClipToBounds="False"
+            Padding="20">
+      <Border.Styles>
+        <prototype:PrototypeTheme />
+      </Border.Styles>
+      
+      <StackPanel Spacing="16">
+        <TextBlock Text="Chevron Icons"
+                   FontSize="20"
+                   FontWeight="Bold"
+                   Foreground="#1E1E2E" />
+
+        <WrapPanel ItemSpacing="8">
+          <Button>
+            <PathIcon Data="{icons:ChevronUpGlyph}" />
+          </Button>
+          <Button>
+            <PathIcon Data="{icons:ChevronDownGlyph}" />
+          </Button>
+          <Button>
+            <PathIcon Data="{icons:ChevronLeftGlyph}" />
+          </Button>
+          <Button>
+            <PathIcon Data="{icons:ChevronRightGlyph}" />
+          </Button>
+        </WrapPanel>
+
+        <TextBlock Text="Expand / Collapse Chevrons"
+                   FontSize="20"
+                   FontWeight="Bold"
+                   Foreground="#1E1E2E" />
+
+        <WrapPanel ItemSpacing="8">
+          <Button>
+            <PathIcon Data="{icons:ExpandChevronGlyph}" />
+          </Button>
+          <Button>
+            <PathIcon Data="{icons:CollapseChevronGlyph}" />
+          </Button>
+        </WrapPanel>
+
+        <TextBlock Text="Drop-down &amp; Close"
+                   FontSize="20"
+                   FontWeight="Bold"
+                   Foreground="#1E1E2E" />
+
+        <WrapPanel ItemSpacing="8">
+          <Button>
+            <PathIcon Data="{icons:DropDownGlyph}" />
+          </Button>
+          <Button>
+            <PathIcon Data="{icons:CloseGlyph}" />
+          </Button>
+        </WrapPanel>
+
+        <TextBlock Text="Checkmark &amp; Menu"
+                   FontSize="20"
+                   FontWeight="Bold"
+                   Foreground="#1E1E2E" />
+
+        <WrapPanel ItemSpacing="8">
+          <Button>
+            <PathIcon Data="{icons:CheckmarkGlyph}" />
+          </Button>
+          <Button>
+            <PathIcon Data="{icons:MenuGlyph}" />
+          </Button>
+          <Button>
+            <PathIcon Data="{icons:StarGlyph}" />
+          </Button>
+        </WrapPanel>
+
+        <TextBlock Text="Arrow Icons"
+                   FontSize="20"
+                   FontWeight="Bold"
+                   Foreground="#1E1E2E" />
+
+        <WrapPanel ItemSpacing="8">
+          <Button>
+            <PathIcon Data="{icons:ArrowUpGlyph}" />
+          </Button>
+          <Button>
+            <PathIcon Data="{icons:ArrowDownGlyph}" />
+          </Button>
+          <Button>
+            <PathIcon Data="{icons:ArrowLeftGlyph}" />
+          </Button>
+          <Button>
+            <PathIcon Data="{icons:ArrowRightGlyph}" />
+          </Button>
+        </WrapPanel>
+
+        <TextBlock Text="Plus / Minus / More"
+                   FontSize="20"
+                   FontWeight="Bold"
+                   Foreground="#1E1E2E" />
+
+        <WrapPanel ItemSpacing="8">
+          <Button>
+            <PathIcon Data="{icons:PlusGlyph}" />
+          </Button>
+          <Button>
+            <PathIcon Data="{icons:MinusGlyph}" />
+          </Button>
+          <Button>
+            <PathIcon Data="{icons:MoreHorizontalGlyph}" />
+          </Button>
+          <Button>
+            <PathIcon Data="{icons:MoreVerticalGlyph}" />
+          </Button>
+        </WrapPanel>
+      </StackPanel>
+    </Border>
+  </Design.PreviewWith>
+</ResourceDictionary>

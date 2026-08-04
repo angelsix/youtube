@@ -3,6 +3,7 @@
                     xmlns:sys="using:System"
                     xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+                    xmlns:icons="using:AngelSix.ThemeEngine.Icons"
                     x:ClassModifier="internal">
   <Design.PreviewWith>
     <Border Padding="20">
@@ -42,14 +43,17 @@
     </Border>
   </Design.PreviewWith>
 
-  <StreamGeometry x:Key="ButtonSpinnerIncreaseButtonIcon">M0,9 L10,0 20,9 19,10 10,2 1,10 z</StreamGeometry>
-
   <ControlTheme x:Key="PrototypeButtonSpinnerRepeatButton" TargetType="RepeatButton">
 
     <!-- Visual defaults -->
     <Setter Property="FontFamily" Value="{theme:FontFamily}" />
     <Setter Property="FontWeight" Value="{theme:FontWeightRegular}" />
     <Setter Property="FontSize" Value="{theme:FontSizeMd}" />
+    <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
+    <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
+    <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
+    <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
+    <Setter Property="Background" Value="Transparent" />
 
     <!-- Press animation -->
     <Setter Property="RenderTransform" Value="none" />
@@ -115,14 +119,11 @@
                               Theme="{StaticResource PrototypeButtonSpinnerRepeatButton}"
                               Background="{TemplateBinding Background}"
                               BorderBrush="{TemplateBinding BorderBrush}"
-                              VerticalAlignment="Stretch"
-                              VerticalContentAlignment="Center"
                               Padding="{theme:Edges All={theme:SpacingXl}}"
-                              Foreground="{TemplateBinding Foreground}"
-                              FontFamily="{TemplateBinding FontFamily}"
-                              FontWeight="{TemplateBinding FontWeight}"
-                              FontSize="{TemplateBinding FontSize}">
-                  <PathIcon Data="{StaticResource ButtonSpinnerIncreaseButtonIcon}" />
+                              Foreground="{TemplateBinding Foreground}">
+                  <PathIcon Data="{icons:ChevronUpGlyph}"
+                            Height="{theme:IconSize}"
+                            Width="{theme:IconSize}" />
                 </RepeatButton>
 
                 <RepeatButton Name="PART_DecreaseButton"
@@ -130,21 +131,13 @@
                               Theme="{StaticResource PrototypeButtonSpinnerRepeatButton}"
                               Background="{TemplateBinding Background}"
                               BorderBrush="{TemplateBinding BorderBrush}"
-                              VerticalAlignment="Stretch"
-                              VerticalContentAlignment="Center"
                               Foreground="{TemplateBinding Foreground}"
-                              Padding="{theme:Edges All={theme:SpacingXl}}"
-                              FontFamily="{TemplateBinding FontFamily}"
-                              FontWeight="{TemplateBinding FontWeight}"
-                              FontSize="{TemplateBinding FontSize}">
-                  <PathIcon Data="{StaticResource ButtonSpinnerIncreaseButtonIcon}"
-                            RenderTransformOrigin="50%,50%">
-                    <PathIcon.RenderTransform>
-                      <RotateTransform Angle="180" />
-                    </PathIcon.RenderTransform>
-                  </PathIcon>
+                              Padding="{theme:Edges All={theme:SpacingXl}}">
+                  <PathIcon Data="{icons:ChevronDownGlyph}"
+                            Height="{theme:IconSize}"
+                            Width="{theme:IconSize}" />
                 </RepeatButton>
-                
+
               </StackPanel>
 
               <ContentPresenter Name="PART_ContentPresenter"
@@ -154,10 +147,7 @@
                                 Content="{TemplateBinding Content}"
                                 HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                                 VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                                Padding="{TemplateBinding Padding}"
-                                FontFamily="{TemplateBinding FontFamily}"
-                                FontWeight="{TemplateBinding FontWeight}"
-                                FontSize="{TemplateBinding FontSize}" />
+                                Padding="{TemplateBinding Padding}" />
             </DockPanel>
           </Border>
         </DataValidationErrors>

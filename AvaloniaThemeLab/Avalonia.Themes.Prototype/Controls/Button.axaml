@@ -48,6 +48,8 @@
     <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
     <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
     <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
+    <Setter Property="ClipToBounds" Value="False" />
+    <Setter Property="RenderTransformOrigin" Value="50% 50%" />
 
     <!-- Press animation -->
     <Setter Property="RenderTransform" Value="none" />
@@ -72,7 +74,7 @@
                             HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                             VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
 
-          <!-- Accent border overlay (required: ContentPresenter lacks StrokeDashArray) -->
+          <!-- Accent border overlay -->
           <Rectangle x:Name="PART_AccentBorder"
                      IsVisible="False"
                      IsHitTestVisible="False"

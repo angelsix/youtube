@@ -1,8 +1,9 @@
-﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:converters="using:Avalonia.Controls.Converters"
         xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
         xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+        xmlns:icons="using:AngelSix.ThemeEngine.Icons"
         x:ClassModifier="internal">
 
   <Design.PreviewWith>
@@ -25,8 +26,6 @@
     </Border>
   </Design.PreviewWith>
 
-  <StreamGeometry x:Key="TreeViewItemCollapsedChevronPathData">M 1,0 10,10 l -9,10 -1,-1 L 8,10 -0,1 Z</StreamGeometry>
-  <StreamGeometry x:Key="TreeViewItemExpandedChevronPathData">M0,1 L10,10 20,1 19,0 10,8 1,0 Z</StreamGeometry>
 
   <ControlTheme x:Key="PrototypeTreeViewExpandCollapseChevron" TargetType="ToggleButton">
     <Setter Property="Margin" Value="0" />
@@ -40,7 +39,7 @@
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center">
           <Path x:Name="ChevronPath"
-                Data="{StaticResource TreeViewItemCollapsedChevronPathData}"
+                Data="{icons:ExpandChevronGlyph}"
                 Fill="{theme:OnSurfaceBrush}"
                 Stretch="Uniform"
                 HorizontalAlignment="Center"
@@ -50,7 +49,7 @@
     </Setter>
 
     <Style Selector="^:checked /template/ Path#ChevronPath">
-      <Setter Property="Data" Value="{StaticResource TreeViewItemExpandedChevronPathData}" />
+      <Setter Property="Data" Value="{icons:CollapseChevronGlyph}" />
     </Style>
   </ControlTheme>
 

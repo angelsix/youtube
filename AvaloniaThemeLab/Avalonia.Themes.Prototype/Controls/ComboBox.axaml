@@ -3,6 +3,7 @@
                     xmlns:sys="using:System"
                     xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+                    xmlns:icons="using:AngelSix.ThemeEngine.Icons"
                     x:ClassModifier="internal">
   <Design.PreviewWith>
     <Border Padding="20">
@@ -149,13 +150,13 @@
                       Grid.Column="1"
                       UseLayoutRounding="False"
                       IsHitTestVisible="False"
-                      Height="12"
-                      Width="12"
+                      Height="{theme:IconSize}"
+                      Width="{theme:IconSize}"
                       Margin="{theme:Edges Right={theme:SpacingXxl}}"
                       HorizontalAlignment="Right"
                       VerticalAlignment="Center"
                       Foreground="{theme:OnSurfaceDimBrush}"
-                      Data="M1939 486L2029 576L1024 1581L19 576L109 486L1024 1401L1939 486Z"/>
+                      Data="{icons:DropDownGlyph}"/>
 
             <Popup Name="PART_Popup"
                    WindowManagerAddShadowHint="False"
