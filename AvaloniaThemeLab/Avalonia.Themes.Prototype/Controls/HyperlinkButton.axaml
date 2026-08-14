@@ -1,9 +1,8 @@
-﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
                     x:ClassModifier="internal">
-
   <Design.PreviewWith>
     <Border Padding="20">
       <Border.Styles>
@@ -11,12 +10,24 @@
       </Border.Styles>
 
       <StackPanel Spacing="20">
-        <HyperlinkButton Content="_Click Me!" />
+        <Label Content="HyperlinkButton States" />
+        <StackPanel Orientation="Horizontal" Spacing="20">
+          <HyperlinkButton Content="Default" />
+          <HyperlinkButton Classes="previewHover" Content="Hover" />
+          <HyperlinkButton Classes="previewPressed" Content="Pressed" />
+          <HyperlinkButton Classes="previewFocused" Content="Focused" />
+          <HyperlinkButton Content="Disabled" IsEnabled="False" />
+        </StackPanel>
       </StackPanel>
     </Border>
   </Design.PreviewWith>
 
+  <!-- ============================================================
+       ControlTheme: {x:Type HyperlinkButton}
+       ============================================================ -->
   <ControlTheme x:Key="{x:Type HyperlinkButton}" TargetType="HyperlinkButton">
+
+    <!-- Visual defaults -->
     <Setter Property="Cursor" Value="Hand" />
     <Setter Property="Background" Value="Transparent" />
     <Setter Property="BackgroundSizing" Value="OuterBorderEdge" />
@@ -24,69 +35,104 @@
     <Setter Property="BorderBrush" Value="Transparent" />
     <Setter Property="BorderThickness" Value="{theme:ThicknessSm}" />
     <Setter Property="CornerRadius" Value="{theme:RadiusSm}" />
+    <Setter Property="FontFamily" Value="{theme:FontFamily}" />
+    <Setter Property="FontWeight" Value="{theme:FontWeightRegular}" />
     <Setter Property="Padding" Value="{theme:Edges Horizontal={theme:SpacingXl}, Vertical={theme:SpacingLg}}" />
-    <Setter Property="HorizontalAlignment" Value="Left" />
-    <Setter Property="VerticalAlignment" Value="Center" />
-    <Setter Property="RenderTransform" Value="none" />
+    <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
+    <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
+    <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
+    <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
     <Setter Property="TextBlock.TextDecorations" Value="Underline" />
+
+    <!-- Press animation -->
+    <Setter Property="RenderTransform" Value="none" />
     <Setter Property="Transitions">
       <Transitions>
-        <TransformOperationsTransition Property="RenderTransform" Duration="0:0:.075" />
+        <TransformOperationsTransition Property="RenderTransform" Duration="{theme:AnimationFastMs}" />
       </Transitions>
     </Setter>
 
+    <!-- Template -->
     <Setter Property="Template">
       <ControlTemplate>
-        <ContentPresenter x:Name="PART_ContentPresenter"
-                          Background="{TemplateBinding Background}"
-                          BackgroundSizing="{TemplateBinding BackgroundSizing}"
-                          BorderBrush="{TemplateBinding BorderBrush}"
-                          BorderThickness="{TemplateBinding BorderThickness}"
-                          CornerRadius="{TemplateBinding CornerRadius}"
-                          Content="{TemplateBinding Content}"
-                          ContentTemplate="{TemplateBinding ContentTemplate}"
-                          Padding="{TemplateBinding Padding}"
-                          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                          VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+        <Grid>
+          <ContentPresenter x:Name="PART_ContentPresenter"
+                            Background="{TemplateBinding Background}"
+                            BackgroundSizing="{TemplateBinding BackgroundSizing}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="{TemplateBinding CornerRadius}"
+                            Content="{TemplateBinding Content}"
+                            ContentTemplate="{TemplateBinding ContentTemplate}"
+                            Padding="{TemplateBinding Padding}"
+                            HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+
+          <!-- Accent border overlay (required: ContentPresenter lacks StrokeDashArray) -->
+          <Rectangle x:Name="PART_AccentBorder"
+                     IsVisible="False"
+                     IsHitTestVisible="False"
+                     Fill="Transparent"
+                     StrokeDashArray="3, 2, 6, 2" />
+        </Grid>
       </ControlTemplate>
     </Setter>
 
-    <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
+    <!-- Access key support -->
+    <Style Selector="^ /template/ ContentPresenter">
       <Setter Property="RecognizesAccessKey" Value="True" />
     </Style>
 
-    <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+    <!-- Accent border visuals -->
+    <Style Selector="^ /template/ Rectangle#PART_AccentBorder">
+      <Setter Property="Stroke" Value="{theme:AccentPrimaryBrush}" />
+      <Setter Property="StrokeThickness" Value="{theme:AccentBorderStrokeThickness}" />
+      <Setter Property="RadiusX" Value="{theme:RadiusSmDouble}" />
+      <Setter Property="RadiusY" Value="{theme:RadiusSmDouble}" />
+    </Style>
+
+    <!-- Hover state -->
+    <Style Selector="^:pointerover, ^.previewHover">
+      <Setter Property="RenderTransform" Value="{theme:TransformScale Value={theme:PressedScale}, By=1.07}" />
+    </Style>
+
+    <Style Selector="^:pointerover, ^.previewHover">
       <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}" />
-      <Setter Property="BorderBrush" Value="Transparent" />
       <Setter Property="Foreground" Value="{theme:AccentPrimaryBrush}" />
     </Style>
 
-    <Style Selector="^:pressed">
-      <Setter Property="RenderTransform" Value="scale(0.98)" />
+    <!-- Pressed state -->
+    <Style Selector="^:pressed, ^.previewPressed">
+      <Setter Property="RenderTransform" Value="{theme:TransformScale Value={theme:PressedScale}}" />
     </Style>
 
-    <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter">
+    <Style Selector="^:pressed, ^.previewPressed">
       <Setter Property="Background" Value="{theme:SurfaceOverlayMediumBrush}" />
-      <Setter Property="BorderBrush" Value="Transparent" />
       <Setter Property="Foreground" Value="{theme:AccentPrimaryDark1Brush}" />
     </Style>
 
-    <Style Selector="^:disabled /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="Background" Value="Transparent" />
-      <Setter Property="BorderBrush" Value="Transparent" />
-      <Setter Property="Foreground" Value="{theme:OnSurfaceDimBrush}" />
+    <!-- Disabled state -->
+    <Style Selector="^:disabled">
+      <Setter Property="Opacity" Value="{theme:DisabledOpacity}" />
     </Style>
 
+    <!-- Focus state -->
+    <Style Selector="^:focus-visible, ^.previewFocused">
+      <Setter Property="BorderBrush" Value="{theme:AccentFocusBrush}" />
+      <Setter Property="BorderThickness" Value="{theme:ThicknessMd}" />
+    </Style>
+
+    <!-- Visited state -->
     <Style Selector="^:visited">
-      <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
+      <Style Selector="^ /template/ ContentPresenter">
         <Setter Property="Foreground" Value="{theme:AccentNeutralBrush}" />
       </Style>
 
-      <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+      <Style Selector="^:pointerover /template/ ContentPresenter">
         <Setter Property="Foreground" Value="{theme:AccentNeutralBrush}" />
       </Style>
 
-      <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter">
+      <Style Selector="^:pressed /template/ ContentPresenter">
         <Setter Property="Foreground" Value="{theme:AccentNeutralDark1Brush}" />
       </Style>
     </Style>

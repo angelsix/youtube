@@ -1,4 +1,4 @@
-﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
@@ -10,120 +10,257 @@
       </Border.Styles>
 
       <StackPanel Spacing="20">
-        <ToggleButton Content="Click Me!" />
-        <ToggleButton Content="Disabled" IsEnabled="False" />
-        <ToggleButton Content="Three state" IsThreeState="True" />
+        <Label Content="ToggleButton States" />
+        <StackPanel Orientation="Horizontal" Spacing="20">
+          <ToggleButton Content="Default" />
+          <ToggleButton Classes="previewHover" Content="Hover" />
+          <ToggleButton Classes="previewPressed" Content="Pressed" />
+          <ToggleButton Classes="previewFocused" Content="Focused" />
+          <ToggleButton Content="Disabled" IsEnabled="False" />
+        </StackPanel>
+        <Label Content="Checked States" />
+        <StackPanel Orientation="Horizontal" Spacing="20">
+          <ToggleButton Content="Checked" IsChecked="True" />
+          <ToggleButton Classes="previewHover" Content="Checked+Hover" IsChecked="True" />
+          <ToggleButton Classes="previewPressed" Content="Checked+Pressed" IsChecked="True" />
+          <ToggleButton Content="Checked+Disabled" IsChecked="True" IsEnabled="False" />
+        </StackPanel>
+        <Label Content="Indeterminate States" />
+        <StackPanel Orientation="Horizontal" Spacing="20">
+          <ToggleButton Content="Indeterminate" IsThreeState="True" IsChecked="Null" />
+          <ToggleButton Classes="previewHover" Content="Indet+Hover" IsThreeState="True" IsChecked="Null" />
+          <ToggleButton Classes="previewPressed" Content="Indet+Pressed" IsThreeState="True" IsChecked="Null" />
+          <ToggleButton Content="Indet+Disabled" IsThreeState="True" IsChecked="Null" IsEnabled="False" />
+        </StackPanel>
+        <Label Content="Accent States" />
+        <StackPanel Orientation="Horizontal" Spacing="20">
+          <ToggleButton Classes="accent" Content="Default" />
+          <ToggleButton Classes="accent previewHover" Content="Hover" />
+          <ToggleButton Classes="accent previewPressed" Content="Pressed" />
+          <ToggleButton Classes="accent previewFocused" Content="Focused" />
+          <ToggleButton Classes="accent" Content="Disabled" IsEnabled="False" />
+        </StackPanel>
       </StackPanel>
     </Border>
   </Design.PreviewWith>
 
+  <!-- ============================================================
+       ControlTheme: {x:Type ToggleButton}
+       ============================================================ -->
   <ControlTheme x:Key="{x:Type ToggleButton}" TargetType="ToggleButton">
+
+    <!-- Visual defaults -->
     <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}" />
     <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
     <Setter Property="BorderBrush" Value="Transparent" />
     <Setter Property="BorderThickness" Value="{theme:ThicknessSm}" />
+    <Setter Property="FontFamily" Value="{theme:FontFamily}" />
+    <Setter Property="FontWeight" Value="{theme:FontWeightRegular}" />
     <Setter Property="CornerRadius" Value="{theme:RadiusSm}" />
     <Setter Property="Padding" Value="{theme:Edges Horizontal={theme:SpacingXl}, Vertical={theme:SpacingLg}}" />
-    <Setter Property="HorizontalAlignment" Value="Left" />
-    <Setter Property="VerticalAlignment" Value="Center" />
+    <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
+    <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
+    <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
+    <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
+
+    <!-- Press animation -->
     <Setter Property="RenderTransform" Value="none" />
     <Setter Property="Transitions">
       <Transitions>
-        <TransformOperationsTransition Property="RenderTransform" Duration="0:0:.075" />
+        <TransformOperationsTransition Property="RenderTransform" Duration="{theme:AnimationFastMs}" />
       </Transitions>
     </Setter>
 
+    <!-- Template -->
     <Setter Property="Template">
       <ControlTemplate>
-        <ContentPresenter x:Name="PART_ContentPresenter"
-                          Background="{TemplateBinding Background}"
-                          BorderBrush="{TemplateBinding BorderBrush}"
-                          BorderThickness="{TemplateBinding BorderThickness}"
-                          CornerRadius="{TemplateBinding CornerRadius}"
-                          Content="{TemplateBinding Content}"
-                          ContentTemplate="{TemplateBinding ContentTemplate}"
-                          Padding="{TemplateBinding Padding}"
-                          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                          VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+        <Grid>
+          <ContentPresenter x:Name="PART_ContentPresenter"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="{TemplateBinding CornerRadius}"
+                            Content="{TemplateBinding Content}"
+                            ContentTemplate="{TemplateBinding ContentTemplate}"
+                            Padding="{TemplateBinding Padding}"
+                            HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+
+          <!-- Accent border overlay -->
+          <Rectangle x:Name="PART_AccentBorder"
+                     IsVisible="False"
+                     IsHitTestVisible="False"
+                     Fill="Transparent"
+                     StrokeDashArray="3, 2, 6, 2" />
+        </Grid>
       </ControlTemplate>
     </Setter>
 
-    <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
+    <!-- Access key support -->
+    <Style Selector="^ /template/ ContentPresenter">
       <Setter Property="RecognizesAccessKey" Value="True" />
     </Style>
 
-    <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="Background" Value="{theme:OnSurfaceBrush}" />
+    <!-- Accent border visuals -->
+    <Style Selector="^ /template/ Rectangle#PART_AccentBorder">
+      <Setter Property="Stroke" Value="{theme:AccentPrimaryBrush}" />
+      <Setter Property="StrokeThickness" Value="{theme:AccentBorderStrokeThickness}" />
+      <Setter Property="RadiusX" Value="{theme:RadiusSmDouble}" />
+      <Setter Property="RadiusY" Value="{theme:RadiusSmDouble}" />
+    </Style>
+
+    <!-- Hover state -->
+    <Style Selector="^:pointerover, ^.previewHover">
+      <Setter Property="RenderTransform" Value="{theme:TransformScale Value={theme:PressedScale}, By=1.07}" />
+    </Style>
+
+    <Style Selector="^:pointerover, ^.previewHover">
+      <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}" />
       <Setter Property="BorderBrush" Value="Transparent" />
       <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
     </Style>
 
-    <Style Selector="^:pressed">
-      <Setter Property="RenderTransform" Value="scale(0.98)" />
+    <!-- Pressed state -->
+    <Style Selector="^:pressed, ^.previewPressed">
+      <Setter Property="RenderTransform" Value="{theme:TransformScale Value={theme:PressedScale}}" />
     </Style>
 
-    <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter">
+    <Style Selector="^:pressed, ^.previewPressed">
       <Setter Property="Background" Value="{theme:SurfaceOverlayMediumBrush}" />
       <Setter Property="BorderBrush" Value="Transparent" />
       <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
     </Style>
 
-    <Style Selector="^:disabled /template/ ContentPresenter#PART_ContentPresenter">
+    <!-- Disabled state -->
+    <Style Selector="^:disabled">
+      <Setter Property="Opacity" Value="{theme:DisabledOpacity}" />
+    </Style>
+
+    <Style Selector="^:disabled">
       <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}" />
       <Setter Property="BorderBrush" Value="Transparent" />
       <Setter Property="Foreground" Value="{theme:OnSurfaceDimBrush}" />
     </Style>
 
-    <Style Selector="^:indeterminate">
-      <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
-        <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}" />
-        <Setter Property="BorderBrush" Value="Transparent" />
-        <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
-      </Style>
+    <!-- Focus state -->
+    <Style Selector="^:focus-visible, ^.previewFocused">
+      <Setter Property="BorderBrush" Value="{theme:AccentFocusBrush}" />
+      <Setter Property="BorderThickness" Value="{theme:ThicknessMd}" />
+    </Style>
 
-      <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
-        <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}" />
-        <Setter Property="BorderBrush" Value="{theme:AccentBorderBrush}" />
-        <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
-      </Style>
+    <!-- Accent class -->
+    <Style Selector="^.accent">
+      <Setter Property="BorderThickness" Value="0" />
+      <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}" />
+      <Setter Property="Foreground" Value="{theme:AccentPrimaryBrush}" />
 
-      <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter">
-        <Setter Property="Background" Value="{theme:SurfaceOverlayMediumBrush}" />
-        <Setter Property="BorderBrush" Value="Transparent" />
-        <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
-      </Style>
-
-      <Style Selector="^:disabled /template/ ContentPresenter#PART_ContentPresenter">
-        <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}" />
-        <Setter Property="BorderBrush" Value="Transparent" />
-        <Setter Property="Foreground" Value="{theme:OnSurfaceDimBrush}" />
+      <Style Selector="^ /template/ Rectangle#PART_AccentBorder">
+        <Setter Property="IsVisible" Value="True" />
       </Style>
     </Style>
 
+    <!-- Accent hover state -->
+    <Style Selector="^.accent:pointerover, ^.accent.previewHover">
+      <Setter Property="RenderTransform" Value="{theme:TransformScale Value={theme:PressedScale}, By=1.07}" />
+      <Setter Property="Background" Value="{theme:AccentHoverOverlayBrush}" />
+      <Setter Property="BorderBrush" Value="Transparent" />
+      <Setter Property="Foreground" Value="{theme:AccentPrimaryDark1Brush}" />
+
+      <Style Selector="^ /template/ Rectangle#PART_AccentBorder">
+        <Setter Property="Stroke" Value="{theme:AccentPrimaryDark1Brush}" />
+      </Style>
+    </Style>
+
+    <!-- Accent pressed state -->
+    <Style Selector="^.accent:pressed, ^.accent.previewPressed">
+      <Setter Property="RenderTransform" Value="{theme:TransformScale Value={theme:PressedScale}}" />
+      <Setter Property="Background" Value="{theme:AccentPressedOverlayBrush}" />
+      <Setter Property="BorderBrush" Value="Transparent" />
+      <Setter Property="Foreground" Value="{theme:AccentPrimaryDark2Brush}" />
+
+      <Style Selector="^ /template/ Rectangle#PART_AccentBorder">
+        <Setter Property="Stroke" Value="{theme:AccentPrimaryDark2Brush}" />
+      </Style>
+    </Style>
+
+    <!-- Accent disabled state -->
+    <Style Selector="^.accent:disabled">
+      <Setter Property="Opacity" Value="{theme:Scaled Value={theme:DisabledOpacity}, By=1.4}" />
+
+      <Style Selector="^ /template/ Rectangle#PART_AccentBorder">
+        <Setter Property="Opacity" Value="{theme:Scaled Value={theme:DisabledOpacity}, By=1.4}" />
+      </Style>
+    </Style>
+
+    <!-- ============================================================
+         Checked states
+         ============================================================ -->
+
+    <!-- Checked default -->
     <Style Selector="^:checked">
-      <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
-        <Setter Property="Background" Value="{theme:AccentPrimaryBrush}" />
-        <Setter Property="BorderBrush" Value="Transparent" />
-        <Setter Property="Foreground" Value="{theme:SurfaceBrush}" />
-      </Style>
-
-      <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
-        <Setter Property="Background" Value="{theme:AccentPrimaryLight1Brush}" />
-        <Setter Property="BorderBrush" Value="Transparent" />
-        <Setter Property="Foreground" Value="{theme:SurfaceBrush}" />
-      </Style>
-
-      <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter">
-        <Setter Property="Background" Value="{theme:SurfaceOverlayMediumBrush}" />
-        <Setter Property="BorderBrush" Value="Transparent" />
-        <Setter Property="Foreground" Value="{theme:SurfaceBrush}" />
-      </Style>
-
-      <Style Selector="^:disabled /template/ ContentPresenter#PART_ContentPresenter">
-        <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}" />
-        <Setter Property="BorderBrush" Value="Transparent" />
-        <Setter Property="Foreground" Value="{theme:OnSurfaceDimBrush}" />
-      </Style>
+      <Setter Property="Background" Value="{theme:AccentPrimaryBrush}" />
+      <Setter Property="BorderBrush" Value="Transparent" />
+      <Setter Property="Foreground" Value="{theme:SurfaceBrush}" />
     </Style>
+
+    <!-- Checked hover -->
+    <Style Selector="^:checked:pointerover, ^:checked.previewHover">
+      <Setter Property="RenderTransform" Value="{theme:TransformScale Value={theme:PressedScale}, By=1.07}" />
+      <Setter Property="Background" Value="{theme:AccentPrimaryLight1Brush}" />
+      <Setter Property="BorderBrush" Value="Transparent" />
+      <Setter Property="Foreground" Value="{theme:SurfaceBrush}" />
+    </Style>
+
+    <!-- Checked pressed -->
+    <Style Selector="^:checked:pressed, ^:checked.previewPressed">
+      <Setter Property="RenderTransform" Value="{theme:TransformScale Value={theme:PressedScale}}" />
+      <Setter Property="Background" Value="{theme:SurfaceOverlayMediumBrush}" />
+      <Setter Property="BorderBrush" Value="Transparent" />
+      <Setter Property="Foreground" Value="{theme:SurfaceBrush}" />
+    </Style>
+
+    <!-- Checked disabled -->
+    <Style Selector="^:checked:disabled">
+      <Setter Property="Opacity" Value="{theme:DisabledOpacity}" />
+      <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}" />
+      <Setter Property="BorderBrush" Value="Transparent" />
+      <Setter Property="Foreground" Value="{theme:OnSurfaceDimBrush}" />
+    </Style>
+
+    <!-- ============================================================
+         Indeterminate states
+         ============================================================ -->
+
+    <!-- Indeterminate default -->
+    <Style Selector="^:indeterminate">
+      <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}" />
+      <Setter Property="BorderBrush" Value="Transparent" />
+      <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
+    </Style>
+
+    <!-- Indeterminate hover -->
+    <Style Selector="^:indeterminate:pointerover, ^:indeterminate.previewHover">
+      <Setter Property="RenderTransform" Value="{theme:TransformScale Value={theme:PressedScale}, By=1.07}" />
+      <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}" />
+      <Setter Property="BorderBrush" Value="{theme:AccentBorderBrush}" />
+      <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
+    </Style>
+
+    <!-- Indeterminate pressed -->
+    <Style Selector="^:indeterminate:pressed, ^:indeterminate.previewPressed">
+      <Setter Property="RenderTransform" Value="{theme:TransformScale Value={theme:PressedScale}}" />
+      <Setter Property="Background" Value="{theme:SurfaceOverlayMediumBrush}" />
+      <Setter Property="BorderBrush" Value="Transparent" />
+      <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
+    </Style>
+
+    <!-- Indeterminate disabled -->
+    <Style Selector="^:indeterminate:disabled">
+      <Setter Property="Opacity" Value="{theme:DisabledOpacity}" />
+      <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}" />
+      <Setter Property="BorderBrush" Value="Transparent" />
+      <Setter Property="Foreground" Value="{theme:OnSurfaceDimBrush}" />
+    </Style>
+
   </ControlTheme>
 </ResourceDictionary>

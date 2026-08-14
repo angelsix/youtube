@@ -59,8 +59,9 @@
   <x:Int32 x:Key="ComboBoxPopupMaxNumberOfItems">15</x:Int32>
   <x:Int32 x:Key="ComboBoxPopupMaxNumberOfItemsThatCanBeShownOnOneSide">7</x:Int32>
 
-
   <ControlTheme x:Key="{x:Type ComboBox}" TargetType="ComboBox">
+
+    <!-- Visual defaults -->
     <Setter Property="Padding" Value="{theme:Edges Left={theme:SpacingXxl}, Top={theme:SpacingMd}, Bottom={theme:SpacingXl}}" />
     <Setter Property="FocusAdorner" Value="{x:Null}" />
     <Setter Property="MaxDropDownHeight" Value="504" />
@@ -69,14 +70,19 @@
     <Setter Property="BorderBrush" Value="{theme:AccentBorderBrush}" />
     <Setter Property="BorderThickness" Value="{theme:ThicknessSm}" />
     <Setter Property="CornerRadius" Value="{theme:RadiusSm}" />
+    <Setter Property="FontFamily" Value="{theme:FontFamily}" />
+    <Setter Property="FontSize" Value="{theme:FontSizeMd}" />
+    <Setter Property="FontWeight" Value="{theme:FontWeightRegular}" />
     <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
     <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
     <Setter Property="MinHeight" Value="{theme:ControlHeightSm}" />
-    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-    <Setter Property="VerticalContentAlignment" Value="Center" />
-    <Setter Property="HorizontalAlignment" Value="Left" />
-    <Setter Property="VerticalAlignment" Value="Top" />
+    <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
+    <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
+    <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
+    <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
     <Setter Property="PlaceholderForeground" Value="{theme:OnSurfaceDimBrush}" />
+
+    <!-- Template -->
     <Setter Property="Template">
       <ControlTemplate>
         <DataValidationErrors>
@@ -87,16 +93,13 @@
                     Background="{TemplateBinding Background}"
                     BorderBrush="{TemplateBinding BorderBrush}"
                     BorderThickness="{TemplateBinding BorderThickness}"
-                    CornerRadius="{TemplateBinding CornerRadius}"
-                    MinWidth="{theme:ControlMinWidth}" />
+                    CornerRadius="{TemplateBinding CornerRadius}" />
             <Border x:Name="HighlightBackground"
                     Grid.Column="0"
                     Grid.ColumnSpan="2"
-                    Background="{theme:AccentPrimaryBrush}"
-                    BorderBrush="{theme:AccentBorderBrush}"
                     BorderThickness="{TemplateBinding BorderThickness}"
                     CornerRadius="{TemplateBinding CornerRadius}"
-                    IsVisible="False"/>
+                    IsVisible="False" />
             <TextBlock x:Name="PlaceholderTextBlock"
                        Grid.Column="0"
                        HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
@@ -118,8 +121,7 @@
                             HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                             ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
                             VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                            IsVisible="{TemplateBinding IsEditable, Converter={x:Static BoolConverters.Not}}">
-            </ContentControl>
+                            IsVisible="{TemplateBinding IsEditable, Converter={x:Static BoolConverters.Not}}" />
 
             <TextBox Name="PART_EditableTextBox"
                      Grid.Column="0"
@@ -141,7 +143,6 @@
             <Border x:Name="DropDownOverlay"
                     Grid.Column="1"
                     Background="Transparent"
-                    Margin="{theme:Edges Top={theme:BaseSize}, Right={theme:BaseSize}, Bottom={theme:BaseSize}}"
                     Width="30"
                     IsVisible="False"
                     HorizontalAlignment="Right" />
@@ -150,13 +151,8 @@
                       Grid.Column="1"
                       UseLayoutRounding="False"
                       IsHitTestVisible="False"
-                      Height="{theme:IconSize}"
-                      Width="{theme:IconSize}"
-                      Margin="{theme:Edges Right={theme:SpacingXxl}}"
                       HorizontalAlignment="Right"
-                      VerticalAlignment="Center"
-                      Foreground="{theme:OnSurfaceDimBrush}"
-                      Data="{icons:DropDownGlyph}"/>
+                      VerticalAlignment="Center" />
 
             <Popup Name="PART_Popup"
                    WindowManagerAddShadowHint="False"
@@ -167,18 +163,13 @@
                    IsLightDismissEnabled="True"
                    InheritsTransform="True">
               <Border x:Name="PopupBorder"
-                      Background="{theme:SurfaceBrush}"
-                      BorderBrush="{theme:AccentBorderBrush}"
-                      BorderThickness="{theme:ThicknessSm}"
                       Padding="0"
-                      HorizontalAlignment="Stretch"
-                      CornerRadius="{theme:RadiusMd}">
+                      HorizontalAlignment="Stretch">
                 <ScrollViewer HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
                               IsScrollChainingEnabled="False"
                               VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}"
                               IsDeferredScrollingEnabled="{TemplateBinding (ScrollViewer.IsDeferredScrollingEnabled)}">
                   <ItemsPresenter Name="PART_ItemsPresenter"
-                                  Margin="{theme:Edges Vertical={theme:SpacingMd}}"
                                   ItemsPanel="{TemplateBinding ItemsPanel}" />
                 </ScrollViewer>
               </Border>
@@ -188,54 +179,51 @@
       </ControlTemplate>
     </Setter>
 
-    <!--  PointerOver State  -->
+    <!-- Template element defaults -->
+    <Style Selector="^ /template/ Border#Background">
+      <Setter Property="MinWidth" Value="{theme:ControlMinWidth}" />
+    </Style>
+
+    <Style Selector="^ /template/ Border#HighlightBackground">
+      <Setter Property="Background" Value="{theme:AccentPrimaryBrush}" />
+      <Setter Property="BorderBrush" Value="{theme:AccentBorderBrush}" />
+    </Style>
+
+    <Style Selector="^ /template/ Border#DropDownOverlay">
+      <Setter Property="Margin" Value="{theme:Edges Top={theme:BaseSize}, Right={theme:BaseSize}, Bottom={theme:BaseSize}}" />
+    </Style>
+
+    <Style Selector="^ /template/ PathIcon#DropDownGlyph">
+      <Setter Property="Height" Value="{theme:IconSize}" />
+      <Setter Property="Width" Value="{theme:IconSize}" />
+      <Setter Property="Margin" Value="{theme:Edges Right={theme:SpacingXxl}}" />
+      <Setter Property="Foreground" Value="{theme:OnSurfaceDimBrush}" />
+    </Style>
+
+    <Style Selector="^ /template/ Border#PopupBorder">
+      <Setter Property="Background" Value="{theme:SurfaceBrush}" />
+      <Setter Property="BorderBrush" Value="{theme:AccentBorderBrush}" />
+      <Setter Property="BorderThickness" Value="{theme:ThicknessSm}" />
+      <Setter Property="CornerRadius" Value="{theme:RadiusMd}" />
+    </Style>
+
+    <Style Selector="^ /template/ ItemsPresenter#PART_ItemsPresenter">
+      <Setter Property="Margin" Value="{theme:Edges Vertical={theme:SpacingMd}}" />
+    </Style>
+
+    <!-- Hover state -->
     <Style Selector="^:pointerover /template/ Border#Background">
       <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}" />
       <Setter Property="BorderBrush" Value="{theme:AccentBorderBrush}" />
     </Style>
 
-    <!--  Pressed State  -->
+    <!-- Pressed state -->
     <Style Selector="^:pressed /template/ Border#Background">
       <Setter Property="Background" Value="{theme:SurfaceOverlayMediumBrush}" />
       <Setter Property="BorderBrush" Value="{theme:AccentBorderBrush}" />
     </Style>
 
-    <!-- Error State -->
-    <Style Selector="^:error /template/ Border#Background">
-      <Setter Property="BorderBrush" Value="{theme:AccentErrorBrush}" />
-    </Style>
-
-    <!--  Focus Pressed State  -->
-    <Style Selector="^:focus:pressed">
-      <Style Selector="^ /template/ ContentControl#ContentPresenter">
-        <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
-      </Style>
-      <Style Selector="^ /template/ TextBlock#PlaceholderTextBlock">
-        <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
-      </Style>
-      <Style Selector="^ /template/ PathIcon#DropDownGlyph">
-        <Setter Property="Foreground" Value="{theme:OnSurfaceDimBrush}" />
-      </Style>
-    </Style>
-
-    <!--  Focused State  -->
-    <Style Selector="^:focus-visible">
-      <Style Selector="^ /template/ Border#HighlightBackground">
-        <Setter Property="IsVisible" Value="True" />
-        <Setter Property="BorderBrush" Value="Transparent" />
-      </Style>
-      <Style Selector="^ /template/ ContentControl#ContentPresenter">
-        <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
-      </Style>
-      <Style Selector="^ /template/ TextBlock#PlaceholderTextBlock">
-        <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
-      </Style>
-      <Style Selector="^ /template/ PathIcon#DropDownGlyph">
-        <Setter Property="Foreground" Value="{theme:OnSurfaceDimBrush}" />
-      </Style>
-    </Style>
-
-    <!--  Disabled State  -->
+    <!-- Disabled state -->
     <Style Selector="^:disabled">
       <Style Selector="^ /template/ Border#Background">
         <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}" />
@@ -252,6 +240,42 @@
       </Style>
     </Style>
 
+    <!-- Focus state -->
+    <Style Selector="^:focus-visible">
+      <Style Selector="^ /template/ Border#HighlightBackground">
+        <Setter Property="IsVisible" Value="True" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+      </Style>
+      <Style Selector="^ /template/ ContentControl#ContentPresenter">
+        <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
+      </Style>
+      <Style Selector="^ /template/ TextBlock#PlaceholderTextBlock">
+        <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
+      </Style>
+      <Style Selector="^ /template/ PathIcon#DropDownGlyph">
+        <Setter Property="Foreground" Value="{theme:OnSurfaceDimBrush}" />
+      </Style>
+    </Style>
+
+    <!-- Focus pressed state -->
+    <Style Selector="^:focus:pressed">
+      <Style Selector="^ /template/ ContentControl#ContentPresenter">
+        <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
+      </Style>
+      <Style Selector="^ /template/ TextBlock#PlaceholderTextBlock">
+        <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
+      </Style>
+      <Style Selector="^ /template/ PathIcon#DropDownGlyph">
+        <Setter Property="Foreground" Value="{theme:OnSurfaceDimBrush}" />
+      </Style>
+    </Style>
+
+    <!-- Error state -->
+    <Style Selector="^:error /template/ Border#Background">
+      <Setter Property="BorderBrush" Value="{theme:AccentErrorBrush}" />
+    </Style>
+
+    <!-- Editable mode -->
     <Style Selector="^[IsEditable=true]">
       <Setter Property="IsTabStop" Value="False" />
       <Setter Property="KeyboardNavigation.TabNavigation" Value="Local" />

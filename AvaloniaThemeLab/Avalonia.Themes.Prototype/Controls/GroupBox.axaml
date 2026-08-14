@@ -15,19 +15,37 @@
       </GroupBox>
     </Border>
   </Design.PreviewWith>
+
+  <!-- Border gap mask converter (GroupBox-specific: creates the header notch cutout) -->
   <converters:BorderGapMaskConverter x:Key="BorderGapMaskConverter" />
 
+  <!-- ============================================================
+       ControlTheme: {x:Type GroupBox}
+       ============================================================ -->
   <ControlTheme x:Key="{x:Type GroupBox}"
                 TargetType="GroupBox">
-    <Setter Property="BorderThickness" Value="{theme:ThicknessSm}" />
+
+    <!-- Visual defaults -->
     <Setter Property="Background" Value="Transparent" />
-    <Setter Property="BorderBrush" Value="{theme:AccentBorderBrush}" />
+    <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
+    <Setter Property="BorderBrush" Value="{theme:OnSurfaceBrush}" />
+    <Setter Property="BorderThickness" Value="{theme:ThicknessSm}" />
+    <Setter Property="FontFamily" Value="{theme:FontFamily}" />
+    <Setter Property="FontSize" Value="{theme:FontSizeLg}" />
+    <Setter Property="FontWeight" Value="{theme:FontWeightRegular}" />
     <Setter Property="Padding" Value="{theme:Edges All={theme:SpacingMd}}" />
     <Setter Property="CornerRadius" Value="{theme:RadiusSm}" />
+    <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
+    <Setter Property="VerticalAlignment" Value="{theme:ContainerVerticalAlignment}" />
+    <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
+    <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
+
+    <!-- Template -->
     <Setter Property="Template">
       <ControlTemplate>
+        <!-- Gap of 6 for the header notch mask (structural — BorderGapMaskConverter requirement) -->
         <Grid x:Name="RootGrid" UseLayoutRounding="true" ColumnDefinitions="6,Auto,*,6" RowDefinitions="Auto,Auto,*,6">
-          <!-- Separate Border for the background because if the background is set in the Border with the Header the opacity mask will be applied to the background as well. -->
+          <!-- Background border (separate from stroke border so the opacity mask does not clip the background) -->
           <Border Grid.Row="1"
                   Grid.RowSpan="3"
                   Grid.Column="0"
@@ -35,8 +53,9 @@
                   CornerRadius="{TemplateBinding CornerRadius}"
                   BorderThickness="{TemplateBinding BorderThickness}"
                   BorderBrush="Transparent"
-                  Background="{TemplateBinding Background}"/>
+                  Background="{TemplateBinding Background}" />
 
+          <!-- Stroke border with opacity mask for the header notch -->
           <Border Grid.Row="1"
                   Grid.RowSpan="3"
                   Grid.ColumnSpan="4"
@@ -47,45 +66,53 @@
               <MultiBinding Converter="{StaticResource BorderGapMaskConverter}"
                             ConverterParameter="6">
                 <Binding ElementName="Header"
-                         Path="Bounds.Width"/>
+                         Path="Bounds.Width" />
                 <Binding RelativeSource="{RelativeSource Self}"
-                         Path="Bounds.Width"/>
+                         Path="Bounds.Width" />
                 <Binding RelativeSource="{RelativeSource Self}"
-                         Path="Bounds.Height"/>
+                         Path="Bounds.Height" />
               </MultiBinding>
             </Border.OpacityMask>
           </Border>
 
-          <!-- ContentPresenter for the header -->
+          <!-- Header -->
           <Border x:Name="Header"
-                  Padding="{theme:Edges Left={theme:SpacingMd}, Right={theme:SpacingMd}}"
                   Grid.Row="0"
                   Grid.RowSpan="2"
                   Grid.Column="1">
             <ContentPresenter Name="PART_HeaderPresenter"
                               Content="{TemplateBinding Header}"
-                              FontSize="{theme:FontSizeLg}"
-                              Foreground="{theme:OnSurfaceBrush}"
                               ContentTemplate="{TemplateBinding HeaderTemplate}"
+                              FontFamily="{TemplateBinding FontFamily}"
+                              FontSize="{TemplateBinding FontSize}"
+                              FontWeight="{TemplateBinding FontWeight}"
+                              Foreground="{TemplateBinding Foreground}"
                               HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                               VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
                               UseLayoutRounding="{TemplateBinding UseLayoutRounding}" />
           </Border>
-          <!-- Primary content for GroupBox -->
+
+          <!-- Content -->
           <ContentPresenter Grid.Row="2"
                             Grid.Column="1"
                             Grid.ColumnSpan="2"
                             Name="PART_ContentPresenter"
-                            ContentTemplate="{TemplateBinding ContentTemplate}"
                             Content="{TemplateBinding Content}"
-                            VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                            ContentTemplate="{TemplateBinding ContentTemplate}"
                             HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
                             UseLayoutRounding="{TemplateBinding UseLayoutRounding}"
                             Margin="{TemplateBinding Padding}" />
         </Grid>
       </ControlTemplate>
     </Setter>
 
+    <!-- Header padding and typography -->
+    <Style Selector="^ /template/ Border#Header">
+      <Setter Property="Padding" Value="{theme:Edges Horizontal={theme:SpacingMd}}" />
+    </Style>
+
+    <!-- Access key support -->
     <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
       <Setter Property="RecognizesAccessKey" Value="True" />
     </Style>

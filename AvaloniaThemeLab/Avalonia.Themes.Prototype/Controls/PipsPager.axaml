@@ -1,7 +1,8 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
-                    xmlns:theme="using:AngelSix.ThemeEngine.Generated">
+                    xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+                    x:ClassModifier="internal">
   <Design.PreviewWith>
     <Border Padding="20">
       <Border.Styles>
@@ -11,27 +12,40 @@
     </Border>
   </Design.PreviewWith>
 
-  <!-- Icon path data for navigation buttons -->
-  <!-- Horizontal (left/right arrows) -->
+  <!-- Icon path data — horizontal arrows -->
   <StreamGeometry x:Key="PipsPagerPreviousPageButtonData">M 8.12,2.29 L 3.41,7.00 C 3.14,7.27 3.14,7.71 3.41,7.98 L 8.12,12.69 C 8.57,13.14 9.33,12.82 9.33,12.19 L 9.33,2.79 C 9.33,2.16 8.57,1.84 8.12,2.29 Z</StreamGeometry>
   <StreamGeometry x:Key="PipsPagerNextPageButtonData">M 3.88,2.29 L 8.59,7.00 C 8.86,7.27 8.86,7.71 8.59,7.98 L 3.88,12.69 C 3.43,13.14 2.67,12.82 2.67,12.19 L 2.67,2.79 C 2.67,2.16 3.43,1.84 3.88,2.29 Z</StreamGeometry>
-  
-  <!-- Vertical (up/down arrows) -->
+
+  <!-- Icon path data — vertical arrows -->
   <StreamGeometry x:Key="PipsPagerPreviousPageButtonVerticalData">M 2.29,8.12 L 7.00,3.41 C 7.27,3.14 7.71,3.14 7.98,3.41 L 12.69,8.12 C 13.14,8.57 12.82,9.33 12.19,9.33 L 2.79,9.33 C 2.16,9.33 1.84,8.57 2.29,8.12 Z</StreamGeometry>
   <StreamGeometry x:Key="PipsPagerNextPageButtonVerticalData">M 2.29,3.88 L 7.00,8.59 C 7.27,8.86 7.71,8.86 7.98,8.59 L 12.69,3.88 C 13.14,3.43 12.82,2.67 12.19,2.67 L 2.79,2.67 C 2.16,2.67 1.84,3.43 2.29,3.88 Z</StreamGeometry>
 
-  <!-- Base navigation button theme (for custom button themes to inherit from) -->
+  <!-- ============================================================
+       ControlTheme: PipsPagerNavigationButtonTheme (base)
+       ============================================================ -->
   <ControlTheme x:Key="PipsPagerNavigationButtonTheme" TargetType="Button">
+    <!-- Visual defaults -->
     <Setter Property="Background" Value="Transparent" />
     <Setter Property="Foreground" Value="{theme:OnSurfaceDimBrush}" />
     <Setter Property="BorderBrush" Value="Transparent" />
     <Setter Property="BorderThickness" Value="{theme:ThicknessSm}" />
+    <!-- Structural: 24x24 icon button (no matching theme token) -->
     <Setter Property="Width" Value="24" />
     <Setter Property="Height" Value="24" />
     <Setter Property="Padding" Value="0" />
-    <Setter Property="HorizontalContentAlignment" Value="Center" />
-    <Setter Property="VerticalContentAlignment" Value="Center" />
+    <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
+    <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
     <Setter Property="CornerRadius" Value="{theme:RadiusSm}" />
+
+    <!-- Press animation -->
+    <Setter Property="RenderTransform" Value="none" />
+    <Setter Property="Transitions">
+      <Transitions>
+        <TransformOperationsTransition Property="RenderTransform" Duration="{theme:AnimationFastMs}" />
+      </Transitions>
+    </Setter>
+
+    <!-- Template -->
     <Setter Property="Template">
       <ControlTemplate>
         <ContentPresenter Name="PART_ContentPresenter"
@@ -47,18 +61,21 @@
       </ControlTemplate>
     </Setter>
 
+    <!-- Hover state -->
     <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
       <Setter Property="Background" Value="Transparent" />
       <Setter Property="BorderBrush" Value="Transparent" />
       <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
     </Style>
 
+    <!-- Pressed state -->
     <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter">
       <Setter Property="Background" Value="Transparent" />
       <Setter Property="BorderBrush" Value="Transparent" />
       <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
     </Style>
 
+    <!-- Disabled state -->
     <Style Selector="^:disabled /template/ ContentPresenter#PART_ContentPresenter">
       <Setter Property="Background" Value="Transparent" />
       <Setter Property="BorderBrush" Value="Transparent" />
@@ -72,7 +89,12 @@
   <!-- Next button theme -->
   <ControlTheme x:Key="PipsPagerNextButtonTheme" TargetType="Button" BasedOn="{StaticResource PipsPagerNavigationButtonTheme}" />
 
+  <!-- ============================================================
+       ControlTheme: PipsPagerItemTheme (ListBoxItem)
+       ============================================================ -->
   <ControlTheme x:Key="PipsPagerItemTheme" TargetType="ListBoxItem">
+    <!-- Visual defaults -->
+    <!-- Structural: pip item dimensions (no matching theme token) -->
     <Setter Property="Width" Value="12" />
     <Setter Property="Height" Value="24" />
     <Setter Property="Padding" Value="0" />
@@ -80,10 +102,13 @@
     <Setter Property="MinWidth" Value="0" />
     <Setter Property="MinHeight" Value="0" />
     <Setter Property="ClipToBounds" Value="False" />
-    <Setter Property="VerticalAlignment" Value="Center" />
+    <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
+
+    <!-- Template -->
     <Setter Property="Template">
       <ControlTemplate>
         <Grid Background="Transparent">
+          <!-- Structural: pip sizes are intrinsic to the visual design -->
           <Ellipse Name="PipBackground"
                    Width="10"
                    Height="10"
@@ -91,32 +116,37 @@
                    VerticalAlignment="Center"
                    Fill="Transparent"
                    Stroke="Transparent"
-                   StrokeThickness="1">
-            <Ellipse.Transitions>
-              <Transitions>
-                <BrushTransition Property="Fill" Duration="0:0:0.167" />
-                <BrushTransition Property="Stroke" Duration="0:0:0.167" />
-              </Transitions>
-            </Ellipse.Transitions>
-          </Ellipse>
+                   StrokeThickness="1" />
           <Ellipse Name="Pip"
                    Width="4"
                    Height="4"
                    HorizontalAlignment="Center"
-                   VerticalAlignment="Center"
-                   Fill="{theme:OnSurfaceDimBrush}">
-            <Ellipse.Transitions>
-              <Transitions>
-                <DoubleTransition Property="Width" Duration="0:0:0.167" />
-                <DoubleTransition Property="Height" Duration="0:0:0.167" />
-                <BrushTransition Property="Fill" Duration="0:0:0.167" />
-              </Transitions>
-            </Ellipse.Transitions>
-          </Ellipse>
+                   VerticalAlignment="Center" />
         </Grid>
       </ControlTemplate>
     </Setter>
 
+    <!-- Pip default fill and transitions -->
+    <Style Selector="^ /template/ Ellipse#PipBackground">
+      <Setter Property="Transitions">
+        <Transitions>
+          <BrushTransition Property="Fill" Duration="{theme:AnimationNormalMs}" />
+          <BrushTransition Property="Stroke" Duration="{theme:AnimationNormalMs}" />
+        </Transitions>
+      </Setter>
+    </Style>
+    <Style Selector="^ /template/ Ellipse#Pip">
+      <Setter Property="Fill" Value="{theme:OnSurfaceDimBrush}" />
+      <Setter Property="Transitions">
+        <Transitions>
+          <DoubleTransition Property="Width" Duration="{theme:AnimationNormalMs}" />
+          <DoubleTransition Property="Height" Duration="{theme:AnimationNormalMs}" />
+          <BrushTransition Property="Fill" Duration="{theme:AnimationNormalMs}" />
+        </Transitions>
+      </Setter>
+    </Style>
+
+    <!-- Hover state -->
     <Style Selector="^:pointerover /template/ Ellipse#Pip">
       <Setter Property="Width" Value="6" />
       <Setter Property="Height" Value="6" />
@@ -126,6 +156,8 @@
       <Setter Property="Fill" Value="Transparent" />
       <Setter Property="Stroke" Value="Transparent" />
     </Style>
+
+    <!-- Pressed state -->
     <Style Selector="^:pressed /template/ Ellipse#Pip">
       <Setter Property="Width" Value="4" />
       <Setter Property="Height" Value="4" />
@@ -136,6 +168,16 @@
       <Setter Property="Stroke" Value="Transparent" />
     </Style>
 
+    <!-- Disabled state -->
+    <Style Selector="^:disabled /template/ Ellipse#Pip">
+      <Setter Property="Fill" Value="{theme:OnSurfaceDimBrush}" />
+    </Style>
+    <Style Selector="^:disabled /template/ Ellipse#PipBackground">
+      <Setter Property="Fill" Value="Transparent" />
+      <Setter Property="Stroke" Value="Transparent" />
+    </Style>
+
+    <!-- Selected state -->
     <Style Selector="^:selected /template/ Ellipse#Pip">
       <Setter Property="Width" Value="6" />
       <Setter Property="Height" Value="6" />
@@ -145,6 +187,8 @@
       <Setter Property="Fill" Value="Transparent" />
       <Setter Property="Stroke" Value="Transparent" />
     </Style>
+
+    <!-- Selected hover state -->
     <Style Selector="^:selected:pointerover /template/ Ellipse#Pip">
       <Setter Property="Width" Value="6" />
       <Setter Property="Height" Value="6" />
@@ -154,28 +198,28 @@
       <Setter Property="Fill" Value="Transparent" />
       <Setter Property="Stroke" Value="Transparent" />
     </Style>
-    <Style Selector="^:disabled /template/ Ellipse#Pip">
-      <Setter Property="Fill" Value="{theme:OnSurfaceDimBrush}" />
-    </Style>
-    <Style Selector="^:disabled /template/ Ellipse#PipBackground">
-      <Setter Property="Fill" Value="Transparent" />
-      <Setter Property="Stroke" Value="Transparent" />
-    </Style>
   </ControlTheme>
 
+  <!-- ============================================================
+       ControlTheme: {x:Type PipsPager}
+       ============================================================ -->
   <ControlTheme x:Key="{x:Type PipsPager}" TargetType="PipsPager">
+    <!-- Visual defaults -->
     <Setter Property="Background" Value="Transparent" />
-    <Setter Property="HorizontalAlignment" Value="Left" />
-    <Setter Property="VerticalAlignment" Value="Top" />
+    <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
+    <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
     <Setter Property="IsTabStop" Value="False" />
     <Setter Property="PreviousButtonTheme" Value="{StaticResource PipsPagerPreviousButtonTheme}" />
     <Setter Property="NextButtonTheme" Value="{StaticResource PipsPagerNextButtonTheme}" />
+
+    <!-- Template -->
     <Setter Property="Template">
       <ControlTemplate>
         <StackPanel Name="PART_RootPanel"
                     Orientation="{TemplateBinding Orientation}"
                     Background="{TemplateBinding Background}"
                     ClipToBounds="False">
+          <!-- Structural: 10x10 icon size (no matching theme token) -->
           <Button Name="PART_PreviousButton"
                   Theme="{TemplateBinding PreviousButtonTheme}"
                   IsVisible="{TemplateBinding IsPreviousButtonVisible}"
@@ -225,20 +269,36 @@
       </ControlTemplate>
     </Setter>
 
+    <!-- Pressed state -->
+    <Style Selector="^ /template/ Button#PART_PreviousButton:pressed">
+      <Setter Property="RenderTransformOrigin" Value="0.5, 0.5" />
+      <!-- Structural: stronger press scale for small icon buttons -->
+      <Setter Property="RenderTransform" Value="scale(0.875)" />
+    </Style>
+    <Style Selector="^ /template/ Button#PART_NextButton:pressed">
+      <Setter Property="RenderTransformOrigin" Value="0.5, 0.5" />
+      <!-- Structural: stronger press scale for small icon buttons -->
+      <Setter Property="RenderTransform" Value="scale(0.875)" />
+    </Style>
+
+    <!-- Horizontal orientation -->
     <Style Selector="^:horizontal /template/ StackPanel#PART_RootPanel">
       <Setter Property="Orientation" Value="Horizontal" />
     </Style>
 
-    <Style Selector="^:vertical /template/ ListBox ListBoxItem">
-      <Setter Property="Width" Value="24" />
-      <Setter Property="Height" Value="12" />
-    </Style>
-
+    <!-- Vertical orientation -->
     <Style Selector="^:vertical /template/ StackPanel#PART_RootPanel">
       <Setter Property="Orientation" Value="Vertical" />
       <Setter Property="HorizontalAlignment" Value="Center" />
     </Style>
 
+    <!-- Structural: vertical pip item dimensions (no matching theme token) -->
+    <Style Selector="^:vertical /template/ ListBox ListBoxItem">
+      <Setter Property="Width" Value="24" />
+      <Setter Property="Height" Value="12" />
+    </Style>
+
+    <!-- Vertical navigation icons -->
     <Style Selector="^:vertical /template/ Button#PART_PreviousButton PathIcon#PreviousButtonIcon">
       <Setter Property="Data" Value="{StaticResource PipsPagerPreviousPageButtonVerticalData}" />
     </Style>
@@ -246,23 +306,16 @@
       <Setter Property="Data" Value="{StaticResource PipsPagerNextPageButtonVerticalData}" />
     </Style>
 
+    <!-- First page state -->
     <Style Selector="^:first-page /template/ Button#PART_PreviousButton">
       <Setter Property="Opacity" Value="0" />
       <Setter Property="IsHitTestVisible" Value="False" />
     </Style>
 
+    <!-- Last page state -->
     <Style Selector="^:last-page /template/ Button#PART_NextButton">
       <Setter Property="Opacity" Value="0" />
       <Setter Property="IsHitTestVisible" Value="False" />
-    </Style>
-
-    <Style Selector="^ /template/ Button#PART_PreviousButton:pressed">
-      <Setter Property="RenderTransformOrigin" Value="0.5, 0.5" />
-      <Setter Property="RenderTransform" Value="scale(0.875)" />
-    </Style>
-    <Style Selector="^ /template/ Button#PART_NextButton:pressed">
-      <Setter Property="RenderTransformOrigin" Value="0.5, 0.5" />
-      <Setter Property="RenderTransform" Value="scale(0.875)" />
     </Style>
   </ControlTheme>
 </ResourceDictionary>

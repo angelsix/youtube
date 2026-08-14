@@ -1,4 +1,4 @@
-﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
@@ -19,12 +19,32 @@
       </ListBox>
     </Border>
   </Design.PreviewWith>
+
+  <!-- ============================================================
+       ControlTheme: {x:Type ListBoxItem}
+       ============================================================ -->
   <ControlTheme x:Key="{x:Type ListBoxItem}" TargetType="ListBoxItem">
+
+    <!-- Visual defaults -->
     <Setter Property="Background" Value="Transparent" />
-    <Setter Property="Padding" Value="{theme:Edges Left={theme:SpacingXxl}, Top={theme:SpacingXl}, Right={theme:SpacingXxl}, Bottom={theme:SpacingXxl}}" />
+    <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
+    <Setter Property="BorderBrush" Value="Transparent" />
+    <Setter Property="BorderThickness" Value="0" />
+    <Setter Property="FontFamily" Value="{theme:FontFamily}" />
+    <Setter Property="FontSize" Value="{theme:FontSizeMd}" />
+    <Setter Property="FontWeight" Value="{theme:FontWeightRegular}" />
+    <Setter Property="CornerRadius" Value="{theme:RadiusSm}" />
+    <Setter Property="MinHeight" Value="{theme:ControlHeightSm}" />
+    <Setter Property="Padding" Value="{theme:Edges Left={theme:SpacingXxl}, Top={theme:SpacingXl}, Right={theme:SpacingXxl}, Bottom={theme:SpacingXl}}" />
+    <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
+    <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
+    <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
+    <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
+
+    <!-- Template -->
     <Setter Property="Template">
       <ControlTemplate>
-        <ContentPresenter Name="PART_ContentPresenter"
+        <ContentPresenter x:Name="PART_ContentPresenter"
                           Background="{TemplateBinding Background}"
                           BorderBrush="{TemplateBinding BorderBrush}"
                           BorderThickness="{TemplateBinding BorderThickness}"
@@ -37,23 +57,30 @@
       </ControlTemplate>
     </Setter>
 
-    <Style Selector="^:disabled /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="Foreground" Value="{theme:OnSurfaceDimBrush}" />
-    </Style>
-
-    <!--  PointerOver State  -->
+    <!-- Hover state -->
     <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
       <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}" />
       <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
     </Style>
 
-    <!--  Pressed State  -->
+    <!-- Pressed state -->
     <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter">
       <Setter Property="Background" Value="{theme:SurfaceOverlayMediumBrush}" />
       <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
     </Style>
 
-    <!--  Selected State  -->
+    <!-- Disabled state -->
+    <Style Selector="^:disabled /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Foreground" Value="{theme:OnSurfaceDimBrush}" />
+    </Style>
+
+    <!-- Focus state -->
+    <Style Selector="^:focus-visible">
+      <Setter Property="BorderBrush" Value="{theme:AccentFocusBrush}" />
+      <Setter Property="BorderThickness" Value="{theme:ThicknessMd}" />
+    </Style>
+
+    <!-- Selected state -->
     <Style Selector="^:selected">
 
       <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
@@ -61,23 +88,24 @@
         <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
       </Style>
 
-      <!--  Selected Unfocused State  -->
+      <!-- Selected unfocused state -->
       <Style Selector="^:not(:focus) /template/ ContentPresenter#PART_ContentPresenter">
         <Setter Property="Background" Value="{theme:AccentPrimaryBrush}" />
         <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
       </Style>
 
-      <!--  Selected PointerOver State  -->
+      <!-- Selected hover state -->
       <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
         <Setter Property="Background" Value="{theme:AccentPrimaryBrush}" />
         <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
       </Style>
 
-      <!--  Selected Pressed State  -->
+      <!-- Selected pressed state -->
       <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter">
         <Setter Property="Background" Value="{theme:AccentPrimaryBrush}" />
         <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
       </Style>
     </Style>
+
   </ControlTheme>
 </ResourceDictionary>

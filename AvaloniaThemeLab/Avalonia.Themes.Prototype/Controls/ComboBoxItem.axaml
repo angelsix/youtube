@@ -1,4 +1,4 @@
-﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
@@ -21,73 +21,100 @@
     </Border>
   </Design.PreviewWith>
 
+  <!-- ============================================================
+       ControlTheme: {x:Type ComboBoxItem}
+       ============================================================ -->
   <ControlTheme x:Key="{x:Type ComboBoxItem}" TargetType="ComboBoxItem">
-    <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
+
+    <!-- Visual defaults -->
     <Setter Property="Background" Value="Transparent" />
+    <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
+    <Setter Property="BorderBrush" Value="Transparent" />
+    <Setter Property="BorderThickness" Value="{theme:ThicknessSm}" />
+    <Setter Property="CornerRadius" Value="{theme:RadiusMd}" />
+    <Setter Property="FontFamily" Value="{theme:FontFamily}" />
+    <Setter Property="FontSize" Value="{theme:FontSizeMd}" />
+    <Setter Property="FontWeight" Value="{theme:FontWeightRegular}" />
+    <Setter Property="MinHeight" Value="{theme:ControlHeightSm}" />
     <Setter Property="Padding" Value="{theme:Edges Horizontal={theme:SpacingXxl}, Vertical={theme:SpacingLg}}" />
     <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+    <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
+
+    <!-- Template -->
     <Setter Property="Template">
       <ControlTemplate>
         <ContentPresenter Name="PART_ContentPresenter"
-                          Foreground="{TemplateBinding Foreground}"
                           Background="{TemplateBinding Background}"
                           BorderBrush="{TemplateBinding BorderBrush}"
                           BorderThickness="{TemplateBinding BorderThickness}"
                           CornerRadius="{TemplateBinding CornerRadius}"
-                          ContentTemplate="{TemplateBinding ContentTemplate}"
                           Content="{TemplateBinding Content}"
+                          ContentTemplate="{TemplateBinding ContentTemplate}"
+                          Foreground="{TemplateBinding Foreground}"
                           HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                          VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                          Padding="{TemplateBinding Padding}" />
+                          Padding="{TemplateBinding Padding}"
+                          VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
       </ControlTemplate>
     </Setter>
 
-    <!--  PointerOver state  -->
-    <Style Selector="^:pointerover /template/ ContentPresenter">
+    <!-- PointerOver state -->
+    <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
       <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}" />
       <Setter Property="BorderBrush" Value="Transparent" />
       <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
     </Style>
 
-    <!--  Disabled state  -->
-    <Style Selector="^:disabled /template/ ContentPresenter">
-      <Setter Property="Background" Value="Transparent" />
-      <Setter Property="BorderBrush" Value="Transparent" />
-      <Setter Property="Foreground" Value="{theme:OnSurfaceDimBrush}" />
-    </Style>
-
-    <!--  Pressed state  -->
-    <Style Selector="^:pressed /template/ ContentPresenter">
+    <!-- Pressed state -->
+    <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter">
       <Setter Property="Background" Value="{theme:SurfaceOverlayMediumBrush}" />
       <Setter Property="BorderBrush" Value="Transparent" />
       <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
     </Style>
 
-    <!--  Selected state  -->
+    <!-- Disabled state -->
+    <Style Selector="^:disabled /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="BorderBrush" Value="Transparent" />
+      <Setter Property="Foreground" Value="{theme:OnSurfaceDimBrush}" />
+    </Style>
+
+    <!-- Focus state -->
+    <Style Selector="^:focus-visible /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="BorderBrush" Value="{theme:AccentFocusBrush}" />
+      <Setter Property="BorderThickness" Value="{theme:ThicknessMd}" />
+    </Style>
+
+    <!-- Selected state -->
     <Style Selector="^:selected">
-      <Style Selector="^ /template/ ContentPresenter">
+
+      <!-- Selected default -->
+      <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
         <Setter Property="Background" Value="{theme:AccentPrimaryBrush}" />
         <Setter Property="BorderBrush" Value="Transparent" />
         <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
       </Style>
-      <!--  Selected Disabled state  -->
-      <Style Selector="^:disabled /template/ ContentPresenter">
+
+      <!-- Selected PointerOver state -->
+      <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="{theme:AccentPrimaryBrush}" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
+      </Style>
+
+      <!-- Selected Pressed state -->
+      <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="{theme:AccentPrimaryBrush}" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
+      </Style>
+
+      <!-- Selected Disabled state -->
+      <Style Selector="^:disabled /template/ ContentPresenter#PART_ContentPresenter">
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="BorderBrush" Value="Transparent" />
         <Setter Property="Foreground" Value="{theme:OnSurfaceDimBrush}" />
       </Style>
-      <!--  Selected PointerOver state  -->
-      <Style Selector="^:pointerover /template/ ContentPresenter">
-        <Setter Property="Background" Value="{theme:AccentPrimaryBrush}" />
-        <Setter Property="BorderBrush" Value="Transparent" />
-        <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
-      </Style>
-      <!--  Selected Pressed state  -->
-      <Style Selector="^:pressed /template/ ContentPresenter">
-        <Setter Property="Background" Value="{theme:AccentPrimaryBrush}" />
-        <Setter Property="BorderBrush" Value="Transparent" />
-        <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
-      </Style>
     </Style>
+
   </ControlTheme>
 </ResourceDictionary>

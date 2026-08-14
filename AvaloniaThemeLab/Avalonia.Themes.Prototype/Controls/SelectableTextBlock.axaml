@@ -1,23 +1,37 @@
-﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
-        xmlns:theme="using:AngelSix.ThemeEngine.Generated"
-        x:ClassModifier="internal">
-  <Design.PreviewWith>
-    <SelectableTextBlock Text="Preview" />
-  </Design.PreviewWith>
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+                    x:ClassModifier="internal">
 
-  <MenuFlyout x:Key="SelectableTextBlockContextFlyout" Placement="Bottom">
-    <MenuItem Header="Copy" Command="{Binding $parent[SelectableTextBlock].Copy}"
-              IsEnabled="{Binding $parent[SelectableTextBlock].CanCopy}" InputGesture="{x:Static TextBox.CopyGesture}" />
-  </MenuFlyout>
-
+  <!-- ============================================================
+       ControlTheme: {x:Type SelectableTextBlock}
+       ============================================================ -->
   <ControlTheme x:Key="{x:Type SelectableTextBlock}" TargetType="SelectableTextBlock">
+
+    <!-- Visual defaults -->
+    <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
+    <Setter Property="FontFamily" Value="{theme:FontFamily}" />
+    <Setter Property="FontSize" Value="{theme:FontSizeMd}" />
+    <Setter Property="FontWeight" Value="{theme:FontWeightRegular}" />
+    <Setter Property="Background" Value="{theme:SurfaceBrush}" />
+    <Setter Property="BorderBrush" Value="{theme:OnSurfaceBrush}" />
+    <Setter Property="BorderThickness" Value="{theme:ThicknessSm}" />
+    <Setter Property="CornerRadius" Value="{theme:RadiusSm}" />
+    <Setter Property="Padding" Value="{theme:SpacingMd}" />
+    <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
+    <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
     <Setter Property="SelectionBrush" Value="{theme:AccentPrimaryBrush}" />
 
+    <!-- Enabled state -->
     <Style Selector="^[IsEnabled=True]">
       <Setter Property="Cursor" Value="IBeam" />
       <Setter Property="ContextFlyout" Value="{StaticResource SelectableTextBlockContextFlyout}" />
     </Style>
   </ControlTheme>
+
+  <!-- Context flyout -->
+  <MenuFlyout x:Key="SelectableTextBlockContextFlyout" Placement="Bottom">
+    <MenuItem Header="Copy" Command="{Binding $parent[SelectableTextBlock].Copy}"
+              IsEnabled="{Binding $parent[SelectableTextBlock].CanCopy}" InputGesture="{x:Static TextBox.CopyGesture}" />
+  </MenuFlyout>
 </ResourceDictionary>

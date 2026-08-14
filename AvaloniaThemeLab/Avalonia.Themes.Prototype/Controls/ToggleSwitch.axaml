@@ -1,4 +1,4 @@
-﻿<ResourceDictionary
+<ResourceDictionary
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
@@ -21,21 +21,23 @@
     </StackPanel>
   </Design.PreviewWith>
 
-
   <ControlTheme x:Key="{x:Type ToggleSwitch}" TargetType="ToggleSwitch">
+    <Setter Property="Background" Value="{theme:SurfaceBrush}" />
     <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
-    <Setter Property="HorizontalAlignment" Value="Left" />
-    <Setter Property="VerticalAlignment" Value="Center" />
-    <Setter Property="HorizontalContentAlignment" Value="Left" />
-    <Setter Property="VerticalContentAlignment" Value="Center" />
+    <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
+    <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
+    <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
+    <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
     <Setter Property="KnobTransitions">
       <Transitions>
-          <DoubleTransition
-              Easing="CubicEaseOut"
-              Property="Canvas.Left"
-              Duration="0:0:0.2" />
-        </Transitions>
+        <DoubleTransition
+            Easing="CubicEaseOut"
+            Property="Canvas.Left"
+            Duration="{theme:AnimationNormalMs}" />
+      </Transitions>
     </Setter>
+
+    <!-- Template -->
     <Setter Property="Template">
       <ControlTemplate>
         <Grid Background="{TemplateBinding Background}" RowDefinitions="Auto,*">
@@ -45,8 +47,7 @@
               Grid.Row="0"
               VerticalAlignment="Top"
               Content="{TemplateBinding Content}"
-              ContentTemplate="{TemplateBinding ContentTemplate}"
-              Margin="{theme:Edges Bottom={theme:SpacingLg}}" />
+              ContentTemplate="{TemplateBinding ContentTemplate}" />
 
           <Grid
               Grid.Row="1"
@@ -55,9 +56,9 @@
               VerticalAlignment="Top">
 
             <Grid.RowDefinitions>
-              <RowDefinition Height="{theme:GridPixels Value={theme:SpacingLg}}" />
+              <RowDefinition Height="8" />
               <RowDefinition Height="Auto" />
-              <RowDefinition Height="{theme:GridPixels Value={theme:SpacingLg}}" />
+              <RowDefinition Height="8" />
             </Grid.RowDefinitions>
 
             <Grid.ColumnDefinitions>
@@ -70,8 +71,6 @@
                 x:Name="SwitchAreaGrid"
                 Grid.RowSpan="3"
                 Grid.ColumnSpan="3"
-                Background="Transparent"
-                Margin="{theme:Edges Top={theme:SpacingLg}, Bottom={theme:SpacingLg}}"
                 TemplatedControl.IsTemplateFocusTarget="True" />
 
             <ContentPresenter
@@ -96,21 +95,13 @@
                 x:Name="OuterBorder"
                 Grid.Row="1"
                 Width="40"
-                Height="20"
-                Background="Transparent"
-                BorderBrush="{theme:AccentBorderBrush}"
-                BorderThickness="{theme:ThicknessSm}"
-                CornerRadius="{theme:RadiusMd}" />
+                Height="20" />
 
             <Border
                 x:Name="SwitchKnobBounds"
                 Grid.Row="1"
                 Width="40"
-                Height="20"
-                Background="{theme:AccentPrimaryBrush}"
-                BorderBrush="{theme:OnSurfaceBrush}"
-                BorderThickness="0"
-                CornerRadius="{theme:RadiusMd}" />
+                Height="20" />
 
             <Canvas
                 x:Name="PART_SwitchKnob"
@@ -121,15 +112,13 @@
 
               <Grid x:Name="PART_MovingKnobs" Width="20" Height="20">
                 <Ellipse
-                  x:Name="SwitchKnobOn"
-                  Fill="{theme:SurfaceBrush}"
-                  Width="10"
-                  Height="10" />
+                    x:Name="SwitchKnobOn"
+                    Width="10"
+                    Height="10" />
                 <Ellipse
-                  x:Name="SwitchKnobOff"
-                  Fill="{theme:OnSurfaceBrush}"
-                  Width="10"
-                  Height="10" />
+                    x:Name="SwitchKnobOff"
+                    Width="10"
+                    Height="10" />
               </Grid>
             </Canvas>
           </Grid>
@@ -137,15 +126,44 @@
       </ControlTemplate>
     </Setter>
 
+    <!-- Default template element styles -->
     <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
       <Setter Property="RecognizesAccessKey" Value="True" />
+      <Setter Property="Margin" Value="{theme:Edges Bottom={theme:SpacingLg}}" />
     </Style>
 
     <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter:empty">
       <Setter Property="Margin" Value="0" />
     </Style>
 
-    <!--  PointerOverState  -->
+    <Style Selector="^ /template/ Grid#SwitchAreaGrid">
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="Margin" Value="{theme:Edges Top={theme:SpacingLg}, Bottom={theme:SpacingLg}}" />
+    </Style>
+
+    <Style Selector="^ /template/ Border#OuterBorder">
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="BorderBrush" Value="{theme:AccentBorderBrush}" />
+      <Setter Property="BorderThickness" Value="{theme:ThicknessSm}" />
+      <Setter Property="CornerRadius" Value="{theme:RadiusMd}" />
+    </Style>
+
+    <Style Selector="^ /template/ Border#SwitchKnobBounds">
+      <Setter Property="Background" Value="{theme:AccentPrimaryBrush}" />
+      <Setter Property="BorderBrush" Value="{theme:OnSurfaceBrush}" />
+      <Setter Property="BorderThickness" Value="0" />
+      <Setter Property="CornerRadius" Value="{theme:RadiusMd}" />
+    </Style>
+
+    <Style Selector="^ /template/ Ellipse#SwitchKnobOn">
+      <Setter Property="Fill" Value="{theme:SurfaceBrush}" />
+    </Style>
+
+    <Style Selector="^ /template/ Ellipse#SwitchKnobOff">
+      <Setter Property="Fill" Value="{theme:OnSurfaceBrush}" />
+    </Style>
+
+    <!-- Hover state -->
     <Style Selector="^:pointerover /template/ Border#OuterBorder">
       <Setter Property="BorderBrush" Value="{theme:OnSurfaceDimBrush}" />
       <Setter Property="Background" Value="Transparent" />
@@ -168,7 +186,7 @@
       <Setter Property="Background" Value="Transparent" />
     </Style>
 
-    <!--  PressedState  -->
+    <!-- Pressed state -->
     <Style Selector="^:pressed /template/ Border#OuterBorder">
       <Setter Property="BorderBrush" Value="{theme:OnSurfaceBrush}" />
       <Setter Property="Background" Value="{theme:OnSurfaceDimBrush}" />
@@ -191,7 +209,7 @@
       <Setter Property="Background" Value="Transparent" />
     </Style>
 
-    <!--  DisabledState  -->
+    <!-- Disabled state -->
     <Style Selector="^:disabled">
       <Setter Property="Foreground" Value="{theme:OnSurfaceDimBrush}" />
     </Style>
@@ -214,16 +232,16 @@
       <Setter Property="BorderBrush" Value="{theme:OnSurfaceDimBrush}" />
     </Style>
 
-    <!--  CheckedState  -->
+    <!-- Checked state -->
     <Style Selector="^:checked /template/ Border#OuterBorder">
       <Setter Property="Opacity" Value="0" />
     </Style>
 
-    <Style Selector="^:checked  /template/ Ellipse#SwitchKnobOff">
+    <Style Selector="^:checked /template/ Ellipse#SwitchKnobOff">
       <Setter Property="Opacity" Value="0" />
     </Style>
 
-    <Style Selector="^:checked  /template/ Border#SwitchKnobBounds">
+    <Style Selector="^:checked /template/ Border#SwitchKnobBounds">
       <Setter Property="Opacity" Value="1" />
     </Style>
 
@@ -239,7 +257,7 @@
       <Setter Property="Opacity" Value="1" />
     </Style>
 
-    <!--  UncheckedState  -->
+    <!-- Unchecked state -->
     <Style Selector="^:unchecked /template/ Border#OuterBorder">
       <Setter Property="Opacity" Value="1" />
     </Style>
@@ -252,7 +270,7 @@
       <Setter Property="Opacity" Value="0" />
     </Style>
 
-    <Style Selector="^:unchecked  /template/ Border#SwitchKnobBounds">
+    <Style Selector="^:unchecked /template/ Border#SwitchKnobBounds">
       <Setter Property="Opacity" Value="0" />
     </Style>
 

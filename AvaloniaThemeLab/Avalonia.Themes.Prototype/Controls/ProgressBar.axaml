@@ -31,14 +31,23 @@
 
   <converters:StringFormatConverter x:Key="StringFormatConverter"/>
 
+  <!-- ============================================================
+       ControlTheme: {x:Type ProgressBar}
+       ============================================================ -->
   <ControlTheme x:Key="{x:Type ProgressBar}" TargetType="ProgressBar">
+
+    <!-- Visual defaults -->
     <Setter Property="Foreground" Value="{theme:AccentPrimaryBrush}" />
     <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}" />
+    <Setter Property="BorderBrush" Value="Transparent" />
     <Setter Property="BorderThickness" Value="0" />
     <Setter Property="CornerRadius" Value="{theme:RadiusSm}" />
-    <Setter Property="BorderBrush" Value="Transparent" />
-    <Setter Property="MinHeight" Value="4" />
-    <Setter Property="VerticalAlignment" Value="Center" />
+    <Setter Property="MinHeight" Value="{theme:SpacingMd}" />
+    <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
+    <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
+    <Setter Property="Padding" Value="0" />
+
+    <!-- Template -->
     <Setter Property="Template">
       <ControlTemplate TargetType="ProgressBar">
         <Border
@@ -52,7 +61,7 @@
             <Panel x:Name="DeterminateRoot" Opacity="1">
               <Panel.Transitions>
                 <Transitions>
-                  <DoubleTransition Property="Opacity" Duration="0:0:0.197" />
+                  <DoubleTransition Property="Opacity" Duration="0:0:0.15" />
                 </Transitions>
               </Panel.Transitions>
               <Border
@@ -64,7 +73,7 @@
             <Panel x:Name="IndeterminateRoot" Opacity="0">
               <Panel.Transitions>
                 <Transitions>
-                  <DoubleTransition Property="Opacity" Duration="0:0:0.197" />
+                  <DoubleTransition Property="Opacity" Duration="0:0:0.15" />
                 </Transitions>
               </Panel.Transitions>
               <Border
@@ -83,7 +92,7 @@
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                 IsVisible="{TemplateBinding ShowProgressText}">
-              <TextBlock Foreground="{theme:OnSurfaceBrush}">
+              <TextBlock>
                   <TextBlock.Text>
                     <MultiBinding Converter="{StaticResource StringFormatConverter}">
                       <TemplateBinding Property="ProgressTextFormat"/>
@@ -99,6 +108,13 @@
         </Border>
       </ControlTemplate>
     </Setter>
+
+    <!-- Template: progress text colour -->
+    <Style Selector="^ /template/ TextBlock">
+      <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
+    </Style>
+
+    <!-- Template: determinate indicator positioning -->
     <Style Selector="^:horizontal /template/ Border#PART_Indicator">
       <Setter Property="HorizontalAlignment" Value="Left" />
       <Setter Property="VerticalAlignment" Value="Stretch" />
@@ -107,14 +123,18 @@
       <Setter Property="HorizontalAlignment" Value="Stretch" />
       <Setter Property="VerticalAlignment" Value="Bottom" />
     </Style>
+
+    <!-- Orientation: dimensions -->
     <Style Selector="^:horizontal">
-      <Setter Property="MinWidth" Value="200" />
-      <Setter Property="MinHeight" Value="4" />
+      <Setter Property="MinWidth" Value="{theme:Scaled Value={theme:BaseSize}, By=200}" />
+      <Setter Property="MinHeight" Value="{theme:SpacingMd}" />
     </Style>
     <Style Selector="^:vertical">
-      <Setter Property="MinWidth" Value="4" />
-      <Setter Property="MinHeight" Value="200" />
+      <Setter Property="MinWidth" Value="{theme:SpacingMd}" />
+      <Setter Property="MinHeight" Value="{theme:Scaled Value={theme:BaseSize}, By=200}" />
     </Style>
+
+    <!-- Template: vertical layout rotation -->
     <Style Selector="^:vertical /template/ LayoutTransformControl#PART_LayoutTransformControl">
       <Setter Property="LayoutTransform">
         <Setter.Value>
@@ -122,12 +142,16 @@
         </Setter.Value>
       </Setter>
     </Style>
+
+    <!-- Indeterminate: panel visibility -->
     <Style Selector="^:indeterminate /template/ Panel#DeterminateRoot">
       <Setter Property="Opacity" Value="0" />
     </Style>
     <Style Selector="^:indeterminate /template/ Panel#IndeterminateRoot">
       <Setter Property="Opacity" Value="1" />
     </Style>
+
+    <!-- Indeterminate: horizontal animation -->
     <Style Selector="^:horizontal:indeterminate /template/ Border#IndeterminateProgressBarIndicator">
       <Style.Animations>
         <Animation IterationCount="Infinite" Duration="0:0:2">
@@ -158,6 +182,8 @@
         </Animation>
       </Style.Animations>
     </Style>
+
+    <!-- Indeterminate: vertical animation -->
     <Style Selector="^:vertical:indeterminate /template/ Border#IndeterminateProgressBarIndicator">
       <Style.Animations>
         <Animation IterationCount="Infinite" Duration="0:0:2">
@@ -188,6 +214,8 @@
         </Animation>
       </Style.Animations>
     </Style>
+
+    <!-- Template: indeterminate container dimensions -->
     <Style Selector="^:horizontal /template/ Border#IndeterminateProgressBarIndicator">
       <Setter Property="Width" Value="{Binding $parent[ProgressBar].TemplateSettings.ContainerWidth}" />
     </Style>
@@ -200,5 +228,6 @@
     <Style Selector="^:vertical /template/ Border#IndeterminateProgressBarIndicator2">
       <Setter Property="Height" Value="{Binding $parent[ProgressBar].TemplateSettings.Container2Width}" />
     </Style>
+
   </ControlTheme>
 </ResourceDictionary>

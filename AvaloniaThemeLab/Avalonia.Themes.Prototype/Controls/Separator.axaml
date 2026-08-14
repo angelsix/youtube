@@ -1,14 +1,18 @@
-﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
                     x:ClassModifier="internal">
   <ControlTheme x:Key="{x:Type Separator}" TargetType="Separator">
+    <!-- Visual defaults -->
     <Setter Property="Background" Value="{theme:AccentBorderBrush}" />
     <Setter Property="Focusable" Value="False" />
-    <Setter Property="Height" Value="1" />
-    <Setter Property="HorizontalAlignment" Value="Stretch" />
+    <Setter Property="Height" Value="{theme:ThicknessSm}" />
+    <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
+    <Setter Property="VerticalAlignment" Value="{theme:ContainerVerticalAlignment}" />
     <Setter Property="Margin" Value="{theme:Edges Horizontal={theme:SpacingXxl}, Vertical={theme:SpacingMd}}" />
+
+    <!-- Template -->
     <Setter Property="Template">
       <ControlTemplate>
         <Border Padding="{TemplateBinding Margin}"
