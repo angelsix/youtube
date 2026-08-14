@@ -25,7 +25,9 @@
     <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
     <Setter Property="BorderBrush" Value="{theme:OnSurfaceBrush}" />
     <Setter Property="BorderThickness" Value="{theme:ThicknessMd}" />
+    <Setter Property="CornerRadius" Value="{theme:RadiusSm}" />
     <Setter Property="FontFamily" Value="{theme:FontFamily}" />
+    <Setter Property="FontSize" Value="{theme:FontSizeMd}" />
     <Setter Property="FontWeight" Value="{theme:FontWeightRegular}" />
     <Setter Property="Padding" Value="{theme:Edges Horizontal={theme:ThicknessSm}, Vertical={theme:ThicknessSm}}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
@@ -51,7 +53,8 @@
       <ControlTemplate>
         <Panel>
           <Border Name="Root" Background="{TemplateBinding Background}"
-                  BorderThickness="0" ClipToBounds="True">
+                  BorderThickness="0" ClipToBounds="True"
+                  CornerRadius="{TemplateBinding CornerRadius}">
             <ContentPresenter Name="PART_ContentPresenter"
                               ContentTemplate="{TemplateBinding ContentTemplate}"
                               Content="{TemplateBinding Content}"
@@ -60,15 +63,12 @@
                               Margin="{TemplateBinding Padding}" />
           </Border>
           <Border Name="Border"
-                  BorderBrush="{TemplateBinding BorderBrush}" />
+                  BorderBrush="{TemplateBinding BorderBrush}"
+                  BorderThickness="{TemplateBinding BorderThickness}"
+                  CornerRadius="{TemplateBinding CornerRadius}" />
         </Panel>
       </ControlTemplate>
     </Setter>
-
-    <!-- Border visuals -->
-    <Style Selector="^ /template/ Border#Border">
-      <Setter Property="BorderThickness" Value="{theme:ThicknessMd}" />
-    </Style>
 
     <!-- Hover state -->
     <Style Selector="^:pointerover">

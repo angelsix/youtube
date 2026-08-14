@@ -1,4 +1,4 @@
-﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
@@ -14,11 +14,18 @@
       <PathIcon Data="{StaticResource settings_regular}" />
     </StackPanel>
   </Design.PreviewWith>
+  <!-- ============================================================
+       ControlTheme: {x:Type PathIcon}
+       ============================================================ -->
   <ControlTheme x:Key="{x:Type PathIcon}" TargetType="PathIcon">
+
+    <!-- Visual defaults -->
     <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
-    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="Background" Value="{theme:SurfaceBrush}" />
     <Setter Property="Height" Value="{theme:IconSize}" />
     <Setter Property="Width" Value="{theme:IconSize}" />
+
+    <!-- Template -->
     <Setter Property="Template">
       <ControlTemplate>
         <Border Background="{TemplateBinding Background}">
@@ -28,5 +35,6 @@
         </Border>
       </ControlTemplate>
     </Setter>
+
   </ControlTheme>
 </ResourceDictionary>

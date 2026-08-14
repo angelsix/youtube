@@ -1,8 +1,14 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
+                    xmlns:theme="using:AngelSix.ThemeEngine.Generated"
                     x:ClassModifier="internal">
   <Design.PreviewWith>
     <Border Padding="20">
+      <Border.Styles>
+        <prototype:PrototypeTheme />
+      </Border.Styles>
+
       <StackPanel Spacing="20">
         <TreeView>
           <TreeViewItem Header="Root" IsExpanded="True">
@@ -14,17 +20,29 @@
     </Border>
   </Design.PreviewWith>
 
+  <!-- ControlTheme: {x:Type TreeView} -->
   <ControlTheme x:Key="{x:Type TreeView}" TargetType="TreeView">
-    <Setter Property="Background" Value="Transparent" />
-    <Setter Property="BorderBrush" Value="Transparent" />
-    <Setter Property="BorderThickness" Value="0" />
-    <Setter Property="Padding" Value="0" />
+
+    <!-- Visual defaults -->
+    <Setter Property="Background" Value="{theme:SurfaceBrush}" />
+    <Setter Property="BorderBrush" Value="{theme:OnSurfaceDimBrush}" />
+    <Setter Property="BorderThickness" Value="{theme:ThicknessSm}" />
+    <Setter Property="CornerRadius" Value="{theme:RadiusSm}" />
+    <Setter Property="Padding" Value="{theme:Edges All={theme:SpacingMd}}" />
+    <Setter Property="FontFamily" Value="{theme:FontFamily}" />
+    <Setter Property="FontSize" Value="{theme:FontSizeMd}" />
+    <Setter Property="FontWeight" Value="{theme:FontWeightRegular}" />
+
+    <!-- ScrollViewer defaults -->
     <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
     <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
     <Setter Property="ScrollViewer.IsScrollChainingEnabled" Value="True" />
+
+    <!-- Template -->
     <Setter Property="Template">
       <ControlTemplate>
-        <Border BorderBrush="{TemplateBinding BorderBrush}"
+        <Border Background="{TemplateBinding Background}"
+                BorderBrush="{TemplateBinding BorderBrush}"
                 BorderThickness="{TemplateBinding BorderThickness}"
                 CornerRadius="{TemplateBinding CornerRadius}">
           <ScrollViewer Background="{TemplateBinding Background}"
@@ -41,5 +59,6 @@
         </Border>
       </ControlTemplate>
     </Setter>
+
   </ControlTheme>
 </ResourceDictionary>

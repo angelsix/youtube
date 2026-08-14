@@ -1,4 +1,4 @@
-﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
@@ -24,19 +24,31 @@
     </Border>
   </Design.PreviewWith>
 
+  <!-- Transform resources -->
   <TransformOperations x:Key="VerticalSmallScrollThumbScaleTransform">scaleX(0.125) translateX(-2px)</TransformOperations>
   <TransformOperations x:Key="HorizontalSmallScrollThumbScaleTransform">scaleY(0.125) translateY(-2px)</TransformOperations>
 
+  <!-- ScrollBar Thumb sub-theme -->
   <ControlTheme x:Key="PrototypeScrollBarThumb" TargetType="Thumb">
+    <!-- Visual defaults -->
     <Setter Property="Background" Value="{theme:OnSurfaceDimBrush}"/>
+    <Setter Property="BorderBrush" Value="{theme:OnSurfaceDimBrush}"/>
+    <Setter Property="BorderThickness" Value="{theme:ThicknessSm}"/>
+    <Setter Property="CornerRadius" Value="{theme:RadiusSm}"/>
+
+    <!-- Template -->
     <Setter Property="Template">
       <Setter.Value>
         <ControlTemplate>
           <Border Background="{TemplateBinding Background}"
+                  BorderBrush="{TemplateBinding BorderBrush}"
+                  BorderThickness="{TemplateBinding BorderThickness}"
                   CornerRadius="{TemplateBinding CornerRadius}"/>
         </ControlTemplate>
       </Setter.Value>
     </Setter>
+
+    <!-- Transitions -->
     <Setter Property="Transitions">
       <Transitions>
         <CornerRadiusTransition Property="CornerRadius" Duration="0:0:0.1" />
@@ -44,32 +56,55 @@
       </Transitions>
     </Setter>
 
+    <!-- Hover state -->
     <Style Selector="^:pointerover /template/ Border">
       <Setter Property="Background" Value="{theme:OnSurfaceDimBrush}" />
     </Style>
+
+    <!-- Pressed state -->
     <Style Selector="^:pressed  /template/ Border">
       <Setter Property="Background" Value="{theme:OnSurfaceDimBrush}" />
     </Style>
+
+    <!-- Disabled state -->
     <Style Selector="^:disabled  /template/ Border">
       <Setter Property="Background" Value="Transparent" />
     </Style>
   </ControlTheme>
 
+  <!-- ScrollBar Page Button sub-theme -->
   <ControlTheme x:Key="PrototypeScrollBarPageButton" TargetType="RepeatButton">
-    <Setter Property="Background" Value="Transparent" />
+    <!-- Visual defaults -->
+    <Setter Property="Background" Value="{theme:SurfaceBrush}"/>
+    <Setter Property="BorderBrush" Value="{theme:OnSurfaceDimBrush}"/>
+    <Setter Property="BorderThickness" Value="{theme:ThicknessSm}"/>
+    <Setter Property="CornerRadius" Value="{theme:RadiusSm}"/>
     <Setter Property="VerticalAlignment" Value="Stretch" />
     <Setter Property="HorizontalAlignment" Value="Stretch" />
     <Setter Property="Opacity" Value="0" />
+
+    <!-- Template -->
     <Setter Property="Template">
       <ControlTemplate>
-        <Border Background="{TemplateBinding Background}" />
+        <Border Background="{TemplateBinding Background}"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}"
+                CornerRadius="{TemplateBinding CornerRadius}" />
       </ControlTemplate>
     </Setter>
   </ControlTheme>
 
+  <!-- ScrollBar Line Button sub-theme -->
   <ControlTheme x:Key="PrototypeScrollBarLineButton" TargetType="RepeatButton">
+    <!-- Visual defaults -->
+    <Setter Property="Background" Value="{theme:SurfaceBrush}"/>
+    <Setter Property="BorderBrush" Value="{theme:OnSurfaceDimBrush}"/>
+    <Setter Property="BorderThickness" Value="{theme:ThicknessSm}"/>
+    <Setter Property="CornerRadius" Value="{theme:RadiusSm}"/>
     <Setter Property="Opacity" Value="0" />
     <Setter Property="TextElement.Foreground" Value="{theme:OnSurfaceBrush}"/>
+
+    <!-- Template -->
     <Setter Property="Template">
       <ControlTemplate>
         <ContentPresenter x:Name="PART_ContentPresenter"
@@ -78,12 +113,15 @@
                           Content="{TemplateBinding Content}"/>
       </ControlTemplate>
     </Setter>
+
+    <!-- Transitions -->
     <Setter Property="Transitions">
       <Transitions>
         <DoubleTransition Property="Opacity" Duration="0:0:0.1" />
       </Transitions>
     </Setter>
 
+    <!-- Hover state -->
     <Style Selector="^:pointerover">
       <Setter Property="TextElement.Foreground" Value="{theme:OnSurfaceBrush}"/>
 
@@ -93,6 +131,7 @@
       </Style>
     </Style>
 
+    <!-- Pressed state -->
     <Style Selector="^:pressed">
       <Setter Property="TextElement.Foreground" Value="{theme:SurfaceBrush}"/>
 
@@ -102,6 +141,7 @@
       </Style>
     </Style>
 
+    <!-- Disabled state -->
     <Style Selector="^:disabled">
       <Setter Property="TextElement.Foreground" Value="{theme:SurfaceOverlayWeakBrush}"/>
 
@@ -112,20 +152,27 @@
     </Style>
   </ControlTheme>
 
+  <!-- ScrollBar main theme -->
   <ControlTheme x:Key="{x:Type ScrollBar}" TargetType="ScrollBar">
+    <!-- Visual defaults -->
     <Setter Property="MinWidth" Value="16" />
     <Setter Property="MinHeight" Value="16" />
-    <Setter Property="Background" Value="Transparent" />
-    <Setter Property="Foreground" Value="Transparent" />
-    <Setter Property="BorderBrush" Value="Transparent" />
+    <Setter Property="Background" Value="{theme:SurfaceBrush}" />
+    <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
+    <Setter Property="BorderBrush" Value="{theme:OnSurfaceDimBrush}" />
+    <Setter Property="BorderThickness" Value="{theme:ThicknessSm}" />
+    <Setter Property="CornerRadius" Value="{theme:RadiusSm}" />
 
+    <!-- Vertical template -->
     <Style Selector="^:vertical">
       <Setter Property="Template">
         <ControlTemplate>
           <Grid x:Name="Root">
             <Border x:Name="VerticalRoot"
                     Background="{TemplateBinding Background}"
-                    BorderBrush="{TemplateBinding BorderBrush}">
+                    BorderBrush="{TemplateBinding BorderBrush}"
+                    BorderThickness="{TemplateBinding BorderThickness}"
+                    CornerRadius="{TemplateBinding CornerRadius}">
               <Grid RowDefinitions="Auto,*,Auto">
                 <Rectangle x:Name="TrackRect"
                            Fill="{theme:SurfaceOverlayWeakBrush}"
@@ -202,13 +249,16 @@
       </Setter>
     </Style>
 
+    <!-- Horizontal template -->
     <Style Selector="^:horizontal">
       <Setter Property="Template">
         <ControlTemplate>
           <Grid x:Name="Root">
             <Border x:Name="HorizontalRoot"
                     Background="{TemplateBinding Background}"
-                    BorderBrush="{TemplateBinding BorderBrush}">
+                    BorderBrush="{TemplateBinding BorderBrush}"
+                    BorderThickness="{TemplateBinding BorderThickness}"
+                    CornerRadius="{TemplateBinding CornerRadius}">
               <Grid ColumnDefinitions="Auto,*,Auto">
                 <Rectangle x:Name="TrackRect"
                            Fill="{theme:SurfaceOverlayWeakBrush}"
@@ -284,6 +334,7 @@
       </Setter>
     </Style>
 
+    <!-- Expanded state -->
     <Style Selector="^[IsExpanded=true]">
       <Style Selector="^ /template/ Grid#Root">
         <Setter Property="Background" Value="Transparent" />

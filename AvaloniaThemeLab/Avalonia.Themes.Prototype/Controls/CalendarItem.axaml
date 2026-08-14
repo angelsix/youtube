@@ -78,10 +78,13 @@
     <Setter Property="BorderBrush" Value="{theme:OnSurfaceBrush}" />
     <Setter Property="BorderThickness" Value="{theme:ThicknessSm}" />
     <Setter Property="CornerRadius" Value="{theme:RadiusSm}" />
+    <Setter Property="Padding" Value="{theme:Edges All={theme:SpacingMd}}" />
     <Setter Property="FontFamily" Value="{theme:FontFamily}" />
+    <Setter Property="FontSize" Value="{theme:FontSizeMd}" />
     <Setter Property="FontWeight" Value="{theme:FontWeightRegular}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
     <Setter Property="VerticalAlignment" Value="{theme:ContainerVerticalAlignment}" />
+    <!-- HorizontalContentAlignment and VerticalContentAlignment not on CalendarItem -->
 
     <!-- Day title template -->
     <Setter Property="DayTitleTemplate">
@@ -178,22 +181,22 @@
       </ControlTemplate>
     </Setter>
 
-    <!-- Header button padding -->
+    <!-- Header button -->
     <Style Selector="^ /template/ Button#PART_HeaderButton">
       <Setter Property="Padding" Value="{theme:Edges Left={theme:SpacingXxl}}" />
     </Style>
 
-    <!-- Nav button padding -->
+    <!-- Nav buttons -->
     <Style Selector="^ /template/ Button#PART_PreviousButton, ^ /template/ Button#PART_NextButton">
       <Setter Property="Padding" Value="{theme:Edges All={theme:BaseSize}}" />
     </Style>
 
-    <!-- Nav arrow default stroke -->
+    <!-- Nav arrows -->
     <Style Selector="^ /template/ Path#PART_PreviousArrow, ^ /template/ Path#PART_NextArrow">
       <Setter Property="Stroke" Value="{theme:OnSurfaceDimBrush}" />
     </Style>
 
-    <!-- Background layer margin -->
+    <!-- Background layer -->
     <Style Selector="^ /template/ Border#BackgroundLayer">
       <Setter Property="Margin" Value="{theme:Edges Top={theme:Scaled Value={theme:BaseSize}, By=38}}" />
     </Style>

@@ -1,4 +1,4 @@
-﻿<ResourceDictionary
+<ResourceDictionary
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
@@ -13,53 +13,83 @@
       <StackPanel Spacing="20">
         <TabItem Header="Leaf" />
         <TabItem Header="Arch" IsSelected="True" />
-        <TabItem Header="Background" Background="Yellow"/>
+        <TabItem Header="Background" Background="Yellow" />
       </StackPanel>
     </Border>
   </Design.PreviewWith>
 
-
+  <!-- ControlTheme: {x:Type TabItem} -->
   <ControlTheme x:Key="{x:Type TabItem}" TargetType="TabItem">
-    <Setter Property="FontSize" Value="{theme:FontSizeXxl}" />
-    <Setter Property="FontWeight" Value="SemiLight" />
+
+    <!-- Visual defaults -->
     <Setter Property="Background" Value="Transparent" />
     <Setter Property="Foreground" Value="{theme:OnSurfaceDimBrush}" />
+    <Setter Property="BorderBrush" Value="Transparent" />
+    <Setter Property="BorderThickness" Value="0" />
+    <Setter Property="CornerRadius" Value="{theme:RadiusSm}" />
+    <Setter Property="FontFamily" Value="{theme:FontFamily}" />
+    <Setter Property="FontSize" Value="{theme:FontSizeXxl}" />
+    <Setter Property="FontWeight" Value="{theme:FontWeightRegular}" />
     <Setter Property="Padding" Value="{theme:Edges Horizontal={theme:SpacingXxl}}" />
     <Setter Property="Margin" Value="0" />
     <Setter Property="MinHeight" Value="{theme:ControlHeightLg}" />
-    <Setter Property="VerticalContentAlignment" Value="Center" />
+    <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
+    <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
+    <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
+    <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
+
+    <!-- Template -->
     <Setter Property="Template">
       <ControlTemplate>
-        <Border
-            Name="PART_LayoutRoot"
-            Background="{TemplateBinding Background}"
-            BorderBrush="{TemplateBinding BorderBrush}"
-            BorderThickness="{TemplateBinding BorderThickness}"
-            CornerRadius="{TemplateBinding CornerRadius}"
-            Padding="{TemplateBinding Padding}">
+        <Border Name="PART_LayoutRoot"
+                Background="{TemplateBinding Background}"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}"
+                CornerRadius="{TemplateBinding CornerRadius}"
+                Padding="{TemplateBinding Padding}">
           <Panel>
-            <ContentPresenter
-                Name="PART_ContentPresenter"
-                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                Content="{TemplateBinding Header}"
-                ContentTemplate="{TemplateBinding HeaderTemplate}"
-                />
+            <ContentPresenter Name="PART_ContentPresenter"
+                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                              Content="{TemplateBinding Header}"
+                              ContentTemplate="{TemplateBinding HeaderTemplate}" />
             <Border Name="PART_SelectedPipe"
-                    Background="{theme:AccentPrimaryBrush}"
-                    CornerRadius="{theme:RadiusSm}"
-                    IsVisible="False"/>
+                    IsVisible="False" />
           </Panel>
         </Border>
       </ControlTemplate>
     </Setter>
 
+    <!-- Access key support -->
     <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
       <Setter Property="RecognizesAccessKey" Value="True" />
     </Style>
 
-    <!--  Selected state  -->
-    <!--  We don't use selector to PART_LayoutRoot, so developer can override selected item background with TabStripItem.Background  -->
+    <!-- Selected pipe visuals -->
+    <Style Selector="^ /template/ Border#PART_SelectedPipe">
+      <Setter Property="Background" Value="{theme:AccentPrimaryBrush}" />
+      <Setter Property="CornerRadius" Value="{theme:RadiusSm}" />
+    </Style>
+
+    <!-- Hover state -->
+    <Style Selector="^:pointerover /template/ Border#PART_LayoutRoot">
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="TextElement.Foreground" Value="{theme:OnSurfaceDimBrush}" />
+    </Style>
+
+    <!-- Pressed state -->
+    <Style Selector="^:pressed /template/ Border#PART_LayoutRoot">
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="TextElement.Foreground" Value="{theme:OnSurfaceDimBrush}" />
+    </Style>
+
+    <!-- Disabled state -->
+    <Style Selector="^:disabled /template/ Border#PART_LayoutRoot">
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="TextElement.Foreground" Value="{theme:OnSurfaceDimBrush}" />
+    </Style>
+
+    <!-- Selected state -->
     <Style Selector="^:selected">
       <Setter Property="Background" Value="Transparent" />
       <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
@@ -68,37 +98,19 @@
       <Setter Property="IsVisible" Value="True" />
     </Style>
 
-    <!--  PointerOver state  -->
-    <Style Selector="^:pointerover /template/ Border#PART_LayoutRoot">
-      <Setter Property="Background" Value="Transparent" />
-      <Setter Property="TextElement.Foreground" Value="{theme:OnSurfaceDimBrush}" />
-    </Style>
-
-    <!--  Selected PointerOver state  -->
+    <!-- Selected hover state -->
     <Style Selector="^:selected:pointerover /template/ Border#PART_LayoutRoot">
       <Setter Property="Background" Value="Transparent" />
       <Setter Property="TextElement.Foreground" Value="{theme:OnSurfaceDimBrush}" />
     </Style>
 
-    <!--  Pressed state  -->
-    <Style Selector="^:pressed /template/ Border#PART_LayoutRoot">
-      <Setter Property="Background" Value="Transparent" />
-      <Setter Property="TextElement.Foreground" Value="{theme:OnSurfaceDimBrush}" />
-    </Style>
-
-    <!--  Selected Pressed state  -->
+    <!-- Selected pressed state -->
     <Style Selector="^:selected:pressed /template/ Border#PART_LayoutRoot">
       <Setter Property="Background" Value="Transparent" />
       <Setter Property="TextElement.Foreground" Value="{theme:OnSurfaceDimBrush}" />
     </Style>
 
-    <!--  Disabled state  -->
-    <Style Selector="^:disabled /template/ Border#PART_LayoutRoot">
-      <Setter Property="Background" Value="Transparent" />
-      <Setter Property="TextElement.Foreground" Value="{theme:OnSurfaceDimBrush}" />
-    </Style>
-
-    <!--  TabStripPlacement States Group  -->
+    <!-- TabStripPlacement: Left -->
     <Style Selector="^[TabStripPlacement=Left] /template/ Border#PART_SelectedPipe">
       <Setter Property="Width" Value="{theme:SpacingSm}" />
       <Setter Property="Height" Value="{theme:Scaled Value={theme:SpacingXxl}, By=2}" />
@@ -110,6 +122,7 @@
       <Setter Property="Margin" Value="8,0,0,0" />
     </Style>
 
+    <!-- TabStripPlacement: Top and Bottom -->
     <Style Selector="^[TabStripPlacement=Top] /template/ Border#PART_SelectedPipe, ^[TabStripPlacement=Bottom] /template/ Border#PART_SelectedPipe">
       <Setter Property="Height" Value="{theme:SpacingSm}" />
       <Setter Property="Margin" Value="0,0,0,2" />
@@ -117,6 +130,7 @@
       <Setter Property="VerticalAlignment" Value="Bottom" />
     </Style>
 
+    <!-- TabStripPlacement: Right -->
     <Style Selector="^[TabStripPlacement=Right] /template/ Border#PART_SelectedPipe">
       <Setter Property="Width" Value="{theme:SpacingSm}" />
       <Setter Property="Height" Value="{theme:Scaled Value={theme:SpacingXxl}, By=2}" />

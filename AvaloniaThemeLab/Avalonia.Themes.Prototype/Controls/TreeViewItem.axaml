@@ -26,7 +26,7 @@
     </Border>
   </Design.PreviewWith>
 
-
+  <!-- Chevron sub-theme -->
   <ControlTheme x:Key="PrototypeTreeViewExpandCollapseChevron" TargetType="ToggleButton">
     <Setter Property="Margin" Value="0" />
     <Setter Property="Width" Value="{theme:FontSizeSm}" />
@@ -54,13 +54,23 @@
   </ControlTheme>
 
   <ControlTheme x:Key="{x:Type TreeViewItem}" TargetType="TreeViewItem">
-    <Setter Property="Padding" Value="0" />
+
+    <!-- Visual defaults -->
     <Setter Property="Background" Value="Transparent" />
+    <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
     <Setter Property="BorderBrush" Value="Transparent" />
     <Setter Property="BorderThickness" Value="{theme:ThicknessSm}" />
-    <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
+    <Setter Property="CornerRadius" Value="{theme:RadiusSm}" />
+    <Setter Property="FontFamily" Value="{theme:FontFamily}" />
+    <Setter Property="FontSize" Value="{theme:FontSizeMd}" />
+    <Setter Property="FontWeight" Value="{theme:FontWeightRegular}" />
+    <Setter Property="Padding" Value="{theme:Edges Horizontal={theme:SpacingMd}, Vertical={theme:SpacingSm}}" />
+    <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
+    <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
+    <!-- HorizontalContentAlignment and VerticalContentAlignment not on TreeViewItem -->
     <Setter Property="MinHeight" Value="{theme:ControlHeightSm}" />
-    <Setter Property="VerticalAlignment" Value="Center" />
+
+    <!-- Template -->
     <Setter Property="Template">
       <ControlTemplate>
         <StackPanel>
@@ -106,7 +116,7 @@
       </ControlTemplate>
     </Setter>
 
-    <!--  PointerOver state  -->
+    <!-- Hover state -->
     <Style Selector="^ /template/ Border#PART_LayoutRoot:pointerover">
       <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}" />
       <Setter Property="BorderBrush" Value="Transparent" />
@@ -115,7 +125,7 @@
       <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
     </Style>
 
-    <!--  Pressed state  -->
+    <!-- Pressed state -->
     <Style Selector="^:pressed /template/ Border#PART_LayoutRoot:pointerover">
       <Setter Property="Background" Value="{theme:SurfaceOverlayMediumBrush}" />
       <Setter Property="BorderBrush" Value="Transparent" />
@@ -124,7 +134,7 @@
       <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
     </Style>
 
-    <!--  Disabled state  -->
+    <!-- Disabled state -->
     <Style Selector="^:disabled /template/ Border#PART_LayoutRoot">
       <Setter Property="Background" Value="Transparent" />
       <Setter Property="BorderBrush" Value="Transparent" />
@@ -133,7 +143,7 @@
       <Setter Property="Foreground" Value="{theme:OnSurfaceDimBrush}" />
     </Style>
 
-    <!--  Selected state  -->
+    <!-- Selected state -->
     <Style Selector="^:selected /template/ Border#PART_LayoutRoot">
       <Setter Property="Background" Value="{theme:AccentPrimaryBrush}" />
       <Setter Property="BorderBrush" Value="Transparent" />
@@ -142,7 +152,7 @@
       <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
     </Style>
 
-    <!--  Selected PointerOver state  -->
+    <!-- Selected hover state -->
     <Style Selector="^:selected /template/ Border#PART_LayoutRoot:pointerover">
       <Setter Property="Background" Value="{theme:AccentPrimaryBrush}" />
       <Setter Property="BorderBrush" Value="Transparent" />
@@ -151,7 +161,7 @@
       <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
     </Style>
 
-    <!--  Selected Pressed state  -->
+    <!-- Selected pressed state -->
     <Style Selector="^:pressed:selected /template/ Border#PART_LayoutRoot:pointerover">
       <Setter Property="Background" Value="{theme:SurfaceOverlayMediumBrush}" />
       <Setter Property="BorderBrush" Value="Transparent" />
@@ -160,7 +170,7 @@
       <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
     </Style>
 
-    <!--  Disabled Selected state  -->
+    <!-- Disabled selected state -->
     <Style Selector="^:disabled:selected /template/ Border#PART_LayoutRoot">
       <Setter Property="Background" Value="{theme:OnSurfaceDimBrush}" />
       <Setter Property="BorderBrush" Value="Transparent" />
@@ -169,6 +179,7 @@
       <Setter Property="Foreground" Value="{theme:OnSurfaceDimBrush}" />
     </Style>
 
+    <!-- Empty state -->
     <Style Selector="^:empty /template/ ToggleButton#PART_ExpandCollapseChevron">
       <Setter Property="IsVisible" Value="False" />
     </Style>

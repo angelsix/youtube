@@ -24,8 +24,19 @@
     </ScrollViewer>
   </Design.PreviewWith>
 
+  <!-- ============================================================
+       ControlTheme: {x:Type ScrollViewer}
+       ============================================================ -->
   <ControlTheme x:Key="{x:Type ScrollViewer}" TargetType="ScrollViewer">
-    <Setter Property="Background" Value="Transparent" />
+
+    <!-- Visual defaults -->
+    <Setter Property="Background" Value="{theme:SurfaceBrush}" />
+    <Setter Property="BorderBrush" Value="{theme:OnSurfaceDimBrush}" />
+    <Setter Property="BorderThickness" Value="{theme:ThicknessSm}" />
+    <Setter Property="CornerRadius" Value="{theme:RadiusSm}" />
+    <Setter Property="Padding" Value="{theme:Edges Horizontal={theme:SpacingMd}, Vertical={theme:SpacingMd}}" />
+
+    <!-- Template -->
     <Setter Property="Template">
       <ControlTemplate>
         <Grid ColumnDefinitions="*,Auto" RowDefinitions="*,Auto">
@@ -65,9 +76,13 @@
         </Grid>
       </ControlTemplate>
     </Setter>
+
+    <!-- Scroll bars separator state -->
     <Style Selector="^[IsExpanded=true] /template/ Panel#PART_ScrollBarsSeparator">
       <Setter Property="Opacity" Value="1" />
     </Style>
+
+    <!-- Auto hide mode -->
     <Style Selector="^[AllowAutoHide=True] /template/ ScrollContentPresenter#PART_ContentPresenter">
       <Setter Property="Grid.ColumnSpan" Value="2" />
       <Setter Property="Grid.RowSpan" Value="2" />

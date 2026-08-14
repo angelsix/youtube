@@ -1,33 +1,48 @@
-﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
                     x:ClassModifier="internal">
   <Design.PreviewWith>
-    <Border Width="400">
+    <Border Padding="20">
       <Border.Styles>
         <prototype:PrototypeTheme />
       </Border.Styles>
 
       <TabControl>
         <TabItem Header="Arch">
-          <Border Background="AntiqueWhite" Height="100">
-            <TextBlock Text="Content" Foreground="Black" FontSize="20"/>
+          <Border Background="{theme:SurfaceOverlayWeakBrush}" Height="100">
+            <TextBlock Text="Content" Foreground="{theme:OnSurfaceBrush}" FontSize="{theme:FontSizeMd}" />
           </Border>
         </TabItem>
         <TabItem Header="Leaf">
-          <Border Background="Green" Height="100" />
+          <Border Background="{theme:AccentSuccessBrush}" Height="100" />
         </TabItem>
         <TabItem Header="Disabled" IsEnabled="False" />
       </TabControl>
     </Border>
   </Design.PreviewWith>
 
-
+  <!-- ============================================================
+       ControlTheme: {x:Type TabControl}
+       ============================================================ -->
   <ControlTheme x:Key="{x:Type TabControl}" TargetType="TabControl">
-    <Setter Property="Margin" Value="0" />
+
+    <!-- Visual defaults -->
+    <Setter Property="Background" Value="{theme:SurfaceBrush}" />
+    <Setter Property="BorderBrush" Value="{theme:AccentBorderBrush}" />
+    <Setter Property="BorderThickness" Value="{theme:ThicknessSm}" />
+    <Setter Property="CornerRadius" Value="{theme:RadiusSm}" />
     <Setter Property="Padding" Value="{theme:Edges Horizontal={theme:SpacingXxl}}" />
-    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="FontFamily" Value="{theme:FontFamily}" />
+    <Setter Property="FontSize" Value="{theme:FontSizeMd}" />
+    <Setter Property="FontWeight" Value="{theme:FontWeightRegular}" />
+    <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
+    <Setter Property="VerticalAlignment" Value="{theme:ContainerVerticalAlignment}" />
+    <Setter Property="HorizontalContentAlignment" Value="{theme:ContainerHorizontalAlignment}" />
+    <Setter Property="VerticalContentAlignment" Value="{theme:ContainerVerticalAlignment}" />
+
+    <!-- Template -->
     <Setter Property="Template">
       <ControlTemplate>
         <Border BorderBrush="{TemplateBinding BorderBrush}"
@@ -56,12 +71,15 @@
       </ControlTemplate>
     </Setter>
 
+    <!-- TabStripPlacement orientation -->
     <Style Selector="^[TabStripPlacement=Left] /template/ ItemsPresenter#PART_ItemsPresenter > WrapPanel">
       <Setter Property="Orientation" Value="Vertical" />
     </Style>
     <Style Selector="^[TabStripPlacement=Right] /template/ ItemsPresenter#PART_ItemsPresenter > WrapPanel">
       <Setter Property="Orientation" Value="Vertical" />
     </Style>
+
+    <!-- TabStripPlacement spacing -->
     <Style Selector="^[TabStripPlacement=Top] /template/ ItemsPresenter#PART_ItemsPresenter">
       <Setter Property="Margin" Value="{theme:Edges Bottom={theme:SpacingSm}}" />
     </Style>

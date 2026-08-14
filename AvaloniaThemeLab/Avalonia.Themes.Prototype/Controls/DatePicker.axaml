@@ -1,16 +1,9 @@
-<!--
-// (c) Copyright Microsoft Corporation.
-// This source is subject to the Microsoft Public License (Ms-PL).
-// Please see https://go.microsoft.com/fwlink/?LinkID=131993 for details.
-// All other rights reserved.
--->
-
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:sys="using:System"
-        xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
-        xmlns:theme="using:AngelSix.ThemeEngine.Generated"
-        x:ClassModifier="internal">
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="using:System"
+                    xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
+                    xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+                    x:ClassModifier="internal">
   <Design.PreviewWith>
     <Border Padding="20" Height="500">
       <Border.Styles>
@@ -34,7 +27,7 @@
     </Border>
   </Design.PreviewWith>
 
-
+  <!-- Flyout button sub-theme -->
   <ControlTheme x:Key="PrototypeDatePickerFlyoutButton" TargetType="Button">
     <Setter Property="RenderTransform" Value="none" />
     <Setter Property="Template">
@@ -47,36 +40,49 @@
                           Foreground="{TemplateBinding Foreground}"
                           HorizontalContentAlignment="Stretch"
                           VerticalContentAlignment="Stretch"
-                          CornerRadius="{TemplateBinding CornerRadius}"/>
+                          CornerRadius="{TemplateBinding CornerRadius}" />
       </ControlTemplate>
     </Setter>
-    
+
+    <!-- Pressed state -->
     <Style Selector="^:pressed">
-      <Setter Property="RenderTransform" Value="scale(0.98)" />
-    </Style>
-    
-    <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}"/>
-      <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}"/>
+      <Setter Property="RenderTransform" Value="{theme:TransformScale Value={theme:PressedScale}}" />
     </Style>
 
+    <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}" />
+      <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
+    </Style>
+
+    <!-- Disabled state -->
     <Style Selector="^:disabled /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="BorderBrush" Value="{theme:AccentBorderBrush}"/>
-      <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}"/>
-      <Setter Property="Foreground" Value="{theme:OnSurfaceDimBrush}"/>
+      <Setter Property="BorderBrush" Value="{theme:AccentBorderBrush}" />
+      <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}" />
+      <Setter Property="Foreground" Value="{theme:OnSurfaceDimBrush}" />
     </Style>
   </ControlTheme>
-  
+
+  <!-- ============================================================
+       ControlTheme: {x:Type DatePicker}
+       ============================================================ -->
   <ControlTheme x:Key="{x:Type DatePicker}" TargetType="DatePicker">
+
+    <!-- Visual defaults -->
+    <Setter Property="Background" Value="{theme:SurfaceBrush}" />
     <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
-    <Setter Property="Background" Value="{theme:SurfaceBrush}"/>
-    <Setter Property="BorderBrush" Value="{theme:AccentBorderBrush}"/>
-    <Setter Property="BorderThickness" Value="1"/>
+    <Setter Property="BorderBrush" Value="{theme:AccentBorderBrush}" />
+    <Setter Property="BorderThickness" Value="{theme:ThicknessSm}" />
     <Setter Property="CornerRadius" Value="{theme:RadiusSm}" />
-    <Setter Property="HorizontalAlignment" Value="Left" />
-    <Setter Property="VerticalAlignment" Value="Center" />
+    <Setter Property="Padding" Value="{theme:Edges Top={theme:SpacingMd}, Bottom={theme:SpacingMd}, Left={theme:SpacingMd}, Right={theme:SpacingMd}}" />
+    <Setter Property="FontFamily" Value="{theme:FontFamily}" />
+    <Setter Property="FontSize" Value="{theme:FontSizeMd}" />
+    <Setter Property="FontWeight" Value="{theme:FontWeightRegular}" />
+    <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
+    <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
     <Setter Property="MinWidth" Value="{theme:Scaled Value={theme:BaseSize}, By=296}" />
     <Setter Property="MaxWidth" Value="{theme:Scaled Value={theme:BaseSize}, By=456}" />
+
+    <!-- Template -->
     <Setter Property="Template">
       <ControlTemplate>
         <DataValidationErrors>
@@ -102,15 +108,15 @@
                 <TextBlock Name="PART_YearTextBlock" Text="year" HorizontalAlignment="Center"
                            Padding="{theme:Edges Top={theme:SpacingMd}, Bottom={theme:SpacingLg}}" />
                 <Rectangle x:Name="PART_FirstSpacer"
-                      Fill="{theme:AccentBorderBrush}"
-                      HorizontalAlignment="Center"
-                      Width="1"
-                      Grid.Column="1" />
+                           Fill="{theme:AccentBorderBrush}"
+                           HorizontalAlignment="Center"
+                           Width="1"
+                           Grid.Column="1" />
                 <Rectangle x:Name="PART_SecondSpacer"
-                      Fill="{theme:AccentBorderBrush}"
-                      HorizontalAlignment="Center"
-                      Width="1"
-                      Grid.Column="3" />
+                           Fill="{theme:AccentBorderBrush}"
+                           HorizontalAlignment="Center"
+                           Width="1"
+                           Grid.Column="3" />
               </Grid>
             </Button>
 
@@ -119,27 +125,36 @@
                    Placement="Bottom">
               <DatePickerPresenter Name="PART_PickerPresenter" />
             </Popup>
-
           </Grid>
         </DataValidationErrors>
       </ControlTemplate>
     </Setter>
 
+    <!-- Disabled state -->
     <Style Selector="^:disabled /template/ Rectangle">
-      <Setter Property="Fill" Value="{theme:AccentBorderBrush}"/>
+      <Setter Property="Fill" Value="{theme:AccentBorderBrush}" />
     </Style>
 
-    <!-- Changes foreground for watermark text when SelectedDate is null-->
+    <!-- Watermark state (no date selected) -->
     <Style Selector="^:hasnodate /template/ Button#PART_FlyoutButton TextBlock">
-      <Setter Property="Foreground" Value="{theme:OnSurfaceDimBrush}"/>
+      <Setter Property="Foreground" Value="{theme:OnSurfaceDimBrush}" />
     </Style>
 
+    <!-- Focus state -->
+    <Style Selector="^:focus-visible /template/ Button#PART_FlyoutButton">
+      <Setter Property="BorderBrush" Value="{theme:AccentFocusBrush}" />
+      <Setter Property="BorderThickness" Value="{theme:ThicknessMd}" />
+    </Style>
+
+    <!-- Error state -->
     <Style Selector="^:error /template/ Button#PART_FlyoutButton">
-      <Setter Property="BorderBrush" Value="{theme:AccentErrorBrush}"/>
+      <Setter Property="BorderBrush" Value="{theme:AccentErrorBrush}" />
     </Style>
   </ControlTheme>
 
-  <!--WinUI: DatePickerFlyoutPresenter-->
+  <!-- ============================================================
+       ControlTheme: {x:Type DatePickerPresenter}
+       ============================================================ -->
   <ControlTheme x:Key="{x:Type DatePickerPresenter}" TargetType="DatePickerPresenter">
     <Setter Property="Width" Value="296" />
     <Setter Property="MinWidth" Value="296" />
@@ -148,6 +163,8 @@
     <Setter Property="BorderBrush" Value="{theme:AccentBorderBrush}" />
     <Setter Property="BorderThickness" Value="{theme:ThicknessSm}" />
     <Setter Property="CornerRadius" Value="{theme:RadiusMd}" />
+
+    <!-- Template -->
     <Setter Property="Template">
       <ControlTemplate>
         <Border Name="Background" Background="{TemplateBinding Background}"
@@ -162,7 +179,7 @@
                   <Setter Property="Theme" Value="{StaticResource PrototypeDateTimePickerItem}" />
                 </Style>
               </Grid.Styles>
-              <!--Column Definitions set in code, ignore here-->
+              <!-- Column definitions set in code, ignore here -->
               <Panel Name="PART_MonthHost">
                 <ScrollViewer HorizontalScrollBarVisibility="Disabled"
                               VerticalScrollBarVisibility="Hidden">
@@ -171,8 +188,8 @@
                                        ItemHeight="{theme:ControlHeightMd}"
                                        ShouldLoop="True" />
                 </ScrollViewer>
-                <RepeatButton Name="PART_MonthUpButton" Theme="{StaticResource PrototypeDateTimePickerUpButton}"/>
-                <RepeatButton Name="PART_MonthDownButton" Theme="{StaticResource PrototypeDateTimePickerDownButton}"/>
+                <RepeatButton Name="PART_MonthUpButton" Theme="{StaticResource PrototypeDateTimePickerUpButton}" />
+                <RepeatButton Name="PART_MonthDownButton" Theme="{StaticResource PrototypeDateTimePickerDownButton}" />
               </Panel>
               <Panel Name="PART_DayHost">
                 <ScrollViewer HorizontalScrollBarVisibility="Disabled"
@@ -182,8 +199,8 @@
                                        ItemHeight="{theme:ControlHeightMd}"
                                        ShouldLoop="True" />
                 </ScrollViewer>
-                <RepeatButton Name="PART_DayUpButton" Theme="{StaticResource PrototypeDateTimePickerUpButton}"/>
-                <RepeatButton Name="PART_DayDownButton" Theme="{StaticResource PrototypeDateTimePickerDownButton}"/>
+                <RepeatButton Name="PART_DayUpButton" Theme="{StaticResource PrototypeDateTimePickerUpButton}" />
+                <RepeatButton Name="PART_DayDownButton" Theme="{StaticResource PrototypeDateTimePickerDownButton}" />
               </Panel>
               <Panel Name="PART_YearHost">
                 <ScrollViewer HorizontalScrollBarVisibility="Disabled"
@@ -193,8 +210,8 @@
                                        ItemHeight="{theme:ControlHeightMd}"
                                        ShouldLoop="False" />
                 </ScrollViewer>
-                <RepeatButton Name="PART_YearUpButton" Theme="{StaticResource PrototypeDateTimePickerUpButton}"/>
-                <RepeatButton Name="PART_YearDownButton" Theme="{StaticResource PrototypeDateTimePickerDownButton}"/>
+                <RepeatButton Name="PART_YearUpButton" Theme="{StaticResource PrototypeDateTimePickerUpButton}" />
+                <RepeatButton Name="PART_YearDownButton" Theme="{StaticResource PrototypeDateTimePickerDownButton}" />
               </Panel>
               <Rectangle Name="HighlightRect" IsHitTestVisible="False" ZIndex="-1"
                          Fill="{theme:AccentPrimaryBrush}"
@@ -218,7 +235,7 @@
               <Rectangle Height="{theme:BaseSize}"
                          VerticalAlignment="Top"
                          Fill="{theme:AccentBorderBrush}"
-                         Grid.ColumnSpan="2"/>
+                         Grid.ColumnSpan="2" />
               <Button Name="PART_AcceptButton"
                       Grid.Column="0"
                       Theme="{StaticResource PrototypeDateTimePickerButton}"
@@ -234,11 +251,11 @@
                       Grid.Column="1"
                       Theme="{StaticResource PrototypeDateTimePickerButton}"
                       Height="{theme:ControlHeightMd}"
-                      HorizontalAlignment="Stretch" 
+                      HorizontalAlignment="Stretch"
                       VerticalAlignment="Stretch">
-                <Path Stroke="{Binding $parent[Button].Foreground}" 
+                <Path Stroke="{Binding $parent[Button].Foreground}"
                       StrokeLineCap="Round"
-                      StrokeThickness="0.75" 
+                      StrokeThickness="0.75"
                       Data="M2,2 14,14 M2,14 14 2" />
               </Button>
             </Grid>
@@ -247,12 +264,11 @@
       </ControlTemplate>
     </Setter>
 
+    <!-- Hover state for selector repeat buttons -->
     <Style Selector="^ /template/ Panel">
       <Style Selector="^:pointerover RepeatButton">
         <Setter Property="IsVisible" Value="True" />
       </Style>
     </Style>
   </ControlTheme>
-
-
 </ResourceDictionary>
