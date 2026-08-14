@@ -142,7 +142,6 @@
               </StackPanel>
 
               <ContentPresenter Name="PART_ContentPresenter"
-                                Grid.Column="1"
                                 TabIndex="1"
                                 ContentTemplate="{TemplateBinding ContentTemplate}"
                                 Content="{TemplateBinding Content}"
@@ -167,7 +166,7 @@
       <Setter Property="Width" Value="{theme:IconSize}" />
     </Style>
 
-    <!-- Corner radius workaround: Border does not clip children to CornerRadius, so the edge button's square background paints over the outer Border's rounded corners. We round the matching outer corners of the button that sits against the control's edge instead. -->
+    <!-- Corner radius: round edge button's outer corners to match control (Border does not clip children) -->
     <Style Selector="^ /template/ RepeatButton#PART_DecreaseButton">
       <Setter Property="CornerRadius" Value="{theme:Corners Radius={TemplateBinding CornerRadius}, Right=True}" />
     </Style>
@@ -175,6 +174,11 @@
     <!-- Hover state -->
     <Style Selector="^:pointerover /template/ Border">
       <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}" />
+    </Style>
+
+    <!-- Pressed state -->
+    <Style Selector="^:pressed /template/ Border">
+      <Setter Property="Background" Value="{theme:SurfaceOverlayMediumBrush}" />
     </Style>
 
     <!-- Disabled state -->
