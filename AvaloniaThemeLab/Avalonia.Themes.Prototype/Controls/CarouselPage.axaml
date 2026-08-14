@@ -26,6 +26,10 @@
 
     <!-- Visual defaults -->
     <Setter Property="Background" Value="{theme:SurfaceBrush}" />
+    <Setter Property="BorderBrush" Value="{theme:OnSurfaceBrush}" />
+    <Setter Property="BorderThickness" Value="{theme:ThicknessSm}" />
+    <Setter Property="CornerRadius" Value="{theme:RadiusSm}" />
+    <Setter Property="Padding" Value="{theme:Edges Horizontal={theme:SpacingLg}, Vertical={theme:SpacingMd}}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
     <Setter Property="VerticalAlignment" Value="{theme:ContainerVerticalAlignment}" />
 
@@ -34,6 +38,10 @@
       <ControlTemplate>
         <Carousel Name="PART_Carousel"
                   Background="{TemplateBinding Background}"
+                  BorderBrush="{TemplateBinding BorderBrush}"
+                  BorderThickness="{TemplateBinding BorderThickness}"
+                  CornerRadius="{TemplateBinding CornerRadius}"
+                  Padding="{TemplateBinding Padding}"
                   ItemTemplate="{TemplateBinding PageTemplate}"
                   PageTransition="{TemplateBinding PageTransition}"
                   ItemsPanel="{TemplateBinding ItemsPanel}"
@@ -41,6 +49,6 @@
                   VerticalAlignment="Stretch" />
       </ControlTemplate>
     </Setter>
-    
+
   </ControlTheme>
 </ResourceDictionary>
