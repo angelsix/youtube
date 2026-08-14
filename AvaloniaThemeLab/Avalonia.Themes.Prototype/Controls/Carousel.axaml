@@ -1,7 +1,35 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
+                    xmlns:theme="using:AngelSix.ThemeEngine.Generated"
                     x:ClassModifier="internal">
+  <Design.PreviewWith>
+    <Border Padding="20">
+      <Border.Styles>
+        <prototype:PrototypeTheme />
+      </Border.Styles>
+
+      <StackPanel Spacing="20">
+        <Label Content="Carousel" />
+        <Carousel />
+      </StackPanel>
+    </Border>
+  </Design.PreviewWith>
+
+  <!-- ============================================================
+       ControlTheme: {x:Type Carousel}
+       ============================================================ -->
   <ControlTheme x:Key="{x:Type Carousel}" TargetType="Carousel">
+
+    <!-- Visual defaults -->
+    <Setter Property="Background" Value="{theme:SurfaceBrush}" />
+    <Setter Property="BorderBrush" Value="{theme:OnSurfaceBrush}" />
+    <Setter Property="BorderThickness" Value="{theme:ThicknessSm}" />
+    <Setter Property="Padding" Value="{theme:Edges Horizontal={theme:SpacingLg}, Vertical={theme:SpacingMd}}" />
+    <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
+    <Setter Property="VerticalAlignment" Value="{theme:ContainerVerticalAlignment}" />
+
+    <!-- Template -->
     <Setter Property="Template">
       <ControlTemplate>
         <ScrollViewer Name="PART_ScrollViewer"
@@ -17,5 +45,11 @@
         </ScrollViewer>
       </ControlTemplate>
     </Setter>
+
+    <!-- Disabled state -->
+    <Style Selector="^:disabled">
+      <Setter Property="Opacity" Value="{theme:DisabledOpacity}" />
+    </Style>
+
   </ControlTheme>
 </ResourceDictionary>

@@ -80,6 +80,9 @@
     </Style>
   </ControlTheme>
 
+  <!-- ============================================================
+       ControlTheme: {x:Type ButtonSpinner}
+       ============================================================ -->
   <ControlTheme x:Key="{x:Type ButtonSpinner}" TargetType="ButtonSpinner">
 
     <!-- Visual defaults -->
@@ -99,6 +102,8 @@
     <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
     <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
     <Setter Property="Focusable" Value="True"/>
+
+    <!-- Template -->
     <Setter Property="Template">
       <ControlTemplate>
         <DataValidationErrors>
@@ -113,17 +118,15 @@
                           DockPanel.Dock="Right"
                           Orientation="Horizontal"
                           IsVisible="{TemplateBinding ShowButtonSpinner}">
-                
+
                 <RepeatButton Name="PART_IncreaseButton"
                               IsTabStop="{TemplateBinding IsTabStop}"
                               Theme="{StaticResource PrototypeButtonSpinnerRepeatButton}"
                               Background="{TemplateBinding Background}"
                               BorderBrush="{TemplateBinding BorderBrush}"
-                              Padding="{theme:Edges All={theme:SpacingXl}}"
+                              Padding="{TemplateBinding Padding}"
                               Foreground="{TemplateBinding Foreground}">
-                  <PathIcon Data="{icons:ChevronUpGlyph}"
-                            Height="{theme:IconSize}"
-                            Width="{theme:IconSize}" />
+                  <PathIcon Data="{icons:ChevronUpGlyph}" />
                 </RepeatButton>
 
                 <RepeatButton Name="PART_DecreaseButton"
@@ -132,10 +135,8 @@
                               Background="{TemplateBinding Background}"
                               BorderBrush="{TemplateBinding BorderBrush}"
                               Foreground="{TemplateBinding Foreground}"
-                              Padding="{theme:Edges All={theme:SpacingXl}}">
-                  <PathIcon Data="{icons:ChevronDownGlyph}"
-                            Height="{theme:IconSize}"
-                            Width="{theme:IconSize}" />
+                              Padding="{TemplateBinding Padding}">
+                  <PathIcon Data="{icons:ChevronDownGlyph}" />
                 </RepeatButton>
 
               </StackPanel>
@@ -153,43 +154,32 @@
         </DataValidationErrors>
       </ControlTemplate>
     </Setter>
+
+    <!-- Spinner button padding -->
     <Style Selector="^ /template/ RepeatButton">
-      <Setter Property="BorderThickness" Value="{theme:Edges Left={TemplateBinding BorderThickness}}"/>
+      <Setter Property="Padding" Value="{theme:Edges All={theme:SpacingXl}}" />
+      <Setter Property="BorderThickness" Value="{theme:Edges Left={TemplateBinding BorderThickness}}" />
     </Style>
-    <!--
-      Workaround for an Avalonia clipping limitation: a Border does not clip its
-      child to its CornerRadius (ClipToBounds only ever clips to the rectangular
-      bounds), so the edge spinner button's square, opaque background paints over
-      the outer Border's rounded corners and squares them off. We can't clip it
-      away, so instead we round the matching outer corners of the button that sits
-      against the control's edge. Remove this block if Avalonia gains corner-radius
-      child clipping on Border.
-    -->
+
+    <!-- Spinner icon size -->
+    <Style Selector="^ /template/ RepeatButton > PathIcon">
+      <Setter Property="Height" Value="{theme:IconSize}" />
+      <Setter Property="Width" Value="{theme:IconSize}" />
+    </Style>
+
+    <!-- Corner radius workaround: Border does not clip children to CornerRadius, so the edge button's square background paints over the outer Border's rounded corners. We round the matching outer corners of the button that sits against the control's edge instead. -->
     <Style Selector="^ /template/ RepeatButton#PART_DecreaseButton">
-      <Setter Property="CornerRadius" Value="{theme:Corners Radius={TemplateBinding CornerRadius}, Right=True}"/>
+      <Setter Property="CornerRadius" Value="{theme:Corners Radius={TemplateBinding CornerRadius}, Right=True}" />
     </Style>
-    <Style Selector="^:left">
-      <Style Selector="^ /template/ StackPanel#PART_SpinnerPanel">
-        <Setter Property="DockPanel.Dock" Value="Left"/>
-      </Style>
-      <Style Selector="^ /template/ RepeatButton">
-        <Setter Property="BorderThickness" Value="{theme:Edges Right={TemplateBinding BorderThickness}}"/>
-      </Style>
-      <!--
-        Workaround (see above): with the spinner on the left, the edge-touching
-        button swaps. Square the Decrease button (now mid-control) back off and
-        round the Increase button's left corners instead.
-      -->
-      <Style Selector="^ /template/ RepeatButton#PART_DecreaseButton">
-        <Setter Property="CornerRadius" Value="0"/>
-      </Style>
-      <Style Selector="^ /template/ RepeatButton#PART_IncreaseButton">
-        <Setter Property="CornerRadius" Value="{theme:Corners Radius={TemplateBinding CornerRadius}, Left=True}"/>
-      </Style>
-    </Style>
+
     <!-- Hover state -->
     <Style Selector="^:pointerover /template/ Border">
       <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}" />
+    </Style>
+
+    <!-- Disabled state -->
+    <Style Selector="^:disabled">
+      <Setter Property="Opacity" Value="{theme:DisabledOpacity}" />
     </Style>
 
     <!-- Focus state -->
@@ -203,13 +193,23 @@
       <Setter Property="BorderBrush" Value="{theme:AccentErrorBrush}" />
     </Style>
 
-    <!-- Disabled state -->
-    <Style Selector="^:disabled">
-      <Setter Property="Opacity" Value="{theme:DisabledOpacity}" />
+    <!-- Left spinner position -->
+    <Style Selector="^:left">
+      <Style Selector="^ /template/ StackPanel#PART_SpinnerPanel">
+        <Setter Property="DockPanel.Dock" Value="Left" />
+      </Style>
+      <Style Selector="^ /template/ RepeatButton">
+        <Setter Property="BorderThickness" Value="{theme:Edges Right={TemplateBinding BorderThickness}}" />
+      </Style>
+      <!-- Corner radius workaround (see above): spinner on the left swaps the edge-touching button. -->
+      <Style Selector="^ /template/ RepeatButton#PART_DecreaseButton">
+        <Setter Property="CornerRadius" Value="0" />
+      </Style>
+      <Style Selector="^ /template/ RepeatButton#PART_IncreaseButton">
+        <Setter Property="CornerRadius" Value="{theme:Corners Radius={TemplateBinding CornerRadius}, Left=True}" />
+      </Style>
     </Style>
-    
-    
-    
+
   </ControlTheme>
 
 </ResourceDictionary>

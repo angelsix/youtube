@@ -17,36 +17,52 @@
       </StackPanel>
     </Border>
   </Design.PreviewWith>
-  
-  <!-- Checkbox Tick Shape -->
+
+  <!-- Check mark path data -->
   <StreamGeometry x:Key="CheckMarkPathData">M917.331,1960.119C894.961,1982.488 864.621,1995.056 832.986,1995.056C801.35,1995.056 771.011,1982.488 748.641,1960.119C580.226,1791.703 204.033,1415.511 35.617,1247.095C-10.965,1200.513 -10.965,1124.988 35.617,1078.405C113.562,1000.461 228.761,885.262 306.706,807.317C353.288,760.734 428.813,760.734 475.395,807.317C553.872,885.793 670.189,1002.11 748.665,1080.586C795.247,1127.169 870.772,1127.169 917.355,1080.586C1139.301,858.64 1737.72,260.221 1959.666,38.275C1982.036,15.905 2012.376,3.338 2044.011,3.338C2075.646,3.338 2105.986,15.905 2128.356,38.275C2206.295,116.214 2321.482,231.4 2399.421,309.339C2421.79,331.709 2434.357,362.049 2434.357,393.684C2434.357,425.32 2421.79,455.659 2399.421,478.029C2116.124,761.325 1200.627,1676.823 917.331,1960.119Z</StreamGeometry>
-  
+
+  <!-- ============================================================
+       ControlTheme: {x:Type CheckBox}
+       ============================================================ -->
   <ControlTheme x:Key="{x:Type CheckBox}" TargetType="CheckBox">
-    <Setter Property="Padding" Value="8,0,0,0" />
-    <Setter Property="HorizontalAlignment" Value="Left" />
-    <Setter Property="VerticalAlignment" Value="Center" />
-    <Setter Property="HorizontalContentAlignment" Value="Left" />
-    <Setter Property="VerticalContentAlignment" Value="Center" />
-    <Setter Property="CornerRadius" Value="{theme:RadiusMd}" />
-    <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
+
+    <!-- Visual defaults -->
     <Setter Property="Background" Value="{theme:SurfaceBrush}" />
+    <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
     <Setter Property="BorderBrush" Value="{theme:SurfaceOverlayMediumBrush}" />
-    <Setter Property="BorderThickness" Value="{theme:ThicknessSm}"></Setter>
+    <Setter Property="BorderThickness" Value="{theme:ThicknessSm}" />
+    <Setter Property="CornerRadius" Value="{theme:RadiusMd}" />
+    <Setter Property="FontFamily" Value="{theme:FontFamily}" />
+    <Setter Property="FontSize" Value="{theme:FontSizeMd}" />
+    <Setter Property="FontWeight" Value="{theme:FontWeightRegular}" />
+    <Setter Property="Padding" Value="{theme:Edges Left={theme:SpacingLg}}" />
+    <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
+    <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
+    <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
+    <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
+
+    <!-- Press animation -->
+    <Setter Property="RenderTransform" Value="none" />
+    <Setter Property="Transitions">
+      <Transitions>
+        <TransformOperationsTransition Property="RenderTransform" Duration="{theme:AnimationFastMs}" />
+      </Transitions>
+    </Setter>
+
+    <!-- Template -->
     <Setter Property="Template">
       <ControlTemplate>
         <Grid x:Name="RootGrid" ColumnDefinitions="Auto,*">
-          
-          <!-- Hidden click area fill -->
+
+          <!-- Click area fill -->
           <Border x:Name="PART_Border"
                   Grid.ColumnSpan="2"
                   Background="Transparent"
                   BorderBrush="{TemplateBinding BorderBrush}"
                   CornerRadius="{TemplateBinding CornerRadius}" />
 
-          <!-- Checkbox border + tick -->
+          <!-- Checkbox indicator -->
           <Grid Grid.Column="0" VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
-            
-            <!-- Actual Checkbox rectangle -->
             <Border x:Name="NormalRectangle"
                     BorderBrush="{TemplateBinding BorderBrush}"
                     Background="{TemplateBinding Background}"
@@ -54,51 +70,86 @@
                     CornerRadius="{TemplateBinding CornerRadius}"
                     UseLayoutRounding="False" />
 
-            <!-- Checkbox Tick -->
-            <Border Padding="{theme:Edges All={theme:SpacingMd}}">
-              
+            <Border x:Name="TickBorder">
               <Panel>
-                <!-- Tick -->
-                <Viewbox UseLayoutRounding="False" Width="15" Height="{Binding Width, RelativeSource={RelativeSource Self}}">
-                    <Path x:Name="CheckGlyph"
-                          Opacity="0"
-                          Fill="{theme:AccentPrimaryBrush}"
-                          Stretch="Uniform"
-                          Data="{StaticResource CheckMarkPathData}"
-                          />
-                </Viewbox>
-                
-                <!-- Indeterminate rectangle -->
-                <Border x:Name="IndeterminateBox"
+                <Viewbox x:Name="TickViewbox"
+                         UseLayoutRounding="False"
+                         Width="15"
+                         Height="{Binding Width, RelativeSource={RelativeSource Self}}">
+                  <Path x:Name="CheckGlyph"
                         Opacity="0"
-                        CornerRadius="{theme:RadiusSm}"
-                        Background="{theme:SurfaceBrush}" />
-              </Panel>
+                        Stretch="Uniform"
+                        Data="{StaticResource CheckMarkPathData}" />
+                </Viewbox>
 
+                <Border x:Name="IndeterminateBox"
+                        Opacity="0" />
+              </Panel>
             </Border>
           </Grid>
-          
-          <!-- Content on right of check -->
+
+          <!-- Content presenter -->
           <ContentPresenter x:Name="PART_ContentPresenter"
-                          ContentTemplate="{TemplateBinding ContentTemplate}"
-                          Content="{TemplateBinding Content}"
-                          Margin="{TemplateBinding Padding}"
-                          Foreground="{TemplateBinding Foreground}"
-                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                          TextWrapping="Wrap"
-                          Grid.Column="1" />
+                            ContentTemplate="{TemplateBinding ContentTemplate}"
+                            Content="{TemplateBinding Content}"
+                            Margin="{TemplateBinding Padding}"
+                            Foreground="{TemplateBinding Foreground}"
+                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                            TextWrapping="Wrap"
+                            Grid.Column="1" />
         </Grid>
       </ControlTemplate>
     </Setter>
-    
+
+    <!-- Access key support -->
     <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
       <Setter Property="RecognizesAccessKey" Value="True" />
     </Style>
-    
-    <!-- Checked State -->
+
+    <!-- Tick visuals -->
+    <Style Selector="^ /template/ Border#TickBorder">
+      <Setter Property="Padding" Value="{theme:Edges All={theme:SpacingMd}}" />
+    </Style>
+
+    <Style Selector="^ /template/ Path#CheckGlyph">
+      <Setter Property="Fill" Value="{theme:AccentPrimaryBrush}" />
+    </Style>
+
+    <!-- Indeterminate box visuals -->
+    <Style Selector="^ /template/ Border#IndeterminateBox">
+      <Setter Property="CornerRadius" Value="{theme:RadiusSm}" />
+      <Setter Property="Background" Value="{theme:SurfaceBrush}" />
+    </Style>
+
+    <!-- Hover state -->
+    <Style Selector="^:pointerover">
+      <Setter Property="BorderBrush" Value="{theme:OnSurfaceBrush}" />
+      <Setter Property="Background" Value="{theme:SurfaceBrush}" />
+    </Style>
+
+    <!-- Pressed state -->
+    <Style Selector="^:pressed">
+      <Setter Property="RenderTransform" Value="{theme:TransformScale Value={theme:PressedScale}}" />
+    </Style>
+
+    <Style Selector="^:pressed">
+      <Setter Property="Background" Value="{theme:SurfaceOverlayMediumBrush}" />
+    </Style>
+
+    <!-- Disabled state -->
+    <Style Selector="^:disabled">
+      <Setter Property="Opacity" Value="{theme:DisabledOpacity}" />
+    </Style>
+
+    <!-- Focus state -->
+    <Style Selector="^:focus-visible">
+      <Setter Property="BorderBrush" Value="{theme:AccentFocusBrush}" />
+      <Setter Property="BorderThickness" Value="{theme:ThicknessMd}" />
+    </Style>
+
+    <!-- Checked state -->
     <Style Selector="^:checked">
-      
       <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}" />
       <Setter Property="BorderBrush" Value="{theme:SurfaceOverlayStrongBrush}" />
 
@@ -106,30 +157,14 @@
         <Setter Property="Opacity" Value="1" />
       </Style>
     </Style>
-    
-    <!-- Indeterminate hover override -->
+
+    <!-- Indeterminate state -->
     <Style Selector="^:indeterminate">
-      
+      <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}" />
+
       <Style Selector="^ /template/ Border#IndeterminateBox">
         <Setter Property="Opacity" Value="1" />
       </Style>
-
-    </Style>
-    
-    <!-- Unchecked PointerOver State -->
-    <Style Selector="^:pointerover">
-      <Setter Property="BorderBrush" Value="{theme:OnSurfaceBrush}" />
-      <Setter Property="Background" Value="{theme:SurfaceBrush}" />
-    </Style>
-    
-    <!-- Indeterminate hover override -->
-    <Style Selector="^:indeterminate">
-      <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}" />
-    </Style>
-    
-    <!-- Pressed State -->
-    <Style Selector="^:pressed">
-      <Setter Property="Background" Value="{theme:SurfaceOverlayMediumBrush}" />
     </Style>
 
   </ControlTheme>

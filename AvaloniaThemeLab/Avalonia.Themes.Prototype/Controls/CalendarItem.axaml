@@ -1,9 +1,3 @@
-﻿<!--
-// (c) Copyright Microsoft Corporation.
-// This source is subject to the Microsoft Public License (Ms-PL).
-// Please see https://go.microsoft.com/fwlink/?LinkID=131993 for details.
-// All other rights reserved.
--->
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:sys="using:System"
@@ -28,38 +22,68 @@
     </Border>
   </Design.PreviewWith>
 
+  <!-- ============================================================
+       ControlTheme: PrototypeCalendarButton (internal nav button)
+       ============================================================ -->
   <ControlTheme x:Key="PrototypeCalendarButton" TargetType="Button">
+
+    <!-- Visual defaults -->
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
+    <Setter Property="BorderBrush" Value="Transparent" />
+    <Setter Property="BorderThickness" Value="{theme:ThicknessSm}" />
     <Setter Property="HorizontalAlignment" Value="Stretch" />
     <Setter Property="VerticalAlignment" Value="Stretch" />
+    <Setter Property="HorizontalContentAlignment" Value="Center" />
     <Setter Property="VerticalContentAlignment" Value="Center" />
-    <Setter Property="Background" Value="Transparent" />
+
+    <!-- Template -->
     <Setter Property="Template">
       <ControlTemplate>
-        <!-- HCA was changed here to ensure nav arrows display correctly -->
-        <ContentPresenter Name="PART_ContentPresenter" Background="{TemplateBinding Background}"
-                          BorderBrush="Transparent"
+        <ContentPresenter Name="PART_ContentPresenter"
+                          Background="{TemplateBinding Background}"
+                          BorderBrush="{TemplateBinding BorderBrush}"
                           BorderThickness="{TemplateBinding BorderThickness}"
                           Content="{TemplateBinding Content}"
                           Margin="{TemplateBinding Padding}"
-                          HorizontalContentAlignment="Stretch"
+                          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                           VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
       </ControlTemplate>
     </Setter>
 
+    <!-- Hover state -->
     <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="BorderBrush" Value="Transparent" />
       <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
     </Style>
+
+    <!-- Pressed state -->
     <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter">
       <Setter Property="Foreground" Value="{theme:OnSurfaceDimBrush}" />
     </Style>
+
+    <!-- Disabled state -->
     <Style Selector="^:disabled /template/ ContentPresenter">
       <Setter Property="Foreground" Value="{theme:OnSurfaceDimBrush}" />
     </Style>
   </ControlTheme>
 
+  <!-- ============================================================
+       ControlTheme: {x:Type CalendarItem}
+       ============================================================ -->
   <ControlTheme x:Key="{x:Type CalendarItem}" TargetType="CalendarItem">
+
+    <!-- Visual defaults -->
+    <Setter Property="Background" Value="{theme:SurfaceBrush}" />
+    <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
+    <Setter Property="BorderBrush" Value="{theme:OnSurfaceBrush}" />
+    <Setter Property="BorderThickness" Value="{theme:ThicknessSm}" />
     <Setter Property="CornerRadius" Value="{theme:RadiusSm}" />
+    <Setter Property="FontFamily" Value="{theme:FontFamily}" />
+    <Setter Property="FontWeight" Value="{theme:FontWeightRegular}" />
+    <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
+    <Setter Property="VerticalAlignment" Value="{theme:ContainerVerticalAlignment}" />
+
+    <!-- Day title template -->
     <Setter Property="DayTitleTemplate">
       <Template x:DataType="x:String">
         <TextBlock Text="{Binding}"
@@ -69,56 +93,51 @@
       </Template>
     </Setter>
 
+    <!-- Template -->
     <Setter Property="Template">
       <ControlTemplate>
         <Border BorderThickness="{TemplateBinding BorderThickness}"
                 Background="{TemplateBinding Background}"
                 BorderBrush="{TemplateBinding BorderBrush}"
                 CornerRadius="{TemplateBinding CornerRadius}">
-          <!-- To keep calendar from resizing when switching DisplayMode
-                 In WinUI Min-Width from TemplateSettings
-                 basically...MinWidth of DayItem = 40, 40 * 7 = 280 + margins/padding = ~294
-                 Viewport height is set from # of rows displayed (2-8) in Month mode, = ~290 for 6 weeks (+ day names)
-                 -->
           <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" RowDefinitions="40,*" MinWidth="294">
             <Grid ColumnDefinitions="5*,*,*">
               <Button Name="PART_HeaderButton"
                       Theme="{StaticResource PrototypeCalendarButton}"
                       Foreground="{TemplateBinding Foreground}"
-                      Padding="{theme:Edges Left={theme:SpacingXxl}}"
                       HorizontalContentAlignment="Left" />
               <Button Name="PART_PreviousButton"
                       Grid.Column="1"
                       Theme="{StaticResource PrototypeCalendarButton}"
                       Foreground="{TemplateBinding Foreground}"
-                      Padding="{theme:Edges All={theme:BaseSize}}"
-                      HorizontalContentAlignment="Left">
-                <!--Path mimics Segoe MDL2 Assets font glyph used in WinUI-->
-                <Path Stroke="{theme:OnSurfaceDimBrush}"
+                      HorizontalContentAlignment="Center">
+                <Path Name="PART_PreviousArrow"
                       StrokeThickness="1.5"
                       Data="M 0,9 L 9,0 L 18,9"
-                      HorizontalAlignment="Center" 
+                      HorizontalAlignment="Center"
                       VerticalAlignment="Center" />
               </Button>
               <Button Name="PART_NextButton"
                       Grid.Column="2"
                       Theme="{StaticResource PrototypeCalendarButton}"
                       Foreground="{TemplateBinding Foreground}"
-                      Padding="{theme:Edges All={theme:BaseSize}}"
-                      HorizontalContentAlignment="Left">
-                <!--Path mimics Segoe MDL2 Assets font glyph used in WinUI-->
-                <Path Stroke="{theme:OnSurfaceDimBrush}"
+                      HorizontalContentAlignment="Center">
+                <Path Name="PART_NextArrow"
                       StrokeThickness="1.5"
                       Data="M 0,0 L 9,9 L 18,0"
-                      HorizontalAlignment="Center" 
+                      HorizontalAlignment="Center"
                       VerticalAlignment="Center" />
               </Button>
             </Grid>
-            <!--Border below is used only for MonthView but it can't be moved inside of Grid because CalendarItem expects it to be empty and it will cause side-effects-->
-            <Border Name="BackgroundLayer" Background="{TemplateBinding BorderBrush}" Margin="{theme:Edges Top={theme:Scaled Value={theme:BaseSize}, By=38}}" IsVisible="{Binding #PART_MonthView.IsVisible}" Grid.Row="1" />
-            <Grid Name="PART_MonthView" Grid.Row="1" IsVisible="False" MinHeight="290">
+            <Border Name="BackgroundLayer"
+                    Background="{TemplateBinding BorderBrush}"
+                    IsVisible="{Binding #PART_MonthView.IsVisible}"
+                    Grid.Row="1" />
+            <Grid Name="PART_MonthView"
+                  Grid.Row="1"
+                  IsVisible="False"
+                  MinHeight="290">
               <Grid.RowDefinitions>
-                <!--This should always be the week day names??-->
                 <RowDefinition Height="38" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -158,9 +177,33 @@
         </Border>
       </ControlTemplate>
     </Setter>
+
+    <!-- Header button padding -->
+    <Style Selector="^ /template/ Button#PART_HeaderButton">
+      <Setter Property="Padding" Value="{theme:Edges Left={theme:SpacingXxl}}" />
+    </Style>
+
+    <!-- Nav button padding -->
+    <Style Selector="^ /template/ Button#PART_PreviousButton, ^ /template/ Button#PART_NextButton">
+      <Setter Property="Padding" Value="{theme:Edges All={theme:BaseSize}}" />
+    </Style>
+
+    <!-- Nav arrow default stroke -->
+    <Style Selector="^ /template/ Path#PART_PreviousArrow, ^ /template/ Path#PART_NextArrow">
+      <Setter Property="Stroke" Value="{theme:OnSurfaceDimBrush}" />
+    </Style>
+
+    <!-- Background layer margin -->
+    <Style Selector="^ /template/ Border#BackgroundLayer">
+      <Setter Property="Margin" Value="{theme:Edges Top={theme:Scaled Value={theme:BaseSize}, By=38}}" />
+    </Style>
+
+    <!-- Hover state -->
     <Style Selector="^ /template/ Button:pointerover > Path">
       <Setter Property="Stroke" Value="{theme:OnSurfaceBrush}" />
     </Style>
+
+    <!-- Pressed state -->
     <Style Selector="^ /template/ Button:pressed > Path">
       <Setter Property="Stroke" Value="{theme:OnSurfaceDimBrush}" />
     </Style>

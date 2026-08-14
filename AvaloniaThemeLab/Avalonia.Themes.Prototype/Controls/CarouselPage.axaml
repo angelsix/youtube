@@ -1,7 +1,8 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
-                    xmlns:theme="using:AngelSix.ThemeEngine.Generated">
+                    xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+                    x:ClassModifier="internal">
   <Design.PreviewWith>
     <Border Width="400" Height="300">
       <Border.Styles>
@@ -18,8 +19,17 @@
     </Border>
   </Design.PreviewWith>
 
+  <!-- ============================================================
+       ControlTheme: {x:Type CarouselPage}
+       ============================================================ -->
   <ControlTheme x:Key="{x:Type CarouselPage}" TargetType="CarouselPage">
+
+    <!-- Visual defaults -->
     <Setter Property="Background" Value="{theme:SurfaceBrush}" />
+    <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
+    <Setter Property="VerticalAlignment" Value="{theme:ContainerVerticalAlignment}" />
+
+    <!-- Template -->
     <Setter Property="Template">
       <ControlTemplate>
         <Carousel Name="PART_Carousel"
@@ -31,5 +41,6 @@
                   VerticalAlignment="Stretch" />
       </ControlTemplate>
     </Setter>
+    
   </ControlTheme>
 </ResourceDictionary>

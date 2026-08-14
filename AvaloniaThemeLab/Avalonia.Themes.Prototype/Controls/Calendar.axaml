@@ -1,10 +1,3 @@
-﻿<!--
-    // (c) Copyright Microsoft Corporation.
-    // This source is subject to the Microsoft Public License (Ms-PL).
-    // Please see https://go.microsoft.com/fwlink/?LinkID=131993 for details.
-    // All other rights reserved.
--->
-
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
@@ -20,14 +13,33 @@
     </Border>
   </Design.PreviewWith>
 
+  <!-- ============================================================
+       ControlTheme: {x:Type Calendar}
+       ============================================================ -->
   <ControlTheme x:Key="{x:Type Calendar}" TargetType="Calendar">
-    <Setter Property="Foreground" Value="{theme:OnSurfaceDimBrush}" />
+
+    <!-- Visual defaults -->
     <Setter Property="Background" Value="{theme:SurfaceBrush}" />
+    <Setter Property="Foreground" Value="{theme:OnSurfaceDimBrush}" />
     <Setter Property="BorderBrush" Value="{theme:AccentBorderBrush}" />
-    <Setter Property="BorderThickness" Value="1" />
-    <Setter Property="HorizontalAlignment" Value="Left" />
-    <Setter Property="VerticalAlignment" Value="Center" />
+    <Setter Property="BorderThickness" Value="{theme:ThicknessSm}" />
+    <Setter Property="CornerRadius" Value="{theme:RadiusSm}" />
+    <Setter Property="FontFamily" Value="{theme:FontFamily}" />
     <Setter Property="FontSize" Value="{theme:FontSizeXl}" />
+    <Setter Property="FontWeight" Value="{theme:FontWeightRegular}" />
+    <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
+    <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
+    <Setter Property="HeaderBackground" Value="{theme:SurfaceBrush}" />
+
+    <!-- Press animation -->
+    <Setter Property="RenderTransform" Value="none" />
+    <Setter Property="Transitions">
+      <Transitions>
+        <TransformOperationsTransition Property="RenderTransform" Duration="{theme:AnimationFastMs}" />
+      </Transitions>
+    </Setter>
+
+    <!-- Template -->
     <Setter Property="Template">
       <ControlTemplate>
         <StackPanel
@@ -44,5 +56,17 @@
         </StackPanel>
       </ControlTemplate>
     </Setter>
+
+    <!-- Disabled state -->
+    <Style Selector="^:disabled">
+      <Setter Property="Opacity" Value="{theme:DisabledOpacity}" />
+    </Style>
+
+    <!-- Focus state -->
+    <Style Selector="^:focus-visible">
+      <Setter Property="BorderBrush" Value="{theme:AccentFocusBrush}" />
+      <Setter Property="BorderThickness" Value="{theme:ThicknessMd}" />
+    </Style>
+
   </ControlTheme>
 </ResourceDictionary>

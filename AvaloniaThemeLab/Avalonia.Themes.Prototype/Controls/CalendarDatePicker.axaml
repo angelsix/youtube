@@ -13,11 +13,16 @@
     </Border>
   </Design.PreviewWith>
 
-
+  <!-- ============================================================
+       Sub-theme: Calendar date button
+       ============================================================ -->
   <ControlTheme x:Key="PrototypeCalendarDatePickerButton" TargetType="Button">
+    <!-- Visual defaults -->
     <Setter Property="TextElement.Foreground" Value="{theme:OnSurfaceDimBrush}" />
-    <Setter Property="Margin" Value="2,0,4,0" />
+    <Setter Property="Margin" Value="{theme:Edges Left={theme:SpacingSm}, Right={theme:SpacingMd}}" />
     <Setter Property="Width" Value="20" />
+
+    <!-- Template -->
     <Setter Property="Template">
       <ControlTemplate>
         <Grid Height="24"
@@ -28,20 +33,16 @@
               ColumnDefinitions="*,*,*,*"
               RowDefinitions="23*,19*,19*,19*"
               ClipToBounds="False">
-          <Border Name="Background"
-                  Margin="{theme:Edges Top={theme:Scaled Value={theme:BaseSize}, By=-1}}"
+          <Border x:Name="Background"
                   Grid.ColumnSpan="4"
                   Grid.Row="1"
                   Grid.RowSpan="3"
-                  BorderThickness="{theme:Edges Left={theme:BaseSize}, Right={theme:BaseSize}, Bottom={theme:BaseSize}}"
-                  BorderBrush="{TemplateBinding Foreground}"
-                  CornerRadius="{theme:Corners Radius={theme:RadiusSm}, Bottom=True}" />
-          <Border Grid.ColumnSpan="4"
+                  BorderBrush="{TemplateBinding Foreground}" />
+          <Border x:Name="TopBorder"
+                  Grid.ColumnSpan="4"
                   Grid.RowSpan="1"
-                  BorderBrush="{TemplateBinding Foreground}"
-                  BorderThickness="{theme:ThicknessSm}"
-                  CornerRadius="{theme:Corners Radius={theme:RadiusSm}, Top=True}" />
-          <TextBlock Margin="{theme:Edges Top={theme:Scaled Value={theme:BaseSize}, By=-1}}"
+                  BorderBrush="{TemplateBinding Foreground}" />
+          <TextBlock x:Name="PART_DayText"
                      VerticalAlignment="Center"
                      HorizontalAlignment="Center"
                      Grid.Column="0"
@@ -49,7 +50,6 @@
                      Grid.ColumnSpan="4"
                      Grid.RowSpan="3"
                      Foreground="{TemplateBinding Foreground}"
-                     FontSize="{theme:FontSizeSm}"
                      Text="{Binding Source={x:Static sys:DateTime.Today}, Path=Day}" />
           <Ellipse HorizontalAlignment="Center"
                    VerticalAlignment="Center"
@@ -61,9 +61,32 @@
         </Grid>
       </ControlTemplate>
     </Setter>
+
+    <!-- Background border visuals -->
+    <Style Selector="^ /template/ Border#Background">
+      <Setter Property="Margin" Value="{theme:Edges Top={theme:Scaled Value={theme:BaseSize}, By=-1}}" />
+      <Setter Property="BorderThickness" Value="{theme:Edges Left={theme:BaseSize}, Right={theme:BaseSize}, Bottom={theme:BaseSize}}" />
+      <Setter Property="CornerRadius" Value="{theme:Corners Radius={theme:RadiusSm}, Bottom=True}" />
+    </Style>
+
+    <!-- Top border visuals -->
+    <Style Selector="^ /template/ Border#TopBorder">
+      <Setter Property="BorderThickness" Value="{theme:ThicknessSm}" />
+      <Setter Property="CornerRadius" Value="{theme:Corners Radius={theme:RadiusSm}, Top=True}" />
+    </Style>
+
+    <!-- Day text visuals -->
+    <Style Selector="^ /template/ TextBlock#PART_DayText">
+      <Setter Property="Margin" Value="{theme:Edges Top={theme:Scaled Value={theme:BaseSize}, By=-1}}" />
+      <Setter Property="FontSize" Value="{theme:FontSizeSm}" />
+    </Style>
   </ControlTheme>
 
+  <!-- ============================================================
+       ControlTheme: {x:Type CalendarDatePicker}
+       ============================================================ -->
   <ControlTheme x:Key="{x:Type CalendarDatePicker}" TargetType="CalendarDatePicker">
+    <!-- Visual defaults -->
     <Setter Property="Background" Value="{theme:SurfaceBrush}" />
     <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
     <Setter Property="PlaceholderForeground" Value="{theme:OnSurfaceDimBrush}" />
@@ -71,11 +94,13 @@
     <Setter Property="BorderThickness" Value="{theme:ThicknessSm}" />
     <Setter Property="CornerRadius" Value="{theme:RadiusSm}" />
     <Setter Property="MinHeight" Value="{theme:ControlHeightSm}" />
-    <Setter Property="HorizontalAlignment" Value="Left" />
-    <Setter Property="VerticalAlignment" Value="Center" />
-    <Setter Property="HorizontalContentAlignment" Value="Left" />
-    <Setter Property="VerticalContentAlignment" Value="Center" />
-    <Setter Property="Padding" Value="4" />
+    <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
+    <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
+    <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
+    <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
+    <Setter Property="Padding" Value="{theme:SpacingMd}" />
+
+    <!-- Template -->
     <Setter Property="Template">
       <ControlTemplate>
         <DataValidationErrors>
@@ -103,26 +128,7 @@
                        VerticalAlignment="Stretch"
                        VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
                        HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                       Grid.Column="0">
-                <TextBox.Styles>
-                  <Style Selector="TextBox#PART_TextBox:focus /template/ Border#PART_BorderElement">
-                    <!-- By default the TextBox has its own focused state, override this to disable it here -->
-                    <Setter Property="Background" Value="Transparent"/>
-                    <Setter Property="BorderBrush" Value="Transparent"/>
-                    <Setter Property="BorderThickness" Value="0" />
-                  </Style>
-                  <Style Selector="TextBox#PART_TextBox:disabled">
-                    <Style Selector="^ /template/ Border#PART_BorderElement">
-                      <!-- By default the TextBox has its own disabled state, override this to make the border background show through -->
-                      <Setter Property="Background" Value="Transparent" />
-                      <Setter Property="BorderBrush" Value="Transparent" />
-                    </Style>
-                    <Style Selector="^ /template/ TextBlock#PART_Placeholder, ^ TextBlock#PART_FloatingPlaceholder">
-                      <Setter Property="TextElement.Foreground" Value="{theme:OnSurfaceDimBrush}" />
-                    </Style>
-                  </Style>
-                </TextBox.Styles>
-              </TextBox>
+                       Grid.Column="0" />
               <Button Name="PART_Button"
                       Theme="{StaticResource PrototypeCalendarDatePickerButton}"
                       Grid.Column="1"
@@ -144,19 +150,35 @@
       </ControlTemplate>
     </Setter>
 
-    <!-- Pressed State -->
-    <Style Selector="^:pressed /template/ Border#Background">
-      <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}" />
-      <Setter Property="BorderBrush" Value="{theme:AccentBorderBrush}" />
+    <!-- Inner TextBox styles -->
+    <Style Selector="^ /template/ TextBox#PART_TextBox:focus /template/ Border#PART_BorderElement">
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="BorderBrush" Value="Transparent" />
+      <Setter Property="BorderThickness" Value="0" />
     </Style>
 
-    <!-- Pointer-over State -->
+    <Style Selector="^ /template/ TextBox#PART_TextBox:disabled /template/ Border#PART_BorderElement">
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="BorderBrush" Value="Transparent" />
+    </Style>
+
+    <Style Selector="^ /template/ TextBox#PART_TextBox:disabled /template/ TextBlock#PART_Placeholder, ^ /template/ TextBox#PART_TextBox:disabled /template/ TextBlock#PART_FloatingPlaceholder">
+      <Setter Property="TextElement.Foreground" Value="{theme:OnSurfaceDimBrush}" />
+    </Style>
+
+    <!-- Hover state -->
     <Style Selector="^:pointerover /template/ Border#Background">
       <Setter Property="Background" Value="{theme:SurfaceBrush}" />
       <Setter Property="BorderBrush" Value="{theme:AccentBorderBrush}" />
     </Style>
 
-    <!-- Disabled State -->
+    <!-- Pressed state -->
+    <Style Selector="^:pressed /template/ Border#Background">
+      <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}" />
+      <Setter Property="BorderBrush" Value="{theme:AccentBorderBrush}" />
+    </Style>
+
+    <!-- Disabled state -->
     <Style Selector="^:disabled">
       <Style Selector="^ /template/ Border#Background">
         <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}" />
@@ -168,14 +190,14 @@
       </Style>
     </Style>
 
-    <!-- Focused State -->
+    <!-- Focus state -->
     <Style Selector="^:focus-within:not(CalendarDatePicker:focus) /template/ Border#Background">
       <Setter Property="Background" Value="{theme:SurfaceBrush}" />
-      <Setter Property="BorderBrush" Value="{theme:AccentPrimaryBrush}" />
-      <Setter Property="BorderThickness" Value="2" />
+      <Setter Property="BorderBrush" Value="{theme:AccentFocusBrush}" />
+      <Setter Property="BorderThickness" Value="{theme:ThicknessMd}" />
     </Style>
 
-    <!-- Error State -->
+    <!-- Error state -->
     <Style Selector="^:error /template/ Border#Background">
       <Setter Property="BorderBrush" Value="{theme:AccentErrorBrush}" />
     </Style>

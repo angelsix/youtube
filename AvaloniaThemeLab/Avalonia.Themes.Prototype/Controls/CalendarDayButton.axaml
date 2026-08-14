@@ -1,9 +1,3 @@
-﻿<!--
-// (c) Copyright Microsoft Corporation.
-// This source is subject to the Microsoft Public License (Ms-PL).
-// Please see https://go.microsoft.com/fwlink/?LinkID=131993 for details.
-// All other rights reserved.
--->
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
@@ -16,57 +10,76 @@
       </Border.Styles>
 
       <StackPanel Spacing="20">
-        <CalendarButton/>
+        <CalendarDayButton/>
       </StackPanel>
     </Border>
   </Design.PreviewWith>
 
+  <!-- ============================================================
+       ControlTheme: {x:Type CalendarDayButton}
+       ============================================================ -->
   <ControlTheme x:Key="{x:Type CalendarDayButton}" TargetType="CalendarDayButton">
+
+    <!-- Visual defaults -->
     <Setter Property="ClickMode" Value="Release" />
-    <Setter Property="MinWidth" Value="40" />
-    <Setter Property="MinHeight" Value="40" />
-    <Setter Property="Margin" Value="1" />
-    <Setter Property="Padding" Value="0,0,0,0" />
-    <!--These are actually set on the CalendarView in WinUI-->
-    <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
     <Setter Property="Background" Value="Transparent" />
+    <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
     <Setter Property="BorderBrush" Value="Transparent" />
-    <Setter Property="BorderThickness" Value="2" />
+    <Setter Property="BorderThickness" Value="{theme:ThicknessMd}" />
+    <Setter Property="FontFamily" Value="{theme:FontFamily}" />
+    <Setter Property="FontWeight" Value="{theme:FontWeightRegular}" />
+    <Setter Property="Padding" Value="0" />
+    <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
+    <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
+    <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
+    <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
+    <Setter Property="MinWidth" Value="{theme:ControlHeightMd}" />
+    <Setter Property="MinHeight" Value="{theme:ControlHeightMd}" />
+    <Setter Property="Margin" Value="{theme:ThicknessSm}" />
     <Setter Property="ClipToBounds" Value="False" />
-    <Setter Property="HorizontalContentAlignment" Value="Center" />
-    <Setter Property="VerticalContentAlignment" Value="Center" />
+
+    <!-- Template -->
     <Setter Property="Template">
       <ControlTemplate>
         <Panel>
-          <!-- To mimic WinUI SystemFocusVisual, Focus visual is drawn outside the bounds of the item -->
-          <Border Name="Root" Background="{TemplateBinding Background}"
-                  BorderThickness="0" ClipToBounds="True">
-
+          <Border Name="Root"
+                  Background="{TemplateBinding Background}"
+                  BorderThickness="0"
+                  ClipToBounds="True">
             <ContentPresenter Name="PART_ContentPresenter"
-                              ContentTemplate="{TemplateBinding ContentTemplate}"
                               Content="{TemplateBinding Content}"
+                              ContentTemplate="{TemplateBinding ContentTemplate}"
                               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                               Margin="{TemplateBinding Padding}" />
-
           </Border>
-
-          <!-- Drawn Border should render on top of background to preserve the 1px margin between items-->
           <Border Name="Border"
-                  BorderThickness="{theme:ThicknessMd}"
                   BorderBrush="{TemplateBinding BorderBrush}" />
         </Panel>
       </ControlTemplate>
     </Setter>
 
+    <!-- Default border thickness -->
+    <Style Selector="^ /template/ Border#Border">
+      <Setter Property="BorderThickness" Value="{theme:ThicknessMd}" />
+    </Style>
+
+    <!-- Hover state -->
     <Style Selector="^:pointerover /template/ Border#Border">
       <Setter Property="BorderBrush" Value="{theme:AccentBorderBrush}" />
     </Style>
 
+    <!-- Pressed state -->
     <Style Selector="^:pressed /template/ Border#Border">
       <Setter Property="BorderBrush" Value="{theme:AccentBorderBrush}" />
     </Style>
 
+    <!-- Disabled state -->
+    <Style Selector="^:disabled /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Foreground" Value="{theme:OnSurfaceDimBrush}" />
+    </Style>
+
+    <!-- Selected state -->
     <Style Selector="^:selected">
       <Style Selector="^ /template/ Border#Border">
         <Setter Property="BorderBrush" Value="{theme:AccentPrimaryBrush}" />
@@ -79,24 +92,24 @@
       </Style>
     </Style>
 
+    <!-- Today state -->
     <Style Selector="^:today">
       <Style Selector="^ /template/ Border#Root">
         <Setter Property="Background" Value="{theme:AccentPrimaryBrush}" />
       </Style>
-      <!-- These are probably set in code, but consistent -->
+      <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Foreground" Value="{theme:SurfaceBrush}" />
+        <Setter Property="FontWeight" Value="{theme:FontWeightSemiBold}" />
+      </Style>
       <Style Selector="^:pointerover /template/ Border#Border">
         <Setter Property="BorderBrush" Value="{theme:AccentPrimaryDark1Brush}" />
       </Style>
       <Style Selector="^:pressed /template/ Border#Border">
         <Setter Property="BorderBrush" Value="{theme:AccentPrimaryDark2Brush}" />
       </Style>
-      <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
-        <Setter Property="Foreground" Value="{theme:SurfaceBrush}" />
-        <Setter Property="FontWeight" Value="SemiBold" />
-      </Style>
     </Style>
 
-    <!-- WinUI calls this OutOfFocus -->
+    <!-- Inactive state -->
     <Style Selector="^:inactive">
       <Style Selector="^ /template/ Border#Root">
         <Setter Property="Background" Value="{theme:OnSurfaceDimBrush}" />
@@ -106,12 +119,10 @@
       </Style>
     </Style>
 
+    <!-- Blackout state -->
     <Style Selector="^:blackout /template/ ContentPresenter#PART_ContentPresenter">
       <Setter Property="Foreground" Value="{theme:OnSurfaceDimBrush}" />
     </Style>
 
-    <Style Selector="^:disabled /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="Foreground" Value="{theme:OnSurfaceDimBrush}" />
-    </Style>
   </ControlTheme>
 </ResourceDictionary>

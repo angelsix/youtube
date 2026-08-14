@@ -93,7 +93,6 @@
                      FontFamily="{TemplateBinding FontFamily}"
                      FontWeight="{TemplateBinding FontWeight}"
                      FontSize="{TemplateBinding FontSize}"
-                     Margin="0"
                      DataValidationErrors.Errors="{TemplateBinding (DataValidationErrors.Errors)}"
                      MaxLength="{TemplateBinding MaxLength}"
                      InnerLeftContent="{TemplateBinding InnerLeftContent}"
@@ -105,11 +104,7 @@
                    MaxHeight="{TemplateBinding MaxDropDownHeight}"
                    IsLightDismissEnabled="True"
                    PlacementTarget="{TemplateBinding}">
-              <Border Name="PART_SuggestionsContainer"
-                      BorderThickness="{theme:ThicknessSm}"
-                      BorderBrush="{theme:AccentBorderBrush}"
-                      Background="{theme:SurfaceBrush}"
-                      CornerRadius="{theme:RadiusMd}">
+              <Border Name="PART_SuggestionsContainer">
                 <ListBox Name="PART_SelectingItemsControl"
                          BorderThickness="0"
                          Background="Transparent"
@@ -122,12 +117,15 @@
       </ControlTemplate>
     </Setter>
 
-    <!-- Popup suggestions container padding -->
+    <!-- Popup styles -->
     <Style Selector="^ /template/ Border#PART_SuggestionsContainer">
+      <Setter Property="BorderThickness" Value="{theme:ThicknessSm}" />
+      <Setter Property="BorderBrush" Value="{theme:AccentBorderBrush}" />
+      <Setter Property="Background" Value="{theme:SurfaceBrush}" />
+      <Setter Property="CornerRadius" Value="{theme:RadiusMd}" />
       <Setter Property="Padding" Value="{theme:Edges Vertical={theme:SpacingSm}}" />
     </Style>
 
-    <!-- Popup listbox margin -->
     <Style Selector="^ /template/ ListBox#PART_SelectingItemsControl">
       <Setter Property="Margin" Value="{theme:Edges Left={theme:Scaled Value={theme:BaseSize}, By=-1}, Right={theme:Scaled Value={theme:BaseSize}, By=-1}}" />
     </Style>
@@ -143,7 +141,7 @@
     </Style>
 
     <!-- Focus state -->
-    <Style Selector="^:focus-visible, ^.previewFocused /template/ TextBox#PART_TextBox">
+    <Style Selector="^:focus-visible /template/ TextBox#PART_TextBox, ^.previewFocused /template/ TextBox#PART_TextBox">
       <Setter Property="BorderBrush" Value="{theme:AccentFocusBrush}" />
       <Setter Property="BorderThickness" Value="{theme:ThicknessMd}" />
     </Style>
