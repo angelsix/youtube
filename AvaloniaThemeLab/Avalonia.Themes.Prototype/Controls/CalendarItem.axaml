@@ -32,10 +32,10 @@
     <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
     <Setter Property="BorderBrush" Value="Transparent" />
     <Setter Property="BorderThickness" Value="{theme:ThicknessSm}" />
-    <Setter Property="HorizontalAlignment" Value="Stretch" />
-    <Setter Property="VerticalAlignment" Value="Stretch" />
-    <Setter Property="HorizontalContentAlignment" Value="Center" />
-    <Setter Property="VerticalContentAlignment" Value="Center" />
+    <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
+    <Setter Property="VerticalAlignment" Value="{theme:ContainerVerticalAlignment}" />
+    <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
+    <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
 
     <!-- Template -->
     <Setter Property="Template">
@@ -103,6 +103,9 @@
                 Background="{TemplateBinding Background}"
                 BorderBrush="{TemplateBinding BorderBrush}"
                 CornerRadius="{TemplateBinding CornerRadius}">
+          <!-- Verbose, not the RowDefinitions shorthand: a leading '{' makes Avalonia evaluate the whole
+               attribute as one markup extension, which yields a Binding and throws converting it to
+               RowDefinitions. The per-row Height binds correctly. -->
           <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
             <Grid.RowDefinitions>
               <RowDefinition Height="{theme:ControlHeightMd}" />
@@ -140,7 +143,8 @@
                     Grid.Row="1" />
             <Grid Name="PART_MonthView"
                   Grid.Row="1"
-                  IsVisible="False">
+                  IsVisible="False" ColumnDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto">
+              <!-- Verbose for the same reason as above: the first row's height is a markup extension. -->
               <Grid.RowDefinitions>
                 <RowDefinition Height="{theme:ControlHeightMd}" />
                 <RowDefinition Height="Auto" />
@@ -150,31 +154,11 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
               </Grid.RowDefinitions>
-              <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-              </Grid.ColumnDefinitions>
             </Grid>
             <Grid Name="PART_YearView"
                   Background="{TemplateBinding BorderBrush}"
                   Grid.Row="1"
-                  IsVisible="False">
-              <Grid.RowDefinitions>
-                <RowDefinition Height="*" />
-                <RowDefinition Height="*" />
-                <RowDefinition Height="*" />
-              </Grid.RowDefinitions>
-              <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-              </Grid.ColumnDefinitions>
+                  IsVisible="False" ColumnDefinitions="*,*,*,*" RowDefinitions="*,*,*">
             </Grid>
           </Grid>
         </Border>

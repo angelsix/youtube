@@ -58,10 +58,19 @@
   <StreamGeometry x:Key="MenuItemChevronPathData">M 1,0 10,10 l -9,10 -1,-1 L 8,10 -0,1 Z</StreamGeometry>
 
   <ControlTheme x:Key="{x:Type MenuItem}" TargetType="MenuItem">
+    <!-- Visual defaults -->
     <Setter Property="Background" Value="Transparent" />
     <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
+    <Setter Property="FontFamily" Value="{theme:FontFamily}" />
+    <Setter Property="FontSize" Value="{theme:FontSizeMd}" />
+    <Setter Property="FontWeight" Value="{theme:FontWeightRegular}" />
+    <Setter Property="BorderBrush" Value="Transparent" />
+    <Setter Property="BorderThickness" Value="0" />
+    <Setter Property="CornerRadius" Value="{theme:RadiusSm}" />
     <!--  Narrow padding should be used for mouse input, when non-narrow one should be used for touch input in future.  -->
     <Setter Property="Padding" Value="{theme:Edges Left={theme:SpacingXxl}, Top={theme:SpacingMd}, Right={theme:SpacingXxl}, Bottom={theme:SpacingLg}}" />
+    <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
+    <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
     <Setter Property="Template">
       <ControlTemplate>
         <Panel>
@@ -98,8 +107,6 @@
               <ContentPresenter Name="PART_HeaderPresenter"
                                 Content="{TemplateBinding Header}"
                                 ContentTemplate="{TemplateBinding HeaderTemplate}"
-                                VerticalAlignment="Center"
-                                HorizontalAlignment="Stretch"
                                 Grid.Column="2"/>
               <TextBlock x:Name="PART_InputGestureText"
                          Grid.Column="3"
@@ -135,6 +142,8 @@
 
     <Style Selector="^ /template/ ContentPresenter#PART_HeaderPresenter">
       <Setter Property="RecognizesAccessKey" Value="True" />
+      <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalContentAlignment}" />
+      <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
     </Style>
 
     <!-- Themed defaults for inner template elements (Rule 2: no {theme:...} inside ControlTemplate) -->
@@ -147,12 +156,15 @@
     <Style Selector="^ /template/ TextBlock#PART_InputGestureText">
       <Setter Property="Margin" Value="{theme:Edges Left={theme:SpacingXxl}}" />
       <Setter Property="Foreground" Value="{theme:OnSurfaceDimBrush}" />
+      <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
+      <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalContentAlignment}" />
     </Style>
     <Style Selector="^ /template/ Path#PART_ChevronPath">
       <Setter Property="Width" Value="{theme:IconSize}" />
       <Setter Property="Height" Value="{theme:IconSize}" />
       <Setter Property="Fill" Value="{theme:OnSurfaceDimBrush}" />
       <Setter Property="Margin" Value="{theme:Edges Left={theme:SpacingXxl}}" />
+      <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalContentAlignment}" />
     </Style>
     <Style Selector="^ /template/ Popup#PART_Popup">
       <Setter Property="HorizontalOffset" Value="{theme:Scaled Value={theme:SpacingMd}, By=-1}" />
@@ -258,20 +270,25 @@
   <ControlTheme x:Key="HorizontalMenuItem" TargetType="MenuItem" BasedOn="{StaticResource PrototypeTopLevelMenuItem}">
     <Setter Property="Padding" Value="{theme:Edges Left={theme:SpacingXl}, Top={theme:SpacingMd}, Right={theme:SpacingXl}, Bottom={theme:SpacingLg}}" />
     <Setter Property="Margin" Value="{theme:Edges Horizontal={theme:SpacingSm}}" />
+    <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
+    <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
   </ControlTheme>
 
   <ControlTheme x:Key="PrototypeMenuItemIconTheme"
                 TargetType="ContentControl">
+    <!-- Visual defaults -->
     <Setter Property="Width"
-            Value="16" />
+            Value="{theme:IconSize}" />
     <Setter Property="Height"
-            Value="16" />
+            Value="{theme:IconSize}" />
+    <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
+    <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
     <Setter Property="Template">
       <ControlTemplate>
         <Viewbox
           StretchDirection="DownOnly"
-          HorizontalAlignment="Center"
-          VerticalAlignment="Center">
+          HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+          VerticalAlignment="{TemplateBinding VerticalAlignment}">
           <ContentPresenter x:Name="PART_ContentPresenter" Content="{TemplateBinding Content}" />
         </Viewbox>
       </ControlTemplate>

@@ -29,7 +29,10 @@
 
   <!-- Flyout button sub-theme -->
   <ControlTheme x:Key="PrototypeDatePickerFlyoutButton" TargetType="Button">
+    <!-- Visual defaults -->
     <Setter Property="RenderTransform" Value="none" />
+    <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
+    <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
     <Setter Property="Template">
       <ControlTemplate>
         <ContentPresenter Name="PART_ContentPresenter"
@@ -38,8 +41,8 @@
                           BorderThickness="{TemplateBinding BorderThickness}"
                           Content="{TemplateBinding Content}"
                           Foreground="{TemplateBinding Foreground}"
-                          HorizontalContentAlignment="Stretch"
-                          VerticalContentAlignment="Stretch"
+                          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                          VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
                           CornerRadius="{TemplateBinding CornerRadius}" />
       </ControlTemplate>
     </Setter>

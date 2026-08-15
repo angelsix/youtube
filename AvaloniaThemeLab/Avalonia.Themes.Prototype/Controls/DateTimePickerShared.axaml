@@ -19,12 +19,13 @@
     </Border>
   </Design.PreviewWith>
 
-  <!-- Theme for the items displayed in the selectors -->
+  <!-- DateTimePicker item theme -->
   <ControlTheme x:Key="PrototypeDateTimePickerItem" TargetType="ListBoxItem" BasedOn="{StaticResource {x:Type ListBoxItem}}">
     <Setter Property="Padding" Value="{theme:Edges Top={theme:SpacingMd}, Bottom={theme:SpacingLg}}"/>
-    <Setter Property="VerticalContentAlignment" Value="Center" />
-    <Setter Property="HorizontalContentAlignment" Value="Center" />
+    <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
+    <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
 
+    <!-- Selected state -->
     <Style Selector="^:selected">
       <Setter Property="IsHitTestVisible" Value="False"/>
       <Style Selector="^/template/ Rectangle#PressedBackground">
@@ -35,24 +36,22 @@
         <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}"/>
       </Style>
     </Style>
+
+    <!-- Month item: left-aligned -->
     <Style Selector="^.MonthItem">
       <Setter Property="Padding" Value="{theme:Edges Left={theme:SpacingXl}, Top={theme:SpacingMd}, Bottom={theme:SpacingLg}}"/>
-      <Setter Property="HorizontalContentAlignment" Value="Left" />
+      <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
     </Style>
   </ControlTheme>
 
-  <!-- This is used for both the accept/dismiss & repeatbuttons in the presenter-->
+  <!-- DateTimePicker button theme -->
   <ControlTheme x:Key="PrototypeDateTimePickerButton" TargetType="Button">
     <Setter Property="Background" Value="Transparent" />
     <Setter Property="Height" Value="{theme:ControlHeightSm}" />
-    <Setter Property="HorizontalContentAlignment" Value="Center"/>
-    <Setter Property="VerticalContentAlignment" Value="Center"/>
+    <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}"/>
+    <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}"/>
     <Setter Property="Template">
       <ControlTemplate>
-        <!-- 
-                The background is doubled here for the loopingselector up/down repeat buttons 
-                that appear opaque. Not sure how MS does it though I suspect this is it
-                but source isn't MIT yet, so this is my solution -->
         <Border Background="{TemplateBinding Background}">
           <ContentPresenter x:Name="PART_ContentPresenter"
                   Background="{TemplateBinding Background}"
@@ -73,12 +72,14 @@
       <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
     </Style>
 
+    <!-- Hover state -->
     <Style Selector="^:pointerover /template/ ContentPresenter">
       <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}"/>
       <Setter Property="BorderBrush" Value="Transparent"/>
       <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}"/>
     </Style>
 
+    <!-- Pressed state -->
     <Style Selector="^:pressed /template/ ContentPresenter">
       <Setter Property="Background" Value="{theme:SurfaceOverlayMediumBrush}"/>
       <Setter Property="BorderBrush" Value="Transparent"/>
@@ -86,10 +87,11 @@
     </Style>
   </ControlTheme>
 
+  <!-- DateTimePicker up button theme -->
   <ControlTheme x:Key="PrototypeDateTimePickerUpButton" TargetType="RepeatButton" BasedOn="{StaticResource PrototypeDateTimePickerButton}">
-    <Setter Property="VerticalAlignment" Value="Top"/>
+    <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}"/>
     <Setter Property="Height" Value="{theme:ControlHeightSm}" />
-    <Setter Property="HorizontalAlignment" Value="Stretch" />
+    <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
     <Setter Property="Focusable" Value="False" />
     <Setter Property="Background" Value="{theme:SurfaceBrush}" />
     <Setter Property="IsVisible" Value="False"/>
@@ -102,10 +104,11 @@
     </Setter>
   </ControlTheme>
 
+  <!-- DateTimePicker down button theme -->
   <ControlTheme x:Key="PrototypeDateTimePickerDownButton" TargetType="RepeatButton" BasedOn="{StaticResource PrototypeDateTimePickerButton}">
-    <Setter Property="VerticalAlignment" Value="Bottom"/>
+    <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}"/>
     <Setter Property="Height" Value="{theme:ControlHeightSm}" />
-    <Setter Property="HorizontalAlignment" Value="Stretch" />
+    <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
     <Setter Property="Focusable" Value="False" />
     <Setter Property="Background" Value="{theme:SurfaceBrush}" />
     <Setter Property="IsVisible" Value="False"/>

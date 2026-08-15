@@ -293,6 +293,34 @@ This order ensures that more specific styles (accent) come after the defaults th
 
 ---
 
+## Rule 12: Hard-Coded Alignment Values Inside a ControlTheme Must Use Theme Tokens
+
+**Statement:** Inside a `<ControlTheme>`, any `<Setter>` that sets an alignment property (`HorizontalAlignment`, `VerticalAlignment`, `HorizontalContentAlignment`, `VerticalContentAlignment`) MUST use a theme token (`{theme:ControlHorizontalAlignment}`, `{theme:ControlVerticalAlignment}`, `{theme:ControlHorizontalContentAlignment}`, `{theme:ControlVerticalContentAlignment}`) — never a hard-coded string literal like `"Center"`, `"Left"`, `"Stretch"`, `"Right"`, `"Top"`, or `"Bottom"`. This applies to **all** setters inside the ControlTheme: root-level `<Setter>` elements, `<Style>` children of the ControlTheme, and `/template/` styles alike.
+
+**Justification:** These alignment values are part of the theme's layout intent. If they are hard-coded anywhere inside a ControlTheme — whether on the control itself or on an inner element via a `/template/` style — then switching themes (e.g., a theme that wants all content left-aligned by default) cannot propagate that change. The theme tokens exist precisely for this: `ControlHorizontalContentAlignment`, `ControlVerticalContentAlignment`, `ControlHorizontalAlignment`, and `ControlVerticalAlignment`. Binding to them ensures every element honours the active theme's alignment policy.
+
+**How to detect:** Search for any `<Setter Property="...Alignment"` or `<Setter Property="...ContentAlignment"` inside a `<ControlTheme>` where the `Value` attribute is a bare string (not `{theme:...}`).
+
+**How to fix:** Replace the hard-coded value with the corresponding theme token:
+
+| Hard-coded value | Theme token |
+|-----------------|-------------|
+| `HorizontalAlignment="Center"` | `HorizontalAlignment="{theme:ControlHorizontalAlignment}"` |
+| `VerticalAlignment="Center"` | `VerticalAlignment="{theme:ControlVerticalAlignment}"` |
+| `HorizontalAlignment="Stretch"` | `HorizontalAlignment="{theme:ContainerHorizontalAlignment}"` |
+| `VerticalAlignment="Stretch"` | `VerticalAlignment="{theme:ContainerVerticalAlignment}"` |
+| `HorizontalContentAlignment="Center"` | `HorizontalContentAlignment="{theme:ControlHorizontalContentAlignment}"` |
+| `VerticalContentAlignment="Center"` | `VerticalContentAlignment="{theme:ControlVerticalContentAlignment}"` |
+| `HorizontalContentAlignment="Left"` | `HorizontalContentAlignment="{theme:ControlHorizontalContentAlignment}"` |
+
+> **Note:** The correct token is whichever the theme defines for that role. If the theme's `ControlHorizontalContentAlignment` is `Center`, then binding to it produces `Center`. If a future theme wants `Left`, every control picks it up automatically. The point is the *binding*, not the literal value.
+
+**Exception — genuinely intrinsic alignment:** A small number of controls have alignment that is part of their identity, not the theme's choice. Examples: a Calendar navigation arrow button that must be centre-aligned because it is an icon button, or a toggle that must stretch to fill its container. These are rare and should be documented with a comment explaining why the theme token does not apply.
+
+**Reference violation:** `AutoCompleteBox.axaml` lines 124–125 set `VerticalContentAlignment="Center"` and `HorizontalContentAlignment="Left"` inside a style within the ControlTheme, where the theme tokens `{theme:ControlVerticalContentAlignment}` and `{theme:ControlHorizontalContentAlignment}` exist and should be used instead.
+
+---
+
 ## Reference: Button.axaml (correctly themed control)
 
 The Button control has been fully converted and serves as the reference implementation. Key features:

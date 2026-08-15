@@ -30,6 +30,8 @@
   <ControlTheme x:Key="PrototypeTimePickerFlyoutButton" TargetType="Button">
     <!-- Visual defaults -->
     <Setter Property="RenderTransform" Value="none" />
+    <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
+    <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
 
     <!-- Template -->
     <Setter Property="Template">
@@ -40,8 +42,8 @@
                           BorderThickness="{TemplateBinding BorderThickness}"
                           Content="{TemplateBinding Content}"
                           Foreground="{TemplateBinding Foreground}"
-                          HorizontalContentAlignment="Stretch"
-                          VerticalContentAlignment="Stretch"
+                          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                          VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
                           CornerRadius="{TemplateBinding CornerRadius}"/>
       </ControlTemplate>
     </Setter>
@@ -81,7 +83,6 @@
     <Setter Property="MinWidth" Value="{theme:ControlMinWidth}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
     <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
-
 
     <!-- Template -->
     <Setter Property="Template">

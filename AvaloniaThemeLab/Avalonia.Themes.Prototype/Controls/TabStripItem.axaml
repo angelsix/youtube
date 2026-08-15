@@ -22,7 +22,7 @@
   <ControlTheme x:Key="{x:Type TabStripItem}" TargetType="TabStripItem">
     <Setter Property="FontFamily" Value="{theme:FontFamily}" />
     <Setter Property="FontSize" Value="{theme:FontSizeXxl}" />
-    <Setter Property="FontWeight" Value="SemiLight" />
+    <Setter Property="FontWeight" Value="{theme:FontWeightRegular}" />
     <Setter Property="Background" Value="Transparent" />
     <Setter Property="Foreground" Value="{theme:OnSurfaceDimBrush}" />
     <Setter Property="BorderBrush" Value="{theme:OnSurfaceBrush}" />
@@ -35,7 +35,7 @@
     <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
     <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
     <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
-    <Setter Property="VerticalContentAlignment" Value="Center" />
+    <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
     <Setter Property="Template">
       <ControlTemplate>
         <Border

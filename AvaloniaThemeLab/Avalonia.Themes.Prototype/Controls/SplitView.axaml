@@ -35,9 +35,8 @@
         <ControlTemplate>
           <Grid Name="Container" Background="{TemplateBinding Background}">
             <Grid.ColumnDefinitions>
-              <!-- why is this throwing a binding error? -->
-              <ColumnDefinition Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.PaneColumnGridLength}"/>
-              <ColumnDefinition Width="*"/>
+              <ColumnDefinition Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.PaneColumnGridLength}" />
+              <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
             <Panel Name="PART_PaneRoot"

@@ -35,9 +35,11 @@
     </Border>
   </Design.PreviewWith>
 
-  <!--  Added missing resource  -->
-
+  <!-- ============================================================
+       ControlTheme: {x:Type ContextMenu}
+       ============================================================ -->
   <ControlTheme x:Key="{x:Type ContextMenu}" TargetType="ContextMenu">
+    <!-- Visual defaults -->
     <Setter Property="Background" Value="{theme:SurfaceBrush}" />
     <Setter Property="BorderBrush" Value="{theme:AccentBorderBrush}" />
     <Setter Property="BorderThickness" Value="{theme:ThicknessSm}" />
@@ -46,8 +48,10 @@
     <Setter Property="MaxWidth" Value="456" />
     <Setter Property="MinHeight" Value="{theme:ControlHeightSm}" />
     <Setter Property="Padding" Value="0" />
-    <Setter Property="HorizontalAlignment" Value="Stretch" />
+    <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
     <Setter Property="WindowManagerAddShadowHint" Value="False" />
+
+    <!-- Template -->
     <Setter Property="Template">
       <ControlTemplate>
         <Border Background="{TemplateBinding Background}"

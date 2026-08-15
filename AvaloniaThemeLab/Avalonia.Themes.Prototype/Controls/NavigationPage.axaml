@@ -18,9 +18,53 @@
   <SolidColorBrush x:Key="NavigationBarBackground" Color="{theme:Surface}" />
   <SolidColorBrush x:Key="NavigationBarForeground" Color="{theme:OnSurfaceDim}" />
 
+  <!-- ============================================================
+       Sub-theme: a nav-bar button
+
+       The button's PART_ContentPresenter is inside the button's own template, so styling it from the
+       NavigationPage theme needs two /template/ hops — which Avalonia rejects when the theme is built.
+       Held as a Button theme instead, where each selector crosses one boundary.
+       ============================================================ -->
+  <ControlTheme x:Key="PrototypeNavigationBarButton"
+                TargetType="Button"
+                BasedOn="{StaticResource {x:Type Button}}">
+    <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="CornerRadius" Value="{theme:RadiusSm}" />
+    </Style>
+
+    <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}" />
+    </Style>
+
+    <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="{theme:SurfaceOverlayMediumBrush}" />
+    </Style>
+
+    <Style Selector="^:focus-visible /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="BorderBrush" Value="{theme:OnSurfaceBrush}" />
+      <Setter Property="BorderThickness" Value="{theme:ThicknessMd}" />
+      <Setter Property="CornerRadius" Value="{theme:RadiusSm}" />
+    </Style>
+
+    <Style Selector="^:disabled">
+      <Setter Property="Opacity" Value="{theme:DisabledOpacity}" />
+
+      <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="Transparent" />
+      </Style>
+    </Style>
+  </ControlTheme>
+
   <ControlTheme x:Key="{x:Type NavigationPage}" TargetType="NavigationPage">
-    <!-- Transparent keeps the hit-test surface active for the back-swipe gesture edge area. -->
+    <!-- Visual defaults -->
     <Setter Property="Background" Value="Transparent" />
+    <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
+    <Setter Property="FontFamily" Value="{theme:FontFamily}" />
+    <Setter Property="FontSize" Value="{theme:FontSizeMd}" />
+    <Setter Property="FontWeight" Value="{theme:FontWeightRegular}" />
+    <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
+    <Setter Property="VerticalAlignment" Value="{theme:ContainerVerticalAlignment}" />
     <Setter Property="PageTransition">
       <Setter.Value>
         <PageSlide Duration="0:0:0.3" Orientation="Horizontal" FillMode="Forward">
@@ -58,7 +102,6 @@
 
             <ContentPresenter Name="PART_BottomCommandBar"
                               DockPanel.Dock="Bottom"
-                              HorizontalContentAlignment="Stretch"
                               Background="{TemplateBinding Background}"
                               Content="{Binding CurrentPage?.(NavigationPage.BottomCommandBar), RelativeSource={RelativeSource TemplatedParent}, FallbackValue={x:Null}}" />
 
@@ -66,12 +109,8 @@
             <Grid Name="PART_ContentHost"
                   Background="{TemplateBinding Background}"
                   ClipToBounds="True">
-              <ContentPresenter Name="PART_PageBackPresenter"
-                                HorizontalAlignment="Stretch"
-                                VerticalAlignment="Stretch" />
-              <ContentPresenter Name="PART_PagePresenter"
-                                HorizontalAlignment="Stretch"
-                                VerticalAlignment="Stretch" />
+              <ContentPresenter Name="PART_PageBackPresenter" />
+              <ContentPresenter Name="PART_PagePresenter" />
             </Grid>
           </DockPanel>
 
@@ -82,58 +121,20 @@
                   ClipToBounds="True"
                   Height="{TemplateBinding EffectiveBarHeight}">
             <Grid x:Name="PART_NavBarGrid" ColumnDefinitions="Auto, *, Auto">
-              <Grid.Styles>
-                <Style Selector="Button#PART_BackButton /template/ ContentPresenter#PART_ContentPresenter">
-                  <Setter Property="Background" Value="Transparent" />
-                  <Setter Property="CornerRadius" Value="{theme:RadiusSm}" />
-                </Style>
-                <Style Selector="Button#PART_BackButton:pointerover /template/ ContentPresenter#PART_ContentPresenter">
-                  <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}" />
-                </Style>
-                <Style Selector="Button#PART_BackButton:pressed /template/ ContentPresenter#PART_ContentPresenter">
-                  <Setter Property="Background" Value="{theme:SurfaceOverlayMediumBrush}" />
-                </Style>
-                <Style Selector="Button#PART_BackButton:disabled">
-                  <Setter Property="Opacity" Value="{theme:DisabledOpacity}" />
-                </Style>
-                <Style Selector="Button#PART_BackButton:focus-visible /template/ ContentPresenter#PART_ContentPresenter">
-                  <Setter Property="BorderBrush" Value="{theme:OnSurfaceBrush}" />
-                  <Setter Property="BorderThickness" Value="{theme:ThicknessMd}" />
-                  <Setter Property="CornerRadius" Value="{theme:RadiusSm}" />
-                </Style>
-                <Style Selector="Button:disabled /template/ ContentPresenter#PART_ContentPresenter">
-                  <Setter Property="Background" Value="Transparent" />
-                </Style>
-                <Style Selector="Button#PART_OverflowButton /template/ ContentPresenter#PART_ContentPresenter">
-                  <Setter Property="Background" Value="Transparent" />
-                  <Setter Property="CornerRadius" Value="0" />
-                </Style>
-                <Style Selector="Button#PART_OverflowButton:pointerover /template/ ContentPresenter#PART_ContentPresenter">
-                  <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}" />
-                </Style>
-                <Style Selector="Button#PART_OverflowButton:pressed /template/ ContentPresenter#PART_ContentPresenter">
-                  <Setter Property="Background" Value="{theme:SurfaceOverlayMediumBrush}" />
-                </Style>
-              </Grid.Styles>
-
               <Button x:Name="PART_BackButton"
+                      Theme="{StaticResource PrototypeNavigationBarButton}"
                       Grid.Column="0"
                       Background="Transparent"
                       Foreground="{DynamicResource NavigationBarForeground}"
                       IsVisible="{TemplateBinding IsBackButtonEffectivelyVisible}"
-                      VerticalAlignment="Stretch"
                       ToolTip.Tip="{x:Null}">
                 <Panel Background="Transparent">
                   <Path Data="{DynamicResource NavigationPageBackIcon}"
                         x:Name="PART_BackButtonDefaultIcon"
                         Fill="{DynamicResource NavigationBarForeground}"
-                        Stretch="Uniform"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center" />
+                        Stretch="Uniform" />
                   <ContentPresenter
-                    x:Name="PART_BackButtonContentPresenter"
-                    VerticalAlignment="Center"
-                    HorizontalAlignment="Center"/>
+                    x:Name="PART_BackButtonContentPresenter" />
                 </Panel>
               </Button>
 
@@ -141,38 +142,12 @@
                                 Grid.Column="1"
                                 Foreground="{DynamicResource NavigationBarForeground}"
                                 Content="{Binding CurrentPage?.Header, RelativeSource={RelativeSource TemplatedParent}, FallbackValue={x:Null}}"
-                                ContentTemplate="{Binding CurrentPage?.HeaderTemplate, RelativeSource={RelativeSource TemplatedParent}, FallbackValue={x:Null}}"
-                                VerticalAlignment="Center"
-                                HorizontalAlignment="Stretch"
-                                HorizontalContentAlignment="Stretch" />
+                                ContentTemplate="{Binding CurrentPage?.HeaderTemplate, RelativeSource={RelativeSource TemplatedParent}, FallbackValue={x:Null}}" />
 
               <ContentPresenter Name="PART_TopCommandBar"
                                 Grid.Column="2"
-                                HorizontalAlignment="Right"
-                                VerticalContentAlignment="Stretch"
                                 Foreground="{DynamicResource NavigationBarForeground}"
-                                Content="{Binding CurrentPage?.(NavigationPage.TopCommandBar), RelativeSource={RelativeSource TemplatedParent}, FallbackValue={x:Null}}">
-                <ContentPresenter.Styles>
-                  <Style Selector="CommandBar">
-                    <Setter Property="Background" Value="Transparent" />
-                    <Setter Property="MinHeight" Value="0" />
-                    <Setter Property="Padding" Value="0" />
-                    <Setter Property="VerticalAlignment" Value="Stretch" />
-                  </Style>
-                  <Style Selector="CommandBarButton">
-                    <Setter Property="MinHeight" Value="0" />
-                    <Setter Property="Padding" Value="8,0" />
-                  </Style>
-                  <Style Selector="CommandBarToggleButton">
-                    <Setter Property="MinHeight" Value="0" />
-                    <Setter Property="Padding" Value="8,0" />
-                  </Style>
-                  <Style Selector="Button#PART_OverflowButton">
-                    <Setter Property="MinHeight" Value="0" />
-                    <Setter Property="Padding" Value="8,0" />
-                  </Style>
-                </ContentPresenter.Styles>
-              </ContentPresenter>
+                                Content="{Binding CurrentPage?.(NavigationPage.TopCommandBar), RelativeSource={RelativeSource TemplatedParent}, FallbackValue={x:Null}}" />
             </Grid>
           </Border>
 
@@ -206,9 +181,10 @@
       <Setter Property="Margin" Value="{theme:Edges Left={theme:SpacingXxl}}" />
     </Style>
 
-    <!-- Back button padding -->
+    <!-- Back button padding and alignment -->
     <Style Selector="^ /template/ Button#PART_BackButton">
       <Setter Property="Padding" Value="{theme:Edges Left={theme:SpacingXl}, Right={theme:SpacingXl}}" />
+      <Setter Property="VerticalAlignment" Value="{theme:ContainerVerticalAlignment}" />
     </Style>
 
     <!-- Back button icon size -->
@@ -217,10 +193,35 @@
       <Setter Property="Height" Value="{theme:IconSize}" />
     </Style>
 
-    <!-- Header font size and margin -->
+    <!-- Header font size, margin, and alignment -->
     <Style Selector="^ /template/ ContentPresenter#PART_Header">
       <Setter Property="FontSize" Value="{theme:FontSizeXl}" />
       <Setter Property="Margin" Value="{theme:Edges Right={theme:SpacingXxl}}" />
+      <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalContentAlignment}" />
+      <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
+      <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
+    </Style>
+
+    <!-- Top command bar alignment -->
+    <Style Selector="^ /template/ ContentPresenter#PART_TopCommandBar">
+      <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
+      <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
+    </Style>
+
+    <!-- Page presenters alignment -->
+    <Style Selector="^ /template/ ContentPresenter#PART_PageBackPresenter, ^ /template/ ContentPresenter#PART_PagePresenter">
+      <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
+      <Setter Property="VerticalAlignment" Value="{theme:ContainerVerticalAlignment}" />
+    </Style>
+
+    <!-- Back button icon alignment -->
+    <Style Selector="^ /template/ Path#PART_BackButtonDefaultIcon">
+      <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
+      <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalContentAlignment}" />
+    </Style>
+    <Style Selector="^ /template/ ContentPresenter#PART_BackButtonContentPresenter">
+      <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
+      <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalContentAlignment}" />
     </Style>
 
     <!-- Nav bar shadow height and background -->
@@ -237,6 +238,32 @@
     <!-- :nav-bar-compact: collapse CommandBar labels when bar is too short -->
     <Style Selector="^:nav-bar-compact /template/ ContentPresenter#PART_TopCommandBar CommandBar">
       <Setter Property="DefaultLabelPosition" Value="Collapsed" />
+    </Style>
+
+    <!-- Back button styles live in PrototypeNavigationBarButton above, applied to PART_BackButton.
+
+         The overflow button's states are not here: PART_OverflowButton belongs to CommandBar's template,
+         not this one, so no selector rooted at NavigationPage could ever have reached it. Its states are
+         held in CommandBar.axaml, on the template that actually declares it. -->
+
+    <!-- CommandBar styles (moved from ContentPresenter.Styles per Rule 2/3) -->
+    <Style Selector="^ /template/ ContentPresenter#PART_TopCommandBar CommandBar">
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="MinHeight" Value="0" />
+      <Setter Property="Padding" Value="0" />
+      <Setter Property="VerticalAlignment" Value="{theme:ContainerVerticalAlignment}" />
+    </Style>
+    <Style Selector="^ /template/ ContentPresenter#PART_TopCommandBar CommandBarButton">
+      <Setter Property="MinHeight" Value="0" />
+      <Setter Property="Padding" Value="{theme:Edges Left={theme:SpacingXxl}, Right={theme:SpacingXxl}}" />
+    </Style>
+    <Style Selector="^ /template/ ContentPresenter#PART_TopCommandBar CommandBarToggleButton">
+      <Setter Property="MinHeight" Value="0" />
+      <Setter Property="Padding" Value="{theme:Edges Left={theme:SpacingXxl}, Right={theme:SpacingXxl}}" />
+    </Style>
+    <Style Selector="^ /template/ ContentPresenter#PART_TopCommandBar Button#PART_OverflowButton">
+      <Setter Property="MinHeight" Value="0" />
+      <Setter Property="Padding" Value="{theme:Edges Left={theme:SpacingXxl}, Right={theme:SpacingXxl}}" />
     </Style>
   </ControlTheme>
 </ResourceDictionary>

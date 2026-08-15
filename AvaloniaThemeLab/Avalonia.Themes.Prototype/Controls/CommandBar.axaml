@@ -40,8 +40,8 @@
     <Setter Property="Padding" Value="{theme:Edges Horizontal={theme:SpacingLg}, Vertical={theme:SpacingMd}}" />
     <Setter Property="Width" Value="{theme:Scaled Value={theme:ControlHeightSm}, By=2}" />
     <Setter Property="MinHeight" Value="{theme:ControlHeightMd}" />
-    <Setter Property="HorizontalContentAlignment" Value="Center" />
-    <Setter Property="VerticalContentAlignment" Value="Center" />
+    <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
+    <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
     <Setter Property="Template">
       <ControlTemplate>
         <Border x:Name="PART_Border"
@@ -51,16 +51,16 @@
                 CornerRadius="{TemplateBinding CornerRadius}"
                 Padding="{TemplateBinding Padding}">
           <StackPanel x:Name="PART_LayoutRoot"
-                      HorizontalAlignment="Center"
-                      VerticalAlignment="Center">
+                      HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
             <ContentPresenter x:Name="PART_IconPresenter"
                               Content="{TemplateBinding Icon}"
                               Foreground="{TemplateBinding Foreground}"
-                              HorizontalAlignment="Center" />
+                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" />
             <TextBlock x:Name="PART_Label"
                        Text="{TemplateBinding Label}"
                        Foreground="{TemplateBinding Foreground}"
-                       HorizontalAlignment="Center"
+                       HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                        TextTrimming="CharacterEllipsis" />
           </StackPanel>
         </Border>
@@ -102,16 +102,16 @@
       <Setter Property="Orientation" Value="Horizontal" />
     </Style>
     <Style Selector="^[LabelPosition=Right] /template/ ContentPresenter#PART_IconPresenter">
-      <Setter Property="VerticalAlignment" Value="Center" />
+      <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
     </Style>
     <Style Selector="^[LabelPosition=Right] /template/ TextBlock#PART_Label">
-      <Setter Property="VerticalAlignment" Value="Center" />
+      <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
     </Style>
 
     <!-- IsInOverflow: full-width horizontal layout -->
     <Style Selector="^[IsInOverflow=True]">
-      <Setter Property="HorizontalAlignment" Value="Stretch" />
-      <Setter Property="HorizontalContentAlignment" Value="Left" />
+      <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
+      <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
       <Setter Property="Width" Value="NaN" />
       <Setter Property="MinHeight" Value="{theme:ControlHeightMd}" />
     </Style>
@@ -128,8 +128,8 @@
     <Setter Property="Padding" Value="{theme:Edges Horizontal={theme:SpacingLg}, Vertical={theme:SpacingMd}}" />
     <Setter Property="Width" Value="{theme:Scaled Value={theme:ControlHeightSm}, By=2}" />
     <Setter Property="MinHeight" Value="{theme:ControlHeightMd}" />
-    <Setter Property="HorizontalContentAlignment" Value="Center" />
-    <Setter Property="VerticalContentAlignment" Value="Center" />
+    <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
+    <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
     <Setter Property="Template">
       <ControlTemplate>
         <Border x:Name="PART_Border"
@@ -139,16 +139,16 @@
                 CornerRadius="{TemplateBinding CornerRadius}"
                 Padding="{TemplateBinding Padding}">
           <StackPanel x:Name="PART_LayoutRoot"
-                      HorizontalAlignment="Center"
-                      VerticalAlignment="Center">
+                      HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
             <ContentPresenter x:Name="PART_IconPresenter"
                               Content="{TemplateBinding Icon}"
                               Foreground="{TemplateBinding Foreground}"
-                              HorizontalAlignment="Center" />
+                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" />
             <TextBlock x:Name="PART_Label"
                        Text="{TemplateBinding Label}"
                        Foreground="{TemplateBinding Foreground}"
-                       HorizontalAlignment="Center"
+                       HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                        TextTrimming="CharacterEllipsis" />
           </StackPanel>
         </Border>
@@ -195,16 +195,16 @@
       <Setter Property="Orientation" Value="Horizontal" />
     </Style>
     <Style Selector="^[LabelPosition=Right] /template/ ContentPresenter#PART_IconPresenter">
-      <Setter Property="VerticalAlignment" Value="Center" />
+      <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
     </Style>
     <Style Selector="^[LabelPosition=Right] /template/ TextBlock#PART_Label">
-      <Setter Property="VerticalAlignment" Value="Center" />
+      <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
     </Style>
 
     <!-- IsInOverflow: full-width horizontal layout -->
     <Style Selector="^[IsInOverflow=True]">
-      <Setter Property="HorizontalAlignment" Value="Stretch" />
-      <Setter Property="HorizontalContentAlignment" Value="Left" />
+      <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
+      <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
       <Setter Property="Width" Value="NaN" />
       <Setter Property="MinHeight" Value="{theme:ControlHeightMd}" />
     </Style>
@@ -234,7 +234,7 @@
 
     <!-- IsInOverflow: horizontal separator -->
     <Style Selector="^[IsInOverflow=True]">
-      <Setter Property="HorizontalAlignment" Value="Stretch" />
+      <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
       <Setter Property="Width" Value="NaN" />
       <Setter Property="Height" Value="{theme:ThicknessSm}" />
       <Setter Property="MinHeight" Value="0" />
@@ -243,8 +243,32 @@
   </ControlTheme>
 
   <!-- CommandBar ControlTheme -->
+  <!-- ============================================================
+       Sub-theme: the overflow button
+
+       PART_ContentPresenter is inside the Button's own template, so its states cannot be reached from
+       the CommandBar theme — that would be two /template/ hops, which Avalonia rejects when the theme
+       is built. They belong to a Button theme, applied to PART_OverflowButton below.
+       ============================================================ -->
+  <ControlTheme x:Key="PrototypeCommandBarOverflowButton"
+                TargetType="Button"
+                BasedOn="{StaticResource {x:Type Button}}">
+    <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="CornerRadius" Value="0" />
+    </Style>
+
+    <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}" />
+    </Style>
+
+    <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="{theme:SurfaceOverlayMediumBrush}" />
+    </Style>
+  </ControlTheme>
+
   <ControlTheme x:Key="{x:Type CommandBar}" TargetType="CommandBar">
-    <Setter Property="HorizontalAlignment" Value="Stretch" />
+    <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
     <Setter Property="Background" Value="{theme:SurfaceBrush}" />
     <Setter Property="MinHeight" Value="{theme:ControlHeightLg}" />
     <Setter Property="Padding" Value="{theme:Edges Left={theme:SpacingMd}, Right={theme:SpacingMd}}" />
@@ -321,6 +345,7 @@
       <Setter Property="Padding" Value="{theme:Edges Left={theme:SpacingXxl}, Right={theme:SpacingXxl}}" />
       <Setter Property="MinWidth" Value="{theme:ControlHeightMd}" />
       <Setter Property="FontSize" Value="{theme:IconSize}" />
+      <Setter Property="Theme" Value="{StaticResource PrototypeCommandBarOverflowButton}" />
     </Style>
 
     <Style Selector="^ /template/ PathIcon#PART_OverflowIcon">

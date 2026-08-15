@@ -4,12 +4,15 @@
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
                     x:ClassModifier="internal">
   <ControlTheme x:Key="{x:Type OverlayPopupHost}" TargetType="OverlayPopupHost">
+    <!-- Visual defaults -->
     <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}"/>
     <Setter Property="FontSize" Value="{theme:FontSizeMd}"/>
     <Setter Property="FontFamily" Value="{theme:FontFamily}" />
-    <Setter Property="FontWeight" Value="Normal" />
+    <Setter Property="FontWeight" Value="{theme:FontWeightRegular}" />
     <Setter Property="FontStyle" Value="Normal" />
     <Setter Property="Inline.TextDecorations" Value="" />
+    <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
+    <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
     <Setter Property="Template">
       <ControlTemplate>
         <LayoutTransformControl LayoutTransform="{TemplateBinding Transform}">

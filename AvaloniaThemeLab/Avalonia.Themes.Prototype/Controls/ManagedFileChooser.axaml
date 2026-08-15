@@ -15,6 +15,89 @@
     </Border>
   </Design.PreviewWith>
 
+  <!-- ============================================================
+       Sub-theme: the quick-links ListBox
+
+       A ControlTheme may cross one /template/ boundary. PART_ShadowBorder lives inside this
+       ListBox's own template, so reaching it from the ManagedFileChooser theme would need two
+       hops and throws when the theme is built. The ListBox owns the part, so it owns the theme.
+       ============================================================ -->
+  <ControlTheme x:Key="PrototypeManagedFileChooserQuickLinks" TargetType="ListBox">
+    <Setter Property="Margin" Value="0"/>
+    <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}"/>
+    <Setter Property="BorderThickness" Value="0"/>
+    <Setter Property="Width" Value="{theme:Scaled Value={theme:ControlMinWidth}, By=4}"/>
+    <Setter Property="Padding" Value="{theme:Edges Top={theme:SpacingXxl}, Bottom={theme:SpacingXxl}}"/>
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Panel>
+          <!-- Inset shadow for depth (themed — replaces hardcoded BoxShadow) -->
+          <Border x:Name="PART_ShadowBorder"
+                  Margin="0,0,-6,0"
+                  IsHitTestVisible="False"/>
+          <Border Name="border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+            <ScrollViewer Name="PART_ScrollViewer" HorizontalScrollBarVisibility="{TemplateBinding (ScrollViewer.HorizontalScrollBarVisibility)}" VerticalScrollBarVisibility="{TemplateBinding (ScrollViewer.VerticalScrollBarVisibility)}">
+              <ItemsPresenter Name="PART_ItemsPresenter"
+                              ItemsPanel="{TemplateBinding ItemsPanel}"
+                              Margin="{TemplateBinding Padding}"/>
+            </ScrollViewer>
+          </Border>
+        </Panel>
+      </ControlTemplate>
+    </Setter>
+    <Setter Property="ItemContainerTheme">
+      <ControlTheme TargetType="ListBoxItem">
+        <Setter Property="Height" Value="{theme:ControlHeightSm}"/>
+        <Setter Property="Padding" Value="{theme:Edges Left={theme:Scaled Value={theme:IconSize}, By=2}, Top={theme:SpacingMd}, Right={theme:Scaled Value={theme:IconSize}, By=2}, Bottom={theme:SpacingMd}}"/>
+        <Setter Property="Template">
+          <ControlTemplate>
+            <Border x:Name="LayoutRoot">
+              <Panel>
+                <Border x:Name="SelectedLine" IsVisible="{TemplateBinding IsSelected}"/>
+                <ContentPresenter Name="PART_ContentPresenter"
+                            Background="Transparent"
+                            BorderBrush="Transparent"
+                            BorderThickness="0"
+                            ContentTemplate="{TemplateBinding ContentTemplate}"
+                            Content="{TemplateBinding Content}"
+                            Padding="{TemplateBinding Padding}"
+                            VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                            HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"/>
+              </Panel>
+            </Border>
+          </ControlTemplate>
+        </Setter>
+
+        <!-- LayoutRoot theming (Rule 2: no {theme:...} inside ControlTemplate) -->
+        <Style Selector="^ /template/ Border#LayoutRoot">
+          <Setter Property="CornerRadius" Value="{theme:RadiusSm}" />
+          <Setter Property="Margin" Value="{theme:Edges Left={theme:SpacingXxl}, Right={theme:SpacingXxl}}" />
+        </Style>
+
+        <!-- SelectedLine theming (Rule 2: no {theme:...} inside ControlTemplate) -->
+        <Style Selector="^ /template/ Border#SelectedLine">
+          <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
+          <Setter Property="Margin" Value="{theme:Edges Horizontal={theme:SpacingSm}, Vertical={theme:SpacingLg}}" />
+          <Setter Property="CornerRadius" Value="{theme:RadiusSm}" />
+          <Setter Property="Width" Value="{theme:ThicknessLg}" />
+          <Setter Property="Background" Value="{theme:AccentPrimaryBrush}" />
+        </Style>
+
+        <Style Selector="^:pointerover /template/ Border#LayoutRoot">
+          <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}"/>
+        </Style>
+        <Style Selector="^:selected /template/ Border#LayoutRoot">
+          <Setter Property="Background" Value="{theme:SurfaceOverlayMediumBrush}"/>
+        </Style>
+      </ControlTheme>
+    </Setter>
+
+    <!-- Inset shadow for depth (Rule 2: no {theme:...} inside ControlTemplate) -->
+    <Style Selector="^ /template/ Border#PART_ShadowBorder">
+      <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}" />
+    </Style>
+  </ControlTheme>
+
   <ControlTheme x:Key="{x:Type dialogs:ManagedFileChooser}" TargetType="dialogs:ManagedFileChooser">
     <ControlTheme.Resources>
       <ResourceDictionary>
@@ -143,6 +226,11 @@
       </ResourceDictionary>
     </ControlTheme.Resources>
     <Setter Property="Background" Value="{theme:SurfaceBrush}"/>
+    <Setter Property="BorderBrush" Value="{theme:AccentBorderBrush}" />
+    <Setter Property="BorderThickness" Value="{theme:ThicknessSm}" />
+    <Setter Property="CornerRadius" Value="{theme:RadiusMd}" />
+    <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
+    <Setter Property="VerticalAlignment" Value="{theme:ContainerVerticalAlignment}" />
     <Setter Property="Template"
             x:DataType="internal:ManagedFileChooserViewModel">
       <ControlTemplate>
@@ -152,7 +240,7 @@
                 CornerRadius="{TemplateBinding CornerRadius}"
                 Padding="{TemplateBinding Padding}">
           <DockPanel>
-            <ListBox x:Name="PART_QuickLinks" DockPanel.Dock="Left" ItemsSource="{Binding QuickLinks}" SelectedIndex="{Binding QuickLinksSelectedIndex}" Focusable="False"
+            <ListBox x:Name="PART_QuickLinks" Theme="{StaticResource PrototypeManagedFileChooserQuickLinks}" DockPanel.Dock="Left" ItemsSource="{Binding QuickLinks}" SelectedIndex="{Binding QuickLinksSelectedIndex}" Focusable="False"
                      MaxWidth="200">
               <ListBox.ItemTemplate>
                 <DataTemplate>
@@ -196,8 +284,8 @@
                 </DockPanel>
                 <CheckBox IsChecked="{Binding ShowHiddenFiles}" Content="Show hidden files" DockPanel.Dock="Left"/>
                 <UniformGrid x:Name="Finalize" HorizontalAlignment="Right" Rows="1">
-                  <Button Command="{Binding Ok}" MinWidth="80" Content="OK" />
-                  <Button Command="{Binding Cancel}" MinWidth="80" Content="Cancel" />
+                  <Button Command="{Binding Ok}" Content="OK" />
+                  <Button Command="{Binding Cancel}" Content="Cancel" />
                 </UniformGrid>
               </DockPanel>
             </DockPanel>
@@ -215,18 +303,7 @@
                   <ColumnDefinition Width="200" SharedSizeGroup="Size" />
                   <ColumnDefinition Width="16" SharedSizeGroup="Splitter" />
                 </Grid.ColumnDefinitions>
-                <Grid.Styles>
-                  <Style Selector="GridSplitter">
-                    <Setter Property="Background" Value="{theme:AccentBorderBrush}"/>
-                    <Setter Property="Template">
-                      <ControlTemplate>
-                        <Border VerticalAlignment="Stretch" BorderThickness="0" Background="Transparent">
-                          <Rectangle Width="1" VerticalAlignment="Stretch" Fill="{TemplateBinding Background}"/>
-                        </Border>
-                      </ControlTemplate>
-                    </Setter>
-                  </Style>
-                </Grid.Styles>
+
                 <TextBlock Grid.Column="1" Text="Name" />
                 <GridSplitter Grid.Column="2" />
                 <TextBlock Grid.Column="3" Text="Date Modified" />
@@ -283,67 +360,6 @@
         </Border>
       </ControlTemplate>
     </Setter>
-    <Style Selector="^ /template/ ListBox#PART_QuickLinks">
-      <Setter Property="Margin" Value="0"/>
-      <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}"/>
-      <Setter Property="BorderThickness" Value="0"/>
-      <Setter Property="Width" Value="240"/>
-      <Setter Property="Padding" Value="0,20"/>
-      <Setter Property="Template">
-        <ControlTemplate>
-          <Panel>
-            <!-- Inset shadow for depth (themed — replaces hardcoded BoxShadow) -->
-            <Border x:Name="PART_ShadowBorder"
-                    Margin="0,0,-6,0"
-                    IsHitTestVisible="False"/>
-            <Border Name="border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
-              <ScrollViewer Name="PART_ScrollViewer" HorizontalScrollBarVisibility="{TemplateBinding (ScrollViewer.HorizontalScrollBarVisibility)}" VerticalScrollBarVisibility="{TemplateBinding (ScrollViewer.VerticalScrollBarVisibility)}">
-                <ItemsPresenter Name="PART_ItemsPresenter"
-                                ItemsPanel="{TemplateBinding ItemsPanel}"
-                                Margin="{TemplateBinding Padding}"/>
-              </ScrollViewer>
-            </Border>
-          </Panel>
-        </ControlTemplate>
-      </Setter>
-      <Setter Property="ItemContainerTheme">
-        <ControlTheme TargetType="ListBoxItem">
-          <Setter Property="Height" Value="32"/>
-          <Setter Property="Padding" Value="30,6"/>
-          <Setter Property="Template">
-            <ControlTemplate>
-              <Border x:Name="LayoutRoot" CornerRadius="{theme:RadiusSm}" Margin="{theme:Edges Left={theme:SpacingXxl}, Right={theme:SpacingXxl}}">
-                <Panel>
-                  <Border x:Name="SelectedLine" HorizontalAlignment="Left" Margin="{theme:Edges Horizontal={theme:SpacingSm}, Vertical={theme:SpacingLg}}" CornerRadius="{theme:RadiusSm}" Width="3" Background="{theme:AccentPrimaryBrush}" IsVisible="{TemplateBinding IsSelected}"/>
-                  <ContentPresenter Name="PART_ContentPresenter"
-                              Background="Transparent"
-                              BorderBrush="Transparent"
-                              BorderThickness="0"
-                              ContentTemplate="{TemplateBinding ContentTemplate}"
-                              Content="{TemplateBinding Content}"
-                              Padding="{TemplateBinding Padding}"
-                              VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                              HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"/>
-
-                </Panel>
-              </Border>
-            </ControlTemplate>
-          </Setter>
-
-          <Style Selector="^:pointerover /template/ Border#LayoutRoot">
-            <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}"/>
-          </Style>
-          <Style Selector="^:selected /template/ Border#LayoutRoot">
-            <Setter Property="Background" Value="{theme:SurfaceOverlayMediumBrush}"/>
-          </Style>
-        </ControlTheme>
-      </Setter>
-    </Style>
-
-    <!-- Shadow border inside the ListBox template (Rule 2: no {theme:...} inside ControlTemplate) -->
-    <Style Selector="^ /template/ ListBox#PART_QuickLinks /template/ Border#PART_ShadowBorder">
-      <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}" />
-    </Style>
 
     <!-- Themed defaults for inner template elements (Rule 2: no {theme:...} inside ControlTemplate) -->
     <Style Selector="^ /template/ DockPanel#NavBar">
@@ -383,11 +399,11 @@
     </Style>
 
     <Style Selector="^ /template/ DockPanel#NavBar Button, ^ /template/ DockPanel#NavBar TextBox">
-      <Setter Property="Height" Value="30"/>
+      <Setter Property="Height" Value="{theme:ControlHeightSm}"/>
     </Style>
     <Style Selector="^ /template/ DockPanel#NavBar Button">
-      <Setter Property="VerticalAlignment" Value="Stretch"/>
-      <Setter Property="Width" Value="40"/>
+      <Setter Property="VerticalAlignment" Value="{theme:ContainerVerticalAlignment}"/>
+      <Setter Property="Width" Value="{theme:ControlHeightSm}"/>
       <Setter Property="BorderThickness" Value="0"/>
     </Style>
     <Style Selector="^ /template/ DockPanel#NavBar Button:not(:pointerover):not(:pressed)">
@@ -395,15 +411,22 @@
     </Style>
 
     <Style Selector="^ /template/ UniformGrid#Finalize > Button">
-      <Setter Property="HorizontalContentAlignment" Value="Center"/>
-      <Setter Property="HorizontalAlignment" Value="Stretch"/>
+      <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}"/>
+      <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}"/>
       <Setter Property="Margin" Value="4,0,0,0"/>
     </Style>
   </ControlTheme>
 
   <ControlTheme x:Key="{x:Type dialogs:ManagedFileChooserOverwritePrompt}" TargetType="dialogs:ManagedFileChooserOverwritePrompt">
-    <Setter Property="MinWidth" Value="270" />
-    <Setter Property="MaxWidth" Value="400" />
+    <!-- Visual defaults -->
+    <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
+    <Setter Property="FontFamily" Value="{theme:FontFamily}" />
+    <Setter Property="FontSize" Value="{theme:FontSizeMd}" />
+    <Setter Property="FontWeight" Value="{theme:FontWeightRegular}" />
+    <Setter Property="MinWidth" Value="{theme:Scaled Value={theme:ControlMinWidth}, By=4}" />
+    <Setter Property="MaxWidth" Value="{theme:Scaled Value={theme:ControlMinWidth}, By=6}" />
+    <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
+    <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
     <Setter Property="Template">
       <ControlTemplate>
         <Border Background="{TemplateBinding Background}"
@@ -418,20 +441,21 @@
                         HorizontalAlignment="Right"
                         Orientation="Horizontal">
               <Button Classes="accent" Content="Yes"
-                      MinWidth="80"
-                      HorizontalContentAlignment="Center"
                       IsDefault="True"
                       Command="{Binding Confirm, RelativeSource={RelativeSource TemplatedParent}}" />
               <Button Content="No"
-                      MinWidth="80"
                       IsCancel="True"
-                      HorizontalContentAlignment="Center"
                       Command="{Binding Cancel, RelativeSource={RelativeSource TemplatedParent}}"  />
             </StackPanel>
           </StackPanel>
         </Border>
       </ControlTemplate>
     </Setter>
+
+    <!-- OverwritePrompt buttons MinWidth (Rule 2: no {theme:...} inside ControlTemplate) -->
+    <Style Selector="^ /template/ StackPanel#PART_OverwritePromptButtons Button">
+      <Setter Property="MinWidth" Value="{theme:ControlMinWidth}" />
+    </Style>
 
     <Style Selector="^ /template/ StackPanel#PART_OverwritePromptRoot">
       <Setter Property="Spacing" Value="{theme:SpacingXxl}" />

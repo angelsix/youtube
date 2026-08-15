@@ -26,8 +26,8 @@
 
   <ControlTheme x:Key="{x:Type ToolTip}" TargetType="ToolTip">
     <!-- Alignment -->
-    <Setter Property="HorizontalAlignment" Value="Left" />
-    <Setter Property="VerticalAlignment" Value="Top" />
+    <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
+    <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
 
     <!-- Typography -->
     <Setter Property="FontFamily" Value="{theme:FontFamily}" />

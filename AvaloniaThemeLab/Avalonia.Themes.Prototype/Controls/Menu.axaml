@@ -19,10 +19,19 @@
 
 
   <ControlTheme x:Key="PrototypeTopLevelMenuItem" TargetType="MenuItem">
+    <!-- Visual defaults -->
     <Setter Property="Background" Value="Transparent" />
     <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
+    <Setter Property="FontFamily" Value="{theme:FontFamily}" />
+    <Setter Property="FontSize" Value="{theme:FontSizeMd}" />
+    <Setter Property="FontWeight" Value="{theme:FontWeightRegular}" />
+    <Setter Property="BorderBrush" Value="Transparent" />
+    <Setter Property="BorderThickness" Value="0" />
+    <Setter Property="CornerRadius" Value="{theme:RadiusSm}" />
     <!--  Narrow padding should be used for mouse input, when non-narrow one should be used for touch input in future.  -->
     <Setter Property="Padding" Value="{theme:Edges Horizontal={theme:SpacingXxl}}" />
+    <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
+    <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
     <Setter Property="Template">
       <ControlTemplate>
         <Border Name="PART_LayoutRoot"
@@ -34,8 +43,6 @@
             <ContentPresenter Name="PART_HeaderPresenter"
                               Content="{TemplateBinding Header}"
                               ContentTemplate="{TemplateBinding HeaderTemplate}"
-                              VerticalAlignment="Center"
-                              HorizontalAlignment="Stretch"
                               Margin="{TemplateBinding Padding}"/>
             <Popup Name="PART_Popup"
                    WindowManagerAddShadowHint="False"
@@ -46,7 +53,7 @@
                    OverlayInputPassThroughElement="{Binding $parent[Menu]}">
               <Border x:Name="PART_PopupBorder"
                       MaxWidth="456"
-                      HorizontalAlignment="Stretch">
+                      HorizontalAlignment="{TemplateBinding HorizontalAlignment}">
                 <ScrollViewer Theme="{StaticResource PrototypeMenuScrollViewer}">
                   <ItemsPresenter x:Name="PART_PopupItemsPresenter"
                                   ItemsPanel="{TemplateBinding ItemsPanel}"
@@ -61,6 +68,8 @@
 
     <Style Selector="^ /template/ ContentPresenter#PART_HeaderPresenter">
       <Setter Property="RecognizesAccessKey" Value="True" />
+      <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalContentAlignment}" />
+      <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
     </Style>
 
     <!-- Popup border and items presenter theming -->
@@ -104,8 +113,11 @@
   </ControlTheme>
 
   <ControlTheme x:Key="{x:Type Menu}" TargetType="Menu">
+    <!-- Visual defaults -->
     <Setter Property="Background" Value="Transparent" />
     <Setter Property="Height" Value="{theme:ControlHeightSm}" />
+    <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
+    <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
     <Setter Property="ItemContainerTheme" Value="{StaticResource PrototypeTopLevelMenuItem}" />
     <Setter Property="Template">
       <ControlTemplate>
@@ -113,14 +125,22 @@
                 BorderBrush="{TemplateBinding BorderBrush}"
                 BorderThickness="{TemplateBinding BorderThickness}"
                 CornerRadius="{TemplateBinding CornerRadius}"
-                HorizontalAlignment="Stretch"
+                HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
                 Padding="{TemplateBinding Padding}">
           <ItemsPresenter Name="PART_ItemsPresenter"
                           ItemsPanel="{TemplateBinding ItemsPanel}"
-                          VerticalAlignment="Stretch"
+                          VerticalAlignment="{TemplateBinding VerticalAlignment}"
                           KeyboardNavigation.TabNavigation="Continue" />
         </Border>
       </ControlTemplate>
     </Setter>
+
+    <!-- Inner element alignment theming (Rule 12) -->
+    <Style Selector="^ /template/ Border">
+      <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
+    </Style>
+    <Style Selector="^ /template/ ItemsPresenter#PART_ItemsPresenter">
+      <Setter Property="VerticalAlignment" Value="{theme:ContainerVerticalAlignment}" />
+    </Style>
   </ControlTheme>
 </ResourceDictionary>

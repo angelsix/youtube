@@ -115,8 +115,8 @@
       <Setter Property="Width" Value="{theme:SpacingSm}" />
       <Setter Property="Height" Value="{theme:ControlHeightSm}" />
       <Setter Property="Margin" Value="0,0,2,0" />
-      <Setter Property="HorizontalAlignment" Value="Left" />
-      <Setter Property="VerticalAlignment" Value="Center" />
+      <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
+      <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
     </Style>
     <Style Selector="^[TabStripPlacement=Left] /template/ ContentPresenter#PART_ContentPresenter">
       <Setter Property="Margin" Value="8,0,0,0" />
@@ -126,8 +126,8 @@
     <Style Selector="^[TabStripPlacement=Top] /template/ Border#PART_SelectedPipe, ^[TabStripPlacement=Bottom] /template/ Border#PART_SelectedPipe">
       <Setter Property="Height" Value="{theme:SpacingSm}" />
       <Setter Property="Margin" Value="0,0,0,2" />
-      <Setter Property="HorizontalAlignment" Value="Stretch" />
-      <Setter Property="VerticalAlignment" Value="Bottom" />
+      <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
+      <Setter Property="VerticalAlignment" Value="{theme:ContainerVerticalAlignment}" />
     </Style>
 
     <!-- TabStripPlacement: Right -->
@@ -135,14 +135,14 @@
       <Setter Property="Width" Value="{theme:SpacingSm}" />
       <Setter Property="Height" Value="{theme:ControlHeightSm}" />
       <Setter Property="Margin" Value="2,0,0,0" />
-      <Setter Property="HorizontalAlignment" Value="Right" />
-      <Setter Property="VerticalAlignment" Value="Center" />
+      <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
+      <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
     </Style>
     <Style Selector="^[TabStripPlacement=Right] /template/ ContentPresenter#PART_ContentPresenter">
       <Setter Property="Margin" Value="0,0,8,0" />
     </Style>
     <Style Selector="^[TabStripPlacement=Right]">
-      <Setter Property="HorizontalContentAlignment" Value="Right" />
+      <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
     </Style>
   </ControlTheme>
 </ResourceDictionary>

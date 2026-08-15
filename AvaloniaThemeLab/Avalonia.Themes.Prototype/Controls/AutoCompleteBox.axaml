@@ -96,6 +96,7 @@
                      FontSize="{TemplateBinding FontSize}"
                      DataValidationErrors.Errors="{TemplateBinding (DataValidationErrors.Errors)}"
                      MaxLength="{TemplateBinding MaxLength}"
+                     Width="{TemplateBinding Width}"
                      InnerLeftContent="{TemplateBinding InnerLeftContent}"
                      InnerRightContent="{TemplateBinding InnerRightContent}" />
 
@@ -120,7 +121,8 @@
 
     <!-- Default style -->
     <Style Selector="^ /template/ TextBox#PART_TextBox">
-      <Setter Property="VerticalContentAlignment" Value="Center" />
+      <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
+      <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
     </Style>
     
     <!-- Popup styles -->

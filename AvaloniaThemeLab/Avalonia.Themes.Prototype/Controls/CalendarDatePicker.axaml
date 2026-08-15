@@ -20,8 +20,8 @@
     <!-- Visual defaults -->
     <Setter Property="TextElement.Foreground" Value="{theme:OnSurfaceDimBrush}" />
     <Setter Property="Margin" Value="{theme:Edges Left={theme:SpacingSm}, Right={theme:SpacingMd}}" />
-    <Setter Property="Width" Value="20" />
-    <Setter Property="Height" Value="24" />
+    <Setter Property="Width" Value="{theme:Scaled Value={theme:BaseSize}, By=10}" />
+    <Setter Property="Height" Value="{theme:Scaled Value={theme:BaseSize}, By=12}" />
 
     <!-- Template -->
     <Setter Property="Template">
@@ -89,6 +89,34 @@
   </ControlTheme>
 
   <!-- ============================================================
+       Sub-theme: the chromeless TextBox inside the picker
+
+       A ControlTheme cannot reach through two templates — a selector may cross one /template/ boundary,
+       so styling the TextBox's own PART_BorderElement from the CalendarDatePicker theme is not
+       expressible and throws when the theme is built. The TextBox owns that part, so the rules for it
+       belong in a theme for the TextBox, applied to PART_TextBox below.
+       ============================================================ -->
+  <ControlTheme x:Key="PrototypeCalendarDatePickerTextBox"
+                TargetType="TextBox"
+                BasedOn="{StaticResource {x:Type TextBox}}">
+    <!-- The picker's own Border draws the chrome; this TextBox sits inside it and draws none. -->
+    <Style Selector="^:focus /template/ Border#PART_BorderElement">
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="BorderBrush" Value="Transparent" />
+      <Setter Property="BorderThickness" Value="0" />
+    </Style>
+
+    <Style Selector="^:disabled /template/ Border#PART_BorderElement">
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="BorderBrush" Value="Transparent" />
+    </Style>
+
+    <Style Selector="^:disabled /template/ TextBlock#PART_Placeholder, ^:disabled /template/ TextBlock#PART_FloatingPlaceholder">
+      <Setter Property="TextElement.Foreground" Value="{theme:OnSurfaceDimBrush}" />
+    </Style>
+  </ControlTheme>
+
+  <!-- ============================================================
        ControlTheme: {x:Type CalendarDatePicker}
        ============================================================ -->
   <ControlTheme x:Key="{x:Type CalendarDatePicker}" TargetType="CalendarDatePicker">
@@ -124,6 +152,7 @@
                     Background="{TemplateBinding Background}" />
             <Grid ColumnDefinitions="*,Auto">
               <TextBox Name="PART_TextBox"
+                       Theme="{StaticResource PrototypeCalendarDatePickerTextBox}"
                        Foreground="{TemplateBinding Foreground}"
                        Background="Transparent"
                        BorderBrush="Transparent"
@@ -160,21 +189,7 @@
       </ControlTemplate>
     </Setter>
 
-    <!-- Inner TextBox styles -->
-    <Style Selector="^ /template/ TextBox#PART_TextBox:focus /template/ Border#PART_BorderElement">
-      <Setter Property="Background" Value="Transparent" />
-      <Setter Property="BorderBrush" Value="Transparent" />
-      <Setter Property="BorderThickness" Value="0" />
-    </Style>
-
-    <Style Selector="^ /template/ TextBox#PART_TextBox:disabled /template/ Border#PART_BorderElement">
-      <Setter Property="Background" Value="Transparent" />
-      <Setter Property="BorderBrush" Value="Transparent" />
-    </Style>
-
-    <Style Selector="^ /template/ TextBox#PART_TextBox:disabled /template/ TextBlock#PART_Placeholder, ^ /template/ TextBox#PART_TextBox:disabled /template/ TextBlock#PART_FloatingPlaceholder">
-      <Setter Property="TextElement.Foreground" Value="{theme:OnSurfaceDimBrush}" />
-    </Style>
+    <!-- Inner TextBox styles live in PrototypeCalendarDatePickerTextBox above, applied to PART_TextBox. -->
 
     <!-- Hover state -->
     <Style Selector="^:pointerover /template/ Border#Background">

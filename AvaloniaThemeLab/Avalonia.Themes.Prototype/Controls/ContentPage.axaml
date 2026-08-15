@@ -13,22 +13,33 @@
     </ContentPage>
   </Design.PreviewWith>
 
+  <!-- ============================================================
+       ControlTheme: {x:Type ContentPage}
+       ============================================================ -->
   <ControlTheme x:Key="{x:Type ContentPage}" TargetType="ContentPage">
+
+    <!-- Visual defaults -->
     <Setter Property="Background" Value="{theme:SurfaceBrush}" />
     <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
+    <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
+    <Setter Property="VerticalAlignment" Value="{theme:ContainerVerticalAlignment}" />
+    <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
+    <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
+
+    <!-- Template -->
     <Setter Property="Template">
       <ControlTemplate>
         <DockPanel>
           <!-- Visibility managed in code-behind -->
           <ContentPresenter Name="PART_TopCommandBar"
                             DockPanel.Dock="Top"
-                            HorizontalContentAlignment="Stretch"
+                            HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                             IsVisible="False" />
 
           <!-- Visibility managed in code-behind -->
           <ContentPresenter Name="PART_BottomCommandBar"
                             DockPanel.Dock="Bottom"
-                            HorizontalContentAlignment="Stretch"
+                            HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                             IsVisible="False" />
 
           <ContentPresenter Name="PART_ContentPresenter"

@@ -79,7 +79,7 @@
     <Setter Property="Background"
             Value="{theme:AccentPrimaryBrush}" />
     <Setter Property="HorizontalAlignment"
-            Value="Center" />
+            Value="{theme:ControlHorizontalAlignment}" />
     <Setter Property="Template">
       <Setter.Value>
         <ControlTemplate>
@@ -108,6 +108,7 @@
         <ScaleTransform ScaleX="-1" ScaleY="1"/>
       </Setter>
     </Style>
+    <!-- Intrinsic: indicator alignment is part of handle identity (caret=center, end=left, start=right) -->
     <Style Selector="^:caret /template/ Border#PART_Indicator">
       <Setter Property="HorizontalAlignment" Value="Center" />
     </Style>

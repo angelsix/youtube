@@ -56,6 +56,7 @@
   </Design.PreviewWith>
 
   <ControlTheme x:Key="{x:Type NumericUpDown}" TargetType="NumericUpDown">
+    <!-- Visual defaults -->
     <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
     <Setter Property="Background" Value="{theme:SurfaceBrush}" />
     <Setter Property="PlaceholderForeground" Value="{theme:OnSurfaceDimBrush}" />
@@ -68,6 +69,10 @@
     <Setter Property="MinWidth" Value="{theme:ControlMinWidth}" />
     <Setter Property="Padding" Value="{theme:Edges Left={theme:SpacingXxl}, Top={theme:SpacingLg}, Right={theme:SpacingLg}, Bottom={theme:SpacingMd}}" />
     <Setter Property="CornerRadius" Value="{theme:RadiusSm}" />
+    <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
+    <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
+    <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
+    <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
     <Setter Property="Template">
       <ControlTemplate>
         <DataValidationErrors>
@@ -79,8 +84,8 @@
                          IsTabStop="False"
                          Padding="0"
                          MinWidth="0"
-                         HorizontalContentAlignment="Stretch"
-                         VerticalContentAlignment="Stretch"
+                         HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                         VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
                          AllowSpin="{TemplateBinding AllowSpin}"
                          ShowButtonSpinner="{TemplateBinding ShowButtonSpinner}"
                          ButtonSpinnerLocation="{TemplateBinding ButtonSpinnerLocation}">
