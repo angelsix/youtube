@@ -132,7 +132,7 @@
                      Background="Transparent"
                      Text="{TemplateBinding Text, Mode=TwoWay}"
                      PlaceholderText="{TemplateBinding PlaceholderText}"
-                     BorderThickness="0"
+                     BorderThickness="{theme:ThicknessSm}"
                      IsVisible="{TemplateBinding IsEditable}">
               <TextBox.Resources>
                 <SolidColorBrush x:Key="TextControlBackgroundFocused">Transparent</SolidColorBrush>
@@ -143,7 +143,7 @@
             <Border x:Name="DropDownOverlay"
                     Grid.Column="1"
                     Background="Transparent"
-                    Width="30"
+                    Width="{theme:ControlHeightSm}"
                     IsVisible="False"
                     HorizontalAlignment="Right" />
 
@@ -163,7 +163,7 @@
                    IsLightDismissEnabled="True"
                    InheritsTransform="True">
               <Border x:Name="PopupBorder"
-                      Padding="0"
+                      Padding="{theme:Edges All={theme:SpacingSm}}"
                       HorizontalAlignment="Stretch">
                 <ScrollViewer HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
                               IsScrollChainingEnabled="False"

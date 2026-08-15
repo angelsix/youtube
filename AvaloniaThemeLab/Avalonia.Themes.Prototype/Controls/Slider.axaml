@@ -51,7 +51,7 @@
           <!-- Structural: track height -->
           <Border x:Name="TrackBackground"
                   Background="{TemplateBinding Background}"
-                  Height="2"
+                  Height="{theme:ThicknessSm}"
                   VerticalAlignment="Center"/>
         </Grid>
       </ControlTemplate>
@@ -80,7 +80,7 @@
           <!-- Structural: track width -->
           <Border x:Name="TrackBackground"
                   Background="{TemplateBinding Background}"
-                  Width="2"
+                  Width="{theme:ThicknessSm}"
                   HorizontalAlignment="Center"/>
         </Grid>
       </ControlTemplate>
@@ -147,9 +147,9 @@
                       ColumnDefinitions="Auto,Auto,*">
                     <Grid.RowDefinitions>
                       <!-- Structural: grid row spacing (SpacingXxl = 16) -->
-                      <RowDefinition Height="16" />
+                      <RowDefinition Height="{theme:SpacingXxl}" />
                       <RowDefinition Height="Auto" />
-                      <RowDefinition Height="16" />
+                      <RowDefinition Height="{theme:SpacingXxl}" />
                     </Grid.RowDefinitions>
                     <!-- Structural: tick bar height -->
                     <TickBar
@@ -160,9 +160,9 @@
                         Orientation="{TemplateBinding Slider.Orientation}"
                         Minimum="{TemplateBinding Slider.Minimum}"
                         Maximum="{TemplateBinding Slider.Maximum}"
-                        Height="4"
+                        Height="{theme:ThicknessXxl}"
                         VerticalAlignment="Bottom"
-                        Placement="Top" 
+                        Placement="Top"
                         IsVisible="False"
                         IsDirectionReversed="{TemplateBinding IsDirectionReversed}"/>
                     <!-- Structural: tick bar height -->
@@ -175,7 +175,7 @@
                         Orientation="{TemplateBinding Slider.Orientation}"
                         Minimum="{TemplateBinding Slider.Minimum}"
                         Maximum="{TemplateBinding Slider.Maximum}"
-                        Height="4"
+                        Height="{theme:ThicknessXxl}"
                         VerticalAlignment="Top"
                         Placement="Bottom"
                         IsVisible="False"
@@ -241,9 +241,9 @@
                       RowDefinitions="*,Auto,Auto">
                     <Grid.ColumnDefinitions>
                       <!-- Structural: grid column spacing (SpacingXxl = 16) -->
-                      <ColumnDefinition Width="16" />
+                      <ColumnDefinition Width="{theme:SpacingXxl}" />
                       <ColumnDefinition Width="Auto" />
-                      <ColumnDefinition Width="16" />
+                      <ColumnDefinition Width="{theme:SpacingXxl}" />
                     </Grid.ColumnDefinitions>
                     <!-- Structural: tick bar width -->
                     <TickBar
@@ -254,7 +254,7 @@
                         Orientation="{TemplateBinding Slider.Orientation}"
                         Minimum="{TemplateBinding Slider.Minimum}"
                         Maximum="{TemplateBinding Slider.Maximum}"
-                        Width="4"
+                        Width="{theme:ThicknessXxl}"
                         HorizontalAlignment="Right"
                         Placement="Left"
                         IsVisible="False"
@@ -269,7 +269,7 @@
                         Orientation="{TemplateBinding Slider.Orientation}"
                         Minimum="{TemplateBinding Slider.Minimum}"
                         Maximum="{TemplateBinding Slider.Maximum}"
-                        Width="4"
+                        Width="{theme:ThicknessXxl}"
                         HorizontalAlignment="Left"
                         Placement="Right" 
                         IsVisible="False"

@@ -85,7 +85,7 @@
               <Grid.Styles>
                 <Style Selector="Button#PART_BackButton /template/ ContentPresenter#PART_ContentPresenter">
                   <Setter Property="Background" Value="Transparent" />
-                  <Setter Property="CornerRadius" Value="4" />
+                  <Setter Property="CornerRadius" Value="{theme:RadiusSm}" />
                 </Style>
                 <Style Selector="Button#PART_BackButton:pointerover /template/ ContentPresenter#PART_ContentPresenter">
                   <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}" />
@@ -94,12 +94,12 @@
                   <Setter Property="Background" Value="{theme:SurfaceOverlayMediumBrush}" />
                 </Style>
                 <Style Selector="Button#PART_BackButton:disabled">
-                  <Setter Property="Opacity" Value="0.4" />
+                  <Setter Property="Opacity" Value="{theme:DisabledOpacity}" />
                 </Style>
                 <Style Selector="Button#PART_BackButton:focus-visible /template/ ContentPresenter#PART_ContentPresenter">
                   <Setter Property="BorderBrush" Value="{theme:OnSurfaceBrush}" />
-                  <Setter Property="BorderThickness" Value="2" />
-                  <Setter Property="CornerRadius" Value="4" />
+                  <Setter Property="BorderThickness" Value="{theme:ThicknessMd}" />
+                  <Setter Property="CornerRadius" Value="{theme:RadiusSm}" />
                 </Style>
                 <Style Selector="Button:disabled /template/ ContentPresenter#PART_ContentPresenter">
                   <Setter Property="Background" Value="Transparent" />
@@ -128,8 +128,8 @@
                   <Path Data="{DynamicResource NavigationPageBackIcon}"
                         x:Name="PART_BackButtonDefaultIcon"
                         Fill="{DynamicResource NavigationBarForeground}"
-                        Width="24"
-                        Height="24"
+                        Width="{theme:IconSize}"
+                        Height="{theme:IconSize}"
                         Stretch="Uniform"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center" />
@@ -186,7 +186,7 @@
                   ZIndex="1"
                   VerticalAlignment="Top"
                   IsVisible="False"
-                  Height="4"
+                  Height="{theme:ThicknessXxl}"
                   IsHitTestVisible="False">
             <Border.Background>
               <LinearGradientBrush StartPoint="0%,0%" EndPoint="0%,100%">

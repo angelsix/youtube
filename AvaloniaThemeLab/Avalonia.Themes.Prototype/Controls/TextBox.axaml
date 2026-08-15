@@ -48,7 +48,7 @@
     <Setter Property="BorderBrush" Value="Transparent" />
     <Setter Property="Focusable" Value="False"/>
     <Setter Property="MinWidth" Value="34" />
-    <Setter Property="Padding" Value="{theme:Edges Horizontal={theme:SpacingXl}, Vertical={theme:SpacingLg}}" />
+    <Setter Property="Padding" Value="{theme:Edges All={theme:SpacingMd}}" />
     <Setter Property="Width" Value="{Binding $self.Bounds.Height}"/>
     <Setter Property="FontFamily" Value="{theme:FontFamily}" />
     <Setter Property="FontSize" Value="{theme:FontSizeMd}" />
@@ -132,7 +132,7 @@
     <Setter Property="CornerRadius" Value="{theme:RadiusSm}" />
     <Setter Property="MinHeight" Value="{theme:ControlHeightSm}" />
     <Setter Property="MinWidth" Value="{theme:ControlMinWidth}" />
-    <Setter Property="Padding" Value="{theme:Edges Left={theme:SpacingXxl}, Top={theme:SpacingLg}, Right={theme:SpacingLg}, Bottom={theme:SpacingMd}}" />
+    <Setter Property="Padding" Value="{theme:Edges All={theme:SpacingLg}}" />
     <Setter Property="FontFamily" Value="{theme:FontFamily}" />
     <Setter Property="FontSize" Value="{theme:FontSizeMd}" />
     <Setter Property="FontWeight" Value="{theme:FontWeightRegular}" />
@@ -295,10 +295,10 @@
                         ClipToBounds="True">
             <Panel>
               <PathIcon Data="{StaticResource PasswordBoxRevealButtonData}"
-                        Height="8" Width="12"
+                        Height="{theme:IconSize}" Width="{theme:IconSize}"
                         IsVisible="{Binding !$parent[ToggleButton].IsChecked}"/>
               <PathIcon Data="{StaticResource PasswordBoxHideButtonData}"
-                        Height="12" Width="12"
+                        Height="{theme:IconSize}" Width="{theme:IconSize}"
                         IsVisible="{Binding $parent[ToggleButton].IsChecked}"/>
             </Panel>
           </ToggleButton>
@@ -313,7 +313,7 @@
           <Button Theme="{StaticResource PrototypeTextBoxButton}"
                   Command="{Binding $parent[TextBox].Clear}"
                   ClipToBounds="True">
-            <PathIcon Data="{StaticResource TextBoxClearButtonData}" Height="10" Width="10"/>
+            <PathIcon Data="{StaticResource TextBoxClearButtonData}" Height="{theme:IconSize}" Width="{theme:IconSize}"/>
           </Button>
         </Template>
       </Setter>

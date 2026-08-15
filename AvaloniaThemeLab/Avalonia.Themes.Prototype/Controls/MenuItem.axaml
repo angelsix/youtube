@@ -1,4 +1,4 @@
-﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:conv="using:Avalonia.Controls.Converters"
                     xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
@@ -105,15 +105,15 @@
                                 Grid.Column="2"/>
               <TextBlock x:Name="PART_InputGestureText"
                          Grid.Column="3"
-                         Margin="{theme:Edges Left={theme:Scaled Value={theme:SpacingXxl}, By=2}}"
+                         Margin="{theme:Edges Left={theme:SpacingXxl}}"
                          Text="{TemplateBinding InputGesture, Converter={StaticResource KeyGestureConverter}}"
                          HorizontalAlignment="Right"
                          VerticalAlignment="Center"
                          Foreground="{theme:OnSurfaceDimBrush}"/>
               <Path Name="PART_ChevronPath"
                     Stretch="Uniform"
-                    Width="8"
-                    Height="16"
+                    Width="{theme:IconSize}"
+                    Height="{theme:IconSize}"
                     Data="{StaticResource MenuItemChevronPathData}"
                     Fill="{theme:OnSurfaceDimBrush}"
                     Margin="{theme:Edges Left={theme:SpacingXxl}}"
@@ -223,7 +223,7 @@
       <Setter Property="Content">
         <Template>
           <Path Fill="{Binding $parent[MenuItem].Foreground}"
-                Width="16"
+                Width="{theme:IconSize}"
                 Data="{StaticResource CheckMarkPathData}" />
         </Template>
       </Setter>
@@ -233,7 +233,7 @@
       <Setter Property="Content">
         <Template>
           <Ellipse Fill="{Binding $parent[MenuItem].Foreground}"
-                   Margin="{theme:Edges All={theme:SpacingMd}}" Width="8" Height="8" />
+                   Margin="{theme:Edges All={theme:SpacingMd}}" Width="{theme:IconSize}" Height="{theme:IconSize}" />
         </Template>
       </Setter>
     </Style>

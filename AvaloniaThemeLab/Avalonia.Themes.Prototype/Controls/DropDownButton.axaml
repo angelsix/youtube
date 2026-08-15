@@ -68,11 +68,7 @@
                   BorderThickness="{TemplateBinding BorderThickness}"
                   CornerRadius="{TemplateBinding CornerRadius}"
                   ClipToBounds="True">
-            <Grid>
-              <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="Auto" />
-              </Grid.ColumnDefinitions>
+            <Grid ColumnDefinitions="*,Auto">
 
               <ContentPresenter x:Name="PART_ContentPresenter"
                                 Grid.Column="0"
@@ -86,8 +82,6 @@
                         Grid.Column="1"
                         UseLayoutRounding="False"
                         IsHitTestVisible="False"
-                        Height="12"
-                        Width="12"
                         Data="M1939 486L2029 576L1024 1581L19 576L109 486L1024 1401L1939 486Z"
                         HorizontalAlignment="Right"
                         VerticalAlignment="Center" />
@@ -112,6 +106,8 @@
     <!-- Drop-down glyph -->
     <Style Selector="^ /template/ PathIcon#DropDownGlyph">
       <Setter Property="Foreground" Value="{theme:OnSurfaceDimBrush}" />
+      <Setter Property="Height" Value="{theme:IconSize}" />
+      <Setter Property="Width" Value="{theme:IconSize}" />
     </Style>
 
     <!-- Accent border visuals -->

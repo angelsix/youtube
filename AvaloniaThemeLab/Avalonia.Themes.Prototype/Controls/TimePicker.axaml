@@ -79,8 +79,7 @@
     <Setter Property="Padding" Value="{theme:Edges Horizontal={theme:SpacingMd}, Vertical={theme:SpacingMd}}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
     <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
-    <Setter Property="MinWidth" Value="{theme:Scaled Value={theme:BaseSize}, By=242}" />
-    <Setter Property="MaxWidth" Value="{theme:Scaled Value={theme:BaseSize}, By=456}" />
+
 
     <!-- Template -->
     <Setter Property="Template">
@@ -193,9 +192,7 @@
   <!-- TimePickerPresenter theme -->
   <ControlTheme x:Key="{x:Type TimePickerPresenter}" TargetType="TimePickerPresenter">
     <!-- Visual defaults -->
-    <Setter Property="Width" Value="242" />
-    <Setter Property="MinWidth" Value="242" />
-    <Setter Property="MaxHeight" Value="398" />
+
     <Setter Property="Background" Value="{theme:SurfaceBrush}" />
     <Setter Property="BorderBrush" Value="{theme:AccentBorderBrush}" />
     <Setter Property="BorderThickness" Value="{theme:ThicknessSm}" />
@@ -209,8 +206,7 @@
                 BorderBrush="{TemplateBinding BorderBrush}"
                 BorderThickness="{TemplateBinding BorderThickness}"
                 CornerRadius="{TemplateBinding CornerRadius}"
-                Padding="0"
-                MaxHeight="398">
+                Padding="0">
           <Grid Name="ContentPanel" RowDefinitions="*,Auto">
             <Grid Name="PART_PickerContainer">
               <!--Ignore col defs here, set in code-->
@@ -300,7 +296,7 @@
                       VerticalAlignment="Stretch">
                 <Path Stroke="{Binding $parent[Button].Foreground}"
                       StrokeLineCap="Round"
-                      StrokeThickness="0.75"
+                      StrokeThickness="{theme:ThicknessSm}"
                       Data="M0.5,8.5 5,13.5 15.5,3" />
               </Button>
               <Button Name="PART_DismissButton"
@@ -312,7 +308,7 @@
                       VerticalAlignment="Stretch">
                 <Path Stroke="{Binding $parent[Button].Foreground}" 
                       StrokeLineCap="Round"
-                      StrokeThickness="0.75" 
+                      StrokeThickness="{theme:ThicknessSm}" 
                       Data="M2,2 14,14 M2,14 14 2" />
               </Button>
             </Grid>

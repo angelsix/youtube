@@ -108,18 +108,17 @@
     <Setter Property="Template">
       <ControlTemplate>
         <Grid Background="Transparent">
-          <!-- Structural: pip sizes are intrinsic to the visual design -->
           <Ellipse Name="PipBackground"
-                   Width="10"
-                   Height="10"
+                   Width="{theme:IconSize}"
+                   Height="{theme:IconSize}"
                    HorizontalAlignment="Center"
                    VerticalAlignment="Center"
                    Fill="Transparent"
                    Stroke="Transparent"
                    StrokeThickness="1" />
           <Ellipse Name="Pip"
-                   Width="4"
-                   Height="4"
+                   Width="{theme:SpacingMd}"
+                   Height="{theme:SpacingMd}"
                    HorizontalAlignment="Center"
                    VerticalAlignment="Center" />
         </Grid>
@@ -148,8 +147,8 @@
 
     <!-- Hover state -->
     <Style Selector="^:pointerover /template/ Ellipse#Pip">
-      <Setter Property="Width" Value="6" />
-      <Setter Property="Height" Value="6" />
+      <Setter Property="Width" Value="{theme:ThicknessXxl}" />
+      <Setter Property="Height" Value="{theme:ThicknessXxl}" />
       <Setter Property="Fill" Value="{theme:OnSurfaceBrush}" />
     </Style>
     <Style Selector="^:pointerover /template/ Ellipse#PipBackground">
@@ -159,8 +158,8 @@
 
     <!-- Pressed state -->
     <Style Selector="^:pressed /template/ Ellipse#Pip">
-      <Setter Property="Width" Value="4" />
-      <Setter Property="Height" Value="4" />
+      <Setter Property="Width" Value="{theme:SpacingMd}" />
+      <Setter Property="Height" Value="{theme:SpacingMd}" />
       <Setter Property="Fill" Value="{theme:OnSurfaceBrush}" />
     </Style>
     <Style Selector="^:pressed /template/ Ellipse#PipBackground">
@@ -179,8 +178,8 @@
 
     <!-- Selected state -->
     <Style Selector="^:selected /template/ Ellipse#Pip">
-      <Setter Property="Width" Value="6" />
-      <Setter Property="Height" Value="6" />
+      <Setter Property="Width" Value="{theme:ThicknessXxl}" />
+      <Setter Property="Height" Value="{theme:ThicknessXxl}" />
       <Setter Property="Fill" Value="{theme:OnSurfaceBrush}" />
     </Style>
     <Style Selector="^:selected /template/ Ellipse#PipBackground">
@@ -190,8 +189,8 @@
 
     <!-- Selected hover state -->
     <Style Selector="^:selected:pointerover /template/ Ellipse#Pip">
-      <Setter Property="Width" Value="6" />
-      <Setter Property="Height" Value="6" />
+      <Setter Property="Width" Value="{theme:ThicknessXxl}" />
+      <Setter Property="Height" Value="{theme:ThicknessXxl}" />
       <Setter Property="Fill" Value="{theme:OnSurfaceBrush}" />
     </Style>
     <Style Selector="^:selected:pointerover /template/ Ellipse#PipBackground">
@@ -219,13 +218,14 @@
                     Orientation="{TemplateBinding Orientation}"
                     Background="{TemplateBinding Background}"
                     ClipToBounds="False">
-          <!-- Structural: 10x10 icon size (no matching theme token) -->
           <Button Name="PART_PreviousButton"
                   Theme="{TemplateBinding PreviousButtonTheme}"
                   IsVisible="{TemplateBinding IsPreviousButtonVisible}"
                   VerticalAlignment="Center"
                   HorizontalAlignment="Center">
-            <PathIcon Name="PreviousButtonIcon" Width="10" Height="10"
+            <PathIcon Name="PreviousButtonIcon"
+                      Width="{theme:IconSize}"
+                      Height="{theme:IconSize}"
                       Data="{StaticResource PipsPagerPreviousPageButtonData}" />
           </Button>
 
@@ -262,7 +262,9 @@
                   IsVisible="{TemplateBinding IsNextButtonVisible}"
                   VerticalAlignment="Center"
                   HorizontalAlignment="Center">
-            <PathIcon Name="NextButtonIcon" Width="10" Height="10"
+            <PathIcon Name="NextButtonIcon"
+                      Width="{theme:IconSize}"
+                      Height="{theme:IconSize}"
                       Data="{StaticResource PipsPagerNextPageButtonData}" />
           </Button>
         </StackPanel>

@@ -79,8 +79,7 @@
     <Setter Property="FontWeight" Value="{theme:FontWeightRegular}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
     <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
-    <Setter Property="MinWidth" Value="{theme:Scaled Value={theme:BaseSize}, By=296}" />
-    <Setter Property="MaxWidth" Value="{theme:Scaled Value={theme:BaseSize}, By=456}" />
+
 
     <!-- Template -->
     <Setter Property="Template">
@@ -110,12 +109,12 @@
                 <Rectangle x:Name="PART_FirstSpacer"
                            Fill="{theme:AccentBorderBrush}"
                            HorizontalAlignment="Center"
-                           Width="1"
+                           Width="{theme:ThicknessSm}"
                            Grid.Column="1" />
                 <Rectangle x:Name="PART_SecondSpacer"
                            Fill="{theme:AccentBorderBrush}"
                            HorizontalAlignment="Center"
-                           Width="1"
+                           Width="{theme:ThicknessSm}"
                            Grid.Column="3" />
               </Grid>
             </Button>
@@ -158,7 +157,6 @@
   <ControlTheme x:Key="{x:Type DatePickerPresenter}" TargetType="DatePickerPresenter">
     <Setter Property="Width" Value="296" />
     <Setter Property="MinWidth" Value="296" />
-    <Setter Property="MaxHeight" Value="398" />
     <Setter Property="Background" Value="{theme:SurfaceBrush}" />
     <Setter Property="BorderBrush" Value="{theme:AccentBorderBrush}" />
     <Setter Property="BorderThickness" Value="{theme:ThicknessSm}" />
@@ -170,8 +168,8 @@
         <Border Name="Background" Background="{TemplateBinding Background}"
                 BorderBrush="{TemplateBinding BorderBrush}"
                 BorderThickness="{TemplateBinding BorderThickness}"
-                Padding="0"
-                MaxHeight="398" CornerRadius="{TemplateBinding CornerRadius}">
+                Padding="{theme:Edges All={theme:SpacingSm}}"
+                CornerRadius="{TemplateBinding CornerRadius}">
           <Grid Name="ContentRoot" RowDefinitions="*,Auto">
             <Grid Name="PART_PickerContainer">
               <Grid.Styles>
@@ -244,7 +242,7 @@
                       VerticalAlignment="Stretch">
                 <Path Stroke="{Binding $parent[Button].Foreground}"
                       StrokeLineCap="Round"
-                      StrokeThickness="0.75"
+                      StrokeThickness="{theme:ThicknessSm}"
                       Data="M0.5,8.5 5,13.5 15.5,3" />
               </Button>
               <Button Name="PART_DismissButton"
@@ -255,7 +253,7 @@
                       VerticalAlignment="Stretch">
                 <Path Stroke="{Binding $parent[Button].Foreground}"
                       StrokeLineCap="Round"
-                      StrokeThickness="0.75"
+                      StrokeThickness="{theme:ThicknessSm}"
                       Data="M2,2 14,14 M2,14 14 2" />
               </Button>
             </Grid>

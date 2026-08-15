@@ -1,4 +1,4 @@
-﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:sys="using:System"
                     xmlns:collections="using:System.Collections"
@@ -95,7 +95,7 @@
                Background="Transparent">
           <Panel.Styles>
             <Style Selector="Panel#PART_InlineErrorTemplatePanel">
-              <Setter Property="Margin" Value="8,0" />
+              <Setter Property="Margin" Value="{theme:Edges Horizontal={theme:SpacingMd}}" />
             </Style>
             <Style Selector="Panel#PART_InlineErrorTemplatePanel ToolTip">
               <Setter Property="BorderBrush" Value="{theme:AccentErrorBrush}" />
@@ -107,11 +107,11 @@
           <ToolTip.Tip>
             <ItemsControl ItemsSource="{Binding}" x:DataType="collections:IEnumerable" />
           </ToolTip.Tip>
-          <Path Width="14"
-                Height="14"
+          <Path Width="{theme:IconSize}"
+                Height="{theme:IconSize}"
                 Data="M14,7 A7,7 0 0,0 0,7 M0,7 A7,7 0 1,0 14,7 M7,3l0,5 M7,9l0,2"
                 Stroke="{theme:AccentErrorBrush}"
-                StrokeThickness="2" />
+                StrokeThickness="{theme:ThicknessMd}" />
         </Panel>
       </DataTemplate>
     </Setter>

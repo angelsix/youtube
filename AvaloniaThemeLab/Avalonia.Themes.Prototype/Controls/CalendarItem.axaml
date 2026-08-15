@@ -103,7 +103,11 @@
                 Background="{TemplateBinding Background}"
                 BorderBrush="{TemplateBinding BorderBrush}"
                 CornerRadius="{TemplateBinding CornerRadius}">
-          <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" RowDefinitions="40,*" MinWidth="294">
+          <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+            <Grid.RowDefinitions>
+              <RowDefinition Height="{theme:ControlHeightMd}" />
+              <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
             <Grid ColumnDefinitions="5*,*,*">
               <Button Name="PART_HeaderButton"
                       Theme="{StaticResource PrototypeCalendarButton}"
@@ -115,7 +119,7 @@
                       Foreground="{TemplateBinding Foreground}"
                       HorizontalContentAlignment="Center">
                 <Path Name="PART_PreviousArrow"
-                      StrokeThickness="1.5"
+                      StrokeThickness="{theme:ThicknessMd}"
                       Data="M 0,9 L 9,0 L 18,9"
                       HorizontalAlignment="Center"
                       VerticalAlignment="Center" />
@@ -126,7 +130,7 @@
                       Foreground="{TemplateBinding Foreground}"
                       HorizontalContentAlignment="Center">
                 <Path Name="PART_NextArrow"
-                      StrokeThickness="1.5"
+                      StrokeThickness="{theme:ThicknessMd}"
                       Data="M 0,0 L 9,9 L 18,0"
                       HorizontalAlignment="Center"
                       VerticalAlignment="Center" />
@@ -138,10 +142,9 @@
                     Grid.Row="1" />
             <Grid Name="PART_MonthView"
                   Grid.Row="1"
-                  IsVisible="False"
-                  MinHeight="290">
+                  IsVisible="False">
               <Grid.RowDefinitions>
-                <RowDefinition Height="38" />
+                <RowDefinition Height="{theme:ControlHeightMd}" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -161,7 +164,6 @@
             </Grid>
             <Grid Name="PART_YearView"
                   Background="{TemplateBinding BorderBrush}"
-                  MinHeight="290"
                   Grid.Row="1"
                   IsVisible="False">
               <Grid.RowDefinitions>
@@ -198,7 +200,7 @@
 
     <!-- Background layer -->
     <Style Selector="^ /template/ Border#BackgroundLayer">
-      <Setter Property="Margin" Value="{theme:Edges Top={theme:Scaled Value={theme:BaseSize}, By=38}}" />
+      <Setter Property="Margin" Value="{theme:Edges Top={theme:ControlHeightMd}}" />
     </Style>
 
     <!-- Hover state -->

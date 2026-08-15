@@ -21,12 +21,13 @@
     <Setter Property="TextElement.Foreground" Value="{theme:OnSurfaceDimBrush}" />
     <Setter Property="Margin" Value="{theme:Edges Left={theme:SpacingSm}, Right={theme:SpacingMd}}" />
     <Setter Property="Width" Value="20" />
+    <Setter Property="Height" Value="24" />
 
     <!-- Template -->
     <Setter Property="Template">
       <ControlTemplate>
-        <Grid Height="24"
-              Width="20"
+        <Grid Height="{TemplateBinding Height}"
+              Width="{TemplateBinding Width}"
               HorizontalAlignment="Center"
               VerticalAlignment="Center"
               Margin="0"
@@ -51,13 +52,12 @@
                      Grid.RowSpan="3"
                      Foreground="{TemplateBinding Foreground}"
                      Text="{Binding Source={x:Static sys:DateTime.Today}, Path=Day}" />
-          <Ellipse HorizontalAlignment="Center"
+          <Ellipse x:Name="PART_Dot"
+                   HorizontalAlignment="Center"
                    VerticalAlignment="Center"
                    Fill="{TemplateBinding Foreground}"
                    StrokeThickness="0"
-                   Grid.ColumnSpan="4"
-                   Width="3"
-                   Height="3" />
+                   Grid.ColumnSpan="4" />
         </Grid>
       </ControlTemplate>
     </Setter>
@@ -79,6 +79,12 @@
     <Style Selector="^ /template/ TextBlock#PART_DayText">
       <Setter Property="Margin" Value="{theme:Edges Top={theme:Scaled Value={theme:BaseSize}, By=-1}}" />
       <Setter Property="FontSize" Value="{theme:FontSizeSm}" />
+    </Style>
+
+    <!-- Dot indicator visuals -->
+    <Style Selector="^ /template/ Ellipse#PART_Dot">
+      <Setter Property="Width" Value="{theme:ThicknessLg}" />
+      <Setter Property="Height" Value="{theme:ThicknessLg}" />
     </Style>
   </ControlTheme>
 

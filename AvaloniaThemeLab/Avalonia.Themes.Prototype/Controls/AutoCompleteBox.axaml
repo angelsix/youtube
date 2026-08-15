@@ -62,7 +62,7 @@
     <Setter Property="FontSize" Value="{theme:FontSizeMd}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
     <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
-    <Setter Property="Padding" Value="{theme:Edges Left={theme:SpacingXxl}, Top={theme:SpacingLg}, Right={theme:SpacingLg}, Bottom={theme:SpacingMd}}" />
+    <Setter Property="Padding" Value="{theme:Edges All={theme:SpacingMd}}" />
     <Setter Property="MinHeight" Value="{theme:ControlHeightSm}" />
     <Setter Property="MaxDropDownHeight" Value="{theme:Scaled Value={theme:ControlHeightSm}, By=12}" />
 
@@ -79,6 +79,7 @@
       <ControlTemplate>
         <DataValidationErrors>
           <Grid Name="PART_LayoutRoot">
+            
             <TextBox Name="PART_TextBox"
                      PlaceholderText="{TemplateBinding PlaceholderText}"
                      PlaceholderForeground="{TemplateBinding PlaceholderForeground}"
@@ -117,6 +118,11 @@
       </ControlTemplate>
     </Setter>
 
+    <!-- Default style -->
+    <Style Selector="^ /template/ TextBox#PART_TextBox">
+      <Setter Property="VerticalContentAlignment" Value="Center" />
+    </Style>
+    
     <!-- Popup styles -->
     <Style Selector="^ /template/ Border#PART_SuggestionsContainer">
       <Setter Property="BorderThickness" Value="{theme:ThicknessSm}" />

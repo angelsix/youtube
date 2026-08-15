@@ -1,4 +1,4 @@
-﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
@@ -13,7 +13,7 @@
   </Design.PreviewWith>
   <ControlTheme x:Key="{x:Type NotificationCard}" TargetType="NotificationCard">
     <Setter Property="UseLayoutRounding" Value="True"/>
-    <Setter Property="Width" Value="350"/>
+    <Setter Property="Width" Value="{theme:Scaled Value={theme:ControlMinWidth}, By=5}"/>
     <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}"/>
     <Setter Property="RenderTransformOrigin" Value="50%,75%"/>
     <Setter Property="BorderThickness" Value="0" />
@@ -29,8 +29,8 @@
                     CornerRadius="{TemplateBinding CornerRadius}"
                     ClipToBounds="True">
               <DockPanel>
-                <Panel x:Name="PART_HeaderBar" Height="4" Background="{theme:OnSurfaceDimBrush}" DockPanel.Dock="Top" />
-                <ContentPresenter Name="PART_ContentPresenter" MinHeight="64" Content="{TemplateBinding Content}" />
+                <Panel x:Name="PART_HeaderBar" Height="{theme:ThicknessXxl}" Background="{theme:OnSurfaceDimBrush}" DockPanel.Dock="Top" />
+                <ContentPresenter Name="PART_ContentPresenter" MinHeight="{theme:Scaled Value={theme:ControlHeightMd}, By=2}" Content="{TemplateBinding Content}" />
               </DockPanel>
             </Border>
           </Border>

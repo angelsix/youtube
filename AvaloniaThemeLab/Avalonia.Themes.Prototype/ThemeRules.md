@@ -48,6 +48,35 @@ Some properties that are always part of the common setter checklist (Rule 4) do 
 
 ---
 
+## Hard-Coded Values — When They're Allowed
+
+**Statement:** The default is that **every colour, font family, font size, and font weight** flows from a theme token. Hard-coded values are rare exceptions, not the norm. When you encounter a hard-coded colour or font value, judge whether it should be replaced by picking the most suitable theme token based on what the control is doing — not by preserving the exact pixel value.
+
+**When hard-coded values ARE allowed (rare exceptions):**
+
+| Exception | Example | Why |
+|-----------|---------|-----|
+| **Icon asset graphics** | `GeometryDrawing Brush="#FF797774"` in ManagedFileChooser file/folder icons | These are intrinsic icon artwork, not themeable UI colours |
+| **Structural shadows** | `BoxShadow="0 2 10 2 #80000000"` | Shadow colours are semi-transparent composites; theming them would require a separate shadow token system |
+| **Gradient stops in icon artwork** | `GradientStop Color="#FFFFDA6F"` in icon DrawingGroups | Same as icon assets — intrinsic graphics |
+| **Platform-specific colours** | Close button red on macOS-style window decorations | These are OS conventions, not theme choices |
+| **Non-visual structural values** | `StrokeDashArray="3, 2, 6, 2"` | A specific visual pattern, not a colour or size |
+| **Animation keyframe values** | `TranslateTransform.Y="800"` in closing animations | Animation trajectories, not visual properties |
+
+**When hard-coded values are NOT allowed:**
+
+- **Any colour on a control's visual surface** — Background, Foreground, BorderBrush, Fill, Stroke → use a theme brush token
+- **Any font property** — FontFamily, FontSize, FontWeight → use a theme token
+- **Any opacity that represents a state** — disabled opacity, hover dimming → use `{theme:DisabledOpacity}` or a `Scaled` variant
+- **Any colour that could change with a theme swap** — if you imagine a dark theme or custom accent, would this colour need to change? If yes, it must be themed
+
+**Judgement call process:** When you find a hard-coded colour:
+1. Ask: "If the user swaps to a dark theme, should this colour change?"
+2. If yes → replace with the most suitable theme token (e.g. a close button's red background becomes `{theme:AccentDestructiveBrush}`)
+3. If no → is it icon artwork or a structural value? If yes, leave it. If no, theme it anyway.
+
+---
+
 ## Rule 1: All Control Theme Setters Must Bind to Theme Tokens
 
 **Statement:** Every `Setter` at the `ControlTheme` level (i.e. direct children of the `<ControlTheme>` element) that sets a visual property MUST source its value from a theme token (`{theme:...}`) or a `{StaticResource}` defined within the same file. No hard-coded colours, sizes, brushes, or thicknesses at the ControlTheme level.

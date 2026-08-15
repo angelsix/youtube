@@ -9,8 +9,8 @@
     <Setter Property="Background" Value="{theme:SurfaceBrush}" />
     <Setter Property="BorderBrush" Value="{theme:AccentBorderBrush}" />
     <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}"/>
-    <Setter Property="Width" Value="{theme:Scaled Value={theme:BaseSize}, By=45}"/>
-    <Setter Property="Height" Value="{theme:Scaled Value={theme:BaseSize}, By=30}"/>
+    <Setter Property="Width" Value="{theme:ControlHeightLg}"/>
+    <Setter Property="Height" Value="{theme:ControlHeightMd}"/>
     <Setter Property="VerticalAlignment" Value="Stretch"/>
     <Setter Property="(WindowDecorationProperties.ElementRole)" Value="DecorationsElement"/>
     <Setter Property="Template">
@@ -66,7 +66,7 @@
                 <TextBlock Text="{TemplateBinding Title}"
                            VerticalAlignment="Center"
                            Margin="{theme:Edges Left={theme:SpacingXxl}}"
-                           FontSize="12" />
+                           FontSize="{theme:FontSizeSm}" />
               </Panel>
               <StackPanel x:Name="PART_OverlayPanel"
                           VerticalAlignment="Top"
@@ -75,11 +75,11 @@
                           IsVisible="{TemplateBinding HasTitleBar}"
                           Orientation="Horizontal"
                           Spacing="{theme:SpacingSm}"
-                          TextElement.FontSize="10">
+                          TextElement.FontSize="{theme:FontSizeSm}">
                 <Button x:Name="PART_FullScreenButton"
                         Theme="{StaticResource PrototypeDrawnCaptionButton}"
                         WindowDecorationProperties.ElementRole="FullScreenButton">
-                  <Viewbox Width="11" Margin="{theme:Edges All={theme:SpacingSm}}">
+                  <Viewbox Width="{theme:IconSize}" Margin="{theme:Edges All={theme:SpacingSm}}">
                     <Path Name="FullScreenButtonPath"
                           Stretch="UniformToFill"
                           Fill="{theme:OnSurfaceBrush}"
@@ -89,7 +89,7 @@
                 <Button x:Name="PART_MinimizeButton"
                         Theme="{StaticResource PrototypeDrawnCaptionButton}"
                         WindowDecorationProperties.ElementRole="MinimizeButton">
-                  <Viewbox Width="11" Margin="{theme:Edges All={theme:SpacingSm}}">
+                  <Viewbox Width="{theme:IconSize}" Margin="{theme:Edges All={theme:SpacingSm}}">
                     <Path Stretch="UniformToFill"
                           Fill="{theme:OnSurfaceBrush}"
                           Data="M2048 1229v-205h-2048v205h2048z" />
@@ -98,7 +98,7 @@
                 <Button x:Name="PART_MaximizeButton"
                         Theme="{StaticResource PrototypeDrawnCaptionButton}"
                         WindowDecorationProperties.ElementRole="MaximizeButton">
-                  <Viewbox Width="11" Margin="{theme:Edges All={theme:SpacingSm}}">
+                  <Viewbox Width="{theme:IconSize}" Margin="{theme:Edges All={theme:SpacingSm}}">
                     <Viewbox.RenderTransform>
                       <RotateTransform Angle="-90" />
                     </Viewbox.RenderTransform>
@@ -109,11 +109,11 @@
                   </Viewbox>
                 </Button>
                 <Button x:Name="PART_CloseButton"
-                        Background="#ffe81123"
-                        BorderBrush="#fff1707a"
+                        Background="{theme:AccentDestructiveBrush}"
+                        BorderBrush="{theme:AccentDestructiveLight1Brush}"
                         Theme="{StaticResource PrototypeDrawnCaptionButton}"
                         WindowDecorationProperties.ElementRole="CloseButton">
-                  <Viewbox Width="11" Margin="{theme:Edges All={theme:SpacingSm}}">
+                  <Viewbox Width="{theme:IconSize}" Margin="{theme:Edges All={theme:SpacingSm}}">
                     <Path Stretch="UniformToFill"
                           Fill="{theme:OnSurfaceBrush}"
                           Data="M1169 1024l879 -879l-145 -145l-879 879l-879 -879l-145 145l879 879l-879 879l145 145l879 -879l879 879l145 -145z" />
@@ -131,26 +131,26 @@
               <TextBlock Text="{TemplateBinding Title}"
                          VerticalAlignment="Center"
                          Margin="{theme:Edges Left={theme:SpacingXxl}}"
-                         FontSize="12" />
+                         FontSize="{theme:FontSizeSm}" />
               <StackPanel HorizontalAlignment="Right"
                           Orientation="Horizontal"
                           Spacing="{theme:SpacingSm}"
-                          TextElement.FontSize="10">
+                          TextElement.FontSize="{theme:FontSizeSm}">
                 <Button x:Name="PART_PopoverFullScreenButton"
                         Theme="{StaticResource PrototypeDrawnCaptionButton}"
                         WindowDecorationProperties.ElementRole="FullScreenButton">
-                  <Viewbox Width="11" Margin="{theme:Edges All={theme:SpacingSm}}">
+                  <Viewbox Width="{theme:IconSize}" Margin="{theme:Edges All={theme:SpacingSm}}">
                     <Path Stretch="UniformToFill"
                           Fill="{theme:OnSurfaceBrush}"
                           Data="M205 1024h819v-819h-205v469l-674 -674l-145 145l674 674h-469v205zM1374 1229h469v-205h-819v819h205v-469l674 674l145 -145z" />
                   </Viewbox>
                 </Button>
                 <Button x:Name="PART_PopoverCloseButton"
-                        Background="#ffe81123"
-                        BorderBrush="#fff1707a"
+                        Background="{theme:AccentDestructiveBrush}"
+                        BorderBrush="{theme:AccentDestructiveLight1Brush}"
                         Theme="{StaticResource PrototypeDrawnCaptionButton}"
                         WindowDecorationProperties.ElementRole="CloseButton">
-                  <Viewbox Width="11" Margin="{theme:Edges All={theme:SpacingSm}}">
+                  <Viewbox Width="{theme:IconSize}" Margin="{theme:Edges All={theme:SpacingSm}}">
                     <Path Stretch="UniformToFill"
                           Fill="{theme:OnSurfaceBrush}"
                           Data="M1169 1024l879 -879l-145 -145l-879 879l-879 -879l-145 145l879 879l-879 879l145 145l879 -879l879 879l145 -145z" />

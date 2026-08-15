@@ -49,27 +49,27 @@
             CornerRadius="{TemplateBinding CornerRadius}">
           <Grid ColumnDefinitions="Auto,*">
             <Grid
-                Width="20"
-                Height="20"
+                Width="{theme:IconSize}"
+                Height="{theme:IconSize}"
                 VerticalAlignment="Top">
 
               <Ellipse
                   x:Name="OuterEllipse"
-                  Width="20"
-                  Height="20"
+                  Width="{theme:IconSize}"
+                  Height="{theme:IconSize}"
                   UseLayoutRounding="False" />
 
               <Ellipse
                   x:Name="CheckOuterEllipse"
-                  Width="20"
-                  Height="20"
+                  Width="{theme:IconSize}"
+                  Height="{theme:IconSize}"
                   Opacity="0"
                   UseLayoutRounding="False" />
 
               <Ellipse
                   x:Name="CheckGlyph"
-                  Width="8"
-                  Height="8"
+                  Width="{theme:IconSize}"
+                  Height="{theme:IconSize}"
                   Opacity="0"
                   UseLayoutRounding="False" />
             </Grid>

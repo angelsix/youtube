@@ -155,8 +155,8 @@
   <!-- ScrollBar main theme -->
   <ControlTheme x:Key="{x:Type ScrollBar}" TargetType="ScrollBar">
     <!-- Visual defaults -->
-    <Setter Property="MinWidth" Value="16" />
-    <Setter Property="MinHeight" Value="16" />
+    <Setter Property="MinWidth" Value="{theme:ControlHeightSm}" />
+    <Setter Property="MinHeight" Value="{theme:ControlHeightSm}" />
     <Setter Property="Background" Value="{theme:SurfaceBrush}" />
     <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
     <Setter Property="BorderBrush" Value="{theme:OnSurfaceDimBrush}" />
@@ -192,12 +192,12 @@
                               Theme="{StaticResource PrototypeScrollBarLineButton}"
                               Grid.Row="0"
                               Focusable="False"
-                              MinWidth="16"
-                              Height="16"
+                              MinWidth="{theme:IconSize}"
+                              Height="{theme:IconSize}"
                               AutomationProperties.Name="Line up">
                   <PathIcon Data="M 19.091797 14.970703 L 10 5.888672 L 0.908203 14.970703 L 0.029297 14.091797 L 10 4.111328 L 19.970703 14.091797 Z"
-                            Width="8"
-                            Height="8"/>
+                            Width="{theme:IconSize}"
+                            Height="{theme:IconSize}"/>
                 </RepeatButton>
 
                 <Track Grid.Row="1"
@@ -223,8 +223,8 @@
                                   AutomationProperties.Name="Page down"/>
                   </Track.IncreaseButton>
                   <Thumb Theme="{StaticResource PrototypeScrollBarThumb}"
-                         Width="16"
-                         MinHeight="16"
+                         Width="{theme:IconSize}"
+                         MinHeight="{theme:IconSize}"
                          RenderTransform="{StaticResource VerticalSmallScrollThumbScaleTransform}"
                          RenderTransformOrigin="100%,50%"
                          AutomationProperties.Name="Position"/>
@@ -235,12 +235,12 @@
                               Theme="{StaticResource PrototypeScrollBarLineButton}"
                               Grid.Row="2"
                               Focusable="False"
-                              MinWidth="16"
-                              Height="16"
+                              MinWidth="{theme:IconSize}"
+                              Height="{theme:IconSize}"
                               AutomationProperties.Name="Line down">
                   <PathIcon Data="M 18.935547 4.560547 L 19.814453 5.439453 L 10 15.253906 L 0.185547 5.439453 L 1.064453 4.560547 L 10 13.496094 Z"
-                            Width="8"
-                            Height="8"/>
+                            Width="{theme:IconSize}"
+                            Height="{theme:IconSize}"/>
                 </RepeatButton>
               </Grid>
             </Border>
@@ -278,12 +278,12 @@
                               VerticalAlignment="Center"
                               Grid.Column="0"
                               Focusable="False"
-                              MinHeight="16"
-                              Width="16"
+                              MinHeight="{theme:IconSize}"
+                              Width="{theme:IconSize}"
                               AutomationProperties.Name="Column left">
                   <PathIcon Data="M 14.091797 19.970703 L 4.111328 10 L 14.091797 0.029297 L 14.970703 0.908203 L 5.888672 10 L 14.970703 19.091797 Z"
-                            Width="8"
-                            Height="8"/>
+                            Width="{theme:IconSize}"
+                            Height="{theme:IconSize}"/>
                 </RepeatButton>
 
                 <Track Grid.Column="1"
@@ -308,8 +308,8 @@
                                   AutomationProperties.Name="Page right"/>
                   </Track.IncreaseButton>
                   <Thumb Theme="{StaticResource PrototypeScrollBarThumb}"
-                         Height="16"
-                         MinWidth="16"
+                         Height="{theme:IconSize}"
+                         MinWidth="{theme:IconSize}"
                          RenderTransform="{StaticResource HorizontalSmallScrollThumbScaleTransform}"
                          RenderTransformOrigin="50%,100%"
                          AutomationProperties.Name="Position"/>
@@ -320,12 +320,12 @@
                               VerticalAlignment="Center"
                               Grid.Column="2"
                               Focusable="False"
-                              MinHeight="16"
-                              Width="16"
+                              MinHeight="{theme:IconSize}"
+                              Width="{theme:IconSize}"
                               AutomationProperties.Name="Column right">
                   <PathIcon Data="M 5.029297 19.091797 L 14.111328 10 L 5.029297 0.908203 L 5.908203 0.029297 L 15.888672 10 L 5.908203 19.970703 Z"
-                            Width="8"
-                            Height="8"/>
+                            Width="{theme:IconSize}"
+                            Height="{theme:IconSize}"/>
                 </RepeatButton>
               </Grid>
             </Border>
