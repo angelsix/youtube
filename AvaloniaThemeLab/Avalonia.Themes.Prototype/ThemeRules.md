@@ -48,32 +48,85 @@ Some properties that are always part of the common setter checklist (Rule 4) do 
 
 ---
 
-## Hard-Coded Values — When They're Allowed
+## ❗ Hard-Coded Values — What Is and Isn't Allowed
 
-**Statement:** The default is that **every colour, font family, font size, and font weight** flows from a theme token. Hard-coded values are rare exceptions, not the norm. When you encounter a hard-coded colour or font value, judge whether it should be replaced by picking the most suitable theme token based on what the control is doing — not by preserving the exact pixel value.
+**Statement:** Every colour, font family, font size, and font weight on a UI surface flows from a theme token. Hard-coded values are **not** the default — they are restricted to a small, closed list of exemptions. When you encounter a hard-coded colour or font value, replace it with the most suitable theme token. Do not preserve the exact pixel value; pick the token that matches the control's visual role.
 
-**When hard-coded values ARE allowed (rare exceptions):**
+### Violations — These Are Never Allowed on UI Elements
 
-| Exception | Example | Why |
+The following patterns are **explicit violations**. If you see any of them on a UI element (not icon artwork), it must be fixed:
+
+| Violation | Example | Fix |
 |-----------|---------|-----|
-| **Icon asset graphics** | `GeometryDrawing Brush="#FF797774"` in ManagedFileChooser file/folder icons | These are intrinsic icon artwork, not themeable UI colours |
-| **Structural shadows** | `BoxShadow="0 2 10 2 #80000000"` | Shadow colours are semi-transparent composites; theming them would require a separate shadow token system |
-| **Gradient stops in icon artwork** | `GradientStop Color="#FFFFDA6F"` in icon DrawingGroups | Same as icon assets — intrinsic graphics |
-| **Platform-specific colours** | Close button red on macOS-style window decorations | These are OS conventions, not theme choices |
-| **Non-visual structural values** | `StrokeDashArray="3, 2, 6, 2"` | A specific visual pattern, not a colour or size |
-| **Animation keyframe values** | `TranslateTransform.Y="800"` in closing animations | Animation trajectories, not visual properties |
+| **`LinearGradientBrush` / `RadialGradientBrush` with hardcoded stops** | `<GradientStop Offset="0" Color="#4F000000"/>` | Every `GradientStop.Color` must use a theme token: `Color="{theme:OnSurface}"` (with opacity on the brush or stop) |
+| **`SolidColorBrush` with hardcoded hex** | `<SolidColorBrush Color="#FF797774"/>` | Use `Color="{theme:...}"` — e.g. `Color="{theme:OnSurface}"` |
+| **`BoxShadow` with any hardcoded colour** | `BoxShadow="0 6 8 0 #4F000000"` | Replace with a `Border` element behind the target using `Background="{theme:SurfaceOverlayWeakBrush}"` (or another overlay brush). See [Shadow Theming](#shadow-theming) below. |
+| **Any `#RRGGBB` or `#AARRGGBB` hex on a UI element** | `Fill="#FF000000"`, `Stroke="#80FFFFFF"` | Replace with the appropriate theme brush token |
 
-**When hard-coded values are NOT allowed:**
+> **Avalonia caveat:** `GradientStop` has no `Opacity` property — attempting `<GradientStop Opacity="0.05"/>` produces `AVLN2000`. Use a themed brush with built-in opacity (e.g., `{theme:SurfaceOverlayWeakBrush}`) instead, or encode the alpha in the colour itself via a token.
 
-- **Any colour on a control's visual surface** — Background, Foreground, BorderBrush, Fill, Stroke → use a theme brush token
-- **Any font property** — FontFamily, FontSize, FontWeight → use a theme token
-- **Any opacity that represents a state** — disabled opacity, hover dimming → use `{theme:DisabledOpacity}` or a `Scaled` variant
-- **Any colour that could change with a theme swap** — if you imagine a dark theme or custom accent, would this colour need to change? If yes, it must be themed
+### Exemptions — Closed List
 
-**Judgement call process:** When you find a hard-coded colour:
-1. Ask: "If the user swaps to a dark theme, should this colour change?"
-2. If yes → replace with the most suitable theme token (e.g. a close button's red background becomes `{theme:AccentDestructiveBrush}`)
-3. If no → is it icon artwork or a structural value? If yes, leave it. If no, theme it anyway.
+Only the following categories are exempt from theming. **No other exemptions exist.** If a value does not fall into one of these categories, it must be themed:
+
+| Exemption | Example | Why |
+|-----------|---------|-----|
+| **Icon artwork** | `GeometryDrawing Brush="#FF797774"` inside `DrawingGroup` resources | Intrinsic drawn graphics — these are images, not UI surfaces. **Note:** icon artwork should be moved into `ThemeIconGallery.cs` or a shared icon resource file; hardcoded icons in control themes are a code smell |
+| **`StrokeDashArray` values** | `StrokeDashArray="3, 2, 6, 2"` | Structural pattern definition, not a colour |
+| **Animation keyframe trajectory values** | `TranslateTransform.Y="800"` in closing animations | Motion parameters, not visual properties |
+| **Structural layout values** | `RowDefinitions="*, Auto"`, `ColumnDefinitions="100, *"`, `Grid.Row="1"` | Layout geometry, not visual style |
+
+> **Current icon artwork in ManagedFileChooser.axaml:** The file/folder/volume DrawingGroup icons are Avalonia's stock file picker assets. They are correctly exempted as icon artwork but should be extracted to a shared resource file when Avalonia supports `ResourceDictionary.Source` in merged dictionaries.
+
+### Shadow Theming
+
+Shadows **must** change with the theme. A dark theme needs white-tinted shadows (to lift against dark surfaces), while a light theme needs black-tinted shadows. Hardcoded black shadows in a dark theme produce invisible or muddy results.
+
+**The mechanism:** `SurfaceOverlay` is the colour that inverts between themes — `#000000` (black) in the light theme, `#FFFFFF` (white) in the dark theme. The derived brushes apply opacity automatically:
+
+| Token | Opacity | Use |
+|-------|---------|-----|
+| `{theme:SurfaceOverlayWeakBrush}` | 8% | Subtle depth, card shadows, hover lifts |
+| `{theme:SurfaceOverlayMediumBrush}` | 16% | Standard elevation, dropdown panels |
+| `{theme:SurfaceOverlayStrongBrush}` | 32% | High elevation, modals, focused elements |
+
+**How to theme each shadow type:**
+
+- **`BoxShadow` strings** (e.g. `BoxShadow="0 6 8 0 #4F000000"`): Avalonia's `BoxShadow` is a string property and cannot be data-bound to theme tokens. **Replace the `BoxShadow` entirely** with a `Border` element positioned behind the target element:
+  ```xml
+  <!-- Shadow layer (behind the card) -->
+  <Border Background="{theme:SurfaceOverlayWeakBrush}"
+          CornerRadius="{theme:RadiusMd}"
+          Margin="0, 0, -4, -4"
+          ClipToBounds="False"/>
+  <!-- Main card content -->
+  <Border Background="{theme:SurfaceBrush}"
+          CornerRadius="{theme:RadiusMd}">
+      ...
+  </Border>
+  ```
+
+- **Gradient shadows** (`LinearGradientBrush`, `RadialGradientBrush`): Use theme tokens in every `GradientStop`. For a fade shadow:
+  ```xml
+  <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+      <GradientStop Offset="0" Color="{theme:OnSurface}" Opacity="0.12"/>
+      <GradientStop Offset="1" Color="{theme:OnSurface}" Opacity="0"/>
+  </LinearGradientBrush>
+  ```
+  Or use `{theme:SurfaceOverlay}` for shadows that should invert between light/dark themes.
+
+- **`SolidColorBrush` shadow resources**: Must use `Color="{theme:...}"` — never `Color="#..."`.
+
+> **Known violations to fix:** `NotificationCard.axaml` (`0 6 8 0 #4F000000`), `WindowDrawnDecorations.axaml` (`0 2 10 2 #80000000`), `ManagedFileChooser.axaml` (inset shadow `inset -6 0 3 -3 #20000000`). All use hardcoded black and must be replaced with themed Border elements.
+
+### Judgement Test
+
+When you find any hard-coded colour value, apply this test **before** deciding whether it is exempt:
+
+> **❓ "If the user swaps to a dark theme or a colourful accent theme, would this value need to change?"**
+>
+> - **Yes** → This is a **violation**. No exemption applies. Replace with the most suitable theme token.
+> - **No** → Does it fall into one of the five closed exemption categories above? If yes, it is allowed. If no, theme it anyway.
 
 ---
 
@@ -295,4 +348,5 @@ After reviewing the calendar controls against the existing `DefaultTheme`, the c
 | **State** | `DisabledOpacity` (0.3), `PressedScale` (0.98) |
 | **Animation** | `AnimationFastMs` (75), `AnimationNormalMs` (150), `AnimationSlowMs` (300) |
 | **Derived brushes** | All 13 colours as brushes, 3 surface overlay brushes (weak/medium/strong), 9 accents × 3 shades × 2 (dark/light), all shade brushes |
+| **Shadow / overlay** | `SurfaceOverlay` (black in light, white in dark), `SurfaceOverlayWeakBrush` (8%), `SurfaceOverlayMediumBrush` (16%), `SurfaceOverlayStrongBrush` (32%) — use these for shadows, hover lifts, and elevation effects |
 | **Dark variant** | `DefaultThemeDark` — overrides `Surface`, `OnSurface`, `OnSurfaceDim`, `SurfaceOverlay`, `AccentDestructive` |

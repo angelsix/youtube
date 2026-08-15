@@ -121,23 +121,19 @@
                   CornerRadius="{TemplateBinding CornerRadius}"
                   Padding="{TemplateBinding Padding}">
             <StackPanel Name="PART_HeaderPanel"
-                        Spacing="{theme:SpacingMd}"
                         HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                         VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
               <ContentPresenter Name="PART_IconPresenter"
                                 Content="{TemplateBinding Icon}"
                                 ContentTemplate="{TemplateBinding IconTemplate}"
                                 HorizontalAlignment="Center"
-                                IsVisible="{TemplateBinding Icon, Converter={x:Static ObjectConverters.IsNotNull}}"
-                                Width="{theme:IconSize}"
-                                Height="{theme:IconSize}" />
+                                IsVisible="{TemplateBinding Icon, Converter={x:Static ObjectConverters.IsNotNull}}" />
               <ContentPresenter Name="PART_ContentPresenter"
                                 HorizontalAlignment="Center"
                                 HorizontalContentAlignment="Center"
                                 Content="{TemplateBinding Header}"
                                 ContentTemplate="{TemplateBinding HeaderTemplate}"
                                 FontFamily="{TemplateBinding FontFamily}"
-                                FontSize="{theme:FontSizeSm}"
                                 FontWeight="{TemplateBinding FontWeight}" />
             </StackPanel>
           </Border>
@@ -232,6 +228,18 @@
     <Style Selector="^:focus-visible /template/ Border#PART_LayoutRoot">
       <Setter Property="BorderBrush" Value="{theme:OnSurfaceBrush}" />
       <Setter Property="BorderThickness" Value="2" />
+    </Style>
+
+    <!-- Themed properties moved out of ControlTemplate -->
+    <Style Selector="^ /template/ StackPanel#PART_HeaderPanel">
+      <Setter Property="Spacing" Value="{theme:SpacingMd}" />
+    </Style>
+    <Style Selector="^ /template/ ContentPresenter#PART_IconPresenter">
+      <Setter Property="Width" Value="{theme:IconSize}" />
+      <Setter Property="Height" Value="{theme:IconSize}" />
+    </Style>
+    <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="FontSize" Value="{theme:FontSizeSm}" />
     </Style>
   </ControlTheme>
 

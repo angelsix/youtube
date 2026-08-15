@@ -51,7 +51,6 @@
           <!-- Structural: track height -->
           <Border x:Name="TrackBackground"
                   Background="{TemplateBinding Background}"
-                  Height="{theme:ThicknessSm}"
                   VerticalAlignment="Center"/>
         </Grid>
       </ControlTemplate>
@@ -64,6 +63,7 @@
 
     <!-- Track background styling -->
     <Style Selector="^ /template/ Border#TrackBackground">
+      <Setter Property="Height" Value="{theme:ThicknessSm}" />
       <Setter Property="CornerRadius" Value="{theme:RadiusSm}" />
     </Style>
   </ControlTheme>
@@ -80,7 +80,6 @@
           <!-- Structural: track width -->
           <Border x:Name="TrackBackground"
                   Background="{TemplateBinding Background}"
-                  Width="{theme:ThicknessSm}"
                   HorizontalAlignment="Center"/>
         </Grid>
       </ControlTemplate>
@@ -93,6 +92,7 @@
 
     <!-- Track background styling -->
     <Style Selector="^ /template/ Border#TrackBackground">
+      <Setter Property="Width" Value="{theme:ThicknessSm}" />
       <Setter Property="CornerRadius" Value="{theme:RadiusSm}" />
     </Style>
   </ControlTheme>
@@ -151,7 +151,6 @@
                       <RowDefinition Height="Auto" />
                       <RowDefinition Height="{theme:SpacingXxl}" />
                     </Grid.RowDefinitions>
-                    <!-- Structural: tick bar height -->
                     <TickBar
                         Name="TopTickBar"
                         Grid.ColumnSpan="3"
@@ -160,7 +159,6 @@
                         Orientation="{TemplateBinding Slider.Orientation}"
                         Minimum="{TemplateBinding Slider.Minimum}"
                         Maximum="{TemplateBinding Slider.Maximum}"
-                        Height="{theme:ThicknessXxl}"
                         VerticalAlignment="Bottom"
                         Placement="Top"
                         IsVisible="False"
@@ -175,7 +173,6 @@
                         Orientation="{TemplateBinding Slider.Orientation}"
                         Minimum="{TemplateBinding Slider.Minimum}"
                         Maximum="{TemplateBinding Slider.Maximum}"
-                        Height="{theme:ThicknessXxl}"
                         VerticalAlignment="Top"
                         Placement="Bottom"
                         IsVisible="False"
@@ -245,7 +242,6 @@
                       <ColumnDefinition Width="Auto" />
                       <ColumnDefinition Width="{theme:SpacingXxl}" />
                     </Grid.ColumnDefinitions>
-                    <!-- Structural: tick bar width -->
                     <TickBar
                         Name="LeftTickBar"
                         Grid.RowSpan="3"
@@ -254,7 +250,6 @@
                         Orientation="{TemplateBinding Slider.Orientation}"
                         Minimum="{TemplateBinding Slider.Minimum}"
                         Maximum="{TemplateBinding Slider.Maximum}"
-                        Width="{theme:ThicknessXxl}"
                         HorizontalAlignment="Right"
                         Placement="Left"
                         IsVisible="False"
@@ -269,7 +264,6 @@
                         Orientation="{TemplateBinding Slider.Orientation}"
                         Minimum="{TemplateBinding Slider.Minimum}"
                         Maximum="{TemplateBinding Slider.Maximum}"
-                        Width="{theme:ThicknessXxl}"
                         HorizontalAlignment="Left"
                         Placement="Right" 
                         IsVisible="False"
@@ -335,18 +329,22 @@
     </Style>
 
     <Style Selector="^ /template/ TickBar#TopTickBar">
+      <Setter Property="Height" Value="{theme:ThicknessXxl}" />
       <Setter Property="Margin" Value="{theme:Edges Bottom={theme:SpacingMd}}" />
     </Style>
 
     <Style Selector="^ /template/ TickBar#BottomTickBar">
+      <Setter Property="Height" Value="{theme:ThicknessXxl}" />
       <Setter Property="Margin" Value="{theme:Edges Top={theme:SpacingMd}}" />
     </Style>
 
     <Style Selector="^ /template/ TickBar#LeftTickBar">
+      <Setter Property="Width" Value="{theme:ThicknessXxl}" />
       <Setter Property="Margin" Value="{theme:Edges Right={theme:SpacingMd}}" />
     </Style>
 
     <Style Selector="^ /template/ TickBar#RightTickBar">
+      <Setter Property="Width" Value="{theme:ThicknessXxl}" />
       <Setter Property="Margin" Value="{theme:Edges Left={theme:SpacingMd}}" />
     </Style>
 

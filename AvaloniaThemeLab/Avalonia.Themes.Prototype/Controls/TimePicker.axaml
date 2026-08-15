@@ -77,6 +77,8 @@
     <Setter Property="FontSize" Value="{theme:FontSizeMd}" />
     <Setter Property="FontWeight" Value="{theme:FontWeightRegular}" />
     <Setter Property="Padding" Value="{theme:Edges Horizontal={theme:SpacingMd}, Vertical={theme:SpacingMd}}" />
+    <Setter Property="MinHeight" Value="{theme:ControlHeightSm}" />
+    <Setter Property="MinWidth" Value="{theme:ControlMinWidth}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
     <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
 
@@ -107,14 +109,11 @@
                         VerticalAlignment="Stretch">
                   <TextBlock x:Name="PART_HourTextBlock"
                       Text="hour"
-                      HorizontalAlignment="Center"
-                      Padding="{theme:Edges Top={theme:SpacingMd}, Bottom={theme:SpacingLg}}" />
+                      HorizontalAlignment="Center" />
                 </Border>
 
                 <Rectangle Name="PART_FirstColumnDivider"
-                           Fill="{theme:SurfaceOverlayWeakBrush}"
                            HorizontalAlignment="Center"
-                           Width="{theme:BaseSize}"
                            Grid.Column="1" />
 
                 <Border x:Name="PART_SecondPickerHost"
@@ -123,14 +122,11 @@
                         VerticalAlignment="Stretch">
                   <TextBlock x:Name="PART_MinuteTextBlock"
                              Text="minute"
-                             HorizontalAlignment="Center"
-                             Padding="{theme:Edges Top={theme:SpacingMd}, Bottom={theme:SpacingLg}}"/>
+                             HorizontalAlignment="Center"/>
                 </Border>
 
                 <Rectangle Name="PART_SecondColumnDivider"
-                           Fill="{theme:SurfaceOverlayWeakBrush}"
                            HorizontalAlignment="Center"
-                           Width="{theme:BaseSize}"
                            Grid.Column="3" />
                 
                 <Border x:Name="PART_ThirdPickerHost"
@@ -139,14 +135,11 @@
                         VerticalAlignment="Stretch">
                   <TextBlock x:Name="PART_SecondTextBlock"
                              Text="second"
-                             HorizontalAlignment="Center"
-                             Padding="{theme:Edges Top={theme:SpacingMd}, Bottom={theme:SpacingLg}}"/>
+                             HorizontalAlignment="Center"/>
                 </Border>
 
                 <Rectangle Name="PART_ThirdColumnDivider"
-                           Fill="{theme:SurfaceOverlayWeakBrush}"
                            HorizontalAlignment="Center"
-                           Width="{theme:BaseSize}"
                            Grid.Column="5" />
 
                 <Border x:Name="PART_FourthPickerHost"
@@ -154,8 +147,7 @@
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch">
                   <TextBlock x:Name="PART_PeriodTextBlock"
-                             HorizontalAlignment="Center"
-                             Padding="{theme:Edges Top={theme:SpacingMd}, Bottom={theme:SpacingLg}}" />
+                             HorizontalAlignment="Center" />
                 </Border>
               </Grid>
             </Button>
@@ -187,6 +179,20 @@
     <Style Selector="^:error /template/ Button#PART_FlyoutButton">
       <Setter Property="BorderBrush" Value="{theme:AccentErrorBrush}"/>
     </Style>
+
+    <!-- Themed properties moved out of ControlTemplate -->
+    <Style Selector="^ /template/ TextBlock#PART_HourTextBlock,
+           ^ /template/ TextBlock#PART_MinuteTextBlock,
+           ^ /template/ TextBlock#PART_SecondTextBlock,
+           ^ /template/ TextBlock#PART_PeriodTextBlock">
+      <Setter Property="Padding" Value="{theme:Edges Top={theme:SpacingMd}, Bottom={theme:SpacingLg}}" />
+    </Style>
+    <Style Selector="^ /template/ Rectangle#PART_FirstColumnDivider,
+           ^ /template/ Rectangle#PART_SecondColumnDivider,
+           ^ /template/ Rectangle#PART_ThirdColumnDivider">
+      <Setter Property="Fill" Value="{theme:SurfaceOverlayWeakBrush}" />
+      <Setter Property="Width" Value="{theme:BaseSize}" />
+    </Style>
   </ControlTheme>
 
   <!-- TimePickerPresenter theme -->
@@ -215,8 +221,7 @@
                               VerticalScrollBarVisibility="Hidden">
                   <DateTimePickerPanel Name="PART_HourSelector"
                                        PanelType="Hour"
-                                       ShouldLoop="True"
-                                       ItemHeight="{theme:ControlHeightMd}"/>
+                                       ShouldLoop="True"/>
                 </ScrollViewer>
                 <RepeatButton Name="PART_HourUpButton" Theme="{StaticResource PrototypeDateTimePickerUpButton}"/>
                 <RepeatButton Name="PART_HourDownButton" Theme="{StaticResource PrototypeDateTimePickerDownButton}"/>
@@ -227,8 +232,7 @@
                               VerticalScrollBarVisibility="Hidden">
                   <DateTimePickerPanel Name="PART_MinuteSelector"
                                        PanelType="Minute"
-                                       ShouldLoop="True"
-                                       ItemHeight="{theme:ControlHeightMd}"/>
+                                       ShouldLoop="True"/>
                 </ScrollViewer>
                 <RepeatButton Name="PART_MinuteUpButton" Theme="{StaticResource PrototypeDateTimePickerUpButton}"/>
                 <RepeatButton Name="PART_MinuteDownButton" Theme="{StaticResource PrototypeDateTimePickerDownButton}"/>
@@ -239,8 +243,7 @@
                               VerticalScrollBarVisibility="Hidden">
                   <DateTimePickerPanel Name="PART_SecondSelector"
                                        PanelType="Second"
-                                       ShouldLoop="True"
-                                       ItemHeight="{theme:ControlHeightMd}"/>
+                                       ShouldLoop="True"/>
                 </ScrollViewer>
                 <RepeatButton Name="PART_SecondUpButton" Theme="{StaticResource PrototypeDateTimePickerUpButton}"/>
                 <RepeatButton Name="PART_SecondDownButton" Theme="{StaticResource PrototypeDateTimePickerDownButton}"/>
@@ -251,64 +254,51 @@
                               VerticalScrollBarVisibility="Hidden">
                   <DateTimePickerPanel Name="PART_PeriodSelector"
                                        PanelType="TimePeriod"
-                                       ShouldLoop="False"
-                                       ItemHeight="{theme:ControlHeightMd}"/>
+                                       ShouldLoop="False"/>
                 </ScrollViewer>
                 <RepeatButton Name="PART_PeriodUpButton" Theme="{StaticResource PrototypeDateTimePickerUpButton}"/>
                 <RepeatButton Name="PART_PeriodDownButton" Theme="{StaticResource PrototypeDateTimePickerDownButton}"/>
               </Panel>
 
               <Rectangle x:Name="HighlightRect" ZIndex="-1"
-                         Fill="{theme:AccentPrimaryBrush}"
                          Grid.Column="0"
                          Grid.ColumnSpan="7"
-                         VerticalAlignment="Center"
-                         Height="{theme:ControlHeightMd}" />
+                         VerticalAlignment="Center" />
               <Rectangle Name="PART_FirstSpacer"
-                         Fill="{theme:SurfaceOverlayWeakBrush}"
                          HorizontalAlignment="Center"
-                         Width="{theme:BaseSize}"
                          Grid.Column="1" />
               <Rectangle Name="PART_SecondSpacer"
-                         Fill="{theme:SurfaceOverlayWeakBrush}"
                          HorizontalAlignment="Center"
-                         Width="{theme:BaseSize}"
                          Grid.Column="3" />
               <Rectangle Name="PART_ThirdSpacer"
-                         Fill="{theme:SurfaceOverlayWeakBrush}"
                          HorizontalAlignment="Center"
-                         Width="{theme:BaseSize}"
                          Grid.Column="5" />
             </Grid>
 
             <Grid Name="AcceptDismissGrid"
                   Grid.Row="1"
                   ColumnDefinitions="*,*">
-              <Rectangle Height="{theme:BaseSize}" 
+              <Rectangle x:Name="PART_TopDivider"
                          VerticalAlignment="Top"
-                         Fill="{theme:SurfaceOverlayWeakBrush}"
                          Grid.ColumnSpan="2"/>
               <Button Name="PART_AcceptButton"
                       Grid.Column="0"
                       Theme="{StaticResource PrototypeDateTimePickerButton}"
-                      Height="{theme:ControlHeightMd}"
                       HorizontalAlignment="Stretch"
                       VerticalAlignment="Stretch">
-                <Path Stroke="{Binding $parent[Button].Foreground}"
+                <Path x:Name="PART_AcceptIcon"
+                      Stroke="{Binding $parent[Button].Foreground}"
                       StrokeLineCap="Round"
-                      StrokeThickness="{theme:ThicknessSm}"
                       Data="M0.5,8.5 5,13.5 15.5,3" />
               </Button>
               <Button Name="PART_DismissButton"
                       Grid.Column="1"
                       Theme="{StaticResource PrototypeDateTimePickerButton}"
-                      Height="{theme:ControlHeightMd}"
-                      FontSize="16" 
                       HorizontalAlignment="Stretch" 
                       VerticalAlignment="Stretch">
-                <Path Stroke="{Binding $parent[Button].Foreground}" 
+                <Path x:Name="PART_DismissIcon"
+                      Stroke="{Binding $parent[Button].Foreground}" 
                       StrokeLineCap="Round"
-                      StrokeThickness="{theme:ThicknessSm}" 
                       Data="M2,2 14,14 M2,14 14 2" />
               </Button>
             </Grid>
@@ -322,6 +312,39 @@
       <Style Selector="^:pointerover RepeatButton">
         <Setter Property="IsVisible" Value="True" />
       </Style>
+    </Style>
+
+    <!-- Themed properties moved out of ControlTemplate -->
+    <Style Selector="^ /template/ DateTimePickerPanel#PART_HourSelector,
+           ^ /template/ DateTimePickerPanel#PART_MinuteSelector,
+           ^ /template/ DateTimePickerPanel#PART_SecondSelector,
+           ^ /template/ DateTimePickerPanel#PART_PeriodSelector">
+      <Setter Property="ItemHeight" Value="{theme:ControlHeightMd}" />
+    </Style>
+    <Style Selector="^ /template/ Rectangle#HighlightRect">
+      <Setter Property="Fill" Value="{theme:AccentPrimaryBrush}" />
+      <Setter Property="Height" Value="{theme:ControlHeightMd}" />
+    </Style>
+    <Style Selector="^ /template/ Rectangle#PART_FirstSpacer,
+           ^ /template/ Rectangle#PART_SecondSpacer,
+           ^ /template/ Rectangle#PART_ThirdSpacer">
+      <Setter Property="Fill" Value="{theme:SurfaceOverlayWeakBrush}" />
+      <Setter Property="Width" Value="{theme:BaseSize}" />
+    </Style>
+    <Style Selector="^ /template/ Rectangle#PART_TopDivider">
+      <Setter Property="Height" Value="{theme:BaseSize}" />
+      <Setter Property="Fill" Value="{theme:SurfaceOverlayWeakBrush}" />
+    </Style>
+    <Style Selector="^ /template/ Button#PART_AcceptButton,
+           ^ /template/ Button#PART_DismissButton">
+      <Setter Property="Height" Value="{theme:ControlHeightMd}" />
+    </Style>
+    <Style Selector="^ /template/ Button#PART_DismissButton">
+      <Setter Property="FontSize" Value="{theme:FontSizeLg}" />
+    </Style>
+    <Style Selector="^ /template/ Path#PART_AcceptIcon,
+           ^ /template/ Path#PART_DismissIcon">
+      <Setter Property="StrokeThickness" Value="{theme:ThicknessSm}" />
     </Style>
   </ControlTheme>
 </ResourceDictionary>

@@ -44,18 +44,12 @@
                    IsOpen="{TemplateBinding IsSubMenuOpen, Mode=TwoWay}"
                    Placement="BottomEdgeAlignedLeft"
                    OverlayInputPassThroughElement="{Binding $parent[Menu]}">
-              <Border Background="{theme:SurfaceBrush}"
-                      BorderBrush="{theme:AccentBorderBrush}"
-                      BorderThickness="{theme:ThicknessSm}"
-                      Padding="0"
+              <Border x:Name="PART_PopupBorder"
                       MaxWidth="456"
-                      MinHeight="{theme:ControlHeightSm}"
-                      HorizontalAlignment="Stretch"
-                      CornerRadius="{theme:RadiusMd}">
+                      HorizontalAlignment="Stretch">
                 <ScrollViewer Theme="{StaticResource PrototypeMenuScrollViewer}">
-                  <ItemsPresenter Name="PART_ItemsPresenter"
+                  <ItemsPresenter x:Name="PART_PopupItemsPresenter"
                                   ItemsPanel="{TemplateBinding ItemsPanel}"
-                                  Margin="{theme:Edges Vertical={theme:SpacingMd}}"
                                   Grid.IsSharedSizeScope="True" />
                 </ScrollViewer>
               </Border>
@@ -67,7 +61,20 @@
 
     <Style Selector="^ /template/ ContentPresenter#PART_HeaderPresenter">
       <Setter Property="RecognizesAccessKey" Value="True" />
-    </Style> 
+    </Style>
+
+    <!-- Popup border and items presenter theming -->
+    <Style Selector="^ /template/ Border#PART_PopupBorder">
+      <Setter Property="Background" Value="{theme:SurfaceBrush}" />
+      <Setter Property="BorderBrush" Value="{theme:AccentBorderBrush}" />
+      <Setter Property="BorderThickness" Value="{theme:ThicknessSm}" />
+      <Setter Property="Padding" Value="0" />
+      <Setter Property="MinHeight" Value="{theme:ControlHeightSm}" />
+      <Setter Property="CornerRadius" Value="{theme:RadiusMd}" />
+    </Style>
+    <Style Selector="^ /template/ ItemsPresenter#PART_PopupItemsPresenter">
+      <Setter Property="Margin" Value="{theme:Edges Vertical={theme:SpacingMd}}" />
+    </Style>
 
     <Style Selector="^:selected">
       <Style Selector="^ /template/ Border#PART_LayoutRoot">

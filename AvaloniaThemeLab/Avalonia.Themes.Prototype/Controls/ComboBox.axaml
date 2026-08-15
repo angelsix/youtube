@@ -132,7 +132,6 @@
                      Background="Transparent"
                      Text="{TemplateBinding Text, Mode=TwoWay}"
                      PlaceholderText="{TemplateBinding PlaceholderText}"
-                     BorderThickness="{theme:ThicknessSm}"
                      IsVisible="{TemplateBinding IsEditable}">
               <TextBox.Resources>
                 <SolidColorBrush x:Key="TextControlBackgroundFocused">Transparent</SolidColorBrush>
@@ -143,7 +142,6 @@
             <Border x:Name="DropDownOverlay"
                     Grid.Column="1"
                     Background="Transparent"
-                    Width="{theme:ControlHeightSm}"
                     IsVisible="False"
                     HorizontalAlignment="Right" />
 
@@ -163,7 +161,6 @@
                    IsLightDismissEnabled="True"
                    InheritsTransform="True">
               <Border x:Name="PopupBorder"
-                      Padding="{theme:Edges All={theme:SpacingSm}}"
                       HorizontalAlignment="Stretch">
                 <ScrollViewer HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
                               IsScrollChainingEnabled="False"
@@ -180,6 +177,10 @@
     </Setter>
 
     <!-- Template element defaults -->
+    <Style Selector="^ /template/ TextBox#PART_EditableTextBox">
+      <Setter Property="BorderThickness" Value="{theme:ThicknessSm}" />
+    </Style>
+
     <Style Selector="^ /template/ Border#Background">
       <Setter Property="MinWidth" Value="{theme:ControlMinWidth}" />
     </Style>
@@ -190,6 +191,7 @@
     </Style>
 
     <Style Selector="^ /template/ Border#DropDownOverlay">
+      <Setter Property="Width" Value="{theme:ControlHeightSm}" />
       <Setter Property="Margin" Value="{theme:Edges Top={theme:BaseSize}, Right={theme:BaseSize}, Bottom={theme:BaseSize}}" />
     </Style>
 
@@ -201,6 +203,7 @@
     </Style>
 
     <Style Selector="^ /template/ Border#PopupBorder">
+      <Setter Property="Padding" Value="{theme:Edges All={theme:SpacingSm}}" />
       <Setter Property="Background" Value="{theme:SurfaceBrush}" />
       <Setter Property="BorderBrush" Value="{theme:AccentBorderBrush}" />
       <Setter Property="BorderThickness" Value="{theme:ThicknessSm}" />

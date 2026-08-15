@@ -51,7 +51,6 @@
                 CornerRadius="{TemplateBinding CornerRadius}"
                 Padding="{TemplateBinding Padding}">
           <StackPanel x:Name="PART_LayoutRoot"
-                      Spacing="{theme:SpacingMd}"
                       HorizontalAlignment="Center"
                       VerticalAlignment="Center">
             <ContentPresenter x:Name="PART_IconPresenter"
@@ -61,13 +60,20 @@
             <TextBlock x:Name="PART_Label"
                        Text="{TemplateBinding Label}"
                        Foreground="{TemplateBinding Foreground}"
-                       FontSize="{theme:FontSizeSm}"
                        HorizontalAlignment="Center"
                        TextTrimming="CharacterEllipsis" />
           </StackPanel>
         </Border>
       </ControlTemplate>
     </Setter>
+
+    <!-- Template element styles -->
+    <Style Selector="^ /template/ StackPanel#PART_LayoutRoot">
+      <Setter Property="Spacing" Value="{theme:SpacingMd}" />
+    </Style>
+    <Style Selector="^ /template/ TextBlock#PART_Label">
+      <Setter Property="FontSize" Value="{theme:FontSizeSm}" />
+    </Style>
 
     <!-- Hover -->
     <Style Selector="^:pointerover /template/ Border#PART_Border">
@@ -133,7 +139,6 @@
                 CornerRadius="{TemplateBinding CornerRadius}"
                 Padding="{TemplateBinding Padding}">
           <StackPanel x:Name="PART_LayoutRoot"
-                      Spacing="{theme:SpacingMd}"
                       HorizontalAlignment="Center"
                       VerticalAlignment="Center">
             <ContentPresenter x:Name="PART_IconPresenter"
@@ -143,13 +148,20 @@
             <TextBlock x:Name="PART_Label"
                        Text="{TemplateBinding Label}"
                        Foreground="{TemplateBinding Foreground}"
-                       FontSize="{theme:FontSizeSm}"
                        HorizontalAlignment="Center"
                        TextTrimming="CharacterEllipsis" />
           </StackPanel>
         </Border>
       </ControlTemplate>
     </Setter>
+
+    <!-- Template element styles -->
+    <Style Selector="^ /template/ StackPanel#PART_LayoutRoot">
+      <Setter Property="Spacing" Value="{theme:SpacingMd}" />
+    </Style>
+    <Style Selector="^ /template/ TextBlock#PART_Label">
+      <Setter Property="FontSize" Value="{theme:FontSizeSm}" />
+    </Style>
 
     <!-- Hover -->
     <Style Selector="^:pointerover /template/ Border#PART_Border">
@@ -208,12 +220,17 @@
     <Setter Property="Margin" Value="{theme:Edges Horizontal={theme:SpacingLg}, Vertical={theme:SpacingMd}}" />
     <Setter Property="Template">
       <ControlTemplate>
-        <Border Background="{theme:AccentBorderBrush}"
+        <Border x:Name="PART_SeparatorBorder"
                 Width="{TemplateBinding Width}"
                 Height="{TemplateBinding Height}"
                 MinHeight="{TemplateBinding MinHeight}" />
       </ControlTemplate>
     </Setter>
+
+    <!-- Template element styles -->
+    <Style Selector="^ /template/ Border#PART_SeparatorBorder">
+      <Setter Property="Background" Value="{theme:AccentBorderBrush}" />
+    </Style>
 
     <!-- IsInOverflow: horizontal separator -->
     <Style Selector="^[IsInOverflow=True]">
@@ -247,14 +264,9 @@
               <!-- Overflow button (docked right) -->
               <Button x:Name="PART_OverflowButton"
                       DockPanel.Dock="Right"
-                      Background="Transparent"
-                      BorderThickness="0"
-                      Padding="{theme:Edges Left={theme:SpacingXxl}, Right={theme:SpacingXxl}}"
-                      MinWidth="{theme:ControlHeightMd}"
                       VerticalAlignment="Stretch"
-                      FontSize="{theme:IconSize}"
                       IsVisible="{TemplateBinding IsOverflowButtonVisible}">
-                <PathIcon Width="{theme:IconSize}" Height="{theme:IconSize}"
+                <PathIcon x:Name="PART_OverflowIcon"
                           Foreground="{TemplateBinding Foreground}"
                           Data="M6,10A2,2 0 0,0 4,12A2,2 0 0,0 6,14A2,2 0 0,0 8,12A2,2 0 0,0 6,10M12,10A2,2 0 0,0 10,12A2,2 0 0,0 12,14A2,2 0 0,0 14,12A2,2 0 0,0 12,10M18,10A2,2 0 0,0 16,12A2,2 0 0,0 18,14A2,2 0 0,0 20,12A2,2 0 0,0 18,10Z" />
               </Button>
@@ -273,7 +285,7 @@
                             ClipToBounds="True">
                 <ItemsControl.ItemsPanel>
                   <ItemsPanelTemplate>
-                    <StackPanel Orientation="Horizontal" Spacing="{theme:SpacingSm}" />
+                    <StackPanel x:Name="PART_PrimaryPanel" Orientation="Horizontal" />
                   </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
               </ItemsControl>
@@ -286,17 +298,12 @@
                    Placement="Bottom"
                    IsLightDismissEnabled="True"
                    WindowManagerAddShadowHint="True">
-              <Border Background="{theme:SurfaceBrush}"
-                      BorderBrush="{theme:AccentBorderBrush}"
-                      BorderThickness="{theme:ThicknessSm}"
-                      CornerRadius="{theme:RadiusMd}"
-                      Padding="{theme:Edges All={theme:SpacingMd}}"
-                      MinWidth="160">
+              <Border x:Name="PART_OverflowBorder">
                 <ItemsControl x:Name="PART_OverflowPresenter"
                               ItemsSource="{Binding OverflowItems, RelativeSource={RelativeSource TemplatedParent}}">
                   <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
-                      <StackPanel Spacing="{theme:SpacingSm}" />
+                      <StackPanel x:Name="PART_OverflowPanel" />
                     </ItemsPanelTemplate>
                   </ItemsControl.ItemsPanel>
                 </ItemsControl>
@@ -306,5 +313,36 @@
         </Border>
       </ControlTemplate>
     </Setter>
+
+    <!-- Template element styles -->
+    <Style Selector="^ /template/ Button#PART_OverflowButton">
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="BorderThickness" Value="0" />
+      <Setter Property="Padding" Value="{theme:Edges Left={theme:SpacingXxl}, Right={theme:SpacingXxl}}" />
+      <Setter Property="MinWidth" Value="{theme:ControlHeightMd}" />
+      <Setter Property="FontSize" Value="{theme:IconSize}" />
+    </Style>
+
+    <Style Selector="^ /template/ PathIcon#PART_OverflowIcon">
+      <Setter Property="Width" Value="{theme:IconSize}" />
+      <Setter Property="Height" Value="{theme:IconSize}" />
+    </Style>
+
+    <Style Selector="^ /template/ Border#PART_OverflowBorder">
+      <Setter Property="Background" Value="{theme:SurfaceBrush}" />
+      <Setter Property="BorderBrush" Value="{theme:AccentBorderBrush}" />
+      <Setter Property="BorderThickness" Value="{theme:ThicknessSm}" />
+      <Setter Property="CornerRadius" Value="{theme:RadiusMd}" />
+      <Setter Property="Padding" Value="{theme:Edges All={theme:SpacingMd}}" />
+      <Setter Property="MinWidth" Value="160" />
+    </Style>
+
+    <Style Selector="^ /template/ StackPanel#PART_PrimaryPanel">
+      <Setter Property="Spacing" Value="{theme:SpacingSm}" />
+    </Style>
+
+    <Style Selector="^ /template/ StackPanel#PART_OverflowPanel">
+      <Setter Property="Spacing" Value="{theme:SpacingSm}" />
+    </Style>
   </ControlTheme>
 </ResourceDictionary>

@@ -1,4 +1,4 @@
-﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
@@ -26,13 +26,16 @@
                         VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}">
             <ItemsPresenter Name="PART_ItemsPresenter"
                             ItemsPanel="{TemplateBinding ItemsPanel}"
-                            Margin="{theme:Edges Vertical={theme:SpacingMd}}"
                             KeyboardNavigation.TabNavigation="Continue"
                             Grid.IsSharedSizeScope="True" />
           </ScrollViewer>
         </Border>
       </ControlTemplate>
     </Setter>
+
+    <Style Selector="^ /template/ ItemsPresenter#PART_ItemsPresenter">
+      <Setter Property="Margin" Value="{theme:Edges Vertical={theme:SpacingMd}}" />
+    </Style>
   </ControlTheme>
   <ControlTheme x:Key="HorizontalMenuFlyoutPresenter" TargetType="MenuFlyoutPresenter"  BasedOn="{StaticResource {x:Type MenuFlyoutPresenter}}">
     <Setter Property="MinWidth" Value="{theme:ControlHeightSm}" />

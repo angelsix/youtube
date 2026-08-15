@@ -37,7 +37,6 @@
       <ControlTemplate TargetType="DataValidationErrors">
         <DockPanel LastChildFill="True">
           <ContentControl x:Name="InlineDataValidationContentControl"
-                          Margin="{theme:Edges Top={theme:SpacingMd}}"
                           Content="{Binding (DataValidationErrors.Errors)}"
                           ContentTemplate="{TemplateBinding ErrorTemplate}"
                           DataContext="{TemplateBinding Owner}"
@@ -53,6 +52,11 @@
         </DockPanel>
       </ControlTemplate>
     </Setter>
+
+    <!-- Template element styles -->
+    <Style Selector="^ /template/ ContentControl#InlineDataValidationContentControl">
+      <Setter Property="Margin" Value="{theme:Edges Top={theme:SpacingMd}}" />
+    </Style>
     <Setter Property="ErrorTemplate">
       <DataTemplate>
         <ItemsControl x:DataType="DataValidationErrors"

@@ -175,7 +175,6 @@
                     CornerRadius="{TemplateBinding CornerRadius}">
               <Grid RowDefinitions="Auto,*,Auto">
                 <Rectangle x:Name="TrackRect"
-                           Fill="{theme:SurfaceOverlayWeakBrush}"
                            Stroke="Transparent"
                            StrokeThickness="0"
                            Opacity="0"
@@ -192,12 +191,9 @@
                               Theme="{StaticResource PrototypeScrollBarLineButton}"
                               Grid.Row="0"
                               Focusable="False"
-                              MinWidth="{theme:IconSize}"
-                              Height="{theme:IconSize}"
                               AutomationProperties.Name="Line up">
-                  <PathIcon Data="M 19.091797 14.970703 L 10 5.888672 L 0.908203 14.970703 L 0.029297 14.091797 L 10 4.111328 L 19.970703 14.091797 Z"
-                            Width="{theme:IconSize}"
-                            Height="{theme:IconSize}"/>
+                  <PathIcon x:Name="PART_LineUpIcon"
+                            Data="M 19.091797 14.970703 L 10 5.888672 L 0.908203 14.970703 L 0.029297 14.091797 L 10 4.111328 L 19.970703 14.091797 Z"/>
                 </RepeatButton>
 
                 <Track Grid.Row="1"
@@ -222,9 +218,8 @@
                                   Focusable="False"
                                   AutomationProperties.Name="Page down"/>
                   </Track.IncreaseButton>
-                  <Thumb Theme="{StaticResource PrototypeScrollBarThumb}"
-                         Width="{theme:IconSize}"
-                         MinHeight="{theme:IconSize}"
+                  <Thumb x:Name="PART_Thumb"
+                         Theme="{StaticResource PrototypeScrollBarThumb}"
                          RenderTransform="{StaticResource VerticalSmallScrollThumbScaleTransform}"
                          RenderTransformOrigin="100%,50%"
                          AutomationProperties.Name="Position"/>
@@ -235,12 +230,9 @@
                               Theme="{StaticResource PrototypeScrollBarLineButton}"
                               Grid.Row="2"
                               Focusable="False"
-                              MinWidth="{theme:IconSize}"
-                              Height="{theme:IconSize}"
                               AutomationProperties.Name="Line down">
-                  <PathIcon Data="M 18.935547 4.560547 L 19.814453 5.439453 L 10 15.253906 L 0.185547 5.439453 L 1.064453 4.560547 L 10 13.496094 Z"
-                            Width="{theme:IconSize}"
-                            Height="{theme:IconSize}"/>
+                  <PathIcon x:Name="PART_LineDownIcon"
+                            Data="M 18.935547 4.560547 L 19.814453 5.439453 L 10 15.253906 L 0.185547 5.439453 L 1.064453 4.560547 L 10 13.496094 Z"/>
                 </RepeatButton>
               </Grid>
             </Border>
@@ -261,7 +253,6 @@
                     CornerRadius="{TemplateBinding CornerRadius}">
               <Grid ColumnDefinitions="Auto,*,Auto">
                 <Rectangle x:Name="TrackRect"
-                           Fill="{theme:SurfaceOverlayWeakBrush}"
                            Stroke="Transparent"
                            StrokeThickness="0"
                            Opacity="0"
@@ -278,12 +269,9 @@
                               VerticalAlignment="Center"
                               Grid.Column="0"
                               Focusable="False"
-                              MinHeight="{theme:IconSize}"
-                              Width="{theme:IconSize}"
                               AutomationProperties.Name="Column left">
-                  <PathIcon Data="M 14.091797 19.970703 L 4.111328 10 L 14.091797 0.029297 L 14.970703 0.908203 L 5.888672 10 L 14.970703 19.091797 Z"
-                            Width="{theme:IconSize}"
-                            Height="{theme:IconSize}"/>
+                  <PathIcon x:Name="PART_LineUpIcon"
+                            Data="M 14.091797 19.970703 L 4.111328 10 L 14.091797 0.029297 L 14.970703 0.908203 L 5.888672 10 L 14.970703 19.091797 Z"/>
                 </RepeatButton>
 
                 <Track Grid.Column="1"
@@ -307,9 +295,8 @@
                                   Focusable="False"
                                   AutomationProperties.Name="Page right"/>
                   </Track.IncreaseButton>
-                  <Thumb Theme="{StaticResource PrototypeScrollBarThumb}"
-                         Height="{theme:IconSize}"
-                         MinWidth="{theme:IconSize}"
+                  <Thumb x:Name="PART_Thumb"
+                         Theme="{StaticResource PrototypeScrollBarThumb}"
                          RenderTransform="{StaticResource HorizontalSmallScrollThumbScaleTransform}"
                          RenderTransformOrigin="50%,100%"
                          AutomationProperties.Name="Position"/>
@@ -320,18 +307,65 @@
                               VerticalAlignment="Center"
                               Grid.Column="2"
                               Focusable="False"
-                              MinHeight="{theme:IconSize}"
-                              Width="{theme:IconSize}"
                               AutomationProperties.Name="Column right">
-                  <PathIcon Data="M 5.029297 19.091797 L 14.111328 10 L 5.029297 0.908203 L 5.908203 0.029297 L 15.888672 10 L 5.908203 19.970703 Z"
-                            Width="{theme:IconSize}"
-                            Height="{theme:IconSize}"/>
+                  <PathIcon x:Name="PART_LineDownIcon"
+                            Data="M 5.029297 19.091797 L 14.111328 10 L 5.029297 0.908203 L 5.908203 0.029297 L 15.888672 10 L 5.908203 19.970703 Z"/>
                 </RepeatButton>
               </Grid>
             </Border>
           </Grid>
         </ControlTemplate>
       </Setter>
+    </Style>
+
+    <!-- Default template element styles — vertical orientation -->
+    <Style Selector="^:vertical /template/ Rectangle#TrackRect">
+      <Setter Property="Fill" Value="{theme:SurfaceOverlayWeakBrush}" />
+    </Style>
+    <Style Selector="^:vertical /template/ RepeatButton#PART_LineUpButton">
+      <Setter Property="MinWidth" Value="{theme:IconSize}" />
+      <Setter Property="Height" Value="{theme:IconSize}" />
+    </Style>
+    <Style Selector="^:vertical /template/ PathIcon#PART_LineUpIcon">
+      <Setter Property="Width" Value="{theme:IconSize}" />
+      <Setter Property="Height" Value="{theme:IconSize}" />
+    </Style>
+    <Style Selector="^:vertical /template/ Thumb#PART_Thumb">
+      <Setter Property="Width" Value="{theme:IconSize}" />
+      <Setter Property="MinHeight" Value="{theme:IconSize}" />
+    </Style>
+    <Style Selector="^:vertical /template/ RepeatButton#PART_LineDownButton">
+      <Setter Property="MinWidth" Value="{theme:IconSize}" />
+      <Setter Property="Height" Value="{theme:IconSize}" />
+    </Style>
+    <Style Selector="^:vertical /template/ PathIcon#PART_LineDownIcon">
+      <Setter Property="Width" Value="{theme:IconSize}" />
+      <Setter Property="Height" Value="{theme:IconSize}" />
+    </Style>
+
+    <!-- Default template element styles — horizontal orientation -->
+    <Style Selector="^:horizontal /template/ Rectangle#TrackRect">
+      <Setter Property="Fill" Value="{theme:SurfaceOverlayWeakBrush}" />
+    </Style>
+    <Style Selector="^:horizontal /template/ RepeatButton#PART_LineUpButton">
+      <Setter Property="MinHeight" Value="{theme:IconSize}" />
+      <Setter Property="Width" Value="{theme:IconSize}" />
+    </Style>
+    <Style Selector="^:horizontal /template/ PathIcon#PART_LineUpIcon">
+      <Setter Property="Width" Value="{theme:IconSize}" />
+      <Setter Property="Height" Value="{theme:IconSize}" />
+    </Style>
+    <Style Selector="^:horizontal /template/ Thumb#PART_Thumb">
+      <Setter Property="Height" Value="{theme:IconSize}" />
+      <Setter Property="MinWidth" Value="{theme:IconSize}" />
+    </Style>
+    <Style Selector="^:horizontal /template/ RepeatButton#PART_LineDownButton">
+      <Setter Property="MinHeight" Value="{theme:IconSize}" />
+      <Setter Property="Width" Value="{theme:IconSize}" />
+    </Style>
+    <Style Selector="^:horizontal /template/ PathIcon#PART_LineDownIcon">
+      <Setter Property="Width" Value="{theme:IconSize}" />
+      <Setter Property="Height" Value="{theme:IconSize}" />
     </Style>
 
     <!-- Expanded state -->

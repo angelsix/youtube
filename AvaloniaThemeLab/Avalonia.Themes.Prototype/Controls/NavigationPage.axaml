@@ -81,7 +81,7 @@
                   VerticalAlignment="Top"
                   ClipToBounds="True"
                   Height="{TemplateBinding EffectiveBarHeight}">
-            <Grid Margin="{theme:Edges Left={theme:SpacingXxl}}" ColumnDefinitions="Auto, *, Auto">
+            <Grid x:Name="PART_NavBarGrid" ColumnDefinitions="Auto, *, Auto">
               <Grid.Styles>
                 <Style Selector="Button#PART_BackButton /template/ ContentPresenter#PART_ContentPresenter">
                   <Setter Property="Background" Value="Transparent" />
@@ -122,14 +122,11 @@
                       Foreground="{DynamicResource NavigationBarForeground}"
                       IsVisible="{TemplateBinding IsBackButtonEffectivelyVisible}"
                       VerticalAlignment="Stretch"
-                      Padding="{theme:Edges Left={theme:SpacingXl}, Right={theme:SpacingXl}}"
                       ToolTip.Tip="{x:Null}">
                 <Panel Background="Transparent">
                   <Path Data="{DynamicResource NavigationPageBackIcon}"
                         x:Name="PART_BackButtonDefaultIcon"
                         Fill="{DynamicResource NavigationBarForeground}"
-                        Width="{theme:IconSize}"
-                        Height="{theme:IconSize}"
                         Stretch="Uniform"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center" />
@@ -142,14 +139,12 @@
 
               <ContentPresenter Name="PART_Header"
                                 Grid.Column="1"
-                                FontSize="20"
                                 Foreground="{DynamicResource NavigationBarForeground}"
                                 Content="{Binding CurrentPage?.Header, RelativeSource={RelativeSource TemplatedParent}, FallbackValue={x:Null}}"
                                 ContentTemplate="{Binding CurrentPage?.HeaderTemplate, RelativeSource={RelativeSource TemplatedParent}, FallbackValue={x:Null}}"
                                 VerticalAlignment="Center"
                                 HorizontalAlignment="Stretch"
-                                HorizontalContentAlignment="Stretch"
-                                Margin="{theme:Edges Right={theme:SpacingXxl}}" />
+                                HorizontalContentAlignment="Stretch" />
 
               <ContentPresenter Name="PART_TopCommandBar"
                                 Grid.Column="2"
@@ -186,15 +181,7 @@
                   ZIndex="1"
                   VerticalAlignment="Top"
                   IsVisible="False"
-                  Height="{theme:ThicknessXxl}"
-                  IsHitTestVisible="False">
-            <Border.Background>
-              <LinearGradientBrush StartPoint="0%,0%" EndPoint="0%,100%">
-                <GradientStop Color="#0C000000" Offset="0" />
-                <GradientStop Color="#00000000" Offset="1" />
-              </LinearGradientBrush>
-            </Border.Background>
-          </Border>
+                  IsHitTestVisible="False" />
 
           <!-- Modal overlay: ZIndex=99 holds the static layer during transitions; ZIndex=100 is the animating modal. -->
           <ContentPresenter Name="PART_ModalBackPresenter"
@@ -212,6 +199,34 @@
     <!-- Default nav bar background, overridable via a more-specific style selector -->
     <Style Selector="^ /template/ Border#PART_NavigationBar">
       <Setter Property="Background" Value="{DynamicResource NavigationBarBackground}" />
+    </Style>
+
+    <!-- Nav bar grid margin -->
+    <Style Selector="^ /template/ Grid#PART_NavBarGrid">
+      <Setter Property="Margin" Value="{theme:Edges Left={theme:SpacingXxl}}" />
+    </Style>
+
+    <!-- Back button padding -->
+    <Style Selector="^ /template/ Button#PART_BackButton">
+      <Setter Property="Padding" Value="{theme:Edges Left={theme:SpacingXl}, Right={theme:SpacingXl}}" />
+    </Style>
+
+    <!-- Back button icon size -->
+    <Style Selector="^ /template/ Path#PART_BackButtonDefaultIcon">
+      <Setter Property="Width" Value="{theme:IconSize}" />
+      <Setter Property="Height" Value="{theme:IconSize}" />
+    </Style>
+
+    <!-- Header font size and margin -->
+    <Style Selector="^ /template/ ContentPresenter#PART_Header">
+      <Setter Property="FontSize" Value="{theme:FontSizeXl}" />
+      <Setter Property="Margin" Value="{theme:Edges Right={theme:SpacingXxl}}" />
+    </Style>
+
+    <!-- Nav bar shadow height and background -->
+    <Style Selector="^ /template/ Border#PART_NavBarShadow">
+      <Setter Property="Height" Value="{theme:ThicknessXxl}" />
+      <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}" />
     </Style>
 
     <!-- :nav-bar-inset: spacer reserves nav-bar height so content is pushed below -->

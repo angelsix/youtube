@@ -65,7 +65,6 @@
           <Panel x:Name="PART_ScrollBarsSeparator"
                  Grid.Row="1"
                  Grid.Column="1"
-                 Background="{theme:AccentBorderBrush}"
                  Opacity="0">
             <Panel.Transitions>
               <Transitions>
@@ -80,6 +79,11 @@
     <!-- Scroll bars separator state -->
     <Style Selector="^[IsExpanded=true] /template/ Panel#PART_ScrollBarsSeparator">
       <Setter Property="Opacity" Value="1" />
+    </Style>
+
+    <!-- Separator background -->
+    <Style Selector="^ /template/ Panel#PART_ScrollBarsSeparator">
+      <Setter Property="Background" Value="{theme:AccentBorderBrush}" />
     </Style>
 
     <!-- Auto hide mode -->

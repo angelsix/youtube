@@ -40,7 +40,6 @@
                 VerticalAlignment="Center">
           <Path x:Name="ChevronPath"
                 Data="{icons:ExpandChevronGlyph}"
-                Fill="{theme:OnSurfaceBrush}"
                 Stretch="Uniform"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center" />
@@ -85,14 +84,7 @@
                   TemplatedControl.IsTemplateFocusTarget="True">
             <Grid Name="PART_Header"
                   ColumnDefinitions="Auto, *">
-              <Grid.Margin>
-                <MultiBinding Converter="{x:Static converters:TreeViewItemIndentConverter.Instance}">
-                  <Binding Path="Level" RelativeSource="{RelativeSource TemplatedParent}" />
-                  <theme:SpacingXxl />
-                </MultiBinding>
-              </Grid.Margin>
-              <Panel Name="PART_ExpandCollapseChevronContainer"
-                     Margin="{theme:Edges Horizontal={theme:SpacingXxl}}">
+              <Panel Name="PART_ExpandCollapseChevronContainer">
                 <ToggleButton Name="PART_ExpandCollapseChevron"
                               Theme="{StaticResource PrototypeTreeViewExpandCollapseChevron}"
                               Focusable="False"
@@ -185,6 +177,14 @@
     </Style>
     <Style Selector="^:empty /template/ Panel#PART_ExpandCollapseChevronContainer">
       <Setter Property="Width" Value="{theme:FontSizeSm}" />
+    </Style>
+
+    <!-- Themed properties moved out of ControlTemplate -->
+    <Style Selector="^ /template/ Path#ChevronPath">
+      <Setter Property="Fill" Value="{theme:OnSurfaceBrush}" />
+    </Style>
+    <Style Selector="^ /template/ Panel#PART_ExpandCollapseChevronContainer">
+      <Setter Property="Margin" Value="{theme:Edges Horizontal={theme:SpacingXxl}}" />
     </Style>
   </ControlTheme>
 </ResourceDictionary>

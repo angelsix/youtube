@@ -46,14 +46,11 @@
                 <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="Viewport.Height" />
               </MultiBinding>
             </RepeatButton.IsVisible>
-            <Viewbox Width="{theme:IconSize}"
-                     Height="{theme:IconSize}">
-              <Path VerticalAlignment="Center"
+            <Viewbox x:Name="PART_UpViewbox">
+              <Path x:Name="PART_UpPath"
+                    VerticalAlignment="Center"
                     HorizontalAlignment="Center"
-                    Data="M 19.091797 14.970703 L 10 5.888672 L 0.908203 14.970703 L 0.029297 14.091797 L 10 4.111328 L 19.970703 14.091797 Z"
-                    Fill="{theme:OnSurfaceBrush}"
-                    Width="{theme:IconSize}"
-                    Height="{theme:IconSize}" />
+                    Data="M 19.091797 14.970703 L 10 5.888672 L 0.908203 14.970703 L 0.029297 14.091797 L 10 4.111328 L 19.970703 14.091797 Z" />
             </Viewbox>
           </RepeatButton>
           <RepeatButton DockPanel.Dock="Bottom"
@@ -72,14 +69,11 @@
                 <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="Viewport.Height" />
               </MultiBinding>
             </RepeatButton.IsVisible>
-            <Viewbox Width="{theme:IconSize}"
-                     Height="{theme:IconSize}">
-              <Path VerticalAlignment="Center"
+            <Viewbox x:Name="PART_DownViewbox">
+              <Path x:Name="PART_DownPath"
+                    VerticalAlignment="Center"
                     HorizontalAlignment="Center"
-                    Data="M 18.935547 4.560547 L 19.814453 5.439453 L 10 15.253906 L 0.185547 5.439453 L 1.064453 4.560547 L 10 13.496094 Z"
-                    Fill="{theme:OnSurfaceBrush}"
-                    Width="{theme:IconSize}"
-                    Height="{theme:IconSize}" />
+                    Data="M 18.935547 4.560547 L 19.814453 5.439453 L 10 15.253906 L 0.185547 5.439453 L 1.064453 4.560547 L 10 13.496094 Z" />
             </Viewbox>
           </RepeatButton>
           <ScrollContentPresenter Name="PART_ContentPresenter">
@@ -91,6 +85,27 @@
         </DockPanel>
       </ControlTemplate>
     </Setter>
+
+    <!-- Themed defaults for inner template elements (Rule 2: no {theme:...} inside ControlTemplate) -->
+    <Style Selector="^ /template/ Viewbox#PART_UpViewbox">
+      <Setter Property="Width" Value="{theme:IconSize}" />
+      <Setter Property="Height" Value="{theme:IconSize}" />
+    </Style>
+    <Style Selector="^ /template/ Path#PART_UpPath">
+      <Setter Property="Fill" Value="{theme:OnSurfaceBrush}" />
+      <Setter Property="Width" Value="{theme:IconSize}" />
+      <Setter Property="Height" Value="{theme:IconSize}" />
+    </Style>
+    <Style Selector="^ /template/ Viewbox#PART_DownViewbox">
+      <Setter Property="Width" Value="{theme:IconSize}" />
+      <Setter Property="Height" Value="{theme:IconSize}" />
+    </Style>
+    <Style Selector="^ /template/ Path#PART_DownPath">
+      <Setter Property="Fill" Value="{theme:OnSurfaceBrush}" />
+      <Setter Property="Width" Value="{theme:IconSize}" />
+      <Setter Property="Height" Value="{theme:IconSize}" />
+    </Style>
+
     <Style Selector="^ /template/ RepeatButton:pointerover > Viewbox > Path">
       <Setter Property="Fill" Value="{theme:OnSurfaceBrush}" />
     </Style>

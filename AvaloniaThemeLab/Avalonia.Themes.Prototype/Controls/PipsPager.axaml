@@ -109,16 +109,12 @@
       <ControlTemplate>
         <Grid Background="Transparent">
           <Ellipse Name="PipBackground"
-                   Width="{theme:IconSize}"
-                   Height="{theme:IconSize}"
                    HorizontalAlignment="Center"
                    VerticalAlignment="Center"
                    Fill="Transparent"
                    Stroke="Transparent"
                    StrokeThickness="1" />
           <Ellipse Name="Pip"
-                   Width="{theme:SpacingMd}"
-                   Height="{theme:SpacingMd}"
                    HorizontalAlignment="Center"
                    VerticalAlignment="Center" />
         </Grid>
@@ -127,6 +123,8 @@
 
     <!-- Pip default fill and transitions -->
     <Style Selector="^ /template/ Ellipse#PipBackground">
+      <Setter Property="Width" Value="{theme:IconSize}" />
+      <Setter Property="Height" Value="{theme:IconSize}" />
       <Setter Property="Transitions">
         <Transitions>
           <BrushTransition Property="Fill" Duration="{theme:AnimationNormalMs}" />
@@ -135,6 +133,8 @@
       </Setter>
     </Style>
     <Style Selector="^ /template/ Ellipse#Pip">
+      <Setter Property="Width" Value="{theme:SpacingMd}" />
+      <Setter Property="Height" Value="{theme:SpacingMd}" />
       <Setter Property="Fill" Value="{theme:OnSurfaceDimBrush}" />
       <Setter Property="Transitions">
         <Transitions>
@@ -224,8 +224,6 @@
                   VerticalAlignment="Center"
                   HorizontalAlignment="Center">
             <PathIcon Name="PreviousButtonIcon"
-                      Width="{theme:IconSize}"
-                      Height="{theme:IconSize}"
                       Data="{StaticResource PipsPagerPreviousPageButtonData}" />
           </Button>
 
@@ -263,13 +261,21 @@
                   VerticalAlignment="Center"
                   HorizontalAlignment="Center">
             <PathIcon Name="NextButtonIcon"
-                      Width="{theme:IconSize}"
-                      Height="{theme:IconSize}"
                       Data="{StaticResource PipsPagerNextPageButtonData}" />
           </Button>
         </StackPanel>
       </ControlTemplate>
     </Setter>
+
+    <!-- Navigation icon sizes -->
+    <Style Selector="^ /template/ PathIcon#PreviousButtonIcon">
+      <Setter Property="Width" Value="{theme:IconSize}" />
+      <Setter Property="Height" Value="{theme:IconSize}" />
+    </Style>
+    <Style Selector="^ /template/ PathIcon#NextButtonIcon">
+      <Setter Property="Width" Value="{theme:IconSize}" />
+      <Setter Property="Height" Value="{theme:IconSize}" />
+    </Style>
 
     <!-- Pressed state -->
     <Style Selector="^ /template/ Button#PART_PreviousButton:pressed">

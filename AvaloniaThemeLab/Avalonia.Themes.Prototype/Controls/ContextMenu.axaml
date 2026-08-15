@@ -61,12 +61,16 @@
           <ScrollViewer Theme="{StaticResource PrototypeMenuScrollViewer}">
             <ItemsPresenter Name="PART_ItemsPresenter"
                             ItemsPanel="{TemplateBinding ItemsPanel}"
-                            Margin="{theme:Edges Vertical={theme:SpacingSm}}"
                             KeyboardNavigation.TabNavigation="Continue"
                             Grid.IsSharedSizeScope="True" />
           </ScrollViewer>
         </Border>
       </ControlTemplate>
     </Setter>
+
+    <!-- Template element styles -->
+    <Style Selector="^ /template/ ItemsPresenter#PART_ItemsPresenter">
+      <Setter Property="Margin" Value="{theme:Edges Vertical={theme:SpacingSm}}" />
+    </Style>
   </ControlTheme>
 </ResourceDictionary>

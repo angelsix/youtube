@@ -40,6 +40,10 @@
 
           <WindowDrawnDecorationsContent.Underlay>
             <Panel x:Name="PART_UnderlayWrapper">
+              <Border x:Name="PART_WindowShadow"
+                      Background="{theme:SurfaceOverlayWeakBrush}"
+                      IsHitTestVisible="False"
+                      IsVisible="False" />
               <Border x:Name="PART_WindowBorder"
                       Background="{theme:SurfaceBrush}"
                       BorderThickness="{TemplateBinding FrameThickness}"
@@ -168,8 +172,8 @@
     <Style Selector="^:has-shadow /template/ Panel#PART_UnderlayWrapper">
       <Setter Property="Margin" Value="{TemplateBinding ShadowThickness}"/>
     </Style>
-    <Style Selector="^:has-shadow /template/ Border#PART_WindowBorder">
-      <Setter Property="BoxShadow" Value="0 2 10 2 #80000000"/>
+    <Style Selector="^:has-shadow /template/ Border#PART_WindowShadow">
+      <Setter Property="IsVisible" Value="True"/>
     </Style>
     <Style Selector="^:has-shadow /template/ Panel#PART_OverlayWrapper">
       <Setter Property="Margin" Value="{TemplateBinding ShadowThickness}"/>

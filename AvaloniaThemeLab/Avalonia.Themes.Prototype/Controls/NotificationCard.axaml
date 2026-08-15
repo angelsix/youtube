@@ -22,18 +22,24 @@
     <Setter Property="Template">
       <ControlTemplate>
         <LayoutTransformControl Name="PART_LayoutTransformControl" UseRenderTransform="True">
-          <Border CornerRadius="{TemplateBinding CornerRadius}" BoxShadow="0 6 8 0 #4F000000" Margin="{theme:Edges Left={theme:SpacingLg}, Top={theme:SpacingLg}, Right={theme:SpacingLg}, Bottom={theme:SpacingXxl}}">
-            <Border Background="{TemplateBinding Background}"
-                    BorderBrush="{TemplateBinding BorderBrush}"
-                    BorderThickness="{TemplateBinding BorderThickness}"
+          <Panel>
+            <Border x:Name="PART_ShadowBorder"
                     CornerRadius="{TemplateBinding CornerRadius}"
-                    ClipToBounds="True">
-              <DockPanel>
-                <Panel x:Name="PART_HeaderBar" Height="{theme:ThicknessXxl}" Background="{theme:OnSurfaceDimBrush}" DockPanel.Dock="Top" />
-                <ContentPresenter Name="PART_ContentPresenter" MinHeight="{theme:Scaled Value={theme:ControlHeightMd}, By=2}" Content="{TemplateBinding Content}" />
-              </DockPanel>
+                    IsHitTestVisible="False"/>
+            <Border x:Name="PART_OuterBorder"
+                    CornerRadius="{TemplateBinding CornerRadius}">
+              <Border Background="{TemplateBinding Background}"
+                      BorderBrush="{TemplateBinding BorderBrush}"
+                      BorderThickness="{TemplateBinding BorderThickness}"
+                      CornerRadius="{TemplateBinding CornerRadius}"
+                      ClipToBounds="True">
+                <DockPanel>
+                  <Panel x:Name="PART_HeaderBar" DockPanel.Dock="Top" />
+                  <ContentPresenter Name="PART_ContentPresenter" Content="{TemplateBinding Content}" />
+                </DockPanel>
+              </Border>
             </Border>
-          </Border>
+          </Panel>
         </LayoutTransformControl>
       </ControlTemplate>
     </Setter>
@@ -99,6 +105,28 @@
     </Style>
     <Style Selector="^:error /template/ Panel#PART_HeaderBar">
       <Setter Property="Background" Value="{theme:AccentErrorBrush}"/>
+    </Style>
+
+    <!-- Shadow border (elevation behind card) -->
+    <Style Selector="^ /template/ Border#PART_ShadowBorder">
+      <Setter Property="Background" Value="{theme:SurfaceOverlayMediumBrush}" />
+      <Setter Property="Margin" Value="{theme:Edges Left={theme:SpacingLg}, Top={theme:SpacingLg}, Right={theme:SpacingLg}, Bottom={theme:SpacingXxl}}" />
+    </Style>
+
+    <!-- Outer border margin (offset from edge for shadow visibility) -->
+    <Style Selector="^ /template/ Border#PART_OuterBorder">
+      <Setter Property="Margin" Value="{theme:Edges Left={theme:SpacingLg}, Top={theme:SpacingLg}, Right={theme:SpacingLg}, Bottom={theme:SpacingXxl}}" />
+    </Style>
+
+    <!-- Header bar default (height and neutral background) -->
+    <Style Selector="^ /template/ Panel#PART_HeaderBar">
+      <Setter Property="Height" Value="{theme:ThicknessXxl}" />
+      <Setter Property="Background" Value="{theme:OnSurfaceDimBrush}" />
+    </Style>
+
+    <!-- Content presenter minimum height -->
+    <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="MinHeight" Value="{theme:Scaled Value={theme:ControlHeightMd}, By=2}" />
     </Style>
   </ControlTheme>
 </ResourceDictionary>

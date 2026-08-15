@@ -57,9 +57,7 @@
           <ContentPresenter x:Name="PART_ContentPresenter"
                   Background="{TemplateBinding Background}"
                   BorderBrush="Transparent"
-                  BorderThickness="{theme:ThicknessSm}"
                   Content="{TemplateBinding Content}"
-                  Foreground="{theme:OnSurfaceBrush}"
                   ContentTemplate="{TemplateBinding ContentTemplate}"
                   Padding="{TemplateBinding Padding}"
                   HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
@@ -68,6 +66,12 @@
         </Border>
       </ControlTemplate>
     </Setter>
+
+    <!-- Template element defaults -->
+    <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="BorderThickness" Value="{theme:ThicknessSm}" />
+      <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
+    </Style>
 
     <Style Selector="^:pointerover /template/ ContentPresenter">
       <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}"/>

@@ -18,6 +18,9 @@
   <ControlTheme x:Key="{x:Type dialogs:ManagedFileChooser}" TargetType="dialogs:ManagedFileChooser">
     <ControlTheme.Resources>
       <ResourceDictionary>
+        <!-- Icon artwork: file/folder/volume glyphs for the file picker dialog.
+             These are intrinsic drawn graphics (DrawingGroup/GeometryDrawing), not UI surfaces,
+             and are exempt from theming per ThemeRules.md. -->
         <GradientStops x:Key="IconRes.FolderBackGradientStops">
         </GradientStops>
         <GradientStops x:Key="IconRes.FolderFrontGradientStops">
@@ -153,7 +156,7 @@
                      MaxWidth="200">
               <ListBox.ItemTemplate>
                 <DataTemplate>
-                  <StackPanel Spacing="{theme:SpacingMd}" Orientation="Horizontal" Background="Transparent">
+                  <StackPanel Orientation="Horizontal" Background="Transparent">
                     <Image Width="16" Height="16">
                       <Image.Source>
                         <DrawingImage Drawing="{Binding IconKey, Converter={StaticResource Icons}}"/>
@@ -164,13 +167,13 @@
                 </DataTemplate>
               </ListBox.ItemTemplate>
             </ListBox>
-            <DockPanel x:Name="NavBar" DockPanel.Dock="Top" Margin="{theme:Edges Left={theme:SpacingXl}, Top={theme:SpacingLg}, Right={theme:SpacingXl}}" VerticalAlignment="Center">
-              <Rectangle Fill="{theme:AccentBorderBrush}" Height="1" Margin="{theme:Edges Top={theme:SpacingLg}}" DockPanel.Dock="Bottom"/>
-              <DockPanel Margin="{theme:Edges Left={theme:SpacingMd}, Right={theme:SpacingMd}}">
-                <Button Command="{Binding GoUp}" DockPanel.Dock="Left" Margin="{theme:Edges Right={theme:SpacingXl}}">
+            <DockPanel x:Name="NavBar" DockPanel.Dock="Top" VerticalAlignment="Center">
+              <Rectangle x:Name="NavBarSeparator" Height="1" DockPanel.Dock="Bottom"/>
+              <DockPanel x:Name="NavBarInner">
+                <Button x:Name="GoUpButton" Command="{Binding GoUp}" DockPanel.Dock="Left">
                   <Path Data="M 0 7 L 7 0 L 14 7 M 7 0 L 7 16" Stroke="{CompiledBinding $parent[Button].Foreground}" StrokeThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,1,0,-1"/>
                 </Button>
-                <Button Command="{Binding Refresh}" DockPanel.Dock="Right" Margin="{theme:Edges Left={theme:SpacingXl}}">
+                <Button x:Name="RefreshButton" Command="{Binding Refresh}" DockPanel.Dock="Right">
                   <Path Data="M18.62 3.32c.39 0 .7.29.76.66v3c0 .39-.28.7-.66.76h-3a.77.77 0 0 1-.1-1.52h1.08a7.42 7.42 0 1 0 2.65 4.37.77.77 0 1 1 1.5-.3 8.94 8.94 0 1 1-3-5.12V4.09c0-.43.35-.77.77-.77Z"
                         Fill="{CompiledBinding $parent[Button].Foreground}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="-2,-4,0,0"/>
                 </Button>
@@ -181,10 +184,10 @@
                 </TextBox>
               </DockPanel>
             </DockPanel>
-            <DockPanel Margin="{theme:Edges Left={theme:SpacingXl}, Right={theme:SpacingXl}, Bottom={theme:SpacingLg}}" DockPanel.Dock="Bottom">
-              <Rectangle Fill="{theme:AccentBorderBrush}" Height="1" Margin="{theme:Edges Bottom={theme:SpacingLg}}" DockPanel.Dock="Top"/>
-              <DockPanel Margin="{theme:Edges Left={theme:SpacingMd}, Right={theme:SpacingMd}}">
-                <DockPanel DockPanel.Dock="Top" Margin="{theme:Edges Bottom={theme:SpacingMd}}">
+            <DockPanel x:Name="BottomBar" DockPanel.Dock="Bottom">
+              <Rectangle x:Name="BottomBarSeparator" Height="1" DockPanel.Dock="Top"/>
+              <DockPanel x:Name="BottomBarInner">
+                <DockPanel x:Name="BottomBarTop" DockPanel.Dock="Top">
                   <ComboBox DockPanel.Dock="Right"
                       IsVisible="{Binding ShowFilters}"
                       ItemsSource="{Binding Filters}"
@@ -200,7 +203,7 @@
             </DockPanel>
 
             <DockPanel Grid.IsSharedSizeScope="True">
-              <Grid DockPanel.Dock="Top" Margin="{theme:Edges Left={theme:SpacingXxl}, Top={theme:SpacingLg}}" HorizontalAlignment="Stretch">
+              <Grid x:Name="FileHeaders" DockPanel.Dock="Top" HorizontalAlignment="Stretch">
                 <Grid.ColumnDefinitions>
                   <ColumnDefinition Width="20" SharedSizeGroup="Icon" />
                   <ColumnDefinition Width="275" SharedSizeGroup="Name" />
@@ -235,7 +238,7 @@
               </Grid>
               <ListBox x:Name="PART_Files"
                   ItemsSource="{Binding Items}"
-                  Margin="{theme:Edges Top={theme:SpacingLg}, Bottom={theme:SpacingLg}}"
+                  Margin="0"
                   SelectionMode="{Binding SelectionMode}"
                   SelectedItems="{Binding SelectedItems}"
                   Background="Transparent"
@@ -280,7 +283,7 @@
         </Border>
       </ControlTemplate>
     </Setter>
-    <Style Selector="^ /template/ ListBox#QuickLinks">
+    <Style Selector="^ /template/ ListBox#PART_QuickLinks">
       <Setter Property="Margin" Value="0"/>
       <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}"/>
       <Setter Property="BorderThickness" Value="0"/>
@@ -288,13 +291,19 @@
       <Setter Property="Padding" Value="0,20"/>
       <Setter Property="Template">
         <ControlTemplate>
-          <Border Name="border" BoxShadow="inset -6 0 3 -3 #20000000" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
-            <ScrollViewer Name="PART_ScrollViewer" HorizontalScrollBarVisibility="{TemplateBinding (ScrollViewer.HorizontalScrollBarVisibility)}" VerticalScrollBarVisibility="{TemplateBinding (ScrollViewer.VerticalScrollBarVisibility)}">
-              <ItemsPresenter Name="PART_ItemsPresenter"
-                              ItemsPanel="{TemplateBinding ItemsPanel}"
-                              Margin="{TemplateBinding Padding}"/>
-            </ScrollViewer>
-          </Border>
+          <Panel>
+            <!-- Inset shadow for depth (themed — replaces hardcoded BoxShadow) -->
+            <Border x:Name="PART_ShadowBorder"
+                    Margin="0,0,-6,0"
+                    IsHitTestVisible="False"/>
+            <Border Name="border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+              <ScrollViewer Name="PART_ScrollViewer" HorizontalScrollBarVisibility="{TemplateBinding (ScrollViewer.HorizontalScrollBarVisibility)}" VerticalScrollBarVisibility="{TemplateBinding (ScrollViewer.VerticalScrollBarVisibility)}">
+                <ItemsPresenter Name="PART_ItemsPresenter"
+                                ItemsPanel="{TemplateBinding ItemsPanel}"
+                                Margin="{TemplateBinding Padding}"/>
+              </ScrollViewer>
+            </Border>
+          </Panel>
         </ControlTemplate>
       </Setter>
       <Setter Property="ItemContainerTheme">
@@ -331,6 +340,48 @@
       </Setter>
     </Style>
 
+    <!-- Shadow border inside the ListBox template (Rule 2: no {theme:...} inside ControlTemplate) -->
+    <Style Selector="^ /template/ ListBox#PART_QuickLinks /template/ Border#PART_ShadowBorder">
+      <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}" />
+    </Style>
+
+    <!-- Themed defaults for inner template elements (Rule 2: no {theme:...} inside ControlTemplate) -->
+    <Style Selector="^ /template/ DockPanel#NavBar">
+      <Setter Property="Margin" Value="{theme:Edges Left={theme:SpacingXl}, Top={theme:SpacingLg}, Right={theme:SpacingXl}}" />
+    </Style>
+    <Style Selector="^ /template/ Rectangle#NavBarSeparator">
+      <Setter Property="Fill" Value="{theme:AccentBorderBrush}" />
+      <Setter Property="Margin" Value="{theme:Edges Top={theme:SpacingLg}}" />
+    </Style>
+    <Style Selector="^ /template/ DockPanel#NavBarInner">
+      <Setter Property="Margin" Value="{theme:Edges Left={theme:SpacingMd}, Right={theme:SpacingMd}}" />
+    </Style>
+    <Style Selector="^ /template/ Button#GoUpButton">
+      <Setter Property="Margin" Value="{theme:Edges Right={theme:SpacingXl}}" />
+    </Style>
+    <Style Selector="^ /template/ Button#RefreshButton">
+      <Setter Property="Margin" Value="{theme:Edges Left={theme:SpacingXl}}" />
+    </Style>
+    <Style Selector="^ /template/ DockPanel#BottomBar">
+      <Setter Property="Margin" Value="{theme:Edges Left={theme:SpacingXl}, Right={theme:SpacingXl}, Bottom={theme:SpacingLg}}" />
+    </Style>
+    <Style Selector="^ /template/ Rectangle#BottomBarSeparator">
+      <Setter Property="Fill" Value="{theme:AccentBorderBrush}" />
+      <Setter Property="Margin" Value="{theme:Edges Bottom={theme:SpacingLg}}" />
+    </Style>
+    <Style Selector="^ /template/ DockPanel#BottomBarInner">
+      <Setter Property="Margin" Value="{theme:Edges Left={theme:SpacingMd}, Right={theme:SpacingMd}}" />
+    </Style>
+    <Style Selector="^ /template/ DockPanel#BottomBarTop">
+      <Setter Property="Margin" Value="{theme:Edges Bottom={theme:SpacingMd}}" />
+    </Style>
+    <Style Selector="^ /template/ Grid#FileHeaders">
+      <Setter Property="Margin" Value="{theme:Edges Left={theme:SpacingXxl}, Top={theme:SpacingLg}}" />
+    </Style>
+    <Style Selector="^ /template/ ListBox#PART_Files">
+      <Setter Property="Margin" Value="{theme:Edges Top={theme:SpacingLg}, Bottom={theme:SpacingLg}}" />
+    </Style>
+
     <Style Selector="^ /template/ DockPanel#NavBar Button, ^ /template/ DockPanel#NavBar TextBox">
       <Setter Property="Height" Value="30"/>
     </Style>
@@ -360,11 +411,11 @@
                 BorderThickness="{TemplateBinding BorderThickness}"
                 CornerRadius="{TemplateBinding CornerRadius}"
                 Padding="{TemplateBinding Padding}">
-          <StackPanel Spacing="{theme:SpacingXxl}">
+          <StackPanel x:Name="PART_OverwritePromptRoot">
             <TextBlock TextWrapping="Wrap"
                        Text="{Binding FileName, RelativeSource={RelativeSource TemplatedParent}, StringFormat='{}{0} already exists. Do you want to replace it?'}" />
-            <StackPanel HorizontalAlignment="Right"
-                        Spacing="{theme:SpacingXxl}"
+            <StackPanel x:Name="PART_OverwritePromptButtons"
+                        HorizontalAlignment="Right"
                         Orientation="Horizontal">
               <Button Classes="accent" Content="Yes"
                       MinWidth="80"
@@ -381,5 +432,12 @@
         </Border>
       </ControlTemplate>
     </Setter>
+
+    <Style Selector="^ /template/ StackPanel#PART_OverwritePromptRoot">
+      <Setter Property="Spacing" Value="{theme:SpacingXxl}" />
+    </Style>
+    <Style Selector="^ /template/ StackPanel#PART_OverwritePromptButtons">
+      <Setter Property="Spacing" Value="{theme:SpacingXxl}" />
+    </Style>
   </ControlTheme>
 </ResourceDictionary>

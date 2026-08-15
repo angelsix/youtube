@@ -1,4 +1,4 @@
-﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated">
@@ -84,11 +84,10 @@
       <Setter.Value>
         <ControlTemplate>
           <Grid>
-            <Border Padding="{theme:Edges Bottom={theme:SpacingXxl}}" IsHitTestVisible="True" Background="Transparent">
+            <Border x:Name="PART_HitTarget" IsHitTestVisible="True" Background="Transparent">
               <Image Stretch="Uniform"
                      Cursor="Arrow"
                      Name="PART_HandlePathIcon"
-                     Height="{theme:ControlHeightSm}"
                      Source="{DynamicResource TextSelectionHandleDrawing}"/>
             </Border>
             <Border Background="Transparent"
@@ -117,6 +116,14 @@
     </Style>
     <Style Selector="^:start /template/ Border#PART_Indicator">
       <Setter Property="HorizontalAlignment" Value="Right" />
+    </Style>
+
+    <!-- Themed properties moved out of ControlTemplate -->
+    <Style Selector="^ /template/ Border#PART_HitTarget">
+      <Setter Property="Padding" Value="{theme:Edges Bottom={theme:SpacingXxl}}" />
+    </Style>
+    <Style Selector="^ /template/ Image#PART_HandlePathIcon">
+      <Setter Property="Height" Value="{theme:ControlHeightSm}" />
     </Style>
   </ControlTheme>
 </ResourceDictionary>

@@ -82,8 +82,6 @@
             <DockPanel Name="PART_ContentDock">
               <Border
                 Name="PART_TopBar"
-                Padding="{theme:Edges All={theme:SpacingLg}}"
-                Height="{theme:ControlHeightLg}"
                 Background="{DynamicResource NavigationControlNavBarBackground}"
                 DockPanel.Dock="Top">
                 <DockPanel HorizontalAlignment="Stretch">
@@ -120,16 +118,11 @@
                                   Content="{TemplateBinding Header}"
                                   VerticalAlignment="Center"
                                   VerticalContentAlignment="Center"
-                                  FontSize="16"
-                                  FontWeight="SemiBold"
-                                  Margin="{theme:Edges Left={theme:SpacingXl}}"
                                   IsVisible="{TemplateBinding Header, Converter={x:Static ObjectConverters.IsNotNull}}" />
                 </DockPanel>
               </Border>
               <Border
                 Name="PART_BottomBar"
-                Padding="{theme:Edges All={theme:SpacingLg}}"
-                Height="{theme:ControlHeightLg}"
                 Background="{DynamicResource NavigationControlNavBarBackground}"
                 DockPanel.Dock="Bottom"
                 IsVisible="False">
@@ -167,9 +160,6 @@
                                   Content="{TemplateBinding Header}"
                                   VerticalAlignment="Center"
                                   VerticalContentAlignment="Center"
-                                  FontSize="16"
-                                  FontWeight="SemiBold"
-                                  Margin="{theme:Edges Left={theme:SpacingXl}}"
                                   IsVisible="{TemplateBinding Header, Converter={x:Static ObjectConverters.IsNotNull}}" />
                 </DockPanel>
               </Border>
@@ -191,6 +181,26 @@
         </SplitView>
       </ControlTemplate>
     </Setter>
+
+    <!-- Themed defaults for inner template elements (Rule 2: no {theme:...} inside ControlTemplate) -->
+    <Style Selector="^ /template/ Border#PART_TopBar">
+      <Setter Property="Padding" Value="{theme:Edges All={theme:SpacingLg}}" />
+      <Setter Property="Height" Value="{theme:ControlHeightLg}" />
+    </Style>
+    <Style Selector="^ /template/ ContentControl#PART_TitlePresenter">
+      <Setter Property="FontSize" Value="{theme:FontSizeLg}" />
+      <Setter Property="FontWeight" Value="{theme:FontWeightSemiBold}" />
+      <Setter Property="Margin" Value="{theme:Edges Left={theme:SpacingXl}}" />
+    </Style>
+    <Style Selector="^ /template/ Border#PART_BottomBar">
+      <Setter Property="Padding" Value="{theme:Edges All={theme:SpacingLg}}" />
+      <Setter Property="Height" Value="{theme:ControlHeightLg}" />
+    </Style>
+    <Style Selector="^ /template/ ContentControl#PART_BottomTitlePresenter">
+      <Setter Property="FontSize" Value="{theme:FontSizeLg}" />
+      <Setter Property="FontWeight" Value="{theme:FontWeightSemiBold}" />
+      <Setter Property="Margin" Value="{theme:Edges Left={theme:SpacingXl}}" />
+    </Style>
 
     <Style Selector="^:placement-right /template/ ToggleButton#PART_PaneButton">
       <Setter Property="DockPanel.Dock" Value="Right" />

@@ -33,6 +33,7 @@
     <Setter Property="FontWeight" Value="{theme:FontWeightRegular}" />
     <Setter Property="MinHeight" Value="{theme:ControlHeightSm}" />
     <Setter Property="Padding" Value="{theme:Edges Left={theme:SpacingLg}}" />
+    <Setter Property="MinWidth" Value="{theme:ControlMinWidth}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
     <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
     <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
@@ -49,27 +50,20 @@
             CornerRadius="{TemplateBinding CornerRadius}">
           <Grid ColumnDefinitions="Auto,*">
             <Grid
-                Width="{theme:IconSize}"
-                Height="{theme:IconSize}"
+                x:Name="PART_CheckBoxGrid"
                 VerticalAlignment="Top">
 
               <Ellipse
                   x:Name="OuterEllipse"
-                  Width="{theme:IconSize}"
-                  Height="{theme:IconSize}"
                   UseLayoutRounding="False" />
 
               <Ellipse
                   x:Name="CheckOuterEllipse"
-                  Width="{theme:IconSize}"
-                  Height="{theme:IconSize}"
                   Opacity="0"
                   UseLayoutRounding="False" />
 
               <Ellipse
                   x:Name="CheckGlyph"
-                  Width="{theme:IconSize}"
-                  Height="{theme:IconSize}"
                   Opacity="0"
                   UseLayoutRounding="False" />
             </Grid>
@@ -91,6 +85,18 @@
     <!-- Access key support -->
     <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
       <Setter Property="RecognizesAccessKey" Value="True" />
+    </Style>
+
+    <!-- Check box grid size -->
+    <Style Selector="^ /template/ Grid#PART_CheckBoxGrid">
+      <Setter Property="Width" Value="{theme:IconSize}" />
+      <Setter Property="Height" Value="{theme:IconSize}" />
+    </Style>
+
+    <!-- Ellipse sizes -->
+    <Style Selector="^ /template/ Ellipse#OuterEllipse, ^ /template/ Ellipse#CheckOuterEllipse, ^ /template/ Ellipse#CheckGlyph">
+      <Setter Property="Width" Value="{theme:IconSize}" />
+      <Setter Property="Height" Value="{theme:IconSize}" />
     </Style>
 
     <!-- Default visuals -->

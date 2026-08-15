@@ -1,4 +1,4 @@
-﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     x:DataType="WindowNotificationManager"
                     xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
@@ -15,19 +15,18 @@
                   Margin="{theme:Edges All={theme:SpacingXxl}}"
                   Spacing="{theme:SpacingXl}"
                   TextElement.Foreground="{theme:OnSurfaceBrush}">
-                <TextBlock FontWeight="Medium" Text="{Binding Title}" />
-                <TextBlock
-                    MaxHeight="80"
-                    Margin="{theme:Edges Right={theme:SpacingXxl}}"
-                    Text="{Binding Message}"
-                    TextWrapping="Wrap" />
+                <TextBlock Text="{Binding Title}"
+                           FontWeight="{theme:FontWeightSemiBold}" />
+                <TextBlock MaxHeight="80"
+                           Text="{Binding Message}"
+                           TextWrapping="Wrap"
+                           Margin="{theme:Edges Right={theme:SpacingXxl}}" />
               </StackPanel>
             </DataTemplate>
             <DataTemplate DataType="x:String">
-              <TextBlock
-                  Margin="{theme:Edges All={theme:SpacingXxl}}"
-                  Foreground="{theme:OnSurfaceBrush}"
-                  Text="{Binding}" />
+              <TextBlock Text="{Binding}"
+                         Margin="{theme:Edges All={theme:SpacingXxl}}"
+                         Foreground="{theme:OnSurfaceBrush}" />
             </DataTemplate>
           </ReversibleStackPanel.DataTemplates>
         </ReversibleStackPanel>

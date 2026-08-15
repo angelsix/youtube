@@ -53,6 +53,8 @@
     <Setter Property="FontSize" Value="{theme:FontSizeMd}" />
     <Setter Property="FontWeight" Value="{theme:FontWeightRegular}" />
     <Setter Property="Padding" Value="{theme:Edges Left={theme:SpacingLg}}" />
+    <Setter Property="MinHeight" Value="{theme:ControlHeightSm}" />
+    <Setter Property="MinWidth" Value="{theme:ControlMinWidth}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
     <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
     <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
@@ -99,7 +101,6 @@
               <Panel>
                 <Viewbox x:Name="TickViewbox"
                          UseLayoutRounding="False"
-                         Width="{theme:IconSize}"
                          Height="{Binding Width, RelativeSource={RelativeSource Self}}">
                   <Path x:Name="CheckGlyph"
                         Opacity="0"
@@ -133,6 +134,10 @@
     </Style>
 
     <!-- Tick visuals -->
+    <Style Selector="^ /template/ Viewbox#TickViewbox">
+      <Setter Property="Width" Value="{theme:IconSize}" />
+    </Style>
+
     <Style Selector="^ /template/ Border#TickBorder">
       <Setter Property="Padding" Value="{theme:Edges All={theme:SpacingMd}}" />
     </Style>

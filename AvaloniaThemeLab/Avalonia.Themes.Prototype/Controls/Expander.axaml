@@ -104,8 +104,7 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     RenderTransformOrigin="50%,50%"
-                    Stretch="None"
-                    StrokeThickness="{theme:ThicknessSm}">
+                    Stretch="None">
                 <Path.RenderTransform>
                   <RotateTransform />
                 </Path.RenderTransform>
@@ -130,6 +129,7 @@
     <!-- Chevron path default -->
     <Style Selector="^ /template/ Path#ExpandCollapseChevron">
       <Setter Property="Stroke" Value="{theme:OnSurfaceBrush}" />
+      <Setter Property="StrokeThickness" Value="{theme:ThicknessSm}" />
     </Style>
 
     <!-- Chevron expanded animation -->
@@ -254,6 +254,7 @@
 
     <!-- Visual defaults -->
     <Setter Property="IsTabStop" Value="False" />
+    <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
     <Setter Property="MinWidth" Value="{theme:ControlMinWidth}" />
     <Setter Property="MinHeight" Value="{theme:ControlHeightLg}" />
     <Setter Property="Background" Value="{theme:SurfaceBrush}" />

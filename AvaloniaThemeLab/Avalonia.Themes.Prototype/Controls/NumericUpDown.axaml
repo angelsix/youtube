@@ -61,6 +61,9 @@
     <Setter Property="PlaceholderForeground" Value="{theme:OnSurfaceDimBrush}" />
     <Setter Property="BorderThickness" Value="{theme:ThicknessSm}" />
     <Setter Property="BorderBrush" Value="{theme:AccentBorderBrush}" />
+    <Setter Property="FontFamily" Value="{theme:FontFamily}" />
+    <Setter Property="FontSize" Value="{theme:FontSizeMd}" />
+    <Setter Property="FontWeight" Value="{theme:FontWeightRegular}" />
     <Setter Property="MinHeight" Value="{theme:ControlHeightSm}" />
     <Setter Property="MinWidth" Value="{theme:ControlMinWidth}" />
     <Setter Property="Padding" Value="{theme:Edges Left={theme:SpacingXxl}, Top={theme:SpacingLg}, Right={theme:SpacingLg}, Bottom={theme:SpacingMd}}" />
@@ -84,7 +87,6 @@
             <TextBox Name="PART_TextBox"
                      Background="Transparent"
                      BorderBrush="Transparent"
-                     Margin="{theme:Edges All={theme:Scaled Value={theme:BaseSize}, By=-1}}"
                      Padding="{TemplateBinding Padding}"
                      MinWidth="0"
                      Foreground="{TemplateBinding Foreground}"
@@ -103,5 +105,10 @@
         </DataValidationErrors>
       </ControlTemplate>
     </Setter>
+
+    <!-- TextBox margin (negative margin to offset ButtonSpinner padding) -->
+    <Style Selector="^ /template/ TextBox#PART_TextBox">
+      <Setter Property="Margin" Value="{theme:Edges All={theme:Scaled Value={theme:BaseSize}, By=-1}}" />
+    </Style>
   </ControlTheme>
 </ResourceDictionary>

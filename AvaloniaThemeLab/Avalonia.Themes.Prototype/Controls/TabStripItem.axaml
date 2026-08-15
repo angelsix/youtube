@@ -1,4 +1,4 @@
-﻿<ResourceDictionary
+<ResourceDictionary
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
@@ -20,13 +20,21 @@
 
 
   <ControlTheme x:Key="{x:Type TabStripItem}" TargetType="TabStripItem">
+    <Setter Property="FontFamily" Value="{theme:FontFamily}" />
     <Setter Property="FontSize" Value="{theme:FontSizeXxl}" />
     <Setter Property="FontWeight" Value="SemiLight" />
     <Setter Property="Background" Value="Transparent" />
     <Setter Property="Foreground" Value="{theme:OnSurfaceDimBrush}" />
+    <Setter Property="BorderBrush" Value="{theme:OnSurfaceBrush}" />
+    <Setter Property="BorderThickness" Value="{theme:ThicknessSm}" />
+    <Setter Property="CornerRadius" Value="{theme:RadiusSm}" />
     <Setter Property="Padding" Value="{theme:Edges Horizontal={theme:SpacingXxl}}" />
     <Setter Property="Margin" Value="0" />
     <Setter Property="MinHeight" Value="{theme:ControlHeightLg}" />
+    <Setter Property="MinWidth" Value="{theme:ControlMinWidth}" />
+    <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
+    <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
+    <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
     <Setter Property="VerticalContentAlignment" Value="Center" />
     <Setter Property="Template">
       <ControlTemplate>
@@ -45,11 +53,7 @@
                 Content="{TemplateBinding Content}"
                 ContentTemplate="{TemplateBinding ContentTemplate}" />
             <Border Name="PART_SelectedPipe"
-                    Background="{theme:AccentPrimaryBrush}"
-                    CornerRadius="{theme:RadiusSm}"
-                    Height="{theme:SpacingSm}"
                     IsVisible="False"
-                    Margin="{theme:Edges Bottom={theme:SpacingSm}}"
                     VerticalAlignment="Bottom"/>
           </Panel>
         </Border>
@@ -61,6 +65,12 @@
     <Style Selector="^:selected">
       <Setter Property="Background" Value="Transparent" />
       <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
+    </Style>
+    <Style Selector="^ /template/ Border#PART_SelectedPipe">
+      <Setter Property="Background" Value="{theme:AccentPrimaryBrush}" />
+      <Setter Property="CornerRadius" Value="{theme:RadiusSm}" />
+      <Setter Property="Height" Value="{theme:SpacingSm}" />
+      <Setter Property="Margin" Value="{theme:Edges Bottom={theme:SpacingSm}}" />
     </Style>
     <Style Selector="^:selected /template/ Border#PART_SelectedPipe">
       <Setter Property="IsVisible" Value="True" />

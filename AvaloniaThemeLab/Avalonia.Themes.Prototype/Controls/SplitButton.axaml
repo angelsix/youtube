@@ -126,7 +126,11 @@
     <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
     <Setter Property="BorderBrush" Value="Transparent" />
     <Setter Property="BorderThickness" Value="{theme:ThicknessSm}" />
+    <Setter Property="FontFamily" Value="{theme:FontFamily}" />
+    <Setter Property="FontSize" Value="{theme:FontSizeMd}" />
+    <Setter Property="FontWeight" Value="{theme:FontWeightRegular}" />
     <Setter Property="MinHeight" Value="{theme:ControlHeightSm}" />
+    <Setter Property="MinWidth" Value="{theme:ControlMinWidth}" />
     <Setter Property="HorizontalAlignment" Value="Left" />
     <Setter Property="VerticalAlignment" Value="Center" />
     <Setter Property="HorizontalContentAlignment" Value="Stretch" />
@@ -142,7 +146,6 @@
           <Button x:Name="PART_PrimaryButton"
                   Grid.Column="0"
                   Theme="{StaticResource PrototypeSplitButtonComponent}"
-                  MinWidth="{theme:ControlHeightSm}"
                   Foreground="{TemplateBinding Foreground}"
                   Background="{TemplateBinding Background}"
                   BorderThickness="{TemplateBinding BorderThickness, Converter={StaticResource PrimaryButtonBorderMultiplier}}"
@@ -163,14 +166,12 @@
           <Border x:Name="SeparatorBorder"
                   Grid.Column="1"
                   Background="Transparent"
-                  Width="{theme:BaseSize}"
                   BorderThickness="{TemplateBinding BorderThickness, Converter={StaticResource SeparatorBorderMultiplier}}"
                   BorderBrush="{TemplateBinding BorderBrush}" />
 
           <Button x:Name="PART_SecondaryButton"
                   Grid.Column="2"
                   Theme="{StaticResource PrototypeSplitButtonComponent}"
-                  MinWidth="{theme:ControlHeightSm}"
                   BorderBrush="{TemplateBinding BorderBrush}"
                   Foreground="{TemplateBinding Foreground}"
                   Background="{TemplateBinding Background}"
@@ -183,7 +184,7 @@
                   VerticalAlignment="Stretch"
                   Focusable="False"
                   KeyboardNavigation.IsTabStop="False">
-            <PathIcon Height="{theme:IconSize}" Width="{theme:IconSize}"
+            <PathIcon x:Name="PART_DropDownIcon"
                       Data="M1939 486L2029 576L1024 1581L19 576L109 486L1024 1401L1939 486Z" />
           </Button>
         </Grid>
@@ -200,6 +201,23 @@
 
     <Style Selector="^:checked:flyout-open /template/ Button">
       <Setter Property="Tag" Value="checked-flyout-open" />
+    </Style>
+
+    <Style Selector="^ /template/ Button#PART_PrimaryButton">
+      <Setter Property="MinWidth" Value="{theme:ControlHeightSm}" />
+    </Style>
+
+    <Style Selector="^ /template/ Border#SeparatorBorder">
+      <Setter Property="Width" Value="{theme:BaseSize}" />
+    </Style>
+
+    <Style Selector="^ /template/ Button#PART_SecondaryButton">
+      <Setter Property="MinWidth" Value="{theme:ControlHeightSm}" />
+    </Style>
+
+    <Style Selector="^ /template/ PathIcon#PART_DropDownIcon">
+      <Setter Property="Height" Value="{theme:IconSize}" />
+      <Setter Property="Width" Value="{theme:IconSize}" />
     </Style>
   </ControlTheme>
 </ResourceDictionary>

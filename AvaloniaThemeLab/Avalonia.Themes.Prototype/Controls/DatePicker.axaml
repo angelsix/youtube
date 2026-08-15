@@ -77,6 +77,8 @@
     <Setter Property="FontFamily" Value="{theme:FontFamily}" />
     <Setter Property="FontSize" Value="{theme:FontSizeMd}" />
     <Setter Property="FontWeight" Value="{theme:FontWeightRegular}" />
+    <Setter Property="MinHeight" Value="{theme:ControlHeightSm}" />
+    <Setter Property="MinWidth" Value="{theme:ControlMinWidth}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
     <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
 
@@ -100,21 +102,14 @@
                     VerticalAlignment="Stretch"
                     TemplatedControl.IsTemplateFocusTarget="True">
               <Grid Name="PART_ButtonContentGrid" ColumnDefinitions="78*,Auto,132*,Auto,78*">
-                <TextBlock Name="PART_DayTextBlock" Text="day" HorizontalAlignment="Center"
-                           Padding="{theme:Edges Top={theme:SpacingMd}, Bottom={theme:SpacingLg}}" />
-                <TextBlock Name="PART_MonthTextBlock" Text="month" TextAlignment="Left"
-                           Padding="{theme:Edges Left={theme:SpacingXl}, Top={theme:SpacingMd}, Bottom={theme:SpacingLg}}" />
-                <TextBlock Name="PART_YearTextBlock" Text="year" HorizontalAlignment="Center"
-                           Padding="{theme:Edges Top={theme:SpacingMd}, Bottom={theme:SpacingLg}}" />
+                <TextBlock Name="PART_DayTextBlock" Text="day" HorizontalAlignment="Center" />
+                <TextBlock Name="PART_MonthTextBlock" Text="month" TextAlignment="Left" />
+                <TextBlock Name="PART_YearTextBlock" Text="year" HorizontalAlignment="Center" />
                 <Rectangle x:Name="PART_FirstSpacer"
-                           Fill="{theme:AccentBorderBrush}"
                            HorizontalAlignment="Center"
-                           Width="{theme:ThicknessSm}"
                            Grid.Column="1" />
                 <Rectangle x:Name="PART_SecondSpacer"
-                           Fill="{theme:AccentBorderBrush}"
                            HorizontalAlignment="Center"
-                           Width="{theme:ThicknessSm}"
                            Grid.Column="3" />
               </Grid>
             </Button>
@@ -128,6 +123,24 @@
         </DataValidationErrors>
       </ControlTemplate>
     </Setter>
+
+    <!-- Template element styles -->
+    <Style Selector="^ /template/ TextBlock#PART_DayTextBlock">
+      <Setter Property="Padding" Value="{theme:Edges Top={theme:SpacingMd}, Bottom={theme:SpacingLg}}" />
+    </Style>
+
+    <Style Selector="^ /template/ TextBlock#PART_MonthTextBlock">
+      <Setter Property="Padding" Value="{theme:Edges Left={theme:SpacingXl}, Top={theme:SpacingMd}, Bottom={theme:SpacingLg}}" />
+    </Style>
+
+    <Style Selector="^ /template/ TextBlock#PART_YearTextBlock">
+      <Setter Property="Padding" Value="{theme:Edges Top={theme:SpacingMd}, Bottom={theme:SpacingLg}}" />
+    </Style>
+
+    <Style Selector="^ /template/ Rectangle#PART_FirstSpacer, ^ /template/ Rectangle#PART_SecondSpacer">
+      <Setter Property="Fill" Value="{theme:AccentBorderBrush}" />
+      <Setter Property="Width" Value="{theme:ThicknessSm}" />
+    </Style>
 
     <!-- Disabled state -->
     <Style Selector="^:disabled /template/ Rectangle">
@@ -168,7 +181,6 @@
         <Border Name="Background" Background="{TemplateBinding Background}"
                 BorderBrush="{TemplateBinding BorderBrush}"
                 BorderThickness="{TemplateBinding BorderThickness}"
-                Padding="{theme:Edges All={theme:SpacingSm}}"
                 CornerRadius="{TemplateBinding CornerRadius}">
           <Grid Name="ContentRoot" RowDefinitions="*,Auto">
             <Grid Name="PART_PickerContainer">
@@ -183,7 +195,6 @@
                               VerticalScrollBarVisibility="Hidden">
                   <DateTimePickerPanel Name="PART_MonthSelector"
                                        PanelType="Month"
-                                       ItemHeight="{theme:ControlHeightMd}"
                                        ShouldLoop="True" />
                 </ScrollViewer>
                 <RepeatButton Name="PART_MonthUpButton" Theme="{StaticResource PrototypeDateTimePickerUpButton}" />
@@ -194,7 +205,6 @@
                               VerticalScrollBarVisibility="Hidden">
                   <DateTimePickerPanel Name="PART_DaySelector"
                                        PanelType="Day"
-                                       ItemHeight="{theme:ControlHeightMd}"
                                        ShouldLoop="True" />
                 </ScrollViewer>
                 <RepeatButton Name="PART_DayUpButton" Theme="{StaticResource PrototypeDateTimePickerUpButton}" />
@@ -205,55 +215,45 @@
                               VerticalScrollBarVisibility="Hidden">
                   <DateTimePickerPanel Name="PART_YearSelector"
                                        PanelType="Year"
-                                       ItemHeight="{theme:ControlHeightMd}"
                                        ShouldLoop="False" />
                 </ScrollViewer>
                 <RepeatButton Name="PART_YearUpButton" Theme="{StaticResource PrototypeDateTimePickerUpButton}" />
                 <RepeatButton Name="PART_YearDownButton" Theme="{StaticResource PrototypeDateTimePickerDownButton}" />
               </Panel>
               <Rectangle Name="HighlightRect" IsHitTestVisible="False" ZIndex="-1"
-                         Fill="{theme:AccentPrimaryBrush}"
-                         Grid.Column="0" Grid.ColumnSpan="5" VerticalAlignment="Center"
-                         Height="{theme:ControlHeightMd}" />
+                          Grid.Column="0" Grid.ColumnSpan="5" VerticalAlignment="Center" />
               <Rectangle Name="PART_FirstSpacer"
-                         Fill="{theme:AccentBorderBrush}"
-                         HorizontalAlignment="Center"
-                         Width="{theme:BaseSize}"
-                         Grid.Column="1" />
+                          HorizontalAlignment="Center"
+                          Grid.Column="1" />
               <Rectangle Name="PART_SecondSpacer"
-                         Fill="{theme:AccentBorderBrush}"
-                         HorizontalAlignment="Center"
-                         Width="{theme:BaseSize}"
-                         Grid.Column="3" />
+                          HorizontalAlignment="Center"
+                          Grid.Column="3" />
             </Grid>
 
             <Grid Name="AcceptDismissGrid"
                   Grid.Row="1"
                   ColumnDefinitions="*,*">
-              <Rectangle Height="{theme:BaseSize}"
-                         VerticalAlignment="Top"
-                         Fill="{theme:AccentBorderBrush}"
-                         Grid.ColumnSpan="2" />
+              <Rectangle x:Name="PART_TopDivider"
+                          VerticalAlignment="Top"
+                          Grid.ColumnSpan="2" />
               <Button Name="PART_AcceptButton"
                       Grid.Column="0"
                       Theme="{StaticResource PrototypeDateTimePickerButton}"
-                      Height="{theme:ControlHeightMd}"
                       HorizontalAlignment="Stretch"
                       VerticalAlignment="Stretch">
-                <Path Stroke="{Binding $parent[Button].Foreground}"
+                <Path x:Name="PART_AcceptGlyph"
+                      Stroke="{Binding $parent[Button].Foreground}"
                       StrokeLineCap="Round"
-                      StrokeThickness="{theme:ThicknessSm}"
                       Data="M0.5,8.5 5,13.5 15.5,3" />
               </Button>
               <Button Name="PART_DismissButton"
                       Grid.Column="1"
                       Theme="{StaticResource PrototypeDateTimePickerButton}"
-                      Height="{theme:ControlHeightMd}"
                       HorizontalAlignment="Stretch"
                       VerticalAlignment="Stretch">
-                <Path Stroke="{Binding $parent[Button].Foreground}"
+                <Path x:Name="PART_DismissGlyph"
+                      Stroke="{Binding $parent[Button].Foreground}"
                       StrokeLineCap="Round"
-                      StrokeThickness="{theme:ThicknessSm}"
                       Data="M2,2 14,14 M2,14 14 2" />
               </Button>
             </Grid>
@@ -261,6 +261,40 @@
         </Border>
       </ControlTemplate>
     </Setter>
+
+    <!-- Template element styles -->
+    <Style Selector="^ /template/ Border#Background">
+      <Setter Property="Padding" Value="{theme:Edges All={theme:SpacingSm}}" />
+    </Style>
+
+    <Style Selector="^ /template/ DateTimePickerPanel#PART_MonthSelector,
+                     ^ /template/ DateTimePickerPanel#PART_DaySelector,
+                     ^ /template/ DateTimePickerPanel#PART_YearSelector">
+      <Setter Property="ItemHeight" Value="{theme:ControlHeightMd}" />
+    </Style>
+
+    <Style Selector="^ /template/ Rectangle#HighlightRect">
+      <Setter Property="Fill" Value="{theme:AccentPrimaryBrush}" />
+      <Setter Property="Height" Value="{theme:ControlHeightMd}" />
+    </Style>
+
+    <Style Selector="^ /template/ Rectangle#PART_FirstSpacer, ^ /template/ Rectangle#PART_SecondSpacer">
+      <Setter Property="Fill" Value="{theme:AccentBorderBrush}" />
+      <Setter Property="Width" Value="{theme:BaseSize}" />
+    </Style>
+
+    <Style Selector="^ /template/ Rectangle#PART_TopDivider">
+      <Setter Property="Height" Value="{theme:BaseSize}" />
+      <Setter Property="Fill" Value="{theme:AccentBorderBrush}" />
+    </Style>
+
+    <Style Selector="^ /template/ Button#PART_AcceptButton, ^ /template/ Button#PART_DismissButton">
+      <Setter Property="Height" Value="{theme:ControlHeightMd}" />
+    </Style>
+
+    <Style Selector="^ /template/ Path#PART_AcceptGlyph, ^ /template/ Path#PART_DismissGlyph">
+      <Setter Property="StrokeThickness" Value="{theme:ThicknessSm}" />
+    </Style>
 
     <!-- Hover state for selector repeat buttons -->
     <Style Selector="^ /template/ Panel">
