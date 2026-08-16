@@ -50,9 +50,6 @@
     <Setter Property="MinWidth" Value="{theme:ControlMinWidth}" />
     <Setter Property="Padding" Value="{theme:Edges All={theme:SpacingMd}}" />
     <Setter Property="Width" Value="{Binding $self.Bounds.Height}"/>
-    <Setter Property="FontFamily" Value="{theme:FontFamily}" />
-    <Setter Property="FontSize" Value="{theme:FontSizeMd}" />
-    <Setter Property="FontWeight" Value="{theme:FontWeightRegular}" />
     <Setter Property="TextElement.Foreground" Value="{theme:OnSurfaceDimBrush}"/>
 
     <!-- Template -->
@@ -122,7 +119,6 @@
        ============================================================ -->
   <ControlTheme x:Key="{x:Type TextBox}" TargetType="TextBox">
     <!-- Visual defaults -->
-    <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
     <Setter Property="Background" Value="{theme:SurfaceBrush}" />
     <Setter Property="CaretBrush" Value="{theme:OnSurfaceBrush}" />
     <Setter Property="BorderBrush" Value="{theme:AccentBorderBrush}" />
@@ -133,9 +129,6 @@
     <Setter Property="MinHeight" Value="{theme:ControlHeightSm}" />
     <Setter Property="MinWidth" Value="{theme:ControlMinWidth}" />
     <Setter Property="Padding" Value="{theme:Edges All={theme:SpacingLg}}" />
-    <Setter Property="FontFamily" Value="{theme:FontFamily}" />
-    <Setter Property="FontSize" Value="{theme:FontSizeMd}" />
-    <Setter Property="FontWeight" Value="{theme:FontWeightRegular}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
     <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
     <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />

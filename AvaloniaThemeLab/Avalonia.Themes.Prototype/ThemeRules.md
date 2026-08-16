@@ -166,6 +166,8 @@ When you find any hard-coded colour value, apply this test **before** deciding w
 
 **Justification:** This is the corollary of Rule 2: if a property isn't surfaced as a Setter on the ControlTheme, then `{TemplateBinding}` has nothing to bind to, and the control becomes unstylable for that property. Exposing properties at the theme level is the contract that enables Rule 2 to work.
 
+> **Carve-out — inherited properties (Rule 13).** `Foreground` and the `Font*` properties inherit. For those, setting the ambient value here does not make the control stylable — it makes it *unstylable from the outside*, because a setter outranks inheritance. Declare them at the roots and only re-declare where the value differs. See Rule 13 before adding `Foreground` or `Font*` to the list below.
+
 **Checklist of common properties that should always be exposed:**
 - `Background`
 - `Foreground`
@@ -321,13 +323,52 @@ This order ensures that more specific styles (accent) come after the defaults th
 
 ---
 
+## Rule 13: Inherited Properties Are Declared Once at the Root and Only Re-Declared Where They Differ
+
+**Statement:** `Foreground`, `FontFamily`, `FontSize`, `FontWeight`, `FontStyle` and `FlowDirection` are **inherited** properties — a value set on a control flows down to every descendant automatically. The theme establishes these once, at the roots (`Window`, `PopupRoot`, `EmbeddableControlRoot`, `OverlayPopupHost`, `ThemeVariantScope`). A ControlTheme should then set an inherited property **only when its value differs from what the control would inherit**. If the value would be the same, leave it unset and let it flow.
+
+This is the one deliberate carve-out from Rule 4. Rule 4 exists so nothing is hard-coded and everything is themeable; for inherited properties that goal is already met at the root, and re-declaring the same value at every control actively breaks the theme.
+
+**Justification:** Inheritance is the **lowest** priority band in Avalonia (`Inherited` = 4). Any value that is actually set — a plain ControlTheme setter at `Style` (3), a `{TemplateBinding}` at `Template` (2), a pseudo-class style at `StyleTrigger` (1) — beats it. So a setter does not merely "state the default": it **permanently pins the property**, and every ancestor's value, including that ancestor's state and class styles, is blocked from ever reaching the control. The property becomes unreachable from the outside.
+
+Concretely: a control that pins `Foreground` cannot participate in an accent container, a selected row, a hover state, or a disabled parent, because none of those values can reach it. The container's state style fires, the container's own foreground changes, and the pinned descendant stays exactly as it was.
+
+**Reference violation (the case that produced this rule):** `PathIcon` set `Foreground` to `{theme:OnSurfaceBrush}` in its visual defaults. Every icon in the library was therefore nailed to the neutral colour. When `ButtonSpinner.accent` set `Foreground` to `{theme:AccentPrimaryDark1Brush}` on its spinner buttons for hover, the chevron glyph did not change — the icon's own setter (priority 3) outranked the inherited value (priority 4). The fix was to delete the setter, not to add a louder override in `ButtonSpinner`. One deletion made every `PathIcon` in the library accent-aware, state-aware and dark-variant-aware at once, because they all now resolve through their container.
+
+Note the shape of the trap: the wrong fix (push the colour down from each container that needs it) appears to work for the control in front of you and has to be repeated forever. The right fix (stop blocking inheritance) is a deletion.
+
+**When you SHOULD set an inherited property:**
+
+| Case | Example |
+|------|---------|
+| The control is a root/scope establishing the baseline | `Window`, `PopupRoot`, `EmbeddableControlRoot` set `Foreground`, `FontFamily`, `FontSize`, `FontWeight` |
+| The value genuinely differs from the ambient one | `ToolTip` → `{theme:FontSizeSm}`, `TabItem` → `{theme:FontSizeXxl}`, `GroupBox` → `{theme:FontSizeLg}` |
+| The control's identity carries a colour | `HyperlinkButton` → `{theme:AccentPrimaryBrush}`, `ProgressBar` → `{theme:AccentPrimaryBrush}` |
+| The control must contrast with its own background | A selected item on an accent fill → `{theme:SurfaceBrush}` |
+| A **state or class** style changes it | `^:disabled` → `{theme:OnSurfaceDimBrush}`, `^.accent:pointerover` → `{theme:AccentPrimaryDark1Brush}` |
+
+**When you SHOULD NOT:**
+
+- Restating the ambient value in a control's visual defaults — `Foreground="{theme:OnSurfaceBrush}"`, `FontFamily="{theme:FontFamily}"`, `FontSize="{theme:FontSizeMd}"`, `FontWeight="{theme:FontWeightRegular}"` on a control that sits inside a themed root. This is the common case and it is always wrong.
+- Any decoration or content-rendering element that has no colour identity of its own — icons, glyphs, presenters, adorners. These exist to be coloured by their container.
+- A named sub-theme for a part inside another control's template (`PrototypeXxxButton`) restating what its host already provides.
+
+**How to detect:** For every `<Setter>` on an inherited property that sits in a ControlTheme's *visual defaults* (not inside a `<Style>`), ask: *if I delete this, what colour/font does the control get?* If the answer is "the same one", it must be deleted. If you cannot answer without running the app, the property is being set in more places than it should be.
+
+**How to test:** Put the control inside a container that sets the property to something obviously different (`<Border Foreground="Red">`), or inside an `.accent` container. If the control does not follow, something in its ancestry is pinning the value.
+
+**Related:** this is the same class of failure as Rule 2 — a value assigned at a priority the outside world cannot reach. Rule 2 is about `{TemplateBinding}` being wrapped so it becomes `LocalValue`; this rule is about a setter blocking `Inherited`. Both are "the override silently does nothing" bugs, and neither is visible in a green build.
+
+---
+
 ## Reference: Button.axaml (correctly themed control)
 
 The Button control has been fully converted and serves as the reference implementation. Key features:
 - All 10+ visual setters bound to theme tokens (Rule 1)
 - `TemplateBinding` exclusively inside the template (Rule 2)
 - `PART_AccentBorder` visuals set via `^ /template/` style (Rule 3)
-- All alignment, font, and padding properties exposed as theme-bound setters (Rule 4/6)
+- All alignment and padding properties exposed as theme-bound setters (Rule 4/6)
+- No ambient `Foreground` or `Font*` in its visual defaults — those inherit from the root; the accent class and state styles set `Foreground` where it genuinely differs (Rule 13)
 - State styles in order: hover → pressed → disabled → focus → accent → accent sub-states (Rule 11)
 - Comments label sections only — no implementation descriptions (Rule 8)
 - `StrokeDashArray` is the sole hard-coded value in the template, documented as a visual-style exception

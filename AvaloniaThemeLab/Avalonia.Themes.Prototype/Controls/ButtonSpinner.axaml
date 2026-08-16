@@ -15,10 +15,9 @@
         <ButtonSpinner Content="Right spinner" />
         <ButtonSpinner ButtonSpinnerLocation="Left"
                        Content="Left spinner" />
-        <ButtonSpinner BorderBrush="{theme:AccentPrimaryBrush}"
-                       Content="Right Border" />
-        <ButtonSpinner ButtonSpinnerLocation="Left"
-                       BorderBrush="{theme:AccentPrimaryBrush}"
+        <ButtonSpinner  Classes="accent"
+                        Content="Right Border" />
+        <ButtonSpinner ButtonSpinnerLocation="Left" Classes="accent"
                        Content="Left Border" />
         <ButtonSpinner Content="Right disabled"
                        AllowSpin="False"/>
@@ -46,9 +45,6 @@
   <ControlTheme x:Key="PrototypeButtonSpinnerRepeatButton" TargetType="RepeatButton">
 
     <!-- Visual defaults -->
-    <Setter Property="FontFamily" Value="{theme:FontFamily}" />
-    <Setter Property="FontWeight" Value="{theme:FontWeightRegular}" />
-    <Setter Property="FontSize" Value="{theme:FontSizeMd}" />
     <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
     <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
@@ -63,14 +59,8 @@
       </Transitions>
     </Setter>
 
-    <!-- Hover state -->
-    <Style Selector="^:pointerover">
-      <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}" />
-    </Style>
-
-    <!-- Pressed state -->
+    <!-- Pressed state (state colours live on the ButtonSpinner theme, which knows whether it is accent) -->
     <Style Selector="^:pressed">
-      <Setter Property="Background" Value="{theme:SurfaceOverlayMediumBrush}" />
       <Setter Property="RenderTransform" Value="{theme:TransformScale Value={theme:PressedScale}}" />
     </Style>
 
@@ -86,15 +76,11 @@
   <ControlTheme x:Key="{x:Type ButtonSpinner}" TargetType="ButtonSpinner">
 
     <!-- Visual defaults -->
-    <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
     <Setter Property="Padding" Value="{theme:Edges Horizontal={theme:SpacingXl}}" />
     <Setter Property="Background" Value="{theme:SurfaceBrush}" />
     <Setter Property="BorderBrush" Value="{theme:OnSurfaceBrush}" />
     <Setter Property="BorderThickness" Value="{theme:ThicknessSm}" />
     <Setter Property="CornerRadius" Value="{theme:RadiusSm}" />
-    <Setter Property="FontFamily" Value="{theme:FontFamily}" />
-    <Setter Property="FontWeight" Value="{theme:FontWeightRegular}" />
-    <Setter Property="FontSize" Value="{theme:FontSizeMd}" />
     <Setter Property="MinHeight" Value="{theme:ControlHeightSm}" />
     <Setter Property="MinWidth" Value="{theme:ControlMinWidth}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
@@ -122,7 +108,6 @@
                 <RepeatButton Name="PART_IncreaseButton"
                               IsTabStop="{TemplateBinding IsTabStop}"
                               Theme="{StaticResource PrototypeButtonSpinnerRepeatButton}"
-                              Background="{TemplateBinding Background}"
                               BorderBrush="{TemplateBinding BorderBrush}"
                               Padding="{TemplateBinding Padding}"
                               Foreground="{TemplateBinding Foreground}">
@@ -132,7 +117,6 @@
                 <RepeatButton Name="PART_DecreaseButton"
                               IsTabStop="{TemplateBinding IsTabStop}"
                               Theme="{StaticResource PrototypeButtonSpinnerRepeatButton}"
-                              Background="{TemplateBinding Background}"
                               BorderBrush="{TemplateBinding BorderBrush}"
                               Foreground="{TemplateBinding Foreground}"
                               Padding="{TemplateBinding Padding}">
@@ -145,6 +129,8 @@
                                 TabIndex="1"
                                 ContentTemplate="{TemplateBinding ContentTemplate}"
                                 Content="{TemplateBinding Content}"
+                                Background="{TemplateBinding Background}"
+                                Foreground="{TemplateBinding Foreground}"
                                 HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                                 VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
                                 Padding="{TemplateBinding Padding}" />
@@ -171,13 +157,20 @@
       <Setter Property="CornerRadius" Value="{theme:Corners Radius={TemplateBinding CornerRadius}, Right=True}" />
     </Style>
 
-    <!-- Hover state -->
-    <Style Selector="^:pointerover /template/ Border">
+    <!-- Hover state — carried by the spinner buttons, deliberately not by the Border.
+         Avalonia clears IsPointerOver on the ButtonSpinner when the pointer is released over a disabled
+         chevron (AllowSpin=False) and does not restore it until the pointer moves, so a Border hover colour
+         flashes back to its rest value on every click. Reproduced on the stock Fluent theme. -->
+    <Style Selector="^ /template/ RepeatButton:pointerover:not(:disabled)">
       <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}" />
     </Style>
 
     <!-- Pressed state -->
     <Style Selector="^:pressed /template/ Border">
+      <Setter Property="Background" Value="{theme:SurfaceOverlayMediumBrush}" />
+    </Style>
+
+    <Style Selector="^ /template/ RepeatButton:pressed:not(:disabled)">
       <Setter Property="Background" Value="{theme:SurfaceOverlayMediumBrush}" />
     </Style>
 
@@ -195,6 +188,39 @@
     <!-- Error state -->
     <Style Selector="^:error">
       <Setter Property="BorderBrush" Value="{theme:AccentErrorBrush}" />
+    </Style>
+    
+    <!-- Accent class -->
+    <Style Selector="^.accent">
+      <Setter Property="Foreground" Value="{theme:AccentPrimaryBrush}" />
+      <Setter Property="BorderBrush" Value="{theme:AccentPrimaryBrush}" />
+    </Style>
+
+    <!-- Accent hover state -->
+    <Style Selector="^.accent:pointerover, ^.accent.previewHover">
+      <Setter Property="Background" Value="{theme:AccentHoverOverlayBrush}" />
+      <Setter Property="Foreground" Value="{theme:AccentPrimaryDark1Brush}" />
+    </Style>
+
+    <Style Selector="^.accent /template/ RepeatButton:pointerover:not(:disabled)">
+      <Setter Property="Background" Value="{theme:AccentHoverOverlayBrush}" />
+      <Setter Property="Foreground" Value="{theme:AccentPrimaryDark1Brush}" />
+    </Style>
+
+    <!-- Accent pressed state -->
+    <Style Selector="^.accent:pressed, ^.accent.previewPressed">
+      <Setter Property="Background" Value="{theme:AccentPressedOverlayBrush}" />
+      <Setter Property="Foreground" Value="{theme:AccentPrimaryDark2Brush}" />
+    </Style>
+
+    <Style Selector="^.accent /template/ RepeatButton:pressed:not(:disabled)">
+      <Setter Property="Background" Value="{theme:AccentPressedOverlayBrush}" />
+      <Setter Property="Foreground" Value="{theme:AccentPrimaryDark2Brush}" />
+    </Style>
+
+    <!-- Accent disabled state -->
+    <Style Selector="^.accent:disabled">
+      <Setter Property="Opacity" Value="{theme:Scaled Value={theme:DisabledOpacity}, By=2}" />
     </Style>
 
     <!-- Left spinner position -->
