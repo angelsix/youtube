@@ -65,6 +65,7 @@
       <DataTemplate>
         <ItemsControl x:DataType="DataValidationErrors"
                       Foreground="{theme:AccentErrorBrush}"
+                      BorderBrush="{theme:AccentErrorBrush}"
                       ItemsSource="{Binding}">
           <ItemsControl.Styles>
             <Style Selector="TextBlock">
