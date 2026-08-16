@@ -25,20 +25,28 @@
     <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
     <Setter Property="Template">
       <ControlTemplate>
+        <!-- Scales and slides the card as it appears -->
         <LayoutTransformControl Name="PART_LayoutTransformControl" UseRenderTransform="True">
+          <!-- Layout root stacking the shadow behind the card -->
           <Panel>
+            <!-- Drop shadow behind the card -->
             <Border x:Name="PART_ShadowBorder"
                     CornerRadius="{TemplateBinding CornerRadius}"
                     IsHitTestVisible="False"/>
+            <!-- Outer frame around the card -->
             <Border x:Name="PART_OuterBorder"
                     CornerRadius="{TemplateBinding CornerRadius}">
+              <!-- The card surface -->
               <Border Background="{TemplateBinding Background}"
                       BorderBrush="{TemplateBinding BorderBrush}"
                       BorderThickness="{TemplateBinding BorderThickness}"
                       CornerRadius="{TemplateBinding CornerRadius}"
                       ClipToBounds="True">
+                <!-- Docks the coloured bar beside the message -->
                 <DockPanel>
+                  <!-- Colour bar marking the notification type -->
                   <Panel x:Name="PART_HeaderBar" DockPanel.Dock="Top" />
+                  <!-- The notification's message -->
                   <ContentPresenter Name="PART_ContentPresenter" Content="{TemplateBinding Content}" />
                 </DockPanel>
               </Border>

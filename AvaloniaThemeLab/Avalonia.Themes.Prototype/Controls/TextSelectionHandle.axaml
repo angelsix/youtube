@@ -83,13 +83,17 @@
     <Setter Property="Template">
       <Setter.Value>
         <ControlTemplate>
+          <!-- Layout root stacking the grip over its hit area -->
           <Grid>
+            <!-- Enlarged touch area around the grip -->
             <Border x:Name="PART_HitTarget" IsHitTestVisible="True" Background="Transparent">
+              <!-- The grip artwork -->
               <Image Stretch="Uniform"
                      Cursor="Arrow"
                      Name="PART_HandlePathIcon"
                      Source="{DynamicResource TextSelectionHandleDrawing}"/>
             </Border>
+            <!-- The line joining the grip to the caret -->
             <Border Background="Transparent"
                     Name="PART_Indicator"
                     HorizontalAlignment="Center"

@@ -12,10 +12,15 @@
     <Setter Property="FontWeight" Value="{theme:FontWeightRegular}" />
     <Setter Property="Template">
       <ControlTemplate>
+        <!-- Layout root stacking the fallback behind the content -->
         <Panel>
+          <!-- Opaque fill used when transparency is unavailable -->
           <Border Name="PART_TransparencyFallback" IsHitTestVisible="False" />
+          <!-- The window surface -->
           <Border Background="{TemplateBinding Background}">
+            <!-- Hosts overlays such as tooltips and adorners -->
             <VisualLayerManager Name="PART_VisualLayerManager">
+              <!-- The hosted content -->
               <ContentPresenter Name="PART_ContentPresenter"
                                 ContentTemplate="{TemplateBinding ContentTemplate}"
                                 Content="{TemplateBinding Content}"

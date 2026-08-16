@@ -30,13 +30,17 @@
     <Setter Property="Padding" Value="{theme:Edges Top={theme:SpacingXxl}, Bottom={theme:SpacingXxl}}"/>
     <Setter Property="Template">
       <ControlTemplate>
+        <!-- Layout root stacking the shadow behind the list -->
         <Panel>
           <!-- Inset shadow for depth (themed — replaces hardcoded BoxShadow) -->
           <Border x:Name="PART_ShadowBorder"
                   Margin="0,0,-6,0"
                   IsHitTestVisible="False"/>
+          <!-- Outer frame around the quick links list -->
           <Border Name="border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+            <!-- Scrolls the quick links when they overflow -->
             <ScrollViewer Name="PART_ScrollViewer" HorizontalScrollBarVisibility="{TemplateBinding (ScrollViewer.HorizontalScrollBarVisibility)}" VerticalScrollBarVisibility="{TemplateBinding (ScrollViewer.VerticalScrollBarVisibility)}">
+              <!-- The quick link entries -->
               <ItemsPresenter Name="PART_ItemsPresenter"
                               ItemsPanel="{TemplateBinding ItemsPanel}"
                               Margin="{TemplateBinding Padding}"/>
@@ -51,9 +55,13 @@
         <Setter Property="Padding" Value="{theme:Edges Left={theme:Scaled Value={theme:IconSize}, By=2}, Top={theme:SpacingMd}, Right={theme:Scaled Value={theme:IconSize}, By=2}, Bottom={theme:SpacingMd}}"/>
         <Setter Property="Template">
           <ControlTemplate>
+            <!-- Outer frame around one quick link -->
             <Border x:Name="LayoutRoot">
+              <!-- Layout root stacking the marker behind the label -->
               <Panel>
+                <!-- Bar marking the selected quick link -->
                 <Border x:Name="SelectedLine" IsVisible="{TemplateBinding IsSelected}"/>
+                <!-- The quick link's icon and name -->
                 <ContentPresenter Name="PART_ContentPresenter"
                             Background="Transparent"
                             BorderBrush="Transparent"
@@ -234,16 +242,20 @@
     <Setter Property="Template"
             x:DataType="internal:ManagedFileChooserViewModel">
       <ControlTemplate>
+        <!-- Outer frame around the whole dialog -->
         <Border Background="{TemplateBinding Background}"
                 BorderBrush="{TemplateBinding BorderBrush}"
                 BorderThickness="{TemplateBinding BorderThickness}"
                 CornerRadius="{TemplateBinding CornerRadius}"
                 Padding="{TemplateBinding Padding}">
+          <!-- Layout root docking the panels around the file list -->
           <DockPanel>
+            <!-- Shortcuts to common folders, down the left -->
             <ListBox x:Name="PART_QuickLinks" Theme="{StaticResource PrototypeManagedFileChooserQuickLinks}" DockPanel.Dock="Left" ItemsSource="{Binding QuickLinks}" SelectedIndex="{Binding QuickLinksSelectedIndex}" Focusable="False"
                      MaxWidth="200">
               <ListBox.ItemTemplate>
                 <DataTemplate>
+                  <!-- One shortcut: its icon and name -->
                   <StackPanel Orientation="Horizontal" Background="Transparent">
                     <Image Width="16" Height="16">
                       <Image.Source>
@@ -255,16 +267,22 @@
                 </DataTemplate>
               </ListBox.ItemTemplate>
             </ListBox>
+            <!-- The address bar across the top -->
             <DockPanel x:Name="NavBar" DockPanel.Dock="Top" VerticalAlignment="Center">
+              <!-- Line below the address bar -->
               <Rectangle x:Name="NavBarSeparator" Height="1" DockPanel.Dock="Bottom"/>
+              <!-- Places the buttons either side of the path -->
               <DockPanel x:Name="NavBarInner">
+                <!-- Goes to the parent folder -->
                 <Button x:Name="GoUpButton" Command="{Binding GoUp}" DockPanel.Dock="Left">
                   <Path Data="M 0 7 L 7 0 L 14 7 M 7 0 L 7 16" Stroke="{CompiledBinding $parent[Button].Foreground}" StrokeThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,1,0,-1"/>
                 </Button>
+                <!-- Reloads the current folder -->
                 <Button x:Name="RefreshButton" Command="{Binding Refresh}" DockPanel.Dock="Right">
                   <Path Data="M18.62 3.32c.39 0 .7.29.76.66v3c0 .39-.28.7-.66.76h-3a.77.77 0 0 1-.1-1.52h1.08a7.42 7.42 0 1 0 2.65 4.37.77.77 0 1 1 1.5-.3 8.94 8.94 0 1 1-3-5.12V4.09c0-.43.35-.77.77-.77Z"
                         Fill="{CompiledBinding $parent[Button].Foreground}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="-2,-4,0,0"/>
                 </Button>
+                <!-- The current folder path, editable -->
                 <TextBox x:Name="Location" Text="{Binding Location}">
                   <TextBox.KeyBindings>
                     <KeyBinding Command="{Binding EnterPressed}" Gesture="Enter"/>
@@ -272,17 +290,25 @@
                 </TextBox>
               </DockPanel>
             </DockPanel>
+            <!-- The action bar across the bottom -->
             <DockPanel x:Name="BottomBar" DockPanel.Dock="Bottom">
+              <!-- Line above the action bar -->
               <Rectangle x:Name="BottomBarSeparator" Height="1" DockPanel.Dock="Top"/>
+              <!-- Stacks the file name row above the buttons -->
               <DockPanel x:Name="BottomBarInner">
+                <!-- The file name and filter row -->
                 <DockPanel x:Name="BottomBarTop" DockPanel.Dock="Top">
+                  <!-- Limits the list to matching file types -->
                   <ComboBox DockPanel.Dock="Right"
                       IsVisible="{Binding ShowFilters}"
                       ItemsSource="{Binding Filters}"
                       SelectedItem="{Binding SelectedFilter}" />
+                  <!-- The file name being saved or opened -->
                   <TextBox Text="{Binding FileName}" PlaceholderText="File name" IsVisible="{Binding !SelectingFolder}" />
                 </DockPanel>
+                <!-- Toggles hidden files in the list -->
                 <CheckBox IsChecked="{Binding ShowHiddenFiles}" Content="Show hidden files" DockPanel.Dock="Left"/>
+                <!-- The confirm and cancel buttons -->
                 <UniformGrid x:Name="Finalize" HorizontalAlignment="Right" Rows="1">
                   <Button Command="{Binding Ok}" Content="OK" />
                   <Button Command="{Binding Cancel}" Content="Cancel" />
@@ -290,7 +316,9 @@
               </DockPanel>
             </DockPanel>
 
+            <!-- Layout root docking the headers above the files -->
             <DockPanel Grid.IsSharedSizeScope="True">
+              <!-- Column headings for the file list -->
               <Grid x:Name="FileHeaders" DockPanel.Dock="Top" HorizontalAlignment="Stretch">
                 <Grid.ColumnDefinitions>
                   <ColumnDefinition Width="20" SharedSizeGroup="Icon" />
@@ -313,6 +341,7 @@
                 <TextBlock Grid.Column="7" Text="Size" />
                 <GridSplitter Grid.Column="8" />
               </Grid>
+              <!-- The files and folders in this folder -->
               <ListBox x:Name="PART_Files"
                   ItemsSource="{Binding Items}"
                   Margin="0"
@@ -322,6 +351,7 @@
                   ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                 <ListBox.ItemTemplate>
                   <DataTemplate x:DataType="internal:ManagedFileChooserItemViewModel">
+                    <!-- One row: icon, name, date, type and size -->
                     <Grid Background="Transparent">
                       <Grid.ColumnDefinitions>
                         <ColumnDefinition SharedSizeGroup="Icon" />
@@ -425,14 +455,18 @@
     <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
     <Setter Property="Template">
       <ControlTemplate>
+        <!-- Outer frame around the overwrite prompt -->
         <Border Background="{TemplateBinding Background}"
                 BorderBrush="{TemplateBinding BorderBrush}"
                 BorderThickness="{TemplateBinding BorderThickness}"
                 CornerRadius="{TemplateBinding CornerRadius}"
                 Padding="{TemplateBinding Padding}">
+          <!-- Stacks the warning above its buttons -->
           <StackPanel x:Name="PART_OverwritePromptRoot">
+            <!-- Warns that the file already exists -->
             <TextBlock TextWrapping="Wrap"
                        Text="{Binding FileName, RelativeSource={RelativeSource TemplatedParent}, StringFormat='{}{0} already exists. Do you want to replace it?'}" />
+            <!-- The confirm and cancel buttons -->
             <StackPanel x:Name="PART_OverwritePromptButtons"
                         HorizontalAlignment="Right"
                         Orientation="Horizontal">

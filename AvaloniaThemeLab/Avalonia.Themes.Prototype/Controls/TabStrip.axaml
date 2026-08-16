@@ -34,11 +34,13 @@
     <!-- Template -->
     <Setter Property="Template">
       <ControlTemplate>
+        <!-- Outer frame around the strip -->
         <Border Background="{TemplateBinding Background}"
                 BorderBrush="{TemplateBinding BorderBrush}"
                 BorderThickness="{TemplateBinding BorderThickness}"
                 CornerRadius="{TemplateBinding CornerRadius}"
                 Padding="{TemplateBinding Padding}">
+          <!-- The row of tabs -->
           <ItemsPresenter Name="PART_ItemsPresenter"
                           ItemsPanel="{TemplateBinding ItemsPanel}" />
         </Border>

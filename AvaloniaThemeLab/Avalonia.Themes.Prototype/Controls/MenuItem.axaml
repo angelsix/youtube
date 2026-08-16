@@ -69,13 +69,16 @@
     <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
     <Setter Property="Template">
       <ControlTemplate>
+        <!-- Layout root stacking the item and its submenu -->
         <Panel>
+          <!-- Outer frame around the menu item -->
           <Border Name="PART_LayoutRoot"
                   Padding="{TemplateBinding Padding}"
                   Background="{TemplateBinding Background}"
                   BorderBrush="{TemplateBinding BorderBrush}"
                   BorderThickness="{TemplateBinding BorderThickness}"
                   CornerRadius="{TemplateBinding CornerRadius}">
+            <!-- Columns: icon, label, shortcut and chevron -->
             <Grid>
               <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"
@@ -89,26 +92,31 @@
                                   SharedSizeGroup="MenuItemChevron" />
               </Grid.ColumnDefinitions>
 
+              <!-- The item's icon -->
               <ContentControl Grid.Column="0"
                               x:Name="PART_ToggleIconPresenter"
                               IsVisible="False"
                               Theme="{StaticResource PrototypeMenuItemIconTheme}" />
 
+              <!-- The tick shown when the item is checked -->
               <ContentControl Grid.Column="1"
                               x:Name="PART_IconPresenter"
                               IsVisible="False"
                               Theme="{StaticResource PrototypeMenuItemIconTheme}"
                               Content="{TemplateBinding Icon}" />
 
+              <!-- The item's label -->
               <ContentPresenter Name="PART_HeaderPresenter"
                                 Content="{TemplateBinding Header}"
                                 ContentTemplate="{TemplateBinding HeaderTemplate}"
                                 Grid.Column="2"/>
+              <!-- The keyboard shortcut, shown on the right -->
               <TextBlock x:Name="PART_InputGestureText"
                          Grid.Column="3"
                          Text="{TemplateBinding InputGesture, Converter={StaticResource KeyGestureConverter}}"
                          HorizontalAlignment="Right"
                          VerticalAlignment="Center"/>
+              <!-- Chevron marking an item with a submenu -->
               <Path Name="PART_ChevronPath"
                     Stretch="Uniform"
                     Data="{StaticResource MenuItemChevronPathData}"
@@ -116,16 +124,20 @@
                     Grid.Column="4" />
             </Grid>
           </Border>
+          <!-- The submenu shown when opened -->
           <Popup Name="PART_Popup"
                  WindowManagerAddShadowHint="False"
                  Placement="RightEdgeAlignedTop"
                  IsLightDismissEnabled="False"
                  IsOpen="{TemplateBinding IsSubMenuOpen, Mode=TwoWay}">
+            <!-- Panel behind the submenu -->
             <Border x:Name="PART_PopupBorder"
                     Padding="0"
                     MaxWidth="456"
                     HorizontalAlignment="Stretch">
+              <!-- Scrolls the submenu when it overflows -->
               <ScrollViewer Theme="{StaticResource PrototypeMenuScrollViewer}">
+                <!-- The submenu entries -->
                 <ItemsPresenter x:Name="PART_PopupItemsPresenter"
                                 ItemsPanel="{TemplateBinding ItemsPanel}"
                                 Grid.IsSharedSizeScope="True" />
@@ -234,6 +246,7 @@
     <Style Selector="^:separator">
       <Setter Property="Template">
         <ControlTemplate>
+          <!-- The divider line between menu groups -->
           <Separator/>
         </ControlTemplate>
       </Setter>
@@ -281,10 +294,12 @@
     <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
     <Setter Property="Template">
       <ControlTemplate>
+        <!-- Scales the icon to fit its column -->
         <Viewbox
           StretchDirection="DownOnly"
           HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
           VerticalAlignment="{TemplateBinding VerticalAlignment}">
+          <!-- The icon artwork -->
           <ContentPresenter x:Name="PART_ContentPresenter" Content="{TemplateBinding Content}" />
         </Viewbox>
       </ControlTemplate>

@@ -36,6 +36,7 @@
     <!-- Template -->
     <Setter Property="Template">
       <ControlTemplate>
+        <!-- The button's label -->
         <ContentPresenter Name="PART_ContentPresenter"
                           BorderBrush="{TemplateBinding BorderBrush}"
                           Background="{TemplateBinding Background}"
@@ -83,8 +84,11 @@
     <!-- Template -->
     <Setter Property="Template">
       <ControlTemplate>
+        <!-- Validation error message for the whole control -->
         <DataValidationErrors>
+          <!-- Layout root for the picker button -->
           <Grid Name="LayoutRoot" Margin="{TemplateBinding Padding}">
+            <!-- Opens the time picker when clicked -->
             <Button x:Name="PART_FlyoutButton"
                     Theme="{StaticResource PrototypeTimePickerFlyoutButton}"
                     Foreground="{TemplateBinding Foreground}"
@@ -98,62 +102,75 @@
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Stretch">
 
+              <!-- Splits the button into hour, minute and period -->
               <Grid Name="PART_FlyoutButtonContentGrid">
                 <!--Ignore col defs here, set in code-->
                 <Border x:Name="PART_FirstPickerHost"
                         Grid.Column="0"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch">
+                  <!-- The selected hour, or a prompt -->
                   <TextBlock x:Name="PART_HourTextBlock"
                       Text="hour"
                       HorizontalAlignment="Center" />
                 </Border>
 
+                <!-- Divider between the hour and minute -->
                 <Rectangle Name="PART_FirstColumnDivider"
                            HorizontalAlignment="Center"
                            Grid.Column="1" />
 
+                <!-- The minute column of the button -->
                 <Border x:Name="PART_SecondPickerHost"
                         Grid.Column="2"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch">
+                  <!-- The selected minute, or a prompt -->
                   <TextBlock x:Name="PART_MinuteTextBlock"
                              Text="minute"
                              HorizontalAlignment="Center"/>
                 </Border>
 
+                <!-- Divider between the minute and seconds -->
                 <Rectangle Name="PART_SecondColumnDivider"
                            HorizontalAlignment="Center"
                            Grid.Column="3" />
                 
+                <!-- The seconds column of the button -->
                 <Border x:Name="PART_ThirdPickerHost"
                         Grid.Column="4"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch">
+                  <!-- The selected seconds, or a prompt -->
                   <TextBlock x:Name="PART_SecondTextBlock"
                              Text="second"
                              HorizontalAlignment="Center"/>
                 </Border>
 
+                <!-- Divider before the AM or PM column -->
                 <Rectangle Name="PART_ThirdColumnDivider"
                            HorizontalAlignment="Center"
                            Grid.Column="5" />
 
+                <!-- The AM or PM column of the button -->
                 <Border x:Name="PART_FourthPickerHost"
                         Grid.Column="6"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch">
+                  <!-- The selected AM or PM -->
                   <TextBlock x:Name="PART_PeriodTextBlock"
                              HorizontalAlignment="Center" />
                 </Border>
               </Grid>
             </Button>
 
+            <!-- The picker shown when choosing a time -->
             <Popup Name="PART_Popup"
                    WindowManagerAddShadowHint="False"
                    IsLightDismissEnabled="True"
                    PlacementTarget="{TemplateBinding}"
                    Placement="Bottom">
+              <!-- The spinning hour, minute and period columns -->
               <TimePickerPresenter Name="PART_PickerPresenter" />
             </Popup>
 
@@ -204,95 +221,127 @@
     <!-- Template -->
     <Setter Property="Template">
       <ControlTemplate>
+        <!-- Outer frame around the picker -->
         <Border Name="Background"
                 Background="{TemplateBinding Background}"
                 BorderBrush="{TemplateBinding BorderBrush}"
                 BorderThickness="{TemplateBinding BorderThickness}"
                 CornerRadius="{TemplateBinding CornerRadius}"
                 Padding="0">
+          <!-- Splits the picker from its accept and dismiss row -->
           <Grid Name="ContentPanel" RowDefinitions="*,Auto">
+            <!-- Holds the hour, minute and period columns -->
             <Grid Name="PART_PickerContainer">
               <!--Ignore col defs here, set in code-->
               <Panel Name="PART_HourHost" Grid.Column="0">
+                <!-- Scrolls the hour list -->
                 <ScrollViewer HorizontalScrollBarVisibility="Disabled"
                               VerticalScrollBarVisibility="Hidden">
+                  <!-- The scrolling list of hours -->
                   <DateTimePickerPanel Name="PART_HourSelector"
                                        PanelType="Hour"
                                        ShouldLoop="True"/>
                 </ScrollViewer>
+                <!-- Scrolls the hours up -->
                 <RepeatButton Name="PART_HourUpButton" Theme="{StaticResource PrototypeDateTimePickerUpButton}"/>
+                <!-- Scrolls the hours down -->
                 <RepeatButton Name="PART_HourDownButton" Theme="{StaticResource PrototypeDateTimePickerDownButton}"/>
               </Panel>
 
+              <!-- The minute column -->
               <Panel Name="PART_MinuteHost" Grid.Column="2">
+                <!-- Scrolls the minute list -->
                 <ScrollViewer HorizontalScrollBarVisibility="Disabled"
                               VerticalScrollBarVisibility="Hidden">
+                  <!-- The scrolling list of minutes -->
                   <DateTimePickerPanel Name="PART_MinuteSelector"
                                        PanelType="Minute"
                                        ShouldLoop="True"/>
                 </ScrollViewer>
+                <!-- Scrolls the minutes up -->
                 <RepeatButton Name="PART_MinuteUpButton" Theme="{StaticResource PrototypeDateTimePickerUpButton}"/>
+                <!-- Scrolls the minutes down -->
                 <RepeatButton Name="PART_MinuteDownButton" Theme="{StaticResource PrototypeDateTimePickerDownButton}"/>
               </Panel>
               
+              <!-- The seconds column -->
               <Panel Name="PART_SecondHost" Grid.Column="4">
+                <!-- Scrolls the seconds list -->
                 <ScrollViewer HorizontalScrollBarVisibility="Disabled"
                               VerticalScrollBarVisibility="Hidden">
+                  <!-- The scrolling list of seconds -->
                   <DateTimePickerPanel Name="PART_SecondSelector"
                                        PanelType="Second"
                                        ShouldLoop="True"/>
                 </ScrollViewer>
+                <!-- Scrolls the seconds up -->
                 <RepeatButton Name="PART_SecondUpButton" Theme="{StaticResource PrototypeDateTimePickerUpButton}"/>
+                <!-- Scrolls the seconds down -->
                 <RepeatButton Name="PART_SecondDownButton" Theme="{StaticResource PrototypeDateTimePickerDownButton}"/>
               </Panel>
 
+              <!-- The AM or PM column -->
               <Panel Name="PART_PeriodHost" Grid.Column="6">
+                <!-- Scrolls the AM and PM list -->
                 <ScrollViewer HorizontalScrollBarVisibility="Disabled"
                               VerticalScrollBarVisibility="Hidden">
+                  <!-- The AM and PM options -->
                   <DateTimePickerPanel Name="PART_PeriodSelector"
                                        PanelType="TimePeriod"
                                        ShouldLoop="False"/>
                 </ScrollViewer>
+                <!-- Scrolls the period up -->
                 <RepeatButton Name="PART_PeriodUpButton" Theme="{StaticResource PrototypeDateTimePickerUpButton}"/>
+                <!-- Scrolls the period down -->
                 <RepeatButton Name="PART_PeriodDownButton" Theme="{StaticResource PrototypeDateTimePickerDownButton}"/>
               </Panel>
 
+              <!-- Band highlighting the centred selection -->
               <Rectangle x:Name="HighlightRect" ZIndex="-1"
                          Grid.Column="0"
                          Grid.ColumnSpan="7"
                          VerticalAlignment="Center" />
+              <!-- Divider between the first two columns -->
               <Rectangle Name="PART_FirstSpacer"
                          HorizontalAlignment="Center"
                          Grid.Column="1" />
+              <!-- Divider between the second and third columns -->
               <Rectangle Name="PART_SecondSpacer"
                          HorizontalAlignment="Center"
                          Grid.Column="3" />
+              <!-- Divider before the last column -->
               <Rectangle Name="PART_ThirdSpacer"
                          HorizontalAlignment="Center"
                          Grid.Column="5" />
             </Grid>
 
+            <!-- The accept and dismiss row -->
             <Grid Name="AcceptDismissGrid"
                   Grid.Row="1"
                   ColumnDefinitions="*,*">
+              <!-- Line above the accept and dismiss buttons -->
               <Rectangle x:Name="PART_TopDivider"
                          VerticalAlignment="Top"
                          Grid.ColumnSpan="2"/>
+              <!-- Confirms the chosen time -->
               <Button Name="PART_AcceptButton"
                       Grid.Column="0"
                       Theme="{StaticResource PrototypeDateTimePickerButton}"
                       HorizontalAlignment="Stretch"
                       VerticalAlignment="Stretch">
+                <!-- The tick mark -->
                 <Path x:Name="PART_AcceptIcon"
                       Stroke="{Binding $parent[Button].Foreground}"
                       StrokeLineCap="Round"
                       Data="M0.5,8.5 5,13.5 15.5,3" />
               </Button>
+              <!-- Closes the picker without choosing -->
               <Button Name="PART_DismissButton"
                       Grid.Column="1"
                       Theme="{StaticResource PrototypeDateTimePickerButton}"
                       HorizontalAlignment="Stretch" 
                       VerticalAlignment="Stretch">
+                <!-- The cross mark -->
                 <Path x:Name="PART_DismissIcon"
                       Stroke="{Binding $parent[Button].Foreground}" 
                       StrokeLineCap="Round"

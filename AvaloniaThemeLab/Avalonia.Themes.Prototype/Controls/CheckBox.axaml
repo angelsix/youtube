@@ -67,6 +67,7 @@
     <!-- Template -->
     <Setter Property="Template">
       <ControlTemplate>
+        <!-- Layout root placing the box beside its label -->
         <Grid x:Name="RootGrid" ColumnDefinitions="Auto,*">
 
           <!-- Click area fill -->
@@ -86,6 +87,7 @@
 
           <!-- Checkbox indicator -->
           <Grid Grid.Column="0" VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
+            <!-- The empty box the tick appears in -->
             <Border x:Name="NormalRectangle"
                     BorderBrush="{TemplateBinding BorderBrush}"
                     Background="{TemplateBinding Background}"
@@ -93,24 +95,29 @@
                     CornerRadius="{TemplateBinding CornerRadius}"
                     UseLayoutRounding="False" />
 
+            <!-- Padded area holding the checked and indeterminate marks -->
             <Border x:Name="TickBorder">
+              <!-- Overlaps the tick and the indeterminate square -->
               <Panel>
+                <!-- Scales the tick to icon size -->
                 <Viewbox x:Name="TickViewbox"
                          UseLayoutRounding="False"
                          Height="{Binding Width, RelativeSource={RelativeSource Self}}">
+                  <!-- The tick shown when checked -->
                   <Path x:Name="CheckGlyph"
                         Opacity="0"
                         Stretch="Uniform"
                         Data="{StaticResource CheckMarkPathData}" />
                 </Viewbox>
 
+                <!-- The small square shown when indeterminate -->
                 <Border x:Name="IndeterminateBox"
                         Opacity="0" />
               </Panel>
             </Border>
           </Grid>
 
-          <!-- Content presenter -->
+          <!-- The checkbox's label -->
           <ContentPresenter x:Name="PART_ContentPresenter"
                             ContentTemplate="{TemplateBinding ContentTemplate}"
                             Content="{TemplateBinding Content}"

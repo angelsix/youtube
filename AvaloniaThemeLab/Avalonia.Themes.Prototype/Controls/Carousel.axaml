@@ -33,6 +33,7 @@
     <!-- Template -->
     <Setter Property="Template">
       <ControlTemplate>
+        <!-- Clipped viewport the pages slide through -->
         <ScrollViewer Name="PART_ScrollViewer"
                       Background="{TemplateBinding Background}"
                       BorderBrush="{TemplateBinding BorderBrush}"
@@ -41,6 +42,7 @@
                       BringIntoViewOnFocusChange="False"
                       HorizontalScrollBarVisibility="Hidden"
                       VerticalScrollBarVisibility="Hidden">
+          <!-- The currently visible page -->
           <ItemsPresenter Name="PART_ItemsPresenter"
                           ItemsPanel="{TemplateBinding ItemsPanel}"
                           Margin="{TemplateBinding Padding}"/>

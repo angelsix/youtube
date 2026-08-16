@@ -39,18 +39,22 @@
     <!-- Template -->
     <Setter Property="Template">
       <ControlTemplate>
+        <!-- Outer frame around the tab -->
         <Border Name="PART_LayoutRoot"
                 Background="{TemplateBinding Background}"
                 BorderBrush="{TemplateBinding BorderBrush}"
                 BorderThickness="{TemplateBinding BorderThickness}"
                 CornerRadius="{TemplateBinding CornerRadius}"
                 Padding="{TemplateBinding Padding}">
+          <!-- Layout root stacking the pipe over the label -->
           <Panel>
+            <!-- The tab's label -->
             <ContentPresenter Name="PART_ContentPresenter"
                               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                               Content="{TemplateBinding Header}"
                               ContentTemplate="{TemplateBinding HeaderTemplate}" />
+            <!-- Bar marking the selected tab -->
             <Border Name="PART_SelectedPipe"
                     IsVisible="False" />
           </Panel>

@@ -29,8 +29,11 @@
     <!-- Template -->
     <Setter Property="Template">
       <ControlTemplate>
+        <!-- The icon's background area -->
         <Border Background="{TemplateBinding Background}">
+          <!-- Scales the glyph to the requested size -->
           <Viewbox Height="{TemplateBinding Height}" Width="{TemplateBinding Width}">
+            <!-- The icon artwork -->
             <Path Fill="{TemplateBinding Foreground}" Data="{TemplateBinding Data}" Stretch="Uniform" />
           </Viewbox>
         </Border>

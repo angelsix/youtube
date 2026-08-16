@@ -26,6 +26,7 @@
     <!-- Template -->
     <Setter Property="Template">
       <ControlTemplate>
+        <!-- Layout grid for the calendar-page icon -->
         <Grid Height="{TemplateBinding Height}"
               Width="{TemplateBinding Width}"
               HorizontalAlignment="Center"
@@ -34,15 +35,18 @@
               ColumnDefinitions="*,*,*,*"
               RowDefinitions="23*,19*,19*,19*"
               ClipToBounds="False">
+          <!-- The page body of the calendar icon -->
           <Border x:Name="Background"
                   Grid.ColumnSpan="4"
                   Grid.Row="1"
                   Grid.RowSpan="3"
                   BorderBrush="{TemplateBinding Foreground}" />
+          <!-- The binding strip across the icon's top -->
           <Border x:Name="TopBorder"
                   Grid.ColumnSpan="4"
                   Grid.RowSpan="1"
                   BorderBrush="{TemplateBinding Foreground}" />
+          <!-- Today's day number, shown on the icon -->
           <TextBlock x:Name="PART_DayText"
                      VerticalAlignment="Center"
                      HorizontalAlignment="Center"
@@ -52,6 +56,7 @@
                      Grid.RowSpan="3"
                      Foreground="{TemplateBinding Foreground}"
                      Text="{Binding Source={x:Static sys:DateTime.Today}, Path=Day}" />
+          <!-- Dot beneath the day number -->
           <Ellipse x:Name="PART_Dot"
                    HorizontalAlignment="Center"
                    VerticalAlignment="Center"
@@ -137,16 +142,21 @@
     <!-- Template -->
     <Setter Property="Template">
       <ControlTemplate>
+        <!-- Validation error message for the whole control -->
         <DataValidationErrors>
+          <!-- Layout root stacking the frame and its contents -->
           <Panel x:Name="LayoutRoot"
                  HorizontalAlignment="Stretch"
                  VerticalAlignment="Stretch">
+            <!-- Outer frame around the field and button -->
             <Border x:Name="Background"
                     CornerRadius="{TemplateBinding CornerRadius}"
                     BorderThickness="{TemplateBinding BorderThickness}"
                     BorderBrush="{TemplateBinding BorderBrush}"
                     Background="{TemplateBinding Background}" />
+            <!-- Places the calendar button right of the text -->
             <Grid ColumnDefinitions="*,Auto">
+              <!-- The date, typed or filled in from the calendar -->
               <TextBox Name="PART_TextBox"
                        Theme="{StaticResource PrototypeCalendarDatePickerTextBox}"
                        Foreground="{TemplateBinding Foreground}"
@@ -164,13 +174,16 @@
                        VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
                        HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                        Grid.Column="0" />
+              <!-- Opens the calendar for picking a date -->
               <Button Name="PART_Button"
                       Theme="{StaticResource PrototypeCalendarDatePickerButton}"
                       Grid.Column="1"
                       Focusable="False" />
+              <!-- The calendar shown when picking a date -->
               <Popup Name="PART_Popup"
                      PlacementTarget="{TemplateBinding}"
                      IsLightDismissEnabled="True">
+                <!-- The month grid to pick a date from -->
                 <Calendar Name="PART_Calendar"
                           FirstDayOfWeek="{TemplateBinding FirstDayOfWeek}"
                           IsTodayHighlighted="{TemplateBinding IsTodayHighlighted}"

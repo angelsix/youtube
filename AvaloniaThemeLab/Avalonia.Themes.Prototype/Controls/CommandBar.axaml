@@ -44,19 +44,23 @@
     <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
     <Setter Property="Template">
       <ControlTemplate>
+        <!-- Outer frame around the command button -->
         <Border x:Name="PART_Border"
                 Background="{TemplateBinding Background}"
                 BorderBrush="{TemplateBinding BorderBrush}"
                 BorderThickness="{TemplateBinding BorderThickness}"
                 CornerRadius="{TemplateBinding CornerRadius}"
                 Padding="{TemplateBinding Padding}">
+          <!-- Stacks the icon above its label -->
           <StackPanel x:Name="PART_LayoutRoot"
                       HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                       VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
+            <!-- The command's icon -->
             <ContentPresenter x:Name="PART_IconPresenter"
                               Content="{TemplateBinding Icon}"
                               Foreground="{TemplateBinding Foreground}"
                               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" />
+            <!-- The command's label, trimmed when too long -->
             <TextBlock x:Name="PART_Label"
                        Text="{TemplateBinding Label}"
                        Foreground="{TemplateBinding Foreground}"
@@ -132,19 +136,23 @@
     <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
     <Setter Property="Template">
       <ControlTemplate>
+        <!-- Outer frame around the toggle command -->
         <Border x:Name="PART_Border"
                 Background="{TemplateBinding Background}"
                 BorderBrush="{TemplateBinding BorderBrush}"
                 BorderThickness="{TemplateBinding BorderThickness}"
                 CornerRadius="{TemplateBinding CornerRadius}"
                 Padding="{TemplateBinding Padding}">
+          <!-- Stacks the icon above its label -->
           <StackPanel x:Name="PART_LayoutRoot"
                       HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                       VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
+            <!-- The command's icon -->
             <ContentPresenter x:Name="PART_IconPresenter"
                               Content="{TemplateBinding Icon}"
                               Foreground="{TemplateBinding Foreground}"
                               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" />
+            <!-- The command's label, trimmed when too long -->
             <TextBlock x:Name="PART_Label"
                        Text="{TemplateBinding Label}"
                        Foreground="{TemplateBinding Foreground}"
@@ -220,6 +228,7 @@
     <Setter Property="Margin" Value="{theme:Edges Horizontal={theme:SpacingLg}, Vertical={theme:SpacingMd}}" />
     <Setter Property="Template">
       <ControlTemplate>
+        <!-- The divider line between command groups -->
         <Border x:Name="PART_SeparatorBorder"
                 Width="{TemplateBinding Width}"
                 Height="{TemplateBinding Height}"
@@ -277,19 +286,23 @@
     <Setter Property="ItemWidthCollapsed" Value="{theme:ControlHeightMd}" />
     <Setter Property="Template">
       <ControlTemplate>
+        <!-- Outer frame around the whole bar -->
         <Border Background="{TemplateBinding Background}"
                 BorderBrush="{TemplateBinding BorderBrush}"
                 BorderThickness="{TemplateBinding BorderThickness}"
                 CornerRadius="{TemplateBinding CornerRadius}"
                 Padding="{TemplateBinding Padding}"
                 MinHeight="{TemplateBinding MinHeight}">
+          <!-- Layout root stacking the bar and its overflow -->
           <Panel>
+            <!-- Places content left, commands and overflow right -->
             <DockPanel KeyboardNavigation.TabNavigation="Cycle">
               <!-- Overflow button (docked right) -->
               <Button x:Name="PART_OverflowButton"
                       DockPanel.Dock="Right"
                       VerticalAlignment="Stretch"
                       IsVisible="{TemplateBinding IsOverflowButtonVisible}">
+                <!-- The three dots opening the overflow menu -->
                 <PathIcon x:Name="PART_OverflowIcon"
                           Foreground="{TemplateBinding Foreground}"
                           Data="M6,10A2,2 0 0,0 4,12A2,2 0 0,0 6,14A2,2 0 0,0 8,12A2,2 0 0,0 6,10M12,10A2,2 0 0,0 10,12A2,2 0 0,0 12,14A2,2 0 0,0 14,12A2,2 0 0,0 12,10M18,10A2,2 0 0,0 16,12A2,2 0 0,0 18,14A2,2 0 0,0 20,12A2,2 0 0,0 18,10Z" />
@@ -309,6 +322,7 @@
                             ClipToBounds="True">
                 <ItemsControl.ItemsPanel>
                   <ItemsPanelTemplate>
+                    <!-- Lays the visible commands out in a row -->
                     <StackPanel x:Name="PART_PrimaryPanel" Orientation="Horizontal" />
                   </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
@@ -322,11 +336,14 @@
                    Placement="Bottom"
                    IsLightDismissEnabled="True"
                    WindowManagerAddShadowHint="True">
+              <!-- Panel behind the overflow menu -->
               <Border x:Name="PART_OverflowBorder">
+                <!-- Commands that did not fit on the bar -->
                 <ItemsControl x:Name="PART_OverflowPresenter"
                               ItemsSource="{Binding OverflowItems, RelativeSource={RelativeSource TemplatedParent}}">
                   <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
+                      <!-- Stacks the overflow commands vertically -->
                       <StackPanel x:Name="PART_OverflowPanel" />
                     </ItemsPanelTemplate>
                   </ItemsControl.ItemsPanel>

@@ -34,6 +34,7 @@
     <!-- Template -->
     <Setter Property="Template">
       <ControlTemplate>
+        <!-- Slides the drawer in beside the page content -->
         <SplitView Name="PART_SplitView"
                    DisplayMode="{TemplateBinding DisplayMode}"
                    OpenPaneLength="{TemplateBinding DrawerLength}"
@@ -41,6 +42,7 @@
                    PaneBackground="{Binding DrawerBackground, RelativeSource={RelativeSource TemplatedParent}}"
                    IsPaneOpen="{Binding IsOpen, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}">
           <SplitView.Pane>
+            <!-- Layout root for the drawer's own contents -->
             <DockPanel Background="{TemplateBinding DrawerBackground}">
               <!-- Compact-mode toggle: visible only in CompactOverlay/CompactInline. -->
               <ToggleButton Name="PART_CompactPaneToggle"
@@ -53,12 +55,15 @@
                             Height="{TemplateBinding CompactDrawerLength}"
                             AutomationProperties.Name="Toggle navigation drawer"
                             ToolTip.Tip="Toggle navigation drawer">
+                <!-- Overlaps the default icon and a custom one -->
                 <Panel>
+                  <!-- Default hamburger icon -->
                   <PathIcon
                     IsVisible="{Binding DrawerIcon, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static ObjectConverters.IsNull}}"
                     Data="{DynamicResource DrawerPaneButtonIcon}"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"/>
+                  <!-- Custom drawer icon, when one is supplied -->
                   <ContentPresenter
                     Name="PART_CompactPaneIconPresenter"
                     Content="{TemplateBinding DrawerIcon}"
@@ -68,18 +73,21 @@
                     VerticalAlignment="Center"/>
                 </Panel>
               </ToggleButton>
+              <!-- Content pinned to the top of the drawer -->
               <ContentPresenter Name="PART_DrawerHeader"
                                 DockPanel.Dock="Top"
                                 Content="{TemplateBinding DrawerHeader}"
                                 ContentTemplate="{TemplateBinding DrawerHeaderTemplate}"
                                 Background="{TemplateBinding DrawerHeaderBackground}"
                                 IsVisible="{TemplateBinding DrawerHeader, Converter={x:Static ObjectConverters.IsNotNull}}" />
+              <!-- Content pinned to the bottom of the drawer -->
               <ContentPresenter Name="PART_DrawerFooter"
                                 DockPanel.Dock="Bottom"
                                 Content="{TemplateBinding DrawerFooter}"
                                 ContentTemplate="{TemplateBinding DrawerFooterTemplate}"
                                 Background="{TemplateBinding DrawerFooterBackground}"
                                 IsVisible="{TemplateBinding DrawerFooter, Converter={x:Static ObjectConverters.IsNotNull}}" />
+              <!-- The drawer's main content, usually navigation -->
               <ContentPresenter Name="PART_DrawerPresenter"
                                 HorizontalContentAlignment="Stretch"
                                 VerticalContentAlignment="Stretch"
@@ -87,13 +95,17 @@
                                 ContentTemplate="{TemplateBinding DrawerTemplate}" />
             </DockPanel>
           </SplitView.Pane>
+          <!-- Layout root stacking the backdrop over the page -->
           <Grid HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch">
+            <!-- Docks the top and bottom bars around the page -->
             <DockPanel Name="PART_ContentDock">
+              <!-- The bar across the top of the page -->
               <Border
                 Name="PART_TopBar"
                 Background="{DynamicResource NavigationControlNavBarBackground}"
                 DockPanel.Dock="Top">
+                <!-- Places the drawer button left of the title -->
                 <DockPanel HorizontalAlignment="Stretch">
                   <DockPanel.Styles>
                     <Styles>
@@ -103,18 +115,22 @@
                       </Style>
                     </Styles>
                   </DockPanel.Styles>
+                  <!-- Opens and closes the drawer -->
                   <ToggleButton x:Name="PART_PaneButton"
                                 IsChecked="{Binding #PART_SplitView.IsPaneOpen, Mode=TwoWay}"
                                 Background="Transparent"
                                 DockPanel.Dock="Left"
                                 AutomationProperties.Name="Toggle navigation drawer"
                                 ToolTip.Tip="Toggle navigation drawer">
+                    <!-- Overlaps the default icon and a custom one -->
                     <Panel>
+                      <!-- Default hamburger icon -->
                       <PathIcon
                         IsVisible="{Binding DrawerIcon, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static ObjectConverters.IsNull}}"
                         Data="{DynamicResource DrawerPaneButtonIcon}"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"/>
+                      <!-- Custom drawer icon, when one is supplied -->
                       <ContentPresenter
                         Name="PART_PaneIconPresenter"
                         Content="{TemplateBinding DrawerIcon}"
@@ -124,6 +140,7 @@
                         VerticalAlignment="Center"/>
                     </Panel>
                   </ToggleButton>
+                  <!-- The page title -->
                   <ContentControl x:Name="PART_TitlePresenter"
                                   Content="{TemplateBinding Header}"
                                   VerticalAlignment="Center"
@@ -131,11 +148,13 @@
                                   IsVisible="{TemplateBinding Header, Converter={x:Static ObjectConverters.IsNotNull}}" />
                 </DockPanel>
               </Border>
+              <!-- The bar across the bottom of the page -->
               <Border
                 Name="PART_BottomBar"
                 Background="{DynamicResource NavigationControlNavBarBackground}"
                 DockPanel.Dock="Bottom"
                 IsVisible="False">
+                <!-- Places the drawer button left of the title -->
                 <DockPanel HorizontalAlignment="Stretch">
                   <DockPanel.Styles>
                     <Styles>
@@ -145,18 +164,22 @@
                       </Style>
                     </Styles>
                   </DockPanel.Styles>
+                  <!-- Opens and closes the drawer -->
                   <ToggleButton x:Name="PART_BottomPaneButton"
                                 IsChecked="{Binding #PART_SplitView.IsPaneOpen, Mode=TwoWay}"
                                 Background="Transparent"
                                 DockPanel.Dock="Left"
                                 AutomationProperties.Name="Toggle navigation drawer"
                                 ToolTip.Tip="Toggle navigation drawer">
+                    <!-- Overlaps the default icon and a custom one -->
                     <Panel>
+                      <!-- Default hamburger icon -->
                       <PathIcon
                         IsVisible="{Binding DrawerIcon, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static ObjectConverters.IsNull}}"
                         Data="{DynamicResource DrawerPaneButtonIcon}"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"/>
+                      <!-- Custom drawer icon, when one is supplied -->
                       <ContentPresenter
                         Name="PART_BottomPaneIconPresenter"
                         Content="{TemplateBinding DrawerIcon}"
@@ -166,6 +189,7 @@
                         VerticalAlignment="Center"/>
                     </Panel>
                   </ToggleButton>
+                  <!-- The page title -->
                   <ContentControl x:Name="PART_BottomTitlePresenter"
                                   Content="{TemplateBinding Header}"
                                   VerticalAlignment="Center"
@@ -173,6 +197,7 @@
                                   IsVisible="{TemplateBinding Header, Converter={x:Static ObjectConverters.IsNotNull}}" />
                 </DockPanel>
               </Border>
+              <!-- The page's content -->
               <ContentPresenter Name="PART_ContentPresenter"
                                 HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                                 VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
@@ -183,6 +208,7 @@
                                 ContentTemplate="{TemplateBinding ContentTemplate}"
                                 CornerRadius="{TemplateBinding CornerRadius}" />
             </DockPanel>
+            <!-- Dims the page while the drawer is open -->
             <Border Name="PART_Backdrop"
                     Background="{TemplateBinding BackdropBrush}"
                     IsVisible="False"

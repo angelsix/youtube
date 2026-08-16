@@ -40,8 +40,10 @@
     <!-- Template -->
     <Setter Property="Template">
       <ControlTemplate>
+        <!-- Layout root stacking the header above the switch -->
         <Grid Background="{TemplateBinding Background}" RowDefinitions="Auto,*">
 
+          <!-- The switch's header text -->
           <ContentPresenter
               x:Name="PART_ContentPresenter"
               Grid.Row="0"
@@ -49,6 +51,7 @@
               Content="{TemplateBinding Content}"
               ContentTemplate="{TemplateBinding ContentTemplate}" />
 
+          <!-- Places the on and off labels beside the switch -->
           <Grid
               Grid.Row="1"
               MinWidth="0"
@@ -62,12 +65,14 @@
               <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
+            <!-- Invisible click area covering the whole switch -->
             <Grid
                 x:Name="SwitchAreaGrid"
                 Grid.RowSpan="3"
                 Grid.ColumnSpan="3"
                 TemplatedControl.IsTemplateFocusTarget="True" />
 
+            <!-- Label shown when the switch is off -->
             <ContentPresenter
                 x:Name="PART_OffContentPresenter"
                 Grid.RowSpan="3"
@@ -77,6 +82,7 @@
                 Content="{TemplateBinding OffContent}"
                 ContentTemplate="{TemplateBinding OffContentTemplate}" />
 
+            <!-- Label shown when the switch is on -->
             <ContentPresenter
                 x:Name="PART_OnContentPresenter"
                 Grid.RowSpan="3"
@@ -86,18 +92,21 @@
                 Content="{TemplateBinding OnContent}"
                 ContentTemplate="{TemplateBinding OnContentTemplate}" />
 
+            <!-- The switch's outline -->
             <Border
                 x:Name="OuterBorder"
                 Grid.Row="1"
                 Width="40"
                 Height="20" />
 
+            <!-- The track the knob slides along -->
             <Border
                 x:Name="SwitchKnobBounds"
                 Grid.Row="1"
                 Width="40"
                 Height="20" />
 
+            <!-- Positions the knob along the track -->
             <Canvas
                 x:Name="PART_SwitchKnob"
                 Grid.Row="1"
@@ -105,11 +114,14 @@
                 Height="20"
                 HorizontalAlignment="Left">
 
+              <!-- The sliding knob -->
               <Grid x:Name="PART_MovingKnobs" Width="20" Height="20">
+                <!-- Knob fill shown when on -->
                 <Ellipse
                     x:Name="SwitchKnobOn"
                     Width="10"
                     Height="10" />
+                <!-- Knob fill shown when off -->
                 <Ellipse
                     x:Name="SwitchKnobOff"
                     Width="10"

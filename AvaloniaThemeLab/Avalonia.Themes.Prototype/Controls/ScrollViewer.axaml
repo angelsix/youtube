@@ -39,7 +39,9 @@
     <!-- Template -->
     <Setter Property="Template">
       <ControlTemplate>
+        <!-- Layout root placing the bars beside the content -->
         <Grid ColumnDefinitions="*,Auto" RowDefinitions="*,Auto">
+          <!-- The scrolling content -->
           <ScrollContentPresenter Name="PART_ContentPresenter"
                                   Grid.Row="0"
                                   Grid.Column="0"
@@ -56,12 +58,15 @@
                                        IsScrollInertiaEnabled="{Binding (ScrollViewer.IsScrollInertiaEnabled), ElementName=PART_ContentPresenter}"/>
             </ScrollContentPresenter.GestureRecognizers>
           </ScrollContentPresenter>
+          <!-- The horizontal scrollbar -->
           <ScrollBar Name="PART_HorizontalScrollBar"
                      Orientation="Horizontal"
                      Grid.Row="1"/>
+          <!-- The vertical scrollbar -->
           <ScrollBar Name="PART_VerticalScrollBar"
                      Orientation="Vertical"
                      Grid.Column="1"/>
+          <!-- Fills the corner where the two bars meet -->
           <Panel x:Name="PART_ScrollBarsSeparator"
                  Grid.Row="1"
                  Grid.Column="1"

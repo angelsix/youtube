@@ -52,7 +52,9 @@
     <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}"/>
     <Setter Property="Template">
       <ControlTemplate>
+        <!-- Outer frame around the picker item -->
         <Border Background="{TemplateBinding Background}">
+          <!-- The item's label -->
           <ContentPresenter x:Name="PART_ContentPresenter"
                   Background="{TemplateBinding Background}"
                   BorderBrush="Transparent"

@@ -32,7 +32,9 @@
     <Setter Property="IsScrollChainingEnabled" Value="False" />
     <Setter Property="Template">
       <ControlTemplate>
+        <!-- Layout root docking the scroll arrows around the menu -->
         <DockPanel>
+          <!-- Scrolls the menu up while held -->
           <RepeatButton x:Name="PART_UpButton" DockPanel.Dock="Top"
                         BorderThickness="0"
                         Background="Transparent"
@@ -49,13 +51,16 @@
                 <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="Viewport.Height" />
               </MultiBinding>
             </RepeatButton.IsVisible>
+            <!-- Scales the up arrow -->
             <Viewbox x:Name="PART_UpViewbox">
+              <!-- The up arrow -->
               <Path x:Name="PART_UpPath"
                     VerticalAlignment="Center"
                     HorizontalAlignment="Center"
                     Data="M 19.091797 14.970703 L 10 5.888672 L 0.908203 14.970703 L 0.029297 14.091797 L 10 4.111328 L 19.970703 14.091797 Z" />
             </Viewbox>
           </RepeatButton>
+          <!-- Scrolls the menu down while held -->
           <RepeatButton x:Name="PART_DownButton" DockPanel.Dock="Bottom"
                         BorderThickness="0"
                         Background="Transparent"
@@ -72,13 +77,16 @@
                 <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="Viewport.Height" />
               </MultiBinding>
             </RepeatButton.IsVisible>
+            <!-- Scales the down arrow -->
             <Viewbox x:Name="PART_DownViewbox">
+              <!-- The down arrow -->
               <Path x:Name="PART_DownPath"
                     VerticalAlignment="Center"
                     HorizontalAlignment="Center"
                     Data="M 18.935547 4.560547 L 19.814453 5.439453 L 10 15.253906 L 0.185547 5.439453 L 1.064453 4.560547 L 10 13.496094 Z" />
             </Viewbox>
           </RepeatButton>
+          <!-- The scrolling menu entries -->
           <ScrollContentPresenter Name="PART_ContentPresenter">
             <ScrollContentPresenter.GestureRecognizers>
               <ScrollGestureRecognizer CanHorizontallyScroll="{Binding CanHorizontallyScroll, ElementName=PART_ContentPresenter}"

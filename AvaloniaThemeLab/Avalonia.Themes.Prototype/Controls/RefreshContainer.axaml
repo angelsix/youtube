@@ -19,7 +19,9 @@
     <!-- Template -->
     <Setter Property="Template">
       <ControlTemplate>
+        <!-- Layout root stacking the spinner over the content -->
         <Grid>
+          <!-- The content being pulled to refresh -->
           <ContentPresenter Name="PART_ContentPresenter"
                             Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
@@ -30,6 +32,7 @@
                             Padding="{TemplateBinding Padding}"
                             VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
                             HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" />
+          <!-- The pull-to-refresh spinner -->
           <Grid Name="PART_RefreshVisualizerPresenter" />
         </Grid>
       </ControlTemplate>

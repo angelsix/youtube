@@ -252,6 +252,8 @@ A comment explaining WHY a non-obvious element exists IS appropriate, because th
 <Rectangle x:Name="PART_AccentBorder" ... />
 ```
 
+> **Scope.** This rule governs the *style blocks* in a file — the selectors and setters, whose behaviour the XAML already states. It does NOT apply inside a `ControlTemplate`, where the opposite is required: every structural element must be named and its role explained. See **Rule 15**.
+
 
 ---
 
@@ -387,6 +389,66 @@ The marker converts an invisible intention into a checkable fact. It also makes 
 **Tooling note:** `guard xaml analyze` does not currently check the alignment-token or inherited-property rules, so nothing enforces those automatically today; the marker binds readers and agents. Any check added for them later must skip a setter preceded by a `Theme Exception:` comment, or it will produce exactly the false positives this rule exists to prevent.
 
 **Reference example:** `Controls/ButtonSpinner.axaml` — `VerticalAlignment="Stretch"` on the spinner's RepeatButton sub-theme. Rule 12 would map this to `{theme:ContainerVerticalAlignment}`; the literal is required so the chevron buttons fill the control's height and their hover fills the full edge-to-edge area rather than a centred band.
+
+---
+
+## Rule 15: Every ControlTemplate Must Name Its Parts and Say What Each One Is For
+
+**Statement:** Inside a `ControlTemplate`, every structural element gets a short comment above it naming **what that part is, in user-interface terms** — what a person looking at the running app would call it. **Nine words maximum.** This is the one place in the file where stating purpose is required rather than discouraged — Rule 8's "don't restate what it does" governs style blocks, not template anatomy.
+
+Comment each of these:
+
+- the **layout root** — and what layout strategy it implements (why a `Grid` rather than a `Panel`, what the rows/columns or the overlap are for)
+- every **`PART_`** element — the name states the contract, not the role
+- any element whose **presence is not self-evident**: a popup and what it hosts, a border that exists to clip or to carry a corner radius, a presenter that hosts caller content, an overlay, a measurement-only element, a hit-target expander
+- any element that exists as a **workaround** — with the reason (this is the Rule 8 exception, and it still applies here)
+
+Skip only genuinely self-describing leaves — a `PathIcon` holding a named chevron glyph does not need a comment saying it is a chevron.
+
+**Justification:** The template is the hardest part of a control theme to read and the part people most need to understand, because it is the only place that defines the control's actual anatomy. Setters and selectors are self-describing — `Background` obviously sets a background. Structure is not: nothing in `<Grid Name="PART_LayoutRoot">` tells you whether the grid exists to lay elements out in sequence, to overlap them, or purely to give a popup something to anchor to. A reader trying to restyle a control has to reverse-engineer intent from bindings and names before they can safely change anything, and getting it wrong produces layout bugs that a green build will not catch.
+
+`AutoCompleteBox` is the case that made this a rule: its template is a `Grid`, a `TextBox`, a `Popup`, a `Border` and a `ListBox`. Read cold, none of those say which is the field you type in and which is the list of suggestions — yet that is the only thing a reader actually needs to know before changing anything.
+
+**Style:** **nine words maximum**, one line. Name the part the way the UI would: "the text field the user types into", "the list of suggested items". Present tense, no full stop needed.
+
+Say what the part **is**, never how it is **styled**. Which element carries the background, which brush it binds, which style block sets its corner radius — all of that is visible in the markup and the styles below, it changes often, and it crowds out the one thing the comment exists to convey. If a styling detail is genuinely load-bearing it belongs in a Rule 8 workaround comment on that element, not in the anatomy label.
+
+The nine-word cap applies to the **anatomy label** only. A Rule 8 workaround comment — explaining why a non-obvious element exists, or why the markup is written an awkward way — is a separate thing and takes the words it needs. An element may carry both.
+
+**Pattern:**
+```xml
+<ControlTemplate>
+  <!-- Layout root holding the field and its dropdown -->
+  <Grid Name="PART_LayoutRoot">
+
+    <!-- The text field the user types into -->
+    <TextBox Name="PART_TextBox" ... />
+
+    <!-- Dropdown that appears while typing -->
+    <Popup Name="PART_Popup" ...>
+      <!-- Panel behind the suggestion list -->
+      <Border Name="PART_SuggestionsContainer">
+        <!-- The list of suggested items -->
+        <ListBox Name="PART_SelectingItemsControl" ... />
+      </Border>
+    </Popup>
+  </Grid>
+</ControlTemplate>
+```
+
+**Not:**
+```xml
+<!-- Bad: names the type, which is already on the next line -->
+<!-- Border -->
+
+<!-- Bad: describes styling instead of the part -->
+<!-- Dropdown surface: the popup draws nothing, so this carries the background, border and corner radius -->
+
+<!-- Bad: restates bindings the reader can see -->
+<!-- Sets Background, BorderBrush and CornerRadius from the templated parent -->
+```
+
+**Reference example:** `Controls/AutoCompleteBox.axaml`.
 
 ---
 

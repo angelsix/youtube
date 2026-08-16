@@ -17,10 +17,15 @@
     <!-- Template -->
     <Setter Property="Template">
       <ControlTemplate>
+        <!-- Applies the popup's own scaling and rotation -->
         <LayoutTransformControl LayoutTransform="{TemplateBinding Transform}">
+          <!-- Layout root stacking the fallback behind the content -->
           <Panel>
+            <!-- Opaque fill used when transparency is unavailable -->
             <Border Name="PART_TransparencyFallback" IsHitTestVisible="False" />
+            <!-- Hosts overlays such as tooltips and adorners -->
             <VisualLayerManager Name="PART_VisualLayerManager">
+              <!-- The popup's content -->
               <ContentPresenter Name="PART_ContentPresenter"
                                 Background="{TemplateBinding Background}"
                                 ContentTemplate="{TemplateBinding ContentTemplate}"

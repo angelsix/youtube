@@ -36,6 +36,7 @@
     <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
     <Setter Property="Template">
       <ControlTemplate>
+        <!-- Outer frame around the tab -->
         <Border
             Name="PART_LayoutRoot"
             Background="{TemplateBinding Background}"
@@ -43,13 +44,16 @@
             BorderThickness="{TemplateBinding BorderThickness}"
             CornerRadius="{TemplateBinding CornerRadius}"
             Padding="{TemplateBinding Padding}">
+          <!-- Layout root stacking the pipe over the label -->
           <Panel>
+            <!-- The tab's label -->
             <ContentPresenter
                 Name="PART_ContentPresenter"
                 HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                 VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                 Content="{TemplateBinding Content}"
                 ContentTemplate="{TemplateBinding ContentTemplate}" />
+            <!-- Bar marking the selected tab -->
             <Border Name="PART_SelectedPipe"
                     IsVisible="False"
                     VerticalAlignment="Bottom"/>

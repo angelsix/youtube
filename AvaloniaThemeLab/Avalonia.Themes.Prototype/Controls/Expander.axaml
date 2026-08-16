@@ -77,13 +77,16 @@
     <!-- Template -->
     <Setter Property="Template">
       <ControlTemplate>
+        <!-- Outer frame around the header -->
         <Border x:Name="ToggleButtonBackground"
                 CornerRadius="{TemplateBinding CornerRadius}"
                 Background="{TemplateBinding Background}"
                 BorderBrush="{TemplateBinding BorderBrush}"
                 BorderThickness="{TemplateBinding BorderThickness}">
+          <!-- Places the chevron beside the header text -->
           <Grid x:Name="ToggleButtonGrid"
                 ColumnDefinitions="*,Auto">
+            <!-- The header's label -->
             <ContentPresenter x:Name="PART_ContentPresenter"
                               Content="{TemplateBinding Content}"
                               ContentTemplate="{TemplateBinding ContentTemplate}"
@@ -94,6 +97,7 @@
             <!-- Chevron button (visuals set via ^ /template/ styles) -->
             <Border x:Name="ExpandCollapseChevronBorder"
                     Grid.Column="1">
+              <!-- The chevron pointing at the expanded direction -->
               <Path x:Name="ExpandCollapseChevron"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
@@ -267,8 +271,10 @@
     <!-- Template -->
     <Setter Property="Template">
       <ControlTemplate>
+        <!-- Layout root docking the header against the content -->
         <DockPanel MinWidth="{TemplateBinding MinWidth}"
                    MaxWidth="{TemplateBinding MaxWidth}">
+          <!-- The header, clicked to expand or collapse -->
           <ToggleButton x:Name="ExpanderHeader"
                         MinHeight="{TemplateBinding MinHeight}"
                         CornerRadius="{TemplateBinding CornerRadius}"
@@ -276,6 +282,7 @@
                         Content="{TemplateBinding Header}"
                         ContentTemplate="{TemplateBinding HeaderTemplate}"
                         IsChecked="{TemplateBinding IsExpanded, Mode=TwoWay}" />
+          <!-- The panel revealed when expanded -->
           <Border x:Name="ExpanderContent"
                   IsVisible="{TemplateBinding IsExpanded, Mode=TwoWay}"
                   Background="{TemplateBinding Background}"
@@ -285,6 +292,7 @@
                   HorizontalAlignment="Stretch"
                   VerticalAlignment="Stretch"
                   Padding="{TemplateBinding Padding}">
+            <!-- The expanded content -->
             <ContentPresenter x:Name="PART_ContentPresenter"
                               Content="{TemplateBinding Content}"
                               ContentTemplate="{TemplateBinding ContentTemplate}"

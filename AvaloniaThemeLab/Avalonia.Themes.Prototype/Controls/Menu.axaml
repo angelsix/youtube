@@ -30,16 +30,20 @@
     <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
     <Setter Property="Template">
       <ControlTemplate>
+        <!-- Outer frame around the top-level menu item -->
         <Border Name="PART_LayoutRoot"
                 Background="{TemplateBinding Background}"
                 BorderBrush="{TemplateBinding BorderBrush}"
                 BorderThickness="{TemplateBinding BorderThickness}"
                 CornerRadius="{TemplateBinding CornerRadius}">
+          <!-- Layout root stacking the item and its popup -->
           <Panel>
+            <!-- The menu item's label -->
             <ContentPresenter Name="PART_HeaderPresenter"
                               Content="{TemplateBinding Header}"
                               ContentTemplate="{TemplateBinding HeaderTemplate}"
                               Margin="{TemplateBinding Padding}"/>
+            <!-- The submenu shown when opened -->
             <Popup Name="PART_Popup"
                    WindowManagerAddShadowHint="False"
                    MinWidth="{Binding Bounds.Width, RelativeSource={RelativeSource TemplatedParent}}"
@@ -47,10 +51,13 @@
                    IsOpen="{TemplateBinding IsSubMenuOpen, Mode=TwoWay}"
                    Placement="BottomEdgeAlignedLeft"
                    OverlayInputPassThroughElement="{Binding $parent[Menu]}">
+              <!-- Panel behind the submenu -->
               <Border x:Name="PART_PopupBorder"
                       MaxWidth="456"
                       HorizontalAlignment="{TemplateBinding HorizontalAlignment}">
+                <!-- Scrolls the submenu when it overflows -->
                 <ScrollViewer Theme="{StaticResource PrototypeMenuScrollViewer}">
+                  <!-- The submenu entries -->
                   <ItemsPresenter x:Name="PART_PopupItemsPresenter"
                                   ItemsPanel="{TemplateBinding ItemsPanel}"
                                   Grid.IsSharedSizeScope="True" />
@@ -117,12 +124,14 @@
     <Setter Property="ItemContainerTheme" Value="{StaticResource PrototypeTopLevelMenuItem}" />
     <Setter Property="Template">
       <ControlTemplate>
+        <!-- Outer frame around the menu bar -->
         <Border Background="{TemplateBinding Background}"
                 BorderBrush="{TemplateBinding BorderBrush}"
                 BorderThickness="{TemplateBinding BorderThickness}"
                 CornerRadius="{TemplateBinding CornerRadius}"
                 HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
                 Padding="{TemplateBinding Padding}">
+          <!-- The top-level menu items -->
           <ItemsPresenter Name="PART_ItemsPresenter"
                           ItemsPanel="{TemplateBinding ItemsPanel}"
                           VerticalAlignment="{TemplateBinding VerticalAlignment}"

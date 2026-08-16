@@ -56,6 +56,7 @@
     <Setter Property="Template">
       <Setter.Value>
         <ControlTemplate TargetType="Button">
+          <!-- The button's icon -->
           <ContentPresenter x:Name="PART_ContentPresenter"
                             Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
@@ -97,6 +98,7 @@
     <Setter Property="Template">
       <Setter.Value>
         <ControlTemplate TargetType="ToggleButton">
+          <!-- The button's icon -->
           <ContentPresenter x:Name="PART_ContentPresenter"
                             Background="{TemplateBinding Background}"
                             Content="{TemplateBinding Content}"
@@ -140,8 +142,11 @@
     <!-- Template -->
     <Setter Property="Template">
       <ControlTemplate>
+        <!-- Validation error message for the whole control -->
         <DataValidationErrors>
+          <!-- Layout root stacking the text over its frame -->
           <Panel>
+            <!-- Outer frame around the field -->
             <Border
               Name="PART_BorderElement"
               Background="{TemplateBinding Background}"
@@ -152,30 +157,38 @@
               MinHeight="{TemplateBinding MinHeight}">
             </Border>
 
+            <!-- Inset area inside the frame -->
             <Border
               Margin="{TemplateBinding BorderThickness}">
+              <!-- Columns: leading content, text, trailing content -->
               <Grid ColumnDefinitions="Auto,*,Auto" >
+                <!-- Caller content pinned to the field's left edge -->
                 <ContentPresenter Grid.Column="0"
                                   Grid.ColumnSpan="1"
                                   VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
                                   Content="{TemplateBinding InnerLeftContent}"/>
+                <!-- Docks the floating label above the text -->
                 <DockPanel x:Name="PART_InnerDockPanel"
                            Grid.Column="1"
                            Grid.ColumnSpan="1"
                            Margin="{TemplateBinding Padding}">
+                  <!-- Label that floats above once text is entered -->
                   <TextBlock Name="PART_FloatingPlaceholder"
                              Foreground="{TemplateBinding PlaceholderForeground}"
                              IsVisible="False"
                              Text="{TemplateBinding PlaceholderText}"
                              DockPanel.Dock="Top" />
 
+                  <!-- Scrolls the text when it overflows -->
                   <ScrollViewer Name="PART_ScrollViewer"
                                 HorizontalScrollBarVisibility="{TemplateBinding (ScrollViewer.HorizontalScrollBarVisibility)}"
                                 VerticalScrollBarVisibility="{TemplateBinding (ScrollViewer.VerticalScrollBarVisibility)}"
                                 IsScrollChainingEnabled="{TemplateBinding (ScrollViewer.IsScrollChainingEnabled)}"
                                 AllowAutoHide="{TemplateBinding (ScrollViewer.AllowAutoHide)}"
                                 BringIntoViewOnFocusChange="{TemplateBinding (ScrollViewer.BringIntoViewOnFocusChange)}">
+                    <!-- Layout root stacking the prompt behind the text -->
                     <Panel>
+                      <!-- Prompt shown while the field is empty -->
                       <TextBlock Name="PART_Placeholder"
                                  Foreground="{TemplateBinding PlaceholderForeground}"
                                  Text="{TemplateBinding PlaceholderText}"
@@ -191,6 +204,7 @@
                         </TextBlock.IsVisible>
                       </TextBlock>
 
+                      <!-- The editable text and caret -->
                       <TextPresenter Name="PART_TextPresenter"
                                      Text="{TemplateBinding Text, Mode=TwoWay}"
                                      CaretBlinkInterval="{TemplateBinding CaretBlinkInterval}"
@@ -216,6 +230,7 @@
                     </ScrollViewer.Styles>
                   </ScrollViewer>
                 </DockPanel>
+                <!-- Caller content pinned to the field's right edge -->
                 <ContentPresenter Grid.Column="2"
                                   Grid.ColumnSpan="1"
                                   VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"

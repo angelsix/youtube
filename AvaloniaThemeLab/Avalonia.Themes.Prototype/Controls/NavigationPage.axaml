@@ -89,6 +89,7 @@
       <ControlTemplate>
         <!-- ClipToBounds prevents slide animations bleeding outside the control bounds. -->
         <Panel ClipToBounds="True">
+          <!-- Layout root docking the bars around the page -->
           <DockPanel>
             <!-- Reserves nav-bar height in Inset mode. Invisible in Overlay mode. -->
             <Border Name="PART_NavBarSpacer"
@@ -96,6 +97,7 @@
                     IsVisible="False"
                     DockPanel.Dock="Top" />
 
+            <!-- The command bar across the bottom -->
             <ContentPresenter Name="PART_BottomCommandBar"
                               DockPanel.Dock="Bottom"
                               Background="{TemplateBinding Background}"
@@ -105,7 +107,9 @@
             <Grid Name="PART_ContentHost"
                   Background="{TemplateBinding Background}"
                   ClipToBounds="True">
+              <!-- The previous page, during a transition -->
               <ContentPresenter Name="PART_PageBackPresenter" />
+              <!-- The current page -->
               <ContentPresenter Name="PART_PagePresenter" />
             </Grid>
           </DockPanel>
@@ -116,7 +120,9 @@
                   VerticalAlignment="Top"
                   ClipToBounds="True"
                   Height="{TemplateBinding EffectiveBarHeight}">
+            <!-- Places the back button left of the title -->
             <Grid x:Name="PART_NavBarGrid" ColumnDefinitions="Auto, *, Auto">
+              <!-- Returns to the previous page -->
               <Button x:Name="PART_BackButton"
                       Theme="{StaticResource PrototypeNavigationBarButton}"
                       Grid.Column="0"
@@ -124,22 +130,27 @@
                       Foreground="{DynamicResource NavigationBarForeground}"
                       IsVisible="{TemplateBinding IsBackButtonEffectivelyVisible}"
                       ToolTip.Tip="{x:Null}">
+                <!-- Overlaps the default arrow and a custom icon -->
                 <Panel Background="Transparent">
+                  <!-- Default back arrow -->
                   <Path Data="{DynamicResource NavigationPageBackIcon}"
                         x:Name="PART_BackButtonDefaultIcon"
                         Fill="{DynamicResource NavigationBarForeground}"
                         Stretch="Uniform" />
+                  <!-- Custom back icon, when one is supplied -->
                   <ContentPresenter
                     x:Name="PART_BackButtonContentPresenter" />
                 </Panel>
               </Button>
 
+              <!-- The page title -->
               <ContentPresenter Name="PART_Header"
                                 Grid.Column="1"
                                 Foreground="{DynamicResource NavigationBarForeground}"
                                 Content="{Binding CurrentPage?.Header, RelativeSource={RelativeSource TemplatedParent}, FallbackValue={x:Null}}"
                                 ContentTemplate="{Binding CurrentPage?.HeaderTemplate, RelativeSource={RelativeSource TemplatedParent}, FallbackValue={x:Null}}" />
 
+              <!-- The command bar across the top -->
               <ContentPresenter Name="PART_TopCommandBar"
                                 Grid.Column="2"
                                 Foreground="{DynamicResource NavigationBarForeground}"
@@ -159,6 +170,7 @@
                             ZIndex="99"
                             IsVisible="False"
                             Background="{TemplateBinding Background}" />
+          <!-- The page shown over everything as a modal -->
           <ContentPresenter Name="PART_ModalPresenter"
                             ZIndex="100"
                             IsVisible="False"

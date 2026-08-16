@@ -40,6 +40,7 @@
     <Setter Property="Template">
       <Setter.Value>
         <ControlTemplate>
+          <!-- The draggable thumb's shape -->
           <Border Background="{TemplateBinding Background}"
                   BorderBrush="{TemplateBinding BorderBrush}"
                   BorderThickness="{TemplateBinding BorderThickness}"
@@ -86,6 +87,7 @@
     <!-- Template -->
     <Setter Property="Template">
       <ControlTemplate>
+        <!-- Invisible click area above or below the thumb -->
         <Border Background="{TemplateBinding Background}"
                 BorderBrush="{TemplateBinding BorderBrush}"
                 BorderThickness="{TemplateBinding BorderThickness}"
@@ -107,6 +109,7 @@
     <!-- Template -->
     <Setter Property="Template">
       <ControlTemplate>
+        <!-- The arrow on a line button -->
         <ContentPresenter x:Name="PART_ContentPresenter"
                           Background="Transparent"
                           BorderBrush="Transparent"
@@ -166,13 +169,17 @@
     <Style Selector="^:vertical">
       <Setter Property="Template">
         <ControlTemplate>
+          <!-- Layout root for the vertical scrollbar -->
           <Grid x:Name="Root">
+            <!-- The scrollbar's background -->
             <Border x:Name="VerticalRoot"
                     Background="{TemplateBinding Background}"
                     BorderBrush="{TemplateBinding BorderBrush}"
                     BorderThickness="{TemplateBinding BorderThickness}"
                     CornerRadius="{TemplateBinding CornerRadius}">
+              <!-- Stacks the arrows above and below the track -->
               <Grid RowDefinitions="Auto,*,Auto">
+                <!-- Track fill that fades in on hover -->
                 <Rectangle x:Name="TrackRect"
                            Stroke="Transparent"
                            StrokeThickness="0"
@@ -185,16 +192,19 @@
                   </Rectangle.Transitions>
                 </Rectangle>
 
+                <!-- Scrolls up one line -->
                 <RepeatButton Name="PART_LineUpButton"
                               HorizontalAlignment="Center"
                               Theme="{StaticResource PrototypeScrollBarLineButton}"
                               Grid.Row="0"
                               Focusable="False"
                               AutomationProperties.Name="Line up">
+                  <!-- The up arrow -->
                   <PathIcon x:Name="PART_LineUpIcon"
                             Data="M 19.091797 14.970703 L 10 5.888672 L 0.908203 14.970703 L 0.029297 14.091797 L 10 4.111328 L 19.970703 14.091797 Z"/>
                 </RepeatButton>
 
+                <!-- The draggable region between the arrows -->
                 <Track Grid.Row="1"
                        Minimum="{TemplateBinding Minimum}"
                        Maximum="{TemplateBinding Maximum}"
@@ -204,6 +214,7 @@
                        Orientation="{TemplateBinding Orientation}"
                        IsDirectionReversed="True">
                   <Track.DecreaseButton>
+                    <!-- Jumps a page up when clicked -->
                     <RepeatButton Name="PART_PageUpButton"
                                   Classes="largeIncrease"
                                   Theme="{StaticResource PrototypeScrollBarPageButton}"
@@ -211,12 +222,14 @@
                                   AutomationProperties.Name="Page up"/>
                   </Track.DecreaseButton>
                   <Track.IncreaseButton>
+                    <!-- Jumps a page down when clicked -->
                     <RepeatButton Name="PART_PageDownButton"
                                   Classes="largeIncrease"
                                   Theme="{StaticResource PrototypeScrollBarPageButton}"
                                   Focusable="False"
                                   AutomationProperties.Name="Page down"/>
                   </Track.IncreaseButton>
+                  <!-- The draggable thumb -->
                   <Thumb x:Name="PART_Thumb"
                          Theme="{StaticResource PrototypeScrollBarThumb}"
                          RenderTransform="{StaticResource VerticalSmallScrollThumbScaleTransform}"
@@ -224,12 +237,14 @@
                          AutomationProperties.Name="Position"/>
                 </Track>
 
+                <!-- Scrolls down one line -->
                 <RepeatButton Name="PART_LineDownButton"
                               HorizontalAlignment="Center"
                               Theme="{StaticResource PrototypeScrollBarLineButton}"
                               Grid.Row="2"
                               Focusable="False"
                               AutomationProperties.Name="Line down">
+                  <!-- The down arrow -->
                   <PathIcon x:Name="PART_LineDownIcon"
                             Data="M 18.935547 4.560547 L 19.814453 5.439453 L 10 15.253906 L 0.185547 5.439453 L 1.064453 4.560547 L 10 13.496094 Z"/>
                 </RepeatButton>
@@ -244,13 +259,17 @@
     <Style Selector="^:horizontal">
       <Setter Property="Template">
         <ControlTemplate>
+          <!-- Layout root for the horizontal scrollbar -->
           <Grid x:Name="Root">
+            <!-- The scrollbar's background -->
             <Border x:Name="HorizontalRoot"
                     Background="{TemplateBinding Background}"
                     BorderBrush="{TemplateBinding BorderBrush}"
                     BorderThickness="{TemplateBinding BorderThickness}"
                     CornerRadius="{TemplateBinding CornerRadius}">
+              <!-- Stacks the arrows either side of the track -->
               <Grid ColumnDefinitions="Auto,*,Auto">
+                <!-- Track fill that fades in on hover -->
                 <Rectangle x:Name="TrackRect"
                            Stroke="Transparent"
                            StrokeThickness="0"
@@ -263,16 +282,19 @@
                   </Rectangle.Transitions>
                 </Rectangle>
 
+                <!-- Scrolls left one line -->
                 <RepeatButton Name="PART_LineUpButton"
                               Theme="{StaticResource PrototypeScrollBarLineButton}"
                               VerticalAlignment="Center"
                               Grid.Column="0"
                               Focusable="False"
                               AutomationProperties.Name="Column left">
+                  <!-- The left arrow -->
                   <PathIcon x:Name="PART_LineUpIcon"
                             Data="M 14.091797 19.970703 L 4.111328 10 L 14.091797 0.029297 L 14.970703 0.908203 L 5.888672 10 L 14.970703 19.091797 Z"/>
                 </RepeatButton>
 
+                <!-- The draggable region between the arrows -->
                 <Track Grid.Column="1"
                        Minimum="{TemplateBinding Minimum}"
                        Maximum="{TemplateBinding Maximum}"
@@ -281,6 +303,7 @@
                        ViewportSize="{TemplateBinding ViewportSize}"
                        Orientation="{TemplateBinding Orientation}">
                   <Track.DecreaseButton>
+                    <!-- Jumps a page left when clicked -->
                     <RepeatButton Name="PART_PageUpButton"
                                   Classes="largeIncrease"
                                   Theme="{StaticResource PrototypeScrollBarPageButton}"
@@ -288,12 +311,14 @@
                                   AutomationProperties.Name="Page left"/>
                   </Track.DecreaseButton>
                   <Track.IncreaseButton>
+                    <!-- Jumps a page right when clicked -->
                     <RepeatButton Name="PART_PageDownButton"
                                   Classes="largeIncrease"
                                   Theme="{StaticResource PrototypeScrollBarPageButton}"
                                   Focusable="False"
                                   AutomationProperties.Name="Page right"/>
                   </Track.IncreaseButton>
+                  <!-- The draggable thumb -->
                   <Thumb x:Name="PART_Thumb"
                          Theme="{StaticResource PrototypeScrollBarThumb}"
                          RenderTransform="{StaticResource HorizontalSmallScrollThumbScaleTransform}"
@@ -301,12 +326,14 @@
                          AutomationProperties.Name="Position"/>
                 </Track>
 
+                <!-- Scrolls right one line -->
                 <RepeatButton Name="PART_LineDownButton"
                               Theme="{StaticResource PrototypeScrollBarLineButton}"
                               VerticalAlignment="Center"
                               Grid.Column="2"
                               Focusable="False"
                               AutomationProperties.Name="Column right">
+                  <!-- The right arrow -->
                   <PathIcon x:Name="PART_LineDownIcon"
                             Data="M 5.029297 19.091797 L 14.111328 10 L 5.029297 0.908203 L 5.908203 0.029297 L 15.888672 10 L 5.908203 19.970703 Z"/>
                 </RepeatButton>

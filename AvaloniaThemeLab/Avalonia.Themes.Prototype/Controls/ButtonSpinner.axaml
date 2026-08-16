@@ -64,6 +64,7 @@
          do not apply to a spinner chevron. Without this the buttons fall back to Avalonia's built-in template. -->
     <Setter Property="Template">
       <ControlTemplate>
+        <!-- The chevron icon -->
         <ContentPresenter Name="PART_ContentPresenter"
                           Background="{TemplateBinding Background}"
                           BorderBrush="{TemplateBinding BorderBrush}"
@@ -111,19 +112,24 @@
     <!-- Template -->
     <Setter Property="Template">
       <ControlTemplate>
+        <!-- Validation error message for the whole control -->
         <DataValidationErrors>
+          <!-- Outer frame around the value and its buttons -->
           <Border Background="{TemplateBinding Background}"
                   BorderBrush="{TemplateBinding BorderBrush}"
                   BorderThickness="{TemplateBinding BorderThickness}"
                   CornerRadius="{TemplateBinding CornerRadius}"
                   MinHeight="{TemplateBinding MinHeight}">
+            <!-- Layout root docking the buttons beside the value -->
             <DockPanel>
+              <!-- The stacked up and down buttons -->
               <StackPanel Name="PART_SpinnerPanel"
                           TabIndex="2"
                           DockPanel.Dock="Right"
                           Orientation="Horizontal"
                           IsVisible="{TemplateBinding ShowButtonSpinner}">
 
+                <!-- Steps the value up, repeating while held -->
                 <RepeatButton Name="PART_IncreaseButton"
                               IsTabStop="{TemplateBinding IsTabStop}"
                               Theme="{StaticResource PrototypeButtonSpinnerRepeatButton}"
@@ -133,6 +139,7 @@
                   <PathIcon Data="{icons:ChevronUpGlyph}" />
                 </RepeatButton>
 
+                <!-- Steps the value down, repeating while held -->
                 <RepeatButton Name="PART_DecreaseButton"
                               IsTabStop="{TemplateBinding IsTabStop}"
                               Theme="{StaticResource PrototypeButtonSpinnerRepeatButton}"
@@ -144,6 +151,7 @@
 
               </StackPanel>
 
+              <!-- The value the spinner is stepping -->
               <ContentPresenter Name="PART_ContentPresenter"
                                 TabIndex="1"
                                 ContentTemplate="{TemplateBinding ContentTemplate}"

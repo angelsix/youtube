@@ -71,7 +71,9 @@
     <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
     <Setter Property="Template">
       <ControlTemplate>
+        <!-- Validation error message for the whole control -->
         <DataValidationErrors>
+          <!-- The up and down buttons around the value -->
           <ButtonSpinner Name="PART_Spinner"
                          Background="{TemplateBinding Background}"
                          BorderThickness="{TemplateBinding BorderThickness}"
@@ -85,6 +87,7 @@
                          AllowSpin="{TemplateBinding AllowSpin}"
                          ShowButtonSpinner="{TemplateBinding ShowButtonSpinner}"
                          ButtonSpinnerLocation="{TemplateBinding ButtonSpinnerLocation}">
+            <!-- The number, typed or stepped -->
             <TextBox Name="PART_TextBox"
                      Background="Transparent"
                      BorderBrush="Transparent"

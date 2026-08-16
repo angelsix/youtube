@@ -48,6 +48,7 @@
     <!-- Template -->
     <Setter Property="Template">
       <ControlTemplate>
+        <!-- The pip's shape -->
         <ContentPresenter Name="PART_ContentPresenter"
                           Background="{TemplateBinding Background}"
                           BorderBrush="{TemplateBinding BorderBrush}"
@@ -107,13 +108,16 @@
     <!-- Template -->
     <Setter Property="Template">
       <ControlTemplate>
+        <!-- Layout root stacking the pip over its backing -->
         <Grid Background="Transparent">
+          <!-- Hit area behind the pip -->
           <Ellipse Name="PipBackground"
                    HorizontalAlignment="Center"
                    VerticalAlignment="Center"
                    Fill="Transparent"
                    Stroke="Transparent"
                    StrokeThickness="1" />
+          <!-- The dot representing one page -->
           <Ellipse Name="Pip"
                    HorizontalAlignment="Center"
                    VerticalAlignment="Center" />
@@ -214,19 +218,23 @@
     <!-- Template -->
     <Setter Property="Template">
       <ControlTemplate>
+        <!-- Layout root laying the pips and arrows out -->
         <StackPanel Name="PART_RootPanel"
                     Orientation="{TemplateBinding Orientation}"
                     Background="{TemplateBinding Background}"
                     ClipToBounds="False">
+          <!-- Goes to the previous page -->
           <Button Name="PART_PreviousButton"
                   Theme="{TemplateBinding PreviousButtonTheme}"
                   IsVisible="{TemplateBinding IsPreviousButtonVisible}"
                   VerticalAlignment="Center"
                   HorizontalAlignment="Center">
+            <!-- The back arrow -->
             <PathIcon Name="PreviousButtonIcon"
                       Data="{StaticResource PipsPagerPreviousPageButtonData}" />
           </Button>
 
+          <!-- One dot per page, the current one selected -->
           <ListBox Name="PART_PipsPagerList"
                    Background="Transparent"
                    BorderThickness="0"
@@ -247,6 +255,7 @@
             </ListBox.Styles>
             <ListBox.ItemsPanel>
               <ItemsPanelTemplate>
+                <!-- Lays the pips out in a row or column -->
                 <StackPanel Orientation="{Binding Orientation, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=PipsPager}}"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
@@ -255,11 +264,13 @@
             </ListBox.ItemsPanel>
           </ListBox>
 
+          <!-- Goes to the next page -->
           <Button Name="PART_NextButton"
                   Theme="{TemplateBinding NextButtonTheme}"
                   IsVisible="{TemplateBinding IsNextButtonVisible}"
                   VerticalAlignment="Center"
                   HorizontalAlignment="Center">
+            <!-- The forward arrow -->
             <PathIcon Name="NextButtonIcon"
                       Data="{StaticResource PipsPagerNextPageButtonData}" />
           </Button>

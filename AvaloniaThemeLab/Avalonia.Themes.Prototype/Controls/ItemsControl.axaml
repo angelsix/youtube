@@ -20,11 +20,13 @@
     <!-- Template -->
     <Setter Property="Template">
       <ControlTemplate>
+        <!-- Outer frame around the items -->
         <Border Background="{TemplateBinding Background}"
                 BorderBrush="{TemplateBinding BorderBrush}"
                 BorderThickness="{TemplateBinding BorderThickness}"
                 CornerRadius="{TemplateBinding CornerRadius}"
                 Padding="{TemplateBinding Padding}">
+          <!-- The items -->
           <ItemsPresenter Name="PART_ItemsPresenter"
                           ItemsPanel="{TemplateBinding ItemsPanel}"/>
         </Border>

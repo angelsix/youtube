@@ -53,7 +53,9 @@
     <Setter Property="Padding" Value="0" />
     <Setter Property="Template">
       <ControlTemplate>
+        <!-- Docks the tab strip against the page -->
         <DockPanel>
+          <!-- Outer frame around the tab strip -->
           <Border Name="PART_TabStrip"
                   Background="{TemplateBinding Background}"
                   CornerRadius="{TemplateBinding CornerRadius}"
@@ -62,19 +64,24 @@
                   Margin="0"
                   Padding="{TemplateBinding Padding}"
                   DockPanel.Dock="{TemplateBinding TabStripPlacement}">
+            <!-- The row of tabs -->
             <ItemsPresenter Name="PART_ItemsPresenter">
               <ItemsPresenter.ItemsPanel>
                 <ItemsPanelTemplate>
+                  <!-- Spreads the tabs evenly across the strip -->
                   <UniformGrid Rows="1" />
                 </ItemsPanelTemplate>
               </ItemsPresenter.ItemsPanel>
             </ItemsPresenter>
           </Border>
+          <!-- Layout root cross-fading between pages -->
           <Panel ClipToBounds="True">
+            <!-- The outgoing page, during a transition -->
             <ContentPresenter Name="PART_SelectedContentHost2"
                               HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                               VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
                               IsVisible="False" />
+            <!-- The selected tab's page -->
             <ContentPresenter Name="PART_SelectedContentHost"
                               HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                               VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
@@ -112,21 +119,26 @@
     </Setter>
     <Setter Property="Template">
       <ControlTemplate>
+        <!-- Layout root stacking the pipe over the tab -->
         <Panel>
+          <!-- Outer frame around the tab -->
           <Border Name="PART_LayoutRoot"
                   Background="{TemplateBinding Background}"
                   BorderBrush="{TemplateBinding BorderBrush}"
                   BorderThickness="{TemplateBinding BorderThickness}"
                   CornerRadius="{TemplateBinding CornerRadius}"
                   Padding="{TemplateBinding Padding}">
+            <!-- Stacks the icon above its label -->
             <StackPanel Name="PART_HeaderPanel"
                         HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                         VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
+              <!-- The tab's icon -->
               <ContentPresenter Name="PART_IconPresenter"
                                 Content="{TemplateBinding Icon}"
                                 ContentTemplate="{TemplateBinding IconTemplate}"
                                 HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                 IsVisible="{TemplateBinding Icon, Converter={x:Static ObjectConverters.IsNotNull}}" />
+              <!-- The tab's label -->
               <ContentPresenter Name="PART_ContentPresenter"
                                 HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                 HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
@@ -136,6 +148,7 @@
                                 FontWeight="{TemplateBinding FontWeight}" />
             </StackPanel>
           </Border>
+          <!-- Bar marking the selected tab -->
           <ContentPresenter Name="PART_SelectedPipe"
                             VerticalAlignment="Bottom"
                             HorizontalAlignment="Stretch"
@@ -250,7 +263,9 @@
     <Setter Property="Background" Value="{theme:SurfaceBrush}" />
     <Setter Property="Template">
       <ControlTemplate>
+        <!-- Layout root for the tabbed page -->
         <Panel Background="{TemplateBinding Background}">
+          <!-- The tabs and their pages -->
           <TabControl Name="PART_TabControl"
                       Theme="{StaticResource TabbedPageTabControlTheme}"
                       ItemContainerTheme="{StaticResource TabbedPageTabItemTheme}"

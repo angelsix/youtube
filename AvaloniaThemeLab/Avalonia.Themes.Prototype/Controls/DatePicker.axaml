@@ -35,6 +35,7 @@
     <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
     <Setter Property="Template">
       <ControlTemplate>
+        <!-- The button's label -->
         <ContentPresenter Name="PART_ContentPresenter"
                           BorderBrush="{TemplateBinding BorderBrush}"
                           Background="{TemplateBinding Background}"
@@ -85,8 +86,11 @@
     <!-- Template -->
     <Setter Property="Template">
       <ControlTemplate>
+        <!-- Validation error message for the whole control -->
         <DataValidationErrors>
+          <!-- Layout root for the picker button -->
           <Grid Name="LayoutRoot" Margin="{TemplateBinding Padding}">
+            <!-- Opens the date picker when clicked -->
             <Button Name="PART_FlyoutButton"
                     Theme="{StaticResource PrototypeDatePickerFlyoutButton}"
                     Foreground="{TemplateBinding Foreground}"
@@ -100,22 +104,30 @@
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Stretch"
                     TemplatedControl.IsTemplateFocusTarget="True">
+              <!-- Splits the button into day, month and year -->
               <Grid Name="PART_ButtonContentGrid" ColumnDefinitions="78*,Auto,132*,Auto,78*">
+                <!-- The selected day, or a prompt -->
                 <TextBlock Name="PART_DayTextBlock" Text="day" HorizontalAlignment="Center" />
+                <!-- The selected month, or a prompt -->
                 <TextBlock Name="PART_MonthTextBlock" Text="month" TextAlignment="Left" />
+                <!-- The selected year, or a prompt -->
                 <TextBlock Name="PART_YearTextBlock" Text="year" HorizontalAlignment="Center" />
+                <!-- Divider between the day and month -->
                 <Rectangle x:Name="PART_FirstSpacer"
                            HorizontalAlignment="Center"
                            Grid.Column="1" />
+                <!-- Divider between the month and year -->
                 <Rectangle x:Name="PART_SecondSpacer"
                            HorizontalAlignment="Center"
                            Grid.Column="3" />
               </Grid>
             </Button>
 
+            <!-- The picker shown when choosing a date -->
             <Popup Name="PART_Popup" WindowManagerAddShadowHint="False"
                    IsLightDismissEnabled="True" PlacementTarget="{TemplateBinding}"
                    Placement="Bottom">
+              <!-- The spinning day, month and year columns -->
               <DatePickerPresenter Name="PART_PickerPresenter" />
             </Popup>
           </Grid>
@@ -177,11 +189,14 @@
     <!-- Template -->
     <Setter Property="Template">
       <ControlTemplate>
+        <!-- Outer frame around the picker -->
         <Border Name="Background" Background="{TemplateBinding Background}"
                 BorderBrush="{TemplateBinding BorderBrush}"
                 BorderThickness="{TemplateBinding BorderThickness}"
                 CornerRadius="{TemplateBinding CornerRadius}">
+          <!-- Splits the picker from its accept and dismiss row -->
           <Grid Name="ContentRoot" RowDefinitions="*,Auto">
+            <!-- Holds the day, month and year columns -->
             <Grid Name="PART_PickerContainer">
               <Grid.Styles>
                 <Style Selector="DateTimePickerPanel > ListBoxItem">
@@ -189,67 +204,91 @@
                 </Style>
               </Grid.Styles>
               <!-- Column definitions set in code, ignore here -->
+              <!-- The month column -->
               <Panel Name="PART_MonthHost">
+                <!-- Scrolls the month list -->
                 <ScrollViewer HorizontalScrollBarVisibility="Disabled"
                               VerticalScrollBarVisibility="Hidden">
+                  <!-- The scrolling list of months -->
                   <DateTimePickerPanel Name="PART_MonthSelector"
                                        PanelType="Month"
                                        ShouldLoop="True" />
                 </ScrollViewer>
+                <!-- Scrolls the months up -->
                 <RepeatButton Name="PART_MonthUpButton" Theme="{StaticResource PrototypeDateTimePickerUpButton}" />
+                <!-- Scrolls the months down -->
                 <RepeatButton Name="PART_MonthDownButton" Theme="{StaticResource PrototypeDateTimePickerDownButton}" />
               </Panel>
+              <!-- The day column -->
               <Panel Name="PART_DayHost">
+                <!-- Scrolls the day list -->
                 <ScrollViewer HorizontalScrollBarVisibility="Disabled"
                               VerticalScrollBarVisibility="Hidden">
+                  <!-- The scrolling list of days -->
                   <DateTimePickerPanel Name="PART_DaySelector"
                                        PanelType="Day"
                                        ShouldLoop="True" />
                 </ScrollViewer>
+                <!-- Scrolls the days up -->
                 <RepeatButton Name="PART_DayUpButton" Theme="{StaticResource PrototypeDateTimePickerUpButton}" />
+                <!-- Scrolls the days down -->
                 <RepeatButton Name="PART_DayDownButton" Theme="{StaticResource PrototypeDateTimePickerDownButton}" />
               </Panel>
+              <!-- The year column -->
               <Panel Name="PART_YearHost">
+                <!-- Scrolls the year list -->
                 <ScrollViewer HorizontalScrollBarVisibility="Disabled"
                               VerticalScrollBarVisibility="Hidden">
+                  <!-- The scrolling list of years -->
                   <DateTimePickerPanel Name="PART_YearSelector"
                                        PanelType="Year"
                                        ShouldLoop="False" />
                 </ScrollViewer>
+                <!-- Scrolls the years up -->
                 <RepeatButton Name="PART_YearUpButton" Theme="{StaticResource PrototypeDateTimePickerUpButton}" />
+                <!-- Scrolls the years down -->
                 <RepeatButton Name="PART_YearDownButton" Theme="{StaticResource PrototypeDateTimePickerDownButton}" />
               </Panel>
+              <!-- Band highlighting the centred selection -->
               <Rectangle Name="HighlightRect" IsHitTestVisible="False" ZIndex="-1"
                           Grid.Column="0" Grid.ColumnSpan="5" VerticalAlignment="Center" />
+              <!-- Divider between the first two columns -->
               <Rectangle Name="PART_FirstSpacer"
                           HorizontalAlignment="Center"
                           Grid.Column="1" />
+              <!-- Divider between the last two columns -->
               <Rectangle Name="PART_SecondSpacer"
                           HorizontalAlignment="Center"
                           Grid.Column="3" />
             </Grid>
 
+            <!-- The accept and dismiss row -->
             <Grid Name="AcceptDismissGrid"
                   Grid.Row="1"
                   ColumnDefinitions="*,*">
+              <!-- Line above the accept and dismiss buttons -->
               <Rectangle x:Name="PART_TopDivider"
                           VerticalAlignment="Top"
                           Grid.ColumnSpan="2" />
+              <!-- Confirms the chosen date -->
               <Button Name="PART_AcceptButton"
                       Grid.Column="0"
                       Theme="{StaticResource PrototypeDateTimePickerButton}"
                       HorizontalAlignment="Stretch"
                       VerticalAlignment="Stretch">
+                <!-- The tick mark -->
                 <Path x:Name="PART_AcceptGlyph"
                       Stroke="{Binding $parent[Button].Foreground}"
                       StrokeLineCap="Round"
                       Data="M0.5,8.5 5,13.5 15.5,3" />
               </Button>
+              <!-- Closes the picker without choosing -->
               <Button Name="PART_DismissButton"
                       Grid.Column="1"
                       Theme="{StaticResource PrototypeDateTimePickerButton}"
                       HorizontalAlignment="Stretch"
                       VerticalAlignment="Stretch">
+                <!-- The cross mark -->
                 <Path x:Name="PART_DismissGlyph"
                       Stroke="{Binding $parent[Button].Foreground}"
                       StrokeLineCap="Round"

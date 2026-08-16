@@ -48,10 +48,13 @@
     <!-- Template -->
     <Setter Property="Template">
       <ControlTemplate>
+        <!-- Layout root stacking the fill and its outline -->
         <Panel>
+          <!-- Filled background of the month or year cell -->
           <Border Name="Root" Background="{TemplateBinding Background}"
                   BorderThickness="0" ClipToBounds="True"
                   CornerRadius="{TemplateBinding CornerRadius}">
+            <!-- The month or year name -->
             <ContentPresenter Name="PART_ContentPresenter"
                               ContentTemplate="{TemplateBinding ContentTemplate}"
                               Content="{TemplateBinding Content}"
@@ -59,6 +62,7 @@
                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                               Margin="{TemplateBinding Padding}" />
           </Border>
+          <!-- Outline drawn over the fill, for selection and hover -->
           <Border Name="Border"
                   BorderBrush="{TemplateBinding BorderBrush}"
                   BorderThickness="{TemplateBinding BorderThickness}"

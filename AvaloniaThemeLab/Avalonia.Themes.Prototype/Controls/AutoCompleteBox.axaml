@@ -73,9 +73,13 @@
     <!-- Template -->
     <Setter Property="Template">
       <ControlTemplate>
+        <!-- Validation error message for the whole control -->
         <DataValidationErrors>
+
+          <!-- Layout root holding the field and its dropdown -->
           <Grid Name="PART_LayoutRoot">
-            
+
+            <!-- The text field the user types into -->
             <TextBox Name="PART_TextBox"
                      PlaceholderText="{TemplateBinding PlaceholderText}"
                      PlaceholderForeground="{TemplateBinding PlaceholderForeground}"
@@ -96,13 +100,18 @@
                      InnerLeftContent="{TemplateBinding InnerLeftContent}"
                      InnerRightContent="{TemplateBinding InnerRightContent}" />
 
+            <!-- Dropdown that appears while typing -->
             <Popup Name="PART_Popup"
                    WindowManagerAddShadowHint="False"
                    MinWidth="{Binding Bounds.Width, RelativeSource={RelativeSource TemplatedParent}}"
                    MaxHeight="{TemplateBinding MaxDropDownHeight}"
                    IsLightDismissEnabled="True"
                    PlacementTarget="{TemplateBinding}">
+
+              <!-- Panel behind the suggestion list -->
               <Border Name="PART_SuggestionsContainer">
+
+                <!-- The list of suggested items -->
                 <ListBox Name="PART_SelectingItemsControl"
                          BorderThickness="0"
                          Background="Transparent"

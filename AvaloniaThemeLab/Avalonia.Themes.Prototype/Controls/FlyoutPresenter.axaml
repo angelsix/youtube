@@ -19,14 +19,17 @@
     <Setter Property="CornerRadius" Value="{theme:RadiusMd}" />
     <Setter Property="Template">
       <ControlTemplate>
+        <!-- Panel behind the flyout -->
         <Border Name="LayoutRoot"
                 Background="{TemplateBinding Background}"
                 BorderBrush="{TemplateBinding BorderBrush}"
                 BorderThickness="{TemplateBinding BorderThickness}"
                 Padding="0"
                 CornerRadius="{TemplateBinding CornerRadius}">
+          <!-- Scrolls the flyout when it overflows -->
           <ScrollViewer HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
                         VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}">
+            <!-- The flyout's content -->
             <ContentPresenter x:Name="PART_ContentPresenter"
                               Content="{TemplateBinding Content}"
                               ContentTemplate="{TemplateBinding ContentTemplate}"

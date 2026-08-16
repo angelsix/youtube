@@ -50,6 +50,7 @@
     <!-- Template -->
     <Setter Property="Template">
       <ControlTemplate TargetType="ProgressBar">
+        <!-- The track the progress fills -->
         <Border
             x:Name="ProgressBarRoot"
             Background="{TemplateBinding Background}"
@@ -57,41 +58,49 @@
             BorderThickness="{TemplateBinding BorderThickness}"
             ClipToBounds="True"
             CornerRadius="{TemplateBinding CornerRadius}">
+          <!-- Layout root stacking the bars and the text -->
           <Panel>
+            <!-- Shown when progress has a known value -->
             <Panel x:Name="DeterminateRoot" Opacity="1">
               <Panel.Transitions>
                 <Transitions>
                   <DoubleTransition Property="Opacity" Duration="0:0:0.15" />
                 </Transitions>
               </Panel.Transitions>
+              <!-- The filled portion of the bar -->
               <Border
                   x:Name="PART_Indicator"
                   Margin="{TemplateBinding Padding}"
                   Background="{TemplateBinding Foreground}"
                   CornerRadius="{TemplateBinding CornerRadius}" />
             </Panel>
+            <!-- Shown when progress is indeterminate -->
             <Panel x:Name="IndeterminateRoot" Opacity="0">
               <Panel.Transitions>
                 <Transitions>
                   <DoubleTransition Property="Opacity" Duration="0:0:0.15" />
                 </Transitions>
               </Panel.Transitions>
+              <!-- First of two blocks sweeping the track -->
               <Border
                   x:Name="IndeterminateProgressBarIndicator"
                   Margin="{TemplateBinding Padding}"
                   Background="{TemplateBinding Foreground}"
                   CornerRadius="{TemplateBinding CornerRadius}" />
+              <!-- Second of two blocks sweeping the track -->
               <Border
                   x:Name="IndeterminateProgressBarIndicator2"
                   Margin="{TemplateBinding Padding}"
                   Background="{TemplateBinding Foreground}"
                   CornerRadius="{TemplateBinding CornerRadius}" />
             </Panel>
+            <!-- Rotates the text with a vertical bar -->
             <LayoutTransformControl
                 x:Name="PART_LayoutTransformControl"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                 IsVisible="{TemplateBinding ShowProgressText}">
+              <!-- The progress percentage, when shown -->
               <TextBlock>
                   <TextBlock.Text>
                     <MultiBinding Converter="{StaticResource StringFormatConverter}">

@@ -47,6 +47,7 @@
   <ControlTheme x:Key="PrototypeSplitButtonComponent" TargetType="Button">
     <Setter Property="Template">
       <ControlTemplate>
+        <!-- The button's label -->
         <ContentPresenter x:Name="PART_ContentPresenter"
                           Background="{TemplateBinding Background}"
                           BorderBrush="{TemplateBinding BorderBrush}"
@@ -137,8 +138,10 @@
     <Setter Property="CornerRadius" Value="{theme:RadiusSm}" />
     <Setter Property="Template">
       <ControlTemplate>
+        <!-- Places the arrow button right of the main one -->
         <Grid ColumnDefinitions="*,Auto,Auto">
 
+          <!-- The main action, clicked directly -->
           <Button x:Name="PART_PrimaryButton"
                   Grid.Column="0"
                   Theme="{StaticResource PrototypeSplitButtonComponent}"
@@ -159,12 +162,14 @@
                   Focusable="False"
                   KeyboardNavigation.IsTabStop="False" />
 
+          <!-- Divider between the two halves -->
           <Border x:Name="SeparatorBorder"
                   Grid.Column="1"
                   Background="Transparent"
                   BorderThickness="{TemplateBinding BorderThickness, Converter={StaticResource SeparatorBorderMultiplier}}"
                   BorderBrush="{TemplateBinding BorderBrush}" />
 
+          <!-- Opens the dropdown of extra actions -->
           <Button x:Name="PART_SecondaryButton"
                   Grid.Column="2"
                   Theme="{StaticResource PrototypeSplitButtonComponent}"
@@ -180,6 +185,7 @@
                   VerticalAlignment="Stretch"
                   Focusable="False"
                   KeyboardNavigation.IsTabStop="False">
+            <!-- The arrow marking the dropdown half -->
             <PathIcon x:Name="PART_DropDownIcon"
                       Data="M1939 486L2029 576L1024 1581L19 576L109 486L1024 1401L1939 486Z" />
           </Button>

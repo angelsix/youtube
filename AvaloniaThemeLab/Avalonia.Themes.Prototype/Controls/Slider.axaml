@@ -46,7 +46,9 @@
     <!-- Template -->
     <Setter Property="Template">
       <ControlTemplate>
+        <!-- Layout root stacking the track over its hit area -->
         <Grid>
+          <!-- Invisible area that widens the focus target -->
           <Border x:Name="FocusTarget" Background="Transparent" />
           <!-- Structural: track height -->
           <Border x:Name="TrackBackground"
@@ -75,7 +77,9 @@
     <!-- Template -->
     <Setter Property="Template">
       <ControlTemplate>
+        <!-- Layout root stacking the track over its hit area -->
         <Grid>
+          <!-- Invisible area that widens the focus target -->
           <Border x:Name="FocusTarget" Background="Transparent" />
           <!-- Structural: track width -->
           <Border x:Name="TrackBackground"
@@ -104,6 +108,7 @@
     <!-- Template -->
     <Setter Property="Template">
       <ControlTemplate>
+        <!-- The draggable thumb's shape -->
         <Border
             Background="{TemplateBinding Background}"
             BorderBrush="{TemplateBinding BorderBrush}"
@@ -127,11 +132,14 @@
     <Style Selector="^:horizontal">
       <Setter Property="Template">
         <ControlTemplate>
+          <!-- Validation error message for the whole control -->
           <DataValidationErrors>
+            <!-- Outer frame around the slider -->
             <Border
                 BorderBrush="{TemplateBinding BorderBrush}"
                 BorderThickness="{TemplateBinding BorderThickness}"
                 CornerRadius="{TemplateBinding CornerRadius}">
+                <!-- Layout root for the horizontal slider -->
                 <Grid x:Name="SliderContainer"
                       Margin="{TemplateBinding Padding}"
                       Background="Transparent">
@@ -140,6 +148,7 @@
                       <Setter Property="ReservedSpace" Value="{Binding #PART_Track.Thumb.Bounds}" />
                     </Style>
                   </Grid.Styles>
+                  <!-- Rows: ticks above, track, ticks below -->
                   <Grid
                       x:Name="HorizontalTemplate"
                       ColumnDefinitions="Auto,Auto,*">
@@ -149,6 +158,7 @@
                       <RowDefinition Height="Auto" />
                       <RowDefinition Height="{theme:SpacingXxl}" />
                     </Grid.RowDefinitions>
+                    <!-- Tick marks above the track -->
                     <TickBar
                         Name="TopTickBar"
                         Grid.ColumnSpan="3"
@@ -175,6 +185,7 @@
                         Placement="Bottom"
                         IsVisible="False"
                         IsDirectionReversed="{TemplateBinding IsDirectionReversed}" />
+                    <!-- The draggable region the thumb moves along -->
                     <Track
                         Name="PART_Track"
                         Grid.Row="1"
@@ -185,6 +196,7 @@
                         IsDirectionReversed="{TemplateBinding IsDirectionReversed}"
                         Orientation="Horizontal">
                       <Track.DecreaseButton>
+                        <!-- Filled part of the track, before the thumb -->
                         <RepeatButton
                             Name="PART_DecreaseButton"
                             Theme="{StaticResource PrototypeSliderHorizontalRepeatButton}"
@@ -192,12 +204,14 @@
                             Focusable="False"/>
                       </Track.DecreaseButton>
                       <Track.IncreaseButton>
+                        <!-- Empty part of the track, after the thumb -->
                         <RepeatButton
                             Name="PART_IncreaseButton"
                             Theme="{StaticResource PrototypeSliderHorizontalRepeatButton}"
                             Background="{TemplateBinding Background}"
                             Focusable="False"/>
                       </Track.IncreaseButton>
+                      <!-- The draggable thumb -->
                       <Thumb
                           Name="thumb"
                           Margin="0"
@@ -218,11 +232,14 @@
     <Style Selector="^:vertical">
       <Setter Property="Template">
         <ControlTemplate>
+          <!-- Validation error message for the whole control -->
           <DataValidationErrors>
+            <!-- Outer frame around the slider -->
             <Border
                 BorderBrush="{TemplateBinding BorderBrush}"
                 BorderThickness="{TemplateBinding BorderThickness}"
                 CornerRadius="{TemplateBinding CornerRadius}">
+                <!-- Layout root for the vertical slider -->
                 <Grid x:Name="SliderContainer"
                       Background="Transparent"
                       Margin="{TemplateBinding Padding}">
@@ -231,6 +248,7 @@
                       <Setter Property="ReservedSpace" Value="{Binding #PART_Track.Thumb.Bounds}" />
                     </Style>
                   </Grid.Styles>
+                  <!-- Columns: ticks left, track, ticks right -->
                   <Grid
                       x:Name="VerticalTemplate"
                       RowDefinitions="*,Auto,Auto">
@@ -240,6 +258,7 @@
                       <ColumnDefinition Width="Auto" />
                       <ColumnDefinition Width="{theme:SpacingXxl}" />
                     </Grid.ColumnDefinitions>
+                    <!-- Tick marks left of the track -->
                     <TickBar
                         Name="LeftTickBar"
                         Grid.RowSpan="3"
@@ -266,6 +285,7 @@
                         Placement="Right" 
                         IsVisible="False"
                         IsDirectionReversed="{TemplateBinding IsDirectionReversed}"/>
+                    <!-- The draggable region the thumb moves along -->
                     <Track
                         Name="PART_Track"
                         Grid.RowSpan="3"
@@ -277,6 +297,7 @@
                         IsDirectionReversed="{TemplateBinding IsDirectionReversed}"
                         Orientation="Vertical">
                       <Track.DecreaseButton>
+                        <!-- Filled part of the track, below the thumb -->
                         <RepeatButton
                             Name="PART_DecreaseButton"
                             Theme="{StaticResource PrototypeSliderVerticalRepeatButton}"
@@ -284,12 +305,14 @@
                             Focusable="False"/>
                       </Track.DecreaseButton>
                       <Track.IncreaseButton>
+                        <!-- Empty part of the track, above the thumb -->
                         <RepeatButton
                             Name="PART_IncreaseButton"
                             Background="{TemplateBinding Background}"
                             Theme="{StaticResource PrototypeSliderVerticalRepeatButton}"
                             Focusable="False"/>
                       </Track.IncreaseButton>
+                      <!-- The draggable thumb -->
                       <Thumb
                           Name="thumb"
                           Margin="0"

@@ -55,12 +55,14 @@
     <!-- Template -->
     <Setter Property="Template">
       <ControlTemplate>
+        <!-- Panel behind the tooltip -->
         <Border Name="PART_LayoutRoot"
                 BorderThickness="{TemplateBinding BorderThickness}"
                 Background="{TemplateBinding Background}"
                 BorderBrush="{TemplateBinding BorderBrush}"
                 Padding="{TemplateBinding Padding}"
                 CornerRadius="{TemplateBinding CornerRadius}">
+          <!-- The tooltip's message -->
           <ContentPresenter Name="PART_ContentPresenter"
                             MaxWidth="{TemplateBinding MaxWidth}"
                             Content="{TemplateBinding Content}"

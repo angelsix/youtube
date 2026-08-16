@@ -42,22 +42,28 @@
     <!-- Template -->
     <Setter Property="Template">
       <ControlTemplate>
+        <!-- Outer frame around the tabs and page -->
         <Border BorderBrush="{TemplateBinding BorderBrush}"
                 BorderThickness="{TemplateBinding BorderThickness}"
                 CornerRadius="{TemplateBinding CornerRadius}"
                 Background="{TemplateBinding Background}"
                 HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
                 VerticalAlignment="{TemplateBinding VerticalAlignment}">
+          <!-- Docks the tab strip against the page -->
           <DockPanel>
+            <!-- The row of tabs -->
             <ItemsPresenter Name="PART_ItemsPresenter"
                             ItemsPanel="{TemplateBinding ItemsPanel}"
                             DockPanel.Dock="{TemplateBinding TabStripPlacement}" />
+            <!-- Layout root cross-fading between pages -->
             <Panel ClipToBounds="True">
+              <!-- The outgoing page, during a transition -->
               <ContentPresenter Name="PART_SelectedContentHost2"
                                 Margin="{TemplateBinding Padding}"
                                 HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                                 VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
                                 IsVisible="False" />
+              <!-- The selected tab's page -->
               <ContentPresenter Name="PART_SelectedContentHost"
                                 Margin="{TemplateBinding Padding}"
                                 HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"

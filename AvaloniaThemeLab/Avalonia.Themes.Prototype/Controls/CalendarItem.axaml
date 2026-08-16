@@ -40,6 +40,7 @@
     <!-- Template -->
     <Setter Property="Template">
       <ControlTemplate>
+        <!-- The month or year name on the header button -->
         <ContentPresenter Name="PART_ContentPresenter"
                           Background="{TemplateBinding Background}"
                           BorderBrush="{TemplateBinding BorderBrush}"
@@ -96,6 +97,7 @@
     <!-- Template -->
     <Setter Property="Template">
       <ControlTemplate>
+        <!-- Outer frame around the whole calendar -->
         <Border BorderThickness="{TemplateBinding BorderThickness}"
                 Background="{TemplateBinding Background}"
                 BorderBrush="{TemplateBinding BorderBrush}"
@@ -108,36 +110,44 @@
               <RowDefinition Height="{theme:ControlHeightMd}" />
               <RowDefinition Height="*" />
             </Grid.RowDefinitions>
+            <!-- Header row: month name and the two arrows -->
             <Grid ColumnDefinitions="5*,*,*">
+              <!-- Switches between day, month and year views -->
               <Button Name="PART_HeaderButton"
                       Theme="{StaticResource PrototypeCalendarButton}"
                       Foreground="{TemplateBinding Foreground}"
                       HorizontalContentAlignment="Left" />
+              <!-- Goes to the previous month or year -->
               <Button Name="PART_PreviousButton"
                       Grid.Column="1"
                       Theme="{StaticResource PrototypeCalendarButton}"
                       Foreground="{TemplateBinding Foreground}"
                       HorizontalContentAlignment="Center">
+                <!-- The back arrow -->
                 <Path Name="PART_PreviousArrow"
                       Data="M 0,9 L 9,0 L 18,9"
                       HorizontalAlignment="Center"
                       VerticalAlignment="Center" />
               </Button>
+              <!-- Goes to the next month or year -->
               <Button Name="PART_NextButton"
                       Grid.Column="2"
                       Theme="{StaticResource PrototypeCalendarButton}"
                       Foreground="{TemplateBinding Foreground}"
                       HorizontalContentAlignment="Center">
+                <!-- The forward arrow -->
                 <Path Name="PART_NextArrow"
                       Data="M 0,0 L 9,9 L 18,0"
                       HorizontalAlignment="Center"
                       VerticalAlignment="Center" />
               </Button>
             </Grid>
+            <!-- Tint behind the day grid -->
             <Border Name="BackgroundLayer"
                     Background="{TemplateBinding BorderBrush}"
                     IsVisible="{Binding #PART_MonthView.IsVisible}"
                     Grid.Row="1" />
+            <!-- The grid of days for the month -->
             <Grid Name="PART_MonthView"
                   Grid.Row="1"
                   IsVisible="False" ColumnDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto">
@@ -152,6 +162,7 @@
                 <RowDefinition Height="Auto" />
               </Grid.RowDefinitions>
             </Grid>
+            <!-- The grid of months or years to pick from -->
             <Grid Name="PART_YearView"
                   Background="{TemplateBinding BorderBrush}"
                   Grid.Row="1"

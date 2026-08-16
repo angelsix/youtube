@@ -39,13 +39,16 @@
     <!-- Template -->
     <Setter Property="Template">
       <ControlTemplate TargetType="DataValidationErrors">
+        <!-- Layout root stacking the error under the control -->
         <DockPanel LastChildFill="True">
+          <!-- The error message shown below -->
           <ContentControl x:Name="InlineDataValidationContentControl"
                           Content="{Binding (DataValidationErrors.Errors)}"
                           ContentTemplate="{TemplateBinding ErrorTemplate}"
                           DataContext="{TemplateBinding Owner}"
                           DockPanel.Dock="Bottom"
                           IsVisible="{Binding (DataValidationErrors.HasErrors)}" />
+          <!-- The control being validated -->
           <ContentPresenter Name="PART_ContentPresenter"
                             Padding="{TemplateBinding Padding}"
                             Background="{TemplateBinding Background}"
@@ -85,12 +88,15 @@
     <!-- Template -->
     <Setter Property="Template">
       <ControlTemplate TargetType="DataValidationErrors">
+        <!-- Layout root placing the error beside the control -->
         <DockPanel LastChildFill="True">
+          <!-- The error message shown alongside -->
           <ContentControl Content="{Binding (DataValidationErrors.Errors)}"
                           ContentTemplate="{TemplateBinding ErrorTemplate}"
                           DataContext="{TemplateBinding Owner}"
                           DockPanel.Dock="Right"
                           IsVisible="{Binding (DataValidationErrors.HasErrors)}" />
+          <!-- The control being validated -->
           <ContentPresenter Name="PART_ContentPresenter"
                             Padding="{TemplateBinding Padding}"
                             Background="{TemplateBinding Background}"

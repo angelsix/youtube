@@ -28,6 +28,7 @@
     <!-- Template -->
     <Setter Property="Template">
       <ControlTemplate>
+        <!-- Layout root docking the bars around the content -->
         <DockPanel>
           <!-- Visibility managed in code-behind -->
           <ContentPresenter Name="PART_TopCommandBar"
@@ -41,6 +42,7 @@
                             HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                             IsVisible="False" />
 
+          <!-- The page's content -->
           <ContentPresenter Name="PART_ContentPresenter"
                             HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                             VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"

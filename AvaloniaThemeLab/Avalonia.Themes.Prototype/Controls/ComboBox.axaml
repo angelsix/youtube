@@ -81,8 +81,11 @@
     <!-- Template -->
     <Setter Property="Template">
       <ControlTemplate>
+        <!-- Validation error message for the whole control -->
         <DataValidationErrors>
+          <!-- Layout root: value on the left, arrow right -->
           <Grid ColumnDefinitions="*,32">
+            <!-- Outer frame around the closed box -->
             <Border x:Name="Background"
                     Grid.Column="0"
                     Grid.ColumnSpan="2"
@@ -90,12 +93,14 @@
                     BorderBrush="{TemplateBinding BorderBrush}"
                     BorderThickness="{TemplateBinding BorderThickness}"
                     CornerRadius="{TemplateBinding CornerRadius}" />
+            <!-- Tint drawn over the frame while open -->
             <Border x:Name="HighlightBackground"
                     Grid.Column="0"
                     Grid.ColumnSpan="2"
                     BorderThickness="{TemplateBinding BorderThickness}"
                     CornerRadius="{TemplateBinding CornerRadius}"
                     IsVisible="False" />
+            <!-- Prompt shown when nothing is selected -->
             <TextBlock x:Name="PlaceholderTextBlock"
                        Grid.Column="0"
                        HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
@@ -110,6 +115,7 @@
                 </MultiBinding>
               </TextBlock.IsVisible>
             </TextBlock>
+            <!-- The selected item, when not editable -->
             <ContentControl x:Name="ContentPresenter"
                             Content="{TemplateBinding SelectionBoxItem}"
                             Grid.Column="0"
@@ -119,6 +125,7 @@
                             VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
                             IsVisible="{TemplateBinding IsEditable, Converter={x:Static BoolConverters.Not}}" />
 
+            <!-- The editable text, when editable -->
             <TextBox Name="PART_EditableTextBox"
                      Grid.Column="0"
                      Padding="{TemplateBinding Padding}"
@@ -135,12 +142,14 @@
               </TextBox.Resources>
             </TextBox>
 
+            <!-- Invisible hit area over the arrow -->
             <Border x:Name="DropDownOverlay"
                     Grid.Column="1"
                     Background="Transparent"
                     IsVisible="False"
                     HorizontalAlignment="Right" />
 
+            <!-- The arrow marking this as a dropdown -->
             <PathIcon x:Name="DropDownGlyph"
                       Grid.Column="1"
                       UseLayoutRounding="False"
@@ -148,6 +157,7 @@
                       HorizontalAlignment="Right"
                       VerticalAlignment="Center" />
 
+            <!-- The list shown when the box is open -->
             <Popup Name="PART_Popup"
                    WindowManagerAddShadowHint="False"
                    IsOpen="{TemplateBinding IsDropDownOpen, Mode=TwoWay}"
@@ -156,12 +166,15 @@
                    PlacementTarget="Background"
                    IsLightDismissEnabled="True"
                    InheritsTransform="True">
+              <!-- Panel behind the dropdown list -->
               <Border x:Name="PopupBorder"
                       HorizontalAlignment="Stretch">
+                <!-- Scrolls the list when it overflows -->
                 <ScrollViewer HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
                               IsScrollChainingEnabled="False"
                               VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}"
                               IsDeferredScrollingEnabled="{TemplateBinding (ScrollViewer.IsDeferredScrollingEnabled)}">
+                  <!-- The selectable items -->
                   <ItemsPresenter Name="PART_ItemsPresenter"
                                   ItemsPanel="{TemplateBinding ItemsPanel}" />
                 </ScrollViewer>

@@ -40,11 +40,14 @@
     <!-- Template -->
     <Setter Property="Template">
       <ControlTemplate>
+        <!-- Layout root stacking the fill and its outline -->
         <Panel>
+          <!-- Filled background of the day cell -->
           <Border Name="Root"
                   Background="{TemplateBinding Background}"
                   BorderThickness="0"
                   ClipToBounds="True">
+            <!-- The day number -->
             <ContentPresenter Name="PART_ContentPresenter"
                               Content="{TemplateBinding Content}"
                               ContentTemplate="{TemplateBinding ContentTemplate}"
@@ -52,6 +55,7 @@
                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                               Margin="{TemplateBinding Padding}" />
           </Border>
+          <!-- Outline drawn over the fill, for selection and hover -->
           <Border Name="Border"
                   BorderBrush="{TemplateBinding BorderBrush}" />
         </Panel>

@@ -8,15 +8,19 @@
     <Setter Property="Margin" Value="0 0" />
     <Setter Property="Template">
       <ControlTemplate>
+        <!-- Stacks notifications toward the chosen corner -->
         <ReversibleStackPanel Name="PART_Items">
           <ReversibleStackPanel.DataTemplates>
             <DataTemplate DataType="INotification">
+              <!-- One notification: its title above its message -->
               <StackPanel
                   Margin="{theme:Edges All={theme:SpacingXxl}}"
                   Spacing="{theme:SpacingXl}"
                   TextElement.Foreground="{theme:OnSurfaceBrush}">
+                <!-- The notification's title -->
                 <TextBlock Text="{Binding Title}"
                            FontWeight="{theme:FontWeightSemiBold}" />
+                <!-- The notification's message -->
                 <TextBlock MaxHeight="80"
                            Text="{Binding Message}"
                            TextWrapping="Wrap"
@@ -24,6 +28,7 @@
               </StackPanel>
             </DataTemplate>
             <DataTemplate DataType="x:String">
+              <!-- A plain text notification -->
               <TextBlock Text="{Binding}"
                          Margin="{theme:Edges All={theme:SpacingXxl}}"
                          Foreground="{theme:OnSurfaceBrush}" />

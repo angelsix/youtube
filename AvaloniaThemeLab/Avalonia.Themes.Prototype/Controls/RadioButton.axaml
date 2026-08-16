@@ -38,32 +38,39 @@
     <!-- Template -->
     <Setter Property="Template">
       <ControlTemplate TargetType="RadioButton">
+        <!-- Outer frame around the button and label -->
         <Border
             x:Name="RootBorder"
             Background="{TemplateBinding Background}"
             BorderBrush="{TemplateBinding BorderBrush}"
             BorderThickness="{TemplateBinding BorderThickness}"
             CornerRadius="{TemplateBinding CornerRadius}">
+          <!-- Places the circle beside its label -->
           <Grid ColumnDefinitions="Auto,*">
+            <!-- Layout root stacking the circle's three rings -->
             <Grid
                 x:Name="PART_CheckBoxGrid"
                 VerticalAlignment="Top">
 
+              <!-- The empty circle when unselected -->
               <Ellipse
                   x:Name="OuterEllipse"
                   UseLayoutRounding="False" />
 
+              <!-- The filled ring shown when selected -->
               <Ellipse
                   x:Name="CheckOuterEllipse"
                   Opacity="0"
                   UseLayoutRounding="False" />
 
+              <!-- The dot shown when selected -->
               <Ellipse
                   x:Name="CheckGlyph"
                   Opacity="0"
                   UseLayoutRounding="False" />
             </Grid>
 
+            <!-- The radio button's label -->
             <ContentPresenter
                 x:Name="PART_ContentPresenter"
                 Grid.Column="1"

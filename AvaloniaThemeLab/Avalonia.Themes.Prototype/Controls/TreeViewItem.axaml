@@ -33,6 +33,7 @@
     <Setter Property="Height" Value="{theme:FontSizeSm}" />
     <Setter Property="Template">
       <ControlTemplate>
+        <!-- The chevron pointing at the expanded direction -->
         <Border Background="Transparent"
                 Width="{TemplateBinding Width}"
                 Height="{TemplateBinding Height}"
@@ -68,7 +69,9 @@
     <!-- Template -->
     <Setter Property="Template">
       <ControlTemplate>
+        <!-- Layout root stacking children under the item -->
         <StackPanel>
+          <!-- Outer frame around the item row -->
           <Border Name="PART_LayoutRoot"
                   Classes="TreeViewItemLayoutRoot"
                   Focusable="True"
@@ -78,14 +81,18 @@
                   CornerRadius="{TemplateBinding CornerRadius}"
                   MinHeight="{TemplateBinding MinHeight}"
                   TemplatedControl.IsTemplateFocusTarget="True">
+            <!-- Places the chevron left of the item's label -->
             <Grid Name="PART_Header"
                   ColumnDefinitions="Auto, *">
+              <!-- Indented area holding the chevron -->
               <Panel Name="PART_ExpandCollapseChevronContainer">
+                <!-- Expands and collapses this item's children -->
                 <ToggleButton Name="PART_ExpandCollapseChevron"
                               Theme="{StaticResource PrototypeTreeViewExpandCollapseChevron}"
                               Focusable="False"
                               IsChecked="{TemplateBinding IsExpanded, Mode=TwoWay}" />
               </Panel>
+              <!-- The item's label -->
               <ContentPresenter Name="PART_HeaderPresenter"
                                 Grid.Column="1"
                                 Focusable="False"
@@ -97,6 +104,7 @@
                                 Margin="{TemplateBinding Padding}" />
             </Grid>
           </Border>
+          <!-- This item's child items -->
           <ItemsPresenter Name="PART_ItemsPresenter"
                           IsVisible="{TemplateBinding IsExpanded}"
                           ItemsPanel="{TemplateBinding ItemsPanel}" />

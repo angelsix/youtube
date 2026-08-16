@@ -17,11 +17,17 @@
     <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
     <Setter Property="Template">
       <ControlTemplate>
+        <!-- Layout root stacking the surface behind the content -->
         <Panel>
+          <!-- Opaque fill used when transparency is unavailable -->
           <Border Name="PART_TransparencyFallback" IsHitTestVisible="False" />
+          <!-- The window surface -->
           <Border Background="{TemplateBinding Background}" IsHitTestVisible="False" />
+          <!-- Reserves space for the system title bar -->
           <Panel Background="Transparent" Margin="{TemplateBinding WindowDecorationMargin}" />
+          <!-- Hosts overlays such as tooltips and adorners -->
           <VisualLayerManager Name="PART_VisualLayerManager">
+            <!-- The window's content -->
             <ContentPresenter Name="PART_ContentPresenter"
                               ContentTemplate="{TemplateBinding ContentTemplate}"
                               Content="{TemplateBinding Content}"

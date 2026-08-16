@@ -33,30 +33,37 @@
     <Style Selector="^:left">
       <Setter Property="Template">
         <ControlTemplate>
+          <!-- Layout root: pane left, content right -->
           <Grid Name="Container" Background="{TemplateBinding Background}">
             <Grid.ColumnDefinitions>
               <ColumnDefinition Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.PaneColumnGridLength}" />
               <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
+            <!-- The sliding pane down the left edge -->
             <Panel Name="PART_PaneRoot"
                    Background="{TemplateBinding PaneBackground}"
                    ClipToBounds="True"
                    HorizontalAlignment="Left"
                    ZIndex="100">
+              <!-- The pane's content, usually navigation -->
               <ContentPresenter x:Name="PART_PanePresenter"
                                 Content="{TemplateBinding Pane}"
                                 ContentTemplate="{TemplateBinding PaneTemplate}" />
+              <!-- Edge line, visible only in high contrast -->
               <Rectangle Name="HCPaneBorder"
                          Fill="Transparent"
                          Width="1"
                          HorizontalAlignment="Right"  />
             </Panel>
 
+            <!-- Layout root stacking the dismiss layer over content -->
             <Panel Name="ContentRoot" Grid.Column="1">
+              <!-- The main content beside the pane -->
               <ContentPresenter x:Name="PART_ContentPresenter"
                                 Content="{TemplateBinding Content}"
                                 ContentTemplate="{TemplateBinding ContentTemplate}" />
+              <!-- Catches clicks to close an overlaying pane -->
               <Rectangle Name="LightDismissLayer"
                          Fill="Transparent"
                          IsVisible="False"/>
@@ -118,28 +125,35 @@
     <Style Selector="^:right">
       <Setter Property="Template">
         <ControlTemplate>
+          <!-- Layout root: content left, pane right -->
           <Grid Name="Container" Background="{TemplateBinding Background}">
             <Grid.ColumnDefinitions>
               <ColumnDefinition Width="*" />
               <ColumnDefinition Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.PaneColumnGridLength}" />
             </Grid.ColumnDefinitions>
 
+            <!-- The sliding pane down the right edge -->
             <Panel Name="PART_PaneRoot" Background="{TemplateBinding PaneBackground}"
                    ClipToBounds="True"
                    HorizontalAlignment="Right"
                    ZIndex="100">
+              <!-- The pane's content, usually navigation -->
               <ContentPresenter x:Name="PART_PanePresenter"
                                 Content="{TemplateBinding Pane}"
                                 ContentTemplate="{TemplateBinding PaneTemplate}"/>
+              <!-- Edge line, visible only in high contrast -->
               <Rectangle Name="HCPaneBorder"
                          Fill="Transparent"
                          Width="1" HorizontalAlignment="Left"  />
             </Panel>
 
+            <!-- Layout root stacking the dismiss layer over content -->
             <Panel Name="ContentRoot" Grid.Column="0">
+              <!-- The main content beside the pane -->
               <ContentPresenter x:Name="PART_ContentPresenter"
                                 Content="{TemplateBinding Content}"
                                 ContentTemplate="{TemplateBinding ContentTemplate}" />
+              <!-- Catches clicks to close an overlaying pane -->
               <Rectangle Name="LightDismissLayer" Fill="Transparent" IsVisible="False"/>
             </Panel>
 
@@ -200,30 +214,37 @@
     <Style Selector="^:top">
       <Setter Property="Template">
         <ControlTemplate>
+          <!-- Layout root: pane above, content below -->
           <Grid Name="Container" Background="{TemplateBinding Background}">
             <Grid.RowDefinitions>
               <RowDefinition Height="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.PaneRowGridLength}" />
               <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
+            <!-- The sliding pane along the top edge -->
             <Panel Name="PART_PaneRoot"
                    Background="{TemplateBinding PaneBackground}"
                    ClipToBounds="True"
                    VerticalAlignment="Top"
                    ZIndex="100">
+              <!-- The pane's content, usually navigation -->
               <ContentPresenter x:Name="PART_PanePresenter"
                                 Content="{TemplateBinding Pane}"
                                 ContentTemplate="{TemplateBinding PaneTemplate}" />
+              <!-- Edge line, visible only in high contrast -->
               <Rectangle Name="HCPaneBorder"
                          Fill="Transparent"
                          Height="1"
                          VerticalAlignment="Bottom"  />
             </Panel>
 
+            <!-- Layout root stacking the dismiss layer over content -->
             <Panel Name="ContentRoot" Grid.Row="1">
+              <!-- The main content below the pane -->
               <ContentPresenter x:Name="PART_ContentPresenter"
                                 Content="{TemplateBinding Content}"
                                 ContentTemplate="{TemplateBinding ContentTemplate}" />
+              <!-- Catches clicks to close an overlaying pane -->
               <Rectangle Name="LightDismissLayer"
                          Fill="Transparent"
                          IsVisible="False"/>
@@ -286,28 +307,35 @@
     <Style Selector="^:bottom">
       <Setter Property="Template">
         <ControlTemplate>
+          <!-- Layout root: content above, pane below -->
           <Grid Name="Container" Background="{TemplateBinding Background}">
             <Grid.RowDefinitions>
               <RowDefinition Height="*" />
               <RowDefinition Height="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.PaneRowGridLength}" />
             </Grid.RowDefinitions>
 
+            <!-- The sliding pane along the bottom edge -->
             <Panel Name="PART_PaneRoot" Background="{TemplateBinding PaneBackground}"
                    ClipToBounds="True"
                    VerticalAlignment="Bottom"
                    ZIndex="100">
+              <!-- The pane's content, usually navigation -->
               <ContentPresenter x:Name="PART_PanePresenter"
                                 Content="{TemplateBinding Pane}"
                                 ContentTemplate="{TemplateBinding PaneTemplate}"/>
+              <!-- Edge line, visible only in high contrast -->
               <Rectangle Name="HCPaneBorder"
                          Fill="Transparent"
                          Height="1" VerticalAlignment="Top"  />
             </Panel>
 
+            <!-- Layout root stacking the dismiss layer over content -->
             <Panel Name="ContentRoot" Grid.Row="0">
+              <!-- The main content above the pane -->
               <ContentPresenter x:Name="PART_ContentPresenter"
                                 Content="{TemplateBinding Content}"
                                 ContentTemplate="{TemplateBinding ContentTemplate}" />
+              <!-- Catches clicks to close an overlaying pane -->
               <Rectangle Name="LightDismissLayer" Fill="Transparent" IsVisible="False"/>
             </Panel>
 

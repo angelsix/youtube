@@ -59,15 +59,19 @@
     <!-- Template -->
     <Setter Property="Template">
       <ControlTemplate>
+        <!-- Layout root stacking the button and accent outline -->
         <Grid>
+          <!-- Outer frame around the button -->
           <Border x:Name="RootBorder"
                   Background="{TemplateBinding Background}"
                   BorderBrush="{TemplateBinding BorderBrush}"
                   BorderThickness="{TemplateBinding BorderThickness}"
                   CornerRadius="{TemplateBinding CornerRadius}"
                   ClipToBounds="True">
+            <!-- Places the arrow right of the label -->
             <Grid ColumnDefinitions="*,Auto">
 
+              <!-- The button's label -->
               <ContentPresenter x:Name="PART_ContentPresenter"
                                 Grid.Column="0"
                                 Content="{TemplateBinding Content}"
@@ -76,6 +80,7 @@
                                 HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                                 VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
 
+              <!-- The arrow marking this as a dropdown -->
               <PathIcon x:Name="DropDownGlyph"
                         Grid.Column="1"
                         UseLayoutRounding="False"

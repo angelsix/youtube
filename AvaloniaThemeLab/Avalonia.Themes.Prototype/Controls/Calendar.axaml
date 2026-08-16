@@ -43,10 +43,12 @@
     <!-- Template -->
     <Setter Property="Template">
       <ControlTemplate>
+        <!-- Layout root for the calendar -->
         <StackPanel
             Name="PART_Root"
             HorizontalAlignment="Center"
             ClipToBounds="True">
+          <!-- The month or year grid, with its header -->
           <CalendarItem
               Name="PART_CalendarItem"
               Background="{TemplateBinding Background}"
