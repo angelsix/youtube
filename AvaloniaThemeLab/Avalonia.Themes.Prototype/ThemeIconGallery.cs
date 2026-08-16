@@ -82,12 +82,21 @@ public class ThemeIconGallery
     public virtual string ArrowDownGlyph => "M 11 0 L 11 19 L 5 13 L 3 15 L 12 23 L 21 15 L 19 13 L 13 19 L 13 0 Z";
 
     // ── More / ellipsis ─────────────────────────────────────────────
+    // Three dots, each a full circle of four quarter arcs. The earlier form closed each
+    // dot onto a point a hundredth away from its start ("A 3 3 0 1 1 5 12.01"), which
+    // Avalonia's parser collapses — see the note on ErrorGlyph.
 
     /// <summary>Horizontal ellipsis (24×24 viewBox).</summary>
-    public virtual string MoreHorizontalGlyph => "M 5 12 A 3 3 0 1 1 5 12.01 M 12 12 A 3 3 0 1 1 12 12.01 M 19 12 A 3 3 0 1 1 19 12.01";
+    public virtual string MoreHorizontalGlyph =>
+        "M 5 9 A 3 3 0 0 1 8 12 A 3 3 0 0 1 5 15 A 3 3 0 0 1 2 12 A 3 3 0 0 1 5 9 Z " +
+        "M 12 9 A 3 3 0 0 1 15 12 A 3 3 0 0 1 12 15 A 3 3 0 0 1 9 12 A 3 3 0 0 1 12 9 Z " +
+        "M 19 9 A 3 3 0 0 1 22 12 A 3 3 0 0 1 19 15 A 3 3 0 0 1 16 12 A 3 3 0 0 1 19 9 Z";
 
     /// <summary>Vertical ellipsis (24×24 viewBox).</summary>
-    public virtual string MoreVerticalGlyph => "M 12 5 A 3 3 0 1 1 12 5.01 M 12 12 A 3 3 0 1 1 12 12.01 M 12 19 A 3 3 0 1 1 12 19.01";
+    public virtual string MoreVerticalGlyph =>
+        "M 12 2 A 3 3 0 0 1 15 5 A 3 3 0 0 1 12 8 A 3 3 0 0 1 9 5 A 3 3 0 0 1 12 2 Z " +
+        "M 12 9 A 3 3 0 0 1 15 12 A 3 3 0 0 1 12 15 A 3 3 0 0 1 9 12 A 3 3 0 0 1 12 9 Z " +
+        "M 12 16 A 3 3 0 0 1 15 19 A 3 3 0 0 1 12 22 A 3 3 0 0 1 9 19 A 3 3 0 0 1 12 16 Z";
 
     // ── Plus / Add ──────────────────────────────────────────────────
 
