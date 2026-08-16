@@ -15,7 +15,7 @@
         <ButtonSpinner Content="Right spinner" />
         <ButtonSpinner ButtonSpinnerLocation="Left"
                        Content="Left spinner" />
-        <ButtonSpinner  Classes="accent"
+        <ButtonSpinner Classes="accent"
                         Content="Right Border" />
         <ButtonSpinner ButtonSpinnerLocation="Left" Classes="accent"
                        Content="Left Border" />
@@ -48,6 +48,7 @@
     <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
     <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
+    <!-- Theme Exception: Stretch required to make spinner button hover effects full height -->
     <Setter Property="VerticalAlignment" Value="Stretch" />
     <Setter Property="Background" Value="Transparent" />
 
@@ -57,6 +58,24 @@
       <Transitions>
         <TransformOperationsTransition Property="RenderTransform" Duration="{theme:AnimationFastMs}" />
       </Transitions>
+    </Setter>
+
+    <!-- Template: deliberately not BasedOn the RepeatButton theme, whose state backgrounds and MinWidth
+         do not apply to a spinner chevron. Without this the buttons fall back to Avalonia's built-in template. -->
+    <Setter Property="Template">
+      <ControlTemplate>
+        <ContentPresenter Name="PART_ContentPresenter"
+                          Background="{TemplateBinding Background}"
+                          BorderBrush="{TemplateBinding BorderBrush}"
+                          BorderThickness="{TemplateBinding BorderThickness}"
+                          CornerRadius="{TemplateBinding CornerRadius}"
+                          Content="{TemplateBinding Content}"
+                          ContentTemplate="{TemplateBinding ContentTemplate}"
+                          Foreground="{TemplateBinding Foreground}"
+                          Padding="{TemplateBinding Padding}"
+                          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                          VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+      </ControlTemplate>
     </Setter>
 
     <!-- Pressed state (state colours live on the ButtonSpinner theme, which knows whether it is accent) -->

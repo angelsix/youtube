@@ -33,33 +33,45 @@
       </ControlTemplate>
     </Setter>
 
+    <!-- Theme Exception: :topleft means exactly the top-left corner — the literals are the placement itself,
+         not a theme layout choice. Applies to both alignment setters in this style. Luke to validate reason -->
     <Style Selector="^:topleft /template/ ReversibleStackPanel#PART_Items">
       <Setter Property="VerticalAlignment" Value="Top" />
       <Setter Property="HorizontalAlignment" Value="Left" />
     </Style>
 
+    <!-- Theme Exception: :topright means exactly the top-right corner — the literals are the placement itself,
+         not a theme layout choice. Applies to both alignment setters in this style. Luke to validate reason -->
     <Style Selector="^:topright /template/ ReversibleStackPanel#PART_Items">
       <Setter Property="VerticalAlignment" Value="Top" />
       <Setter Property="HorizontalAlignment" Value="Right" />
     </Style>
 
+    <!-- Theme Exception: :topcenter means exactly the top-centre corner — the literals are the placement itself,
+         not a theme layout choice. Applies to both alignment setters in this style. Luke to validate reason -->
     <Style Selector="^:topcenter /template/ ReversibleStackPanel#PART_Items">
       <Setter Property="VerticalAlignment" Value="Top" />
       <Setter Property="HorizontalAlignment" Value="Center" />
     </Style>
 
+    <!-- Theme Exception: :bottomleft means exactly the bottom-left corner — the literals are the placement itself,
+         not a theme layout choice. Applies to both alignment setters in this style. Luke to validate reason -->
     <Style Selector="^:bottomleft /template/ ReversibleStackPanel#PART_Items">
       <Setter Property="ReverseOrder" Value="True" />
       <Setter Property="VerticalAlignment" Value="Bottom" />
       <Setter Property="HorizontalAlignment" Value="Left" />
     </Style>
 
+    <!-- Theme Exception: :bottomright means exactly the bottom-right corner — the literals are the placement itself,
+         not a theme layout choice. Applies to both alignment setters in this style. Luke to validate reason -->
     <Style Selector="^:bottomright /template/ ReversibleStackPanel#PART_Items">
       <Setter Property="ReverseOrder" Value="True" />
       <Setter Property="VerticalAlignment" Value="Bottom" />
       <Setter Property="HorizontalAlignment" Value="Right" />
     </Style>
 
+    <!-- Theme Exception: :bottomcenter means exactly the bottom-centre corner — the literals are the placement itself,
+         not a theme layout choice. Applies to both alignment setters in this style. Luke to validate reason -->
     <Style Selector="^:bottomcenter /template/ ReversibleStackPanel#PART_Items">
       <Setter Property="ReverseOrder" Value="True" />
       <Setter Property="VerticalAlignment" Value="Bottom" />

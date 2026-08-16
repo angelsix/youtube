@@ -159,12 +159,12 @@
 
     <!-- Placement-specific pipe positioning (structural: indicator aligns to tab strip edge) -->
     <Style Selector="^[TabStripPlacement=Top] /template/ ContentPresenter#PART_SelectedPipe">
-      <!-- Intrinsic: pipe sits at bottom of tab when tabs are on top -->
+      <!-- Theme Exception: the selected pipe sits at the bottom edge of the tab when the strip is on top; the literal is the placement, not a theme layout choice. Luke to validate reason -->
       <Setter Property="VerticalAlignment" Value="Bottom" />
       <Setter Property="Height" Value="{theme:SpacingSm}" />
     </Style>
     <Style Selector="^[TabStripPlacement=Bottom] /template/ ContentPresenter#PART_SelectedPipe">
-      <!-- Intrinsic: pipe sits at top of tab when tabs are on bottom -->
+      <!-- Theme Exception: the selected pipe sits at the top edge of the tab when the strip is on the bottom; the literal is the placement, not a theme layout choice. Luke to validate reason -->
       <Setter Property="VerticalAlignment" Value="Top" />
       <Setter Property="Height" Value="{theme:SpacingSm}" />
     </Style>
@@ -180,7 +180,7 @@
       </Setter>
     </Style>
     <Style Selector="^[TabStripPlacement=Right] /template/ ContentPresenter#PART_SelectedPipe">
-      <!-- Intrinsic: pipe sits at right edge when tabs are on right -->
+      <!-- Theme Exception: the selected pipe sits at the right edge when the strip is on the right; the literal is the placement, not a theme layout choice. Luke to validate reason -->
       <Setter Property="HorizontalAlignment" Value="Right" />
       <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
     </Style>
@@ -196,7 +196,7 @@
       </Setter>
     </Style>
     <Style Selector="^[TabStripPlacement=Left] /template/ ContentPresenter#PART_SelectedPipe">
-      <!-- Intrinsic: pipe sits at left edge when tabs are on left -->
+      <!-- Theme Exception: the selected pipe sits at the left edge when the strip is on the left; the literal is the placement, not a theme layout choice. Luke to validate reason -->
       <Setter Property="HorizontalAlignment" Value="Left" />
       <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
     </Style>

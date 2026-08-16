@@ -52,6 +52,8 @@ Some properties that are always part of the common setter checklist (Rule 4) do 
 
 **Statement:** Every colour, font family, font size, and font weight on a UI surface flows from a theme token. Hard-coded values are **not** the default — they are restricted to a small, closed list of exemptions. When you encounter a hard-coded colour or font value, replace it with the most suitable theme token. Do not preserve the exact pixel value; pick the token that matches the control's visual role.
 
+> **Before you fix one, check the line above it.** A hard-coded value preceded by a `Theme Exception:` comment is a deliberate, reviewed deviation and must be left exactly as it is — see **Rule 14**.
+
 ### Violations — These Are Never Allowed on UI Elements
 
 The following patterns are **explicit violations**. If you see any of them on a UI element (not icon artwork), it must be fixed:
@@ -317,7 +319,7 @@ This order ensures that more specific styles (accent) come after the defaults th
 
 > **Note:** The correct token is whichever the theme defines for that role. If the theme's `ControlHorizontalContentAlignment` is `Center`, then binding to it produces `Center`. If a future theme wants `Left`, every control picks it up automatically. The point is the *binding*, not the literal value.
 
-**Exception — genuinely intrinsic alignment:** A small number of controls have alignment that is part of their identity, not the theme's choice. Examples: a Calendar navigation arrow button that must be centre-aligned because it is an icon button, or a toggle that must stretch to fill its container. These are rare and should be documented with a comment explaining why the theme token does not apply.
+**Exception — genuinely intrinsic alignment:** A small number of controls have alignment that is part of their identity, not the theme's choice. Examples: a Calendar navigation arrow button that must be centre-aligned because it is an icon button, a toggle that must stretch to fill its container, or a positional class like `TopLeft` on a notification host. These must be marked with a `Theme Exception:` comment giving the reason — see **Rule 14**. An unmarked literal is a violation; a marked one is not, and must not be "fixed".
 
 **Reference violation:** `AutoCompleteBox.axaml` lines 124–125 set `VerticalContentAlignment="Center"` and `HorizontalContentAlignment="Left"` inside a style within the ControlTheme, where the theme tokens `{theme:ControlVerticalContentAlignment}` and `{theme:ControlHorizontalContentAlignment}` exist and should be used instead.
 
@@ -358,6 +360,33 @@ Note the shape of the trap: the wrong fix (push the colour down from each contai
 **How to test:** Put the control inside a container that sets the property to something obviously different (`<Border Foreground="Red">`), or inside an `.accent` container. If the control does not follow, something in its ancestry is pinning the value.
 
 **Related:** this is the same class of failure as Rule 2 — a value assigned at a priority the outside world cannot reach. Rule 2 is about `{TemplateBinding}` being wrapped so it becomes `LocalValue`; this rule is about a setter blocking `Inherited`. Both are "the override silently does nothing" bugs, and neither is visible in a green build.
+
+---
+
+## Rule 14: `Theme Exception:` Marks a Deliberate Deviation — Never "Fix" What It Guards
+
+**Statement:** A comment whose text begins with exactly `Theme Exception:` marks the line below it as a **known, reviewed deviation** from a rule in this document. Do not change that value, do not replace it with a theme token, do not delete the marker. This overrides every other rule here.
+
+The marker must state *why* in the same comment. A bare `Theme Exception:` with no reason is not a valid exception — it is a hard-coded value wearing a label, and should be challenged.
+
+```xml
+<!-- Theme Exception: Stretch required to make spinner button hover effects full height -->
+<Setter Property="VerticalAlignment" Value="Stretch" />
+```
+
+**Justification:** Most rules here are pattern-matchable — "an alignment setter with a bare string is a violation" (Rule 12), "a `Foreground` setter restating the ambient value is a violation" (Rule 13). That is exactly what makes them enforceable, and exactly what makes them dangerous: a reader or an agent sweeping the library will find a legitimate deviation, recognise the pattern, and "correct" it. The value looks wrong in isolation and is right in context. Without a marker the reason lives only in whoever's head wrote it, and the fix gets silently undone — usually with a green build, because these are visual regressions.
+
+The marker converts an invisible intention into a checkable fact. It also makes the deviations auditable: `grep -rn "Theme Exception" Controls/` lists every place the theme knowingly departs from its own rules, which is a far more useful review artefact than a clean-looking file that quietly disagrees with the docs.
+
+**Scope:** a marker guards the **single setter or element immediately below it**. To cover a block, either mark each line or say so explicitly in the comment (`Theme Exception: ... — applies to all four setters in this style`).
+
+**If you believe an exception is wrong:** say so, don't edit it. Raise it with the reason you disagree. The marker means someone hit a real problem and chose this deliberately; the burden is on the challenger to show the original reason no longer holds.
+
+**When writing a new one:** exhaust the themed route first. An exception is for values that are structural or intrinsic to the control's mechanics — a full-height hit area, a positional class like `TopLeft`, an indeterminate progress bar's travel — not for "the token didn't look quite right", which is a request to change the token.
+
+**Tooling note:** `guard xaml analyze` does not currently check the alignment-token or inherited-property rules, so nothing enforces those automatically today; the marker binds readers and agents. Any check added for them later must skip a setter preceded by a `Theme Exception:` comment, or it will produce exactly the false positives this rule exists to prevent.
+
+**Reference example:** `Controls/ButtonSpinner.axaml` — `VerticalAlignment="Stretch"` on the spinner's RepeatButton sub-theme. Rule 12 would map this to `{theme:ContainerVerticalAlignment}`; the literal is required so the chevron buttons fill the control's height and their hover fills the full edge-to-edge area rather than a centred band.
 
 ---
 
