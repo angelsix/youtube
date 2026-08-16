@@ -4,6 +4,7 @@
                     xmlns:collections="using:System.Collections"
                     xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+                    xmlns:icons="using:AngelSix.ThemeEngine.Icons"
                     x:ClassModifier="internal">
   <Design.PreviewWith>
     <Border Padding="20">
@@ -12,19 +13,24 @@
       </Border.Styles>
 
       <StackPanel Spacing="20">
+        <Label Content="The message sits below; the field keeps its own width" />
+        <TextBox Text="Sample" />
         <TextBox Text="Sample">
           <DataValidationErrors.Error>
-            <sys:Exception />
+            <sys:Exception>
+              <x:Arguments>
+                <x:String>Value is not valid</x:String>
+              </x:Arguments>
+            </sys:Exception>
           </DataValidationErrors.Error>
         </TextBox>
-        <TextBox Text="Sample">
-          <TextBox.Styles>
-            <Style Selector="DataValidationErrors">
-              <Setter Property="Theme" Value="{DynamicResource TooltipDataValidationErrors}" />
-            </Style>
-          </TextBox.Styles>
+        <TextBox Text="Sample" Width="300">
           <DataValidationErrors.Error>
-            <sys:Exception />
+            <sys:Exception>
+              <x:Arguments>
+                <x:String>A much longer validation message that would otherwise stretch the control well beyond its natural width</x:String>
+              </x:Arguments>
+            </sys:Exception>
           </DataValidationErrors.Error>
         </TextBox>
       </StackPanel>
@@ -39,62 +45,16 @@
     <!-- Template -->
     <Setter Property="Template">
       <ControlTemplate TargetType="DataValidationErrors">
-        <!-- Layout root stacking the error under the control -->
+        <!-- Layout root stacking the message under the control -->
         <DockPanel LastChildFill="True">
-          <!-- The error message shown below -->
-          <ContentControl x:Name="InlineDataValidationContentControl"
+          <!-- The error message, shown below while the value is invalid.
+               Width tracks the control so a long message wraps instead of widening it. -->
+          <ContentControl Name="PART_ErrorIndicator"
+                          DockPanel.Dock="Bottom"
+                          Width="{Binding #PART_ContentPresenter.Bounds.Width}"
                           Content="{Binding (DataValidationErrors.Errors)}"
                           ContentTemplate="{TemplateBinding ErrorTemplate}"
                           DataContext="{TemplateBinding Owner}"
-                          DockPanel.Dock="Bottom"
-                          IsVisible="{Binding (DataValidationErrors.HasErrors)}" />
-          <!-- The control being validated -->
-          <ContentPresenter Name="PART_ContentPresenter"
-                            Padding="{TemplateBinding Padding}"
-                            Background="{TemplateBinding Background}"
-                            BorderThickness="{TemplateBinding BorderThickness}"
-                            Content="{TemplateBinding Content}"
-                            ContentTemplate="{TemplateBinding ContentTemplate}"
-                            CornerRadius="{TemplateBinding CornerRadius}" />
-        </DockPanel>
-      </ControlTemplate>
-    </Setter>
-
-    <!-- Template element styles -->
-    <Style Selector="^ /template/ ContentControl#InlineDataValidationContentControl">
-      <Setter Property="Margin" Value="{theme:Edges Top={theme:SpacingMd}}" />
-    </Style>
-    <Setter Property="ErrorTemplate">
-      <DataTemplate>
-        <ItemsControl x:DataType="DataValidationErrors"
-                      Foreground="{theme:AccentErrorBrush}"
-                      BorderBrush="{theme:AccentErrorBrush}"
-                      ItemsSource="{Binding}">
-          <ItemsControl.Styles>
-            <Style Selector="TextBlock">
-              <Setter Property="TextWrapping" Value="Wrap" />
-            </Style>
-          </ItemsControl.Styles>
-        </ItemsControl>
-      </DataTemplate>
-    </Setter>
-  </ControlTheme>
-
-  <!-- ============================================================
-       ControlTheme: TooltipDataValidationErrors
-       ============================================================ -->
-  <ControlTheme x:Key="TooltipDataValidationErrors"
-                TargetType="DataValidationErrors">
-    <!-- Template -->
-    <Setter Property="Template">
-      <ControlTemplate TargetType="DataValidationErrors">
-        <!-- Layout root placing the error beside the control -->
-        <DockPanel LastChildFill="True">
-          <!-- The error message shown alongside -->
-          <ContentControl Content="{Binding (DataValidationErrors.Errors)}"
-                          ContentTemplate="{TemplateBinding ErrorTemplate}"
-                          DataContext="{TemplateBinding Owner}"
-                          DockPanel.Dock="Right"
                           IsVisible="{Binding (DataValidationErrors.HasErrors)}" />
           <!-- The control being validated -->
           <ContentPresenter Name="PART_ContentPresenter"
@@ -108,30 +68,39 @@
         </DockPanel>
       </ControlTemplate>
     </Setter>
+
+    <!-- Message spacing -->
+    <Style Selector="^ /template/ ContentControl#PART_ErrorIndicator">
+      <Setter Property="Margin" Value="{theme:Edges Top={theme:SpacingMd}}" />
+    </Style>
+
+    <!-- Error message: the glyph and the text of each error, in the error colour -->
     <Setter Property="ErrorTemplate">
       <DataTemplate>
-        <Panel Name="PART_InlineErrorTemplatePanel"
-               Background="Transparent">
-          <Panel.Styles>
-            <Style Selector="Panel#PART_InlineErrorTemplatePanel">
-              <Setter Property="Margin" Value="{theme:Edges Horizontal={theme:SpacingMd}}" />
-            </Style>
-            <Style Selector="Panel#PART_InlineErrorTemplatePanel ToolTip">
-              <Setter Property="BorderBrush" Value="{theme:AccentErrorBrush}" />
-            </Style>
-            <Style Selector="Panel#PART_InlineErrorTemplatePanel ToolTip TextBlock">
-              <Setter Property="TextWrapping" Value="Wrap" />
-            </Style>
-          </Panel.Styles>
-          <ToolTip.Tip>
-            <ItemsControl ItemsSource="{Binding}" x:DataType="collections:IEnumerable" />
-          </ToolTip.Tip>
-          <Path Width="{theme:IconSize}"
-                Height="{theme:IconSize}"
-                Data="M14,7 A7,7 0 0,0 0,7 M0,7 A7,7 0 1,0 14,7 M7,3l0,5 M7,9l0,2"
-                Stroke="{theme:AccentErrorBrush}"
-                StrokeThickness="{theme:ThicknessMd}" />
-        </Panel>
+        <ItemsControl ItemsSource="{Binding}"
+                      x:DataType="collections:IEnumerable"
+                      Background="Transparent"
+                      BorderThickness="0"
+                      Padding="0"
+                      Foreground="{theme:AccentErrorBrush}">
+          <ItemsControl.ItemTemplate>
+            <DataTemplate>
+              <DockPanel LastChildFill="True">
+                <PathIcon DockPanel.Dock="Left"
+                          Data="{icons:ErrorGlyph}"
+                          VerticalAlignment="Top"
+                          Width="{theme:IconSize}"
+                          Height="{theme:IconSize}"
+                          Margin="{theme:Edges Right={theme:SpacingMd}}" />
+                <TextBlock Text="{Binding Converter={x:Static prototype:ValidationErrorMessageConverter.Instance}}"
+                           ToolTip.Tip="{Binding Converter={x:Static prototype:ValidationErrorMessageConverter.Instance}}"
+                           TextWrapping="Wrap"
+                           MaxLines="2"
+                           TextTrimming="CharacterEllipsis" />
+              </DockPanel>
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
+        </ItemsControl>
       </DataTemplate>
     </Setter>
   </ControlTheme>

@@ -96,4 +96,19 @@ public class ThemeIconGallery
 
     /// <summary>Minus sign (24×24 viewBox).</summary>
     public virtual string MinusGlyph => "M 0 11 L 24 11 L 24 13 L 0 13 Z";
+
+    // ── Error / validation ──────────────────────────────────────────
+    // A solid disc with the exclamation knocked out of it, so the glyph reads at
+    // icon size against any background. The disc is wound clockwise and the bar and
+    // dot anti-clockwise, which is what punches them out under the nonzero fill rule.
+    //
+    // Circles are built from four quarter arcs, never two semicircles: Avalonia's path
+    // parser collapses an arc whose endpoints are exactly one diameter apart to a
+    // zero-width line, so "A 12 12 0 1 1 12 24" from (12,0) renders as a vertical stroke.
+
+    /// <summary>Exclamation mark in a filled circle (24×24 viewBox).</summary>
+    public virtual string ErrorGlyph =>
+        "M 12 0 A 12 12 0 0 1 24 12 A 12 12 0 0 1 12 24 A 12 12 0 0 1 0 12 A 12 12 0 0 1 12 0 Z " +
+        "M 10.5 5 L 10.5 14 L 13.5 14 L 13.5 5 Z " +
+        "M 12 16 A 2 2 0 0 0 10 18 A 2 2 0 0 0 12 20 A 2 2 0 0 0 14 18 A 2 2 0 0 0 12 16 Z";
 }
