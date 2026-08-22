@@ -525,6 +525,10 @@ It is an inline task rather than a script or a tool so the theme project stays s
 
 **Belt and braces:** `guard xaml analyze` (AVL015) reports any class a ControlTheme defines that no `Styles` collection declares, naming the exact selector to add. Generation makes drift almost impossible; AVL015 catches the cases generation cannot see — someone editing a ControlTheme without building this project, or a CI checkout where the generated file was committed stale.
 
+**This applies per project, not per solution.** A consumer defining classes in their own ControlThemes needs their own declarations file and their own `StyleInclude`; the theme library's declares only what the theme library defines. `AvaloniaThemeLab` is the worked example — `BrandControls.axaml` defines `.hero` and `.quiet`, `StyleClasses.axaml` there is generated from it, and `App.axaml` includes both files' declarations.
+
+**Two namespaces downstream.** In a consumer project, `AngelSix.ThemeEngine.Generated` is the shared namespace holding every `{theme:Token}`, the hand-written extensions like `Edges`, and `AccentBrush`. A project that declares accent properties of its own also gets `AngelSix.ThemeEngine.Generated.<AssemblyName>`, holding *only* its accent types — that one is for `Accent.Kind` when you need a hue your own theme added. Reaching for the scoped namespace expecting tokens in it gives `AVLN2000: Unable to resolve type SpacingXxl`.
+
 ---
 
 ## Reference: Button.axaml (correctly themed control)

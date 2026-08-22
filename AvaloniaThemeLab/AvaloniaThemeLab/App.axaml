@@ -4,14 +4,25 @@
              RequestedThemeVariant="Default">
              <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
 
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!-- This app's own ControlThemes, layered on the theme library's. -->
+                <ResourceInclude Source="avares://AvaloniaThemeLab/BrandControls.axaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
+
     <Application.Styles>
         <PrototypeTheme />
         <!--
-            Declares the theme's style classes so the IDE can resolve Classes="accent".
-            Has to be here rather than inside PrototypeTheme: that is a C# type whose XAML loads at
-            runtime, so an analyser reading this file cannot follow <PrototypeTheme /> into it.
-            Sets nothing at runtime.
+            Style-class declarations, so the IDE can resolve Classes="accent" and Classes="hero".
+            Both have to be here rather than inside the theme: PrototypeTheme is a C# type whose
+            XAML loads at runtime, so an analyser reading this file cannot follow it into anything.
+            Each project declares the classes it defines, so there are two. Neither sets anything
+            at runtime.
         -->
         <StyleInclude Source="avares://Avalonia.Themes.Prototype/StyleClasses.axaml" />
+        <StyleInclude Source="avares://AvaloniaThemeLab/StyleClasses.axaml" />
     </Application.Styles>
 </Application>
