@@ -25,10 +25,16 @@
     Selectors are type-qualified rather than a bare `.accent`, so the inspection stays useful:
     putting `Classes="accent"` on a control that has no accent styling is still reported.
 
-    Kept in step with the ControlThemes by AVL015 (guard xaml analyze).
+    Regenerated on build by StyleClasses.targets, and checked by AVL015 (guard xaml analyze)
+    for anyone who edits a ControlTheme without building this project.
   -->
 
-  <!-- Accent: opts a control into its accented look. The hue is separate — see theme:Accent.Kind. -->
+  <!-- BEGIN GENERATED — edited by StyleClasses.targets on build; hand edits here are overwritten -->
+
+  <!-- MonthItem -->
+  <Style Selector="ListBoxItem.MonthItem" />
+
+  <!-- accent -->
   <Style Selector="Button.accent" />
   <Style Selector="ButtonSpinner.accent" />
   <Style Selector="CheckBox.accent" />
@@ -36,27 +42,10 @@
   <Style Selector="RepeatButton.accent" />
   <Style Selector="ToggleButton.accent" />
 
-  <!--
-    Design-time state helpers. Pointer and focus states cannot be triggered in a static preview, so
-    these force the same setters as :pointerover, :pressed and :focus-visible for Design.PreviewWith.
-    They are for authoring previews rather than application markup.
-  -->
-  <Style Selector="Button.previewHover" />
-  <Style Selector="ButtonSpinner.previewHover" />
-  <Style Selector="CheckBox.previewHover" />
-  <Style Selector="DropDownButton.previewHover" />
-  <Style Selector="HyperlinkButton.previewHover" />
-  <Style Selector="RepeatButton.previewHover" />
-  <Style Selector="ToggleButton.previewHover" />
+  <!-- clearButton -->
+  <Style Selector="TextBox.clearButton" />
 
-  <Style Selector="Button.previewPressed" />
-  <Style Selector="ButtonSpinner.previewPressed" />
-  <Style Selector="CheckBox.previewPressed" />
-  <Style Selector="DropDownButton.previewPressed" />
-  <Style Selector="HyperlinkButton.previewPressed" />
-  <Style Selector="RepeatButton.previewPressed" />
-  <Style Selector="ToggleButton.previewPressed" />
-
+  <!-- previewFocused -->
   <Style Selector="AutoCompleteBox.previewFocused" />
   <Style Selector="Button.previewFocused" />
   <Style Selector="CheckBox.previewFocused" />
@@ -65,9 +54,27 @@
   <Style Selector="RepeatButton.previewFocused" />
   <Style Selector="ToggleButton.previewFocused" />
 
-  <!-- Opt-in affordances on the control itself, not template parts a consumer never names. -->
-  <Style Selector="TextBox.clearButton" />
+  <!-- previewHover -->
+  <Style Selector="Button.previewHover" />
+  <Style Selector="ButtonSpinner.previewHover" />
+  <Style Selector="CheckBox.previewHover" />
+  <Style Selector="DropDownButton.previewHover" />
+  <Style Selector="HyperlinkButton.previewHover" />
+  <Style Selector="RepeatButton.previewHover" />
+  <Style Selector="ToggleButton.previewHover" />
+
+  <!-- previewPressed -->
+  <Style Selector="Button.previewPressed" />
+  <Style Selector="ButtonSpinner.previewPressed" />
+  <Style Selector="CheckBox.previewPressed" />
+  <Style Selector="DropDownButton.previewPressed" />
+  <Style Selector="HyperlinkButton.previewPressed" />
+  <Style Selector="RepeatButton.previewPressed" />
+  <Style Selector="ToggleButton.previewPressed" />
+
+  <!-- revealPasswordButton -->
   <Style Selector="TextBox.revealPasswordButton" />
-  <Style Selector="ListBoxItem.MonthItem" />
+
+  <!-- END GENERATED -->
 
 </Styles>

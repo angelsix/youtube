@@ -498,9 +498,9 @@ The nine-word cap applies to the **anatomy label** only. A Rule 8 workaround com
 
 ---
 
-## Rule 17: Every Style Class Must Be Declared in `StyleClasses.axaml`
+## Rule 17: Style Class Declarations Are Generated — Don't Hand-Edit Them
 
-**Statement:** When you add a `^.someClass` selector to a ControlTheme, add a matching empty `<Style Selector="Control.someClass" />` to `StyleClasses.axaml`.
+**Statement:** Add your `^.someClass` selector to the ControlTheme and build. `StyleClasses.axaml` regenerates itself from the ControlThemes, so there is nothing to keep in step by hand. Never edit between the `BEGIN GENERATED` / `END GENERATED` markers — that region is overwritten.
 
 **Why:** Rider cannot resolve classes declared as `^.name` inside a ControlTheme — `^` only means the control by virtue of the enclosing ControlTheme's key, and the whole thing sits in a ResourceDictionary reached through `MergeResourceInclude`. Without a declaration, every `Classes="accent"` a consumer writes is underlined *"Style class 'accent' not found"* despite working perfectly. That lands on the consumer's code, not ours, which makes it everybody's problem rather than ours.
 
@@ -519,7 +519,11 @@ It cannot be included from `PrototypeTheme.axaml` on the consumer's behalf, and 
 
 **Type-qualify the selector** (`ButtonSpinner.accent`, not `.accent`). A bare class selector would declare the class for every control in the app, so `Classes="accent"` on a control with no accent styling would stop being reported — the inspection should keep working, just stop being wrong.
 
-**Enforced by `guard xaml analyze` (AVL015)**, which reports any class a ControlTheme defines that no `Styles` collection declares, naming the exact `<Style Selector="..." />` to add. The two files are kept in step by hand, so without the check a class added to a ControlTheme and forgotten here brings the underline back with nothing to explain why.
+**How the generation works:** `StyleClasses.targets` declares an inline MSBuild task that runs before the build, walks every `.axaml` in the project, and collects the classes each ControlTheme defines — taking only the part of a selector before a `/template/` hop or a descendant space, since past either of those the selector names a template part a consumer never writes. It replaces only the region between the markers, so the prose above it stays hand-written, and it writes only when the content actually differs, so a build in sync causes no file churn.
+
+It is an inline task rather than a script or a tool so the theme project stays self-contained: nothing to install, no interpreter assumed, same behaviour on a build server.
+
+**Belt and braces:** `guard xaml analyze` (AVL015) reports any class a ControlTheme defines that no `Styles` collection declares, naming the exact selector to add. Generation makes drift almost impossible; AVL015 catches the cases generation cannot see — someone editing a ControlTheme without building this project, or a CI checkout where the generated file was committed stale.
 
 ---
 
