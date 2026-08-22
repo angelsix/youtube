@@ -1,6 +1,7 @@
 <Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:theme="using:AngelSix.ThemeEngine.Generated">
+        xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+        xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype;assembly=Avalonia.Themes.Prototype">
   <!--
     A consumer's own style classes, living downstream of the theme library.
 
@@ -26,6 +27,28 @@
     hand-written extensions like Edges, and AccentBrush. This project's own generated namespace
     (…Generated.AvaloniaThemeLab, used in MainWindow) holds only its accent types.
   -->
+
+  <Design.PreviewWith>
+    <Border Padding="20">
+      <!-- The theme supplies the Button ControlTheme these styles layer over; without it the
+           preview would render an unstyled button and tell you nothing. -->
+      <Border.Styles>
+        <prototype:PrototypeTheme />
+      </Border.Styles>
+
+      <StackPanel Spacing="16">
+        <!-- Hue-agnostic: the same .hero class, three accents. -->
+        <StackPanel Orientation="Horizontal" Spacing="12">
+          <Button Classes="hero" Content="Primary" />
+          <Button Classes="quiet" Content="Maybe later" />
+        </StackPanel>
+
+        <Button Classes="hero" theme:Accent.Kind="Success" Content="Success" />
+        <Button Classes="hero" theme:Accent.Kind="Warning" Content="Warning" />
+        <Button Classes="hero" theme:Accent.Kind="Destructive" Content="Destructive" IsEnabled="False" />
+      </StackPanel>
+    </Border>
+  </Design.PreviewWith>
 
   <!-- Filled brand button. AccentBrush resolves against the hue the control carries, so this one
        style serves Brand, Success or anything else the theme declares. -->
