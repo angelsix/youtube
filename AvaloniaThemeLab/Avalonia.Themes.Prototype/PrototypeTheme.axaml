@@ -2,6 +2,11 @@
         xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
   <StyleInclude Source="/Controls/PrototypeControls.axaml" />
-  <!-- Declares the style classes above so an IDE can resolve Classes="accent" — see the file. -->
-  <StyleInclude Source="/StyleClasses.axaml" />
+  <!--
+    StyleClasses.axaml is deliberately NOT included here. It exists to be read by an IDE, and
+    nothing reading this file statically can get here: PrototypeTheme is a C# type whose XAML is
+    loaded at runtime by AvaloniaXamlLoader, so <PrototypeTheme /> in a consumer's App.axaml is a
+    type reference, not a styles collection an analyser can walk into. The consumer includes
+    StyleClasses.axaml by avares: URI instead — see that file.
+  -->
 </Styles>

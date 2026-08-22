@@ -504,11 +504,22 @@ The nine-word cap applies to the **anatomy label** only. A Rule 8 workaround com
 
 **Why:** Rider cannot resolve classes declared as `^.name` inside a ControlTheme — `^` only means the control by virtue of the enclosing ControlTheme's key, and the whole thing sits in a ResourceDictionary reached through `MergeResourceInclude`. Without a declaration, every `Classes="accent"` a consumer writes is underlined *"Style class 'accent' not found"* despite working perfectly. That lands on the consumer's code, not ours, which makes it everybody's problem rather than ours.
 
-`StyleClasses.axaml` is a `Styles` collection of deliberately empty styles, included from `PrototypeTheme.axaml` so consumers get it just by using the theme — no extra line in their app. Empty styles set nothing, so there is no runtime behaviour and no effect on precedence, even though app-level `Styles` outrank ControlTheme styles.
+`StyleClasses.axaml` is a `Styles` collection of deliberately empty styles. Empty styles set nothing, so there is no runtime behaviour and no effect on precedence, even though app-level `Styles` outrank ControlTheme styles.
+
+**The consumer must include it directly**, next to the theme in `App.axaml`:
+
+```xml
+<Application.Styles>
+    <PrototypeTheme />
+    <StyleInclude Source="avares://Avalonia.Themes.Prototype/StyleClasses.axaml" />
+</Application.Styles>
+```
+
+It cannot be included from `PrototypeTheme.axaml` on the consumer's behalf, and trying that is the trap: `PrototypeTheme` is a C# type whose XAML is loaded at runtime by `AvaloniaXamlLoader`, so `<PrototypeTheme />` is a *type reference* — an analyser reading `App.axaml` cannot follow it into the theme's own markup. Only a `StyleInclude` written in the consumer's XAML is a path it can walk. This is why the file has to be reachable by `avares:` URI and why the extra line is unavoidable.
 
 **Type-qualify the selector** (`ButtonSpinner.accent`, not `.accent`). A bare class selector would declare the class for every control in the app, so `Classes="accent"` on a control with no accent styling would stop being reported — the inspection should keep working, just stop being wrong.
 
-**This is the tracked failure mode:** the two files are kept in step by hand, so a class added to a ControlTheme and forgotten here is underlined again with nothing to explain why.
+**Enforced by `guard xaml analyze` (AVL015)**, which reports any class a ControlTheme defines that no `Styles` collection declares, naming the exact `<Style Selector="..." />` to add. The two files are kept in step by hand, so without the check a class added to a ControlTheme and forgotten here brings the underline back with nothing to explain why.
 
 ---
 
