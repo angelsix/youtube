@@ -277,6 +277,7 @@ A comment explaining WHY a non-obvious element exists IS appropriate, because th
 | `Scaled` | `{theme:Scaled Value={theme:Token}, By=X}` | Multiply a token by a constant factor |
 | `Corners` | `{theme:Corners Radius={theme:RadiusSm}, Top=True}` | Apply a `CornerRadius` to selected corners only |
 | `TransformScale` | `{theme:TransformScale Value={theme:PressedScale}, By=1}` | Wrap a double token into a `TransformOperations` for `RenderTransform` |
+| `AccentBrush` | `{theme:AccentBrush}` / `{theme:AccentBrush Dark1}` | Resolve an accent brush against the hue the target control carries (see Rule 16) |
 
 All live in `Angelsix-consulting/Avalonia Themes/AngelSix.ThemeEngine/`. After adding a new one, rebuild the NuGet package and push to nuget.org.
 
@@ -449,6 +450,51 @@ The nine-word cap applies to the **anatomy label** only. A Rule 8 workaround com
 ```
 
 **Reference example:** `Controls/AutoCompleteBox.axaml`.
+
+---
+
+## Rule 16: Accent Styles Bind to the Hue, Never to a Named Accent
+
+**Statement:** Inside a `^.accent` style, bind accent colours with `{theme:AccentBrush}`, never with a specific hue like `{theme:AccentPrimaryBrush}`. One block then serves every accent instead of being copy-pasted per hue.
+
+**Why:** `{theme:AccentBrush}` resolves `Accent{Hue}{Shade}Brush` at runtime, against whichever hue the *target control* is carrying. Naming `AccentPrimaryBrush` pins the block to one accent, so supporting warning, success and the rest means duplicating thirty lines apiece — the exact problem the extension exists to remove.
+
+**Correct:**
+```xml
+<Style Selector="^.accent">
+  <Setter Property="Foreground" Value="{theme:AccentBrush}" />
+  <Setter Property="BorderBrush" Value="{theme:AccentBrush}" />
+</Style>
+
+<Style Selector="^.accent:pointerover, ^.accent.previewHover">
+  <Setter Property="Background" Value="{theme:AccentBrush HoverOverlay}" />
+  <Setter Property="Foreground" Value="{theme:AccentBrush Dark1}" />
+</Style>
+
+<!-- Template parts too: Accent.Kind inherits, so the chevrons resolve the same hue -->
+<Style Selector="^.accent /template/ RepeatButton:pointerover:not(:disabled)">
+  <Setter Property="Background" Value="{theme:AccentBrush HoverOverlay}" />
+  <Setter Property="Foreground" Value="{theme:AccentBrush Dark1}" />
+</Style>
+```
+
+**Not:**
+```xml
+<!-- Bad: pinned to one hue; needs a full copy for every other accent -->
+<Style Selector="^.accent">
+  <Setter Property="Foreground" Value="{theme:AccentPrimaryBrush}" />
+</Style>
+```
+
+**Shades:** the argument is the text between hue and `Brush` — `{theme:AccentBrush Dark2}` resolves `Accent{Hue}Dark2Brush`. Available shades are whatever the theme's `Accent{Hue}{Shade}Brush` properties establish (currently `Base`, `Dark1-3`, `Light1-3`, `HoverOverlay`, `PressedOverlay`). A hue with no such property falls through to the un-accented setter rather than throwing.
+
+**Two separate decisions.** `theme:Accent.Kind` picks the hue and **inherits** — that is what carries it into template parts, and what lets a container tint everything beneath it. The `accent` class opts into the accented *look* and deliberately does **not** inherit, so tinting a panel does not accent every control inside it. Never make the look inherit.
+
+**Adding a hue** is a theme edit only — add `Color Accent{Hue}` plus its brushes to `DefaultTheme` and `theme:Accent.Kind="{Hue}"` compiles with IntelliSense. There is no enum to maintain. If the build warns **ASTE001**, the new name starts with an existing hue's name and inference cannot tell hue from shade; mark every hue `[AccentHue]`.
+
+**Never add a theme property named `AccentBrush`, `Accent`, `AccentKind` or `AccentVariant`** — the generator emits classes of those names, and the collision is a bare `CS0101` pointing at generated files rather than at the property you just added.
+
+**Reference example:** `Controls/ButtonSpinner.axaml`. Button, ToggleButton, DropDownButton, RepeatButton and CheckBox still carry the old per-hue blocks and have not been converted yet.
 
 ---
 

@@ -26,6 +26,24 @@ Category: Context
 
 AvaloniaThemeLab (a lab under this repo) uses the `AngelSix.ThemeEngine` package; its bundled analyzer regenerates the theme markup extensions at compile time. Don't commit a `Generated/ThemeExtensions.g.cs` (or any `Generated/` copy) — a stale committed copy broke the build here when the engine's `ThemeContext` API changed after the move from in-repo source to NuGet. The engine's source lives in the separate `angelsix-consulting` repo.
 
+### 2026-08-22: AvaloniaThemeLab pins NuGet to nuget.org; accents resolve per-control
+
+Category: Context
+
+The machine-wide NuGet config carries folder feeds pointing into the `AngelSix.ThemeEngine`
+source tree in `angelsix-consulting`, used to test the package before release. `AvaloniaThemeLab/NuGet.config`
+now clears them, so the lab always builds against the published package and restores on a clean
+machine. Iterating on the engine locally means publishing, or adding the folder feed back into
+that file while doing it — a local engine change will *not* show up in the lab otherwise.
+
+Accent styling uses `{theme:AccentBrush}`, which resolves against the hue the target control
+carries rather than a named accent, so one style block serves every hue. Rules and gotchas are in
+`AvaloniaThemeLab/Avalonia.Themes.Prototype/ThemeRules.md` Rule 16. The non-obvious part: the hue
+property is deliberately *not* generated. `Accent.Kind` is a per-assembly typed façade that
+forwards onto `ThemeAccent.HueProperty` in the runtime, because a generated enum-typed property
+would be a different `AvaloniaProperty` in each assembly and a shipped theme's styles would never
+see a hue added downstream.
+
 ### 2026-05-29: Glossary added
 
 Category: System change
