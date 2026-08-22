@@ -1,7 +1,8 @@
 <Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:theme="using:AngelSix.ThemeEngine.Generated"
-        xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype;assembly=Avalonia.Themes.Prototype">
+        xmlns:brand="using:AngelSix.ThemeEngine.Generated.AvaloniaThemeLab"
+        xmlns:local="clr-namespace:AvaloniaThemeLab">
   <!--
     A consumer's own style classes, living downstream of the theme library.
 
@@ -30,22 +31,31 @@
 
   <Design.PreviewWith>
     <Border Padding="20">
-      <!-- The theme supplies the Button ControlTheme these styles layer over; without it the
-           preview would render an unstyled button and tell you nothing. -->
+      <!-- BrandPreviewTheme, not PrototypeTheme directly: it supplies the Button ControlTheme these
+           styles layer over AND registers BrandTheme as the active token theme, without which the
+           Brand hue below resolves to nothing and this preview cannot show the brand. -->
       <Border.Styles>
-        <prototype:PrototypeTheme />
+        <local:BrandPreviewTheme />
       </Border.Styles>
 
       <StackPanel Spacing="16">
-        <!-- Hue-agnostic: the same .hero class, three accents. -->
-        <StackPanel Orientation="Horizontal" Spacing="12">
-          <Button Classes="hero" Content="Primary" />
+        <!-- The brand hue this file exists for. -->
+        <StackPanel Orientation="Horizontal" Spacing="12" brand:Accent.Kind="Brand">
+          <Button Classes="hero" Content="Get started" />
           <Button Classes="quiet" Content="Maybe later" />
         </StackPanel>
 
-        <Button Classes="hero" theme:Accent.Kind="Success" Content="Success" />
-        <Button Classes="hero" theme:Accent.Kind="Warning" Content="Warning" />
-        <Button Classes="hero" theme:Accent.Kind="Destructive" Content="Destructive" IsEnabled="False" />
+        <Button Classes="hero" brand:Accent.Kind="Brand" Content="Brand disabled" IsEnabled="False" />
+
+        <!-- The same .hero class under other hues, which is the point of {theme:AccentBrush}. -->
+        <StackPanel Orientation="Horizontal" Spacing="12">
+          <Button Classes="hero" brand:Accent.Kind="Success" Content="Success" />
+          <Button Classes="hero" brand:Accent.Kind="Warning" Content="Warning" />
+          <Button Classes="hero" brand:Accent.Kind="Destructive" Content="Destructive" />
+        </StackPanel>
+
+        <!-- No hue set anywhere: falls back to the theme's first declared hue. -->
+        <Button Classes="hero" Content="No hue set (falls back to Primary)" />
       </StackPanel>
     </Border>
   </Design.PreviewWith>
