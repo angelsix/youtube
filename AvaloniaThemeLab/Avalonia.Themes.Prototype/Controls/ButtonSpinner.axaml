@@ -12,13 +12,36 @@
       </Border.Styles>
 
       <StackPanel Spacing="20">
+        
+        <!-- Full width buttons -->
+        <StackPanel.Styles>
+          <Style Selector="ButtonSpinner">
+            <Setter Property="HorizontalAlignment" Value="Stretch"></Setter>
+          </Style>
+        </StackPanel.Styles>
+        
         <ButtonSpinner Content="Right spinner" />
         <ButtonSpinner ButtonSpinnerLocation="Left"
                        Content="Left spinner" />
+        <!-- Accent hues. The `accent` class opts into the accented look; Accent.Kind picks the
+             hue and defaults to Primary, so the first one needs no Kind at all. -->
         <ButtonSpinner Classes="accent"
-                        Content="Right Border" />
-        <ButtonSpinner ButtonSpinnerLocation="Left" Classes="accent"
-                       Content="Left Border" />
+                       Content="Accent (default Primary)" />
+        <ButtonSpinner Classes="accent" theme:Accent.Kind="Warning"
+                       ButtonSpinnerLocation="Left"
+                       Content="Accent Warning" />
+        <ButtonSpinner Classes="accent" theme:Accent.Kind="Success"
+                       Content="Accent Success" />
+        <ButtonSpinner Classes="accent" theme:Accent.Kind="Destructive"
+                       Content="Accent Destructive" />
+
+        <!-- Kind inherits, so tinting the panel tints every accented control beneath it. The
+             plain spinner stays un-accented because the `accent` class does not inherit. -->
+        <StackPanel theme:Accent.Kind="Subtle" Spacing="20">
+          <ButtonSpinner Classes="accent" Content="Inherited Subtle" />
+          <ButtonSpinner Content="Not accented (no class)" />
+        </StackPanel>
+
         <ButtonSpinner Content="Right disabled"
                        AllowSpin="False"/>
         <ButtonSpinner ButtonSpinnerLocation="Left"
@@ -217,32 +240,35 @@
       <Setter Property="BorderBrush" Value="{theme:AccentErrorBrush}" />
     </Style>
     
-    <!-- Accent class -->
+    <!-- Accent class. Hue-agnostic: {theme:AccentBrush} resolves against whatever
+         prototype:Accent.Kind the control is carrying, so this one block serves every accent
+         rather than being copy-pasted once per hue. Accent.Kind inherits, which is what carries
+         the hue into the /template/ RepeatButton styles below. -->
     <Style Selector="^.accent">
-      <Setter Property="Foreground" Value="{theme:AccentPrimaryBrush}" />
-      <Setter Property="BorderBrush" Value="{theme:AccentPrimaryBrush}" />
+      <Setter Property="Foreground" Value="{theme:AccentBrush}" />
+      <Setter Property="BorderBrush" Value="{theme:AccentBrush}" />
     </Style>
 
     <!-- Accent hover state -->
     <Style Selector="^.accent:pointerover, ^.accent.previewHover">
-      <Setter Property="Background" Value="{theme:AccentHoverOverlayBrush}" />
-      <Setter Property="Foreground" Value="{theme:AccentPrimaryDark1Brush}" />
+      <Setter Property="Background" Value="{theme:AccentBrush HoverOverlay}" />
+      <Setter Property="Foreground" Value="{theme:AccentBrush Dark1}" />
     </Style>
 
     <Style Selector="^.accent /template/ RepeatButton:pointerover:not(:disabled)">
-      <Setter Property="Background" Value="{theme:AccentHoverOverlayBrush}" />
-      <Setter Property="Foreground" Value="{theme:AccentPrimaryDark1Brush}" />
+      <Setter Property="Background" Value="{theme:AccentBrush HoverOverlay}" />
+      <Setter Property="Foreground" Value="{theme:AccentBrush Dark1}" />
     </Style>
 
     <!-- Accent pressed state -->
     <Style Selector="^.accent:pressed, ^.accent.previewPressed">
-      <Setter Property="Background" Value="{theme:AccentPressedOverlayBrush}" />
-      <Setter Property="Foreground" Value="{theme:AccentPrimaryDark2Brush}" />
+      <Setter Property="Background" Value="{theme:AccentBrush PressedOverlay}" />
+      <Setter Property="Foreground" Value="{theme:AccentBrush Dark2}" />
     </Style>
 
     <Style Selector="^.accent /template/ RepeatButton:pressed:not(:disabled)">
-      <Setter Property="Background" Value="{theme:AccentPressedOverlayBrush}" />
-      <Setter Property="Foreground" Value="{theme:AccentPrimaryDark2Brush}" />
+      <Setter Property="Background" Value="{theme:AccentBrush PressedOverlay}" />
+      <Setter Property="Foreground" Value="{theme:AccentBrush Dark2}" />
     </Style>
 
     <!-- Accent disabled state -->

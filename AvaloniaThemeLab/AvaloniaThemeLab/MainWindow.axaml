@@ -2,9 +2,11 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="400"
-        Width="400" Height="400"
+        mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="860"
+        Width="400" Height="860"
         xmlns:generic="using:System.Collections.Generic"
+        xmlns:theme="using:AngelSix.ThemeEngine.Generated.AvaloniaThemeLab"
+        xmlns:engine="using:AngelSix.ThemeEngine"
         x:Class="AvaloniaThemeLab.MainWindow"
         Title="AvaloniaThemeLab">
     <StackPanel Spacing="20" Margin="20">
@@ -22,5 +24,27 @@
                 </generic:List>
             </AutoCompleteBox.ItemsSource>
         </AutoCompleteBox>
+
+        <!-- Accent spike: one set of accent styles, many hues -->
+        <ButtonSpinner Classes="accent" Content="Primary (default)" />
+        <ButtonSpinner Classes="accent" theme:Accent.Kind="Warning" Content="Warning" />
+        <ButtonSpinner Classes="accent" theme:Accent.Kind="Success" Content="Success" />
+        <ButtonSpinner Classes="accent" theme:Accent.Kind="Destructive" Content="Destructive" />
+        <!-- Downstream hue, via this assembly's own generated enum -->
+        <ButtonSpinner Classes="accent" theme:Accent.Kind="Brand" Content="Brand (typed enum)" />
+        <!-- Same hue, via the runtime's open string property — no generated enum needed -->
+        <ButtonSpinner Classes="accent" engine:ThemeAccent.Hue="Brand" Content="Brand (open string)" />
+        <ButtonSpinner Classes="accent" theme:Accent.Kind="Info"
+                       ButtonSpinnerLocation="Left" Content="Info (left)" />
+
+        <!-- Variant suffixes: hover uses Dark1 + HoverOverlay, pressed uses Dark2 + PressedOverlay -->
+        <ButtonSpinner Classes="accent previewHover" theme:Accent.Kind="Warning" Content="Warning hover" />
+        <ButtonSpinner Classes="accent previewPressed" theme:Accent.Kind="Warning" Content="Warning pressed" />
+
+        <!-- Kind inherits; the accent class does not -->
+        <StackPanel theme:Accent.Kind="Subtle" Spacing="20">
+            <ButtonSpinner Classes="accent" Content="Inherited Subtle" />
+            <ButtonSpinner Content="No accent class" />
+        </StackPanel>
     </StackPanel>
 </Window>

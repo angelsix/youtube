@@ -1,3 +1,5 @@
+using AngelSix.ThemeEngine;
+
 namespace Avalonia.Themes.Prototype;
 
 /// <summary>
@@ -5,6 +7,12 @@ namespace Avalonia.Themes.Prototype;
 /// A theme exposes an instance via <see cref="DefaultTheme.IconGallery"/> so subclasses
 /// can override the entire icon set while keeping the same token names.
 /// </summary>
+/// <remarks>
+/// Marked with <c>[IconGallery]</c> so the source generator finds it by convention. It used to be
+/// located by its hardcoded full type name, which meant every project referencing this assembly
+/// also matched it and re-emitted the whole glyph set on top of this one.
+/// </remarks>
+[IconGallery]
 public class ThemeIconGallery
 {
     // ── Chevron (triangle) ──────────────────────────────────────────

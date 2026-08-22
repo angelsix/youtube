@@ -80,6 +80,30 @@ public class DefaultTheme
     public virtual SolidColorBrush AccentHoverOverlayBrush => ColorOverlayBrush(AccentPrimary, 0.08);
     public virtual SolidColorBrush AccentPressedOverlayBrush => ColorOverlayBrush(AccentPrimary, 0.20);
 
+    // Per-hue overlay states. The pair above is hardcoded to AccentPrimary, which breaks the
+    // Accent{Kind}{Variant}Brush naming convention {theme:AccentBrush HoverOverlay} resolves
+    // against, so every hue gets its own pair.
+    public virtual SolidColorBrush AccentPrimaryHoverOverlayBrush => ColorOverlayBrush(AccentPrimary, 0.08);
+    public virtual SolidColorBrush AccentPrimaryPressedOverlayBrush => ColorOverlayBrush(AccentPrimary, 0.20);
+    public virtual SolidColorBrush AccentSuccessHoverOverlayBrush => ColorOverlayBrush(AccentSuccess, 0.08);
+    public virtual SolidColorBrush AccentSuccessPressedOverlayBrush => ColorOverlayBrush(AccentSuccess, 0.20);
+    public virtual SolidColorBrush AccentWarningHoverOverlayBrush => ColorOverlayBrush(AccentWarning, 0.08);
+    public virtual SolidColorBrush AccentWarningPressedOverlayBrush => ColorOverlayBrush(AccentWarning, 0.20);
+    public virtual SolidColorBrush AccentErrorHoverOverlayBrush => ColorOverlayBrush(AccentError, 0.08);
+    public virtual SolidColorBrush AccentErrorPressedOverlayBrush => ColorOverlayBrush(AccentError, 0.20);
+    public virtual SolidColorBrush AccentInfoHoverOverlayBrush => ColorOverlayBrush(AccentInfo, 0.08);
+    public virtual SolidColorBrush AccentInfoPressedOverlayBrush => ColorOverlayBrush(AccentInfo, 0.20);
+    public virtual SolidColorBrush AccentDestructiveHoverOverlayBrush => ColorOverlayBrush(AccentDestructive, 0.08);
+    public virtual SolidColorBrush AccentDestructivePressedOverlayBrush => ColorOverlayBrush(AccentDestructive, 0.20);
+    public virtual SolidColorBrush AccentSubtleHoverOverlayBrush => ColorOverlayBrush(AccentSubtle, 0.08);
+    public virtual SolidColorBrush AccentSubtlePressedOverlayBrush => ColorOverlayBrush(AccentSubtle, 0.20);
+    public virtual SolidColorBrush AccentNeutralHoverOverlayBrush => ColorOverlayBrush(AccentNeutral, 0.08);
+    public virtual SolidColorBrush AccentNeutralPressedOverlayBrush => ColorOverlayBrush(AccentNeutral, 0.20);
+    public virtual SolidColorBrush AccentBorderHoverOverlayBrush => ColorOverlayBrush(AccentBorder, 0.08);
+    public virtual SolidColorBrush AccentBorderPressedOverlayBrush => ColorOverlayBrush(AccentBorder, 0.20);
+    public virtual SolidColorBrush AccentFocusHoverOverlayBrush => ColorOverlayBrush(AccentFocus, 0.08);
+    public virtual SolidColorBrush AccentFocusPressedOverlayBrush => ColorOverlayBrush(AccentFocus, 0.20);
+
     // State visual properties
     public virtual double DisabledOpacity => 0.3;
     public virtual double PressedScale => 0.98;

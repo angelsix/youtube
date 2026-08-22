@@ -26,7 +26,7 @@ public partial class App : Application
     {
         var services = new ServiceCollection();
 
-        services.AddSingleton(new ThemeContext(new DefaultTheme()));
+        services.AddSingleton(new ThemeContext(new BrandTheme()));
 
         return services.BuildServiceProvider();
     }
