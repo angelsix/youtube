@@ -34,34 +34,34 @@
 
         <!-- Accent spike: one set of accent styles, many hues -->
         <ButtonSpinner Classes="accent" Content="Primary (default)" />
-        <ButtonSpinner Classes="accent" theme:AvaloniaThemeLabAccent.Kind="Warning" Content="Warning" />
-        <ButtonSpinner Classes="accent" theme:AvaloniaThemeLabAccent.Kind="Success" Content="Success" />
-        <ButtonSpinner Classes="accent" theme:AvaloniaThemeLabAccent.Kind="Destructive" Content="Destructive" />
+        <ButtonSpinner Classes="accent" theme:BrandAccent.Kind="Warning" Content="Warning" />
+        <ButtonSpinner Classes="accent" theme:BrandAccent.Kind="Success" Content="Success" />
+        <ButtonSpinner Classes="accent" theme:BrandAccent.Kind="Destructive" Content="Destructive" />
         <!-- Downstream hue, via this assembly's own generated enum -->
-        <ButtonSpinner Classes="accent" theme:AvaloniaThemeLabAccent.Kind="Brand" Content="Brand (typed enum)" />
+        <ButtonSpinner Classes="accent" theme:BrandAccent.Kind="Brand" Content="Brand (typed enum)" />
         <!-- Same hue, via the runtime's open string property — no generated enum needed -->
         <ButtonSpinner Classes="accent" theme:ThemeAccent.Hue="Brand" Content="Brand (open string)" />
-        <ButtonSpinner Classes="accent" theme:AvaloniaThemeLabAccent.Kind="Info"
+        <ButtonSpinner Classes="accent" theme:BrandAccent.Kind="Info"
                        ButtonSpinnerLocation="Left" Content="Info (left)" />
 
         <!-- Variant suffixes: hover uses Dark1 + HoverOverlay, pressed uses Dark2 + PressedOverlay -->
-        <ButtonSpinner Classes="accent previewHover" theme:AvaloniaThemeLabAccent.Kind="Warning" Content="Warning hover" />
-        <ButtonSpinner Classes="accent previewPressed" theme:AvaloniaThemeLabAccent.Kind="Warning" Content="Warning pressed" />
+        <ButtonSpinner Classes="accent previewHover" theme:BrandAccent.Kind="Warning" Content="Warning hover" />
+        <ButtonSpinner Classes="accent previewPressed" theme:BrandAccent.Kind="Warning" Content="Warning pressed" />
 
         <!-- Kind inherits; the accent class does not -->
-        <StackPanel theme:AvaloniaThemeLabAccent.Kind="Subtle" Spacing="20">
+        <StackPanel theme:BrandAccent.Kind="Subtle" Spacing="20">
             <ButtonSpinner Classes="accent" Content="Inherited Subtle" />
             <ButtonSpinner Content="No accent class" />
         </StackPanel>
 
         <!-- This app's own style classes, from BrandControls.axaml.
              The hue still comes from Accent.Kind, so .hero serves any accent. -->
-        <StackPanel Orientation="Horizontal" Spacing="12" theme:AvaloniaThemeLabAccent.Kind="Brand">
+        <StackPanel Orientation="Horizontal" Spacing="12" theme:BrandAccent.Kind="Brand">
             <Button Classes="hero" Content="Get started" />
             <Button Classes="quiet" Content="Maybe later" />
         </StackPanel>
 
-        <StackPanel Orientation="Horizontal" Spacing="12" theme:AvaloniaThemeLabAccent.Kind="Success">
+        <StackPanel Orientation="Horizontal" Spacing="12" theme:BrandAccent.Kind="Success">
             <Button Classes="hero" Content="Same class, Success" />
         </StackPanel>
     </StackPanel>

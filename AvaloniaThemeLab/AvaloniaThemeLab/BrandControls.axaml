@@ -22,10 +22,11 @@
         ^.name *inside* a ControlTheme, which is the theme library's case, not this one.
 
     Values come from theme tokens rather than literals, so a brand button tracks the theme's spacing
-    and type scale instead of drifting away from everything around it. They come from
-    AngelSix.ThemeEngine.Generated — the shared namespace holding every {theme:Token}, the
-    hand-written extensions like Edges, and AccentBrush. This project's own generated namespace
-    (…Generated.AvaloniaThemeLab, used in MainWindow) holds only its accent types.
+    and type scale instead of drifting away from everything around it.
+
+    One xmlns covers all of it. AngelSix.ThemeEngine.Generated holds every {theme:Token}, the
+    hand-written extensions like Edges, AccentBrush, and this project's own BrandAccent — named
+    after BrandTheme, because the theme it extends already owns the plain "Accent" name.
   -->
 
   <Design.PreviewWith>
@@ -39,18 +40,18 @@
 
       <StackPanel Spacing="16">
         <!-- The brand hue this file exists for. -->
-        <StackPanel Orientation="Horizontal" Spacing="12" theme:AvaloniaThemeLabAccent.Kind="Brand">
+        <StackPanel Orientation="Horizontal" Spacing="12" theme:BrandAccent.Kind="Brand">
           <Button Classes="hero" Content="Get started" />
           <Button Classes="quiet" Content="Maybe later" />
         </StackPanel>
 
-        <Button Classes="hero" theme:AvaloniaThemeLabAccent.Kind="Brand" Content="Brand disabled" IsEnabled="False" />
+        <Button Classes="hero" theme:BrandAccent.Kind="Brand" Content="Brand disabled" IsEnabled="False" />
 
         <!-- The same .hero class under other hues, which is the point of {theme:AccentBrush}. -->
         <StackPanel Orientation="Horizontal" Spacing="12">
-          <Button Classes="hero" theme:AvaloniaThemeLabAccent.Kind="Success" Content="Success" />
-          <Button Classes="hero" theme:AvaloniaThemeLabAccent.Kind="Warning" Content="Warning" />
-          <Button Classes="hero" theme:AvaloniaThemeLabAccent.Kind="Destructive" Content="Destructive" />
+          <Button Classes="hero" theme:BrandAccent.Kind="Success" Content="Success" />
+          <Button Classes="hero" theme:BrandAccent.Kind="Warning" Content="Warning" />
+          <Button Classes="hero" theme:BrandAccent.Kind="Destructive" Content="Destructive" />
         </StackPanel>
 
         <!-- No hue set anywhere: falls back to the theme's first declared hue. -->
