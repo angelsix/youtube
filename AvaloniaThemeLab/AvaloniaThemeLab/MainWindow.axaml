@@ -10,7 +10,15 @@
         x:Class="AvaloniaThemeLab.MainWindow"
         Title="AvaloniaThemeLab">
     <StackPanel Spacing="20" Margin="20">
-        <AutoCompleteBox Width="200">
+        
+        <!-- Full width buttons -->
+        <StackPanel.Styles>
+            <Style Selector="ButtonSpinner">
+                <Setter Property="HorizontalAlignment" Value="Stretch"></Setter>
+            </Style>
+        </StackPanel.Styles>
+        
+        <AutoCompleteBox HorizontalAlignment="Stretch">
             <AutoCompleteBox.ItemsSource>
                 <generic:List x:TypeArguments="x:String">
                     <x:String>Alabama</x:String>
