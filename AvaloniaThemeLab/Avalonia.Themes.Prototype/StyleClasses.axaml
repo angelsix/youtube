@@ -1,0 +1,60 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:ClassModifier="internal">
+  <!--
+    Declares every style class this theme exposes, so an IDE can find them.
+
+    The classes themselves are real: each one is a `^.name` selector nested inside the relevant
+    ControlTheme. Rider's static analysis does not resolve those — `^` only means the control by
+    virtue of the enclosing ControlTheme's key, and the whole thing lives in a ResourceDictionary
+    reached through MergeResourceInclude — so every `Classes="accent"` a consumer writes is
+    underlined "Style class 'accent' not found" despite working perfectly at runtime.
+
+    The fix is the one Avalonia theme libraries settle on: ship a Styles collection stating the
+    classes exist. Each entry below is deliberately empty and sets nothing, so there is no runtime
+    behaviour and no effect on precedence — it exists to be read.
+
+    Selectors are type-qualified rather than a bare `.accent`, so the inspection stays useful:
+    putting `Classes="accent"` on a control that has no accent styling is still reported.
+
+    Keep in step with the ControlThemes — a class added there and missed here is underlined again.
+  -->
+
+  <!-- Accent: opts a control into its accented look. The hue is separate — see theme:Accent.Kind. -->
+  <Style Selector="Button.accent" />
+  <Style Selector="ButtonSpinner.accent" />
+  <Style Selector="CheckBox.accent" />
+  <Style Selector="DropDownButton.accent" />
+  <Style Selector="RepeatButton.accent" />
+  <Style Selector="ToggleButton.accent" />
+
+  <!--
+    Design-time state helpers. Pointer and focus states cannot be triggered in a static preview, so
+    these force the same setters as :pointerover, :pressed and :focus-visible for Design.PreviewWith.
+    They are for authoring previews rather than application markup.
+  -->
+  <Style Selector="Button.previewHover" />
+  <Style Selector="ButtonSpinner.previewHover" />
+  <Style Selector="CheckBox.previewHover" />
+  <Style Selector="DropDownButton.previewHover" />
+  <Style Selector="HyperlinkButton.previewHover" />
+  <Style Selector="RepeatButton.previewHover" />
+  <Style Selector="ToggleButton.previewHover" />
+
+  <Style Selector="Button.previewPressed" />
+  <Style Selector="ButtonSpinner.previewPressed" />
+  <Style Selector="CheckBox.previewPressed" />
+  <Style Selector="DropDownButton.previewPressed" />
+  <Style Selector="HyperlinkButton.previewPressed" />
+  <Style Selector="RepeatButton.previewPressed" />
+  <Style Selector="ToggleButton.previewPressed" />
+
+  <Style Selector="AutoCompleteBox.previewFocused" />
+  <Style Selector="Button.previewFocused" />
+  <Style Selector="CheckBox.previewFocused" />
+  <Style Selector="DropDownButton.previewFocused" />
+  <Style Selector="HyperlinkButton.previewFocused" />
+  <Style Selector="RepeatButton.previewFocused" />
+  <Style Selector="ToggleButton.previewFocused" />
+
+</Styles>

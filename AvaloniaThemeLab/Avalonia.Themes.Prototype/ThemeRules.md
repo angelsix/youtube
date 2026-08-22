@@ -498,6 +498,20 @@ The nine-word cap applies to the **anatomy label** only. A Rule 8 workaround com
 
 ---
 
+## Rule 17: Every Style Class Must Be Declared in `StyleClasses.axaml`
+
+**Statement:** When you add a `^.someClass` selector to a ControlTheme, add a matching empty `<Style Selector="Control.someClass" />` to `StyleClasses.axaml`.
+
+**Why:** Rider cannot resolve classes declared as `^.name` inside a ControlTheme — `^` only means the control by virtue of the enclosing ControlTheme's key, and the whole thing sits in a ResourceDictionary reached through `MergeResourceInclude`. Without a declaration, every `Classes="accent"` a consumer writes is underlined *"Style class 'accent' not found"* despite working perfectly. That lands on the consumer's code, not ours, which makes it everybody's problem rather than ours.
+
+`StyleClasses.axaml` is a `Styles` collection of deliberately empty styles, included from `PrototypeTheme.axaml` so consumers get it just by using the theme — no extra line in their app. Empty styles set nothing, so there is no runtime behaviour and no effect on precedence, even though app-level `Styles` outrank ControlTheme styles.
+
+**Type-qualify the selector** (`ButtonSpinner.accent`, not `.accent`). A bare class selector would declare the class for every control in the app, so `Classes="accent"` on a control with no accent styling would stop being reported — the inspection should keep working, just stop being wrong.
+
+**This is the tracked failure mode:** the two files are kept in step by hand, so a class added to a ControlTheme and forgotten here is underlined again with nothing to explain why.
+
+---
+
 ## Reference: Button.axaml (correctly themed control)
 
 The Button control has been fully converted and serves as the reference implementation. Key features:
