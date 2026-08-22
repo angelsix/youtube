@@ -1,59 +1,61 @@
-<ResourceDictionary xmlns="https://github.com/avaloniaui"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:theme="using:AngelSix.ThemeEngine.Generated">
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:theme="using:AngelSix.ThemeEngine.Generated">
   <!--
-    A consumer's own ControlTheme, living downstream of the theme library.
+    A consumer's own style classes, living downstream of the theme library.
 
     This is the other half of extending a theme. BrandTheme adds an accent *hue*, which needs
-    nothing from this file — theme:Accent.Kind="Brand" is an attached property and works out of the
-    box. This is the case that does need work: defining style *classes* of your own.
+    nothing beyond declaring the colours — theme:Accent.Kind="Brand" then works. This is the other
+    thing you are likely to want: variants of your own on top of the theme's controls.
 
-    The classes below are declared as `^.hero` and `^.quiet` inside a ControlTheme, which is exactly
-    the shape static analysis cannot resolve — so without StyleClasses.axaml in this project, every
-    Classes="hero" in this app would be underlined "Style class 'hero' not found". That file is
-    generated from this one by the build target AngelSix.ThemeEngine ships; see it for the wiring.
+    Written as a Styles collection layering setters over the theme's ControlThemes, rather than as a
+    ControlTheme of its own. That is the right shape for "the theme's button, but ours too":
 
-    Values come from theme tokens rather than literals, so a brand button still tracks the theme's
-    spacing and type scale instead of drifting away from everything around it.
+      - The theme's Button ControlTheme still supplies the template and every state, so a brand
+        button stays a normal button and keeps working when the theme changes.
+      - A ControlTheme would mean BasedOn="{StaticResource {x:Type Button}}", and the theme's
+        control dictionaries are x:ClassModifier="internal" — deliberately not consumer API — so
+        that resource cannot be reached from here at all.
+      - Top-level selectors like Button.hero are visible to static analysis as they stand, so these
+        classes need no StyleClasses.axaml declarations. That file is for classes declared as
+        ^.name *inside* a ControlTheme, which is the theme library's case, not this one.
 
-    Note which namespace those tokens come from. `AngelSix.ThemeEngine.Generated` is the shared one
-    — every {theme:Token}, the hand-written extensions like Edges, and AccentBrush. This project's
-    own generated namespace (…Generated.AvaloniaThemeLab, used in MainWindow) holds only its accent
-    types, because it only declares accent properties of its own. Reach for the shared namespace
-    unless you specifically need this assembly's AccentKind.
+    Values come from theme tokens rather than literals, so a brand button tracks the theme's spacing
+    and type scale instead of drifting away from everything around it. They come from
+    AngelSix.ThemeEngine.Generated — the shared namespace holding every {theme:Token}, the
+    hand-written extensions like Edges, and AccentBrush. This project's own generated namespace
+    (…Generated.AvaloniaThemeLab, used in MainWindow) holds only its accent types.
   -->
 
-  <ControlTheme x:Key="BrandButton" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+  <!-- Filled brand button. AccentBrush resolves against the hue the control carries, so this one
+       style serves Brand, Success or anything else the theme declares. -->
+  <Style Selector="Button.hero">
+    <Setter Property="Background" Value="{theme:AccentBrush}" />
+    <Setter Property="Foreground" Value="{theme:SurfaceBrush}" />
+    <Setter Property="FontWeight" Value="{theme:FontWeightBold}" />
+    <Setter Property="Padding" Value="{theme:Edges Horizontal={theme:SpacingXxl}, Vertical={theme:SpacingLg}}" />
+    <Setter Property="BorderThickness" Value="0" />
+  </Style>
 
-    <!-- Filled brand button. AccentBrush resolves against the hue the control carries, so this one
-         style serves Brand, Warning or anything else the theme declares. -->
-    <Style Selector="^.hero">
-      <Setter Property="Background" Value="{theme:AccentBrush}" />
-      <Setter Property="Foreground" Value="{theme:SurfaceBrush}" />
-      <Setter Property="FontWeight" Value="{theme:FontWeightBold}" />
-      <Setter Property="Padding" Value="{theme:Edges Horizontal={theme:SpacingXxl}, Vertical={theme:SpacingLg}}" />
-      <Setter Property="BorderThickness" Value="0" />
-    </Style>
+  <!-- These states have to be restated: an app-level Style outranks the ControlTheme's own
+       :pointerover, so without them a hero button would keep its rest background on hover. -->
+  <Style Selector="Button.hero:pointerover">
+    <Setter Property="Background" Value="{theme:AccentBrush Dark1}" />
+  </Style>
 
-    <Style Selector="^.hero:pointerover">
-      <Setter Property="Background" Value="{theme:AccentBrush Dark1}" />
-    </Style>
+  <Style Selector="Button.hero:pressed">
+    <Setter Property="Background" Value="{theme:AccentBrush Dark2}" />
+  </Style>
 
-    <Style Selector="^.hero:pressed">
-      <Setter Property="Background" Value="{theme:AccentBrush Dark2}" />
-    </Style>
+  <!-- Text-only counterpart, for the secondary action beside a hero. -->
+  <Style Selector="Button.quiet">
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="BorderThickness" Value="0" />
+    <Setter Property="Foreground" Value="{theme:OnSurfaceDimBrush}" />
+  </Style>
 
-    <!-- Text-only counterpart, for the secondary action beside a hero. -->
-    <Style Selector="^.quiet">
-      <Setter Property="Background" Value="Transparent" />
-      <Setter Property="BorderThickness" Value="0" />
-      <Setter Property="Foreground" Value="{theme:OnSurfaceDimBrush}" />
-    </Style>
+  <Style Selector="Button.quiet:pointerover">
+    <Setter Property="Foreground" Value="{theme:AccentBrush}" />
+  </Style>
 
-    <Style Selector="^.quiet:pointerover">
-      <Setter Property="Foreground" Value="{theme:AccentBrush}" />
-    </Style>
-
-  </ControlTheme>
-
-</ResourceDictionary>
+</Styles>

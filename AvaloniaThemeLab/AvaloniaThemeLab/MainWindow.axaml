@@ -55,15 +55,15 @@
             <ButtonSpinner Content="No accent class" />
         </StackPanel>
 
-        <!-- This app's own style classes, from its own ControlTheme in BrandControls.axaml.
+        <!-- This app's own style classes, from BrandControls.axaml.
              The hue still comes from Accent.Kind, so .hero serves any accent. -->
         <StackPanel Orientation="Horizontal" Spacing="12" brand:Accent.Kind="Brand">
-            <Button Theme="{StaticResource BrandButton}" Classes="hero" Content="Get started" />
-            <Button Theme="{StaticResource BrandButton}" Classes="quiet" Content="Maybe later" />
+            <Button Classes="hero" Content="Get started" />
+            <Button Classes="quiet" Content="Maybe later" />
         </StackPanel>
 
         <StackPanel Orientation="Horizontal" Spacing="12" brand:Accent.Kind="Success">
-            <Button Theme="{StaticResource BrandButton}" Classes="hero" Content="Same class, Success" />
+            <Button Classes="hero" Content="Same class, Success" />
         </StackPanel>
     </StackPanel>
 </Window>
