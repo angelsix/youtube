@@ -3,8 +3,7 @@
                     xmlns:sys="using:System"
                     xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
-                    xmlns:icons="using:AngelSix.ThemeEngine.Icons"
-                    x:ClassModifier="internal">
+                    xmlns:icons="using:AngelSix.ThemeEngine.Icons">
   <Design.PreviewWith>
     <Border Padding="20">
       <Border.Styles>
@@ -159,7 +158,7 @@
                               BorderBrush="{TemplateBinding BorderBrush}"
                               Padding="{TemplateBinding Padding}"
                               Foreground="{TemplateBinding Foreground}">
-                  <PathIcon Data="{icons:ChevronUpGlyph}" />
+                  <PathIcon Data="{icons:ChevronUp}" />
                 </RepeatButton>
 
                 <!-- Steps the value down, repeating while held -->
@@ -169,7 +168,7 @@
                               BorderBrush="{TemplateBinding BorderBrush}"
                               Foreground="{TemplateBinding Foreground}"
                               Padding="{TemplateBinding Padding}">
-                  <PathIcon Data="{icons:ChevronDownGlyph}" />
+                  <PathIcon Data="{icons:ChevronDown}" />
                 </RepeatButton>
 
               </StackPanel>

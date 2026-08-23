@@ -2,7 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
-                    x:ClassModifier="internal">
+                    xmlns:icons="using:AngelSix.ThemeEngine.Icons">
 
 
   <ControlTheme x:Key="PrototypeDrawnCaptionButton" TargetType="Button">
@@ -87,7 +87,7 @@
                     <Path Name="FullScreenButtonPath"
                           Stretch="UniformToFill"
                           Fill="{theme:OnSurfaceBrush}"
-                          Data="M2048 2048v-819h-205v469l-1493 -1493h469v-205h-819v819h205v-469l1493 1493h-469v205h819z" />
+                          Data="{icons:FullScreenEnter}" />
                   </Viewbox>
                 </Button>
                 <Button x:Name="PART_MinimizeButton"
@@ -96,7 +96,7 @@
                   <Viewbox Width="{theme:IconSize}" Margin="{theme:Edges All={theme:SpacingSm}}">
                     <Path Stretch="UniformToFill"
                           Fill="{theme:OnSurfaceBrush}"
-                          Data="M2048 1229v-205h-2048v205h2048z" />
+                          Data="{icons:Minus}" />
                   </Viewbox>
                 </Button>
                 <Button x:Name="PART_MaximizeButton"
@@ -109,7 +109,7 @@
                     <Path Name="RestoreButtonPath"
                           Stretch="UniformToFill"
                           Fill="{theme:OnSurfaceBrush}"
-                          Data="M2048 2048v-2048h-2048v2048h2048zM1843 1843h-1638v-1638h1638v1638z"/>
+                          Data="{icons:WindowMaximize}"/>
                   </Viewbox>
                 </Button>
                 <Button x:Name="PART_CloseButton"
@@ -120,7 +120,7 @@
                   <Viewbox Width="{theme:IconSize}" Margin="{theme:Edges All={theme:SpacingSm}}">
                     <Path Stretch="UniformToFill"
                           Fill="{theme:OnSurfaceBrush}"
-                          Data="M1169 1024l879 -879l-145 -145l-879 879l-879 -879l-145 145l879 879l-879 879l145 145l879 -879l879 879l145 -145z" />
+                          Data="{icons:Close}" />
                   </Viewbox>
                 </Button>
               </StackPanel>
@@ -146,7 +146,7 @@
                   <Viewbox Width="{theme:IconSize}" Margin="{theme:Edges All={theme:SpacingSm}}">
                     <Path Stretch="UniformToFill"
                           Fill="{theme:OnSurfaceBrush}"
-                          Data="M205 1024h819v-819h-205v469l-674 -674l-145 145l674 674h-469v205zM1374 1229h469v-205h-819v819h205v-469l674 674l145 -145z" />
+                          Data="{icons:WindowRestore}" />
                   </Viewbox>
                 </Button>
                 <Button x:Name="PART_PopoverCloseButton"
@@ -157,7 +157,7 @@
                   <Viewbox Width="{theme:IconSize}" Margin="{theme:Edges All={theme:SpacingSm}}">
                     <Path Stretch="UniformToFill"
                           Fill="{theme:OnSurfaceBrush}"
-                          Data="M1169 1024l879 -879l-145 -145l-879 879l-879 -879l-145 145l879 879l-879 879l145 145l879 -879l879 879l145 -145z" />
+                          Data="{icons:Close}" />
                   </Viewbox>
                 </Button>
               </StackPanel>

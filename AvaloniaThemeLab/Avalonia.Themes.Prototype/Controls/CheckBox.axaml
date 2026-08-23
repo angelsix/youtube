@@ -2,7 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
-                    x:ClassModifier="internal">
+                    xmlns:icons="using:AngelSix.ThemeEngine.Icons">
   <Design.PreviewWith>
     <Border Padding="20">
       <Border.Styles>
@@ -34,9 +34,6 @@
       </StackPanel>
     </Border>
   </Design.PreviewWith>
-
-  <!-- Check mark path data -->
-  <StreamGeometry x:Key="CheckMarkPathData">M917.331,1960.119C894.961,1982.488 864.621,1995.056 832.986,1995.056C801.35,1995.056 771.011,1982.488 748.641,1960.119C580.226,1791.703 204.033,1415.511 35.617,1247.095C-10.965,1200.513 -10.965,1124.988 35.617,1078.405C113.562,1000.461 228.761,885.262 306.706,807.317C353.288,760.734 428.813,760.734 475.395,807.317C553.872,885.793 670.189,1002.11 748.665,1080.586C795.247,1127.169 870.772,1127.169 917.355,1080.586C1139.301,858.64 1737.72,260.221 1959.666,38.275C1982.036,15.905 2012.376,3.338 2044.011,3.338C2075.646,3.338 2105.986,15.905 2128.356,38.275C2206.295,116.214 2321.482,231.4 2399.421,309.339C2421.79,331.709 2434.357,362.049 2434.357,393.684C2434.357,425.32 2421.79,455.659 2399.421,478.029C2116.124,761.325 1200.627,1676.823 917.331,1960.119Z</StreamGeometry>
 
   <!-- ============================================================
        ControlTheme: {x:Type CheckBox}
@@ -107,7 +104,7 @@
                   <Path x:Name="CheckGlyph"
                         Opacity="0"
                         Stretch="Uniform"
-                        Data="{StaticResource CheckMarkPathData}" />
+                        Data="{icons:Checkmark}" />
                 </Viewbox>
 
                 <!-- The small square shown when indeterminate -->

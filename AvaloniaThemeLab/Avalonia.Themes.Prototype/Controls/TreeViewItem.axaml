@@ -3,8 +3,7 @@
         xmlns:converters="using:Avalonia.Controls.Converters"
         xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
         xmlns:theme="using:AngelSix.ThemeEngine.Generated"
-        xmlns:icons="using:AngelSix.ThemeEngine.Icons"
-        x:ClassModifier="internal">
+        xmlns:icons="using:AngelSix.ThemeEngine.Icons">
 
   <Design.PreviewWith>
     <Border Padding="20"
@@ -40,7 +39,7 @@
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center">
           <Path x:Name="ChevronPath"
-                Data="{icons:ExpandChevronGlyph}"
+                Data="{icons:ExpandChevron}"
                 Stretch="Uniform"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center" />
@@ -49,7 +48,7 @@
     </Setter>
 
     <Style Selector="^:checked /template/ Path#ChevronPath">
-      <Setter Property="Data" Value="{icons:CollapseChevronGlyph}" />
+      <Setter Property="Data" Value="{icons:CollapseChevron}" />
     </Style>
   </ControlTheme>
 

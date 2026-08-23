@@ -2,7 +2,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
         xmlns:theme="using:AngelSix.ThemeEngine.Generated"
-        x:ClassModifier="internal">
+        xmlns:icons="using:AngelSix.ThemeEngine.Icons">
   <Design.PreviewWith>
     <Border Padding="20" Width="200">
       <Border.Styles>
@@ -100,7 +100,7 @@
     <Setter Property="Content">
       <Template>
         <Viewbox Height="{theme:IconSize}" Width="{theme:IconSize}" HorizontalAlignment="Center" VerticalAlignment="Center">
-          <Path Stroke="{Binding $parent[RepeatButton].Foreground}" StrokeThickness="{theme:ThicknessSm}" Data="M 0,9 L 9,0 L 18,9"/>
+          <Path Stroke="{Binding $parent[RepeatButton].Foreground}" StrokeThickness="{theme:ThicknessSm}" Data="{icons:ChevronUp}"/>
         </Viewbox>
       </Template>
     </Setter>
@@ -117,7 +117,7 @@
     <Setter Property="Content">
       <Template>
         <Viewbox Height="{theme:IconSize}" Width="{theme:IconSize}" HorizontalAlignment="Center" VerticalAlignment="Center">
-          <Path Stroke="{Binding $parent[RepeatButton].Foreground}" StrokeThickness="{theme:ThicknessSm}" Data="M 0,0 L 9,9 L 18,0"/>
+          <Path Stroke="{Binding $parent[RepeatButton].Foreground}" StrokeThickness="{theme:ThicknessSm}" Data="{icons:ChevronDown}"/>
         </Viewbox>
       </Template>
     </Setter>

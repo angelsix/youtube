@@ -2,7 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
-                    x:ClassModifier="internal">
+                    xmlns:icons="using:AngelSix.ThemeEngine.Icons">
   <Design.PreviewWith>
     <Border Padding="20">
       <Border.Styles>
@@ -81,11 +81,11 @@
                                 VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
 
               <!-- The arrow marking this as a dropdown -->
-              <PathIcon x:Name="DropDownGlyph"
+              <PathIcon x:Name="DropDown"
                         Grid.Column="1"
                         UseLayoutRounding="False"
                         IsHitTestVisible="False"
-                        Data="M1939 486L2029 576L1024 1581L19 576L109 486L1024 1401L1939 486Z"
+                        Data="{icons:DropDown}"
                         HorizontalAlignment="Right"
                         VerticalAlignment="Center" />
 
@@ -107,7 +107,7 @@
     </Style>
 
     <!-- Drop-down glyph -->
-    <Style Selector="^ /template/ PathIcon#DropDownGlyph">
+    <Style Selector="^ /template/ PathIcon#DropDown">
       <Setter Property="Foreground" Value="{theme:OnSurfaceDimBrush}" />
       <Setter Property="Height" Value="{theme:IconSize}" />
       <Setter Property="Width" Value="{theme:IconSize}" />
@@ -126,7 +126,7 @@
       <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}" />
       <Setter Property="RenderTransform" Value="{theme:TransformScale Value={theme:PressedScale}, By=1.07}" />
     </Style>
-    <Style Selector="^:pointerover /template/ PathIcon#DropDownGlyph, ^.previewHover /template/ PathIcon#DropDownGlyph">
+    <Style Selector="^:pointerover /template/ PathIcon#DropDown, ^.previewHover /template/ PathIcon#DropDown">
       <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
     </Style>
 
@@ -135,7 +135,7 @@
       <Setter Property="RenderTransform" Value="{theme:TransformScale Value={theme:PressedScale}}" />
       <Setter Property="Background" Value="{theme:SurfaceOverlayMediumBrush}" />
     </Style>
-    <Style Selector="^:pressed /template/ PathIcon#DropDownGlyph, ^.previewPressed /template/ PathIcon#DropDownGlyph">
+    <Style Selector="^:pressed /template/ PathIcon#DropDown, ^.previewPressed /template/ PathIcon#DropDown">
       <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
     </Style>
 
@@ -160,7 +160,7 @@
         <Setter Property="IsVisible" Value="True" />
       </Style>
 
-      <Style Selector="^ /template/ PathIcon#DropDownGlyph">
+      <Style Selector="^ /template/ PathIcon#DropDown">
         <Setter Property="Foreground" Value="{theme:AccentPrimaryBrush}" />
       </Style>
     </Style>
@@ -174,7 +174,7 @@
         <Setter Property="Stroke" Value="{theme:AccentPrimaryDark1Brush}" />
       </Style>
 
-      <Style Selector="^ /template/ PathIcon#DropDownGlyph">
+      <Style Selector="^ /template/ PathIcon#DropDown">
         <Setter Property="Foreground" Value="{theme:AccentPrimaryDark1Brush}" />
       </Style>
     </Style>
@@ -188,7 +188,7 @@
         <Setter Property="Stroke" Value="{theme:AccentPrimaryDark2Brush}" />
       </Style>
 
-      <Style Selector="^ /template/ PathIcon#DropDownGlyph">
+      <Style Selector="^ /template/ PathIcon#DropDown">
         <Setter Property="Foreground" Value="{theme:AccentPrimaryDark2Brush}" />
       </Style>
     </Style>

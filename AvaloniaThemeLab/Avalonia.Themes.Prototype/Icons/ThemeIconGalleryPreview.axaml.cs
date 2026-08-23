@@ -7,9 +7,9 @@ namespace Avalonia.Themes.Prototype;
 /// Design-time icon gallery previewer. Shows every <c>{icons:...}</c> glyph
 /// inside a Button so you can visually verify chevrons, arrows, and other icons.
 /// </summary>
-internal partial class IconGalleryPreview : ResourceDictionary
+internal partial class ThemeIconGalleryPreview : ResourceDictionary
 {
-    public IconGalleryPreview()
+    public ThemeIconGalleryPreview()
     {
         AvaloniaXamlLoader.Load(this);
     }

@@ -3,8 +3,7 @@
                     xmlns:sys="using:System"
                     xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
-                    xmlns:icons="using:AngelSix.ThemeEngine.Icons"
-                    x:ClassModifier="internal">
+                    xmlns:icons="using:AngelSix.ThemeEngine.Icons">
   <Design.PreviewWith>
     <Border Padding="20">
       <Border.Styles>
@@ -150,7 +149,7 @@
                     HorizontalAlignment="Right" />
 
             <!-- The arrow marking this as a dropdown -->
-            <PathIcon x:Name="DropDownGlyph"
+            <PathIcon x:Name="DropDown"
                       Grid.Column="1"
                       UseLayoutRounding="False"
                       IsHitTestVisible="False"
@@ -204,7 +203,7 @@
       <Setter Property="Margin" Value="{theme:Edges Top={theme:BaseSize}, Right={theme:BaseSize}, Bottom={theme:BaseSize}}" />
     </Style>
 
-    <Style Selector="^ /template/ PathIcon#DropDownGlyph">
+    <Style Selector="^ /template/ PathIcon#DropDown">
       <Setter Property="Height" Value="{theme:IconSize}" />
       <Setter Property="Width" Value="{theme:IconSize}" />
       <Setter Property="Margin" Value="{theme:Edges Right={theme:SpacingXxl}}" />
@@ -247,7 +246,7 @@
       <Style Selector="^ /template/ TextBlock#PlaceholderTextBlock">
         <Setter Property="Foreground" Value="{theme:OnSurfaceDimBrush}" />
       </Style>
-      <Style Selector="^ /template/ PathIcon#DropDownGlyph">
+      <Style Selector="^ /template/ PathIcon#DropDown">
         <Setter Property="Foreground" Value="{theme:OnSurfaceDimBrush}" />
       </Style>
     </Style>
@@ -264,7 +263,7 @@
       <Style Selector="^ /template/ TextBlock#PlaceholderTextBlock">
         <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
       </Style>
-      <Style Selector="^ /template/ PathIcon#DropDownGlyph">
+      <Style Selector="^ /template/ PathIcon#DropDown">
         <Setter Property="Foreground" Value="{theme:OnSurfaceDimBrush}" />
       </Style>
     </Style>
@@ -277,7 +276,7 @@
       <Style Selector="^ /template/ TextBlock#PlaceholderTextBlock">
         <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
       </Style>
-      <Style Selector="^ /template/ PathIcon#DropDownGlyph">
+      <Style Selector="^ /template/ PathIcon#DropDown">
         <Setter Property="Foreground" Value="{theme:OnSurfaceDimBrush}" />
       </Style>
     </Style>

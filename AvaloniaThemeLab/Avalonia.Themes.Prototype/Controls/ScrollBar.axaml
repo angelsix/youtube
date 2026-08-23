@@ -2,7 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
-                    x:ClassModifier="internal">
+                    xmlns:icons="using:AngelSix.ThemeEngine.Icons">
   <Design.PreviewWith>
     <Border Padding="20">
       <Border.Styles>
@@ -201,7 +201,7 @@
                               AutomationProperties.Name="Line up">
                   <!-- The up arrow -->
                   <PathIcon x:Name="PART_LineUpIcon"
-                            Data="M 19.091797 14.970703 L 10 5.888672 L 0.908203 14.970703 L 0.029297 14.091797 L 10 4.111328 L 19.970703 14.091797 Z"/>
+                            Data="{icons:ChevronUp}"/>
                 </RepeatButton>
 
                 <!-- The draggable region between the arrows -->
@@ -244,7 +244,7 @@
                               AutomationProperties.Name="Line down">
                   <!-- The down arrow -->
                   <PathIcon x:Name="PART_LineDownIcon"
-                            Data="M 18.935547 4.560547 L 19.814453 5.439453 L 10 15.253906 L 0.185547 5.439453 L 1.064453 4.560547 L 10 13.496094 Z"/>
+                            Data="{icons:ChevronDown}"/>
                 </RepeatButton>
               </Grid>
             </Border>
@@ -289,7 +289,7 @@
                               AutomationProperties.Name="Column left">
                   <!-- The left arrow -->
                   <PathIcon x:Name="PART_LineUpIcon"
-                            Data="M 14.091797 19.970703 L 4.111328 10 L 14.091797 0.029297 L 14.970703 0.908203 L 5.888672 10 L 14.970703 19.091797 Z"/>
+                            Data="{icons:ChevronLeft}"/>
                 </RepeatButton>
 
                 <!-- The draggable region between the arrows -->
@@ -331,7 +331,7 @@
                               AutomationProperties.Name="Column right">
                   <!-- The right arrow -->
                   <PathIcon x:Name="PART_LineDownIcon"
-                            Data="M 5.029297 19.091797 L 14.111328 10 L 5.029297 0.908203 L 5.908203 0.029297 L 15.888672 10 L 5.908203 19.970703 Z"/>
+                            Data="{icons:ChevronRight}"/>
                 </RepeatButton>
               </Grid>
             </Border>

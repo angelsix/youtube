@@ -3,7 +3,7 @@
         xmlns:converters="using:Avalonia.Controls.Converters"
         xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
         xmlns:theme="using:AngelSix.ThemeEngine.Generated"
-        x:ClassModifier="internal">
+        xmlns:icons="using:AngelSix.ThemeEngine.Icons">
   <Design.PreviewWith>
     <Border Padding="60">
       <Border.Styles>
@@ -187,7 +187,7 @@
                   KeyboardNavigation.IsTabStop="False">
             <!-- The arrow marking the dropdown half -->
             <PathIcon x:Name="PART_DropDownIcon"
-                      Data="M1939 486L2029 576L1024 1581L19 576L109 486L1024 1401L1939 486Z" />
+                      Data="{icons:DropDown}" />
           </Button>
         </Grid>
       </ControlTemplate>

@@ -2,7 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
-                    x:ClassModifier="internal">
+                    xmlns:icons="using:AngelSix.ThemeEngine.Icons">
   <Design.PreviewWith>
     <Border Padding="20">
       <Border.Styles>
@@ -13,12 +13,8 @@
   </Design.PreviewWith>
 
   <!-- Icon path data — horizontal arrows -->
-  <StreamGeometry x:Key="PipsPagerPreviousPageButtonData">M 8.12,2.29 L 3.41,7.00 C 3.14,7.27 3.14,7.71 3.41,7.98 L 8.12,12.69 C 8.57,13.14 9.33,12.82 9.33,12.19 L 9.33,2.79 C 9.33,2.16 8.57,1.84 8.12,2.29 Z</StreamGeometry>
-  <StreamGeometry x:Key="PipsPagerNextPageButtonData">M 3.88,2.29 L 8.59,7.00 C 8.86,7.27 8.86,7.71 8.59,7.98 L 3.88,12.69 C 3.43,13.14 2.67,12.82 2.67,12.19 L 2.67,2.79 C 2.67,2.16 3.43,1.84 3.88,2.29 Z</StreamGeometry>
 
   <!-- Icon path data — vertical arrows -->
-  <StreamGeometry x:Key="PipsPagerPreviousPageButtonVerticalData">M 2.29,8.12 L 7.00,3.41 C 7.27,3.14 7.71,3.14 7.98,3.41 L 12.69,8.12 C 13.14,8.57 12.82,9.33 12.19,9.33 L 2.79,9.33 C 2.16,9.33 1.84,8.57 2.29,8.12 Z</StreamGeometry>
-  <StreamGeometry x:Key="PipsPagerNextPageButtonVerticalData">M 2.29,3.88 L 7.00,8.59 C 7.27,8.86 7.71,8.86 7.98,8.59 L 12.69,3.88 C 13.14,3.43 12.82,2.67 12.19,2.67 L 2.79,2.67 C 2.16,2.67 1.84,3.43 2.29,3.88 Z</StreamGeometry>
 
   <!-- ============================================================
        ControlTheme: PipsPagerNavigationButtonTheme (base)
@@ -231,7 +227,7 @@
                   HorizontalAlignment="Center">
             <!-- The back arrow -->
             <PathIcon Name="PreviousButtonIcon"
-                      Data="{StaticResource PipsPagerPreviousPageButtonData}" />
+                      Data="{icons:ChevronLeft}" />
           </Button>
 
           <!-- One dot per page, the current one selected -->
@@ -272,7 +268,7 @@
                   HorizontalAlignment="Center">
             <!-- The forward arrow -->
             <PathIcon Name="NextButtonIcon"
-                      Data="{StaticResource PipsPagerNextPageButtonData}" />
+                      Data="{icons:ChevronRight}" />
           </Button>
         </StackPanel>
       </ControlTemplate>
@@ -319,10 +315,10 @@
 
     <!-- Vertical navigation icons -->
     <Style Selector="^:vertical /template/ Button#PART_PreviousButton PathIcon#PreviousButtonIcon">
-      <Setter Property="Data" Value="{StaticResource PipsPagerPreviousPageButtonVerticalData}" />
+      <Setter Property="Data" Value="{icons:ChevronUp}" />
     </Style>
     <Style Selector="^:vertical /template/ Button#PART_NextButton PathIcon#NextButtonIcon">
-      <Setter Property="Data" Value="{StaticResource PipsPagerNextPageButtonVerticalData}" />
+      <Setter Property="Data" Value="{icons:ChevronDown}" />
     </Style>
 
     <!-- First page state -->

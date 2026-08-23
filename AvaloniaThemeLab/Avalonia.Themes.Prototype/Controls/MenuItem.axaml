@@ -3,7 +3,7 @@
                     xmlns:conv="using:Avalonia.Controls.Converters"
                     xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
-                    x:ClassModifier="internal">
+                    xmlns:icons="using:AngelSix.ThemeEngine.Icons">
   <Design.PreviewWith>
     <Border Padding="20" Width="320">
       <Border.Styles>
@@ -55,7 +55,6 @@
   </Design.PreviewWith>
 
   <conv:PlatformKeyGestureConverter x:Key="KeyGestureConverter" />
-  <StreamGeometry x:Key="MenuItemChevronPathData">M 1,0 10,10 l -9,10 -1,-1 L 8,10 -0,1 Z</StreamGeometry>
 
   <ControlTheme x:Key="{x:Type MenuItem}" TargetType="MenuItem">
     <!-- Visual defaults -->
@@ -119,7 +118,7 @@
               <!-- Chevron marking an item with a submenu -->
               <Path Name="PART_ChevronPath"
                     Stretch="Uniform"
-                    Data="{StaticResource MenuItemChevronPathData}"
+                    Data="{icons:ChevronRight}"
                     VerticalAlignment="Center"
                     Grid.Column="4" />
             </Grid>

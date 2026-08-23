@@ -3,7 +3,7 @@
                     xmlns:sys="using:System"
                     xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
-                    x:ClassModifier="internal">
+                    xmlns:icons="using:AngelSix.ThemeEngine.Icons">
   <Design.PreviewWith>
     <Border Padding="20" Height="500">
       <Border.Styles>
@@ -280,7 +280,7 @@
                 <Path x:Name="PART_AcceptGlyph"
                       Stroke="{Binding $parent[Button].Foreground}"
                       StrokeLineCap="Round"
-                      Data="M0.5,8.5 5,13.5 15.5,3" />
+                      Data="{icons:Checkmark}" />
               </Button>
               <!-- Closes the picker without choosing -->
               <Button Name="PART_DismissButton"
@@ -292,7 +292,7 @@
                 <Path x:Name="PART_DismissGlyph"
                       Stroke="{Binding $parent[Button].Foreground}"
                       StrokeLineCap="Round"
-                      Data="M2,2 14,14 M2,14 14 2" />
+                      Data="{icons:Close}" />
               </Button>
             </Grid>
           </Grid>

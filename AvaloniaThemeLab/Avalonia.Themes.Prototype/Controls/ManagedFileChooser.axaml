@@ -5,7 +5,7 @@
         xmlns:converters="clr-namespace:Avalonia.Controls.Converters;assembly=Avalonia.Controls"
         xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
         xmlns:theme="using:AngelSix.ThemeEngine.Generated"
-        x:ClassModifier="internal">
+        xmlns:icons="using:AngelSix.ThemeEngine.Icons">
   <Design.PreviewWith>
     <Border Padding="20" Width="800" Height="500">
       <Border.Styles>
@@ -275,11 +275,11 @@
               <DockPanel x:Name="NavBarInner">
                 <!-- Goes to the parent folder -->
                 <Button x:Name="GoUpButton" Command="{Binding GoUp}" DockPanel.Dock="Left">
-                  <Path Data="M 0 7 L 7 0 L 14 7 M 7 0 L 7 16" Stroke="{CompiledBinding $parent[Button].Foreground}" StrokeThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,1,0,-1"/>
+                  <Path Data="{icons:ArrowUp}" Width="14" Height="16" Stretch="Uniform" Fill="{CompiledBinding $parent[Button].Foreground}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,1,0,-1"/>
                 </Button>
                 <!-- Reloads the current folder -->
                 <Button x:Name="RefreshButton" Command="{Binding Refresh}" DockPanel.Dock="Right">
-                  <Path Data="M18.62 3.32c.39 0 .7.29.76.66v3c0 .39-.28.7-.66.76h-3a.77.77 0 0 1-.1-1.52h1.08a7.42 7.42 0 1 0 2.65 4.37.77.77 0 1 1 1.5-.3 8.94 8.94 0 1 1-3-5.12V4.09c0-.43.35-.77.77-.77Z"
+                  <Path Data="{icons:Refresh}"
                         Fill="{CompiledBinding $parent[Button].Foreground}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="-2,-4,0,0"/>
                 </Button>
                 <!-- The current folder path, editable -->

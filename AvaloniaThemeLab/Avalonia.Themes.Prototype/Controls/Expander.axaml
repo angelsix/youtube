@@ -3,8 +3,7 @@
                     xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
                     xmlns:icons="using:AngelSix.ThemeEngine.Icons"
-                    xmlns:converters="using:Avalonia.Controls.Converters"
-                    x:ClassModifier="internal">
+                    xmlns:converters="using:Avalonia.Controls.Converters">
 
   <Design.PreviewWith>
     <Border Padding="20">
@@ -211,7 +210,7 @@
   <ControlTheme x:Key="PrototypeExpanderToggleButtonUpTheme" TargetType="ToggleButton" BasedOn="{StaticResource PrototypeExpanderToggleButtonTheme}">
     <!-- Chevron glyph -->
     <Style Selector="^ /template/ Path#ExpandCollapseChevron">
-      <Setter Property="Data" Value="{icons:ChevronUpGlyph}" />
+      <Setter Property="Data" Value="{icons:ChevronUp}" />
     </Style>
   </ControlTheme>
 
@@ -221,7 +220,7 @@
   <ControlTheme x:Key="PrototypeExpanderToggleButtonDownTheme" TargetType="ToggleButton" BasedOn="{StaticResource PrototypeExpanderToggleButtonTheme}">
     <!-- Chevron glyph -->
     <Style Selector="^ /template/ Path#ExpandCollapseChevron">
-      <Setter Property="Data" Value="{icons:ChevronDownGlyph}" />
+      <Setter Property="Data" Value="{icons:ChevronDown}" />
     </Style>
   </ControlTheme>
 
@@ -231,7 +230,7 @@
   <ControlTheme x:Key="PrototypeExpanderToggleButtonLeftTheme" TargetType="ToggleButton" BasedOn="{StaticResource PrototypeExpanderToggleButtonTheme}">
     <!-- Chevron glyph -->
     <Style Selector="^ /template/ Path#ExpandCollapseChevron">
-      <Setter Property="Data" Value="{icons:ChevronLeftGlyph}" />
+      <Setter Property="Data" Value="{icons:ChevronLeft}" />
     </Style>
   </ControlTheme>
 
@@ -241,7 +240,7 @@
   <ControlTheme x:Key="PrototypeExpanderToggleButtonRightTheme" TargetType="ToggleButton" BasedOn="{StaticResource PrototypeExpanderToggleButtonTheme}">
     <!-- Chevron glyph -->
     <Style Selector="^ /template/ Path#ExpandCollapseChevron">
-      <Setter Property="Data" Value="{icons:ChevronRightGlyph}" />
+      <Setter Property="Data" Value="{icons:ChevronRight}" />
     </Style>
   </ControlTheme>
 
