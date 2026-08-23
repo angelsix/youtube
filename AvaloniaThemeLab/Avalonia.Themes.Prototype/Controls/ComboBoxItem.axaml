@@ -8,7 +8,7 @@
         <prototype:PrototypeTheme />
       </Border.Styles>
 
-      <Border Background="{theme:SurfaceBrush}" BorderBrush="{theme:AccentBorderBrush}" BorderThickness="{theme:ThicknessSm}" Margin="{theme:Edges Top={theme:Scaled Value={theme:BaseSize}, By=-1}, Bottom={theme:Scaled Value={theme:BaseSize}, By=-1}}" Padding="0" CornerRadius="{theme:RadiusMd}">
+      <Border Background="{theme:AccentBrush Light10}" BorderBrush="{theme:AccentBorderBrush}" BorderThickness="{theme:ThicknessSm}" Margin="{theme:Edges Top={theme:Scaled Value={theme:BaseSize}, By=-1}, Bottom={theme:Scaled Value={theme:BaseSize}, By=-1}}" Padding="0" CornerRadius="{theme:RadiusMd}">
         <StackPanel HorizontalAlignment="Stretch">
           <ComboBoxItem>Item 1</ComboBoxItem>
           <ComboBoxItem>Item 2 long</ComboBoxItem>
@@ -57,23 +57,21 @@
 
     <!-- PointerOver state -->
     <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}" />
+      <Setter Property="Background" Value="{theme:AccentBrush Light8}" />
       <Setter Property="BorderBrush" Value="Transparent" />
-      <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
     </Style>
 
     <!-- Pressed state -->
     <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="Background" Value="{theme:SurfaceOverlayMediumBrush}" />
+      <Setter Property="Background" Value="{theme:AccentBrush Light6}" />
       <Setter Property="BorderBrush" Value="Transparent" />
-      <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
     </Style>
 
     <!-- Disabled state -->
     <Style Selector="^:disabled /template/ ContentPresenter#PART_ContentPresenter">
       <Setter Property="Background" Value="Transparent" />
       <Setter Property="BorderBrush" Value="Transparent" />
-      <Setter Property="Foreground" Value="{theme:OnSurfaceDimBrush}" />
+      <Setter Property="Foreground" Value="{theme:AccentBrush Light2}" />
     </Style>
 
     <!-- Focus state -->
@@ -89,28 +87,25 @@
       <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
         <Setter Property="Background" Value="{theme:AccentPrimaryBrush}" />
         <Setter Property="BorderBrush" Value="Transparent" />
-        <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
       </Style>
 
       <!-- Selected PointerOver state -->
       <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
         <Setter Property="Background" Value="{theme:AccentPrimaryBrush}" />
         <Setter Property="BorderBrush" Value="Transparent" />
-        <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
       </Style>
 
       <!-- Selected Pressed state -->
       <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter">
         <Setter Property="Background" Value="{theme:AccentPrimaryBrush}" />
         <Setter Property="BorderBrush" Value="Transparent" />
-        <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
       </Style>
 
       <!-- Selected Disabled state -->
       <Style Selector="^:disabled /template/ ContentPresenter#PART_ContentPresenter">
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="BorderBrush" Value="Transparent" />
-        <Setter Property="Foreground" Value="{theme:OnSurfaceDimBrush}" />
+        <Setter Property="Foreground" Value="{theme:AccentBrush Light2}" />
       </Style>
     </Style>
 

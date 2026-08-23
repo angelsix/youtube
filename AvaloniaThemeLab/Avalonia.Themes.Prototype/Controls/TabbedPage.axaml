@@ -24,16 +24,16 @@
   <!-- Backgrounds -->
   <SolidColorBrush x:Key="TabbedPageTabItemHeaderBackgroundUnselected" Color="Transparent" />
   <SolidColorBrush x:Key="TabbedPageTabItemHeaderBackgroundSelected" Color="Transparent" />
-  <SolidColorBrush x:Key="TabbedPageTabItemHeaderBackgroundUnselectedPointerOver" Color="{theme:SurfaceOverlay}" />
+  <SolidColorBrush x:Key="TabbedPageTabItemHeaderBackgroundUnselectedPointerOver" Color="{theme:AccentNeutral}" />
   <SolidColorBrush x:Key="TabbedPageTabItemHeaderBackgroundSelectedPointerOver" Color="Transparent" />
-  <SolidColorBrush x:Key="TabbedPageTabItemHeaderBackgroundUnselectedPressed" Color="{theme:SurfaceOverlay}" />
+  <SolidColorBrush x:Key="TabbedPageTabItemHeaderBackgroundUnselectedPressed" Color="{theme:AccentNeutral}" />
   <SolidColorBrush x:Key="TabbedPageTabItemHeaderBackgroundSelectedPressed" Color="Transparent" />
   <SolidColorBrush x:Key="TabbedPageTabItemHeaderBackgroundDisabled" Color="Transparent" />
 
   <!-- Foregrounds (override via TabbedPageTabItemHeaderForegroundSelected / TabbedPageTabItemHeaderForegroundUnselected resources) -->
-  <SolidColorBrush x:Key="TabbedPageTabItemHeaderForegroundUnselected" Color="{theme:OnSurfaceDim}" />
+  <SolidColorBrush x:Key="TabbedPageTabItemHeaderForegroundUnselected" Color="{theme:AccentNeutral}" />
   <SolidColorBrush x:Key="TabbedPageTabItemHeaderForegroundSelected" Color="{theme:AccentPrimary}" />
-  <SolidColorBrush x:Key="TabbedPageTabItemHeaderForegroundDisabled" Color="{theme:OnSurfaceDim}" />
+  <SolidColorBrush x:Key="TabbedPageTabItemHeaderForegroundDisabled" Color="{theme:AccentNeutral}" />
 
 
   <!-- Tab item sizing & shape -->
@@ -242,7 +242,7 @@
 
     <!-- Focus visible -->
     <Style Selector="^:focus-visible /template/ Border#PART_LayoutRoot">
-      <Setter Property="BorderBrush" Value="{theme:OnSurfaceBrush}" />
+      <Setter Property="BorderBrush" Value="{theme:AccentBrush Dark1}" />
       <Setter Property="BorderThickness" Value="{theme:ThicknessMd}" />
     </Style>
 
@@ -260,7 +260,8 @@
   </ControlTheme>
 
   <ControlTheme x:Key="{x:Type TabbedPage}" TargetType="TabbedPage">
-    <Setter Property="Background" Value="{theme:SurfaceBrush}" />
+    <Setter Property="Background" Value="{theme:AccentBrush Light10}" />
+    <Setter Property="Foreground" Value="{theme:AccentBrush Dark1}" />
     <Setter Property="Template">
       <ControlTemplate>
         <!-- Layout root for the tabbed page -->

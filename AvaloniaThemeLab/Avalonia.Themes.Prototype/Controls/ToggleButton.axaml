@@ -33,11 +33,11 @@
         </StackPanel>
         <Label Content="Accent States" />
         <StackPanel Orientation="Horizontal" Spacing="20">
-          <ToggleButton Classes="accent" Content="Default" />
-          <ToggleButton Classes="accent previewHover" Content="Hover" />
-          <ToggleButton Classes="accent previewPressed" Content="Pressed" />
-          <ToggleButton Classes="accent previewFocused" Content="Focused" />
-          <ToggleButton Classes="accent" Content="Disabled" IsEnabled="False" />
+          <ToggleButton theme:Accent.Kind="Primary" Content="Default" />
+          <ToggleButton Classes="previewHover" theme:Accent.Kind="Primary" Content="Hover" />
+          <ToggleButton Classes="previewPressed" theme:Accent.Kind="Primary" Content="Pressed" />
+          <ToggleButton Classes="previewFocused" theme:Accent.Kind="Primary" Content="Focused" />
+          <ToggleButton theme:Accent.Kind="Primary" Content="Disabled" IsEnabled="False" />
         </StackPanel>
       </StackPanel>
     </Border>
@@ -49,7 +49,7 @@
   <ControlTheme x:Key="{x:Type ToggleButton}" TargetType="ToggleButton">
 
     <!-- Visual defaults -->
-    <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}" />
+    <Setter Property="Background" Value="{theme:AccentBrush Light10}" />
     <Setter Property="BorderBrush" Value="Transparent" />
     <Setter Property="BorderThickness" Value="{theme:ThicknessSm}" />
     <Setter Property="CornerRadius" Value="{theme:RadiusSm}" />
@@ -115,9 +115,8 @@
     </Style>
 
     <Style Selector="^:pointerover, ^.previewHover">
-      <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}" />
+      <Setter Property="Background" Value="{theme:AccentBrush Light8}" />
       <Setter Property="BorderBrush" Value="Transparent" />
-      <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
     </Style>
 
     <!-- Pressed state -->
@@ -126,9 +125,8 @@
     </Style>
 
     <Style Selector="^:pressed, ^.previewPressed">
-      <Setter Property="Background" Value="{theme:SurfaceOverlayMediumBrush}" />
+      <Setter Property="Background" Value="{theme:AccentBrush Light6}" />
       <Setter Property="BorderBrush" Value="Transparent" />
-      <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
     </Style>
 
     <!-- Disabled state -->
@@ -137,59 +135,15 @@
     </Style>
 
     <Style Selector="^:disabled">
-      <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}" />
+      <Setter Property="Background" Value="{theme:AccentBrush Light6}" />
       <Setter Property="BorderBrush" Value="Transparent" />
-      <Setter Property="Foreground" Value="{theme:OnSurfaceDimBrush}" />
+      <Setter Property="Foreground" Value="{theme:AccentBrush Light2}" />
     </Style>
 
     <!-- Focus state -->
     <Style Selector="^:focus-visible, ^.previewFocused">
       <Setter Property="BorderBrush" Value="{theme:AccentFocusBrush}" />
       <Setter Property="BorderThickness" Value="{theme:ThicknessMd}" />
-    </Style>
-
-    <!-- Accent class -->
-    <Style Selector="^.accent">
-      <Setter Property="BorderThickness" Value="0" />
-      <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}" />
-      <Setter Property="Foreground" Value="{theme:AccentPrimaryBrush}" />
-
-      <Style Selector="^ /template/ Rectangle#PART_AccentBorder">
-        <Setter Property="IsVisible" Value="True" />
-      </Style>
-    </Style>
-
-    <!-- Accent hover state -->
-    <Style Selector="^.accent:pointerover, ^.accent.previewHover">
-      <Setter Property="RenderTransform" Value="{theme:TransformScale Value={theme:PressedScale}, By=1.07}" />
-      <Setter Property="Background" Value="{theme:AccentHoverOverlayBrush}" />
-      <Setter Property="BorderBrush" Value="Transparent" />
-      <Setter Property="Foreground" Value="{theme:AccentPrimaryDark1Brush}" />
-
-      <Style Selector="^ /template/ Rectangle#PART_AccentBorder">
-        <Setter Property="Stroke" Value="{theme:AccentPrimaryDark1Brush}" />
-      </Style>
-    </Style>
-
-    <!-- Accent pressed state -->
-    <Style Selector="^.accent:pressed, ^.accent.previewPressed">
-      <Setter Property="RenderTransform" Value="{theme:TransformScale Value={theme:PressedScale}}" />
-      <Setter Property="Background" Value="{theme:AccentPressedOverlayBrush}" />
-      <Setter Property="BorderBrush" Value="Transparent" />
-      <Setter Property="Foreground" Value="{theme:AccentPrimaryDark2Brush}" />
-
-      <Style Selector="^ /template/ Rectangle#PART_AccentBorder">
-        <Setter Property="Stroke" Value="{theme:AccentPrimaryDark2Brush}" />
-      </Style>
-    </Style>
-
-    <!-- Accent disabled state -->
-    <Style Selector="^.accent:disabled">
-      <Setter Property="Opacity" Value="{theme:Scaled Value={theme:DisabledOpacity}, By=1.4}" />
-
-      <Style Selector="^ /template/ Rectangle#PART_AccentBorder">
-        <Setter Property="Opacity" Value="{theme:Scaled Value={theme:DisabledOpacity}, By=1.4}" />
-      </Style>
     </Style>
 
     <!-- ============================================================
@@ -200,31 +154,31 @@
     <Style Selector="^:checked">
       <Setter Property="Background" Value="{theme:AccentPrimaryBrush}" />
       <Setter Property="BorderBrush" Value="Transparent" />
-      <Setter Property="Foreground" Value="{theme:SurfaceBrush}" />
+      <Setter Property="Foreground" Value="{theme:AccentBrush Light10}" />
     </Style>
 
     <!-- Checked hover -->
     <Style Selector="^:checked:pointerover, ^:checked.previewHover">
       <Setter Property="RenderTransform" Value="{theme:TransformScale Value={theme:PressedScale}, By=1.07}" />
-      <Setter Property="Background" Value="{theme:AccentPrimaryLight1Brush}" />
+      <Setter Property="Background" Value="{theme:AccentBrush Light1}" />
       <Setter Property="BorderBrush" Value="Transparent" />
-      <Setter Property="Foreground" Value="{theme:SurfaceBrush}" />
+      <Setter Property="Foreground" Value="{theme:AccentBrush Light10}" />
     </Style>
 
     <!-- Checked pressed -->
     <Style Selector="^:checked:pressed, ^:checked.previewPressed">
       <Setter Property="RenderTransform" Value="{theme:TransformScale Value={theme:PressedScale}}" />
-      <Setter Property="Background" Value="{theme:SurfaceOverlayMediumBrush}" />
+      <Setter Property="Background" Value="{theme:AccentBrush Light6}" />
       <Setter Property="BorderBrush" Value="Transparent" />
-      <Setter Property="Foreground" Value="{theme:SurfaceBrush}" />
+      <Setter Property="Foreground" Value="{theme:AccentBrush Light10}" />
     </Style>
 
     <!-- Checked disabled -->
     <Style Selector="^:checked:disabled">
       <Setter Property="Opacity" Value="{theme:DisabledOpacity}" />
-      <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}" />
+      <Setter Property="Background" Value="{theme:AccentBrush Light6}" />
       <Setter Property="BorderBrush" Value="Transparent" />
-      <Setter Property="Foreground" Value="{theme:OnSurfaceDimBrush}" />
+      <Setter Property="Foreground" Value="{theme:AccentBrush Light2}" />
     </Style>
 
     <!-- ============================================================
@@ -233,33 +187,30 @@
 
     <!-- Indeterminate default -->
     <Style Selector="^:indeterminate">
-      <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}" />
+      <Setter Property="Background" Value="{theme:AccentBrush Light8}" />
       <Setter Property="BorderBrush" Value="Transparent" />
-      <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
     </Style>
 
     <!-- Indeterminate hover -->
     <Style Selector="^:indeterminate:pointerover, ^:indeterminate.previewHover">
       <Setter Property="RenderTransform" Value="{theme:TransformScale Value={theme:PressedScale}, By=1.07}" />
-      <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}" />
+      <Setter Property="Background" Value="{theme:AccentBrush Light8}" />
       <Setter Property="BorderBrush" Value="{theme:AccentBorderBrush}" />
-      <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
     </Style>
 
     <!-- Indeterminate pressed -->
     <Style Selector="^:indeterminate:pressed, ^:indeterminate.previewPressed">
       <Setter Property="RenderTransform" Value="{theme:TransformScale Value={theme:PressedScale}}" />
-      <Setter Property="Background" Value="{theme:SurfaceOverlayMediumBrush}" />
+      <Setter Property="Background" Value="{theme:AccentBrush Light6}" />
       <Setter Property="BorderBrush" Value="Transparent" />
-      <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
     </Style>
 
     <!-- Indeterminate disabled -->
     <Style Selector="^:indeterminate:disabled">
       <Setter Property="Opacity" Value="{theme:DisabledOpacity}" />
-      <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}" />
+      <Setter Property="Background" Value="{theme:AccentBrush Light6}" />
       <Setter Property="BorderBrush" Value="Transparent" />
-      <Setter Property="Foreground" Value="{theme:OnSurfaceDimBrush}" />
+      <Setter Property="Foreground" Value="{theme:AccentBrush Light2}" />
     </Style>
 
   </ControlTheme>

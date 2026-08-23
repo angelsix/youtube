@@ -16,14 +16,14 @@
     Why it is needed at all: the classes are real, but each is declared as a `^.name` selector
     nested inside a ControlTheme, where `^` only means the control by virtue of the enclosing
     ControlTheme's key, inside a ResourceDictionary reached through MergeResourceInclude. Static
-    analysis resolves none of that, so every `Classes="accent"` a consumer writes is underlined
+    analysis resolves none of that, so every `theme:Accent.Kind="Primary"` a consumer writes is underlined
     "Style class 'accent' not found" despite working perfectly at runtime.
 
     Each entry below is deliberately empty and sets nothing, so there is no runtime behaviour and
     no effect on precedence — it exists to be read.
 
-    Selectors are type-qualified rather than a bare `.accent`, so the inspection stays useful:
-    putting `Classes="accent"` on a control that has no accent styling is still reported.
+    Selectors are type-qualified rather than a bare class name, so the inspection stays useful:
+    putting `theme:Accent.Kind="Primary"` on a control that has no accent styling is still reported.
 
     Regenerated on build by AngelSix.ThemeEngine, and checked by AVL015 (guard xaml analyze)
     for anyone who edits a ControlTheme without building this project.
@@ -33,14 +33,6 @@
 
   <!-- MonthItem -->
   <Style Selector="ListBoxItem.MonthItem" />
-
-  <!-- accent -->
-  <Style Selector="Button.accent" />
-  <Style Selector="ButtonSpinner.accent" />
-  <Style Selector="CheckBox.accent" />
-  <Style Selector="DropDownButton.accent" />
-  <Style Selector="RepeatButton.accent" />
-  <Style Selector="ToggleButton.accent" />
 
   <!-- clearButton -->
   <Style Selector="TextBox.clearButton" />

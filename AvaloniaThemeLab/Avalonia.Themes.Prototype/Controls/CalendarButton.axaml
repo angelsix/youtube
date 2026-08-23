@@ -20,9 +20,9 @@
   <ControlTheme x:Key="{x:Type CalendarButton}" TargetType="CalendarButton">
 
     <!-- Visual defaults -->
-    <Setter Property="Background" Value="{theme:SurfaceBrush}" />
-    <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
-    <Setter Property="BorderBrush" Value="{theme:OnSurfaceBrush}" />
+    <Setter Property="Background" Value="{theme:AccentBrush Light10}" />
+    <Setter Property="Foreground" Value="{theme:AccentBrush Dark1}" />
+    <Setter Property="BorderBrush" Value="{theme:AccentBrush Dark1}" />
     <Setter Property="BorderThickness" Value="{theme:ThicknessMd}" />
     <Setter Property="CornerRadius" Value="{theme:RadiusSm}" />
     <Setter Property="Padding" Value="{theme:Edges Horizontal={theme:ThicknessSm}, Vertical={theme:ThicknessSm}}" />
@@ -72,7 +72,7 @@
 
     <!-- Hover state -->
     <Style Selector="^:pointerover">
-      <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}" />
+      <Setter Property="Background" Value="{theme:AccentBrush Light8}" />
       <Setter Property="Foreground" Value="{theme:AccentBorderBrush}" />
       <Setter Property="RenderTransform" Value="{theme:TransformScale Value={theme:PressedScale}, By=1.07}" />
       <Style Selector="^ /template/ Border#Border">
@@ -83,9 +83,9 @@
     <!-- Pressed state -->
     <Style Selector="^:pressed">
       <Setter Property="RenderTransform" Value="{theme:TransformScale Value={theme:PressedScale}}" />
-      <Setter Property="Background" Value="{theme:SurfaceOverlayStrongBrush}" />
+      <Setter Property="Background" Value="{theme:AccentBrush Light6}" />
       <Style Selector="^ /template/ Border#Border">
-        <Setter Property="BorderBrush" Value="{theme:AccentPrimaryDark2Brush}" />
+        <Setter Property="BorderBrush" Value="{theme:AccentBrush Dark2}" />
       </Style>
     </Style>
 
@@ -108,7 +108,7 @@
         <Setter Property="BorderBrush" Value="{theme:AccentPrimaryBrush}" />
       </Style>
       <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
-        <Setter Property="Foreground" Value="{theme:SurfaceBrush}" />
+        <Setter Property="Foreground" Value="{theme:AccentBrush Light10}" />
         <Setter Property="FontWeight" Value="{theme:FontWeightSemiBold}" />
       </Style>
     </Style>
@@ -116,7 +116,7 @@
     <!-- Selected hover state -->
     <Style Selector="^:selected:pointerover">
       <Style Selector="^ /template/ Border#Border">
-        <Setter Property="BorderBrush" Value="{theme:AccentPrimaryDark1Brush}" />
+        <Setter Property="BorderBrush" Value="{theme:AccentBrush Dark1}" />
       </Style>
       <Style Selector="^ /template/ Border#Root">
         <Setter Property="Background" Value="{theme:AccentPrimaryBrush}" />
@@ -126,7 +126,7 @@
     <!-- Selected pressed state -->
     <Style Selector="^:selected:pressed">
       <Style Selector="^ /template/ Border#Border">
-        <Setter Property="BorderBrush" Value="{theme:AccentPrimaryDark2Brush}" />
+        <Setter Property="BorderBrush" Value="{theme:AccentBrush Dark2}" />
       </Style>
       <Style Selector="^ /template/ Border#Root">
         <Setter Property="Background" Value="{theme:AccentPrimaryBrush}" />
@@ -136,17 +136,16 @@
     <!-- Inactive state -->
     <Style Selector="^:inactive">
       <Style Selector="^ /template/ Border#Root">
-        <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}" />
+        <Setter Property="Background" Value="{theme:OverlayWeakBrush}" />
       </Style>
       <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
-        <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
       </Style>
     </Style>
 
     <!-- Blackout state -->
     <Style Selector="^:blackout">
       <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
-        <Setter Property="Foreground" Value="{theme:OnSurfaceDimBrush}" />
+        <Setter Property="Foreground" Value="{theme:AccentBrush Light2}" />
       </Style>
     </Style>
 

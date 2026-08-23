@@ -21,8 +21,8 @@
   <ControlTheme x:Key="{x:Type TabStripItem}" TargetType="TabStripItem">
     <Setter Property="FontSize" Value="{theme:FontSizeXxl}" />
     <Setter Property="Background" Value="Transparent" />
-    <Setter Property="Foreground" Value="{theme:OnSurfaceDimBrush}" />
-    <Setter Property="BorderBrush" Value="{theme:OnSurfaceBrush}" />
+    <Setter Property="Foreground" Value="{theme:AccentBrush Light2}" />
+    <Setter Property="BorderBrush" Value="{theme:AccentBrush Dark1}" />
     <Setter Property="BorderThickness" Value="{theme:ThicknessSm}" />
     <Setter Property="CornerRadius" Value="{theme:RadiusSm}" />
     <Setter Property="Padding" Value="{theme:Edges Horizontal={theme:SpacingXxl}}" />
@@ -65,7 +65,6 @@
     <!--  We don't use selector to PART_LayoutRoot, so developer can override selected item background with TabStripItem.Background  -->
     <Style Selector="^:selected">
       <Setter Property="Background" Value="Transparent" />
-      <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
     </Style>
     <Style Selector="^ /template/ Border#PART_SelectedPipe">
       <Setter Property="Background" Value="{theme:AccentPrimaryBrush}" />
@@ -80,31 +79,31 @@
     <!--  PointerOver state  -->
     <Style Selector="^:pointerover /template/ Border#PART_LayoutRoot">
       <Setter Property="Background" Value="Transparent" />
-      <Setter Property="TextElement.Foreground" Value="{theme:OnSurfaceDimBrush}" />
+      <Setter Property="TextElement.Foreground" Value="{theme:AccentBrush Light2}" />
     </Style>
 
     <!--  Selected PointerOver state  -->
     <Style Selector="^:selected:pointerover /template/ Border#PART_LayoutRoot">
       <Setter Property="Background" Value="Transparent" />
-      <Setter Property="TextElement.Foreground" Value="{theme:OnSurfaceDimBrush}" />
+      <Setter Property="TextElement.Foreground" Value="{theme:AccentBrush Light2}" />
     </Style>
 
     <!--  Pressed state  -->
     <Style Selector="^:pressed /template/ Border#PART_LayoutRoot">
       <Setter Property="Background" Value="Transparent" />
-      <Setter Property="TextElement.Foreground" Value="{theme:OnSurfaceDimBrush}" />
+      <Setter Property="TextElement.Foreground" Value="{theme:AccentBrush Light2}" />
     </Style>
 
     <!--  Selected Pressed state  -->
     <Style Selector="^:selected:pressed /template/ Border#PART_LayoutRoot">
       <Setter Property="Background" Value="Transparent" />
-      <Setter Property="TextElement.Foreground" Value="{theme:OnSurfaceDimBrush}" />
+      <Setter Property="TextElement.Foreground" Value="{theme:AccentBrush Light2}" />
     </Style>
 
     <!--  Disabled state  -->
     <Style Selector="^:disabled /template/ Border#PART_LayoutRoot">
       <Setter Property="Background" Value="Transparent" />
-      <Setter Property="TextElement.Foreground" Value="{theme:OnSurfaceDimBrush}" />
+      <Setter Property="TextElement.Foreground" Value="{theme:AccentBrush Light2}" />
     </Style>
   </ControlTheme>
 </ResourceDictionary>

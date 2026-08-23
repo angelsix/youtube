@@ -50,9 +50,10 @@
   <ControlTheme x:Key="{x:Type AutoCompleteBox}" TargetType="AutoCompleteBox">
 
     <!-- Visual defaults -->
-    <Setter Property="Background" Value="{theme:SurfaceBrush}" />
-    <Setter Property="PlaceholderForeground" Value="{theme:OnSurfaceDimBrush}" />
-    <Setter Property="BorderBrush" Value="{theme:OnSurfaceBrush}" />
+    <Setter Property="Background" Value="{theme:AccentBrush Light10}" />
+    <Setter Property="Foreground" Value="{theme:AccentBrush Dark1}" />
+    <Setter Property="PlaceholderForeground" Value="{theme:AccentBrush Light2}" />
+    <Setter Property="BorderBrush" Value="{theme:AccentBrush Dark1}" />
     <Setter Property="BorderThickness" Value="{theme:ThicknessSm}" />
     <Setter Property="CornerRadius" Value="{theme:RadiusSm}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
@@ -135,7 +136,7 @@
     <Style Selector="^ /template/ Border#PART_SuggestionsContainer">
       <Setter Property="BorderThickness" Value="{theme:ThicknessSm}" />
       <Setter Property="BorderBrush" Value="{theme:AccentBorderBrush}" />
-      <Setter Property="Background" Value="{theme:SurfaceBrush}" />
+      <Setter Property="Background" Value="{theme:AccentBrush Light10}" />
       <Setter Property="CornerRadius" Value="{theme:RadiusMd}" />
       <Setter Property="Padding" Value="{theme:Edges Vertical={theme:SpacingSm}}" />
     </Style>
@@ -146,7 +147,7 @@
 
     <!-- Hover state -->
     <Style Selector="^:pointerover /template/ TextBox#PART_TextBox">
-      <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}" />
+      <Setter Property="Background" Value="{theme:AccentBrush Light8}" />
     </Style>
 
     <!-- Disabled state -->

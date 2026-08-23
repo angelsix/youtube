@@ -17,7 +17,7 @@
        ============================================================ -->
   <ControlTheme x:Key="PrototypeCalendarDatePickerButton" TargetType="Button">
     <!-- Visual defaults -->
-    <Setter Property="TextElement.Foreground" Value="{theme:OnSurfaceDimBrush}" />
+    <Setter Property="TextElement.Foreground" Value="{theme:AccentBrush Light2}" />
     <Setter Property="Margin" Value="{theme:Edges Left={theme:SpacingSm}, Right={theme:SpacingMd}}" />
     <Setter Property="Width" Value="{theme:Scaled Value={theme:BaseSize}, By=10}" />
     <Setter Property="Height" Value="{theme:Scaled Value={theme:BaseSize}, By=12}" />
@@ -116,7 +116,7 @@
     </Style>
 
     <Style Selector="^:disabled /template/ TextBlock#PART_Placeholder, ^:disabled /template/ TextBlock#PART_FloatingPlaceholder">
-      <Setter Property="TextElement.Foreground" Value="{theme:OnSurfaceDimBrush}" />
+      <Setter Property="TextElement.Foreground" Value="{theme:AccentBrush Light2}" />
     </Style>
   </ControlTheme>
 
@@ -125,8 +125,9 @@
        ============================================================ -->
   <ControlTheme x:Key="{x:Type CalendarDatePicker}" TargetType="CalendarDatePicker">
     <!-- Visual defaults -->
-    <Setter Property="Background" Value="{theme:SurfaceBrush}" />
-    <Setter Property="PlaceholderForeground" Value="{theme:OnSurfaceDimBrush}" />
+    <Setter Property="Background" Value="{theme:AccentBrush Light10}" />
+    <Setter Property="Foreground" Value="{theme:AccentBrush Dark1}" />
+    <Setter Property="PlaceholderForeground" Value="{theme:AccentBrush Light2}" />
     <Setter Property="BorderBrush" Value="{theme:AccentBorderBrush}" />
     <Setter Property="BorderThickness" Value="{theme:ThicknessSm}" />
     <Setter Property="CornerRadius" Value="{theme:RadiusSm}" />
@@ -201,31 +202,31 @@
 
     <!-- Hover state -->
     <Style Selector="^:pointerover /template/ Border#Background">
-      <Setter Property="Background" Value="{theme:SurfaceBrush}" />
+      <Setter Property="Background" Value="{theme:AccentBrush Light10}" />
       <Setter Property="BorderBrush" Value="{theme:AccentBorderBrush}" />
     </Style>
 
     <!-- Pressed state -->
     <Style Selector="^:pressed /template/ Border#Background">
-      <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}" />
+      <Setter Property="Background" Value="{theme:AccentBrush Light6}" />
       <Setter Property="BorderBrush" Value="{theme:AccentBorderBrush}" />
     </Style>
 
     <!-- Disabled state -->
     <Style Selector="^:disabled">
       <Style Selector="^ /template/ Border#Background">
-        <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}" />
-        <Setter Property="BorderBrush" Value="{theme:SurfaceOverlayWeakBrush}" />
+        <Setter Property="Background" Value="{theme:OverlayWeakBrush}" />
+        <Setter Property="BorderBrush" Value="{theme:OverlayWeakBrush}" />
       </Style>
 
       <Style Selector="^ /template/ Button#PART_Button">
-        <Setter Property="TextElement.Foreground" Value="{theme:OnSurfaceDimBrush}" />
+        <Setter Property="TextElement.Foreground" Value="{theme:AccentBrush Light2}" />
       </Style>
     </Style>
 
     <!-- Focus state -->
     <Style Selector="^:focus-within:not(CalendarDatePicker:focus) /template/ Border#Background">
-      <Setter Property="Background" Value="{theme:SurfaceBrush}" />
+      <Setter Property="Background" Value="{theme:AccentBrush Light10}" />
       <Setter Property="BorderBrush" Value="{theme:AccentFocusBrush}" />
       <Setter Property="BorderThickness" Value="{theme:ThicknessMd}" />
     </Style>

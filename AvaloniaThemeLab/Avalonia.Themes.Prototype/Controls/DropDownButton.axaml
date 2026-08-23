@@ -20,11 +20,11 @@
         </StackPanel>
         <Label Content="Accent States" />
         <StackPanel Orientation="Horizontal" Spacing="20">
-          <DropDownButton Classes="accent" Content="Default" />
-          <DropDownButton Classes="accent previewHover" Content="Hover" />
-          <DropDownButton Classes="accent previewPressed" Content="Pressed" />
-          <DropDownButton Classes="accent previewFocused" Content="Focused" />
-          <DropDownButton Classes="accent" Content="Disabled" IsEnabled="False" />
+          <DropDownButton theme:Accent.Kind="Primary" Content="Default" />
+          <DropDownButton Classes="previewHover" theme:Accent.Kind="Primary" Content="Hover" />
+          <DropDownButton Classes="previewPressed" theme:Accent.Kind="Primary" Content="Pressed" />
+          <DropDownButton Classes="previewFocused" theme:Accent.Kind="Primary" Content="Focused" />
+          <DropDownButton theme:Accent.Kind="Primary" Content="Disabled" IsEnabled="False" />
         </StackPanel>
       </StackPanel>
     </Border>
@@ -36,8 +36,8 @@
   <ControlTheme x:Key="{x:Type DropDownButton}" TargetType="DropDownButton">
 
     <!-- Visual defaults -->
-    <Setter Property="Background" Value="{theme:SurfaceBrush}" />
-    <Setter Property="BorderBrush" Value="{theme:OnSurfaceBrush}" />
+    <Setter Property="Background" Value="{theme:AccentBrush Light10}" />
+    <Setter Property="BorderBrush" Value="{theme:AccentBrush Light6}" />
     <Setter Property="BorderThickness" Value="{theme:ThicknessSm}" />
     <Setter Property="CornerRadius" Value="{theme:RadiusSm}" />
     <Setter Property="Padding" Value="{theme:Edges Horizontal={theme:SpacingXl}, Vertical={theme:SpacingLg}}" />
@@ -108,7 +108,7 @@
 
     <!-- Drop-down glyph -->
     <Style Selector="^ /template/ PathIcon#DropDown">
-      <Setter Property="Foreground" Value="{theme:OnSurfaceDimBrush}" />
+      <Setter Property="Foreground" Value="{theme:AccentBrush Light2}" />
       <Setter Property="Height" Value="{theme:IconSize}" />
       <Setter Property="Width" Value="{theme:IconSize}" />
     </Style>
@@ -123,20 +123,18 @@
 
     <!-- Hover state -->
     <Style Selector="^:pointerover, ^.previewHover">
-      <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}" />
+      <Setter Property="Background" Value="{theme:AccentBrush Light8}" />
       <Setter Property="RenderTransform" Value="{theme:TransformScale Value={theme:PressedScale}, By=1.07}" />
     </Style>
     <Style Selector="^:pointerover /template/ PathIcon#DropDown, ^.previewHover /template/ PathIcon#DropDown">
-      <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
     </Style>
 
     <!-- Pressed state -->
     <Style Selector="^:pressed, ^.previewPressed">
       <Setter Property="RenderTransform" Value="{theme:TransformScale Value={theme:PressedScale}}" />
-      <Setter Property="Background" Value="{theme:SurfaceOverlayMediumBrush}" />
+      <Setter Property="Background" Value="{theme:AccentBrush Light6}" />
     </Style>
     <Style Selector="^:pressed /template/ PathIcon#DropDown, ^.previewPressed /template/ PathIcon#DropDown">
-      <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
     </Style>
 
     <!-- Disabled state -->
@@ -148,58 +146,6 @@
     <Style Selector="^:focus-visible, ^.previewFocused">
       <Setter Property="BorderBrush" Value="{theme:AccentFocusBrush}" />
       <Setter Property="BorderThickness" Value="{theme:ThicknessMd}" />
-    </Style>
-
-    <!-- Accent class -->
-    <Style Selector="^.accent">
-      <Setter Property="BorderThickness" Value="0" />
-      <Setter Property="Background" Value="{theme:SurfaceBrush}" />
-      <Setter Property="Foreground" Value="{theme:AccentPrimaryBrush}" />
-
-      <Style Selector="^ /template/ Rectangle#PART_AccentBorder">
-        <Setter Property="IsVisible" Value="True" />
-      </Style>
-
-      <Style Selector="^ /template/ PathIcon#DropDown">
-        <Setter Property="Foreground" Value="{theme:AccentPrimaryBrush}" />
-      </Style>
-    </Style>
-
-    <!-- Accent hover state -->
-    <Style Selector="^.accent:pointerover, ^.accent.previewHover">
-      <Setter Property="Background" Value="{theme:AccentHoverOverlayBrush}" />
-      <Setter Property="Foreground" Value="{theme:AccentPrimaryDark1Brush}" />
-
-      <Style Selector="^ /template/ Rectangle#PART_AccentBorder">
-        <Setter Property="Stroke" Value="{theme:AccentPrimaryDark1Brush}" />
-      </Style>
-
-      <Style Selector="^ /template/ PathIcon#DropDown">
-        <Setter Property="Foreground" Value="{theme:AccentPrimaryDark1Brush}" />
-      </Style>
-    </Style>
-
-    <!-- Accent pressed state -->
-    <Style Selector="^.accent:pressed, ^.accent.previewPressed">
-      <Setter Property="Background" Value="{theme:AccentPressedOverlayBrush}" />
-      <Setter Property="Foreground" Value="{theme:AccentPrimaryDark2Brush}" />
-
-      <Style Selector="^ /template/ Rectangle#PART_AccentBorder">
-        <Setter Property="Stroke" Value="{theme:AccentPrimaryDark2Brush}" />
-      </Style>
-
-      <Style Selector="^ /template/ PathIcon#DropDown">
-        <Setter Property="Foreground" Value="{theme:AccentPrimaryDark2Brush}" />
-      </Style>
-    </Style>
-
-    <!-- Accent disabled state -->
-    <Style Selector="^.accent:disabled">
-      <Setter Property="Opacity" Value="{theme:Scaled Value={theme:DisabledOpacity}, By=1.4}" />
-
-      <Style Selector="^ /template/ Rectangle#PART_AccentBorder">
-        <Setter Property="Opacity" Value="{theme:Scaled Value={theme:DisabledOpacity}, By=1.4}" />
-      </Style>
     </Style>
 
   </ControlTheme>

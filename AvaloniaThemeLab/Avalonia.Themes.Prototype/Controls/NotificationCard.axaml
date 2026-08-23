@@ -3,7 +3,7 @@
                     xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated">
   <Design.PreviewWith>
-    <Border Padding="0" Background="{theme:SurfaceBrush}">
+    <Border Padding="0" Background="{theme:AccentBrush Light10}">
       <Border.Styles>
         <prototype:PrototypeTheme />
       </Border.Styles>
@@ -16,7 +16,8 @@
     <Setter Property="Width" Value="{theme:Scaled Value={theme:ControlMinWidth}, By=5}"/>
     <Setter Property="RenderTransformOrigin" Value="50%,75%"/>
     <Setter Property="BorderThickness" Value="0" />
-    <Setter Property="Background" Value="{theme:SurfaceBrush}" />
+    <Setter Property="Background" Value="{theme:AccentBrush Light10}" />
+    <Setter Property="Foreground" Value="{theme:AccentBrush Dark1}" />
     <Setter Property="CornerRadius" Value="{theme:RadiusSm}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
     <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
@@ -120,7 +121,7 @@
 
     <!-- Shadow border (elevation behind card) -->
     <Style Selector="^ /template/ Border#PART_ShadowBorder">
-      <Setter Property="Background" Value="{theme:SurfaceOverlayMediumBrush}" />
+      <Setter Property="Background" Value="{theme:OverlayMediumBrush}" />
       <Setter Property="Margin" Value="{theme:Edges Left={theme:SpacingLg}, Top={theme:SpacingLg}, Right={theme:SpacingLg}, Bottom={theme:SpacingXxl}}" />
     </Style>
 
@@ -132,7 +133,7 @@
     <!-- Header bar default (height and neutral background) -->
     <Style Selector="^ /template/ Panel#PART_HeaderBar">
       <Setter Property="Height" Value="{theme:ThicknessXxl}" />
-      <Setter Property="Background" Value="{theme:OnSurfaceDimBrush}" />
+      <Setter Property="Background" Value="{theme:AccentBrush Light2}" />
     </Style>
 
     <!-- Content presenter minimum height -->

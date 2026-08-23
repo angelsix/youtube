@@ -65,8 +65,8 @@
   <ControlTheme x:Key="PrototypeExpanderToggleButtonTheme" TargetType="ToggleButton">
 
     <!-- Visual defaults -->
-    <Setter Property="Background" Value="{theme:SurfaceBrush}" />
-    <Setter Property="BorderBrush" Value="{theme:SurfaceOverlayWeakBrush}" />
+    <Setter Property="Background" Value="{theme:AccentBrush Light10}" />
+    <Setter Property="BorderBrush" Value="{theme:OverlayWeakBrush}" />
     <Setter Property="BorderThickness" Value="{theme:ThicknessSm}" />
     <Setter Property="Padding" Value="{theme:Edges Left={theme:SpacingXxl}}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
@@ -125,7 +125,7 @@
 
     <!-- Chevron path default -->
     <Style Selector="^ /template/ Path#ExpandCollapseChevron">
-      <Setter Property="Stroke" Value="{theme:OnSurfaceBrush}" />
+      <Setter Property="Stroke" Value="{theme:AccentBrush Dark1}" />
       <Setter Property="StrokeThickness" Value="{theme:ThicknessSm}" />
     </Style>
 
@@ -156,50 +156,48 @@
 
     <!-- Hover state -->
     <Style Selector="^:pointerover /template/ Border#ToggleButtonBackground">
-      <Setter Property="Background" Value="{theme:SurfaceBrush}" />
-      <Setter Property="BorderBrush" Value="{theme:SurfaceOverlayWeakBrush}" />
+      <Setter Property="Background" Value="{theme:AccentBrush Light10}" />
+      <Setter Property="BorderBrush" Value="{theme:OverlayWeakBrush}" />
     </Style>
     <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
     </Style>
     <Style Selector="^:pointerover /template/ Border#ExpandCollapseChevronBorder">
-      <Setter Property="Background" Value="{theme:OnSurfaceBrush}" />
+      <Setter Property="Background" Value="{theme:AccentBrush Dark1}" />
       <Setter Property="BorderBrush" Value="Transparent" />
     </Style>
     <Style Selector="^:pointerover /template/ Path#ExpandCollapseChevron">
-      <Setter Property="Stroke" Value="{theme:OnSurfaceBrush}" />
+      <Setter Property="Stroke" Value="{theme:AccentBrush Dark1}" />
     </Style>
 
     <!-- Pressed state -->
     <Style Selector="^:pressed /template/ Border#ToggleButtonBackground">
-      <Setter Property="Background" Value="{theme:SurfaceBrush}" />
-      <Setter Property="BorderBrush" Value="{theme:SurfaceOverlayWeakBrush}" />
+      <Setter Property="Background" Value="{theme:AccentBrush Light10}" />
+      <Setter Property="BorderBrush" Value="{theme:OverlayWeakBrush}" />
     </Style>
     <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
     </Style>
     <Style Selector="^:pressed /template/ Border#ExpandCollapseChevronBorder">
       <Setter Property="Background" Value="Transparent" />
       <Setter Property="BorderBrush" Value="Transparent" />
     </Style>
     <Style Selector="^:pressed /template/ Path#ExpandCollapseChevron">
-      <Setter Property="Stroke" Value="{theme:OnSurfaceBrush}" />
+      <Setter Property="Stroke" Value="{theme:AccentBrush Dark1}" />
     </Style>
 
     <!-- Disabled state -->
     <Style Selector="^:disabled /template/ Border#ToggleButtonBackground">
-      <Setter Property="Background" Value="{theme:SurfaceBrush}" />
-      <Setter Property="BorderBrush" Value="{theme:SurfaceOverlayWeakBrush}" />
+      <Setter Property="Background" Value="{theme:AccentBrush Light10}" />
+      <Setter Property="BorderBrush" Value="{theme:OverlayWeakBrush}" />
     </Style>
     <Style Selector="^:disabled /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="Foreground" Value="{theme:OnSurfaceDimBrush}" />
+      <Setter Property="Foreground" Value="{theme:AccentBrush Light2}" />
     </Style>
     <Style Selector="^:disabled /template/ Border#ExpandCollapseChevronBorder">
       <Setter Property="Background" Value="Transparent" />
       <Setter Property="BorderBrush" Value="Transparent" />
     </Style>
     <Style Selector="^:disabled /template/ Path#ExpandCollapseChevron">
-      <Setter Property="Stroke" Value="{theme:OnSurfaceDimBrush}" />
+      <Setter Property="Stroke" Value="{theme:AccentBrush Light2}" />
     </Style>
 
   </ControlTheme>
@@ -251,11 +249,10 @@
 
     <!-- Visual defaults -->
     <Setter Property="IsTabStop" Value="False" />
-    <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
     <Setter Property="MinWidth" Value="{theme:ControlMinWidth}" />
     <Setter Property="MinHeight" Value="{theme:ControlHeightLg}" />
-    <Setter Property="Background" Value="{theme:SurfaceBrush}" />
-    <Setter Property="BorderBrush" Value="{theme:SurfaceOverlayWeakBrush}" />
+    <Setter Property="Background" Value="{theme:AccentBrush Light10}" />
+    <Setter Property="BorderBrush" Value="{theme:OverlayWeakBrush}" />
     <Setter Property="BorderThickness" Value="{theme:Edges Left={theme:BaseSize}, Right={theme:BaseSize}, Bottom={theme:BaseSize}}" />
     <Setter Property="Padding" Value="{theme:Edges All={theme:SpacingXxl}}" />
     <Setter Property="FontFamily" Value="{theme:FontFamily}" />

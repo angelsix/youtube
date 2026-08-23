@@ -47,7 +47,7 @@
 
         <Button Classes="hero" theme:BrandAccent.Kind="Brand" Content="Brand disabled" IsEnabled="False" />
 
-        <!-- The same .hero class under other hues, which is the point of {theme:AccentBrush}. -->
+        <!-- The same .hero class under other hues, which is the point of {theme:AccentBrush Dark1}. -->
         <StackPanel Orientation="Horizontal" Spacing="12">
           <Button Classes="hero" theme:BrandAccent.Kind="Success" Content="Success" />
           <Button Classes="hero" theme:BrandAccent.Kind="Warning" Content="Warning" />
@@ -63,8 +63,10 @@
   <!-- Filled brand button. AccentBrush resolves against the hue the control carries, so this one
        style serves Brand, Success or anything else the theme declares. -->
   <Style Selector="Button.hero">
-    <Setter Property="Background" Value="{theme:AccentBrush}" />
-    <Setter Property="Foreground" Value="{theme:SurfaceBrush}" />
+    <!-- The filled variant: the hue IS the fill and the text is the near-white stage. The inverse
+         of an outlined control, so it cannot share the same stage assignments. -->
+    <Setter Property="Background" Value="{theme:AccentBrush Dark1}" />
+    <Setter Property="Foreground" Value="{theme:AccentBrush Light10}" />
     <Setter Property="FontWeight" Value="{theme:FontWeightBold}" />
     <Setter Property="Padding" Value="{theme:Edges Horizontal={theme:SpacingXxl}, Vertical={theme:SpacingLg}}" />
     <Setter Property="BorderThickness" Value="0" />
@@ -73,22 +75,22 @@
   <!-- These states have to be restated: an app-level Style outranks the ControlTheme's own
        :pointerover, so without them a hero button would keep its rest background on hover. -->
   <Style Selector="Button.hero:pointerover">
-    <Setter Property="Background" Value="{theme:AccentBrush Dark1}" />
+    <Setter Property="Background" Value="{theme:AccentBrush Dark2}" />
   </Style>
 
   <Style Selector="Button.hero:pressed">
-    <Setter Property="Background" Value="{theme:AccentBrush Dark2}" />
+    <Setter Property="Background" Value="{theme:AccentBrush Dark3}" />
   </Style>
 
   <!-- Text-only counterpart, for the secondary action beside a hero. -->
   <Style Selector="Button.quiet">
     <Setter Property="Background" Value="Transparent" />
     <Setter Property="BorderThickness" Value="0" />
-    <Setter Property="Foreground" Value="{theme:OnSurfaceDimBrush}" />
+    <Setter Property="Foreground" Value="{theme:AccentBrush Dark1}" />
   </Style>
 
   <Style Selector="Button.quiet:pointerover">
-    <Setter Property="Foreground" Value="{theme:AccentBrush}" />
+    <Setter Property="Foreground" Value="{theme:AccentBrush Dark3}" />
   </Style>
 
 </Styles>

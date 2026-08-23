@@ -10,7 +10,7 @@
 
       <ListBox>
         <ListBoxItem IsEnabled="False">Disabled</ListBoxItem>
-        <ListBoxItem Background="{theme:SurfaceOverlayWeakBrush}"
+        <ListBoxItem Background="{theme:OverlayWeakBrush}"
                      Padding="{theme:SpacingXxl}">
           Test
         </ListBoxItem>
@@ -56,19 +56,17 @@
 
     <!-- Hover state -->
     <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}" />
-      <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
+      <Setter Property="Background" Value="{theme:AccentBrush Light8}" />
     </Style>
 
     <!-- Pressed state -->
     <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="Background" Value="{theme:SurfaceOverlayMediumBrush}" />
-      <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
+      <Setter Property="Background" Value="{theme:AccentBrush Light6}" />
     </Style>
 
     <!-- Disabled state -->
     <Style Selector="^:disabled /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="Foreground" Value="{theme:OnSurfaceDimBrush}" />
+      <Setter Property="Foreground" Value="{theme:AccentBrush Light2}" />
     </Style>
 
     <!-- Focus state -->
@@ -82,25 +80,21 @@
 
       <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
         <Setter Property="Background" Value="{theme:AccentPrimaryBrush}" />
-        <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
       </Style>
 
       <!-- Selected unfocused state -->
       <Style Selector="^:not(:focus) /template/ ContentPresenter#PART_ContentPresenter">
         <Setter Property="Background" Value="{theme:AccentPrimaryBrush}" />
-        <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
       </Style>
 
       <!-- Selected hover state -->
       <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
         <Setter Property="Background" Value="{theme:AccentPrimaryBrush}" />
-        <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
       </Style>
 
       <!-- Selected pressed state -->
       <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter">
         <Setter Property="Background" Value="{theme:AccentPrimaryBrush}" />
-        <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
       </Style>
     </Style>
 

@@ -16,7 +16,7 @@
     </DrawerPage>
   </Design.PreviewWith>
 
-  <SolidColorBrush x:Key="NavigationControlNavBarBackground" Color="{theme:Surface}" />
+  <SolidColorBrush x:Key="NavigationControlNavBarBackground" Color="{theme:AccentNeutral}" />
 
   <!-- ============================================================
        ControlTheme: {x:Type DrawerPage}
@@ -24,7 +24,8 @@
   <ControlTheme x:Key="{x:Type DrawerPage}" TargetType="DrawerPage">
 
     <!-- Visual defaults -->
-    <Setter Property="Background" Value="{theme:SurfaceBrush}" />
+    <Setter Property="Background" Value="{theme:AccentBrush Light10}" />
+    <Setter Property="Foreground" Value="{theme:AccentBrush Dark1}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
     <Setter Property="VerticalAlignment" Value="{theme:ContainerVerticalAlignment}" />
     <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />

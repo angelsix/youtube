@@ -31,8 +31,9 @@
   <!-- ScrollBar Thumb sub-theme -->
   <ControlTheme x:Key="PrototypeScrollBarThumb" TargetType="Thumb">
     <!-- Visual defaults -->
-    <Setter Property="Background" Value="{theme:OnSurfaceDimBrush}"/>
-    <Setter Property="BorderBrush" Value="{theme:OnSurfaceDimBrush}"/>
+    <Setter Property="Background" Value="{theme:AccentBrush Light2}"/>
+    <Setter Property="Foreground" Value="{theme:AccentBrush Dark1}" />
+    <Setter Property="BorderBrush" Value="{theme:AccentBrush Light2}"/>
     <Setter Property="BorderThickness" Value="{theme:ThicknessSm}"/>
     <Setter Property="CornerRadius" Value="{theme:RadiusSm}"/>
 
@@ -59,12 +60,12 @@
 
     <!-- Hover state -->
     <Style Selector="^:pointerover /template/ Border">
-      <Setter Property="Background" Value="{theme:OnSurfaceDimBrush}" />
+      <Setter Property="Background" Value="{theme:AccentBrush Light2}" />
     </Style>
 
     <!-- Pressed state -->
     <Style Selector="^:pressed  /template/ Border">
-      <Setter Property="Background" Value="{theme:OnSurfaceDimBrush}" />
+      <Setter Property="Background" Value="{theme:AccentBrush Light2}" />
     </Style>
 
     <!-- Disabled state -->
@@ -76,8 +77,9 @@
   <!-- ScrollBar Page Button sub-theme -->
   <ControlTheme x:Key="PrototypeScrollBarPageButton" TargetType="RepeatButton">
     <!-- Visual defaults -->
-    <Setter Property="Background" Value="{theme:SurfaceBrush}"/>
-    <Setter Property="BorderBrush" Value="{theme:OnSurfaceDimBrush}"/>
+    <Setter Property="Background" Value="{theme:AccentBrush Light10}"/>
+    <Setter Property="Foreground" Value="{theme:AccentBrush Dark1}" />
+    <Setter Property="BorderBrush" Value="{theme:AccentBrush Light2}"/>
     <Setter Property="BorderThickness" Value="{theme:ThicknessSm}"/>
     <Setter Property="CornerRadius" Value="{theme:RadiusSm}"/>
     <Setter Property="VerticalAlignment" Value="{theme:ContainerVerticalAlignment}" />
@@ -99,12 +101,13 @@
   <!-- ScrollBar Line Button sub-theme -->
   <ControlTheme x:Key="PrototypeScrollBarLineButton" TargetType="RepeatButton">
     <!-- Visual defaults -->
-    <Setter Property="Background" Value="{theme:SurfaceBrush}"/>
-    <Setter Property="BorderBrush" Value="{theme:OnSurfaceDimBrush}"/>
+    <Setter Property="Background" Value="{theme:AccentBrush Light10}"/>
+    <Setter Property="Foreground" Value="{theme:AccentBrush Dark1}" />
+    <Setter Property="BorderBrush" Value="{theme:AccentBrush Light2}"/>
     <Setter Property="BorderThickness" Value="{theme:ThicknessSm}"/>
     <Setter Property="CornerRadius" Value="{theme:RadiusSm}"/>
     <Setter Property="Opacity" Value="0" />
-    <Setter Property="TextElement.Foreground" Value="{theme:OnSurfaceBrush}"/>
+    <Setter Property="TextElement.Foreground" Value="{theme:AccentBrush Dark1}"/>
 
     <!-- Template -->
     <Setter Property="Template">
@@ -126,27 +129,27 @@
 
     <!-- Hover state -->
     <Style Selector="^:pointerover">
-      <Setter Property="TextElement.Foreground" Value="{theme:OnSurfaceBrush}"/>
+      <Setter Property="TextElement.Foreground" Value="{theme:AccentBrush Dark1}"/>
 
       <Style Selector="^ /template/ ContentPresenter" >
-        <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}" />
+        <Setter Property="Background" Value="{theme:OverlayWeakBrush}" />
         <Setter Property="BorderBrush" Value="Transparent" />
       </Style>
     </Style>
 
     <!-- Pressed state -->
     <Style Selector="^:pressed">
-      <Setter Property="TextElement.Foreground" Value="{theme:SurfaceBrush}"/>
+      <Setter Property="TextElement.Foreground" Value="{theme:AccentBrush Light10}"/>
 
       <Style Selector="^ /template/ ContentPresenter" >
-        <Setter Property="Background" Value="{theme:OnSurfaceDimBrush}" />
+        <Setter Property="Background" Value="{theme:AccentBrush Light2}" />
         <Setter Property="BorderBrush" Value="Transparent" />
       </Style>
     </Style>
 
     <!-- Disabled state -->
     <Style Selector="^:disabled">
-      <Setter Property="TextElement.Foreground" Value="{theme:SurfaceOverlayWeakBrush}"/>
+      <Setter Property="TextElement.Foreground" Value="{theme:OverlayWeakBrush}"/>
 
       <Style Selector="^ /template/ ContentPresenter" >
         <Setter Property="Background" Value="Transparent" />
@@ -160,8 +163,9 @@
     <!-- Visual defaults -->
     <Setter Property="MinWidth" Value="{theme:ControlHeightSm}" />
     <Setter Property="MinHeight" Value="{theme:ControlHeightSm}" />
-    <Setter Property="Background" Value="{theme:SurfaceBrush}" />
-    <Setter Property="BorderBrush" Value="{theme:OnSurfaceDimBrush}" />
+    <Setter Property="Background" Value="{theme:AccentBrush Light10}" />
+    <Setter Property="Foreground" Value="{theme:AccentBrush Dark1}" />
+    <Setter Property="BorderBrush" Value="{theme:AccentBrush Light2}" />
     <Setter Property="BorderThickness" Value="{theme:ThicknessSm}" />
     <Setter Property="CornerRadius" Value="{theme:RadiusSm}" />
 
@@ -342,7 +346,7 @@
 
     <!-- Default template element styles — vertical orientation -->
     <Style Selector="^:vertical /template/ Rectangle#TrackRect">
-      <Setter Property="Fill" Value="{theme:SurfaceOverlayWeakBrush}" />
+      <Setter Property="Fill" Value="{theme:OverlayWeakBrush}" />
     </Style>
     <Style Selector="^:vertical /template/ RepeatButton#PART_LineUpButton">
       <Setter Property="MinWidth" Value="{theme:IconSize}" />
@@ -367,7 +371,7 @@
 
     <!-- Default template element styles — horizontal orientation -->
     <Style Selector="^:horizontal /template/ Rectangle#TrackRect">
-      <Setter Property="Fill" Value="{theme:SurfaceOverlayWeakBrush}" />
+      <Setter Property="Fill" Value="{theme:OverlayWeakBrush}" />
     </Style>
     <Style Selector="^:horizontal /template/ RepeatButton#PART_LineUpButton">
       <Setter Property="MinHeight" Value="{theme:IconSize}" />
@@ -396,12 +400,12 @@
         <Setter Property="Background" Value="Transparent" />
       </Style>
       <Style Selector="^ /template/ Rectangle#TrackRect">
-        <Setter Property="Fill" Value="{theme:SurfaceOverlayWeakBrush}" />
+        <Setter Property="Fill" Value="{theme:OverlayWeakBrush}" />
         <Setter Property="Stroke" Value="Transparent" />
         <Setter Property="Opacity" Value="1" />
       </Style>
       <Style Selector="^ /template/ Thumb">
-        <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}" />
+        <Setter Property="Background" Value="{theme:OverlayWeakBrush}" />
         <Setter Property="RenderTransform" Value="none" />
       </Style>
       <Style Selector="^ /template/ RepeatButton">

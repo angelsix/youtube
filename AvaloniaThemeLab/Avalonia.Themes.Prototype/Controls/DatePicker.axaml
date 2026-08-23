@@ -54,15 +54,14 @@
     </Style>
 
     <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}" />
-      <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
+      <Setter Property="Background" Value="{theme:AccentBrush Light6}" />
     </Style>
 
     <!-- Disabled state -->
     <Style Selector="^:disabled /template/ ContentPresenter#PART_ContentPresenter">
       <Setter Property="BorderBrush" Value="{theme:AccentBorderBrush}" />
-      <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}" />
-      <Setter Property="Foreground" Value="{theme:OnSurfaceDimBrush}" />
+      <Setter Property="Background" Value="{theme:OverlayWeakBrush}" />
+      <Setter Property="Foreground" Value="{theme:AccentBrush Light2}" />
     </Style>
   </ControlTheme>
 
@@ -72,7 +71,7 @@
   <ControlTheme x:Key="{x:Type DatePicker}" TargetType="DatePicker">
 
     <!-- Visual defaults -->
-    <Setter Property="Background" Value="{theme:SurfaceBrush}" />
+    <Setter Property="Background" Value="{theme:AccentBrush Light10}" />
     <Setter Property="BorderBrush" Value="{theme:AccentBorderBrush}" />
     <Setter Property="BorderThickness" Value="{theme:ThicknessSm}" />
     <Setter Property="CornerRadius" Value="{theme:RadiusSm}" />
@@ -160,7 +159,7 @@
 
     <!-- Watermark state (no date selected) -->
     <Style Selector="^:hasnodate /template/ Button#PART_FlyoutButton TextBlock">
-      <Setter Property="Foreground" Value="{theme:OnSurfaceDimBrush}" />
+      <Setter Property="Foreground" Value="{theme:AccentBrush Light2}" />
     </Style>
 
     <!-- Focus state -->
@@ -181,7 +180,8 @@
   <ControlTheme x:Key="{x:Type DatePickerPresenter}" TargetType="DatePickerPresenter">
     <Setter Property="Width" Value="296" />
     <Setter Property="MinWidth" Value="296" />
-    <Setter Property="Background" Value="{theme:SurfaceBrush}" />
+    <Setter Property="Background" Value="{theme:AccentBrush Light10}" />
+    <Setter Property="Foreground" Value="{theme:AccentBrush Dark1}" />
     <Setter Property="BorderBrush" Value="{theme:AccentBorderBrush}" />
     <Setter Property="BorderThickness" Value="{theme:ThicknessSm}" />
     <Setter Property="CornerRadius" Value="{theme:RadiusMd}" />

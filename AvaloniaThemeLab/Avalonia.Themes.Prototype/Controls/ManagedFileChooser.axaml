@@ -24,7 +24,7 @@
        ============================================================ -->
   <ControlTheme x:Key="PrototypeManagedFileChooserQuickLinks" TargetType="ListBox">
     <Setter Property="Margin" Value="0"/>
-    <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}"/>
+    <Setter Property="Background" Value="{theme:AccentBrush Light8}"/>
     <Setter Property="BorderThickness" Value="0"/>
     <Setter Property="Width" Value="{theme:Scaled Value={theme:ControlMinWidth}, By=4}"/>
     <Setter Property="Padding" Value="{theme:Edges Top={theme:SpacingXxl}, Bottom={theme:SpacingXxl}}"/>
@@ -92,17 +92,17 @@
         </Style>
 
         <Style Selector="^:pointerover /template/ Border#LayoutRoot">
-          <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}"/>
+          <Setter Property="Background" Value="{theme:AccentBrush Light8}"/>
         </Style>
         <Style Selector="^:selected /template/ Border#LayoutRoot">
-          <Setter Property="Background" Value="{theme:SurfaceOverlayMediumBrush}"/>
+          <Setter Property="Background" Value="{theme:AccentBrush Light6}"/>
         </Style>
       </ControlTheme>
     </Setter>
 
     <!-- Inset shadow for depth (Rule 2: no {theme:...} inside ControlTemplate) -->
     <Style Selector="^ /template/ Border#PART_ShadowBorder">
-      <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}" />
+      <Setter Property="Background" Value="{theme:OverlayWeakBrush}" />
     </Style>
   </ControlTheme>
 
@@ -233,7 +233,8 @@
         </internal:ResourceSelectorConverter>
       </ResourceDictionary>
     </ControlTheme.Resources>
-    <Setter Property="Background" Value="{theme:SurfaceBrush}"/>
+    <Setter Property="Background" Value="{theme:AccentBrush Light10}"/>
+    <Setter Property="Foreground" Value="{theme:AccentBrush Dark1}" />
     <Setter Property="BorderBrush" Value="{theme:AccentBorderBrush}" />
     <Setter Property="BorderThickness" Value="{theme:ThicknessSm}" />
     <Setter Property="CornerRadius" Value="{theme:RadiusMd}" />
@@ -470,7 +471,7 @@
             <StackPanel x:Name="PART_OverwritePromptButtons"
                         HorizontalAlignment="Right"
                         Orientation="Horizontal">
-              <Button Classes="accent" Content="Yes"
+              <Button theme:Accent.Kind="Primary" Content="Yes"
                       IsDefault="True"
                       Command="{Binding Confirm, RelativeSource={RelativeSource TemplatedParent}}" />
               <Button Content="No"

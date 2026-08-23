@@ -24,21 +24,19 @@
                        Content="Left spinner" />
         <!-- Accent hues. The `accent` class opts into the accented look; Accent.Kind picks the
              hue and defaults to Primary, so the first one needs no Kind at all. -->
-        <ButtonSpinner Classes="accent"
+        <ButtonSpinner theme:Accent.Kind="Primary"
                        Content="Accent (default Primary)" />
-        <ButtonSpinner Classes="accent" theme:Accent.Kind="Warning"
-                       ButtonSpinnerLocation="Left"
-                       Content="Accent Warning" />
-        <ButtonSpinner Classes="accent" theme:Accent.Kind="Success"
-                       Content="Accent Success" />
-        <ButtonSpinner Classes="accent" theme:Accent.Kind="Destructive"
-                       Content="Accent Destructive" />
+        <ButtonSpinner ButtonSpinnerLocation="Left"
+                       Content="Accent Warning" theme:Accent.Kind="Warning"/>
+        <ButtonSpinner Content="Accent Success" theme:Accent.Kind="Success"/>
+        <ButtonSpinner Content="Accent Destructive" theme:Accent.Kind="Destructive"/>
 
-        <!-- Kind inherits, so tinting the panel tints every accented control beneath it. The
-             plain spinner stays un-accented because the `accent` class does not inherit. -->
+        <!-- Kind inherits, so tinting the panel tints every control beneath it. There is no
+             opting out with a class any more: a child either states its own Kind or wears the
+             panel's. Only a control outside the scope falls back to Neutral. -->
         <StackPanel theme:Accent.Kind="Subtle" Spacing="20">
-          <ButtonSpinner Classes="accent" Content="Inherited Subtle" />
-          <ButtonSpinner Content="Not accented (no class)" />
+          <ButtonSpinner Content="Inherited Subtle" />
+          <ButtonSpinner theme:Accent.Kind="Primary" Content="Overrides to Primary" />
         </StackPanel>
 
         <ButtonSpinner Content="Right disabled"
@@ -119,8 +117,9 @@
 
     <!-- Visual defaults -->
     <Setter Property="Padding" Value="{theme:Edges Horizontal={theme:SpacingXl}}" />
-    <Setter Property="Background" Value="{theme:SurfaceBrush}" />
-    <Setter Property="BorderBrush" Value="{theme:OnSurfaceBrush}" />
+    <Setter Property="Background" Value="{theme:AccentBrush Light10}" />
+    <Setter Property="Foreground" Value="{theme:AccentBrush Dark1}" />
+    <Setter Property="BorderBrush" Value="{theme:AccentBrush Light6}" />
     <Setter Property="BorderThickness" Value="{theme:ThicknessSm}" />
     <Setter Property="CornerRadius" Value="{theme:RadiusSm}" />
     <Setter Property="MinHeight" Value="{theme:ControlHeightSm}" />
@@ -211,16 +210,23 @@
          chevron (AllowSpin=False) and does not restore it until the pointer moves, so a Border hover colour
          flashes back to its rest value on every click. Reproduced on the stock Fluent theme. -->
     <Style Selector="^ /template/ RepeatButton:pointerover:not(:disabled)">
-      <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}" />
+      <Setter Property="Background" Value="{theme:AccentBrush Light8}" />
+    </Style>
+
+    <!-- Hover content area -->
+    <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter:pointerover,
+                     ^.previewHover /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="{theme:AccentBrush Light9}" />
     </Style>
 
     <!-- Pressed state -->
-    <Style Selector="^:pressed /template/ Border">
-      <Setter Property="Background" Value="{theme:SurfaceOverlayMediumBrush}" />
+    <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter,
+                     ^.previewPressed /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="{theme:AccentBrush Light6}" />
     </Style>
 
     <Style Selector="^ /template/ RepeatButton:pressed:not(:disabled)">
-      <Setter Property="Background" Value="{theme:SurfaceOverlayMediumBrush}" />
+      <Setter Property="Background" Value="{theme:AccentBrush Light6}" />
     </Style>
 
     <!-- Disabled state -->
@@ -239,41 +245,10 @@
       <Setter Property="BorderBrush" Value="{theme:AccentErrorBrush}" />
     </Style>
     
-    <!-- Accent class. Hue-agnostic: {theme:AccentBrush} resolves against whatever
+    <!-- Accent class. Hue-agnostic: {theme:AccentBrush Light10} resolves against whatever
          prototype:Accent.Kind the control is carrying, so this one block serves every accent
          rather than being copy-pasted once per hue. Accent.Kind inherits, which is what carries
          the hue into the /template/ RepeatButton styles below. -->
-    <Style Selector="^.accent">
-      <Setter Property="Foreground" Value="{theme:AccentBrush}" />
-      <Setter Property="BorderBrush" Value="{theme:AccentBrush}" />
-    </Style>
-
-    <!-- Accent hover state -->
-    <Style Selector="^.accent:pointerover, ^.accent.previewHover">
-      <Setter Property="Background" Value="{theme:AccentBrush HoverOverlay}" />
-      <Setter Property="Foreground" Value="{theme:AccentBrush Dark1}" />
-    </Style>
-
-    <Style Selector="^.accent /template/ RepeatButton:pointerover:not(:disabled)">
-      <Setter Property="Background" Value="{theme:AccentBrush HoverOverlay}" />
-      <Setter Property="Foreground" Value="{theme:AccentBrush Dark1}" />
-    </Style>
-
-    <!-- Accent pressed state -->
-    <Style Selector="^.accent:pressed, ^.accent.previewPressed">
-      <Setter Property="Background" Value="{theme:AccentBrush PressedOverlay}" />
-      <Setter Property="Foreground" Value="{theme:AccentBrush Dark2}" />
-    </Style>
-
-    <Style Selector="^.accent /template/ RepeatButton:pressed:not(:disabled)">
-      <Setter Property="Background" Value="{theme:AccentBrush PressedOverlay}" />
-      <Setter Property="Foreground" Value="{theme:AccentBrush Dark2}" />
-    </Style>
-
-    <!-- Accent disabled state -->
-    <Style Selector="^.accent:disabled">
-      <Setter Property="Opacity" Value="{theme:Scaled Value={theme:DisabledOpacity}, By=2}" />
-    </Style>
 
     <!-- Left spinner position -->
     <Style Selector="^:left">

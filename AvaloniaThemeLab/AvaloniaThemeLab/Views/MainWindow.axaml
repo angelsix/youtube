@@ -33,24 +33,24 @@
         </AutoCompleteBox>
 
         <!-- Accent spike: one set of accent styles, many hues -->
-        <ButtonSpinner Classes="accent" Content="Primary (default)" />
-        <ButtonSpinner Classes="accent" theme:BrandAccent.Kind="Warning" Content="Warning" />
-        <ButtonSpinner Classes="accent" theme:BrandAccent.Kind="Success" Content="Success" />
-        <ButtonSpinner Classes="accent" theme:BrandAccent.Kind="Destructive" Content="Destructive" />
+        <ButtonSpinner theme:Accent.Kind="Primary" Content="Primary (default)" />
+        <ButtonSpinner theme:BrandAccent.Kind="Warning" Content="Warning" />
+        <ButtonSpinner theme:BrandAccent.Kind="Success" Content="Success" />
+        <ButtonSpinner theme:BrandAccent.Kind="Destructive" Content="Destructive" />
         <!-- Downstream hue, via this assembly's own generated enum -->
-        <ButtonSpinner Classes="accent" theme:BrandAccent.Kind="Brand" Content="Brand (typed enum)" />
+        <ButtonSpinner theme:BrandAccent.Kind="Brand" Content="Brand (typed enum)" />
         <!-- Same hue, via the runtime's open string property — no generated enum needed -->
-        <ButtonSpinner Classes="accent" theme:ThemeAccent.Hue="Brand" Content="Brand (open string)" />
-        <ButtonSpinner Classes="accent" theme:BrandAccent.Kind="Info"
+        <ButtonSpinner theme:ThemeAccent.Hue="Brand" Content="Brand (open string)" />
+        <ButtonSpinner theme:BrandAccent.Kind="Info"
                        ButtonSpinnerLocation="Left" Content="Info (left)" />
 
         <!-- Variant suffixes: hover uses Dark1 + HoverOverlay, pressed uses Dark2 + PressedOverlay -->
-        <ButtonSpinner Classes="accent previewHover" theme:BrandAccent.Kind="Warning" Content="Warning hover" />
-        <ButtonSpinner Classes="accent previewPressed" theme:BrandAccent.Kind="Warning" Content="Warning pressed" />
+        <ButtonSpinner Classes="previewHover" theme:BrandAccent.Kind="Warning" Content="Warning hover" />
+        <ButtonSpinner Classes="previewPressed" theme:BrandAccent.Kind="Warning" Content="Warning pressed" />
 
         <!-- Kind inherits; the accent class does not -->
         <StackPanel theme:BrandAccent.Kind="Subtle" Spacing="20">
-            <ButtonSpinner Classes="accent" Content="Inherited Subtle" />
+            <ButtonSpinner theme:Accent.Kind="Primary" Content="Inherited Subtle" />
             <ButtonSpinner Content="No accent class" />
         </StackPanel>
 

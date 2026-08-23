@@ -22,7 +22,7 @@
     <!-- Visual defaults -->
     <Setter Property="ClickMode" Value="Release" />
     <Setter Property="Background" Value="Transparent" />
-    <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
+    <Setter Property="Foreground" Value="{theme:AccentBrush Dark1}" />
     <Setter Property="BorderBrush" Value="Transparent" />
     <Setter Property="BorderThickness" Value="{theme:ThicknessMd}" />
     <Setter Property="CornerRadius" Value="{theme:RadiusSm}" />
@@ -78,7 +78,7 @@
 
     <!-- Disabled state -->
     <Style Selector="^:disabled /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="Foreground" Value="{theme:OnSurfaceDimBrush}" />
+      <Setter Property="Foreground" Value="{theme:AccentBrush Light2}" />
     </Style>
 
     <!-- Selected state -->
@@ -100,30 +100,29 @@
         <Setter Property="Background" Value="{theme:AccentPrimaryBrush}" />
       </Style>
       <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
-        <Setter Property="Foreground" Value="{theme:SurfaceBrush}" />
+        <Setter Property="Foreground" Value="{theme:AccentBrush Light10}" />
         <Setter Property="FontWeight" Value="{theme:FontWeightSemiBold}" />
       </Style>
       <Style Selector="^:pointerover /template/ Border#Border">
-        <Setter Property="BorderBrush" Value="{theme:AccentPrimaryDark1Brush}" />
+        <Setter Property="BorderBrush" Value="{theme:AccentBrush Dark1}" />
       </Style>
       <Style Selector="^:pressed /template/ Border#Border">
-        <Setter Property="BorderBrush" Value="{theme:AccentPrimaryDark2Brush}" />
+        <Setter Property="BorderBrush" Value="{theme:AccentBrush Dark2}" />
       </Style>
     </Style>
 
     <!-- Inactive state -->
     <Style Selector="^:inactive">
       <Style Selector="^ /template/ Border#Root">
-        <Setter Property="Background" Value="{theme:OnSurfaceDimBrush}" />
+        <Setter Property="Background" Value="{theme:AccentBrush Light2}" />
       </Style>
       <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
-        <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
       </Style>
     </Style>
 
     <!-- Blackout state -->
     <Style Selector="^:blackout /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="Foreground" Value="{theme:OnSurfaceDimBrush}" />
+      <Setter Property="Foreground" Value="{theme:AccentBrush Light2}" />
     </Style>
 
   </ControlTheme>

@@ -14,8 +14,15 @@
 
     <ItemGroup>
         <PackageReference Include="Avalonia" Version="12.0.1"/>
-        <PackageReference Include="AngelSix.ThemeEngine" Version="1.9.0" />
+        <PackageReference Include="AngelSix.ThemeEngine" Version="1.10.2" />
     </ItemGroup>
 
+    <ItemGroup>
+        <!-- Icons/Svg/*.svg are the icon set — the engine reads them into ThemeIconGallery, so the
+             geometry reaches the assembly as generated C# and the files themselves are build inputs
+             rather than content. The package already hands them to the generator as AdditionalFiles;
+             this is only so the folder shows up in the IDE beside the class it fills in. -->
+        <None Include="Icons/Svg/Categories.md" />
+    </ItemGroup>
 
 </Project>

@@ -76,7 +76,7 @@
 
     <!-- Popup border and items presenter theming -->
     <Style Selector="^ /template/ Border#PART_PopupBorder">
-      <Setter Property="Background" Value="{theme:SurfaceBrush}" />
+      <Setter Property="Background" Value="{theme:AccentBrush Light10}" />
       <Setter Property="BorderBrush" Value="{theme:AccentBorderBrush}" />
       <Setter Property="BorderThickness" Value="{theme:ThicknessSm}" />
       <Setter Property="Padding" Value="0" />
@@ -89,18 +89,16 @@
 
     <Style Selector="^:selected">
       <Style Selector="^ /template/ Border#PART_LayoutRoot">
-        <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}" />
+        <Setter Property="Background" Value="{theme:OverlayWeakBrush}" />
       </Style>
       <Style Selector="^ /template/ ContentPresenter#PART_HeaderPresenter">
-        <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
       </Style>
     </Style>
 
     <!--  Listen for PART_LayoutRoot:pointerover, so it will not be triggered when subitem is pressed  -->
     <Style Selector="^:pressed /template/ Border#PART_LayoutRoot:pointerover">
-      <Setter Property="Background" Value="{theme:SurfaceOverlayMediumBrush}" />
+      <Setter Property="Background" Value="{theme:AccentBrush Light8}" />
       <Style Selector="^ ContentPresenter#PART_HeaderPresenter">
-        <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
       </Style>
     </Style>
 
@@ -109,7 +107,7 @@
         <Setter Property="Background" Value="Transparent" />
       </Style>
       <Style Selector="^ /template/ ContentPresenter#PART_HeaderPresenter">
-        <Setter Property="Foreground" Value="{theme:OnSurfaceDimBrush}" />
+        <Setter Property="Foreground" Value="{theme:AccentBrush Light2}" />
       </Style>
     </Style>
   </ControlTheme>

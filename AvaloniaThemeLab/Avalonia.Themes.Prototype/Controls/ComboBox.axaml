@@ -64,7 +64,7 @@
     <Setter Property="Padding" Value="{theme:Edges Left={theme:SpacingXxl}, Top={theme:SpacingMd}, Bottom={theme:SpacingXl}}" />
     <Setter Property="FocusAdorner" Value="{x:Null}" />
     <Setter Property="MaxDropDownHeight" Value="504" />
-    <Setter Property="Background" Value="{theme:SurfaceBrush}" />
+    <Setter Property="Background" Value="{theme:AccentBrush Light10}" />
     <Setter Property="BorderBrush" Value="{theme:AccentBorderBrush}" />
     <Setter Property="BorderThickness" Value="{theme:ThicknessSm}" />
     <Setter Property="CornerRadius" Value="{theme:RadiusSm}" />
@@ -75,7 +75,7 @@
     <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
     <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
     <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
-    <Setter Property="PlaceholderForeground" Value="{theme:OnSurfaceDimBrush}" />
+    <Setter Property="PlaceholderForeground" Value="{theme:AccentBrush Light2}" />
 
     <!-- Template -->
     <Setter Property="Template">
@@ -207,12 +207,12 @@
       <Setter Property="Height" Value="{theme:IconSize}" />
       <Setter Property="Width" Value="{theme:IconSize}" />
       <Setter Property="Margin" Value="{theme:Edges Right={theme:SpacingXxl}}" />
-      <Setter Property="Foreground" Value="{theme:OnSurfaceDimBrush}" />
+      <Setter Property="Foreground" Value="{theme:AccentBrush Light2}" />
     </Style>
 
     <Style Selector="^ /template/ Border#PopupBorder">
       <Setter Property="Padding" Value="{theme:Edges All={theme:SpacingSm}}" />
-      <Setter Property="Background" Value="{theme:SurfaceBrush}" />
+      <Setter Property="Background" Value="{theme:AccentBrush Light10}" />
       <Setter Property="BorderBrush" Value="{theme:AccentBorderBrush}" />
       <Setter Property="BorderThickness" Value="{theme:ThicknessSm}" />
       <Setter Property="CornerRadius" Value="{theme:RadiusMd}" />
@@ -224,30 +224,30 @@
 
     <!-- Hover state -->
     <Style Selector="^:pointerover /template/ Border#Background">
-      <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}" />
+      <Setter Property="Background" Value="{theme:AccentBrush Light8}" />
       <Setter Property="BorderBrush" Value="{theme:AccentBorderBrush}" />
     </Style>
 
     <!-- Pressed state -->
     <Style Selector="^:pressed /template/ Border#Background">
-      <Setter Property="Background" Value="{theme:SurfaceOverlayMediumBrush}" />
+      <Setter Property="Background" Value="{theme:AccentBrush Light6}" />
       <Setter Property="BorderBrush" Value="{theme:AccentBorderBrush}" />
     </Style>
 
     <!-- Disabled state -->
     <Style Selector="^:disabled">
       <Style Selector="^ /template/ Border#Background">
-        <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}" />
+        <Setter Property="Background" Value="{theme:OverlayWeakBrush}" />
         <Setter Property="BorderBrush" Value="{theme:AccentBorderBrush}" />
       </Style>
       <Style Selector="^ /template/ ContentControl#ContentPresenter">
-        <Setter Property="Foreground" Value="{theme:OnSurfaceDimBrush}" />
+        <Setter Property="Foreground" Value="{theme:AccentBrush Light2}" />
       </Style>
       <Style Selector="^ /template/ TextBlock#PlaceholderTextBlock">
-        <Setter Property="Foreground" Value="{theme:OnSurfaceDimBrush}" />
+        <Setter Property="Foreground" Value="{theme:AccentBrush Light2}" />
       </Style>
       <Style Selector="^ /template/ PathIcon#DropDown">
-        <Setter Property="Foreground" Value="{theme:OnSurfaceDimBrush}" />
+        <Setter Property="Foreground" Value="{theme:AccentBrush Light2}" />
       </Style>
     </Style>
 
@@ -258,26 +258,22 @@
         <Setter Property="BorderBrush" Value="Transparent" />
       </Style>
       <Style Selector="^ /template/ ContentControl#ContentPresenter">
-        <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
       </Style>
       <Style Selector="^ /template/ TextBlock#PlaceholderTextBlock">
-        <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
       </Style>
       <Style Selector="^ /template/ PathIcon#DropDown">
-        <Setter Property="Foreground" Value="{theme:OnSurfaceDimBrush}" />
+        <Setter Property="Foreground" Value="{theme:AccentBrush Light2}" />
       </Style>
     </Style>
 
     <!-- Focus pressed state -->
     <Style Selector="^:focus:pressed">
       <Style Selector="^ /template/ ContentControl#ContentPresenter">
-        <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
       </Style>
       <Style Selector="^ /template/ TextBlock#PlaceholderTextBlock">
-        <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
       </Style>
       <Style Selector="^ /template/ PathIcon#DropDown">
-        <Setter Property="Foreground" Value="{theme:OnSurfaceDimBrush}" />
+        <Setter Property="Foreground" Value="{theme:AccentBrush Light2}" />
       </Style>
     </Style>
 

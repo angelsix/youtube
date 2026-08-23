@@ -45,7 +45,7 @@
     <Setter Property="MinWidth" Value="{theme:ControlMinWidth}" />
     <Setter Property="Padding" Value="{theme:Edges All={theme:SpacingMd}}" />
     <Setter Property="Width" Value="{Binding $self.Bounds.Height}"/>
-    <Setter Property="TextElement.Foreground" Value="{theme:OnSurfaceDimBrush}"/>
+    <Setter Property="TextElement.Foreground" Value="{theme:AccentBrush Light2}"/>
 
     <!-- Template -->
     <Setter Property="Template">
@@ -74,7 +74,7 @@
     <Style Selector="^:pressed /template/ ContentPresenter">
       <Setter Property="Background" Value="{theme:AccentPrimaryBrush}" />
       <Setter Property="BorderBrush" Value="Transparent" />
-      <Setter Property="Foreground" Value="{theme:SurfaceBrush}" />
+      <Setter Property="Foreground" Value="{theme:AccentBrush Light10}" />
     </Style>
 
     <!-- Disabled state -->
@@ -107,7 +107,7 @@
     <Style Selector="^:checked /template/ ContentPresenter, ^:indeterminate /template/ ContentPresenter">
       <Setter Property="Background" Value="{theme:AccentPrimaryBrush}" />
       <Setter Property="BorderBrush" Value="Transparent" />
-      <Setter Property="Foreground" Value="{theme:SurfaceBrush}" />
+      <Setter Property="Foreground" Value="{theme:AccentBrush Light10}" />
     </Style>
   </ControlTheme>
 
@@ -116,11 +116,11 @@
        ============================================================ -->
   <ControlTheme x:Key="{x:Type TextBox}" TargetType="TextBox">
     <!-- Visual defaults -->
-    <Setter Property="Background" Value="{theme:SurfaceBrush}" />
-    <Setter Property="CaretBrush" Value="{theme:OnSurfaceBrush}" />
+    <Setter Property="Background" Value="{theme:AccentBrush Light4}" />
+    <Setter Property="CaretBrush" Value="{theme:AccentBrush Dark1}" />
     <Setter Property="BorderBrush" Value="{theme:AccentBorderBrush}" />
     <Setter Property="SelectionBrush" Value="{theme:AccentPrimaryBrush}" />
-    <Setter Property="PlaceholderForeground" Value="{theme:OnSurfaceDimBrush}" />
+    <Setter Property="PlaceholderForeground" Value="{theme:AccentBrush Light2}" />
     <Setter Property="BorderThickness" Value="{theme:ThicknessSm}" />
     <Setter Property="CornerRadius" Value="{theme:RadiusSm}" />
     <Setter Property="MinHeight" Value="{theme:ControlHeightSm}" />
@@ -249,30 +249,28 @@
 
     <!-- Hover state -->
     <Style Selector="^:pointerover">
-      <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
 
       <Style Selector="^ /template/ Border#PART_BorderElement">
-        <Setter Property="BorderBrush" Value="{theme:OnSurfaceDimBrush}"/>
-        <Setter Property="Background" Value="{theme:SurfaceBrush}" />
+        <Setter Property="BorderBrush" Value="{theme:AccentBrush Light2}"/>
+        <Setter Property="Background" Value="{theme:AccentBrush Light4}" />
       </Style>
     </Style>
 
     <!-- Disabled state -->
     <Style Selector="^:disabled">
-      <Setter Property="Foreground" Value="{theme:OnSurfaceDimBrush}" />
+      <Setter Property="Foreground" Value="{theme:AccentBrush Light2}" />
 
       <Style Selector="^ /template/ Border#PART_BorderElement">
-        <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}" />
-        <Setter Property="BorderBrush" Value="{theme:SurfaceOverlayWeakBrush}" />
+        <Setter Property="Background" Value="{theme:OverlayWeakBrush}" />
+        <Setter Property="BorderBrush" Value="{theme:OverlayWeakBrush}" />
       </Style>
     </Style>
 
     <!-- Focus state -->
     <Style Selector="^:focus">
-      <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
 
       <Style Selector="^ /template/ Border#PART_BorderElement">
-        <Setter Property="Background" Value="{theme:SurfaceBrush}"/>
+        <Setter Property="Background" Value="{theme:AccentBrush Light4}"/>
         <Setter Property="BorderBrush" Value="{theme:AccentPrimaryBrush}"/>
         <Setter Property="BorderThickness" Value="{theme:ThicknessMd}" />
       </Style>

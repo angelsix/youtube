@@ -12,8 +12,8 @@
     </Border>
   </Design.PreviewWith>
 
-  <SolidColorBrush x:Key="NavigationBarBackground" Color="{theme:Surface}" />
-  <SolidColorBrush x:Key="NavigationBarForeground" Color="{theme:OnSurfaceDim}" />
+  <SolidColorBrush x:Key="NavigationBarBackground" Color="{theme:AccentNeutral}" />
+  <SolidColorBrush x:Key="NavigationBarForeground" Color="{theme:AccentNeutral}" />
 
   <!-- ============================================================
        Sub-theme: a nav-bar button
@@ -31,15 +31,15 @@
     </Style>
 
     <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}" />
+      <Setter Property="Background" Value="{theme:AccentBrush Light8}" />
     </Style>
 
     <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="Background" Value="{theme:SurfaceOverlayMediumBrush}" />
+      <Setter Property="Background" Value="{theme:AccentBrush Light6}" />
     </Style>
 
     <Style Selector="^:focus-visible /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="BorderBrush" Value="{theme:OnSurfaceBrush}" />
+      <Setter Property="BorderBrush" Value="{theme:AccentBrush Dark1}" />
       <Setter Property="BorderThickness" Value="{theme:ThicknessMd}" />
       <Setter Property="CornerRadius" Value="{theme:RadiusSm}" />
     </Style>
@@ -232,7 +232,7 @@
     <!-- Nav bar shadow height and background -->
     <Style Selector="^ /template/ Border#PART_NavBarShadow">
       <Setter Property="Height" Value="{theme:ThicknessXxl}" />
-      <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}" />
+      <Setter Property="Background" Value="{theme:OverlayWeakBrush}" />
     </Style>
 
     <!-- :nav-bar-inset: spacer reserves nav-bar height so content is pushed below -->

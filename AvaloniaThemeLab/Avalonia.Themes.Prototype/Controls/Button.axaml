@@ -20,11 +20,11 @@
         </StackPanel>
         <Label Content="Accent States" />
         <StackPanel Orientation="Horizontal" Spacing="20">
-          <Button Classes="accent" Content="Default" />
-          <Button Classes="accent previewHover" Content="Hover" />
-          <Button Classes="accent previewPressed" Content="Pressed" />
-          <Button Classes="accent previewFocused" Content="Focused" />
-          <Button Classes="accent" Content="Disabled" IsEnabled="False" />
+          <Button theme:Accent.Kind="Primary" Content="Default" />
+          <Button Classes="previewHover" theme:Accent.Kind="Primary" Content="Hover" />
+          <Button Classes="previewPressed" theme:Accent.Kind="Primary" Content="Pressed" />
+          <Button Classes="previewFocused" theme:Accent.Kind="Primary" Content="Focused" />
+          <Button theme:Accent.Kind="Primary" Content="Disabled" IsEnabled="False" />
         </StackPanel>
       </StackPanel>
     </Border>
@@ -36,8 +36,9 @@
   <ControlTheme x:Key="{x:Type Button}" TargetType="Button">
 
     <!-- Visual defaults -->
-    <Setter Property="Background" Value="{theme:SurfaceBrush}" />
-    <Setter Property="BorderBrush" Value="{theme:OnSurfaceBrush}" />
+    <Setter Property="Background" Value="{theme:AccentBrush Light10}" />
+    <Setter Property="Foreground" Value="{theme:AccentBrush Dark1}" />
+    <Setter Property="BorderBrush" Value="{theme:AccentBrush Light6}" />
     <Setter Property="BorderThickness" Value="{theme:ThicknessSm}" />
     <Setter Property="CornerRadius" Value="{theme:RadiusSm}" />
     <Setter Property="Padding" Value="{theme:Edges Horizontal={theme:SpacingXl}, Vertical={theme:SpacingLg}}" />
@@ -94,9 +95,12 @@
       <Setter Property="RadiusY" Value="{theme:RadiusSmDouble}" />
     </Style>
 
-    <!-- Hover state -->
+    <!-- Hover state. An opaque ramp stage rather than an Overlay brush: Background is a single
+         property, so a translucent value replaces the button's fill instead of layering over it,
+         and the page would show through. That read correctly only while the button and the page
+         were the same colour. -->
     <Style Selector="^:pointerover, ^.previewHover">
-      <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}" />
+      <Setter Property="Background" Value="{theme:AccentBrush Light8}" />
       <Setter Property="RenderTransform" Value="{theme:TransformScale Value={theme:PressedScale}, By=1.07}" />
     </Style>
 
@@ -106,7 +110,7 @@
     </Style>
 
     <Style Selector="^:pressed, ^.previewPressed">
-      <Setter Property="Background" Value="{theme:SurfaceOverlayStrongBrush}" />
+      <Setter Property="Background" Value="{theme:AccentBrush Light6}" />
     </Style>
 
     <!-- Disabled state -->
@@ -118,46 +122,6 @@
     <Style Selector="^:focus-visible, ^.previewFocused">
       <Setter Property="BorderBrush" Value="{theme:AccentFocusBrush}" />
       <Setter Property="BorderThickness" Value="{theme:ThicknessMd}" />
-    </Style>
-
-    <!-- Accent class -->
-    <Style Selector="^.accent">
-      <Setter Property="BorderThickness" Value="0" />
-      <Setter Property="Background" Value="{theme:SurfaceBrush}" />
-      <Setter Property="Foreground" Value="{theme:AccentPrimaryBrush}" />
-
-      <Style Selector="^ /template/ Rectangle#PART_AccentBorder">
-        <Setter Property="IsVisible" Value="True" />
-      </Style>
-    </Style>
-
-    <!-- Accent hover state -->
-    <Style Selector="^.accent:pointerover, ^.accent.previewHover">
-      <Setter Property="Background" Value="{theme:AccentHoverOverlayBrush}" />
-      <Setter Property="Foreground" Value="{theme:AccentPrimaryDark1Brush}" />
-
-      <Style Selector="^ /template/ Rectangle#PART_AccentBorder">
-        <Setter Property="Stroke" Value="{theme:AccentPrimaryDark1Brush}" />
-      </Style>
-    </Style>
-
-    <!-- Accent pressed state -->
-    <Style Selector="^.accent:pressed, ^.accent.previewPressed">
-      <Setter Property="Background" Value="{theme:AccentPressedOverlayBrush}" />
-      <Setter Property="Foreground" Value="{theme:AccentPrimaryDark2Brush}" />
-
-      <Style Selector="^ /template/ Rectangle#PART_AccentBorder">
-        <Setter Property="Stroke" Value="{theme:AccentPrimaryDark2Brush}" />
-      </Style>
-    </Style>
-
-    <!-- Accent disabled state -->
-    <Style Selector="^.accent:disabled">
-      <Setter Property="Opacity" Value="{theme:Scaled Value={theme:DisabledOpacity}, By=2}" />
-
-      <Style Selector="^ /template/ Rectangle#PART_AccentBorder">
-        <Setter Property="Opacity" Value="{theme:Scaled Value={theme:DisabledOpacity}, By=2}" />
-      </Style>
     </Style>
     
   </ControlTheme>

@@ -29,7 +29,7 @@
 
     <!-- Visual defaults -->
     <Setter Property="Background" Value="Transparent" />
-    <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
+    <Setter Property="Foreground" Value="{theme:AccentBrush Dark1}" />
     <Setter Property="BorderBrush" Value="Transparent" />
     <Setter Property="BorderThickness" Value="{theme:ThicknessSm}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
@@ -54,17 +54,16 @@
 
     <!-- Hover state -->
     <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
     </Style>
 
     <!-- Pressed state -->
     <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="Foreground" Value="{theme:OnSurfaceDimBrush}" />
+      <Setter Property="Foreground" Value="{theme:AccentBrush Light2}" />
     </Style>
 
     <!-- Disabled state -->
     <Style Selector="^:disabled /template/ ContentPresenter">
-      <Setter Property="Foreground" Value="{theme:OnSurfaceDimBrush}" />
+      <Setter Property="Foreground" Value="{theme:AccentBrush Light2}" />
     </Style>
   </ControlTheme>
 
@@ -74,9 +73,9 @@
   <ControlTheme x:Key="{x:Type CalendarItem}" TargetType="CalendarItem">
 
     <!-- Visual defaults -->
-    <Setter Property="Background" Value="{theme:SurfaceBrush}" />
-    <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}" />
-    <Setter Property="BorderBrush" Value="{theme:OnSurfaceBrush}" />
+    <Setter Property="Background" Value="{theme:AccentBrush Light10}" />
+    <Setter Property="Foreground" Value="{theme:AccentBrush Dark1}" />
+    <Setter Property="BorderBrush" Value="{theme:AccentBrush Dark1}" />
     <Setter Property="BorderThickness" Value="{theme:ThicknessSm}" />
     <Setter Property="CornerRadius" Value="{theme:RadiusSm}" />
     <Setter Property="Padding" Value="{theme:Edges All={theme:SpacingMd}}" />
@@ -185,7 +184,7 @@
 
     <!-- Nav arrows -->
     <Style Selector="^ /template/ Path#PART_PreviousArrow, ^ /template/ Path#PART_NextArrow">
-      <Setter Property="Stroke" Value="{theme:OnSurfaceDimBrush}" />
+      <Setter Property="Stroke" Value="{theme:AccentBrush Light2}" />
       <Setter Property="StrokeThickness" Value="{theme:ThicknessMd}" />
     </Style>
 
@@ -196,12 +195,12 @@
 
     <!-- Hover state -->
     <Style Selector="^ /template/ Button:pointerover > Path">
-      <Setter Property="Stroke" Value="{theme:OnSurfaceBrush}" />
+      <Setter Property="Stroke" Value="{theme:AccentBrush Dark1}" />
     </Style>
 
     <!-- Pressed state -->
     <Style Selector="^ /template/ Button:pressed > Path">
-      <Setter Property="Stroke" Value="{theme:OnSurfaceDimBrush}" />
+      <Setter Property="Stroke" Value="{theme:AccentBrush Light2}" />
     </Style>
   </ControlTheme>
 </ResourceDictionary>

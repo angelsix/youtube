@@ -15,7 +15,7 @@
               <StackPanel
                   Margin="{theme:Edges All={theme:SpacingXxl}}"
                   Spacing="{theme:SpacingXl}"
-                  TextElement.Foreground="{theme:OnSurfaceBrush}">
+                  TextElement.Foreground="{theme:AccentBrush Dark1}">
                 <!-- The notification's title -->
                 <TextBlock Text="{Binding Title}"
                            FontWeight="{theme:FontWeightSemiBold}" />
@@ -30,7 +30,7 @@
               <!-- A plain text notification -->
               <TextBlock Text="{Binding}"
                          Margin="{theme:Edges All={theme:SpacingXxl}}"
-                         Foreground="{theme:OnSurfaceBrush}" />
+                         Foreground="{theme:AccentBrush Dark1}" />
             </DataTemplate>
           </ReversibleStackPanel.DataTemplates>
         </ReversibleStackPanel>

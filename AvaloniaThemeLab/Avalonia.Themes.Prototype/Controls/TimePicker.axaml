@@ -56,22 +56,22 @@
 
     <!-- Pressed template state -->
     <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}"/>
-      <Setter Property="Foreground" Value="{theme:OnSurfaceBrush}"/>
+      <Setter Property="Background" Value="{theme:AccentBrush Light6}"/>
+      <Setter Property="Foreground" Value="{theme:AccentBrush Dark1}"/>
     </Style>
 
     <!-- Disabled template state -->
     <Style Selector="^:disabled /template/ ContentPresenter#PART_ContentPresenter">
       <Setter Property="BorderBrush" Value="{theme:AccentBorderBrush}"/>
-      <Setter Property="Background" Value="{theme:SurfaceOverlayWeakBrush}"/>
-      <Setter Property="Foreground" Value="{theme:OnSurfaceDimBrush}"/>
+      <Setter Property="Background" Value="{theme:OverlayWeakBrush}"/>
+      <Setter Property="Foreground" Value="{theme:AccentBrush Light2}"/>
     </Style>
   </ControlTheme>
 
   <!-- Main TimePicker theme -->
   <ControlTheme x:Key="{x:Type TimePicker}" TargetType="TimePicker">
     <!-- Visual defaults -->
-    <Setter Property="Background" Value="{theme:SurfaceBrush}" />
+    <Setter Property="Background" Value="{theme:AccentBrush Light10}" />
     <Setter Property="BorderBrush" Value="{theme:AccentBorderBrush}" />
     <Setter Property="BorderThickness" Value="{theme:ThicknessSm}" />
     <Setter Property="CornerRadius" Value="{theme:RadiusSm}" />
@@ -181,12 +181,12 @@
 
     <!-- Disabled state -->
     <Style Selector="^:disabled /template/ Rectangle">
-      <Setter Property="Fill" Value="{theme:SurfaceOverlayWeakBrush}"/>
+      <Setter Property="Fill" Value="{theme:OverlayWeakBrush}"/>
     </Style>
 
     <!-- Watermark state -->
     <Style Selector="^:hasnotime /template/ Button#PART_FlyoutButton TextBlock">
-      <Setter Property="Foreground" Value="{theme:OnSurfaceDimBrush}"/>
+      <Setter Property="Foreground" Value="{theme:AccentBrush Light2}"/>
     </Style>
 
     <!-- Error state -->
@@ -204,7 +204,7 @@
     <Style Selector="^ /template/ Rectangle#PART_FirstColumnDivider,
            ^ /template/ Rectangle#PART_SecondColumnDivider,
            ^ /template/ Rectangle#PART_ThirdColumnDivider">
-      <Setter Property="Fill" Value="{theme:SurfaceOverlayWeakBrush}" />
+      <Setter Property="Fill" Value="{theme:OverlayWeakBrush}" />
       <Setter Property="Width" Value="{theme:BaseSize}" />
     </Style>
   </ControlTheme>
@@ -213,7 +213,8 @@
   <ControlTheme x:Key="{x:Type TimePickerPresenter}" TargetType="TimePickerPresenter">
     <!-- Visual defaults -->
 
-    <Setter Property="Background" Value="{theme:SurfaceBrush}" />
+    <Setter Property="Background" Value="{theme:AccentBrush Light10}" />
+    <Setter Property="Foreground" Value="{theme:AccentBrush Dark1}" />
     <Setter Property="BorderBrush" Value="{theme:AccentBorderBrush}" />
     <Setter Property="BorderThickness" Value="{theme:ThicknessSm}" />
     <Setter Property="CornerRadius" Value="{theme:RadiusMd}" />
@@ -374,12 +375,12 @@
     <Style Selector="^ /template/ Rectangle#PART_FirstSpacer,
            ^ /template/ Rectangle#PART_SecondSpacer,
            ^ /template/ Rectangle#PART_ThirdSpacer">
-      <Setter Property="Fill" Value="{theme:SurfaceOverlayWeakBrush}" />
+      <Setter Property="Fill" Value="{theme:OverlayWeakBrush}" />
       <Setter Property="Width" Value="{theme:BaseSize}" />
     </Style>
     <Style Selector="^ /template/ Rectangle#PART_TopDivider">
       <Setter Property="Height" Value="{theme:BaseSize}" />
-      <Setter Property="Fill" Value="{theme:SurfaceOverlayWeakBrush}" />
+      <Setter Property="Fill" Value="{theme:OverlayWeakBrush}" />
     </Style>
     <Style Selector="^ /template/ Button#PART_AcceptButton,
            ^ /template/ Button#PART_DismissButton">

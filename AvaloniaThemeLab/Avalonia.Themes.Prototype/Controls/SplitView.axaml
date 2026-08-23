@@ -27,7 +27,7 @@
   <ControlTheme x:Key="{x:Type SplitView}" TargetType="SplitView">
     <Setter Property="OpenPaneLength" Value="{theme:Scaled Value={theme:ControlMinWidth}, By=5}" />
     <Setter Property="CompactPaneLength" Value="{theme:ControlHeightLg}" />
-    <Setter Property="PaneBackground" Value="{theme:SurfaceBrush}" />
+    <Setter Property="PaneBackground" Value="{theme:AccentBrush Light10}" />
 
     <Style Selector="^:left">
       <Setter Property="Template">
@@ -472,7 +472,7 @@
     </Style>
 
     <Style Selector="^:lightDismiss /template/ Rectangle#LightDismissLayer">
-      <Setter Property="Fill" Value="{theme:SurfaceOverlayStrongBrush}" />
+      <Setter Property="Fill" Value="{theme:OverlayStrongBrush}" />
     </Style>
     <Style Selector="^:overlay:open /template/ Rectangle#LightDismissLayer">
       <Setter Property="IsVisible" Value="True"/>
