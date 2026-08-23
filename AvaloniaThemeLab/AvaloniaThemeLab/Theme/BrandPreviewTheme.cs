@@ -1,4 +1,3 @@
-using System;
 using AngelSix.ThemeEngine;
 using Avalonia.Styling;
 using Avalonia.Themes.Prototype;
@@ -26,12 +25,12 @@ namespace AvaloniaThemeLab;
 /// </remarks>
 public class BrandPreviewTheme : Styles
 {
-    public BrandPreviewTheme(IServiceProvider? sp = null)
+    public BrandPreviewTheme()
     {
         // Constructing a ThemeContext registers it as the resolver, so this has to happen before
         // PrototypeTheme is built — otherwise its own DefaultTheme fallback gets there first.
         _ = new ThemeContext(new BrandTheme());
 
-        Add(new PrototypeTheme(sp));
+        Add(new PrototypeTheme());
     }
 }
