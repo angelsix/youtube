@@ -1,7 +1,9 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
-                    xmlns:theme="using:AngelSix.ThemeEngine.Generated">
+                    xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+                    xmlns:colour="using:AngelSix.ThemeEngine.Colours"
+                    xmlns:size="using:AngelSix.ThemeEngine.Sizes">
   <Design.PreviewWith>
     <Border Padding="20">
       <Border.Styles>
@@ -22,9 +24,9 @@
     <Setter Property="Background" Value="Transparent" />
     <Setter Property="BorderBrush" Value="Transparent" />
     <Setter Property="BorderThickness" Value="0" />
-    <Setter Property="CornerRadius" Value="{theme:RadiusSm}" />
+    <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
     <!--  Narrow padding should be used for mouse input, when non-narrow one should be used for touch input in future.  -->
-    <Setter Property="Padding" Value="{theme:Edges Horizontal={theme:SpacingXxl}}" />
+    <Setter Property="Padding" Value="{size:Edges Horizontal={size:SpacingXxl}}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
     <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
     <Setter Property="Template">
@@ -76,20 +78,20 @@
 
     <!-- Popup border and items presenter theming -->
     <Style Selector="^ /template/ Border#PART_PopupBorder">
-      <Setter Property="Background" Value="{theme:AccentBrush Light10}" />
-      <Setter Property="BorderBrush" Value="{theme:AccentBorderBrush}" />
-      <Setter Property="BorderThickness" Value="{theme:ThicknessSm}" />
+      <Setter Property="Background" Value="{colour:AccentBrush Light10}" />
+      <Setter Property="BorderBrush" Value="{colour:AccentBorderBrush}" />
+      <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
       <Setter Property="Padding" Value="0" />
-      <Setter Property="MinHeight" Value="{theme:ControlHeightSm}" />
-      <Setter Property="CornerRadius" Value="{theme:RadiusMd}" />
+      <Setter Property="MinHeight" Value="{size:ControlHeightSm}" />
+      <Setter Property="CornerRadius" Value="{size:RadiusMd}" />
     </Style>
     <Style Selector="^ /template/ ItemsPresenter#PART_PopupItemsPresenter">
-      <Setter Property="Margin" Value="{theme:Edges Vertical={theme:SpacingMd}}" />
+      <Setter Property="Margin" Value="{size:Edges Vertical={size:SpacingMd}}" />
     </Style>
 
     <Style Selector="^:selected">
       <Style Selector="^ /template/ Border#PART_LayoutRoot">
-        <Setter Property="Background" Value="{theme:OverlayWeakBrush}" />
+        <Setter Property="Background" Value="{colour:OverlayWeakBrush}" />
       </Style>
       <Style Selector="^ /template/ ContentPresenter#PART_HeaderPresenter">
       </Style>
@@ -97,7 +99,7 @@
 
     <!--  Listen for PART_LayoutRoot:pointerover, so it will not be triggered when subitem is pressed  -->
     <Style Selector="^:pressed /template/ Border#PART_LayoutRoot:pointerover">
-      <Setter Property="Background" Value="{theme:AccentBrush Light8}" />
+      <Setter Property="Background" Value="{colour:AccentBrush Light8}" />
       <Style Selector="^ ContentPresenter#PART_HeaderPresenter">
       </Style>
     </Style>
@@ -107,7 +109,7 @@
         <Setter Property="Background" Value="Transparent" />
       </Style>
       <Style Selector="^ /template/ ContentPresenter#PART_HeaderPresenter">
-        <Setter Property="Foreground" Value="{theme:AccentBrush Light2}" />
+        <Setter Property="Foreground" Value="{colour:AccentBrush Light2}" />
       </Style>
     </Style>
   </ControlTheme>
@@ -115,7 +117,7 @@
   <ControlTheme x:Key="{x:Type Menu}" TargetType="Menu">
     <!-- Visual defaults -->
     <Setter Property="Background" Value="Transparent" />
-    <Setter Property="Height" Value="{theme:ControlHeightSm}" />
+    <Setter Property="Height" Value="{size:ControlHeightSm}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
     <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
     <Setter Property="ItemContainerTheme" Value="{StaticResource PrototypeTopLevelMenuItem}" />

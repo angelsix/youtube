@@ -13,7 +13,7 @@ namespace AvaloniaThemeLab;
 /// A preview never runs <see cref="App"/>, so nothing has registered the application's token theme
 /// by the time the block loads. <c>PrototypeTheme</c> notices there is no <see cref="ThemeContext"/>
 /// and falls back to <c>DefaultTheme</c> — which declares no <c>Brand</c> hue, so every
-/// <c>{theme:AccentBrush}</c> under <c>Accent.Kind="Brand"</c> resolves to nothing and the brand
+/// <c>{colour:AccentBrush}</c> under <c>Accent.Kind="Brand"</c> resolves to nothing and the brand
 /// styling previews as an unstyled button. Registering the real theme first is what makes a preview
 /// of brand styling actually show the brand.
 /// </para>

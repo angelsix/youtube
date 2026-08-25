@@ -2,7 +2,9 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:sys="using:System"
                     xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
-                    xmlns:theme="using:AngelSix.ThemeEngine.Generated">
+                    xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+                    xmlns:colour="using:AngelSix.ThemeEngine.Colours"
+                    xmlns:size="using:AngelSix.ThemeEngine.Sizes">
   <Design.PreviewWith>
     <Border Margin="20" Width="400" Height="400">
       <Border.Styles>
@@ -17,10 +19,10 @@
        ============================================================ -->
   <ControlTheme x:Key="PrototypeCalendarDatePickerButton" TargetType="Button">
     <!-- Visual defaults -->
-    <Setter Property="TextElement.Foreground" Value="{theme:AccentBrush Light2}" />
-    <Setter Property="Margin" Value="{theme:Edges Left={theme:SpacingSm}, Right={theme:SpacingMd}}" />
-    <Setter Property="Width" Value="{theme:Scaled Value={theme:BaseSize}, By=10}" />
-    <Setter Property="Height" Value="{theme:Scaled Value={theme:BaseSize}, By=12}" />
+    <Setter Property="TextElement.Foreground" Value="{colour:AccentBrush Light2}" />
+    <Setter Property="Margin" Value="{size:Edges Left={size:SpacingSm}, Right={size:SpacingMd}}" />
+    <Setter Property="Width" Value="{size:Scaled Value={size:BaseSize}, By=10}" />
+    <Setter Property="Height" Value="{size:Scaled Value={size:BaseSize}, By=12}" />
 
     <!-- Template -->
     <Setter Property="Template">
@@ -68,27 +70,27 @@
 
     <!-- Background border visuals -->
     <Style Selector="^ /template/ Border#Background">
-      <Setter Property="Margin" Value="{theme:Edges Top={theme:Scaled Value={theme:BaseSize}, By=-1}}" />
-      <Setter Property="BorderThickness" Value="{theme:Edges Left={theme:BaseSize}, Right={theme:BaseSize}, Bottom={theme:BaseSize}}" />
-      <Setter Property="CornerRadius" Value="{theme:Corners Radius={theme:RadiusSm}, Bottom=True}" />
+      <Setter Property="Margin" Value="{size:Edges Top={size:Scaled Value={size:BaseSize}, By=-1}}" />
+      <Setter Property="BorderThickness" Value="{size:Edges Left={size:BaseSize}, Right={size:BaseSize}, Bottom={size:BaseSize}}" />
+      <Setter Property="CornerRadius" Value="{size:Corners Radius={size:RadiusSm}, Bottom=True}" />
     </Style>
 
     <!-- Top border visuals -->
     <Style Selector="^ /template/ Border#TopBorder">
-      <Setter Property="BorderThickness" Value="{theme:ThicknessSm}" />
-      <Setter Property="CornerRadius" Value="{theme:Corners Radius={theme:RadiusSm}, Top=True}" />
+      <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
+      <Setter Property="CornerRadius" Value="{size:Corners Radius={size:RadiusSm}, Top=True}" />
     </Style>
 
     <!-- Day text visuals -->
     <Style Selector="^ /template/ TextBlock#PART_DayText">
-      <Setter Property="Margin" Value="{theme:Edges Top={theme:Scaled Value={theme:BaseSize}, By=-1}}" />
-      <Setter Property="FontSize" Value="{theme:FontSizeSm}" />
+      <Setter Property="Margin" Value="{size:Edges Top={size:Scaled Value={size:BaseSize}, By=-1}}" />
+      <Setter Property="FontSize" Value="{size:FontSizeSm}" />
     </Style>
 
     <!-- Dot indicator visuals -->
     <Style Selector="^ /template/ Ellipse#PART_Dot">
-      <Setter Property="Width" Value="{theme:ThicknessLg}" />
-      <Setter Property="Height" Value="{theme:ThicknessLg}" />
+      <Setter Property="Width" Value="{size:ThicknessLg}" />
+      <Setter Property="Height" Value="{size:ThicknessLg}" />
     </Style>
   </ControlTheme>
 
@@ -116,7 +118,7 @@
     </Style>
 
     <Style Selector="^:disabled /template/ TextBlock#PART_Placeholder, ^:disabled /template/ TextBlock#PART_FloatingPlaceholder">
-      <Setter Property="TextElement.Foreground" Value="{theme:AccentBrush Light2}" />
+      <Setter Property="TextElement.Foreground" Value="{colour:AccentBrush Light2}" />
     </Style>
   </ControlTheme>
 
@@ -125,19 +127,19 @@
        ============================================================ -->
   <ControlTheme x:Key="{x:Type CalendarDatePicker}" TargetType="CalendarDatePicker">
     <!-- Visual defaults -->
-    <Setter Property="Background" Value="{theme:AccentBrush Light10}" />
-    <Setter Property="Foreground" Value="{theme:AccentBrush Dark1}" />
-    <Setter Property="PlaceholderForeground" Value="{theme:AccentBrush Light2}" />
-    <Setter Property="BorderBrush" Value="{theme:AccentBorderBrush}" />
-    <Setter Property="BorderThickness" Value="{theme:ThicknessSm}" />
-    <Setter Property="CornerRadius" Value="{theme:RadiusSm}" />
-    <Setter Property="MinHeight" Value="{theme:ControlHeightSm}" />
-    <Setter Property="MinWidth" Value="{theme:ControlMinWidth}" />
+    <Setter Property="Background" Value="{colour:AccentBrush Light10}" />
+    <Setter Property="Foreground" Value="{colour:AccentBrush Dark1}" />
+    <Setter Property="PlaceholderForeground" Value="{colour:AccentBrush Light2}" />
+    <Setter Property="BorderBrush" Value="{colour:AccentBorderBrush}" />
+    <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
+    <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
+    <Setter Property="MinHeight" Value="{size:ControlHeightSm}" />
+    <Setter Property="MinWidth" Value="{size:ControlMinWidth}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
     <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
     <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
     <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
-    <Setter Property="Padding" Value="{theme:SpacingMd}" />
+    <Setter Property="Padding" Value="{size:SpacingMd}" />
 
     <!-- Template -->
     <Setter Property="Template">
@@ -202,38 +204,38 @@
 
     <!-- Hover state -->
     <Style Selector="^:pointerover /template/ Border#Background">
-      <Setter Property="Background" Value="{theme:AccentBrush Light10}" />
-      <Setter Property="BorderBrush" Value="{theme:AccentBorderBrush}" />
+      <Setter Property="Background" Value="{colour:AccentBrush Light10}" />
+      <Setter Property="BorderBrush" Value="{colour:AccentBorderBrush}" />
     </Style>
 
     <!-- Pressed state -->
     <Style Selector="^:pressed /template/ Border#Background">
-      <Setter Property="Background" Value="{theme:AccentBrush Light6}" />
-      <Setter Property="BorderBrush" Value="{theme:AccentBorderBrush}" />
+      <Setter Property="Background" Value="{colour:AccentBrush Light6}" />
+      <Setter Property="BorderBrush" Value="{colour:AccentBorderBrush}" />
     </Style>
 
     <!-- Disabled state -->
     <Style Selector="^:disabled">
       <Style Selector="^ /template/ Border#Background">
-        <Setter Property="Background" Value="{theme:OverlayWeakBrush}" />
-        <Setter Property="BorderBrush" Value="{theme:OverlayWeakBrush}" />
+        <Setter Property="Background" Value="{colour:OverlayWeakBrush}" />
+        <Setter Property="BorderBrush" Value="{colour:OverlayWeakBrush}" />
       </Style>
 
       <Style Selector="^ /template/ Button#PART_Button">
-        <Setter Property="TextElement.Foreground" Value="{theme:AccentBrush Light2}" />
+        <Setter Property="TextElement.Foreground" Value="{colour:AccentBrush Light2}" />
       </Style>
     </Style>
 
     <!-- Focus state -->
     <Style Selector="^:focus-within:not(CalendarDatePicker:focus) /template/ Border#Background">
-      <Setter Property="Background" Value="{theme:AccentBrush Light10}" />
-      <Setter Property="BorderBrush" Value="{theme:AccentFocusBrush}" />
-      <Setter Property="BorderThickness" Value="{theme:ThicknessMd}" />
+      <Setter Property="Background" Value="{colour:AccentBrush Light10}" />
+      <Setter Property="BorderBrush" Value="{colour:AccentFocusBrush}" />
+      <Setter Property="BorderThickness" Value="{size:ThicknessMd}" />
     </Style>
 
     <!-- Error state -->
     <Style Selector="^:error /template/ Border#Background">
-      <Setter Property="BorderBrush" Value="{theme:AccentErrorBrush}" />
+      <Setter Property="BorderBrush" Value="{colour:AccentErrorBrush}" />
     </Style>
   </ControlTheme>
 </ResourceDictionary>

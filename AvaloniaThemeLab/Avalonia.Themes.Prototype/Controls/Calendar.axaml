@@ -1,7 +1,9 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
-                    xmlns:theme="using:AngelSix.ThemeEngine.Generated">
+                    xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+                    xmlns:colour="using:AngelSix.ThemeEngine.Colours"
+                    xmlns:size="using:AngelSix.ThemeEngine.Sizes">
   <Design.PreviewWith>
     <Border Padding="20">
       <Border.Styles>
@@ -18,18 +20,18 @@
   <ControlTheme x:Key="{x:Type Calendar}" TargetType="Calendar">
 
     <!-- Visual defaults -->
-    <Setter Property="Background" Value="{theme:AccentBrush Light10}" />
-    <Setter Property="Foreground" Value="{theme:AccentBrush Light2}" />
-    <Setter Property="BorderBrush" Value="{theme:AccentBorderBrush}" />
-    <Setter Property="BorderThickness" Value="{theme:ThicknessSm}" />
-    <Setter Property="CornerRadius" Value="{theme:RadiusSm}" />
-    <Setter Property="Padding" Value="{theme:Edges Horizontal={theme:SpacingMd}, Vertical={theme:SpacingMd}}" />
-    <Setter Property="MinHeight" Value="{theme:ControlHeightSm}" />
-    <Setter Property="MinWidth" Value="{theme:ControlMinWidth}" />
-    <Setter Property="FontSize" Value="{theme:FontSizeXl}" />
+    <Setter Property="Background" Value="{colour:AccentBrush Light10}" />
+    <Setter Property="Foreground" Value="{colour:AccentBrush Light2}" />
+    <Setter Property="BorderBrush" Value="{colour:AccentBorderBrush}" />
+    <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
+    <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
+    <Setter Property="Padding" Value="{size:Edges Horizontal={size:SpacingMd}, Vertical={size:SpacingMd}}" />
+    <Setter Property="MinHeight" Value="{size:ControlHeightSm}" />
+    <Setter Property="MinWidth" Value="{size:ControlMinWidth}" />
+    <Setter Property="FontSize" Value="{size:FontSizeXl}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
     <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
-    <Setter Property="HeaderBackground" Value="{theme:AccentBrush Light10}" />
+    <Setter Property="HeaderBackground" Value="{colour:AccentBrush Light10}" />
 
     <!-- Press animation -->
     <Setter Property="RenderTransform" Value="none" />
@@ -61,13 +63,13 @@
 
     <!-- Disabled state -->
     <Style Selector="^:disabled">
-      <Setter Property="Opacity" Value="{theme:DisabledOpacity}" />
+      <Setter Property="Opacity" Value="{size:DisabledOpacity}" />
     </Style>
 
     <!-- Focus state -->
     <Style Selector="^:focus-visible">
-      <Setter Property="BorderBrush" Value="{theme:AccentFocusBrush}" />
-      <Setter Property="BorderThickness" Value="{theme:ThicknessMd}" />
+      <Setter Property="BorderBrush" Value="{colour:AccentFocusBrush}" />
+      <Setter Property="BorderThickness" Value="{size:ThicknessMd}" />
     </Style>
 
   </ControlTheme>

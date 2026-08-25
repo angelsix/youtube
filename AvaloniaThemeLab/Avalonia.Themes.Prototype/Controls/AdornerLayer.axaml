@@ -1,15 +1,17 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
-                    xmlns:theme="using:AngelSix.ThemeEngine.Generated">
+                    xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+                    xmlns:colour="using:AngelSix.ThemeEngine.Colours"
+                    xmlns:size="using:AngelSix.ThemeEngine.Sizes">
   <ControlTheme x:Key="{x:Type AdornerLayer}" TargetType="AdornerLayer">
     <!-- Focus adorner template -->
     <Setter Property="DefaultFocusAdorner">
       <FocusAdornerTemplate>
-        <Border BorderThickness="{theme:ThicknessMd}"
-                BorderBrush="{theme:AccentBrush Dark1}">
-          <Border BorderThickness="{theme:ThicknessSm}"
-                  BorderBrush="{theme:AccentBrush Light10}" />
+        <Border BorderThickness="{size:ThicknessMd}"
+                BorderBrush="{colour:AccentBrush Dark1}">
+          <Border BorderThickness="{size:ThicknessSm}"
+                  BorderBrush="{colour:AccentBrush Light10}" />
         </Border>
       </FocusAdornerTemplate>
     </Setter>

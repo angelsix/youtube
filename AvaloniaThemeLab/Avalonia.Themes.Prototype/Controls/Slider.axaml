@@ -2,7 +2,9 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:sys="using:System"
                     xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
-                    xmlns:theme="using:AngelSix.ThemeEngine.Generated">
+                    xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+                    xmlns:colour="using:AngelSix.ThemeEngine.Colours"
+                    xmlns:size="using:AngelSix.ThemeEngine.Sizes">
   <Design.PreviewWith>
     <Border Margin="20" Width="400" Height="600">
       <Border.Styles>
@@ -59,13 +61,13 @@
 
     <!-- Focus target margin -->
     <Style Selector="^ /template/ Border#FocusTarget">
-      <Setter Property="Margin" Value="{theme:Edges Vertical={theme:Scaled Value={theme:IconSize}, By=-0.5}}" />
+      <Setter Property="Margin" Value="{size:Edges Vertical={size:Scaled Value={size:IconSize}, By=-0.5}}" />
     </Style>
 
     <!-- Track background styling -->
     <Style Selector="^ /template/ Border#TrackBackground">
-      <Setter Property="Height" Value="{theme:ThicknessSm}" />
-      <Setter Property="CornerRadius" Value="{theme:RadiusSm}" />
+      <Setter Property="Height" Value="{size:ThicknessSm}" />
+      <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
     </Style>
   </ControlTheme>
 
@@ -90,13 +92,13 @@
 
     <!-- Focus target margin -->
     <Style Selector="^ /template/ Border#FocusTarget">
-      <Setter Property="Margin" Value="{theme:Edges Vertical={theme:Scaled Value={theme:IconSize}, By=-0.5}}" />
+      <Setter Property="Margin" Value="{size:Edges Vertical={size:Scaled Value={size:IconSize}, By=-0.5}}" />
     </Style>
 
     <!-- Track background styling -->
     <Style Selector="^ /template/ Border#TrackBackground">
-      <Setter Property="Width" Value="{theme:ThicknessSm}" />
-      <Setter Property="CornerRadius" Value="{theme:RadiusSm}" />
+      <Setter Property="Width" Value="{size:ThicknessSm}" />
+      <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
     </Style>
   </ControlTheme>
 
@@ -123,9 +125,9 @@
   <ControlTheme x:Key="{x:Type Slider}" TargetType="Slider">
 
     <!-- Visual defaults -->
-    <Setter Property="Background" Value="{theme:AccentBrush Light2}" />
+    <Setter Property="Background" Value="{colour:AccentBrush Light2}" />
     <Setter Property="BorderThickness" Value="0" />
-    <Setter Property="Foreground" Value="{theme:AccentPrimaryBrush}" />
+    <Setter Property="Foreground" Value="{colour:AccentPrimaryBrush}" />
 
     <!-- Horizontal template -->
     <Style Selector="^:horizontal">
@@ -153,9 +155,9 @@
                       ColumnDefinitions="Auto,Auto,*">
                     <Grid.RowDefinitions>
                       <!-- Structural: grid row spacing (SpacingXxl = 16) -->
-                      <RowDefinition Height="{theme:SpacingXxl}" />
+                      <RowDefinition Height="{size:SpacingXxl}" />
                       <RowDefinition Height="Auto" />
-                      <RowDefinition Height="{theme:SpacingXxl}" />
+                      <RowDefinition Height="{size:SpacingXxl}" />
                     </Grid.RowDefinitions>
                     <!-- Tick marks above the track -->
                     <TickBar
@@ -253,9 +255,9 @@
                       RowDefinitions="*,Auto,Auto">
                     <Grid.ColumnDefinitions>
                       <!-- Structural: grid column spacing (SpacingXxl = 16) -->
-                      <ColumnDefinition Width="{theme:SpacingXxl}" />
+                      <ColumnDefinition Width="{size:SpacingXxl}" />
                       <ColumnDefinition Width="Auto" />
-                      <ColumnDefinition Width="{theme:SpacingXxl}" />
+                      <ColumnDefinition Width="{size:SpacingXxl}" />
                     </Grid.ColumnDefinitions>
                     <!-- Tick marks left of the track -->
                     <TickBar
@@ -330,42 +332,42 @@
 
     <!-- Template element defaults -->
     <Style Selector="^ /template/ Grid#HorizontalTemplate">
-      <Setter Property="MinHeight" Value="{theme:ControlHeightSm}" />
+      <Setter Property="MinHeight" Value="{size:ControlHeightSm}" />
     </Style>
 
     <Style Selector="^ /template/ Grid#VerticalTemplate">
-      <Setter Property="MinWidth" Value="{theme:ControlHeightSm}" />
+      <Setter Property="MinWidth" Value="{size:ControlHeightSm}" />
     </Style>
 
     <Style Selector="^ /template/ Thumb">
-      <Setter Property="Width" Value="{theme:IconSize}" />
-      <Setter Property="Height" Value="{theme:IconSize}" />
-      <Setter Property="Background" Value="{theme:AccentPrimaryBrush}" />
-      <Setter Property="CornerRadius" Value="{theme:RadiusMd}" />
+      <Setter Property="Width" Value="{size:IconSize}" />
+      <Setter Property="Height" Value="{size:IconSize}" />
+      <Setter Property="Background" Value="{colour:AccentPrimaryBrush}" />
+      <Setter Property="CornerRadius" Value="{size:RadiusMd}" />
     </Style>
 
     <Style Selector="^ /template/ TickBar">
-      <Setter Property="Fill" Value="{theme:AccentBrush Light2}" />
+      <Setter Property="Fill" Value="{colour:AccentBrush Light2}" />
     </Style>
 
     <Style Selector="^ /template/ TickBar#TopTickBar">
-      <Setter Property="Height" Value="{theme:ThicknessXxl}" />
-      <Setter Property="Margin" Value="{theme:Edges Bottom={theme:SpacingMd}}" />
+      <Setter Property="Height" Value="{size:ThicknessXxl}" />
+      <Setter Property="Margin" Value="{size:Edges Bottom={size:SpacingMd}}" />
     </Style>
 
     <Style Selector="^ /template/ TickBar#BottomTickBar">
-      <Setter Property="Height" Value="{theme:ThicknessXxl}" />
-      <Setter Property="Margin" Value="{theme:Edges Top={theme:SpacingMd}}" />
+      <Setter Property="Height" Value="{size:ThicknessXxl}" />
+      <Setter Property="Margin" Value="{size:Edges Top={size:SpacingMd}}" />
     </Style>
 
     <Style Selector="^ /template/ TickBar#LeftTickBar">
-      <Setter Property="Width" Value="{theme:ThicknessXxl}" />
-      <Setter Property="Margin" Value="{theme:Edges Right={theme:SpacingMd}}" />
+      <Setter Property="Width" Value="{size:ThicknessXxl}" />
+      <Setter Property="Margin" Value="{size:Edges Right={size:SpacingMd}}" />
     </Style>
 
     <Style Selector="^ /template/ TickBar#RightTickBar">
-      <Setter Property="Width" Value="{theme:ThicknessXxl}" />
-      <Setter Property="Margin" Value="{theme:Edges Left={theme:SpacingMd}}" />
+      <Setter Property="Width" Value="{size:ThicknessXxl}" />
+      <Setter Property="Margin" Value="{size:Edges Left={size:SpacingMd}}" />
     </Style>
 
     <!-- TickBar placement -->
@@ -391,13 +393,13 @@
         <Setter Property="Background" Value="Transparent" />
       </Style>
       <Style Selector="^ /template/ RepeatButton#PART_IncreaseButton">
-        <Setter Property="Background" Value="{theme:AccentBrush Light2}" />
+        <Setter Property="Background" Value="{colour:AccentBrush Light2}" />
       </Style>
       <Style Selector="^ /template/ RepeatButton#PART_DecreaseButton">
-        <Setter Property="Background" Value="{theme:AccentPrimaryBrush}" />
+        <Setter Property="Background" Value="{colour:AccentPrimaryBrush}" />
       </Style>
       <Style Selector="^ /template/ Thumb">
-        <Setter Property="Background" Value="{theme:AccentBrush Light1}" />
+        <Setter Property="Background" Value="{colour:AccentBrush Light1}" />
       </Style>
     </Style>
 
@@ -407,45 +409,45 @@
         <Setter Property="Background" Value="Transparent" />
       </Style>
       <Style Selector="^ /template/ RepeatButton#PART_DecreaseButton">
-        <Setter Property="Background" Value="{theme:AccentPrimaryBrush}" />
+        <Setter Property="Background" Value="{colour:AccentPrimaryBrush}" />
       </Style>
       <Style Selector="^ /template/ RepeatButton#PART_IncreaseButton">
-        <Setter Property="Background" Value="{theme:AccentBrush Light2}" />
+        <Setter Property="Background" Value="{colour:AccentBrush Light2}" />
       </Style>
       <Style Selector="^ /template/ Thumb">
-        <Setter Property="Background" Value="{theme:AccentBrush Dark1}" />
+        <Setter Property="Background" Value="{colour:AccentBrush Dark1}" />
       </Style>
     </Style>
 
     <!-- Disabled state -->
     <Style Selector="^:disabled">
       <Style Selector="^ /template/ RepeatButton#PART_DecreaseButton">
-        <Setter Property="Background" Value="{theme:AccentBrush Light2}" />
+        <Setter Property="Background" Value="{colour:AccentBrush Light2}" />
       </Style>
       <Style Selector="^ /template/ RepeatButton#PART_IncreaseButton">
-        <Setter Property="Background" Value="{theme:AccentBrush Light2}" />
+        <Setter Property="Background" Value="{colour:AccentBrush Light2}" />
       </Style>
       <Style Selector="^ /template/ Thumb">
-        <Setter Property="Background" Value="{theme:AccentBrush Light2}" />
+        <Setter Property="Background" Value="{colour:AccentBrush Light2}" />
       </Style>
       <Style Selector="^ /template/ TickBar">
-        <Setter Property="Fill" Value="{theme:AccentBrush Light2}" />
+        <Setter Property="Fill" Value="{colour:AccentBrush Light2}" />
       </Style>
     </Style>
 
     <!-- Focus state -->
     <Style Selector="^:focus-visible">
       <Style Selector="^ /template/ Thumb">
-        <Setter Property="BorderBrush" Value="{theme:AccentFocusBrush}" />
-        <Setter Property="BorderThickness" Value="{theme:ThicknessMd}" />
+        <Setter Property="BorderBrush" Value="{colour:AccentFocusBrush}" />
+        <Setter Property="BorderThickness" Value="{size:ThicknessMd}" />
       </Style>
     </Style>
 
     <!-- Error state -->
     <Style Selector="^:error">
-      <Setter Property="Foreground" Value="{theme:AccentErrorBrush}" />
+      <Setter Property="Foreground" Value="{colour:AccentErrorBrush}" />
       <Style Selector="^ /template/ Thumb">
-        <Setter Property="Background" Value="{theme:AccentErrorBrush}" />
+        <Setter Property="Background" Value="{colour:AccentErrorBrush}" />
       </Style>
     </Style>
 

@@ -2,6 +2,8 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+                    xmlns:colour="using:AngelSix.ThemeEngine.Colours"
+                    xmlns:size="using:AngelSix.ThemeEngine.Sizes"
                     xmlns:icons="using:AngelSix.ThemeEngine.Icons">
   <Design.PreviewWith>
     <Border Padding="20">
@@ -41,14 +43,14 @@
   <ControlTheme x:Key="{x:Type CheckBox}" TargetType="CheckBox">
 
     <!-- Visual defaults -->
-    <Setter Property="Background" Value="{theme:AccentBrush Light10}" />
-    <Setter Property="Foreground" Value="{theme:AccentBrush Dark1}" />
-    <Setter Property="BorderBrush" Value="{theme:OverlayMediumBrush}" />
-    <Setter Property="BorderThickness" Value="{theme:ThicknessSm}" />
-    <Setter Property="CornerRadius" Value="{theme:RadiusMd}" />
-    <Setter Property="Padding" Value="{theme:Edges Left={theme:SpacingLg}}" />
-    <Setter Property="MinHeight" Value="{theme:ControlHeightSm}" />
-    <Setter Property="MinWidth" Value="{theme:ControlMinWidth}" />
+    <Setter Property="Background" Value="{colour:AccentBrush Light10}" />
+    <Setter Property="Foreground" Value="{colour:AccentBrush Dark1}" />
+    <Setter Property="BorderBrush" Value="{colour:OverlayMediumBrush}" />
+    <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
+    <Setter Property="CornerRadius" Value="{size:RadiusMd}" />
+    <Setter Property="Padding" Value="{size:Edges Left={size:SpacingLg}}" />
+    <Setter Property="MinHeight" Value="{size:ControlHeightSm}" />
+    <Setter Property="MinWidth" Value="{size:ControlMinWidth}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
     <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
     <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
@@ -136,63 +138,63 @@
 
     <!-- Tick visuals -->
     <Style Selector="^ /template/ Viewbox#TickViewbox">
-      <Setter Property="Width" Value="{theme:IconSize}" />
+      <Setter Property="Width" Value="{size:IconSize}" />
     </Style>
 
     <Style Selector="^ /template/ Border#TickBorder">
-      <Setter Property="Padding" Value="{theme:Edges All={theme:SpacingMd}}" />
+      <Setter Property="Padding" Value="{size:Edges All={size:SpacingMd}}" />
     </Style>
 
     <Style Selector="^ /template/ Path#CheckGlyph">
-      <Setter Property="Fill" Value="{theme:AccentPrimaryBrush}" />
+      <Setter Property="Fill" Value="{colour:AccentPrimaryBrush}" />
     </Style>
 
     <!-- Indeterminate box visuals -->
     <Style Selector="^ /template/ Border#IndeterminateBox">
       <Setter Property="Width" Value="10" />
       <Setter Property="Height" Value="10" />
-      <Setter Property="CornerRadius" Value="{theme:RadiusSm}" />
-      <Setter Property="Background" Value="{theme:AccentBrush Light10}" />
+      <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
+      <Setter Property="Background" Value="{colour:AccentBrush Light10}" />
     </Style>
 
     <!-- Accent border visuals -->
     <Style Selector="^ /template/ Rectangle#PART_AccentBorder">
-      <Setter Property="Stroke" Value="{theme:AccentPrimaryBrush}" />
-      <Setter Property="StrokeThickness" Value="{theme:AccentBorderStrokeThickness}" />
-      <Setter Property="RadiusX" Value="{theme:RadiusMdDouble}" />
-      <Setter Property="RadiusY" Value="{theme:RadiusMdDouble}" />
+      <Setter Property="Stroke" Value="{colour:AccentPrimaryBrush}" />
+      <Setter Property="StrokeThickness" Value="{size:AccentBorderStrokeThickness}" />
+      <Setter Property="RadiusX" Value="{size:RadiusMdDouble}" />
+      <Setter Property="RadiusY" Value="{size:RadiusMdDouble}" />
     </Style>
 
     <!-- Hover state -->
     <Style Selector="^:pointerover, ^.previewHover">
-      <Setter Property="BorderBrush" Value="{theme:AccentBrush Dark1}" />
-      <Setter Property="Background" Value="{theme:AccentBrush Light10}" />
+      <Setter Property="BorderBrush" Value="{colour:AccentBrush Dark1}" />
+      <Setter Property="Background" Value="{colour:AccentBrush Light10}" />
     </Style>
 
     <!-- Pressed state -->
     <Style Selector="^:pressed, ^.previewPressed">
-      <Setter Property="RenderTransform" Value="{theme:TransformScale Value={theme:PressedScale}}" />
+      <Setter Property="RenderTransform" Value="{theme:TransformScale Value={size:PressedScale}}" />
     </Style>
 
     <Style Selector="^:pressed, ^.previewPressed">
-      <Setter Property="Background" Value="{theme:AccentBrush Light6}" />
+      <Setter Property="Background" Value="{colour:AccentBrush Light6}" />
     </Style>
 
     <!-- Disabled state -->
     <Style Selector="^:disabled">
-      <Setter Property="Opacity" Value="{theme:DisabledOpacity}" />
+      <Setter Property="Opacity" Value="{size:DisabledOpacity}" />
     </Style>
 
     <!-- Focus state -->
     <Style Selector="^:focus-visible, ^.previewFocused">
-      <Setter Property="BorderBrush" Value="{theme:AccentFocusBrush}" />
-      <Setter Property="BorderThickness" Value="{theme:ThicknessMd}" />
+      <Setter Property="BorderBrush" Value="{colour:AccentFocusBrush}" />
+      <Setter Property="BorderThickness" Value="{size:ThicknessMd}" />
     </Style>
 
     <!-- Checked state -->
     <Style Selector="^:checked">
-      <Setter Property="Background" Value="{theme:AccentBrush Light6}" />
-      <Setter Property="BorderBrush" Value="{theme:OverlayStrongBrush}" />
+      <Setter Property="Background" Value="{colour:AccentBrush Light6}" />
+      <Setter Property="BorderBrush" Value="{colour:OverlayStrongBrush}" />
 
       <Style Selector="^ /template/ Path#CheckGlyph">
         <Setter Property="Opacity" Value="1" />
@@ -201,7 +203,7 @@
 
     <!-- Indeterminate state -->
     <Style Selector="^:indeterminate">
-      <Setter Property="Background" Value="{theme:AccentBrush Light8}" />
+      <Setter Property="Background" Value="{colour:AccentBrush Light8}" />
 
       <Style Selector="^ /template/ Border#IndeterminateBox">
         <Setter Property="Opacity" Value="1" />

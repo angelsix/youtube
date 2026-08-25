@@ -2,6 +2,8 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+                    xmlns:colour="using:AngelSix.ThemeEngine.Colours"
+                    xmlns:size="using:AngelSix.ThemeEngine.Sizes"
                     xmlns:icons="using:AngelSix.ThemeEngine.Icons">
   <ControlTheme x:Key="{x:Type RefreshVisualizer}"
                 TargetType="RefreshVisualizer">
@@ -11,13 +13,13 @@
     <Setter Property="Background"
             Value="Transparent"/>
     <Setter Property="Foreground"
-            Value="{theme:AccentBrush Dark1}"/>
+            Value="{colour:AccentBrush Dark1}"/>
     <Setter Property="Content">
       <Template>
         <PathIcon Name="PART_Icon"
                   Data="{icons:Refresh}"
-                  Width="{theme:IconSize}"
-                  Height="{theme:IconSize}"
+                  Width="{size:IconSize}"
+                  Height="{size:IconSize}"
         />
       </Template>
     </Setter>

@@ -3,6 +3,8 @@
                     xmlns:sys="using:System"
                     xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+                    xmlns:colour="using:AngelSix.ThemeEngine.Colours"
+                    xmlns:size="using:AngelSix.ThemeEngine.Sizes"
                     xmlns:icons="using:AngelSix.ThemeEngine.Icons">
   <Design.PreviewWith>
     <Border Padding="20">
@@ -101,12 +103,12 @@
 
     <!-- Pressed state (state colours live on the ButtonSpinner theme, which knows whether it is accent) -->
     <Style Selector="^:pressed">
-      <Setter Property="RenderTransform" Value="{theme:TransformScale Value={theme:PressedScale}}" />
+      <Setter Property="RenderTransform" Value="{theme:TransformScale Value={size:PressedScale}}" />
     </Style>
 
     <!-- Disabled state -->
     <Style Selector="^:disabled">
-      <Setter Property="Opacity" Value="{theme:DisabledOpacity}" />
+      <Setter Property="Opacity" Value="{size:DisabledOpacity}" />
     </Style>
   </ControlTheme>
 
@@ -116,14 +118,14 @@
   <ControlTheme x:Key="{x:Type ButtonSpinner}" TargetType="ButtonSpinner">
 
     <!-- Visual defaults -->
-    <Setter Property="Padding" Value="{theme:Edges Horizontal={theme:SpacingXl}}" />
-    <Setter Property="Background" Value="{theme:AccentBrush Light10}" />
-    <Setter Property="Foreground" Value="{theme:AccentBrush Dark1}" />
-    <Setter Property="BorderBrush" Value="{theme:AccentBrush Light6}" />
-    <Setter Property="BorderThickness" Value="{theme:ThicknessSm}" />
-    <Setter Property="CornerRadius" Value="{theme:RadiusSm}" />
-    <Setter Property="MinHeight" Value="{theme:ControlHeightSm}" />
-    <Setter Property="MinWidth" Value="{theme:ControlMinWidth}" />
+    <Setter Property="Padding" Value="{size:Edges Horizontal={size:SpacingXl}}" />
+    <Setter Property="Background" Value="{colour:AccentBrush Light10}" />
+    <Setter Property="Foreground" Value="{colour:AccentBrush Dark1}" />
+    <Setter Property="BorderBrush" Value="{colour:AccentBrush Light6}" />
+    <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
+    <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
+    <Setter Property="MinHeight" Value="{size:ControlHeightSm}" />
+    <Setter Property="MinWidth" Value="{size:ControlMinWidth}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
     <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
     <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
@@ -190,19 +192,19 @@
 
     <!-- Spinner button padding -->
     <Style Selector="^ /template/ RepeatButton">
-      <Setter Property="Padding" Value="{theme:Edges All={theme:SpacingXl}}" />
-      <Setter Property="BorderThickness" Value="{theme:Edges Left={TemplateBinding BorderThickness}}" />
+      <Setter Property="Padding" Value="{size:Edges All={size:SpacingXl}}" />
+      <Setter Property="BorderThickness" Value="{size:Edges Left={TemplateBinding BorderThickness}}" />
     </Style>
 
     <!-- Spinner icon size -->
     <Style Selector="^ /template/ RepeatButton > PathIcon">
-      <Setter Property="Height" Value="{theme:IconSize}" />
-      <Setter Property="Width" Value="{theme:IconSize}" />
+      <Setter Property="Height" Value="{size:IconSize}" />
+      <Setter Property="Width" Value="{size:IconSize}" />
     </Style>
 
     <!-- Corner radius: round edge button's outer corners to match control (Border does not clip children) -->
     <Style Selector="^ /template/ RepeatButton#PART_DecreaseButton">
-      <Setter Property="CornerRadius" Value="{theme:Corners Radius={TemplateBinding CornerRadius}, Right=True}" />
+      <Setter Property="CornerRadius" Value="{size:Corners Radius={TemplateBinding CornerRadius}, Right=True}" />
     </Style>
 
     <!-- Hover state — carried by the spinner buttons, deliberately not by the Border.
@@ -210,42 +212,42 @@
          chevron (AllowSpin=False) and does not restore it until the pointer moves, so a Border hover colour
          flashes back to its rest value on every click. Reproduced on the stock Fluent theme. -->
     <Style Selector="^ /template/ RepeatButton:pointerover:not(:disabled)">
-      <Setter Property="Background" Value="{theme:AccentBrush Light8}" />
+      <Setter Property="Background" Value="{colour:AccentBrush Light8}" />
     </Style>
 
     <!-- Hover content area -->
     <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter:pointerover,
                      ^.previewHover /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="Background" Value="{theme:AccentBrush Light9}" />
+      <Setter Property="Background" Value="{colour:AccentBrush Light9}" />
     </Style>
 
     <!-- Pressed state -->
     <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter,
                      ^.previewPressed /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="Background" Value="{theme:AccentBrush Light6}" />
+      <Setter Property="Background" Value="{colour:AccentBrush Light6}" />
     </Style>
 
     <Style Selector="^ /template/ RepeatButton:pressed:not(:disabled)">
-      <Setter Property="Background" Value="{theme:AccentBrush Light6}" />
+      <Setter Property="Background" Value="{colour:AccentBrush Light6}" />
     </Style>
 
     <!-- Disabled state -->
     <Style Selector="^:disabled">
-      <Setter Property="Opacity" Value="{theme:DisabledOpacity}" />
+      <Setter Property="Opacity" Value="{size:DisabledOpacity}" />
     </Style>
 
     <!-- Focus state -->
     <Style Selector="^:focus-visible /template/ Border">
-      <Setter Property="BorderBrush" Value="{theme:AccentFocusBrush}" />
-      <Setter Property="BorderThickness" Value="{theme:ThicknessMd}" />
+      <Setter Property="BorderBrush" Value="{colour:AccentFocusBrush}" />
+      <Setter Property="BorderThickness" Value="{size:ThicknessMd}" />
     </Style>
 
     <!-- Error state -->
     <Style Selector="^:error">
-      <Setter Property="BorderBrush" Value="{theme:AccentErrorBrush}" />
+      <Setter Property="BorderBrush" Value="{colour:AccentErrorBrush}" />
     </Style>
     
-    <!-- Accent class. Hue-agnostic: {theme:AccentBrush Light10} resolves against whatever
+    <!-- Accent class. Hue-agnostic: {colour:AccentBrush Light10} resolves against whatever
          prototype:Accent.Kind the control is carrying, so this one block serves every accent
          rather than being copy-pasted once per hue. Accent.Kind inherits, which is what carries
          the hue into the /template/ RepeatButton styles below. -->
@@ -256,14 +258,14 @@
         <Setter Property="DockPanel.Dock" Value="Left" />
       </Style>
       <Style Selector="^ /template/ RepeatButton">
-        <Setter Property="BorderThickness" Value="{theme:Edges Right={TemplateBinding BorderThickness}}" />
+        <Setter Property="BorderThickness" Value="{size:Edges Right={TemplateBinding BorderThickness}}" />
       </Style>
       <!-- Corner radius workaround (see above): spinner on the left swaps the edge-touching button. -->
       <Style Selector="^ /template/ RepeatButton#PART_DecreaseButton">
         <Setter Property="CornerRadius" Value="0" />
       </Style>
       <Style Selector="^ /template/ RepeatButton#PART_IncreaseButton">
-        <Setter Property="CornerRadius" Value="{theme:Corners Radius={TemplateBinding CornerRadius}, Left=True}" />
+        <Setter Property="CornerRadius" Value="{size:Corners Radius={TemplateBinding CornerRadius}, Left=True}" />
       </Style>
     </Style>
 

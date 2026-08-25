@@ -5,6 +5,8 @@
         xmlns:converters="clr-namespace:Avalonia.Controls.Converters;assembly=Avalonia.Controls"
         xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
         xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+        xmlns:colour="using:AngelSix.ThemeEngine.Colours"
+        xmlns:size="using:AngelSix.ThemeEngine.Sizes"
         xmlns:icons="using:AngelSix.ThemeEngine.Icons">
   <Design.PreviewWith>
     <Border Padding="20" Width="800" Height="500">
@@ -24,10 +26,10 @@
        ============================================================ -->
   <ControlTheme x:Key="PrototypeManagedFileChooserQuickLinks" TargetType="ListBox">
     <Setter Property="Margin" Value="0"/>
-    <Setter Property="Background" Value="{theme:AccentBrush Light8}"/>
+    <Setter Property="Background" Value="{colour:AccentBrush Light8}"/>
     <Setter Property="BorderThickness" Value="0"/>
-    <Setter Property="Width" Value="{theme:Scaled Value={theme:ControlMinWidth}, By=4}"/>
-    <Setter Property="Padding" Value="{theme:Edges Top={theme:SpacingXxl}, Bottom={theme:SpacingXxl}}"/>
+    <Setter Property="Width" Value="{size:Scaled Value={size:ControlMinWidth}, By=4}"/>
+    <Setter Property="Padding" Value="{size:Edges Top={size:SpacingXxl}, Bottom={size:SpacingXxl}}"/>
     <Setter Property="Template">
       <ControlTemplate>
         <!-- Layout root stacking the shadow behind the list -->
@@ -51,8 +53,8 @@
     </Setter>
     <Setter Property="ItemContainerTheme">
       <ControlTheme TargetType="ListBoxItem">
-        <Setter Property="Height" Value="{theme:ControlHeightSm}"/>
-        <Setter Property="Padding" Value="{theme:Edges Left={theme:Scaled Value={theme:IconSize}, By=2}, Top={theme:SpacingMd}, Right={theme:Scaled Value={theme:IconSize}, By=2}, Bottom={theme:SpacingMd}}"/>
+        <Setter Property="Height" Value="{size:ControlHeightSm}"/>
+        <Setter Property="Padding" Value="{size:Edges Left={size:Scaled Value={size:IconSize}, By=2}, Top={size:SpacingMd}, Right={size:Scaled Value={size:IconSize}, By=2}, Bottom={size:SpacingMd}}"/>
         <Setter Property="Template">
           <ControlTemplate>
             <!-- Outer frame around one quick link -->
@@ -78,31 +80,31 @@
 
         <!-- LayoutRoot theming (Rule 2: no {theme:...} inside ControlTemplate) -->
         <Style Selector="^ /template/ Border#LayoutRoot">
-          <Setter Property="CornerRadius" Value="{theme:RadiusSm}" />
-          <Setter Property="Margin" Value="{theme:Edges Left={theme:SpacingXxl}, Right={theme:SpacingXxl}}" />
+          <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
+          <Setter Property="Margin" Value="{size:Edges Left={size:SpacingXxl}, Right={size:SpacingXxl}}" />
         </Style>
 
         <!-- SelectedLine theming (Rule 2: no {theme:...} inside ControlTemplate) -->
         <Style Selector="^ /template/ Border#SelectedLine">
           <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
-          <Setter Property="Margin" Value="{theme:Edges Horizontal={theme:SpacingSm}, Vertical={theme:SpacingLg}}" />
-          <Setter Property="CornerRadius" Value="{theme:RadiusSm}" />
-          <Setter Property="Width" Value="{theme:ThicknessLg}" />
-          <Setter Property="Background" Value="{theme:AccentPrimaryBrush}" />
+          <Setter Property="Margin" Value="{size:Edges Horizontal={size:SpacingSm}, Vertical={size:SpacingLg}}" />
+          <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
+          <Setter Property="Width" Value="{size:ThicknessLg}" />
+          <Setter Property="Background" Value="{colour:AccentPrimaryBrush}" />
         </Style>
 
         <Style Selector="^:pointerover /template/ Border#LayoutRoot">
-          <Setter Property="Background" Value="{theme:AccentBrush Light8}"/>
+          <Setter Property="Background" Value="{colour:AccentBrush Light8}"/>
         </Style>
         <Style Selector="^:selected /template/ Border#LayoutRoot">
-          <Setter Property="Background" Value="{theme:AccentBrush Light6}"/>
+          <Setter Property="Background" Value="{colour:AccentBrush Light6}"/>
         </Style>
       </ControlTheme>
     </Setter>
 
     <!-- Inset shadow for depth (Rule 2: no {theme:...} inside ControlTemplate) -->
     <Style Selector="^ /template/ Border#PART_ShadowBorder">
-      <Setter Property="Background" Value="{theme:OverlayWeakBrush}" />
+      <Setter Property="Background" Value="{colour:OverlayWeakBrush}" />
     </Style>
   </ControlTheme>
 
@@ -233,11 +235,11 @@
         </internal:ResourceSelectorConverter>
       </ResourceDictionary>
     </ControlTheme.Resources>
-    <Setter Property="Background" Value="{theme:AccentBrush Light10}"/>
-    <Setter Property="Foreground" Value="{theme:AccentBrush Dark1}" />
-    <Setter Property="BorderBrush" Value="{theme:AccentBorderBrush}" />
-    <Setter Property="BorderThickness" Value="{theme:ThicknessSm}" />
-    <Setter Property="CornerRadius" Value="{theme:RadiusMd}" />
+    <Setter Property="Background" Value="{colour:AccentBrush Light10}"/>
+    <Setter Property="Foreground" Value="{colour:AccentBrush Dark1}" />
+    <Setter Property="BorderBrush" Value="{colour:AccentBorderBrush}" />
+    <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
+    <Setter Property="CornerRadius" Value="{size:RadiusMd}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
     <Setter Property="VerticalAlignment" Value="{theme:ContainerVerticalAlignment}" />
     <Setter Property="Template"
@@ -394,47 +396,47 @@
 
     <!-- Themed defaults for inner template elements (Rule 2: no {theme:...} inside ControlTemplate) -->
     <Style Selector="^ /template/ DockPanel#NavBar">
-      <Setter Property="Margin" Value="{theme:Edges Left={theme:SpacingXl}, Top={theme:SpacingLg}, Right={theme:SpacingXl}}" />
+      <Setter Property="Margin" Value="{size:Edges Left={size:SpacingXl}, Top={size:SpacingLg}, Right={size:SpacingXl}}" />
     </Style>
     <Style Selector="^ /template/ Rectangle#NavBarSeparator">
-      <Setter Property="Fill" Value="{theme:AccentBorderBrush}" />
-      <Setter Property="Margin" Value="{theme:Edges Top={theme:SpacingLg}}" />
+      <Setter Property="Fill" Value="{colour:AccentBorderBrush}" />
+      <Setter Property="Margin" Value="{size:Edges Top={size:SpacingLg}}" />
     </Style>
     <Style Selector="^ /template/ DockPanel#NavBarInner">
-      <Setter Property="Margin" Value="{theme:Edges Left={theme:SpacingMd}, Right={theme:SpacingMd}}" />
+      <Setter Property="Margin" Value="{size:Edges Left={size:SpacingMd}, Right={size:SpacingMd}}" />
     </Style>
     <Style Selector="^ /template/ Button#GoUpButton">
-      <Setter Property="Margin" Value="{theme:Edges Right={theme:SpacingXl}}" />
+      <Setter Property="Margin" Value="{size:Edges Right={size:SpacingXl}}" />
     </Style>
     <Style Selector="^ /template/ Button#RefreshButton">
-      <Setter Property="Margin" Value="{theme:Edges Left={theme:SpacingXl}}" />
+      <Setter Property="Margin" Value="{size:Edges Left={size:SpacingXl}}" />
     </Style>
     <Style Selector="^ /template/ DockPanel#BottomBar">
-      <Setter Property="Margin" Value="{theme:Edges Left={theme:SpacingXl}, Right={theme:SpacingXl}, Bottom={theme:SpacingLg}}" />
+      <Setter Property="Margin" Value="{size:Edges Left={size:SpacingXl}, Right={size:SpacingXl}, Bottom={size:SpacingLg}}" />
     </Style>
     <Style Selector="^ /template/ Rectangle#BottomBarSeparator">
-      <Setter Property="Fill" Value="{theme:AccentBorderBrush}" />
-      <Setter Property="Margin" Value="{theme:Edges Bottom={theme:SpacingLg}}" />
+      <Setter Property="Fill" Value="{colour:AccentBorderBrush}" />
+      <Setter Property="Margin" Value="{size:Edges Bottom={size:SpacingLg}}" />
     </Style>
     <Style Selector="^ /template/ DockPanel#BottomBarInner">
-      <Setter Property="Margin" Value="{theme:Edges Left={theme:SpacingMd}, Right={theme:SpacingMd}}" />
+      <Setter Property="Margin" Value="{size:Edges Left={size:SpacingMd}, Right={size:SpacingMd}}" />
     </Style>
     <Style Selector="^ /template/ DockPanel#BottomBarTop">
-      <Setter Property="Margin" Value="{theme:Edges Bottom={theme:SpacingMd}}" />
+      <Setter Property="Margin" Value="{size:Edges Bottom={size:SpacingMd}}" />
     </Style>
     <Style Selector="^ /template/ Grid#FileHeaders">
-      <Setter Property="Margin" Value="{theme:Edges Left={theme:SpacingXxl}, Top={theme:SpacingLg}}" />
+      <Setter Property="Margin" Value="{size:Edges Left={size:SpacingXxl}, Top={size:SpacingLg}}" />
     </Style>
     <Style Selector="^ /template/ ListBox#PART_Files">
-      <Setter Property="Margin" Value="{theme:Edges Top={theme:SpacingLg}, Bottom={theme:SpacingLg}}" />
+      <Setter Property="Margin" Value="{size:Edges Top={size:SpacingLg}, Bottom={size:SpacingLg}}" />
     </Style>
 
     <Style Selector="^ /template/ DockPanel#NavBar Button, ^ /template/ DockPanel#NavBar TextBox">
-      <Setter Property="Height" Value="{theme:ControlHeightSm}"/>
+      <Setter Property="Height" Value="{size:ControlHeightSm}"/>
     </Style>
     <Style Selector="^ /template/ DockPanel#NavBar Button">
       <Setter Property="VerticalAlignment" Value="{theme:ContainerVerticalAlignment}"/>
-      <Setter Property="Width" Value="{theme:ControlHeightSm}"/>
+      <Setter Property="Width" Value="{size:ControlHeightSm}"/>
       <Setter Property="BorderThickness" Value="0"/>
     </Style>
     <Style Selector="^ /template/ DockPanel#NavBar Button:not(:pointerover):not(:pressed)">
@@ -450,8 +452,8 @@
 
   <ControlTheme x:Key="{x:Type dialogs:ManagedFileChooserOverwritePrompt}" TargetType="dialogs:ManagedFileChooserOverwritePrompt">
     <!-- Visual defaults -->
-    <Setter Property="MinWidth" Value="{theme:Scaled Value={theme:ControlMinWidth}, By=4}" />
-    <Setter Property="MaxWidth" Value="{theme:Scaled Value={theme:ControlMinWidth}, By=6}" />
+    <Setter Property="MinWidth" Value="{size:Scaled Value={size:ControlMinWidth}, By=4}" />
+    <Setter Property="MaxWidth" Value="{size:Scaled Value={size:ControlMinWidth}, By=6}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
     <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
     <Setter Property="Template">
@@ -485,14 +487,14 @@
 
     <!-- OverwritePrompt buttons MinWidth (Rule 2: no {theme:...} inside ControlTemplate) -->
     <Style Selector="^ /template/ StackPanel#PART_OverwritePromptButtons Button">
-      <Setter Property="MinWidth" Value="{theme:ControlMinWidth}" />
+      <Setter Property="MinWidth" Value="{size:ControlMinWidth}" />
     </Style>
 
     <Style Selector="^ /template/ StackPanel#PART_OverwritePromptRoot">
-      <Setter Property="Spacing" Value="{theme:SpacingXxl}" />
+      <Setter Property="Spacing" Value="{size:SpacingXxl}" />
     </Style>
     <Style Selector="^ /template/ StackPanel#PART_OverwritePromptButtons">
-      <Setter Property="Spacing" Value="{theme:SpacingXxl}" />
+      <Setter Property="Spacing" Value="{size:SpacingXxl}" />
     </Style>
   </ControlTheme>
 </ResourceDictionary>

@@ -3,6 +3,8 @@
                     xmlns:sys="using:System"
                     xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+                    xmlns:colour="using:AngelSix.ThemeEngine.Colours"
+                    xmlns:size="using:AngelSix.ThemeEngine.Sizes"
                     xmlns:icons="using:AngelSix.ThemeEngine.Icons">
   <Design.PreviewWith>
     <Border Padding="20" Height="500">
@@ -50,18 +52,18 @@
 
     <!-- Pressed state -->
     <Style Selector="^:pressed">
-      <Setter Property="RenderTransform" Value="{theme:TransformScale Value={theme:PressedScale}}" />
+      <Setter Property="RenderTransform" Value="{theme:TransformScale Value={size:PressedScale}}" />
     </Style>
 
     <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="Background" Value="{theme:AccentBrush Light6}" />
+      <Setter Property="Background" Value="{colour:AccentBrush Light6}" />
     </Style>
 
     <!-- Disabled state -->
     <Style Selector="^:disabled /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="BorderBrush" Value="{theme:AccentBorderBrush}" />
-      <Setter Property="Background" Value="{theme:OverlayWeakBrush}" />
-      <Setter Property="Foreground" Value="{theme:AccentBrush Light2}" />
+      <Setter Property="BorderBrush" Value="{colour:AccentBorderBrush}" />
+      <Setter Property="Background" Value="{colour:OverlayWeakBrush}" />
+      <Setter Property="Foreground" Value="{colour:AccentBrush Light2}" />
     </Style>
   </ControlTheme>
 
@@ -71,13 +73,13 @@
   <ControlTheme x:Key="{x:Type DatePicker}" TargetType="DatePicker">
 
     <!-- Visual defaults -->
-    <Setter Property="Background" Value="{theme:AccentBrush Light10}" />
-    <Setter Property="BorderBrush" Value="{theme:AccentBorderBrush}" />
-    <Setter Property="BorderThickness" Value="{theme:ThicknessSm}" />
-    <Setter Property="CornerRadius" Value="{theme:RadiusSm}" />
-    <Setter Property="Padding" Value="{theme:Edges Top={theme:SpacingMd}, Bottom={theme:SpacingMd}, Left={theme:SpacingMd}, Right={theme:SpacingMd}}" />
-    <Setter Property="MinHeight" Value="{theme:ControlHeightSm}" />
-    <Setter Property="MinWidth" Value="{theme:ControlMinWidth}" />
+    <Setter Property="Background" Value="{colour:AccentBrush Light10}" />
+    <Setter Property="BorderBrush" Value="{colour:AccentBorderBrush}" />
+    <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
+    <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
+    <Setter Property="Padding" Value="{size:Edges Top={size:SpacingMd}, Bottom={size:SpacingMd}, Left={size:SpacingMd}, Right={size:SpacingMd}}" />
+    <Setter Property="MinHeight" Value="{size:ControlHeightSm}" />
+    <Setter Property="MinWidth" Value="{size:ControlMinWidth}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
     <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
 
@@ -136,41 +138,41 @@
 
     <!-- Template element styles -->
     <Style Selector="^ /template/ TextBlock#PART_DayTextBlock">
-      <Setter Property="Padding" Value="{theme:Edges Top={theme:SpacingMd}, Bottom={theme:SpacingLg}}" />
+      <Setter Property="Padding" Value="{size:Edges Top={size:SpacingMd}, Bottom={size:SpacingLg}}" />
     </Style>
 
     <Style Selector="^ /template/ TextBlock#PART_MonthTextBlock">
-      <Setter Property="Padding" Value="{theme:Edges Left={theme:SpacingXl}, Top={theme:SpacingMd}, Bottom={theme:SpacingLg}}" />
+      <Setter Property="Padding" Value="{size:Edges Left={size:SpacingXl}, Top={size:SpacingMd}, Bottom={size:SpacingLg}}" />
     </Style>
 
     <Style Selector="^ /template/ TextBlock#PART_YearTextBlock">
-      <Setter Property="Padding" Value="{theme:Edges Top={theme:SpacingMd}, Bottom={theme:SpacingLg}}" />
+      <Setter Property="Padding" Value="{size:Edges Top={size:SpacingMd}, Bottom={size:SpacingLg}}" />
     </Style>
 
     <Style Selector="^ /template/ Rectangle#PART_FirstSpacer, ^ /template/ Rectangle#PART_SecondSpacer">
-      <Setter Property="Fill" Value="{theme:AccentBorderBrush}" />
-      <Setter Property="Width" Value="{theme:ThicknessSm}" />
+      <Setter Property="Fill" Value="{colour:AccentBorderBrush}" />
+      <Setter Property="Width" Value="{size:ThicknessSm}" />
     </Style>
 
     <!-- Disabled state -->
     <Style Selector="^:disabled /template/ Rectangle">
-      <Setter Property="Fill" Value="{theme:AccentBorderBrush}" />
+      <Setter Property="Fill" Value="{colour:AccentBorderBrush}" />
     </Style>
 
     <!-- Watermark state (no date selected) -->
     <Style Selector="^:hasnodate /template/ Button#PART_FlyoutButton TextBlock">
-      <Setter Property="Foreground" Value="{theme:AccentBrush Light2}" />
+      <Setter Property="Foreground" Value="{colour:AccentBrush Light2}" />
     </Style>
 
     <!-- Focus state -->
     <Style Selector="^:focus-visible /template/ Button#PART_FlyoutButton">
-      <Setter Property="BorderBrush" Value="{theme:AccentFocusBrush}" />
-      <Setter Property="BorderThickness" Value="{theme:ThicknessMd}" />
+      <Setter Property="BorderBrush" Value="{colour:AccentFocusBrush}" />
+      <Setter Property="BorderThickness" Value="{size:ThicknessMd}" />
     </Style>
 
     <!-- Error state -->
     <Style Selector="^:error /template/ Button#PART_FlyoutButton">
-      <Setter Property="BorderBrush" Value="{theme:AccentErrorBrush}" />
+      <Setter Property="BorderBrush" Value="{colour:AccentErrorBrush}" />
     </Style>
   </ControlTheme>
 
@@ -180,11 +182,11 @@
   <ControlTheme x:Key="{x:Type DatePickerPresenter}" TargetType="DatePickerPresenter">
     <Setter Property="Width" Value="296" />
     <Setter Property="MinWidth" Value="296" />
-    <Setter Property="Background" Value="{theme:AccentBrush Light10}" />
-    <Setter Property="Foreground" Value="{theme:AccentBrush Dark1}" />
-    <Setter Property="BorderBrush" Value="{theme:AccentBorderBrush}" />
-    <Setter Property="BorderThickness" Value="{theme:ThicknessSm}" />
-    <Setter Property="CornerRadius" Value="{theme:RadiusMd}" />
+    <Setter Property="Background" Value="{colour:AccentBrush Light10}" />
+    <Setter Property="Foreground" Value="{colour:AccentBrush Dark1}" />
+    <Setter Property="BorderBrush" Value="{colour:AccentBorderBrush}" />
+    <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
+    <Setter Property="CornerRadius" Value="{size:RadiusMd}" />
 
     <!-- Template -->
     <Setter Property="Template">
@@ -302,36 +304,36 @@
 
     <!-- Template element styles -->
     <Style Selector="^ /template/ Border#Background">
-      <Setter Property="Padding" Value="{theme:Edges All={theme:SpacingSm}}" />
+      <Setter Property="Padding" Value="{size:Edges All={size:SpacingSm}}" />
     </Style>
 
     <Style Selector="^ /template/ DateTimePickerPanel#PART_MonthSelector,
                      ^ /template/ DateTimePickerPanel#PART_DaySelector,
                      ^ /template/ DateTimePickerPanel#PART_YearSelector">
-      <Setter Property="ItemHeight" Value="{theme:ControlHeightMd}" />
+      <Setter Property="ItemHeight" Value="{size:ControlHeightMd}" />
     </Style>
 
     <Style Selector="^ /template/ Rectangle#HighlightRect">
-      <Setter Property="Fill" Value="{theme:AccentPrimaryBrush}" />
-      <Setter Property="Height" Value="{theme:ControlHeightMd}" />
+      <Setter Property="Fill" Value="{colour:AccentPrimaryBrush}" />
+      <Setter Property="Height" Value="{size:ControlHeightMd}" />
     </Style>
 
     <Style Selector="^ /template/ Rectangle#PART_FirstSpacer, ^ /template/ Rectangle#PART_SecondSpacer">
-      <Setter Property="Fill" Value="{theme:AccentBorderBrush}" />
-      <Setter Property="Width" Value="{theme:BaseSize}" />
+      <Setter Property="Fill" Value="{colour:AccentBorderBrush}" />
+      <Setter Property="Width" Value="{size:BaseSize}" />
     </Style>
 
     <Style Selector="^ /template/ Rectangle#PART_TopDivider">
-      <Setter Property="Height" Value="{theme:BaseSize}" />
-      <Setter Property="Fill" Value="{theme:AccentBorderBrush}" />
+      <Setter Property="Height" Value="{size:BaseSize}" />
+      <Setter Property="Fill" Value="{colour:AccentBorderBrush}" />
     </Style>
 
     <Style Selector="^ /template/ Button#PART_AcceptButton, ^ /template/ Button#PART_DismissButton">
-      <Setter Property="Height" Value="{theme:ControlHeightMd}" />
+      <Setter Property="Height" Value="{size:ControlHeightMd}" />
     </Style>
 
     <Style Selector="^ /template/ Path#PART_AcceptGlyph, ^ /template/ Path#PART_DismissGlyph">
-      <Setter Property="StrokeThickness" Value="{theme:ThicknessSm}" />
+      <Setter Property="StrokeThickness" Value="{size:ThicknessSm}" />
     </Style>
 
     <!-- Hover state for selector repeat buttons -->

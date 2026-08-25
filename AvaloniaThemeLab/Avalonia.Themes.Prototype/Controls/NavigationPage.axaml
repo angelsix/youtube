@@ -2,6 +2,8 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+                    xmlns:colour="using:AngelSix.ThemeEngine.Colours"
+                    xmlns:size="using:AngelSix.ThemeEngine.Sizes"
                     xmlns:icons="using:AngelSix.ThemeEngine.Icons">
   <Design.PreviewWith>
     <Border Width="400" Height="600">
@@ -12,8 +14,8 @@
     </Border>
   </Design.PreviewWith>
 
-  <SolidColorBrush x:Key="NavigationBarBackground" Color="{theme:AccentNeutral}" />
-  <SolidColorBrush x:Key="NavigationBarForeground" Color="{theme:AccentNeutral}" />
+  <SolidColorBrush x:Key="NavigationBarBackground" Color="{colour:AccentNeutral}" />
+  <SolidColorBrush x:Key="NavigationBarForeground" Color="{colour:AccentNeutral}" />
 
   <!-- ============================================================
        Sub-theme: a nav-bar button
@@ -27,25 +29,25 @@
                 BasedOn="{StaticResource {x:Type Button}}">
     <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
       <Setter Property="Background" Value="Transparent" />
-      <Setter Property="CornerRadius" Value="{theme:RadiusSm}" />
+      <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
     </Style>
 
     <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="Background" Value="{theme:AccentBrush Light8}" />
+      <Setter Property="Background" Value="{colour:AccentBrush Light8}" />
     </Style>
 
     <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="Background" Value="{theme:AccentBrush Light6}" />
+      <Setter Property="Background" Value="{colour:AccentBrush Light6}" />
     </Style>
 
     <Style Selector="^:focus-visible /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="BorderBrush" Value="{theme:AccentBrush Dark1}" />
-      <Setter Property="BorderThickness" Value="{theme:ThicknessMd}" />
-      <Setter Property="CornerRadius" Value="{theme:RadiusSm}" />
+      <Setter Property="BorderBrush" Value="{colour:AccentBrush Dark1}" />
+      <Setter Property="BorderThickness" Value="{size:ThicknessMd}" />
+      <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
     </Style>
 
     <Style Selector="^:disabled">
-      <Setter Property="Opacity" Value="{theme:DisabledOpacity}" />
+      <Setter Property="Opacity" Value="{size:DisabledOpacity}" />
 
       <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
         <Setter Property="Background" Value="Transparent" />
@@ -183,25 +185,25 @@
 
     <!-- Nav bar grid margin -->
     <Style Selector="^ /template/ Grid#PART_NavBarGrid">
-      <Setter Property="Margin" Value="{theme:Edges Left={theme:SpacingXxl}}" />
+      <Setter Property="Margin" Value="{size:Edges Left={size:SpacingXxl}}" />
     </Style>
 
     <!-- Back button padding and alignment -->
     <Style Selector="^ /template/ Button#PART_BackButton">
-      <Setter Property="Padding" Value="{theme:Edges Left={theme:SpacingXl}, Right={theme:SpacingXl}}" />
+      <Setter Property="Padding" Value="{size:Edges Left={size:SpacingXl}, Right={size:SpacingXl}}" />
       <Setter Property="VerticalAlignment" Value="{theme:ContainerVerticalAlignment}" />
     </Style>
 
     <!-- Back button icon size -->
     <Style Selector="^ /template/ Path#PART_BackButtonDefaultIcon">
-      <Setter Property="Width" Value="{theme:IconSize}" />
-      <Setter Property="Height" Value="{theme:IconSize}" />
+      <Setter Property="Width" Value="{size:IconSize}" />
+      <Setter Property="Height" Value="{size:IconSize}" />
     </Style>
 
     <!-- Header font size, margin, and alignment -->
     <Style Selector="^ /template/ ContentPresenter#PART_Header">
-      <Setter Property="FontSize" Value="{theme:FontSizeXl}" />
-      <Setter Property="Margin" Value="{theme:Edges Right={theme:SpacingXxl}}" />
+      <Setter Property="FontSize" Value="{size:FontSizeXl}" />
+      <Setter Property="Margin" Value="{size:Edges Right={size:SpacingXxl}}" />
       <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalContentAlignment}" />
       <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
       <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
@@ -231,8 +233,8 @@
 
     <!-- Nav bar shadow height and background -->
     <Style Selector="^ /template/ Border#PART_NavBarShadow">
-      <Setter Property="Height" Value="{theme:ThicknessXxl}" />
-      <Setter Property="Background" Value="{theme:OverlayWeakBrush}" />
+      <Setter Property="Height" Value="{size:ThicknessXxl}" />
+      <Setter Property="Background" Value="{colour:OverlayWeakBrush}" />
     </Style>
 
     <!-- :nav-bar-inset: spacer reserves nav-bar height so content is pushed below -->
@@ -260,15 +262,15 @@
     </Style>
     <Style Selector="^ /template/ ContentPresenter#PART_TopCommandBar CommandBarButton">
       <Setter Property="MinHeight" Value="0" />
-      <Setter Property="Padding" Value="{theme:Edges Left={theme:SpacingXxl}, Right={theme:SpacingXxl}}" />
+      <Setter Property="Padding" Value="{size:Edges Left={size:SpacingXxl}, Right={size:SpacingXxl}}" />
     </Style>
     <Style Selector="^ /template/ ContentPresenter#PART_TopCommandBar CommandBarToggleButton">
       <Setter Property="MinHeight" Value="0" />
-      <Setter Property="Padding" Value="{theme:Edges Left={theme:SpacingXxl}, Right={theme:SpacingXxl}}" />
+      <Setter Property="Padding" Value="{size:Edges Left={size:SpacingXxl}, Right={size:SpacingXxl}}" />
     </Style>
     <Style Selector="^ /template/ ContentPresenter#PART_TopCommandBar Button#PART_OverflowButton">
       <Setter Property="MinHeight" Value="0" />
-      <Setter Property="Padding" Value="{theme:Edges Left={theme:SpacingXxl}, Right={theme:SpacingXxl}}" />
+      <Setter Property="Padding" Value="{size:Edges Left={size:SpacingXxl}, Right={size:SpacingXxl}}" />
     </Style>
   </ControlTheme>
 </ResourceDictionary>

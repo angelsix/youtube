@@ -2,6 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+                    xmlns:size="using:AngelSix.ThemeEngine.Sizes"
                     xmlns:icons="using:AngelSix.ThemeEngine.Icons">
   <Design.PreviewWith>
     <StackPanel>
@@ -18,8 +19,8 @@
 
     <!-- Visual defaults (Foreground is deliberately unset: it inherits, so an icon takes its container's colour) -->
     <Setter Property="Background" Value="Transparent" />
-    <Setter Property="Height" Value="{theme:IconSize}" />
-    <Setter Property="Width" Value="{theme:IconSize}" />
+    <Setter Property="Height" Value="{size:IconSize}" />
+    <Setter Property="Width" Value="{size:IconSize}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
     <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
 

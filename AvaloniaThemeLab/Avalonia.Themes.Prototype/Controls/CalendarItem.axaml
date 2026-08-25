@@ -3,6 +3,8 @@
         xmlns:sys="using:System"
         xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
         xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+        xmlns:colour="using:AngelSix.ThemeEngine.Colours"
+        xmlns:size="using:AngelSix.ThemeEngine.Sizes"
         xmlns:icons="using:AngelSix.ThemeEngine.Icons">
   <Design.PreviewWith>
     <Border Padding="20">
@@ -29,9 +31,9 @@
 
     <!-- Visual defaults -->
     <Setter Property="Background" Value="Transparent" />
-    <Setter Property="Foreground" Value="{theme:AccentBrush Dark1}" />
+    <Setter Property="Foreground" Value="{colour:AccentBrush Dark1}" />
     <Setter Property="BorderBrush" Value="Transparent" />
-    <Setter Property="BorderThickness" Value="{theme:ThicknessSm}" />
+    <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
     <Setter Property="VerticalAlignment" Value="{theme:ContainerVerticalAlignment}" />
     <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
@@ -58,12 +60,12 @@
 
     <!-- Pressed state -->
     <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="Foreground" Value="{theme:AccentBrush Light2}" />
+      <Setter Property="Foreground" Value="{colour:AccentBrush Light2}" />
     </Style>
 
     <!-- Disabled state -->
     <Style Selector="^:disabled /template/ ContentPresenter">
-      <Setter Property="Foreground" Value="{theme:AccentBrush Light2}" />
+      <Setter Property="Foreground" Value="{colour:AccentBrush Light2}" />
     </Style>
   </ControlTheme>
 
@@ -73,12 +75,12 @@
   <ControlTheme x:Key="{x:Type CalendarItem}" TargetType="CalendarItem">
 
     <!-- Visual defaults -->
-    <Setter Property="Background" Value="{theme:AccentBrush Light10}" />
-    <Setter Property="Foreground" Value="{theme:AccentBrush Dark1}" />
-    <Setter Property="BorderBrush" Value="{theme:AccentBrush Dark1}" />
-    <Setter Property="BorderThickness" Value="{theme:ThicknessSm}" />
-    <Setter Property="CornerRadius" Value="{theme:RadiusSm}" />
-    <Setter Property="Padding" Value="{theme:Edges All={theme:SpacingMd}}" />
+    <Setter Property="Background" Value="{colour:AccentBrush Light10}" />
+    <Setter Property="Foreground" Value="{colour:AccentBrush Dark1}" />
+    <Setter Property="BorderBrush" Value="{colour:AccentBrush Dark1}" />
+    <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
+    <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
+    <Setter Property="Padding" Value="{size:Edges All={size:SpacingMd}}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
     <Setter Property="VerticalAlignment" Value="{theme:ContainerVerticalAlignment}" />
     <!-- HorizontalContentAlignment and VerticalContentAlignment not on CalendarItem -->
@@ -89,7 +91,7 @@
         <TextBlock Text="{Binding}"
                    HorizontalAlignment="Center"
                    VerticalAlignment="Center"
-                   FontSize="{theme:FontSizeSm}" />
+                   FontSize="{size:FontSizeSm}" />
       </Template>
     </Setter>
 
@@ -106,7 +108,7 @@
                RowDefinitions. The per-row Height binds correctly. -->
           <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
             <Grid.RowDefinitions>
-              <RowDefinition Height="{theme:ControlHeightMd}" />
+              <RowDefinition Height="{size:ControlHeightMd}" />
               <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             <!-- Header row: month name and the two arrows -->
@@ -152,7 +154,7 @@
                   IsVisible="False" ColumnDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto">
               <!-- Verbose for the same reason as above: the first row's height is a markup extension. -->
               <Grid.RowDefinitions>
-                <RowDefinition Height="{theme:ControlHeightMd}" />
+                <RowDefinition Height="{size:ControlHeightMd}" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -174,33 +176,33 @@
 
     <!-- Header button -->
     <Style Selector="^ /template/ Button#PART_HeaderButton">
-      <Setter Property="Padding" Value="{theme:Edges Left={theme:SpacingXxl}}" />
+      <Setter Property="Padding" Value="{size:Edges Left={size:SpacingXxl}}" />
     </Style>
 
     <!-- Nav buttons -->
     <Style Selector="^ /template/ Button#PART_PreviousButton, ^ /template/ Button#PART_NextButton">
-      <Setter Property="Padding" Value="{theme:Edges All={theme:BaseSize}}" />
+      <Setter Property="Padding" Value="{size:Edges All={size:BaseSize}}" />
     </Style>
 
     <!-- Nav arrows -->
     <Style Selector="^ /template/ Path#PART_PreviousArrow, ^ /template/ Path#PART_NextArrow">
-      <Setter Property="Stroke" Value="{theme:AccentBrush Light2}" />
-      <Setter Property="StrokeThickness" Value="{theme:ThicknessMd}" />
+      <Setter Property="Stroke" Value="{colour:AccentBrush Light2}" />
+      <Setter Property="StrokeThickness" Value="{size:ThicknessMd}" />
     </Style>
 
     <!-- Background layer -->
     <Style Selector="^ /template/ Border#BackgroundLayer">
-      <Setter Property="Margin" Value="{theme:Edges Top={theme:ControlHeightMd}}" />
+      <Setter Property="Margin" Value="{size:Edges Top={size:ControlHeightMd}}" />
     </Style>
 
     <!-- Hover state -->
     <Style Selector="^ /template/ Button:pointerover > Path">
-      <Setter Property="Stroke" Value="{theme:AccentBrush Dark1}" />
+      <Setter Property="Stroke" Value="{colour:AccentBrush Dark1}" />
     </Style>
 
     <!-- Pressed state -->
     <Style Selector="^ /template/ Button:pressed > Path">
-      <Setter Property="Stroke" Value="{theme:AccentBrush Light2}" />
+      <Setter Property="Stroke" Value="{colour:AccentBrush Light2}" />
     </Style>
   </ControlTheme>
 </ResourceDictionary>

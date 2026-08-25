@@ -2,7 +2,9 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
-    xmlns:theme="using:AngelSix.ThemeEngine.Generated">
+    xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+    xmlns:colour="using:AngelSix.ThemeEngine.Colours"
+    xmlns:size="using:AngelSix.ThemeEngine.Sizes">
   <Design.PreviewWith>
     <StackPanel Margin="20" Width="250" Spacing="24">
       <StackPanel.Styles>
@@ -21,12 +23,12 @@
   </Design.PreviewWith>
 
   <ControlTheme x:Key="{x:Type ToggleSwitch}" TargetType="ToggleSwitch">
-    <Setter Property="Background" Value="{theme:AccentBrush Light10}" />
+    <Setter Property="Background" Value="{colour:AccentBrush Light10}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
     <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
     <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
     <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
-    <Setter Property="Padding" Value="{theme:Edges Horizontal={theme:SpacingMd}, Vertical={theme:SpacingSm}}" />
+    <Setter Property="Padding" Value="{size:Edges Horizontal={size:SpacingMd}, Vertical={size:SpacingSm}}" />
     <Setter Property="KnobTransitions">
       <Transitions>
         <DoubleTransition
@@ -135,7 +137,7 @@
     <!-- Default template element styles -->
     <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
       <Setter Property="RecognizesAccessKey" Value="True" />
-      <Setter Property="Margin" Value="{theme:Edges Bottom={theme:SpacingLg}}" />
+      <Setter Property="Margin" Value="{size:Edges Bottom={size:SpacingLg}}" />
     </Style>
 
     <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter:empty">
@@ -144,48 +146,48 @@
 
     <Style Selector="^ /template/ Grid#SwitchAreaGrid">
       <Setter Property="Background" Value="Transparent" />
-      <Setter Property="Margin" Value="{theme:Edges Top={theme:SpacingLg}, Bottom={theme:SpacingLg}}" />
+      <Setter Property="Margin" Value="{size:Edges Top={size:SpacingLg}, Bottom={size:SpacingLg}}" />
     </Style>
 
     <Style Selector="^ /template/ Border#OuterBorder">
       <Setter Property="Background" Value="Transparent" />
-      <Setter Property="BorderBrush" Value="{theme:AccentBorderBrush}" />
-      <Setter Property="BorderThickness" Value="{theme:ThicknessSm}" />
-      <Setter Property="CornerRadius" Value="{theme:RadiusMd}" />
+      <Setter Property="BorderBrush" Value="{colour:AccentBorderBrush}" />
+      <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
+      <Setter Property="CornerRadius" Value="{size:RadiusMd}" />
     </Style>
 
     <Style Selector="^ /template/ Border#SwitchKnobBounds">
-      <Setter Property="Background" Value="{theme:AccentPrimaryBrush}" />
-      <Setter Property="BorderBrush" Value="{theme:AccentBrush Dark1}" />
+      <Setter Property="Background" Value="{colour:AccentPrimaryBrush}" />
+      <Setter Property="BorderBrush" Value="{colour:AccentBrush Dark1}" />
       <Setter Property="BorderThickness" Value="0" />
-      <Setter Property="CornerRadius" Value="{theme:RadiusMd}" />
+      <Setter Property="CornerRadius" Value="{size:RadiusMd}" />
     </Style>
 
     <Style Selector="^ /template/ Ellipse#SwitchKnobOn">
-      <Setter Property="Fill" Value="{theme:AccentBrush Light10}" />
+      <Setter Property="Fill" Value="{colour:AccentBrush Light10}" />
     </Style>
 
     <Style Selector="^ /template/ Ellipse#SwitchKnobOff">
-      <Setter Property="Fill" Value="{theme:AccentBrush Dark1}" />
+      <Setter Property="Fill" Value="{colour:AccentBrush Dark1}" />
     </Style>
 
     <!-- Hover state -->
     <Style Selector="^:pointerover /template/ Border#OuterBorder">
-      <Setter Property="BorderBrush" Value="{theme:AccentBrush Light2}" />
+      <Setter Property="BorderBrush" Value="{colour:AccentBrush Light2}" />
       <Setter Property="Background" Value="Transparent" />
     </Style>
 
     <Style Selector="^:pointerover /template/ Ellipse#SwitchKnobOff">
-      <Setter Property="Fill" Value="{theme:AccentBrush Dark1}" />
+      <Setter Property="Fill" Value="{colour:AccentBrush Dark1}" />
     </Style>
 
     <Style Selector="^:pointerover /template/ Ellipse#SwitchKnobOn">
-      <Setter Property="Fill" Value="{theme:AccentBrush Light10}" />
+      <Setter Property="Fill" Value="{colour:AccentBrush Light10}" />
     </Style>
 
     <Style Selector="^:pointerover /template/ Border#SwitchKnobBounds">
-      <Setter Property="Background" Value="{theme:AccentBrush Light1}" />
-      <Setter Property="BorderBrush" Value="{theme:AccentPrimaryBrush}" />
+      <Setter Property="Background" Value="{colour:AccentBrush Light1}" />
+      <Setter Property="BorderBrush" Value="{colour:AccentPrimaryBrush}" />
     </Style>
 
     <Style Selector="^:pointerover /template/ Grid#SwitchAreaGrid">
@@ -194,21 +196,21 @@
 
     <!-- Pressed state -->
     <Style Selector="^:pressed /template/ Border#OuterBorder">
-      <Setter Property="BorderBrush" Value="{theme:AccentBrush Dark1}" />
-      <Setter Property="Background" Value="{theme:AccentBrush Light2}" />
+      <Setter Property="BorderBrush" Value="{colour:AccentBrush Dark1}" />
+      <Setter Property="Background" Value="{colour:AccentBrush Light2}" />
     </Style>
 
     <Style Selector="^:pressed /template/ Border#SwitchKnobBounds">
-      <Setter Property="Background" Value="{theme:AccentBrush Dark1}" />
-      <Setter Property="BorderBrush" Value="{theme:AccentBrush Light2}" />
+      <Setter Property="Background" Value="{colour:AccentBrush Dark1}" />
+      <Setter Property="BorderBrush" Value="{colour:AccentBrush Light2}" />
     </Style>
 
     <Style Selector="^:pressed /template/ Ellipse#SwitchKnobOff">
-      <Setter Property="Fill" Value="{theme:AccentBrush Dark1}" />
+      <Setter Property="Fill" Value="{colour:AccentBrush Dark1}" />
     </Style>
 
     <Style Selector="^:pressed /template/ Ellipse#SwitchKnobOn">
-      <Setter Property="Fill" Value="{theme:AccentBrush Light10}" />
+      <Setter Property="Fill" Value="{colour:AccentBrush Light10}" />
     </Style>
 
     <Style Selector="^:pressed /template/ Grid#SwitchAreaGrid">
@@ -217,25 +219,25 @@
 
     <!-- Disabled state -->
     <Style Selector="^:disabled">
-      <Setter Property="Foreground" Value="{theme:AccentBrush Light2}" />
+      <Setter Property="Foreground" Value="{colour:AccentBrush Light2}" />
     </Style>
 
     <Style Selector="^:disabled /template/ Border#OuterBorder">
-      <Setter Property="BorderBrush" Value="{theme:AccentBrush Light2}" />
-      <Setter Property="Background" Value="{theme:OverlayWeakBrush}" />
+      <Setter Property="BorderBrush" Value="{colour:AccentBrush Light2}" />
+      <Setter Property="Background" Value="{colour:OverlayWeakBrush}" />
     </Style>
 
     <Style Selector="^:disabled /template/ Ellipse#SwitchKnobOff">
-      <Setter Property="Fill" Value="{theme:AccentBrush Light2}" />
+      <Setter Property="Fill" Value="{colour:AccentBrush Light2}" />
     </Style>
 
     <Style Selector="^:disabled /template/ Ellipse#SwitchKnobOn">
-      <Setter Property="Fill" Value="{theme:OverlayWeakBrush}" />
+      <Setter Property="Fill" Value="{colour:OverlayWeakBrush}" />
     </Style>
 
     <Style Selector="^:disabled /template/ Border#SwitchKnobBounds">
-      <Setter Property="Background" Value="{theme:OverlayWeakBrush}" />
-      <Setter Property="BorderBrush" Value="{theme:AccentBrush Light2}" />
+      <Setter Property="Background" Value="{colour:OverlayWeakBrush}" />
+      <Setter Property="BorderBrush" Value="{colour:AccentBrush Light2}" />
     </Style>
 
     <!-- Checked state -->

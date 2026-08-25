@@ -3,6 +3,8 @@
                     xmlns:conv="using:Avalonia.Controls.Converters"
                     xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+                    xmlns:colour="using:AngelSix.ThemeEngine.Colours"
+                    xmlns:size="using:AngelSix.ThemeEngine.Sizes"
                     xmlns:icons="using:AngelSix.ThemeEngine.Icons">
   <Design.PreviewWith>
     <Border Padding="20" Width="320">
@@ -61,9 +63,9 @@
     <Setter Property="Background" Value="Transparent" />
     <Setter Property="BorderBrush" Value="Transparent" />
     <Setter Property="BorderThickness" Value="0" />
-    <Setter Property="CornerRadius" Value="{theme:RadiusSm}" />
+    <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
     <!--  Narrow padding should be used for mouse input, when non-narrow one should be used for touch input in future.  -->
-    <Setter Property="Padding" Value="{theme:Edges Left={theme:SpacingXxl}, Top={theme:SpacingMd}, Right={theme:SpacingXxl}, Bottom={theme:SpacingLg}}" />
+    <Setter Property="Padding" Value="{size:Edges Left={size:SpacingXxl}, Top={size:SpacingMd}, Right={size:SpacingXxl}, Bottom={size:SpacingLg}}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
     <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
     <Setter Property="Template">
@@ -155,36 +157,36 @@
 
     <!-- Themed defaults for inner template elements (Rule 2: no {theme:...} inside ControlTemplate) -->
     <Style Selector="^ /template/ ContentControl#PART_ToggleIconPresenter">
-      <Setter Property="Margin" Value="{theme:Edges Right={theme:SpacingXxl}}" />
+      <Setter Property="Margin" Value="{size:Edges Right={size:SpacingXxl}}" />
     </Style>
     <Style Selector="^ /template/ ContentControl#PART_IconPresenter">
-      <Setter Property="Margin" Value="{theme:Edges Right={theme:SpacingXxl}}" />
+      <Setter Property="Margin" Value="{size:Edges Right={size:SpacingXxl}}" />
     </Style>
     <Style Selector="^ /template/ TextBlock#PART_InputGestureText">
-      <Setter Property="Margin" Value="{theme:Edges Left={theme:SpacingXxl}}" />
-      <Setter Property="Foreground" Value="{theme:AccentBrush Light2}" />
+      <Setter Property="Margin" Value="{size:Edges Left={size:SpacingXxl}}" />
+      <Setter Property="Foreground" Value="{colour:AccentBrush Light2}" />
       <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
       <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalContentAlignment}" />
     </Style>
     <Style Selector="^ /template/ Path#PART_ChevronPath">
-      <Setter Property="Width" Value="{theme:IconSize}" />
-      <Setter Property="Height" Value="{theme:IconSize}" />
-      <Setter Property="Fill" Value="{theme:AccentBrush Light2}" />
-      <Setter Property="Margin" Value="{theme:Edges Left={theme:SpacingXxl}}" />
+      <Setter Property="Width" Value="{size:IconSize}" />
+      <Setter Property="Height" Value="{size:IconSize}" />
+      <Setter Property="Fill" Value="{colour:AccentBrush Light2}" />
+      <Setter Property="Margin" Value="{size:Edges Left={size:SpacingXxl}}" />
       <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalContentAlignment}" />
     </Style>
     <Style Selector="^ /template/ Popup#PART_Popup">
-      <Setter Property="HorizontalOffset" Value="{theme:Scaled Value={theme:SpacingMd}, By=-1}" />
+      <Setter Property="HorizontalOffset" Value="{size:Scaled Value={size:SpacingMd}, By=-1}" />
     </Style>
     <Style Selector="^ /template/ Border#PART_PopupBorder">
-      <Setter Property="Background" Value="{theme:AccentBrush Light10}" />
-      <Setter Property="BorderBrush" Value="{theme:AccentBorderBrush}" />
-      <Setter Property="BorderThickness" Value="{theme:ThicknessSm}" />
-      <Setter Property="MinHeight" Value="{theme:ControlHeightSm}" />
-      <Setter Property="CornerRadius" Value="{theme:RadiusMd}" />
+      <Setter Property="Background" Value="{colour:AccentBrush Light10}" />
+      <Setter Property="BorderBrush" Value="{colour:AccentBorderBrush}" />
+      <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
+      <Setter Property="MinHeight" Value="{size:ControlHeightSm}" />
+      <Setter Property="CornerRadius" Value="{size:RadiusMd}" />
     </Style>
     <Style Selector="^ /template/ ItemsPresenter#PART_PopupItemsPresenter">
-      <Setter Property="Margin" Value="{theme:Edges Vertical={theme:SpacingMd}}" />
+      <Setter Property="Margin" Value="{size:Edges Vertical={size:SpacingMd}}" />
     </Style>
 
     <Style Selector="^:icon /template/ ContentControl#PART_IconPresenter">
@@ -192,28 +194,28 @@
     </Style>
     <Style Selector="^:selected">
       <Style Selector="^ /template/ Border#PART_LayoutRoot">
-        <Setter Property="Background" Value="{theme:OverlayWeakBrush}" />
+        <Setter Property="Background" Value="{colour:OverlayWeakBrush}" />
       </Style>
       <Style Selector="^ /template/ ContentPresenter#PART_HeaderPresenter">
       </Style>
       <Style Selector="^ /template/ TextBlock#PART_InputGestureText">
-        <Setter Property="Foreground" Value="{theme:AccentBrush Light2}" />
+        <Setter Property="Foreground" Value="{colour:AccentBrush Light2}" />
       </Style>
       <Style Selector="^ /template/ Path#PART_ChevronPath">
-        <Setter Property="Fill" Value="{theme:AccentBrush Dark1}" />
+        <Setter Property="Fill" Value="{colour:AccentBrush Dark1}" />
       </Style>
     </Style>
 
     <!--  Listen for PART_LayoutRoot:pointerover, so it will not be triggered when subitem is pressed  -->
     <Style Selector="^:pressed /template/ Border#PART_LayoutRoot:pointerover">
-      <Setter Property="Background" Value="{theme:AccentBrush Light8}" />
+      <Setter Property="Background" Value="{colour:AccentBrush Light8}" />
       <Style Selector="^ ContentPresenter#PART_HeaderPresenter">
       </Style>
       <Style Selector="^ TextBlock#PART_InputGestureText">
-        <Setter Property="Foreground" Value="{theme:AccentBrush Light2}" />
+        <Setter Property="Foreground" Value="{colour:AccentBrush Light2}" />
       </Style>
       <Style Selector="^ Path#PART_ChevronPath">
-        <Setter Property="Fill" Value="{theme:AccentBrush Dark1}" />
+        <Setter Property="Fill" Value="{colour:AccentBrush Dark1}" />
       </Style>
     </Style>
 
@@ -222,18 +224,18 @@
         <Setter Property="Background" Value="Transparent" />
       </Style>
       <Style Selector="^ /template/ ContentPresenter#PART_HeaderPresenter">
-        <Setter Property="Foreground" Value="{theme:AccentBrush Light2}" />
+        <Setter Property="Foreground" Value="{colour:AccentBrush Light2}" />
       </Style>
       <Style Selector="^ /template/ TextBlock#PART_InputGestureText">
-        <Setter Property="Foreground" Value="{theme:AccentBrush Light2}" />
+        <Setter Property="Foreground" Value="{colour:AccentBrush Light2}" />
       </Style>
       <Style Selector="^ /template/ Path#PART_ChevronPath">
-        <Setter Property="Fill" Value="{theme:AccentBrush Light2}" />
+        <Setter Property="Fill" Value="{colour:AccentBrush Light2}" />
       </Style>
     </Style>
 
     <Style Selector="^:open /template/ Path#PART_ChevronPath">
-      <Setter Property="Fill" Value="{theme:AccentBrush Dark1}" />
+      <Setter Property="Fill" Value="{colour:AccentBrush Dark1}" />
     </Style>
 
     <Style Selector="^:empty /template/ Path#PART_ChevronPath">
@@ -258,7 +260,7 @@
       <Setter Property="Content">
         <Template>
           <Path Fill="{Binding $parent[MenuItem].Foreground}"
-                Width="{theme:IconSize}"
+                Width="{size:IconSize}"
                 Data="{StaticResource CheckMarkPathData}" />
         </Template>
       </Setter>
@@ -268,14 +270,14 @@
       <Setter Property="Content">
         <Template>
           <Ellipse Fill="{Binding $parent[MenuItem].Foreground}"
-                   Margin="{theme:Edges All={theme:SpacingMd}}" Width="{theme:IconSize}" Height="{theme:IconSize}" />
+                   Margin="{size:Edges All={size:SpacingMd}}" Width="{size:IconSize}" Height="{size:IconSize}" />
         </Template>
       </Setter>
     </Style>
   </ControlTheme>
   <ControlTheme x:Key="HorizontalMenuItem" TargetType="MenuItem" BasedOn="{StaticResource PrototypeTopLevelMenuItem}">
-    <Setter Property="Padding" Value="{theme:Edges Left={theme:SpacingXl}, Top={theme:SpacingMd}, Right={theme:SpacingXl}, Bottom={theme:SpacingLg}}" />
-    <Setter Property="Margin" Value="{theme:Edges Horizontal={theme:SpacingSm}}" />
+    <Setter Property="Padding" Value="{size:Edges Left={size:SpacingXl}, Top={size:SpacingMd}, Right={size:SpacingXl}, Bottom={size:SpacingLg}}" />
+    <Setter Property="Margin" Value="{size:Edges Horizontal={size:SpacingSm}}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
     <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
   </ControlTheme>
@@ -284,9 +286,9 @@
                 TargetType="ContentControl">
     <!-- Visual defaults -->
     <Setter Property="Width"
-            Value="{theme:IconSize}" />
+            Value="{size:IconSize}" />
     <Setter Property="Height"
-            Value="{theme:IconSize}" />
+            Value="{size:IconSize}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
     <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
     <Setter Property="Template">

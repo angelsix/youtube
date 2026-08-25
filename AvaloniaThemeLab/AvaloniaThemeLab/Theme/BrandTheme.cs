@@ -16,7 +16,7 @@ public class BrandTheme : DefaultTheme
     [AccentHue] public virtual Color AccentBrand => Color.Parse("#7C4DFF");
 
     // The hue needs every stage the library's control themes ask for. Declaring a couple of
-    // shades by hand is what left {theme:AccentBrush Light10} unresolved, so a Brand control
+    // shades by hand is what left {colour:AccentBrush Light10} unresolved, so a Brand control
     // rendered with no fill and no border at all.
     protected virtual ColorRamp BrandRamp =>
         IsDark ? new MirroredColorRamp(AccentBrand) : new ColorRamp(AccentBrand);

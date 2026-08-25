@@ -2,7 +2,9 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:sys="clr-namespace:System;assembly=System.Runtime"
                     xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
-                    xmlns:theme="using:AngelSix.ThemeEngine.Generated">
+                    xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+                    xmlns:colour="using:AngelSix.ThemeEngine.Colours"
+                    xmlns:size="using:AngelSix.ThemeEngine.Sizes">
   <Design.PreviewWith>
     <Border Padding="20">
       <Border.Styles>
@@ -56,15 +58,15 @@
 
   <ControlTheme x:Key="{x:Type NumericUpDown}" TargetType="NumericUpDown">
     <!-- Visual defaults -->
-    <Setter Property="Background" Value="{theme:AccentBrush Light10}" />
-    <Setter Property="Foreground" Value="{theme:AccentBrush Dark1}" />
-    <Setter Property="PlaceholderForeground" Value="{theme:AccentBrush Light2}" />
-    <Setter Property="BorderThickness" Value="{theme:ThicknessSm}" />
-    <Setter Property="BorderBrush" Value="{theme:AccentBorderBrush}" />
-    <Setter Property="MinHeight" Value="{theme:ControlHeightSm}" />
-    <Setter Property="MinWidth" Value="{theme:ControlMinWidth}" />
-    <Setter Property="Padding" Value="{theme:Edges Left={theme:SpacingXxl}, Top={theme:SpacingLg}, Right={theme:SpacingLg}, Bottom={theme:SpacingMd}}" />
-    <Setter Property="CornerRadius" Value="{theme:RadiusSm}" />
+    <Setter Property="Background" Value="{colour:AccentBrush Light10}" />
+    <Setter Property="Foreground" Value="{colour:AccentBrush Dark1}" />
+    <Setter Property="PlaceholderForeground" Value="{colour:AccentBrush Light2}" />
+    <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
+    <Setter Property="BorderBrush" Value="{colour:AccentBorderBrush}" />
+    <Setter Property="MinHeight" Value="{size:ControlHeightSm}" />
+    <Setter Property="MinWidth" Value="{size:ControlMinWidth}" />
+    <Setter Property="Padding" Value="{size:Edges Left={size:SpacingXxl}, Top={size:SpacingLg}, Right={size:SpacingLg}, Bottom={size:SpacingMd}}" />
+    <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
     <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
     <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
@@ -112,7 +114,7 @@
 
     <!-- TextBox margin (negative margin to offset ButtonSpinner padding) -->
     <Style Selector="^ /template/ TextBox#PART_TextBox">
-      <Setter Property="Margin" Value="{theme:Edges All={theme:Scaled Value={theme:BaseSize}, By=-1}}" />
+      <Setter Property="Margin" Value="{size:Edges All={size:Scaled Value={size:BaseSize}, By=-1}}" />
     </Style>
   </ControlTheme>
 </ResourceDictionary>

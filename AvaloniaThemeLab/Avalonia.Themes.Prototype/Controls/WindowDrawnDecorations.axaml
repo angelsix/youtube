@@ -2,15 +2,17 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+                    xmlns:colour="using:AngelSix.ThemeEngine.Colours"
+                    xmlns:size="using:AngelSix.ThemeEngine.Sizes"
                     xmlns:icons="using:AngelSix.ThemeEngine.Icons">
 
 
   <ControlTheme x:Key="PrototypeDrawnCaptionButton" TargetType="Button">
-    <Setter Property="Background" Value="{theme:AccentBrush Light10}" />
-    <Setter Property="Foreground" Value="{theme:AccentBrush Dark1}" />
-    <Setter Property="BorderBrush" Value="{theme:AccentBorderBrush}" />
-    <Setter Property="Width" Value="{theme:ControlHeightLg}"/>
-    <Setter Property="Height" Value="{theme:ControlHeightMd}"/>
+    <Setter Property="Background" Value="{colour:AccentBrush Light10}" />
+    <Setter Property="Foreground" Value="{colour:AccentBrush Dark1}" />
+    <Setter Property="BorderBrush" Value="{colour:AccentBorderBrush}" />
+    <Setter Property="Width" Value="{size:ControlHeightLg}"/>
+    <Setter Property="Height" Value="{size:ControlHeightMd}"/>
     <Setter Property="VerticalAlignment" Value="{theme:ContainerVerticalAlignment}"/>
     <Setter Property="(WindowDecorationProperties.ElementRole)" Value="DecorationsElement"/>
     <Setter Property="Template">
@@ -42,18 +44,18 @@
           <WindowDrawnDecorationsContent.Underlay>
             <Panel x:Name="PART_UnderlayWrapper">
               <Border x:Name="PART_WindowShadow"
-                      Background="{theme:OverlayWeakBrush}"
+                      Background="{colour:OverlayWeakBrush}"
                       IsHitTestVisible="False"
                       IsVisible="False" />
               <Border x:Name="PART_WindowBorder"
-                      Background="{theme:AccentBrush Light10}"
+                      Background="{colour:AccentBrush Light10}"
                       BorderThickness="{TemplateBinding FrameThickness}"
-                      BorderBrush="{theme:AccentBorderBrush}"
+                      BorderBrush="{colour:AccentBorderBrush}"
                       IsHitTestVisible="False" />
               <!-- Titlebar: background, title text, and drag area live in underlay -->
               <Panel x:Name="PART_TitleBar" VerticalAlignment="Top"
                      Height="{TemplateBinding TitleBarHeight}"
-                     Background="{theme:AccentBrush Light10}"
+                     Background="{colour:AccentBrush Light10}"
                      IsVisible="{TemplateBinding HasTitleBar}"
                      WindowDecorationProperties.ElementRole="TitleBar" />
 
@@ -70,8 +72,8 @@
                      IsVisible="{TemplateBinding HasTitleBar}">
                 <TextBlock Text="{TemplateBinding Title}"
                            VerticalAlignment="Center"
-                           Margin="{theme:Edges Left={theme:SpacingXxl}}"
-                           FontSize="{theme:FontSizeSm}" />
+                           Margin="{size:Edges Left={size:SpacingXxl}}"
+                           FontSize="{size:FontSizeSm}" />
               </Panel>
               <StackPanel x:Name="PART_OverlayPanel"
                           VerticalAlignment="Top"
@@ -79,48 +81,48 @@
                           Height="{TemplateBinding TitleBarHeight}"
                           IsVisible="{TemplateBinding HasTitleBar}"
                           Orientation="Horizontal"
-                          Spacing="{theme:SpacingSm}"
-                          TextElement.FontSize="{theme:FontSizeSm}">
+                          Spacing="{size:SpacingSm}"
+                          TextElement.FontSize="{size:FontSizeSm}">
                 <Button x:Name="PART_FullScreenButton"
                         Theme="{StaticResource PrototypeDrawnCaptionButton}"
                         WindowDecorationProperties.ElementRole="FullScreenButton">
-                  <Viewbox Width="{theme:IconSize}" Margin="{theme:Edges All={theme:SpacingSm}}">
+                  <Viewbox Width="{size:IconSize}" Margin="{size:Edges All={size:SpacingSm}}">
                     <Path Name="FullScreenButtonPath"
                           Stretch="UniformToFill"
-                          Fill="{theme:AccentBrush Dark1}"
+                          Fill="{colour:AccentBrush Dark1}"
                           Data="{icons:FullScreenEnter}" />
                   </Viewbox>
                 </Button>
                 <Button x:Name="PART_MinimizeButton"
                         Theme="{StaticResource PrototypeDrawnCaptionButton}"
                         WindowDecorationProperties.ElementRole="MinimizeButton">
-                  <Viewbox Width="{theme:IconSize}" Margin="{theme:Edges All={theme:SpacingSm}}">
+                  <Viewbox Width="{size:IconSize}" Margin="{size:Edges All={size:SpacingSm}}">
                     <Path Stretch="UniformToFill"
-                          Fill="{theme:AccentBrush Dark1}"
+                          Fill="{colour:AccentBrush Dark1}"
                           Data="{icons:Minus}" />
                   </Viewbox>
                 </Button>
                 <Button x:Name="PART_MaximizeButton"
                         Theme="{StaticResource PrototypeDrawnCaptionButton}"
                         WindowDecorationProperties.ElementRole="MaximizeButton">
-                  <Viewbox Width="{theme:IconSize}" Margin="{theme:Edges All={theme:SpacingSm}}">
+                  <Viewbox Width="{size:IconSize}" Margin="{size:Edges All={size:SpacingSm}}">
                     <Viewbox.RenderTransform>
                       <RotateTransform Angle="-90" />
                     </Viewbox.RenderTransform>
                     <Path Name="RestoreButtonPath"
                           Stretch="UniformToFill"
-                          Fill="{theme:AccentBrush Dark1}"
+                          Fill="{colour:AccentBrush Dark1}"
                           Data="{icons:WindowMaximize}"/>
                   </Viewbox>
                 </Button>
                 <Button x:Name="PART_CloseButton"
-                        Background="{theme:AccentDestructiveBrush}"
-                        BorderBrush="{theme:AccentBrush Light1}"
+                        Background="{colour:AccentDestructiveBrush}"
+                        BorderBrush="{colour:AccentBrush Light1}"
                         Theme="{StaticResource PrototypeDrawnCaptionButton}"
                         WindowDecorationProperties.ElementRole="CloseButton">
-                  <Viewbox Width="{theme:IconSize}" Margin="{theme:Edges All={theme:SpacingSm}}">
+                  <Viewbox Width="{size:IconSize}" Margin="{size:Edges All={size:SpacingSm}}">
                     <Path Stretch="UniformToFill"
-                          Fill="{theme:AccentBrush Dark1}"
+                          Fill="{colour:AccentBrush Dark1}"
                           Data="{icons:Close}" />
                   </Viewbox>
                 </Button>
@@ -131,33 +133,33 @@
           <WindowDrawnDecorationsContent.FullscreenPopover>
             <Panel Height="{TemplateBinding DefaultTitleBarHeight}"
                    VerticalAlignment="Top"
-                   Background="{theme:AccentBrush Light10}"
+                   Background="{colour:AccentBrush Light10}"
                    WindowDecorationProperties.ElementRole="TitleBar">
               <TextBlock Text="{TemplateBinding Title}"
                          VerticalAlignment="Center"
-                         Margin="{theme:Edges Left={theme:SpacingXxl}}"
-                         FontSize="{theme:FontSizeSm}" />
+                         Margin="{size:Edges Left={size:SpacingXxl}}"
+                         FontSize="{size:FontSizeSm}" />
               <StackPanel HorizontalAlignment="Right"
                           Orientation="Horizontal"
-                          Spacing="{theme:SpacingSm}"
-                          TextElement.FontSize="{theme:FontSizeSm}">
+                          Spacing="{size:SpacingSm}"
+                          TextElement.FontSize="{size:FontSizeSm}">
                 <Button x:Name="PART_PopoverFullScreenButton"
                         Theme="{StaticResource PrototypeDrawnCaptionButton}"
                         WindowDecorationProperties.ElementRole="FullScreenButton">
-                  <Viewbox Width="{theme:IconSize}" Margin="{theme:Edges All={theme:SpacingSm}}">
+                  <Viewbox Width="{size:IconSize}" Margin="{size:Edges All={size:SpacingSm}}">
                     <Path Stretch="UniformToFill"
-                          Fill="{theme:AccentBrush Dark1}"
+                          Fill="{colour:AccentBrush Dark1}"
                           Data="{icons:WindowRestore}" />
                   </Viewbox>
                 </Button>
                 <Button x:Name="PART_PopoverCloseButton"
-                        Background="{theme:AccentDestructiveBrush}"
-                        BorderBrush="{theme:AccentBrush Light1}"
+                        Background="{colour:AccentDestructiveBrush}"
+                        BorderBrush="{colour:AccentBrush Light1}"
                         Theme="{StaticResource PrototypeDrawnCaptionButton}"
                         WindowDecorationProperties.ElementRole="CloseButton">
-                  <Viewbox Width="{theme:IconSize}" Margin="{theme:Edges All={theme:SpacingSm}}">
+                  <Viewbox Width="{size:IconSize}" Margin="{size:Edges All={size:SpacingSm}}">
                     <Path Stretch="UniformToFill"
-                          Fill="{theme:AccentBrush Dark1}"
+                          Fill="{colour:AccentBrush Dark1}"
                           Data="{icons:Close}" />
                   </Viewbox>
                 </Button>

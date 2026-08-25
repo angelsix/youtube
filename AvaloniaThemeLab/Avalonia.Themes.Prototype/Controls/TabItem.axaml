@@ -2,7 +2,9 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
-    xmlns:theme="using:AngelSix.ThemeEngine.Generated">
+    xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+    xmlns:colour="using:AngelSix.ThemeEngine.Colours"
+    xmlns:size="using:AngelSix.ThemeEngine.Sizes">
   <Design.PreviewWith>
     <Border Padding="20">
       <Border.Styles>
@@ -22,14 +24,14 @@
 
     <!-- Visual defaults -->
     <Setter Property="Background" Value="Transparent" />
-    <Setter Property="Foreground" Value="{theme:AccentBrush Light2}" />
+    <Setter Property="Foreground" Value="{colour:AccentBrush Light2}" />
     <Setter Property="BorderBrush" Value="Transparent" />
     <Setter Property="BorderThickness" Value="0" />
-    <Setter Property="CornerRadius" Value="{theme:RadiusSm}" />
-    <Setter Property="FontSize" Value="{theme:FontSizeXxl}" />
-    <Setter Property="Padding" Value="{theme:Edges Horizontal={theme:SpacingXxl}}" />
+    <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
+    <Setter Property="FontSize" Value="{size:FontSizeXxl}" />
+    <Setter Property="Padding" Value="{size:Edges Horizontal={size:SpacingXxl}}" />
     <Setter Property="Margin" Value="0" />
-    <Setter Property="MinHeight" Value="{theme:ControlHeightLg}" />
+    <Setter Property="MinHeight" Value="{size:ControlHeightLg}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
     <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
     <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
@@ -68,26 +70,26 @@
 
     <!-- Selected pipe visuals -->
     <Style Selector="^ /template/ Border#PART_SelectedPipe">
-      <Setter Property="Background" Value="{theme:AccentPrimaryBrush}" />
-      <Setter Property="CornerRadius" Value="{theme:RadiusSm}" />
+      <Setter Property="Background" Value="{colour:AccentPrimaryBrush}" />
+      <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
     </Style>
 
     <!-- Hover state -->
     <Style Selector="^:pointerover /template/ Border#PART_LayoutRoot">
       <Setter Property="Background" Value="Transparent" />
-      <Setter Property="TextElement.Foreground" Value="{theme:AccentBrush Light2}" />
+      <Setter Property="TextElement.Foreground" Value="{colour:AccentBrush Light2}" />
     </Style>
 
     <!-- Pressed state -->
     <Style Selector="^:pressed /template/ Border#PART_LayoutRoot">
       <Setter Property="Background" Value="Transparent" />
-      <Setter Property="TextElement.Foreground" Value="{theme:AccentBrush Light2}" />
+      <Setter Property="TextElement.Foreground" Value="{colour:AccentBrush Light2}" />
     </Style>
 
     <!-- Disabled state -->
     <Style Selector="^:disabled /template/ Border#PART_LayoutRoot">
       <Setter Property="Background" Value="Transparent" />
-      <Setter Property="TextElement.Foreground" Value="{theme:AccentBrush Light2}" />
+      <Setter Property="TextElement.Foreground" Value="{colour:AccentBrush Light2}" />
     </Style>
 
     <!-- Selected state -->
@@ -101,19 +103,19 @@
     <!-- Selected hover state -->
     <Style Selector="^:selected:pointerover /template/ Border#PART_LayoutRoot">
       <Setter Property="Background" Value="Transparent" />
-      <Setter Property="TextElement.Foreground" Value="{theme:AccentBrush Light2}" />
+      <Setter Property="TextElement.Foreground" Value="{colour:AccentBrush Light2}" />
     </Style>
 
     <!-- Selected pressed state -->
     <Style Selector="^:selected:pressed /template/ Border#PART_LayoutRoot">
       <Setter Property="Background" Value="Transparent" />
-      <Setter Property="TextElement.Foreground" Value="{theme:AccentBrush Light2}" />
+      <Setter Property="TextElement.Foreground" Value="{colour:AccentBrush Light2}" />
     </Style>
 
     <!-- TabStripPlacement: Left -->
     <Style Selector="^[TabStripPlacement=Left] /template/ Border#PART_SelectedPipe">
-      <Setter Property="Width" Value="{theme:SpacingSm}" />
-      <Setter Property="Height" Value="{theme:ControlHeightSm}" />
+      <Setter Property="Width" Value="{size:SpacingSm}" />
+      <Setter Property="Height" Value="{size:ControlHeightSm}" />
       <Setter Property="Margin" Value="0,0,2,0" />
       <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
       <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
@@ -124,7 +126,7 @@
 
     <!-- TabStripPlacement: Top and Bottom -->
     <Style Selector="^[TabStripPlacement=Top] /template/ Border#PART_SelectedPipe, ^[TabStripPlacement=Bottom] /template/ Border#PART_SelectedPipe">
-      <Setter Property="Height" Value="{theme:SpacingSm}" />
+      <Setter Property="Height" Value="{size:SpacingSm}" />
       <Setter Property="Margin" Value="0,0,0,2" />
       <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
       <Setter Property="VerticalAlignment" Value="{theme:ContainerVerticalAlignment}" />
@@ -132,8 +134,8 @@
 
     <!-- TabStripPlacement: Right -->
     <Style Selector="^[TabStripPlacement=Right] /template/ Border#PART_SelectedPipe">
-      <Setter Property="Width" Value="{theme:SpacingSm}" />
-      <Setter Property="Height" Value="{theme:ControlHeightSm}" />
+      <Setter Property="Width" Value="{size:SpacingSm}" />
+      <Setter Property="Height" Value="{size:ControlHeightSm}" />
       <Setter Property="Margin" Value="2,0,0,0" />
       <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
       <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />

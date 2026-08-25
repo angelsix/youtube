@@ -3,6 +3,8 @@
         xmlns:converters="using:Avalonia.Controls.Converters"
         xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
         xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+        xmlns:colour="using:AngelSix.ThemeEngine.Colours"
+        xmlns:size="using:AngelSix.ThemeEngine.Sizes"
         xmlns:icons="using:AngelSix.ThemeEngine.Icons">
 
   <Design.PreviewWith>
@@ -28,8 +30,8 @@
   <!-- Chevron sub-theme -->
   <ControlTheme x:Key="PrototypeTreeViewExpandCollapseChevron" TargetType="ToggleButton">
     <Setter Property="Margin" Value="0" />
-    <Setter Property="Width" Value="{theme:FontSizeSm}" />
-    <Setter Property="Height" Value="{theme:FontSizeSm}" />
+    <Setter Property="Width" Value="{size:FontSizeSm}" />
+    <Setter Property="Height" Value="{size:FontSizeSm}" />
     <Setter Property="Template">
       <ControlTemplate>
         <!-- The chevron pointing at the expanded direction -->
@@ -57,13 +59,13 @@
     <!-- Visual defaults -->
     <Setter Property="Background" Value="Transparent" />
     <Setter Property="BorderBrush" Value="Transparent" />
-    <Setter Property="BorderThickness" Value="{theme:ThicknessSm}" />
-    <Setter Property="CornerRadius" Value="{theme:RadiusSm}" />
-    <Setter Property="Padding" Value="{theme:Edges Horizontal={theme:SpacingMd}, Vertical={theme:SpacingSm}}" />
+    <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
+    <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
+    <Setter Property="Padding" Value="{size:Edges Horizontal={size:SpacingMd}, Vertical={size:SpacingSm}}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
     <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
     <!-- HorizontalContentAlignment and VerticalContentAlignment not on TreeViewItem -->
-    <Setter Property="MinHeight" Value="{theme:ControlHeightSm}" />
+    <Setter Property="MinHeight" Value="{size:ControlHeightSm}" />
 
     <!-- Template -->
     <Setter Property="Template">
@@ -112,7 +114,7 @@
 
     <!-- Hover state -->
     <Style Selector="^ /template/ Border#PART_LayoutRoot:pointerover">
-      <Setter Property="Background" Value="{theme:AccentBrush Light8}" />
+      <Setter Property="Background" Value="{colour:AccentBrush Light8}" />
       <Setter Property="BorderBrush" Value="Transparent" />
     </Style>
     <Style Selector="^ /template/ Border#PART_LayoutRoot:pointerover > ContentPresenter#PART_HeaderPresenter">
@@ -120,7 +122,7 @@
 
     <!-- Pressed state -->
     <Style Selector="^:pressed /template/ Border#PART_LayoutRoot:pointerover">
-      <Setter Property="Background" Value="{theme:AccentBrush Light8}" />
+      <Setter Property="Background" Value="{colour:AccentBrush Light8}" />
       <Setter Property="BorderBrush" Value="Transparent" />
     </Style>
     <Style Selector="^:pressed /template/ Border#PART_LayoutRoot:pointerover > ContentPresenter#PART_HeaderPresenter">
@@ -132,12 +134,12 @@
       <Setter Property="BorderBrush" Value="Transparent" />
     </Style>
     <Style Selector="^:disabled /template/ ContentPresenter#PART_HeaderPresenter">
-      <Setter Property="Foreground" Value="{theme:AccentBrush Light2}" />
+      <Setter Property="Foreground" Value="{colour:AccentBrush Light2}" />
     </Style>
 
     <!-- Selected state -->
     <Style Selector="^:selected /template/ Border#PART_LayoutRoot">
-      <Setter Property="Background" Value="{theme:AccentPrimaryBrush}" />
+      <Setter Property="Background" Value="{colour:AccentPrimaryBrush}" />
       <Setter Property="BorderBrush" Value="Transparent" />
     </Style>
     <Style Selector="^:selected /template/ Border#PART_LayoutRoot > ContentPresenter#PART_HeaderPresenter">
@@ -145,7 +147,7 @@
 
     <!-- Selected hover state -->
     <Style Selector="^:selected /template/ Border#PART_LayoutRoot:pointerover">
-      <Setter Property="Background" Value="{theme:AccentPrimaryBrush}" />
+      <Setter Property="Background" Value="{colour:AccentPrimaryBrush}" />
       <Setter Property="BorderBrush" Value="Transparent" />
     </Style>
     <Style Selector="^:selected /template/ Border#PART_LayoutRoot:pointerover > ContentPresenter#PART_HeaderPresenter">
@@ -153,7 +155,7 @@
 
     <!-- Selected pressed state -->
     <Style Selector="^:pressed:selected /template/ Border#PART_LayoutRoot:pointerover">
-      <Setter Property="Background" Value="{theme:AccentBrush Light8}" />
+      <Setter Property="Background" Value="{colour:AccentBrush Light8}" />
       <Setter Property="BorderBrush" Value="Transparent" />
     </Style>
     <Style Selector="^:pressed:selected /template/ Border#PART_LayoutRoot:pointerover > ContentPresenter#PART_HeaderPresenter">
@@ -161,11 +163,11 @@
 
     <!-- Disabled selected state -->
     <Style Selector="^:disabled:selected /template/ Border#PART_LayoutRoot">
-      <Setter Property="Background" Value="{theme:AccentBrush Light2}" />
+      <Setter Property="Background" Value="{colour:AccentBrush Light2}" />
       <Setter Property="BorderBrush" Value="Transparent" />
     </Style>
     <Style Selector="^:disabled:selected /template/ Border#PART_LayoutRoot > ContentPresenter#PART_HeaderPresenter">
-      <Setter Property="Foreground" Value="{theme:AccentBrush Light2}" />
+      <Setter Property="Foreground" Value="{colour:AccentBrush Light2}" />
     </Style>
 
     <!-- Empty state -->
@@ -173,15 +175,15 @@
       <Setter Property="IsVisible" Value="False" />
     </Style>
     <Style Selector="^:empty /template/ Panel#PART_ExpandCollapseChevronContainer">
-      <Setter Property="Width" Value="{theme:FontSizeSm}" />
+      <Setter Property="Width" Value="{size:FontSizeSm}" />
     </Style>
 
     <!-- Themed properties moved out of ControlTemplate -->
     <Style Selector="^ /template/ Path#ChevronPath">
-      <Setter Property="Fill" Value="{theme:AccentBrush Dark1}" />
+      <Setter Property="Fill" Value="{colour:AccentBrush Dark1}" />
     </Style>
     <Style Selector="^ /template/ Panel#PART_ExpandCollapseChevronContainer">
-      <Setter Property="Margin" Value="{theme:Edges Horizontal={theme:SpacingXxl}}" />
+      <Setter Property="Margin" Value="{size:Edges Horizontal={size:SpacingXxl}}" />
     </Style>
   </ControlTheme>
 </ResourceDictionary>

@@ -1,15 +1,18 @@
-﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
-                    xmlns:theme="using:AngelSix.ThemeEngine.Generated">
+                    xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+                    xmlns:colour="using:AngelSix.ThemeEngine.Colours"
+                    xmlns:size="using:AngelSix.ThemeEngine.Sizes"
+                    >
     <ControlTheme x:Key="{x:Type GridSplitter}" TargetType="GridSplitter">
       <Setter Property="Focusable" Value="True" />
       <Setter Property="MinWidth" Value="6" />
       <Setter Property="MinHeight" Value="6" />
-      <Setter Property="Background" Value="{theme:AccentBorderBrush}" />
+      <Setter Property="Background" Value="{colour:AccentBorderBrush}" />
       <Setter Property="PreviewContent">
         <Template>
-          <Rectangle Fill="{theme:AccentPrimaryBrush}" />
+          <Rectangle Fill="{colour:AccentPrimaryBrush}" />
         </Template>
       </Setter>
       <Setter Property="Template">

@@ -1,7 +1,9 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
-                    xmlns:theme="using:AngelSix.ThemeEngine.Generated">
+                    xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+                    xmlns:colour="using:AngelSix.ThemeEngine.Colours"
+                    xmlns:size="using:AngelSix.ThemeEngine.Sizes">
   <Design.PreviewWith>
     <Border Padding="20">
       <Border.Styles>
@@ -10,12 +12,12 @@
 
       <TabControl>
         <TabItem Header="Arch">
-          <Border Background="{theme:OverlayWeakBrush}" Height="100">
-            <TextBlock Text="Content" Foreground="{theme:AccentBrush Dark1}" FontSize="{theme:FontSizeMd}" />
+          <Border Background="{colour:OverlayWeakBrush}" Height="100">
+            <TextBlock Text="Content" Foreground="{colour:AccentBrush Dark1}" FontSize="{size:FontSizeMd}" />
           </Border>
         </TabItem>
         <TabItem Header="Leaf">
-          <Border Background="{theme:AccentSuccessBrush}" Height="100" />
+          <Border Background="{colour:AccentSuccessBrush}" Height="100" />
         </TabItem>
         <TabItem Header="Disabled" IsEnabled="False" />
       </TabControl>
@@ -28,12 +30,12 @@
   <ControlTheme x:Key="{x:Type TabControl}" TargetType="TabControl">
 
     <!-- Visual defaults -->
-    <Setter Property="Background" Value="{theme:AccentBrush Light10}" />
-    <Setter Property="Foreground" Value="{theme:AccentBrush Dark1}" />
-    <Setter Property="BorderBrush" Value="{theme:AccentBorderBrush}" />
-    <Setter Property="BorderThickness" Value="{theme:ThicknessSm}" />
-    <Setter Property="CornerRadius" Value="{theme:RadiusSm}" />
-    <Setter Property="Padding" Value="{theme:Edges Horizontal={theme:SpacingXxl}}" />
+    <Setter Property="Background" Value="{colour:AccentBrush Light10}" />
+    <Setter Property="Foreground" Value="{colour:AccentBrush Dark1}" />
+    <Setter Property="BorderBrush" Value="{colour:AccentBorderBrush}" />
+    <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
+    <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
+    <Setter Property="Padding" Value="{size:Edges Horizontal={size:SpacingXxl}}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
     <Setter Property="VerticalAlignment" Value="{theme:ContainerVerticalAlignment}" />
     <Setter Property="HorizontalContentAlignment" Value="{theme:ContainerHorizontalAlignment}" />
@@ -84,7 +86,7 @@
 
     <!-- TabStripPlacement spacing -->
     <Style Selector="^[TabStripPlacement=Top] /template/ ItemsPresenter#PART_ItemsPresenter">
-      <Setter Property="Margin" Value="{theme:Edges Bottom={theme:SpacingSm}}" />
+      <Setter Property="Margin" Value="{size:Edges Bottom={size:SpacingSm}}" />
     </Style>
   </ControlTheme>
 </ResourceDictionary>

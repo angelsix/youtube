@@ -2,6 +2,8 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+                    xmlns:colour="using:AngelSix.ThemeEngine.Colours"
+                    xmlns:size="using:AngelSix.ThemeEngine.Sizes"
                     xmlns:icons="using:AngelSix.ThemeEngine.Icons">
   <Design.PreviewWith>
     <Border Padding="20">
@@ -42,10 +44,10 @@
     <Setter Property="Background" Value="Transparent" />
     <Setter Property="BorderBrush" Value="Transparent" />
     <Setter Property="Focusable" Value="False"/>
-    <Setter Property="MinWidth" Value="{theme:ControlMinWidth}" />
-    <Setter Property="Padding" Value="{theme:Edges All={theme:SpacingMd}}" />
+    <Setter Property="MinWidth" Value="{size:ControlMinWidth}" />
+    <Setter Property="Padding" Value="{size:Edges All={size:SpacingMd}}" />
     <Setter Property="Width" Value="{Binding $self.Bounds.Height}"/>
-    <Setter Property="TextElement.Foreground" Value="{theme:AccentBrush Light2}"/>
+    <Setter Property="TextElement.Foreground" Value="{colour:AccentBrush Light2}"/>
 
     <!-- Template -->
     <Setter Property="Template">
@@ -67,14 +69,14 @@
     <Style Selector="^:pointerover /template/ ContentPresenter">
       <Setter Property="Background" Value="Transparent" />
       <Setter Property="BorderBrush" Value="Transparent" />
-      <Setter Property="Foreground" Value="{theme:AccentPrimaryBrush}" />
+      <Setter Property="Foreground" Value="{colour:AccentPrimaryBrush}" />
     </Style>
 
     <!-- Pressed state -->
     <Style Selector="^:pressed /template/ ContentPresenter">
-      <Setter Property="Background" Value="{theme:AccentPrimaryBrush}" />
+      <Setter Property="Background" Value="{colour:AccentPrimaryBrush}" />
       <Setter Property="BorderBrush" Value="Transparent" />
-      <Setter Property="Foreground" Value="{theme:AccentBrush Light10}" />
+      <Setter Property="Foreground" Value="{colour:AccentBrush Light10}" />
     </Style>
 
     <!-- Disabled state -->
@@ -105,9 +107,9 @@
 
     <!-- Checked / Indeterminate state -->
     <Style Selector="^:checked /template/ ContentPresenter, ^:indeterminate /template/ ContentPresenter">
-      <Setter Property="Background" Value="{theme:AccentPrimaryBrush}" />
+      <Setter Property="Background" Value="{colour:AccentPrimaryBrush}" />
       <Setter Property="BorderBrush" Value="Transparent" />
-      <Setter Property="Foreground" Value="{theme:AccentBrush Light10}" />
+      <Setter Property="Foreground" Value="{colour:AccentBrush Light10}" />
     </Style>
   </ControlTheme>
 
@@ -116,16 +118,16 @@
        ============================================================ -->
   <ControlTheme x:Key="{x:Type TextBox}" TargetType="TextBox">
     <!-- Visual defaults -->
-    <Setter Property="Background" Value="{theme:AccentBrush Light4}" />
-    <Setter Property="CaretBrush" Value="{theme:AccentBrush Dark1}" />
-    <Setter Property="BorderBrush" Value="{theme:AccentBorderBrush}" />
-    <Setter Property="SelectionBrush" Value="{theme:AccentPrimaryBrush}" />
-    <Setter Property="PlaceholderForeground" Value="{theme:AccentBrush Light2}" />
-    <Setter Property="BorderThickness" Value="{theme:ThicknessSm}" />
-    <Setter Property="CornerRadius" Value="{theme:RadiusSm}" />
-    <Setter Property="MinHeight" Value="{theme:ControlHeightSm}" />
-    <Setter Property="MinWidth" Value="{theme:ControlMinWidth}" />
-    <Setter Property="Padding" Value="{theme:Edges All={theme:SpacingLg}}" />
+    <Setter Property="Background" Value="{colour:AccentBrush Light4}" />
+    <Setter Property="CaretBrush" Value="{colour:AccentBrush Dark1}" />
+    <Setter Property="BorderBrush" Value="{colour:AccentBorderBrush}" />
+    <Setter Property="SelectionBrush" Value="{colour:AccentPrimaryBrush}" />
+    <Setter Property="PlaceholderForeground" Value="{colour:AccentBrush Light2}" />
+    <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
+    <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
+    <Setter Property="MinHeight" Value="{size:ControlHeightSm}" />
+    <Setter Property="MinWidth" Value="{size:ControlMinWidth}" />
+    <Setter Property="Padding" Value="{size:Edges All={size:SpacingLg}}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
     <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
     <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
@@ -244,25 +246,25 @@
 
     <!-- Placeholder opacity -->
     <Style Selector="^ /template/ TextBlock#PART_Placeholder">
-      <Setter Property="Opacity" Value="{theme:Scaled Value={theme:DisabledOpacity}, By=1.667}" />
+      <Setter Property="Opacity" Value="{size:Scaled Value={size:DisabledOpacity}, By=1.667}" />
     </Style>
 
     <!-- Hover state -->
     <Style Selector="^:pointerover">
 
       <Style Selector="^ /template/ Border#PART_BorderElement">
-        <Setter Property="BorderBrush" Value="{theme:AccentBrush Light2}"/>
-        <Setter Property="Background" Value="{theme:AccentBrush Light4}" />
+        <Setter Property="BorderBrush" Value="{colour:AccentBrush Light2}"/>
+        <Setter Property="Background" Value="{colour:AccentBrush Light4}" />
       </Style>
     </Style>
 
     <!-- Disabled state -->
     <Style Selector="^:disabled">
-      <Setter Property="Foreground" Value="{theme:AccentBrush Light2}" />
+      <Setter Property="Foreground" Value="{colour:AccentBrush Light2}" />
 
       <Style Selector="^ /template/ Border#PART_BorderElement">
-        <Setter Property="Background" Value="{theme:OverlayWeakBrush}" />
-        <Setter Property="BorderBrush" Value="{theme:OverlayWeakBrush}" />
+        <Setter Property="Background" Value="{colour:OverlayWeakBrush}" />
+        <Setter Property="BorderBrush" Value="{colour:OverlayWeakBrush}" />
       </Style>
     </Style>
 
@@ -270,15 +272,15 @@
     <Style Selector="^:focus">
 
       <Style Selector="^ /template/ Border#PART_BorderElement">
-        <Setter Property="Background" Value="{theme:AccentBrush Light4}"/>
-        <Setter Property="BorderBrush" Value="{theme:AccentPrimaryBrush}"/>
-        <Setter Property="BorderThickness" Value="{theme:ThicknessMd}" />
+        <Setter Property="Background" Value="{colour:AccentBrush Light4}"/>
+        <Setter Property="BorderBrush" Value="{colour:AccentPrimaryBrush}"/>
+        <Setter Property="BorderThickness" Value="{size:ThicknessMd}" />
       </Style>
     </Style>
 
     <!-- Error state -->
     <Style Selector="^:error /template/ Border#PART_BorderElement">
-      <Setter Property="BorderBrush" Value="{theme:AccentErrorBrush}"/>
+      <Setter Property="BorderBrush" Value="{colour:AccentErrorBrush}"/>
     </Style>
 
     <!-- Touch mode -->
@@ -300,10 +302,10 @@
                         ClipToBounds="True">
             <Panel>
               <PathIcon Data="{icons:Eye}"
-                        Height="{theme:IconSize}" Width="{theme:IconSize}"
+                        Height="{size:IconSize}" Width="{size:IconSize}"
                         IsVisible="{Binding !$parent[ToggleButton].IsChecked}"/>
               <PathIcon Data="{icons:EyeOff}"
-                        Height="{theme:IconSize}" Width="{theme:IconSize}"
+                        Height="{size:IconSize}" Width="{size:IconSize}"
                         IsVisible="{Binding $parent[ToggleButton].IsChecked}"/>
             </Panel>
           </ToggleButton>
@@ -318,7 +320,7 @@
           <Button Theme="{StaticResource PrototypeTextBoxButton}"
                   Command="{Binding $parent[TextBox].Clear}"
                   ClipToBounds="True">
-            <PathIcon Data="{icons:Close}" Height="{theme:IconSize}" Width="{theme:IconSize}"/>
+            <PathIcon Data="{icons:Close}" Height="{size:IconSize}" Width="{size:IconSize}"/>
           </Button>
         </Template>
       </Setter>

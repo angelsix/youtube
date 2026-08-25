@@ -3,6 +3,8 @@
                     xmlns:converters="using:Avalonia.Controls.Converters"
                     xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+                    xmlns:colour="using:AngelSix.ThemeEngine.Colours"
+                    xmlns:size="using:AngelSix.ThemeEngine.Sizes"
                     xmlns:icons="using:AngelSix.ThemeEngine.Icons">
 
   <Design.PreviewWith>
@@ -99,26 +101,26 @@
 
     <!-- Themed defaults for inner template elements (Rule 2: no {theme:...} inside ControlTemplate) -->
     <Style Selector="^ /template/ Viewbox#PART_UpViewbox">
-      <Setter Property="Width" Value="{theme:IconSize}" />
-      <Setter Property="Height" Value="{theme:IconSize}" />
+      <Setter Property="Width" Value="{size:IconSize}" />
+      <Setter Property="Height" Value="{size:IconSize}" />
     </Style>
     <Style Selector="^ /template/ Path#PART_UpPath">
-      <Setter Property="Fill" Value="{theme:AccentBrush Dark1}" />
-      <Setter Property="Width" Value="{theme:IconSize}" />
-      <Setter Property="Height" Value="{theme:IconSize}" />
+      <Setter Property="Fill" Value="{colour:AccentBrush Dark1}" />
+      <Setter Property="Width" Value="{size:IconSize}" />
+      <Setter Property="Height" Value="{size:IconSize}" />
     </Style>
     <Style Selector="^ /template/ Viewbox#PART_DownViewbox">
-      <Setter Property="Width" Value="{theme:IconSize}" />
-      <Setter Property="Height" Value="{theme:IconSize}" />
+      <Setter Property="Width" Value="{size:IconSize}" />
+      <Setter Property="Height" Value="{size:IconSize}" />
     </Style>
     <Style Selector="^ /template/ Path#PART_DownPath">
-      <Setter Property="Fill" Value="{theme:AccentBrush Dark1}" />
-      <Setter Property="Width" Value="{theme:IconSize}" />
-      <Setter Property="Height" Value="{theme:IconSize}" />
+      <Setter Property="Fill" Value="{colour:AccentBrush Dark1}" />
+      <Setter Property="Width" Value="{size:IconSize}" />
+      <Setter Property="Height" Value="{size:IconSize}" />
     </Style>
 
     <Style Selector="^ /template/ RepeatButton:pointerover > Viewbox > Path">
-      <Setter Property="Fill" Value="{theme:AccentBrush Dark1}" />
+      <Setter Property="Fill" Value="{colour:AccentBrush Dark1}" />
     </Style>
 
     <!-- Inner element alignment theming (Rule 12) -->

@@ -50,9 +50,12 @@
 
         <!-- Kind inherits; the accent class does not -->
         <StackPanel theme:BrandAccent.Kind="Subtle" Spacing="20">
-            <ButtonSpinner theme:Accent.Kind="Primary" Content="Inherited Subtle" />
-            <ButtonSpinner Content="No accent class" />
+            <ButtonSpinner Content="Inherited Subtle" />
+            <ButtonSpinner theme:Accent.Kind="Primary" Content="Primary override" />
         </StackPanel>
+        
+        <ButtonSpinner Content="No accent" />
+    
 
         <!-- This app's own style classes, from BrandControls.axaml.
              The hue still comes from Accent.Kind, so .hero serves any accent. -->

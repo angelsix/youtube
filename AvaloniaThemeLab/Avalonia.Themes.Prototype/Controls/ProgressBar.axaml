@@ -2,7 +2,9 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:converters="using:Avalonia.Controls.Converters"
                     xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
-                    xmlns:theme="using:AngelSix.ThemeEngine.Generated">
+                    xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+                    xmlns:colour="using:AngelSix.ThemeEngine.Colours"
+                    xmlns:size="using:AngelSix.ThemeEngine.Sizes">
   <Design.PreviewWith>
     <Border Padding="20">
       <Border.Styles>
@@ -36,12 +38,12 @@
   <ControlTheme x:Key="{x:Type ProgressBar}" TargetType="ProgressBar">
 
     <!-- Visual defaults -->
-    <Setter Property="Foreground" Value="{theme:AccentPrimaryBrush}" />
-    <Setter Property="Background" Value="{theme:AccentBrush Light8}" />
+    <Setter Property="Foreground" Value="{colour:AccentPrimaryBrush}" />
+    <Setter Property="Background" Value="{colour:AccentBrush Light8}" />
     <Setter Property="BorderBrush" Value="Transparent" />
     <Setter Property="BorderThickness" Value="0" />
-    <Setter Property="CornerRadius" Value="{theme:RadiusSm}" />
-    <Setter Property="MinHeight" Value="{theme:SpacingMd}" />
+    <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
+    <Setter Property="MinHeight" Value="{size:SpacingMd}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
     <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
     <Setter Property="Padding" Value="0" />
@@ -135,10 +137,10 @@
 
     <!-- Orientation: dimensions -->
     <Style Selector="^:horizontal">
-      <Setter Property="MinHeight" Value="{theme:SpacingMd}" />
+      <Setter Property="MinHeight" Value="{size:SpacingMd}" />
     </Style>
     <Style Selector="^:vertical">
-      <Setter Property="MinWidth" Value="{theme:SpacingMd}" />
+      <Setter Property="MinWidth" Value="{size:SpacingMd}" />
     </Style>
 
     <!-- Template: vertical layout rotation -->

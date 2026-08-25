@@ -1,7 +1,9 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
-                    xmlns:theme="using:AngelSix.ThemeEngine.Generated">
+                    xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+                    xmlns:colour="using:AngelSix.ThemeEngine.Colours"
+                    xmlns:size="using:AngelSix.ThemeEngine.Sizes">
   <Design.PreviewWith>
     <Border Padding="0">
       <Border.Styles>
@@ -10,8 +12,8 @@
 
       <ListBox>
         <ListBoxItem IsEnabled="False">Disabled</ListBoxItem>
-        <ListBoxItem Background="{theme:OverlayWeakBrush}"
-                     Padding="{theme:SpacingXxl}">
+        <ListBoxItem Background="{colour:OverlayWeakBrush}"
+                     Padding="{size:SpacingXxl}">
           Test
         </ListBoxItem>
         <ListBoxItem>Test</ListBoxItem>
@@ -28,10 +30,10 @@
     <Setter Property="Background" Value="Transparent" />
     <Setter Property="BorderBrush" Value="Transparent" />
     <Setter Property="BorderThickness" Value="0" />
-    <Setter Property="CornerRadius" Value="{theme:RadiusSm}" />
-    <Setter Property="MinHeight" Value="{theme:ControlHeightSm}" />
-    <Setter Property="MinWidth" Value="{theme:ControlMinWidth}" />
-    <Setter Property="Padding" Value="{theme:Edges Left={theme:SpacingXxl}, Top={theme:SpacingXl}, Right={theme:SpacingXxl}, Bottom={theme:SpacingXl}}" />
+    <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
+    <Setter Property="MinHeight" Value="{size:ControlHeightSm}" />
+    <Setter Property="MinWidth" Value="{size:ControlMinWidth}" />
+    <Setter Property="Padding" Value="{size:Edges Left={size:SpacingXxl}, Top={size:SpacingXl}, Right={size:SpacingXxl}, Bottom={size:SpacingXl}}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
     <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
     <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
@@ -56,45 +58,45 @@
 
     <!-- Hover state -->
     <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="Background" Value="{theme:AccentBrush Light8}" />
+      <Setter Property="Background" Value="{colour:AccentBrush Light8}" />
     </Style>
 
     <!-- Pressed state -->
     <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="Background" Value="{theme:AccentBrush Light6}" />
+      <Setter Property="Background" Value="{colour:AccentBrush Light6}" />
     </Style>
 
     <!-- Disabled state -->
     <Style Selector="^:disabled /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="Foreground" Value="{theme:AccentBrush Light2}" />
+      <Setter Property="Foreground" Value="{colour:AccentBrush Light2}" />
     </Style>
 
     <!-- Focus state -->
     <Style Selector="^:focus-visible">
-      <Setter Property="BorderBrush" Value="{theme:AccentFocusBrush}" />
-      <Setter Property="BorderThickness" Value="{theme:ThicknessMd}" />
+      <Setter Property="BorderBrush" Value="{colour:AccentFocusBrush}" />
+      <Setter Property="BorderThickness" Value="{size:ThicknessMd}" />
     </Style>
 
     <!-- Selected state -->
     <Style Selector="^:selected">
 
       <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
-        <Setter Property="Background" Value="{theme:AccentPrimaryBrush}" />
+        <Setter Property="Background" Value="{colour:AccentPrimaryBrush}" />
       </Style>
 
       <!-- Selected unfocused state -->
       <Style Selector="^:not(:focus) /template/ ContentPresenter#PART_ContentPresenter">
-        <Setter Property="Background" Value="{theme:AccentPrimaryBrush}" />
+        <Setter Property="Background" Value="{colour:AccentPrimaryBrush}" />
       </Style>
 
       <!-- Selected hover state -->
       <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
-        <Setter Property="Background" Value="{theme:AccentPrimaryBrush}" />
+        <Setter Property="Background" Value="{colour:AccentPrimaryBrush}" />
       </Style>
 
       <!-- Selected pressed state -->
       <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter">
-        <Setter Property="Background" Value="{theme:AccentPrimaryBrush}" />
+        <Setter Property="Background" Value="{colour:AccentPrimaryBrush}" />
       </Style>
     </Style>
 

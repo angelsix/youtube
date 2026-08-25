@@ -1,7 +1,9 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
-                    xmlns:theme="using:AngelSix.ThemeEngine.Generated">
+                    xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+                    xmlns:colour="using:AngelSix.ThemeEngine.Colours"
+                    xmlns:size="using:AngelSix.ThemeEngine.Sizes">
   <Design.PreviewWith>
     <Border Width="400" Height="400">
       <Border.Styles>
@@ -24,16 +26,16 @@
   <!-- Backgrounds -->
   <SolidColorBrush x:Key="TabbedPageTabItemHeaderBackgroundUnselected" Color="Transparent" />
   <SolidColorBrush x:Key="TabbedPageTabItemHeaderBackgroundSelected" Color="Transparent" />
-  <SolidColorBrush x:Key="TabbedPageTabItemHeaderBackgroundUnselectedPointerOver" Color="{theme:AccentNeutral}" />
+  <SolidColorBrush x:Key="TabbedPageTabItemHeaderBackgroundUnselectedPointerOver" Color="{colour:AccentNeutral}" />
   <SolidColorBrush x:Key="TabbedPageTabItemHeaderBackgroundSelectedPointerOver" Color="Transparent" />
-  <SolidColorBrush x:Key="TabbedPageTabItemHeaderBackgroundUnselectedPressed" Color="{theme:AccentNeutral}" />
+  <SolidColorBrush x:Key="TabbedPageTabItemHeaderBackgroundUnselectedPressed" Color="{colour:AccentNeutral}" />
   <SolidColorBrush x:Key="TabbedPageTabItemHeaderBackgroundSelectedPressed" Color="Transparent" />
   <SolidColorBrush x:Key="TabbedPageTabItemHeaderBackgroundDisabled" Color="Transparent" />
 
   <!-- Foregrounds (override via TabbedPageTabItemHeaderForegroundSelected / TabbedPageTabItemHeaderForegroundUnselected resources) -->
-  <SolidColorBrush x:Key="TabbedPageTabItemHeaderForegroundUnselected" Color="{theme:AccentNeutral}" />
-  <SolidColorBrush x:Key="TabbedPageTabItemHeaderForegroundSelected" Color="{theme:AccentPrimary}" />
-  <SolidColorBrush x:Key="TabbedPageTabItemHeaderForegroundDisabled" Color="{theme:AccentNeutral}" />
+  <SolidColorBrush x:Key="TabbedPageTabItemHeaderForegroundUnselected" Color="{colour:AccentNeutral}" />
+  <SolidColorBrush x:Key="TabbedPageTabItemHeaderForegroundSelected" Color="{colour:AccentPrimary}" />
+  <SolidColorBrush x:Key="TabbedPageTabItemHeaderForegroundDisabled" Color="{colour:AccentNeutral}" />
 
 
   <!-- Tab item sizing & shape -->
@@ -99,12 +101,12 @@
 
   <!-- TabbedPage TabItem theme -->
   <ControlTheme x:Key="TabbedPageTabItemTheme" TargetType="TabItem">
-    <Setter Property="FontSize" Value="{theme:FontSizeXxl}" />
+    <Setter Property="FontSize" Value="{size:FontSizeXxl}" />
     <Setter Property="Background" Value="{DynamicResource TabbedPageTabItemHeaderBackgroundUnselected}" />
     <Setter Property="Foreground" Value="{DynamicResource TabbedPageTabItemHeaderForegroundUnselected}" />
-    <Setter Property="Padding" Value="{theme:Edges Horizontal={theme:SpacingXl}, Vertical={theme:SpacingMd}}" />
+    <Setter Property="Padding" Value="{size:Edges Horizontal={size:SpacingXl}, Vertical={size:SpacingMd}}" />
     <Setter Property="Margin" Value="0" />
-    <Setter Property="MinHeight" Value="{theme:ControlHeightLg}" />
+    <Setter Property="MinHeight" Value="{size:ControlHeightLg}" />
     <Setter Property="CornerRadius" Value="0" />
     <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
     <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
@@ -174,12 +176,12 @@
     <Style Selector="^[TabStripPlacement=Top] /template/ ContentPresenter#PART_SelectedPipe">
       <!-- Theme Exception: the selected pipe sits at the bottom edge of the tab when the strip is on top; the literal is the placement, not a theme layout choice. Luke to validate reason -->
       <Setter Property="VerticalAlignment" Value="Bottom" />
-      <Setter Property="Height" Value="{theme:SpacingSm}" />
+      <Setter Property="Height" Value="{size:SpacingSm}" />
     </Style>
     <Style Selector="^[TabStripPlacement=Bottom] /template/ ContentPresenter#PART_SelectedPipe">
       <!-- Theme Exception: the selected pipe sits at the top edge of the tab when the strip is on the bottom; the literal is the placement, not a theme layout choice. Luke to validate reason -->
       <Setter Property="VerticalAlignment" Value="Top" />
-      <Setter Property="Height" Value="{theme:SpacingSm}" />
+      <Setter Property="Height" Value="{size:SpacingSm}" />
     </Style>
     <Style Selector="^[TabStripPlacement=Right]">
       <Setter Property="IndicatorTemplate">
@@ -187,8 +189,8 @@
           <Border Background="{Binding $parent[TabItem].Foreground}"
                   CornerRadius="0"
                   Margin="0"
-                  Width="{theme:SpacingSm}"
-                  Height="{theme:IconSize}" />
+                  Width="{size:SpacingSm}"
+                  Height="{size:IconSize}" />
         </DataTemplate>
       </Setter>
     </Style>
@@ -203,8 +205,8 @@
           <Border Background="{Binding $parent[TabItem].Foreground}"
                   CornerRadius="0"
                   Margin="0"
-                  Width="{theme:SpacingSm}"
-                  Height="{theme:IconSize}" />
+                  Width="{size:SpacingSm}"
+                  Height="{size:IconSize}" />
         </DataTemplate>
       </Setter>
     </Style>
@@ -242,26 +244,26 @@
 
     <!-- Focus visible -->
     <Style Selector="^:focus-visible /template/ Border#PART_LayoutRoot">
-      <Setter Property="BorderBrush" Value="{theme:AccentBrush Dark1}" />
-      <Setter Property="BorderThickness" Value="{theme:ThicknessMd}" />
+      <Setter Property="BorderBrush" Value="{colour:AccentBrush Dark1}" />
+      <Setter Property="BorderThickness" Value="{size:ThicknessMd}" />
     </Style>
 
     <!-- Themed properties moved out of ControlTemplate -->
     <Style Selector="^ /template/ StackPanel#PART_HeaderPanel">
-      <Setter Property="Spacing" Value="{theme:SpacingMd}" />
+      <Setter Property="Spacing" Value="{size:SpacingMd}" />
     </Style>
     <Style Selector="^ /template/ ContentPresenter#PART_IconPresenter">
-      <Setter Property="Width" Value="{theme:IconSize}" />
-      <Setter Property="Height" Value="{theme:IconSize}" />
+      <Setter Property="Width" Value="{size:IconSize}" />
+      <Setter Property="Height" Value="{size:IconSize}" />
     </Style>
     <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="FontSize" Value="{theme:FontSizeSm}" />
+      <Setter Property="FontSize" Value="{size:FontSizeSm}" />
     </Style>
   </ControlTheme>
 
   <ControlTheme x:Key="{x:Type TabbedPage}" TargetType="TabbedPage">
-    <Setter Property="Background" Value="{theme:AccentBrush Light10}" />
-    <Setter Property="Foreground" Value="{theme:AccentBrush Dark1}" />
+    <Setter Property="Background" Value="{colour:AccentBrush Light10}" />
+    <Setter Property="Foreground" Value="{colour:AccentBrush Dark1}" />
     <Setter Property="Template">
       <ControlTemplate>
         <!-- Layout root for the tabbed page -->

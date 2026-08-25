@@ -4,6 +4,8 @@
                     xmlns:collections="using:System.Collections"
                     xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+                    xmlns:colour="using:AngelSix.ThemeEngine.Colours"
+                    xmlns:size="using:AngelSix.ThemeEngine.Sizes"
                     xmlns:icons="using:AngelSix.ThemeEngine.Icons">
   <Design.PreviewWith>
     <Border Padding="20">
@@ -70,7 +72,7 @@
 
     <!-- Message spacing -->
     <Style Selector="^ /template/ ContentControl#PART_ErrorIndicator">
-      <Setter Property="Margin" Value="{theme:Edges Top={theme:SpacingMd}}" />
+      <Setter Property="Margin" Value="{size:Edges Top={size:SpacingMd}}" />
     </Style>
 
     <!-- Error message: the glyph and the text of each error, in the error colour -->
@@ -81,16 +83,16 @@
                       Background="Transparent"
                       BorderThickness="0"
                       Padding="0"
-                      Foreground="{theme:AccentErrorBrush}">
+                      Foreground="{colour:AccentErrorBrush}">
           <ItemsControl.ItemTemplate>
             <DataTemplate>
               <DockPanel LastChildFill="True">
                 <PathIcon DockPanel.Dock="Left"
                           Data="{icons:Error}"
                           VerticalAlignment="Top"
-                          Width="{theme:IconSize}"
-                          Height="{theme:IconSize}"
-                          Margin="{theme:Edges Right={theme:SpacingMd}}" />
+                          Width="{size:IconSize}"
+                          Height="{size:IconSize}"
+                          Margin="{size:Edges Right={size:SpacingMd}}" />
                 <TextBlock Text="{Binding Converter={x:Static prototype:ValidationErrorMessageConverter.Instance}}"
                            ToolTip.Tip="{Binding Converter={x:Static prototype:ValidationErrorMessageConverter.Instance}}"
                            TextWrapping="Wrap"

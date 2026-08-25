@@ -3,6 +3,8 @@
                     xmlns:sys="using:System"
                     xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+                    xmlns:colour="using:AngelSix.ThemeEngine.Colours"
+                    xmlns:size="using:AngelSix.ThemeEngine.Sizes"
                     xmlns:icons="using:AngelSix.ThemeEngine.Icons">
   <Design.PreviewWith>
     <Border Padding="20">
@@ -61,21 +63,21 @@
   <ControlTheme x:Key="{x:Type ComboBox}" TargetType="ComboBox">
 
     <!-- Visual defaults -->
-    <Setter Property="Padding" Value="{theme:Edges Left={theme:SpacingXxl}, Top={theme:SpacingMd}, Bottom={theme:SpacingXl}}" />
+    <Setter Property="Padding" Value="{size:Edges Left={size:SpacingXxl}, Top={size:SpacingMd}, Bottom={size:SpacingXl}}" />
     <Setter Property="FocusAdorner" Value="{x:Null}" />
     <Setter Property="MaxDropDownHeight" Value="504" />
-    <Setter Property="Background" Value="{theme:AccentBrush Light10}" />
-    <Setter Property="BorderBrush" Value="{theme:AccentBorderBrush}" />
-    <Setter Property="BorderThickness" Value="{theme:ThicknessSm}" />
-    <Setter Property="CornerRadius" Value="{theme:RadiusSm}" />
+    <Setter Property="Background" Value="{colour:AccentBrush Light10}" />
+    <Setter Property="BorderBrush" Value="{colour:AccentBorderBrush}" />
+    <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
+    <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
     <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
     <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
-    <Setter Property="MinHeight" Value="{theme:ControlHeightSm}" />
+    <Setter Property="MinHeight" Value="{size:ControlHeightSm}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
     <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
     <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
     <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
-    <Setter Property="PlaceholderForeground" Value="{theme:AccentBrush Light2}" />
+    <Setter Property="PlaceholderForeground" Value="{colour:AccentBrush Light2}" />
 
     <!-- Template -->
     <Setter Property="Template">
@@ -186,68 +188,68 @@
 
     <!-- Template element defaults -->
     <Style Selector="^ /template/ TextBox#PART_EditableTextBox">
-      <Setter Property="BorderThickness" Value="{theme:ThicknessSm}" />
+      <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
     </Style>
 
     <Style Selector="^ /template/ Border#Background">
-      <Setter Property="MinWidth" Value="{theme:ControlMinWidth}" />
+      <Setter Property="MinWidth" Value="{size:ControlMinWidth}" />
     </Style>
 
     <Style Selector="^ /template/ Border#HighlightBackground">
-      <Setter Property="Background" Value="{theme:AccentPrimaryBrush}" />
-      <Setter Property="BorderBrush" Value="{theme:AccentBorderBrush}" />
+      <Setter Property="Background" Value="{colour:AccentPrimaryBrush}" />
+      <Setter Property="BorderBrush" Value="{colour:AccentBorderBrush}" />
     </Style>
 
     <Style Selector="^ /template/ Border#DropDownOverlay">
-      <Setter Property="Width" Value="{theme:ControlHeightSm}" />
-      <Setter Property="Margin" Value="{theme:Edges Top={theme:BaseSize}, Right={theme:BaseSize}, Bottom={theme:BaseSize}}" />
+      <Setter Property="Width" Value="{size:ControlHeightSm}" />
+      <Setter Property="Margin" Value="{size:Edges Top={size:BaseSize}, Right={size:BaseSize}, Bottom={size:BaseSize}}" />
     </Style>
 
     <Style Selector="^ /template/ PathIcon#DropDown">
-      <Setter Property="Height" Value="{theme:IconSize}" />
-      <Setter Property="Width" Value="{theme:IconSize}" />
-      <Setter Property="Margin" Value="{theme:Edges Right={theme:SpacingXxl}}" />
-      <Setter Property="Foreground" Value="{theme:AccentBrush Light2}" />
+      <Setter Property="Height" Value="{size:IconSize}" />
+      <Setter Property="Width" Value="{size:IconSize}" />
+      <Setter Property="Margin" Value="{size:Edges Right={size:SpacingXxl}}" />
+      <Setter Property="Foreground" Value="{colour:AccentBrush Light2}" />
     </Style>
 
     <Style Selector="^ /template/ Border#PopupBorder">
-      <Setter Property="Padding" Value="{theme:Edges All={theme:SpacingSm}}" />
-      <Setter Property="Background" Value="{theme:AccentBrush Light10}" />
-      <Setter Property="BorderBrush" Value="{theme:AccentBorderBrush}" />
-      <Setter Property="BorderThickness" Value="{theme:ThicknessSm}" />
-      <Setter Property="CornerRadius" Value="{theme:RadiusMd}" />
+      <Setter Property="Padding" Value="{size:Edges All={size:SpacingSm}}" />
+      <Setter Property="Background" Value="{colour:AccentBrush Light10}" />
+      <Setter Property="BorderBrush" Value="{colour:AccentBorderBrush}" />
+      <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
+      <Setter Property="CornerRadius" Value="{size:RadiusMd}" />
     </Style>
 
     <Style Selector="^ /template/ ItemsPresenter#PART_ItemsPresenter">
-      <Setter Property="Margin" Value="{theme:Edges Vertical={theme:SpacingMd}}" />
+      <Setter Property="Margin" Value="{size:Edges Vertical={size:SpacingMd}}" />
     </Style>
 
     <!-- Hover state -->
     <Style Selector="^:pointerover /template/ Border#Background">
-      <Setter Property="Background" Value="{theme:AccentBrush Light8}" />
-      <Setter Property="BorderBrush" Value="{theme:AccentBorderBrush}" />
+      <Setter Property="Background" Value="{colour:AccentBrush Light8}" />
+      <Setter Property="BorderBrush" Value="{colour:AccentBorderBrush}" />
     </Style>
 
     <!-- Pressed state -->
     <Style Selector="^:pressed /template/ Border#Background">
-      <Setter Property="Background" Value="{theme:AccentBrush Light6}" />
-      <Setter Property="BorderBrush" Value="{theme:AccentBorderBrush}" />
+      <Setter Property="Background" Value="{colour:AccentBrush Light6}" />
+      <Setter Property="BorderBrush" Value="{colour:AccentBorderBrush}" />
     </Style>
 
     <!-- Disabled state -->
     <Style Selector="^:disabled">
       <Style Selector="^ /template/ Border#Background">
-        <Setter Property="Background" Value="{theme:OverlayWeakBrush}" />
-        <Setter Property="BorderBrush" Value="{theme:AccentBorderBrush}" />
+        <Setter Property="Background" Value="{colour:OverlayWeakBrush}" />
+        <Setter Property="BorderBrush" Value="{colour:AccentBorderBrush}" />
       </Style>
       <Style Selector="^ /template/ ContentControl#ContentPresenter">
-        <Setter Property="Foreground" Value="{theme:AccentBrush Light2}" />
+        <Setter Property="Foreground" Value="{colour:AccentBrush Light2}" />
       </Style>
       <Style Selector="^ /template/ TextBlock#PlaceholderTextBlock">
-        <Setter Property="Foreground" Value="{theme:AccentBrush Light2}" />
+        <Setter Property="Foreground" Value="{colour:AccentBrush Light2}" />
       </Style>
       <Style Selector="^ /template/ PathIcon#DropDown">
-        <Setter Property="Foreground" Value="{theme:AccentBrush Light2}" />
+        <Setter Property="Foreground" Value="{colour:AccentBrush Light2}" />
       </Style>
     </Style>
 
@@ -262,7 +264,7 @@
       <Style Selector="^ /template/ TextBlock#PlaceholderTextBlock">
       </Style>
       <Style Selector="^ /template/ PathIcon#DropDown">
-        <Setter Property="Foreground" Value="{theme:AccentBrush Light2}" />
+        <Setter Property="Foreground" Value="{colour:AccentBrush Light2}" />
       </Style>
     </Style>
 
@@ -273,13 +275,13 @@
       <Style Selector="^ /template/ TextBlock#PlaceholderTextBlock">
       </Style>
       <Style Selector="^ /template/ PathIcon#DropDown">
-        <Setter Property="Foreground" Value="{theme:AccentBrush Light2}" />
+        <Setter Property="Foreground" Value="{colour:AccentBrush Light2}" />
       </Style>
     </Style>
 
     <!-- Error state -->
     <Style Selector="^:error /template/ Border#Background">
-      <Setter Property="BorderBrush" Value="{theme:AccentErrorBrush}" />
+      <Setter Property="BorderBrush" Value="{colour:AccentErrorBrush}" />
     </Style>
 
     <!-- Editable mode -->

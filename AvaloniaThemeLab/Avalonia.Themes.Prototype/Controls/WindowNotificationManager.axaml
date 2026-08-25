@@ -2,7 +2,9 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     x:DataType="WindowNotificationManager"
                     xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
-                    xmlns:theme="using:AngelSix.ThemeEngine.Generated">
+                    xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+                    xmlns:colour="using:AngelSix.ThemeEngine.Colours"
+                    xmlns:size="using:AngelSix.ThemeEngine.Sizes">
   <ControlTheme x:Key="{x:Type WindowNotificationManager}" TargetType="WindowNotificationManager">
     <Setter Property="Margin" Value="0 0" />
     <Setter Property="Template">
@@ -13,9 +15,9 @@
             <DataTemplate DataType="INotification">
               <!-- One notification: its title above its message -->
               <StackPanel
-                  Margin="{theme:Edges All={theme:SpacingXxl}}"
-                  Spacing="{theme:SpacingXl}"
-                  TextElement.Foreground="{theme:AccentBrush Dark1}">
+                  Margin="{size:Edges All={size:SpacingXxl}}"
+                  Spacing="{size:SpacingXl}"
+                  TextElement.Foreground="{colour:AccentBrush Dark1}">
                 <!-- The notification's title -->
                 <TextBlock Text="{Binding Title}"
                            FontWeight="{theme:FontWeightSemiBold}" />
@@ -23,14 +25,14 @@
                 <TextBlock MaxHeight="80"
                            Text="{Binding Message}"
                            TextWrapping="Wrap"
-                           Margin="{theme:Edges Right={theme:SpacingXxl}}" />
+                           Margin="{size:Edges Right={size:SpacingXxl}}" />
               </StackPanel>
             </DataTemplate>
             <DataTemplate DataType="x:String">
               <!-- A plain text notification -->
               <TextBlock Text="{Binding}"
-                         Margin="{theme:Edges All={theme:SpacingXxl}}"
-                         Foreground="{theme:AccentBrush Dark1}" />
+                         Margin="{size:Edges All={size:SpacingXxl}}"
+                         Foreground="{colour:AccentBrush Dark1}" />
             </DataTemplate>
           </ReversibleStackPanel.DataTemplates>
         </ReversibleStackPanel>

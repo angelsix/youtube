@@ -1,9 +1,11 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
-                    xmlns:theme="using:AngelSix.ThemeEngine.Generated">
+                    xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+                    xmlns:colour="using:AngelSix.ThemeEngine.Colours"
+                    xmlns:size="using:AngelSix.ThemeEngine.Sizes">
   <Design.PreviewWith>
-    <Border Padding="0" Background="{theme:AccentBrush Light10}">
+    <Border Padding="0" Background="{colour:AccentBrush Light10}">
       <Border.Styles>
         <prototype:PrototypeTheme />
       </Border.Styles>
@@ -13,12 +15,12 @@
   <ControlTheme x:Key="{x:Type NotificationCard}" TargetType="NotificationCard">
     <!-- Visual defaults -->
     <Setter Property="UseLayoutRounding" Value="True"/>
-    <Setter Property="Width" Value="{theme:Scaled Value={theme:ControlMinWidth}, By=5}"/>
+    <Setter Property="Width" Value="{size:Scaled Value={size:ControlMinWidth}, By=5}"/>
     <Setter Property="RenderTransformOrigin" Value="50%,75%"/>
     <Setter Property="BorderThickness" Value="0" />
-    <Setter Property="Background" Value="{theme:AccentBrush Light10}" />
-    <Setter Property="Foreground" Value="{theme:AccentBrush Dark1}" />
-    <Setter Property="CornerRadius" Value="{theme:RadiusSm}" />
+    <Setter Property="Background" Value="{colour:AccentBrush Light10}" />
+    <Setter Property="Foreground" Value="{colour:AccentBrush Dark1}" />
+    <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
     <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
     <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
@@ -107,38 +109,38 @@
     </Style>
 
     <Style Selector="^:information /template/ Panel#PART_HeaderBar">
-      <Setter Property="Background" Value="{theme:AccentInfoBrush}"/>
+      <Setter Property="Background" Value="{colour:AccentInfoBrush}"/>
     </Style>
     <Style Selector="^:success /template/ Panel#PART_HeaderBar">
-      <Setter Property="Background" Value="{theme:AccentSuccessBrush}"/>
+      <Setter Property="Background" Value="{colour:AccentSuccessBrush}"/>
     </Style>
     <Style Selector="^:warning /template/ Panel#PART_HeaderBar">
-      <Setter Property="Background" Value="{theme:AccentWarningBrush}"/>
+      <Setter Property="Background" Value="{colour:AccentWarningBrush}"/>
     </Style>
     <Style Selector="^:error /template/ Panel#PART_HeaderBar">
-      <Setter Property="Background" Value="{theme:AccentErrorBrush}"/>
+      <Setter Property="Background" Value="{colour:AccentErrorBrush}"/>
     </Style>
 
     <!-- Shadow border (elevation behind card) -->
     <Style Selector="^ /template/ Border#PART_ShadowBorder">
-      <Setter Property="Background" Value="{theme:OverlayMediumBrush}" />
-      <Setter Property="Margin" Value="{theme:Edges Left={theme:SpacingLg}, Top={theme:SpacingLg}, Right={theme:SpacingLg}, Bottom={theme:SpacingXxl}}" />
+      <Setter Property="Background" Value="{colour:OverlayMediumBrush}" />
+      <Setter Property="Margin" Value="{size:Edges Left={size:SpacingLg}, Top={size:SpacingLg}, Right={size:SpacingLg}, Bottom={size:SpacingXxl}}" />
     </Style>
 
     <!-- Outer border margin (offset from edge for shadow visibility) -->
     <Style Selector="^ /template/ Border#PART_OuterBorder">
-      <Setter Property="Margin" Value="{theme:Edges Left={theme:SpacingLg}, Top={theme:SpacingLg}, Right={theme:SpacingLg}, Bottom={theme:SpacingXxl}}" />
+      <Setter Property="Margin" Value="{size:Edges Left={size:SpacingLg}, Top={size:SpacingLg}, Right={size:SpacingLg}, Bottom={size:SpacingXxl}}" />
     </Style>
 
     <!-- Header bar default (height and neutral background) -->
     <Style Selector="^ /template/ Panel#PART_HeaderBar">
-      <Setter Property="Height" Value="{theme:ThicknessXxl}" />
-      <Setter Property="Background" Value="{theme:AccentBrush Light2}" />
+      <Setter Property="Height" Value="{size:ThicknessXxl}" />
+      <Setter Property="Background" Value="{colour:AccentBrush Light2}" />
     </Style>
 
     <!-- Content presenter minimum height -->
     <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="MinHeight" Value="{theme:Scaled Value={theme:ControlHeightMd}, By=2}" />
+      <Setter Property="MinHeight" Value="{size:Scaled Value={size:ControlHeightMd}, By=2}" />
     </Style>
   </ControlTheme>
 </ResourceDictionary>

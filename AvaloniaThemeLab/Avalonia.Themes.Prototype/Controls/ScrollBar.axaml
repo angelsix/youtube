@@ -2,6 +2,8 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+                    xmlns:colour="using:AngelSix.ThemeEngine.Colours"
+                    xmlns:size="using:AngelSix.ThemeEngine.Sizes"
                     xmlns:icons="using:AngelSix.ThemeEngine.Icons">
   <Design.PreviewWith>
     <Border Padding="20">
@@ -31,11 +33,11 @@
   <!-- ScrollBar Thumb sub-theme -->
   <ControlTheme x:Key="PrototypeScrollBarThumb" TargetType="Thumb">
     <!-- Visual defaults -->
-    <Setter Property="Background" Value="{theme:AccentBrush Light2}"/>
-    <Setter Property="Foreground" Value="{theme:AccentBrush Dark1}" />
-    <Setter Property="BorderBrush" Value="{theme:AccentBrush Light2}"/>
-    <Setter Property="BorderThickness" Value="{theme:ThicknessSm}"/>
-    <Setter Property="CornerRadius" Value="{theme:RadiusSm}"/>
+    <Setter Property="Background" Value="{colour:AccentBrush Light2}"/>
+    <Setter Property="Foreground" Value="{colour:AccentBrush Dark1}" />
+    <Setter Property="BorderBrush" Value="{colour:AccentBrush Light2}"/>
+    <Setter Property="BorderThickness" Value="{size:ThicknessSm}"/>
+    <Setter Property="CornerRadius" Value="{size:RadiusSm}"/>
 
     <!-- Template -->
     <Setter Property="Template">
@@ -60,12 +62,12 @@
 
     <!-- Hover state -->
     <Style Selector="^:pointerover /template/ Border">
-      <Setter Property="Background" Value="{theme:AccentBrush Light2}" />
+      <Setter Property="Background" Value="{colour:AccentBrush Light2}" />
     </Style>
 
     <!-- Pressed state -->
     <Style Selector="^:pressed  /template/ Border">
-      <Setter Property="Background" Value="{theme:AccentBrush Light2}" />
+      <Setter Property="Background" Value="{colour:AccentBrush Light2}" />
     </Style>
 
     <!-- Disabled state -->
@@ -77,11 +79,11 @@
   <!-- ScrollBar Page Button sub-theme -->
   <ControlTheme x:Key="PrototypeScrollBarPageButton" TargetType="RepeatButton">
     <!-- Visual defaults -->
-    <Setter Property="Background" Value="{theme:AccentBrush Light10}"/>
-    <Setter Property="Foreground" Value="{theme:AccentBrush Dark1}" />
-    <Setter Property="BorderBrush" Value="{theme:AccentBrush Light2}"/>
-    <Setter Property="BorderThickness" Value="{theme:ThicknessSm}"/>
-    <Setter Property="CornerRadius" Value="{theme:RadiusSm}"/>
+    <Setter Property="Background" Value="{colour:AccentBrush Light10}"/>
+    <Setter Property="Foreground" Value="{colour:AccentBrush Dark1}" />
+    <Setter Property="BorderBrush" Value="{colour:AccentBrush Light2}"/>
+    <Setter Property="BorderThickness" Value="{size:ThicknessSm}"/>
+    <Setter Property="CornerRadius" Value="{size:RadiusSm}"/>
     <Setter Property="VerticalAlignment" Value="{theme:ContainerVerticalAlignment}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
     <Setter Property="Opacity" Value="0" />
@@ -101,13 +103,13 @@
   <!-- ScrollBar Line Button sub-theme -->
   <ControlTheme x:Key="PrototypeScrollBarLineButton" TargetType="RepeatButton">
     <!-- Visual defaults -->
-    <Setter Property="Background" Value="{theme:AccentBrush Light10}"/>
-    <Setter Property="Foreground" Value="{theme:AccentBrush Dark1}" />
-    <Setter Property="BorderBrush" Value="{theme:AccentBrush Light2}"/>
-    <Setter Property="BorderThickness" Value="{theme:ThicknessSm}"/>
-    <Setter Property="CornerRadius" Value="{theme:RadiusSm}"/>
+    <Setter Property="Background" Value="{colour:AccentBrush Light10}"/>
+    <Setter Property="Foreground" Value="{colour:AccentBrush Dark1}" />
+    <Setter Property="BorderBrush" Value="{colour:AccentBrush Light2}"/>
+    <Setter Property="BorderThickness" Value="{size:ThicknessSm}"/>
+    <Setter Property="CornerRadius" Value="{size:RadiusSm}"/>
     <Setter Property="Opacity" Value="0" />
-    <Setter Property="TextElement.Foreground" Value="{theme:AccentBrush Dark1}"/>
+    <Setter Property="TextElement.Foreground" Value="{colour:AccentBrush Dark1}"/>
 
     <!-- Template -->
     <Setter Property="Template">
@@ -129,27 +131,27 @@
 
     <!-- Hover state -->
     <Style Selector="^:pointerover">
-      <Setter Property="TextElement.Foreground" Value="{theme:AccentBrush Dark1}"/>
+      <Setter Property="TextElement.Foreground" Value="{colour:AccentBrush Dark1}"/>
 
       <Style Selector="^ /template/ ContentPresenter" >
-        <Setter Property="Background" Value="{theme:OverlayWeakBrush}" />
+        <Setter Property="Background" Value="{colour:OverlayWeakBrush}" />
         <Setter Property="BorderBrush" Value="Transparent" />
       </Style>
     </Style>
 
     <!-- Pressed state -->
     <Style Selector="^:pressed">
-      <Setter Property="TextElement.Foreground" Value="{theme:AccentBrush Light10}"/>
+      <Setter Property="TextElement.Foreground" Value="{colour:AccentBrush Light10}"/>
 
       <Style Selector="^ /template/ ContentPresenter" >
-        <Setter Property="Background" Value="{theme:AccentBrush Light2}" />
+        <Setter Property="Background" Value="{colour:AccentBrush Light2}" />
         <Setter Property="BorderBrush" Value="Transparent" />
       </Style>
     </Style>
 
     <!-- Disabled state -->
     <Style Selector="^:disabled">
-      <Setter Property="TextElement.Foreground" Value="{theme:OverlayWeakBrush}"/>
+      <Setter Property="TextElement.Foreground" Value="{colour:OverlayWeakBrush}"/>
 
       <Style Selector="^ /template/ ContentPresenter" >
         <Setter Property="Background" Value="Transparent" />
@@ -161,13 +163,13 @@
   <!-- ScrollBar main theme -->
   <ControlTheme x:Key="{x:Type ScrollBar}" TargetType="ScrollBar">
     <!-- Visual defaults -->
-    <Setter Property="MinWidth" Value="{theme:ControlHeightSm}" />
-    <Setter Property="MinHeight" Value="{theme:ControlHeightSm}" />
-    <Setter Property="Background" Value="{theme:AccentBrush Light10}" />
-    <Setter Property="Foreground" Value="{theme:AccentBrush Dark1}" />
-    <Setter Property="BorderBrush" Value="{theme:AccentBrush Light2}" />
-    <Setter Property="BorderThickness" Value="{theme:ThicknessSm}" />
-    <Setter Property="CornerRadius" Value="{theme:RadiusSm}" />
+    <Setter Property="MinWidth" Value="{size:ControlHeightSm}" />
+    <Setter Property="MinHeight" Value="{size:ControlHeightSm}" />
+    <Setter Property="Background" Value="{colour:AccentBrush Light10}" />
+    <Setter Property="Foreground" Value="{colour:AccentBrush Dark1}" />
+    <Setter Property="BorderBrush" Value="{colour:AccentBrush Light2}" />
+    <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
+    <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
 
     <!-- Vertical template -->
     <Style Selector="^:vertical">
@@ -346,52 +348,52 @@
 
     <!-- Default template element styles — vertical orientation -->
     <Style Selector="^:vertical /template/ Rectangle#TrackRect">
-      <Setter Property="Fill" Value="{theme:OverlayWeakBrush}" />
+      <Setter Property="Fill" Value="{colour:OverlayWeakBrush}" />
     </Style>
     <Style Selector="^:vertical /template/ RepeatButton#PART_LineUpButton">
-      <Setter Property="MinWidth" Value="{theme:IconSize}" />
-      <Setter Property="Height" Value="{theme:IconSize}" />
+      <Setter Property="MinWidth" Value="{size:IconSize}" />
+      <Setter Property="Height" Value="{size:IconSize}" />
     </Style>
     <Style Selector="^:vertical /template/ PathIcon#PART_LineUpIcon">
-      <Setter Property="Width" Value="{theme:IconSize}" />
-      <Setter Property="Height" Value="{theme:IconSize}" />
+      <Setter Property="Width" Value="{size:IconSize}" />
+      <Setter Property="Height" Value="{size:IconSize}" />
     </Style>
     <Style Selector="^:vertical /template/ Thumb#PART_Thumb">
-      <Setter Property="Width" Value="{theme:IconSize}" />
-      <Setter Property="MinHeight" Value="{theme:IconSize}" />
+      <Setter Property="Width" Value="{size:IconSize}" />
+      <Setter Property="MinHeight" Value="{size:IconSize}" />
     </Style>
     <Style Selector="^:vertical /template/ RepeatButton#PART_LineDownButton">
-      <Setter Property="MinWidth" Value="{theme:IconSize}" />
-      <Setter Property="Height" Value="{theme:IconSize}" />
+      <Setter Property="MinWidth" Value="{size:IconSize}" />
+      <Setter Property="Height" Value="{size:IconSize}" />
     </Style>
     <Style Selector="^:vertical /template/ PathIcon#PART_LineDownIcon">
-      <Setter Property="Width" Value="{theme:IconSize}" />
-      <Setter Property="Height" Value="{theme:IconSize}" />
+      <Setter Property="Width" Value="{size:IconSize}" />
+      <Setter Property="Height" Value="{size:IconSize}" />
     </Style>
 
     <!-- Default template element styles — horizontal orientation -->
     <Style Selector="^:horizontal /template/ Rectangle#TrackRect">
-      <Setter Property="Fill" Value="{theme:OverlayWeakBrush}" />
+      <Setter Property="Fill" Value="{colour:OverlayWeakBrush}" />
     </Style>
     <Style Selector="^:horizontal /template/ RepeatButton#PART_LineUpButton">
-      <Setter Property="MinHeight" Value="{theme:IconSize}" />
-      <Setter Property="Width" Value="{theme:IconSize}" />
+      <Setter Property="MinHeight" Value="{size:IconSize}" />
+      <Setter Property="Width" Value="{size:IconSize}" />
     </Style>
     <Style Selector="^:horizontal /template/ PathIcon#PART_LineUpIcon">
-      <Setter Property="Width" Value="{theme:IconSize}" />
-      <Setter Property="Height" Value="{theme:IconSize}" />
+      <Setter Property="Width" Value="{size:IconSize}" />
+      <Setter Property="Height" Value="{size:IconSize}" />
     </Style>
     <Style Selector="^:horizontal /template/ Thumb#PART_Thumb">
-      <Setter Property="Height" Value="{theme:IconSize}" />
-      <Setter Property="MinWidth" Value="{theme:IconSize}" />
+      <Setter Property="Height" Value="{size:IconSize}" />
+      <Setter Property="MinWidth" Value="{size:IconSize}" />
     </Style>
     <Style Selector="^:horizontal /template/ RepeatButton#PART_LineDownButton">
-      <Setter Property="MinHeight" Value="{theme:IconSize}" />
-      <Setter Property="Width" Value="{theme:IconSize}" />
+      <Setter Property="MinHeight" Value="{size:IconSize}" />
+      <Setter Property="Width" Value="{size:IconSize}" />
     </Style>
     <Style Selector="^:horizontal /template/ PathIcon#PART_LineDownIcon">
-      <Setter Property="Width" Value="{theme:IconSize}" />
-      <Setter Property="Height" Value="{theme:IconSize}" />
+      <Setter Property="Width" Value="{size:IconSize}" />
+      <Setter Property="Height" Value="{size:IconSize}" />
     </Style>
 
     <!-- Expanded state -->
@@ -400,12 +402,12 @@
         <Setter Property="Background" Value="Transparent" />
       </Style>
       <Style Selector="^ /template/ Rectangle#TrackRect">
-        <Setter Property="Fill" Value="{theme:OverlayWeakBrush}" />
+        <Setter Property="Fill" Value="{colour:OverlayWeakBrush}" />
         <Setter Property="Stroke" Value="Transparent" />
         <Setter Property="Opacity" Value="1" />
       </Style>
       <Style Selector="^ /template/ Thumb">
-        <Setter Property="Background" Value="{theme:OverlayWeakBrush}" />
+        <Setter Property="Background" Value="{colour:OverlayWeakBrush}" />
         <Setter Property="RenderTransform" Value="none" />
       </Style>
       <Style Selector="^ /template/ RepeatButton">

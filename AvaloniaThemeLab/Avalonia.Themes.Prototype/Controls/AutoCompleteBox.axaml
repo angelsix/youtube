@@ -2,7 +2,9 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:generic="using:System.Collections.Generic"
                     xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
-                    xmlns:theme="using:AngelSix.ThemeEngine.Generated">
+                    xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+                    xmlns:colour="using:AngelSix.ThemeEngine.Colours"
+                    xmlns:size="using:AngelSix.ThemeEngine.Sizes">
   <Design.PreviewWith>
     <Border Padding="20">
       <Border.Styles>
@@ -50,17 +52,17 @@
   <ControlTheme x:Key="{x:Type AutoCompleteBox}" TargetType="AutoCompleteBox">
 
     <!-- Visual defaults -->
-    <Setter Property="Background" Value="{theme:AccentBrush Light10}" />
-    <Setter Property="Foreground" Value="{theme:AccentBrush Dark1}" />
-    <Setter Property="PlaceholderForeground" Value="{theme:AccentBrush Light2}" />
-    <Setter Property="BorderBrush" Value="{theme:AccentBrush Dark1}" />
-    <Setter Property="BorderThickness" Value="{theme:ThicknessSm}" />
-    <Setter Property="CornerRadius" Value="{theme:RadiusSm}" />
+    <Setter Property="Background" Value="{colour:AccentBrush Light10}" />
+    <Setter Property="Foreground" Value="{colour:AccentBrush Dark1}" />
+    <Setter Property="PlaceholderForeground" Value="{colour:AccentBrush Light2}" />
+    <Setter Property="BorderBrush" Value="{colour:AccentBrush Dark1}" />
+    <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
+    <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
     <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
-    <Setter Property="Padding" Value="{theme:Edges All={theme:SpacingMd}}" />
-    <Setter Property="MinHeight" Value="{theme:ControlHeightSm}" />
-    <Setter Property="MaxDropDownHeight" Value="{theme:Scaled Value={theme:ControlHeightSm}, By=12}" />
+    <Setter Property="Padding" Value="{size:Edges All={size:SpacingMd}}" />
+    <Setter Property="MinHeight" Value="{size:ControlHeightSm}" />
+    <Setter Property="MaxDropDownHeight" Value="{size:Scaled Value={size:ControlHeightSm}, By=12}" />
 
     <!-- Press animation -->
     <Setter Property="RenderTransform" Value="none" />
@@ -134,31 +136,31 @@
     
     <!-- Popup styles -->
     <Style Selector="^ /template/ Border#PART_SuggestionsContainer">
-      <Setter Property="BorderThickness" Value="{theme:ThicknessSm}" />
-      <Setter Property="BorderBrush" Value="{theme:AccentBorderBrush}" />
-      <Setter Property="Background" Value="{theme:AccentBrush Light10}" />
-      <Setter Property="CornerRadius" Value="{theme:RadiusMd}" />
-      <Setter Property="Padding" Value="{theme:Edges Vertical={theme:SpacingSm}}" />
+      <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
+      <Setter Property="BorderBrush" Value="{colour:AccentBorderBrush}" />
+      <Setter Property="Background" Value="{colour:AccentBrush Light10}" />
+      <Setter Property="CornerRadius" Value="{size:RadiusMd}" />
+      <Setter Property="Padding" Value="{size:Edges Vertical={size:SpacingSm}}" />
     </Style>
 
     <Style Selector="^ /template/ ListBox#PART_SelectingItemsControl">
-      <Setter Property="Margin" Value="{theme:Edges Left={theme:Scaled Value={theme:BaseSize}, By=-1}, Right={theme:Scaled Value={theme:BaseSize}, By=-1}}" />
+      <Setter Property="Margin" Value="{size:Edges Left={size:Scaled Value={size:BaseSize}, By=-1}, Right={size:Scaled Value={size:BaseSize}, By=-1}}" />
     </Style>
 
     <!-- Hover state -->
     <Style Selector="^:pointerover /template/ TextBox#PART_TextBox">
-      <Setter Property="Background" Value="{theme:AccentBrush Light8}" />
+      <Setter Property="Background" Value="{colour:AccentBrush Light8}" />
     </Style>
 
     <!-- Disabled state -->
     <Style Selector="^:disabled">
-      <Setter Property="Opacity" Value="{theme:DisabledOpacity}" />
+      <Setter Property="Opacity" Value="{size:DisabledOpacity}" />
     </Style>
 
     <!-- Focus state -->
     <Style Selector="^:focus-visible /template/ TextBox#PART_TextBox, ^.previewFocused /template/ TextBox#PART_TextBox">
-      <Setter Property="BorderBrush" Value="{theme:AccentFocusBrush}" />
-      <Setter Property="BorderThickness" Value="{theme:ThicknessMd}" />
+      <Setter Property="BorderBrush" Value="{colour:AccentFocusBrush}" />
+      <Setter Property="BorderThickness" Value="{size:ThicknessMd}" />
     </Style>
 
   </ControlTheme>

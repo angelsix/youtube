@@ -3,6 +3,8 @@
         xmlns:sys="using:System"
         xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
         xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+        xmlns:colour="using:AngelSix.ThemeEngine.Colours"
+        xmlns:size="using:AngelSix.ThemeEngine.Sizes"
         xmlns:icons="using:AngelSix.ThemeEngine.Icons">
   <Design.PreviewWith>
     <Border Padding="20" Height="500">
@@ -51,33 +53,33 @@
 
     <!-- Pressed state -->
     <Style Selector="^:pressed">
-      <Setter Property="RenderTransform" Value="{theme:TransformScale Value={theme:PressedScale}, By=1}" />
+      <Setter Property="RenderTransform" Value="{theme:TransformScale Value={size:PressedScale}, By=1}" />
     </Style>
 
     <!-- Pressed template state -->
     <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="Background" Value="{theme:AccentBrush Light6}"/>
-      <Setter Property="Foreground" Value="{theme:AccentBrush Dark1}"/>
+      <Setter Property="Background" Value="{colour:AccentBrush Light6}"/>
+      <Setter Property="Foreground" Value="{colour:AccentBrush Dark1}"/>
     </Style>
 
     <!-- Disabled template state -->
     <Style Selector="^:disabled /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="BorderBrush" Value="{theme:AccentBorderBrush}"/>
-      <Setter Property="Background" Value="{theme:OverlayWeakBrush}"/>
-      <Setter Property="Foreground" Value="{theme:AccentBrush Light2}"/>
+      <Setter Property="BorderBrush" Value="{colour:AccentBorderBrush}"/>
+      <Setter Property="Background" Value="{colour:OverlayWeakBrush}"/>
+      <Setter Property="Foreground" Value="{colour:AccentBrush Light2}"/>
     </Style>
   </ControlTheme>
 
   <!-- Main TimePicker theme -->
   <ControlTheme x:Key="{x:Type TimePicker}" TargetType="TimePicker">
     <!-- Visual defaults -->
-    <Setter Property="Background" Value="{theme:AccentBrush Light10}" />
-    <Setter Property="BorderBrush" Value="{theme:AccentBorderBrush}" />
-    <Setter Property="BorderThickness" Value="{theme:ThicknessSm}" />
-    <Setter Property="CornerRadius" Value="{theme:RadiusSm}" />
-    <Setter Property="Padding" Value="{theme:Edges Horizontal={theme:SpacingMd}, Vertical={theme:SpacingMd}}" />
-    <Setter Property="MinHeight" Value="{theme:ControlHeightSm}" />
-    <Setter Property="MinWidth" Value="{theme:ControlMinWidth}" />
+    <Setter Property="Background" Value="{colour:AccentBrush Light10}" />
+    <Setter Property="BorderBrush" Value="{colour:AccentBorderBrush}" />
+    <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
+    <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
+    <Setter Property="Padding" Value="{size:Edges Horizontal={size:SpacingMd}, Vertical={size:SpacingMd}}" />
+    <Setter Property="MinHeight" Value="{size:ControlHeightSm}" />
+    <Setter Property="MinWidth" Value="{size:ControlMinWidth}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
     <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
 
@@ -181,17 +183,17 @@
 
     <!-- Disabled state -->
     <Style Selector="^:disabled /template/ Rectangle">
-      <Setter Property="Fill" Value="{theme:OverlayWeakBrush}"/>
+      <Setter Property="Fill" Value="{colour:OverlayWeakBrush}"/>
     </Style>
 
     <!-- Watermark state -->
     <Style Selector="^:hasnotime /template/ Button#PART_FlyoutButton TextBlock">
-      <Setter Property="Foreground" Value="{theme:AccentBrush Light2}"/>
+      <Setter Property="Foreground" Value="{colour:AccentBrush Light2}"/>
     </Style>
 
     <!-- Error state -->
     <Style Selector="^:error /template/ Button#PART_FlyoutButton">
-      <Setter Property="BorderBrush" Value="{theme:AccentErrorBrush}"/>
+      <Setter Property="BorderBrush" Value="{colour:AccentErrorBrush}"/>
     </Style>
 
     <!-- Themed properties moved out of ControlTemplate -->
@@ -199,13 +201,13 @@
            ^ /template/ TextBlock#PART_MinuteTextBlock,
            ^ /template/ TextBlock#PART_SecondTextBlock,
            ^ /template/ TextBlock#PART_PeriodTextBlock">
-      <Setter Property="Padding" Value="{theme:Edges Top={theme:SpacingMd}, Bottom={theme:SpacingLg}}" />
+      <Setter Property="Padding" Value="{size:Edges Top={size:SpacingMd}, Bottom={size:SpacingLg}}" />
     </Style>
     <Style Selector="^ /template/ Rectangle#PART_FirstColumnDivider,
            ^ /template/ Rectangle#PART_SecondColumnDivider,
            ^ /template/ Rectangle#PART_ThirdColumnDivider">
-      <Setter Property="Fill" Value="{theme:OverlayWeakBrush}" />
-      <Setter Property="Width" Value="{theme:BaseSize}" />
+      <Setter Property="Fill" Value="{colour:OverlayWeakBrush}" />
+      <Setter Property="Width" Value="{size:BaseSize}" />
     </Style>
   </ControlTheme>
 
@@ -213,11 +215,11 @@
   <ControlTheme x:Key="{x:Type TimePickerPresenter}" TargetType="TimePickerPresenter">
     <!-- Visual defaults -->
 
-    <Setter Property="Background" Value="{theme:AccentBrush Light10}" />
-    <Setter Property="Foreground" Value="{theme:AccentBrush Dark1}" />
-    <Setter Property="BorderBrush" Value="{theme:AccentBorderBrush}" />
-    <Setter Property="BorderThickness" Value="{theme:ThicknessSm}" />
-    <Setter Property="CornerRadius" Value="{theme:RadiusMd}" />
+    <Setter Property="Background" Value="{colour:AccentBrush Light10}" />
+    <Setter Property="Foreground" Value="{colour:AccentBrush Dark1}" />
+    <Setter Property="BorderBrush" Value="{colour:AccentBorderBrush}" />
+    <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
+    <Setter Property="CornerRadius" Value="{size:RadiusMd}" />
 
     <!-- Template -->
     <Setter Property="Template">
@@ -366,32 +368,32 @@
            ^ /template/ DateTimePickerPanel#PART_MinuteSelector,
            ^ /template/ DateTimePickerPanel#PART_SecondSelector,
            ^ /template/ DateTimePickerPanel#PART_PeriodSelector">
-      <Setter Property="ItemHeight" Value="{theme:ControlHeightMd}" />
+      <Setter Property="ItemHeight" Value="{size:ControlHeightMd}" />
     </Style>
     <Style Selector="^ /template/ Rectangle#HighlightRect">
-      <Setter Property="Fill" Value="{theme:AccentPrimaryBrush}" />
-      <Setter Property="Height" Value="{theme:ControlHeightMd}" />
+      <Setter Property="Fill" Value="{colour:AccentPrimaryBrush}" />
+      <Setter Property="Height" Value="{size:ControlHeightMd}" />
     </Style>
     <Style Selector="^ /template/ Rectangle#PART_FirstSpacer,
            ^ /template/ Rectangle#PART_SecondSpacer,
            ^ /template/ Rectangle#PART_ThirdSpacer">
-      <Setter Property="Fill" Value="{theme:OverlayWeakBrush}" />
-      <Setter Property="Width" Value="{theme:BaseSize}" />
+      <Setter Property="Fill" Value="{colour:OverlayWeakBrush}" />
+      <Setter Property="Width" Value="{size:BaseSize}" />
     </Style>
     <Style Selector="^ /template/ Rectangle#PART_TopDivider">
-      <Setter Property="Height" Value="{theme:BaseSize}" />
-      <Setter Property="Fill" Value="{theme:OverlayWeakBrush}" />
+      <Setter Property="Height" Value="{size:BaseSize}" />
+      <Setter Property="Fill" Value="{colour:OverlayWeakBrush}" />
     </Style>
     <Style Selector="^ /template/ Button#PART_AcceptButton,
            ^ /template/ Button#PART_DismissButton">
-      <Setter Property="Height" Value="{theme:ControlHeightMd}" />
+      <Setter Property="Height" Value="{size:ControlHeightMd}" />
     </Style>
     <Style Selector="^ /template/ Button#PART_DismissButton">
-      <Setter Property="FontSize" Value="{theme:FontSizeLg}" />
+      <Setter Property="FontSize" Value="{size:FontSizeLg}" />
     </Style>
     <Style Selector="^ /template/ Path#PART_AcceptIcon,
            ^ /template/ Path#PART_DismissIcon">
-      <Setter Property="StrokeThickness" Value="{theme:ThicknessSm}" />
+      <Setter Property="StrokeThickness" Value="{size:ThicknessSm}" />
     </Style>
   </ControlTheme>
 </ResourceDictionary>

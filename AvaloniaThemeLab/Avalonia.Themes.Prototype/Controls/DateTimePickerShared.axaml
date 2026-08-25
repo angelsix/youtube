@@ -2,6 +2,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
         xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+        xmlns:colour="using:AngelSix.ThemeEngine.Colours"
+        xmlns:size="using:AngelSix.ThemeEngine.Sizes"
         xmlns:icons="using:AngelSix.ThemeEngine.Icons">
   <Design.PreviewWith>
     <Border Padding="20" Width="200">
@@ -21,7 +23,7 @@
 
   <!-- DateTimePicker item theme -->
   <ControlTheme x:Key="PrototypeDateTimePickerItem" TargetType="ListBoxItem" BasedOn="{StaticResource {x:Type ListBoxItem}}">
-    <Setter Property="Padding" Value="{theme:Edges Top={theme:SpacingMd}, Bottom={theme:SpacingLg}}"/>
+    <Setter Property="Padding" Value="{size:Edges Top={size:SpacingMd}, Bottom={size:SpacingLg}}"/>
     <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
     <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
 
@@ -33,13 +35,13 @@
       </Style>
       <Style Selector="^/template/ ContentPresenter">
         <Setter Property="Background" Value="Transparent" />
-        <Setter Property="Foreground" Value="{theme:AccentBrush Dark1}"/>
+        <Setter Property="Foreground" Value="{colour:AccentBrush Dark1}"/>
       </Style>
     </Style>
 
     <!-- Month item: left-aligned -->
     <Style Selector="^.MonthItem">
-      <Setter Property="Padding" Value="{theme:Edges Left={theme:SpacingXl}, Top={theme:SpacingMd}, Bottom={theme:SpacingLg}}"/>
+      <Setter Property="Padding" Value="{size:Edges Left={size:SpacingXl}, Top={size:SpacingMd}, Bottom={size:SpacingLg}}"/>
       <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
     </Style>
   </ControlTheme>
@@ -47,7 +49,7 @@
   <!-- DateTimePicker button theme -->
   <ControlTheme x:Key="PrototypeDateTimePickerButton" TargetType="Button">
     <Setter Property="Background" Value="Transparent" />
-    <Setter Property="Height" Value="{theme:ControlHeightSm}" />
+    <Setter Property="Height" Value="{size:ControlHeightSm}" />
     <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}"/>
     <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}"/>
     <Setter Property="Template">
@@ -70,37 +72,37 @@
 
     <!-- Template element defaults -->
     <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="BorderThickness" Value="{theme:ThicknessSm}" />
+      <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
     </Style>
 
     <!-- Hover state -->
     <Style Selector="^:pointerover /template/ ContentPresenter">
-      <Setter Property="Background" Value="{theme:AccentBrush Light8}"/>
+      <Setter Property="Background" Value="{colour:AccentBrush Light8}"/>
       <Setter Property="BorderBrush" Value="Transparent"/>
-      <Setter Property="Foreground" Value="{theme:AccentBrush Dark1}"/>
+      <Setter Property="Foreground" Value="{colour:AccentBrush Dark1}"/>
     </Style>
 
     <!-- Pressed state -->
     <Style Selector="^:pressed /template/ ContentPresenter">
-      <Setter Property="Background" Value="{theme:AccentBrush Light6}"/>
+      <Setter Property="Background" Value="{colour:AccentBrush Light6}"/>
       <Setter Property="BorderBrush" Value="Transparent"/>
-      <Setter Property="Foreground" Value="{theme:AccentBrush Dark1}"/>
+      <Setter Property="Foreground" Value="{colour:AccentBrush Dark1}"/>
     </Style>
   </ControlTheme>
 
   <!-- DateTimePicker up button theme -->
   <ControlTheme x:Key="PrototypeDateTimePickerUpButton" TargetType="RepeatButton" BasedOn="{StaticResource PrototypeDateTimePickerButton}">
     <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}"/>
-    <Setter Property="Height" Value="{theme:ControlHeightSm}" />
+    <Setter Property="Height" Value="{size:ControlHeightSm}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
     <Setter Property="Focusable" Value="False" />
-    <Setter Property="Background" Value="{theme:AccentBrush Light10}" />
-    <Setter Property="Foreground" Value="{theme:AccentBrush Dark1}" />
+    <Setter Property="Background" Value="{colour:AccentBrush Light10}" />
+    <Setter Property="Foreground" Value="{colour:AccentBrush Dark1}" />
     <Setter Property="IsVisible" Value="False"/>
     <Setter Property="Content">
       <Template>
-        <Viewbox Height="{theme:IconSize}" Width="{theme:IconSize}" HorizontalAlignment="Center" VerticalAlignment="Center">
-          <Path Stroke="{Binding $parent[RepeatButton].Foreground}" StrokeThickness="{theme:ThicknessSm}" Data="{icons:ChevronUp}"/>
+        <Viewbox Height="{size:IconSize}" Width="{size:IconSize}" HorizontalAlignment="Center" VerticalAlignment="Center">
+          <Path Stroke="{Binding $parent[RepeatButton].Foreground}" StrokeThickness="{size:ThicknessSm}" Data="{icons:ChevronUp}"/>
         </Viewbox>
       </Template>
     </Setter>
@@ -109,16 +111,16 @@
   <!-- DateTimePicker down button theme -->
   <ControlTheme x:Key="PrototypeDateTimePickerDownButton" TargetType="RepeatButton" BasedOn="{StaticResource PrototypeDateTimePickerButton}">
     <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}"/>
-    <Setter Property="Height" Value="{theme:ControlHeightSm}" />
+    <Setter Property="Height" Value="{size:ControlHeightSm}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
     <Setter Property="Focusable" Value="False" />
-    <Setter Property="Background" Value="{theme:AccentBrush Light10}" />
-    <Setter Property="Foreground" Value="{theme:AccentBrush Dark1}" />
+    <Setter Property="Background" Value="{colour:AccentBrush Light10}" />
+    <Setter Property="Foreground" Value="{colour:AccentBrush Dark1}" />
     <Setter Property="IsVisible" Value="False"/>
     <Setter Property="Content">
       <Template>
-        <Viewbox Height="{theme:IconSize}" Width="{theme:IconSize}" HorizontalAlignment="Center" VerticalAlignment="Center">
-          <Path Stroke="{Binding $parent[RepeatButton].Foreground}" StrokeThickness="{theme:ThicknessSm}" Data="{icons:ChevronDown}"/>
+        <Viewbox Height="{size:IconSize}" Width="{size:IconSize}" HorizontalAlignment="Center" VerticalAlignment="Center">
+          <Path Stroke="{Binding $parent[RepeatButton].Foreground}" StrokeThickness="{size:ThicknessSm}" Data="{icons:ChevronDown}"/>
         </Viewbox>
       </Template>
     </Setter>

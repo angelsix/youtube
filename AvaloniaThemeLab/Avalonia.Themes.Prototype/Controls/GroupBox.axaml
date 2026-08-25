@@ -2,7 +2,10 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:converters="clr-namespace:Avalonia.Controls.Converters;assembly=Avalonia.Controls"
                     xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
-                    xmlns:theme="using:AngelSix.ThemeEngine.Generated">
+                    xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+                    xmlns:colour="using:AngelSix.ThemeEngine.Colours"
+                    xmlns:size="using:AngelSix.ThemeEngine.Sizes"
+                    >
   <Design.PreviewWith>
     <Border Padding="20">
       <Border.Styles>
@@ -26,11 +29,11 @@
 
     <!-- Visual defaults -->
     <Setter Property="Background" Value="Transparent" />
-    <Setter Property="BorderBrush" Value="{theme:AccentBrush Dark1}" />
-    <Setter Property="BorderThickness" Value="{theme:ThicknessSm}" />
-    <Setter Property="FontSize" Value="{theme:FontSizeLg}" />
-    <Setter Property="Padding" Value="{theme:Edges All={theme:SpacingMd}}" />
-    <Setter Property="CornerRadius" Value="{theme:RadiusSm}" />
+    <Setter Property="BorderBrush" Value="{colour:AccentBrush Dark1}" />
+    <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
+    <Setter Property="FontSize" Value="{size:FontSizeLg}" />
+    <Setter Property="Padding" Value="{size:Edges All={size:SpacingMd}}" />
+    <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
     <Setter Property="VerticalAlignment" Value="{theme:ContainerVerticalAlignment}" />
     <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
@@ -106,7 +109,7 @@
 
     <!-- Header padding and typography -->
     <Style Selector="^ /template/ Border#Header">
-      <Setter Property="Padding" Value="{theme:Edges Horizontal={theme:SpacingMd}}" />
+      <Setter Property="Padding" Value="{size:Edges Horizontal={size:SpacingMd}}" />
     </Style>
 
     <!-- Access key support -->

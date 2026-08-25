@@ -2,7 +2,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:sys="using:System"
         xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
-        xmlns:theme="using:AngelSix.ThemeEngine.Generated">
+        xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+        xmlns:colour="using:AngelSix.ThemeEngine.Colours"
+        xmlns:size="using:AngelSix.ThemeEngine.Sizes">
   <Design.PreviewWith>
     <Border Width="400" Height="400">
       <Border.Styles>
@@ -25,9 +27,9 @@
   <Easing x:Key="SplitViewPaneAnimationEasing">0.1,0.9,0.2,1.0</Easing>
 
   <ControlTheme x:Key="{x:Type SplitView}" TargetType="SplitView">
-    <Setter Property="OpenPaneLength" Value="{theme:Scaled Value={theme:ControlMinWidth}, By=5}" />
-    <Setter Property="CompactPaneLength" Value="{theme:ControlHeightLg}" />
-    <Setter Property="PaneBackground" Value="{theme:AccentBrush Light10}" />
+    <Setter Property="OpenPaneLength" Value="{size:Scaled Value={size:ControlMinWidth}, By=5}" />
+    <Setter Property="CompactPaneLength" Value="{size:ControlHeightLg}" />
+    <Setter Property="PaneBackground" Value="{colour:AccentBrush Light10}" />
 
     <Style Selector="^:left">
       <Setter Property="Template">
@@ -472,7 +474,7 @@
     </Style>
 
     <Style Selector="^:lightDismiss /template/ Rectangle#LightDismissLayer">
-      <Setter Property="Fill" Value="{theme:OverlayStrongBrush}" />
+      <Setter Property="Fill" Value="{colour:OverlayStrongBrush}" />
     </Style>
     <Style Selector="^:overlay:open /template/ Rectangle#LightDismissLayer">
       <Setter Property="IsVisible" Value="True"/>

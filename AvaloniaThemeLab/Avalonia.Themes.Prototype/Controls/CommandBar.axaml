@@ -2,6 +2,8 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+                    xmlns:colour="using:AngelSix.ThemeEngine.Colours"
+                    xmlns:size="using:AngelSix.ThemeEngine.Sizes"
                     xmlns:icons="using:AngelSix.ThemeEngine.Icons">
   <Design.PreviewWith>
     <Border Padding="20" Width="600">
@@ -37,9 +39,9 @@
     <Setter Property="Background" Value="Transparent" />
     <Setter Property="BorderBrush" Value="Transparent" />
     <Setter Property="BorderThickness" Value="0" />
-    <Setter Property="Padding" Value="{theme:Edges Horizontal={theme:SpacingLg}, Vertical={theme:SpacingMd}}" />
-    <Setter Property="Width" Value="{theme:Scaled Value={theme:ControlHeightSm}, By=2}" />
-    <Setter Property="MinHeight" Value="{theme:ControlHeightMd}" />
+    <Setter Property="Padding" Value="{size:Edges Horizontal={size:SpacingLg}, Vertical={size:SpacingMd}}" />
+    <Setter Property="Width" Value="{size:Scaled Value={size:ControlHeightSm}, By=2}" />
+    <Setter Property="MinHeight" Value="{size:ControlHeightMd}" />
     <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
     <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
     <Setter Property="Template">
@@ -73,25 +75,25 @@
 
     <!-- Template element styles -->
     <Style Selector="^ /template/ StackPanel#PART_LayoutRoot">
-      <Setter Property="Spacing" Value="{theme:SpacingMd}" />
+      <Setter Property="Spacing" Value="{size:SpacingMd}" />
     </Style>
     <Style Selector="^ /template/ TextBlock#PART_Label">
-      <Setter Property="FontSize" Value="{theme:FontSizeSm}" />
+      <Setter Property="FontSize" Value="{size:FontSizeSm}" />
     </Style>
 
     <!-- Hover -->
     <Style Selector="^:pointerover /template/ Border#PART_Border">
-      <Setter Property="Background" Value="{theme:AccentBrush Light8}" />
+      <Setter Property="Background" Value="{colour:AccentBrush Light8}" />
     </Style>
 
     <!-- Pressed -->
     <Style Selector="^:pressed /template/ Border#PART_Border">
-      <Setter Property="Background" Value="{theme:AccentBrush Light6}" />
+      <Setter Property="Background" Value="{colour:AccentBrush Light6}" />
     </Style>
 
     <!-- Compact: hide label, reduce width -->
     <Style Selector="^[IsCompact=True]">
-      <Setter Property="Width" Value="{theme:ControlHeightMd}" />
+      <Setter Property="Width" Value="{size:ControlHeightMd}" />
     </Style>
     <Style Selector="^[IsCompact=True] /template/ TextBlock#PART_Label">
       <Setter Property="IsVisible" Value="False" />
@@ -100,7 +102,7 @@
     <!-- LabelPosition=Right: horizontal layout, auto-width -->
     <Style Selector="^[LabelPosition=Right]">
       <Setter Property="Width" Value="NaN" />
-      <Setter Property="MinWidth" Value="{theme:ControlHeightMd}" />
+      <Setter Property="MinWidth" Value="{size:ControlHeightMd}" />
     </Style>
     <Style Selector="^[LabelPosition=Right] /template/ StackPanel#PART_LayoutRoot">
       <Setter Property="Orientation" Value="Horizontal" />
@@ -117,7 +119,7 @@
       <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
       <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
       <Setter Property="Width" Value="NaN" />
-      <Setter Property="MinHeight" Value="{theme:ControlHeightMd}" />
+      <Setter Property="MinHeight" Value="{size:ControlHeightMd}" />
     </Style>
     <Style Selector="^[IsInOverflow=True] /template/ StackPanel#PART_LayoutRoot">
       <Setter Property="Orientation" Value="Horizontal" />
@@ -129,9 +131,9 @@
     <Setter Property="Background" Value="Transparent" />
     <Setter Property="BorderBrush" Value="Transparent" />
     <Setter Property="BorderThickness" Value="0" />
-    <Setter Property="Padding" Value="{theme:Edges Horizontal={theme:SpacingLg}, Vertical={theme:SpacingMd}}" />
-    <Setter Property="Width" Value="{theme:Scaled Value={theme:ControlHeightSm}, By=2}" />
-    <Setter Property="MinHeight" Value="{theme:ControlHeightMd}" />
+    <Setter Property="Padding" Value="{size:Edges Horizontal={size:SpacingLg}, Vertical={size:SpacingMd}}" />
+    <Setter Property="Width" Value="{size:Scaled Value={size:ControlHeightSm}, By=2}" />
+    <Setter Property="MinHeight" Value="{size:ControlHeightMd}" />
     <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
     <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
     <Setter Property="Template">
@@ -165,30 +167,30 @@
 
     <!-- Template element styles -->
     <Style Selector="^ /template/ StackPanel#PART_LayoutRoot">
-      <Setter Property="Spacing" Value="{theme:SpacingMd}" />
+      <Setter Property="Spacing" Value="{size:SpacingMd}" />
     </Style>
     <Style Selector="^ /template/ TextBlock#PART_Label">
-      <Setter Property="FontSize" Value="{theme:FontSizeSm}" />
+      <Setter Property="FontSize" Value="{size:FontSizeSm}" />
     </Style>
 
     <!-- Hover -->
     <Style Selector="^:pointerover /template/ Border#PART_Border">
-      <Setter Property="Background" Value="{theme:AccentBrush Light8}" />
+      <Setter Property="Background" Value="{colour:AccentBrush Light8}" />
     </Style>
 
     <!-- Pressed -->
     <Style Selector="^:pressed /template/ Border#PART_Border">
-      <Setter Property="Background" Value="{theme:AccentBrush Light6}" />
+      <Setter Property="Background" Value="{colour:AccentBrush Light6}" />
     </Style>
 
     <!-- Checked -->
     <Style Selector="^:checked /template/ Border#PART_Border">
-      <Setter Property="Background" Value="{theme:AccentPrimaryBrush}" />
+      <Setter Property="Background" Value="{colour:AccentPrimaryBrush}" />
     </Style>
 
     <!-- Compact: hide label, reduce width -->
     <Style Selector="^[IsCompact=True]">
-      <Setter Property="Width" Value="{theme:ControlHeightMd}" />
+      <Setter Property="Width" Value="{size:ControlHeightMd}" />
     </Style>
     <Style Selector="^[IsCompact=True] /template/ TextBlock#PART_Label">
       <Setter Property="IsVisible" Value="False" />
@@ -197,7 +199,7 @@
     <!-- LabelPosition=Right: horizontal layout, auto-width -->
     <Style Selector="^[LabelPosition=Right]">
       <Setter Property="Width" Value="NaN" />
-      <Setter Property="MinWidth" Value="{theme:ControlHeightMd}" />
+      <Setter Property="MinWidth" Value="{size:ControlHeightMd}" />
     </Style>
     <Style Selector="^[LabelPosition=Right] /template/ StackPanel#PART_LayoutRoot">
       <Setter Property="Orientation" Value="Horizontal" />
@@ -214,7 +216,7 @@
       <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
       <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
       <Setter Property="Width" Value="NaN" />
-      <Setter Property="MinHeight" Value="{theme:ControlHeightMd}" />
+      <Setter Property="MinHeight" Value="{size:ControlHeightMd}" />
     </Style>
     <Style Selector="^[IsInOverflow=True] /template/ StackPanel#PART_LayoutRoot">
       <Setter Property="Orientation" Value="Horizontal" />
@@ -223,9 +225,9 @@
 
   <!-- CommandBarSeparator ControlTheme -->
   <ControlTheme x:Key="{x:Type CommandBarSeparator}" TargetType="CommandBarSeparator">
-    <Setter Property="Width" Value="{theme:ThicknessSm}" />
-    <Setter Property="MinHeight" Value="{theme:ControlHeightSm}" />
-    <Setter Property="Margin" Value="{theme:Edges Horizontal={theme:SpacingLg}, Vertical={theme:SpacingMd}}" />
+    <Setter Property="Width" Value="{size:ThicknessSm}" />
+    <Setter Property="MinHeight" Value="{size:ControlHeightSm}" />
+    <Setter Property="Margin" Value="{size:Edges Horizontal={size:SpacingLg}, Vertical={size:SpacingMd}}" />
     <Setter Property="Template">
       <ControlTemplate>
         <!-- The divider line between command groups -->
@@ -238,16 +240,16 @@
 
     <!-- Template element styles -->
     <Style Selector="^ /template/ Border#PART_SeparatorBorder">
-      <Setter Property="Background" Value="{theme:AccentBorderBrush}" />
+      <Setter Property="Background" Value="{colour:AccentBorderBrush}" />
     </Style>
 
     <!-- IsInOverflow: horizontal separator -->
     <Style Selector="^[IsInOverflow=True]">
       <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
       <Setter Property="Width" Value="NaN" />
-      <Setter Property="Height" Value="{theme:ThicknessSm}" />
+      <Setter Property="Height" Value="{size:ThicknessSm}" />
       <Setter Property="MinHeight" Value="0" />
-      <Setter Property="Margin" Value="{theme:Edges All={theme:SpacingMd}}" />
+      <Setter Property="Margin" Value="{size:Edges All={size:SpacingMd}}" />
     </Style>
   </ControlTheme>
 
@@ -268,23 +270,23 @@
     </Style>
 
     <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="Background" Value="{theme:AccentBrush Light8}" />
+      <Setter Property="Background" Value="{colour:AccentBrush Light8}" />
     </Style>
 
     <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="Background" Value="{theme:AccentBrush Light6}" />
+      <Setter Property="Background" Value="{colour:AccentBrush Light6}" />
     </Style>
   </ControlTheme>
 
   <ControlTheme x:Key="{x:Type CommandBar}" TargetType="CommandBar">
     <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
-    <Setter Property="Background" Value="{theme:AccentBrush Light10}" />
-    <Setter Property="Foreground" Value="{theme:AccentBrush Dark1}" />
-    <Setter Property="MinHeight" Value="{theme:ControlHeightLg}" />
-    <Setter Property="Padding" Value="{theme:Edges Left={theme:SpacingMd}, Right={theme:SpacingMd}}" />
-    <Setter Property="ItemWidthBottom" Value="{theme:Scaled Value={theme:ControlHeightMd}, By=2}" />
-    <Setter Property="ItemWidthRight" Value="{theme:Scaled Value={theme:ControlHeightMd}, By=2.5}" />
-    <Setter Property="ItemWidthCollapsed" Value="{theme:ControlHeightMd}" />
+    <Setter Property="Background" Value="{colour:AccentBrush Light10}" />
+    <Setter Property="Foreground" Value="{colour:AccentBrush Dark1}" />
+    <Setter Property="MinHeight" Value="{size:ControlHeightLg}" />
+    <Setter Property="Padding" Value="{size:Edges Left={size:SpacingMd}, Right={size:SpacingMd}}" />
+    <Setter Property="ItemWidthBottom" Value="{size:Scaled Value={size:ControlHeightMd}, By=2}" />
+    <Setter Property="ItemWidthRight" Value="{size:Scaled Value={size:ControlHeightMd}, By=2.5}" />
+    <Setter Property="ItemWidthCollapsed" Value="{size:ControlHeightMd}" />
     <Setter Property="Template">
       <ControlTemplate>
         <!-- Outer frame around the whole bar -->
@@ -360,32 +362,32 @@
     <Style Selector="^ /template/ Button#PART_OverflowButton">
       <Setter Property="Background" Value="Transparent" />
       <Setter Property="BorderThickness" Value="0" />
-      <Setter Property="Padding" Value="{theme:Edges Left={theme:SpacingXxl}, Right={theme:SpacingXxl}}" />
-      <Setter Property="MinWidth" Value="{theme:ControlHeightMd}" />
-      <Setter Property="FontSize" Value="{theme:IconSize}" />
+      <Setter Property="Padding" Value="{size:Edges Left={size:SpacingXxl}, Right={size:SpacingXxl}}" />
+      <Setter Property="MinWidth" Value="{size:ControlHeightMd}" />
+      <Setter Property="FontSize" Value="{size:IconSize}" />
       <Setter Property="Theme" Value="{StaticResource PrototypeCommandBarOverflowButton}" />
     </Style>
 
     <Style Selector="^ /template/ PathIcon#PART_OverflowIcon">
-      <Setter Property="Width" Value="{theme:IconSize}" />
-      <Setter Property="Height" Value="{theme:IconSize}" />
+      <Setter Property="Width" Value="{size:IconSize}" />
+      <Setter Property="Height" Value="{size:IconSize}" />
     </Style>
 
     <Style Selector="^ /template/ Border#PART_OverflowBorder">
-      <Setter Property="Background" Value="{theme:AccentBrush Light10}" />
-      <Setter Property="BorderBrush" Value="{theme:AccentBorderBrush}" />
-      <Setter Property="BorderThickness" Value="{theme:ThicknessSm}" />
-      <Setter Property="CornerRadius" Value="{theme:RadiusMd}" />
-      <Setter Property="Padding" Value="{theme:Edges All={theme:SpacingMd}}" />
+      <Setter Property="Background" Value="{colour:AccentBrush Light10}" />
+      <Setter Property="BorderBrush" Value="{colour:AccentBorderBrush}" />
+      <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
+      <Setter Property="CornerRadius" Value="{size:RadiusMd}" />
+      <Setter Property="Padding" Value="{size:Edges All={size:SpacingMd}}" />
       <Setter Property="MinWidth" Value="160" />
     </Style>
 
     <Style Selector="^ /template/ StackPanel#PART_PrimaryPanel">
-      <Setter Property="Spacing" Value="{theme:SpacingSm}" />
+      <Setter Property="Spacing" Value="{size:SpacingSm}" />
     </Style>
 
     <Style Selector="^ /template/ StackPanel#PART_OverflowPanel">
-      <Setter Property="Spacing" Value="{theme:SpacingSm}" />
+      <Setter Property="Spacing" Value="{size:SpacingSm}" />
     </Style>
   </ControlTheme>
 </ResourceDictionary>

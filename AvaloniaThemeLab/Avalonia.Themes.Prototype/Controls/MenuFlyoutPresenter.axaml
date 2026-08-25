@@ -1,19 +1,21 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
-                    xmlns:theme="using:AngelSix.ThemeEngine.Generated">
+                    xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+                    xmlns:colour="using:AngelSix.ThemeEngine.Colours"
+                    xmlns:size="using:AngelSix.ThemeEngine.Sizes">
   <ControlTheme x:Key="{x:Type MenuFlyoutPresenter}" TargetType="MenuFlyoutPresenter">
     <!-- Visual defaults -->
-    <Setter Property="Background" Value="{theme:AccentBrush Light10}" />
-    <Setter Property="Foreground" Value="{theme:AccentBrush Dark1}" />
-    <Setter Property="BorderBrush" Value="{theme:AccentBorderBrush}" />
-    <Setter Property="BorderThickness" Value="{theme:ThicknessSm}" />
+    <Setter Property="Background" Value="{colour:AccentBrush Light10}" />
+    <Setter Property="Foreground" Value="{colour:AccentBrush Dark1}" />
+    <Setter Property="BorderBrush" Value="{colour:AccentBorderBrush}" />
+    <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
     <Setter Property="Padding" Value="0" />
     <Setter Property="MaxWidth" Value="456" />
-    <Setter Property="MinHeight" Value="{theme:ControlHeightSm}" />
+    <Setter Property="MinHeight" Value="{size:ControlHeightSm}" />
     <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
     <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
-    <Setter Property="CornerRadius" Value="{theme:RadiusMd}" />
+    <Setter Property="CornerRadius" Value="{size:RadiusMd}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
     <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
     <Setter Property="Template">
@@ -40,11 +42,11 @@
     </Setter>
 
     <Style Selector="^ /template/ ItemsPresenter#PART_ItemsPresenter">
-      <Setter Property="Margin" Value="{theme:Edges Vertical={theme:SpacingMd}}" />
+      <Setter Property="Margin" Value="{size:Edges Vertical={size:SpacingMd}}" />
     </Style>
   </ControlTheme>
   <ControlTheme x:Key="HorizontalMenuFlyoutPresenter" TargetType="MenuFlyoutPresenter"  BasedOn="{StaticResource {x:Type MenuFlyoutPresenter}}">
-    <Setter Property="MinWidth" Value="{theme:ControlHeightSm}" />
+    <Setter Property="MinWidth" Value="{size:ControlHeightSm}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
     <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
     <Setter Property="ItemsPanel">

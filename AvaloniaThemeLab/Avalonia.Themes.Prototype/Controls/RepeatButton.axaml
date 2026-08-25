@@ -1,7 +1,9 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
-                    xmlns:theme="using:AngelSix.ThemeEngine.Generated">
+                    xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+                    xmlns:colour="using:AngelSix.ThemeEngine.Colours"
+                    xmlns:size="using:AngelSix.ThemeEngine.Sizes">
   <Design.PreviewWith>
     <Border Padding="20">
       <Border.Styles>
@@ -35,14 +37,14 @@
   <ControlTheme x:Key="{x:Type RepeatButton}" TargetType="RepeatButton">
 
     <!-- Visual defaults -->
-    <Setter Property="Background" Value="{theme:AccentBrush Light10}" />
-    <Setter Property="Foreground" Value="{theme:AccentBrush Dark1}" />
-    <Setter Property="BorderBrush" Value="{theme:AccentBrush Dark1}" />
-    <Setter Property="BorderThickness" Value="{theme:ThicknessSm}" />
-    <Setter Property="CornerRadius" Value="{theme:RadiusSm}" />
-    <Setter Property="Padding" Value="{theme:Edges Horizontal={theme:SpacingXl}, Vertical={theme:SpacingLg}}" />
-    <Setter Property="MinHeight" Value="{theme:ControlHeightSm}" />
-    <Setter Property="MinWidth" Value="{theme:ControlMinWidth}" />
+    <Setter Property="Background" Value="{colour:AccentBrush Light10}" />
+    <Setter Property="Foreground" Value="{colour:AccentBrush Dark1}" />
+    <Setter Property="BorderBrush" Value="{colour:AccentBrush Dark1}" />
+    <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
+    <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
+    <Setter Property="Padding" Value="{size:Edges Horizontal={size:SpacingXl}, Vertical={size:SpacingLg}}" />
+    <Setter Property="MinHeight" Value="{size:ControlHeightSm}" />
+    <Setter Property="MinWidth" Value="{size:ControlMinWidth}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
     <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
     <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
@@ -91,36 +93,36 @@
 
     <!-- Accent border visuals -->
     <Style Selector="^ /template/ Rectangle#PART_AccentBorder">
-      <Setter Property="Stroke" Value="{theme:AccentPrimaryBrush}" />
-      <Setter Property="StrokeThickness" Value="{theme:AccentBorderStrokeThickness}" />
-      <Setter Property="RadiusX" Value="{theme:RadiusSmDouble}" />
-      <Setter Property="RadiusY" Value="{theme:RadiusSmDouble}" />
+      <Setter Property="Stroke" Value="{colour:AccentPrimaryBrush}" />
+      <Setter Property="StrokeThickness" Value="{size:AccentBorderStrokeThickness}" />
+      <Setter Property="RadiusX" Value="{size:RadiusSmDouble}" />
+      <Setter Property="RadiusY" Value="{size:RadiusSmDouble}" />
     </Style>
 
     <!-- Hover state -->
     <Style Selector="^:pointerover, ^.previewHover">
-      <Setter Property="Background" Value="{theme:AccentBrush Light8}" />
-      <Setter Property="RenderTransform" Value="{theme:TransformScale Value={theme:PressedScale}, By=1.07}" />
+      <Setter Property="Background" Value="{colour:AccentBrush Light8}" />
+      <Setter Property="RenderTransform" Value="{theme:TransformScale Value={size:PressedScale}, By=1.07}" />
     </Style>
 
     <!-- Pressed state -->
     <Style Selector="^:pressed, ^.previewPressed">
-      <Setter Property="RenderTransform" Value="{theme:TransformScale Value={theme:PressedScale}}" />
+      <Setter Property="RenderTransform" Value="{theme:TransformScale Value={size:PressedScale}}" />
     </Style>
 
     <Style Selector="^:pressed, ^.previewPressed">
-      <Setter Property="Background" Value="{theme:AccentBrush Light6}" />
+      <Setter Property="Background" Value="{colour:AccentBrush Light6}" />
     </Style>
 
     <!-- Disabled state -->
     <Style Selector="^:disabled">
-      <Setter Property="Opacity" Value="{theme:DisabledOpacity}" />
+      <Setter Property="Opacity" Value="{size:DisabledOpacity}" />
     </Style>
 
     <!-- Focus state -->
     <Style Selector="^:focus-visible, ^.previewFocused">
-      <Setter Property="BorderBrush" Value="{theme:AccentFocusBrush}" />
-      <Setter Property="BorderThickness" Value="{theme:ThicknessMd}" />
+      <Setter Property="BorderBrush" Value="{colour:AccentFocusBrush}" />
+      <Setter Property="BorderThickness" Value="{size:ThicknessMd}" />
     </Style>
 
   </ControlTheme>

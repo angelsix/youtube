@@ -2,6 +2,8 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+                    xmlns:colour="using:AngelSix.ThemeEngine.Colours"
+                    xmlns:size="using:AngelSix.ThemeEngine.Sizes"
                     xmlns:icons="using:AngelSix.ThemeEngine.Icons"
                     xmlns:converters="using:Avalonia.Controls.Converters">
 
@@ -65,10 +67,10 @@
   <ControlTheme x:Key="PrototypeExpanderToggleButtonTheme" TargetType="ToggleButton">
 
     <!-- Visual defaults -->
-    <Setter Property="Background" Value="{theme:AccentBrush Light10}" />
-    <Setter Property="BorderBrush" Value="{theme:OverlayWeakBrush}" />
-    <Setter Property="BorderThickness" Value="{theme:ThicknessSm}" />
-    <Setter Property="Padding" Value="{theme:Edges Left={theme:SpacingXxl}}" />
+    <Setter Property="Background" Value="{colour:AccentBrush Light10}" />
+    <Setter Property="BorderBrush" Value="{colour:OverlayWeakBrush}" />
+    <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
+    <Setter Property="Padding" Value="{size:Edges Left={size:SpacingXxl}}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
     <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
     <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
@@ -114,10 +116,10 @@
 
     <!-- Chevron button visuals -->
     <Style Selector="^ /template/ Border#ExpandCollapseChevronBorder">
-      <Setter Property="Width" Value="{theme:ControlHeightSm}" />
-      <Setter Property="Height" Value="{theme:ControlHeightSm}" />
-      <Setter Property="Margin" Value="{theme:Edges Left={theme:SpacingXxl}, Right={theme:SpacingXl}}" />
-      <Setter Property="CornerRadius" Value="{theme:RadiusSm}" />
+      <Setter Property="Width" Value="{size:ControlHeightSm}" />
+      <Setter Property="Height" Value="{size:ControlHeightSm}" />
+      <Setter Property="Margin" Value="{size:Edges Left={size:SpacingXxl}, Right={size:SpacingXl}}" />
+      <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
       <Setter Property="BorderBrush" Value="Transparent" />
       <Setter Property="BorderThickness" Value="0" />
       <Setter Property="Background" Value="Transparent" />
@@ -125,8 +127,8 @@
 
     <!-- Chevron path default -->
     <Style Selector="^ /template/ Path#ExpandCollapseChevron">
-      <Setter Property="Stroke" Value="{theme:AccentBrush Dark1}" />
-      <Setter Property="StrokeThickness" Value="{theme:ThicknessSm}" />
+      <Setter Property="Stroke" Value="{colour:AccentBrush Dark1}" />
+      <Setter Property="StrokeThickness" Value="{size:ThicknessSm}" />
     </Style>
 
     <!-- Chevron expanded animation -->
@@ -156,23 +158,23 @@
 
     <!-- Hover state -->
     <Style Selector="^:pointerover /template/ Border#ToggleButtonBackground">
-      <Setter Property="Background" Value="{theme:AccentBrush Light10}" />
-      <Setter Property="BorderBrush" Value="{theme:OverlayWeakBrush}" />
+      <Setter Property="Background" Value="{colour:AccentBrush Light10}" />
+      <Setter Property="BorderBrush" Value="{colour:OverlayWeakBrush}" />
     </Style>
     <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
     </Style>
     <Style Selector="^:pointerover /template/ Border#ExpandCollapseChevronBorder">
-      <Setter Property="Background" Value="{theme:AccentBrush Dark1}" />
+      <Setter Property="Background" Value="{colour:AccentBrush Dark1}" />
       <Setter Property="BorderBrush" Value="Transparent" />
     </Style>
     <Style Selector="^:pointerover /template/ Path#ExpandCollapseChevron">
-      <Setter Property="Stroke" Value="{theme:AccentBrush Dark1}" />
+      <Setter Property="Stroke" Value="{colour:AccentBrush Dark1}" />
     </Style>
 
     <!-- Pressed state -->
     <Style Selector="^:pressed /template/ Border#ToggleButtonBackground">
-      <Setter Property="Background" Value="{theme:AccentBrush Light10}" />
-      <Setter Property="BorderBrush" Value="{theme:OverlayWeakBrush}" />
+      <Setter Property="Background" Value="{colour:AccentBrush Light10}" />
+      <Setter Property="BorderBrush" Value="{colour:OverlayWeakBrush}" />
     </Style>
     <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter">
     </Style>
@@ -181,23 +183,23 @@
       <Setter Property="BorderBrush" Value="Transparent" />
     </Style>
     <Style Selector="^:pressed /template/ Path#ExpandCollapseChevron">
-      <Setter Property="Stroke" Value="{theme:AccentBrush Dark1}" />
+      <Setter Property="Stroke" Value="{colour:AccentBrush Dark1}" />
     </Style>
 
     <!-- Disabled state -->
     <Style Selector="^:disabled /template/ Border#ToggleButtonBackground">
-      <Setter Property="Background" Value="{theme:AccentBrush Light10}" />
-      <Setter Property="BorderBrush" Value="{theme:OverlayWeakBrush}" />
+      <Setter Property="Background" Value="{colour:AccentBrush Light10}" />
+      <Setter Property="BorderBrush" Value="{colour:OverlayWeakBrush}" />
     </Style>
     <Style Selector="^:disabled /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="Foreground" Value="{theme:AccentBrush Light2}" />
+      <Setter Property="Foreground" Value="{colour:AccentBrush Light2}" />
     </Style>
     <Style Selector="^:disabled /template/ Border#ExpandCollapseChevronBorder">
       <Setter Property="Background" Value="Transparent" />
       <Setter Property="BorderBrush" Value="Transparent" />
     </Style>
     <Style Selector="^:disabled /template/ Path#ExpandCollapseChevron">
-      <Setter Property="Stroke" Value="{theme:AccentBrush Light2}" />
+      <Setter Property="Stroke" Value="{colour:AccentBrush Light2}" />
     </Style>
 
   </ControlTheme>
@@ -249,20 +251,20 @@
 
     <!-- Visual defaults -->
     <Setter Property="IsTabStop" Value="False" />
-    <Setter Property="MinWidth" Value="{theme:ControlMinWidth}" />
-    <Setter Property="MinHeight" Value="{theme:ControlHeightLg}" />
-    <Setter Property="Background" Value="{theme:AccentBrush Light10}" />
-    <Setter Property="BorderBrush" Value="{theme:OverlayWeakBrush}" />
-    <Setter Property="BorderThickness" Value="{theme:Edges Left={theme:BaseSize}, Right={theme:BaseSize}, Bottom={theme:BaseSize}}" />
-    <Setter Property="Padding" Value="{theme:Edges All={theme:SpacingXxl}}" />
+    <Setter Property="MinWidth" Value="{size:ControlMinWidth}" />
+    <Setter Property="MinHeight" Value="{size:ControlHeightLg}" />
+    <Setter Property="Background" Value="{colour:AccentBrush Light10}" />
+    <Setter Property="BorderBrush" Value="{colour:OverlayWeakBrush}" />
+    <Setter Property="BorderThickness" Value="{size:Edges Left={size:BaseSize}, Right={size:BaseSize}, Bottom={size:BaseSize}}" />
+    <Setter Property="Padding" Value="{size:Edges All={size:SpacingXxl}}" />
     <Setter Property="FontFamily" Value="{theme:FontFamily}" />
-    <Setter Property="FontSize" Value="{theme:FontSizeMd}" />
+    <Setter Property="FontSize" Value="{size:FontSizeMd}" />
     <Setter Property="FontWeight" Value="{theme:FontWeightRegular}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
     <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
     <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
     <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
-    <Setter Property="CornerRadius" Value="{theme:RadiusSm}" />
+    <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
 
     <!-- Template -->
     <Setter Property="Template">
@@ -383,16 +385,16 @@
 
     <!-- Content border thickness by direction -->
     <Style Selector="^:left /template/ Border#ExpanderContent">
-      <Setter Property="BorderThickness" Value="{theme:Edges Left={theme:BaseSize}, Top={theme:BaseSize}, Bottom={theme:BaseSize}}" />
+      <Setter Property="BorderThickness" Value="{size:Edges Left={size:BaseSize}, Top={size:BaseSize}, Bottom={size:BaseSize}}" />
     </Style>
     <Style Selector="^:up /template/ Border#ExpanderContent">
-      <Setter Property="BorderThickness" Value="{theme:Edges Left={theme:BaseSize}, Top={theme:BaseSize}, Right={theme:BaseSize}}" />
+      <Setter Property="BorderThickness" Value="{size:Edges Left={size:BaseSize}, Top={size:BaseSize}, Right={size:BaseSize}}" />
     </Style>
     <Style Selector="^:right /template/ Border#ExpanderContent">
-      <Setter Property="BorderThickness" Value="{theme:Edges Top={theme:BaseSize}, Right={theme:BaseSize}, Bottom={theme:BaseSize}}" />
+      <Setter Property="BorderThickness" Value="{size:Edges Top={size:BaseSize}, Right={size:BaseSize}, Bottom={size:BaseSize}}" />
     </Style>
     <Style Selector="^:down /template/ Border#ExpanderContent">
-      <Setter Property="BorderThickness" Value="{theme:Edges Left={theme:BaseSize}, Right={theme:BaseSize}, Bottom={theme:BaseSize}}" />
+      <Setter Property="BorderThickness" Value="{size:Edges Left={size:BaseSize}, Right={size:BaseSize}, Bottom={size:BaseSize}}" />
     </Style>
 
   </ControlTheme>

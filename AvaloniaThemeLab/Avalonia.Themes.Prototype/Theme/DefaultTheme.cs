@@ -245,7 +245,7 @@ public class DefaultTheme
 
     #region Neutral Aliases
 
-    // The neutral hue, pinned. {theme:AccentBrush Dark1} follows whatever Accent.Kind a control
+    // The neutral hue, pinned. {colour:AccentBrush Dark1} follows whatever Accent.Kind a control
     // carries, which is right for the control's own chrome but wrong for the parts that must stay
     // neutral inside an accented control — a caret, a disabled label, a divider. These resolve
     // straight to the neutral ramp and ignore Accent.Kind entirely.
@@ -389,7 +389,7 @@ public class DefaultTheme
 
     #region Derived Properties
     // Colour brushes — one per hue, plus its ten stages. This is the set
-    // {theme:AccentBrush Dark2} resolves against by composing Accent{Kind}{Variant}Brush.
+    // {colour:AccentBrush Dark2} resolves against by composing Accent{Kind}{Variant}Brush.
 
     public virtual SolidColorBrush AccentNeutralBrush => new(AccentNeutral);
     public virtual SolidColorBrush AccentNeutralLight1Brush => new(AccentNeutralLight1);

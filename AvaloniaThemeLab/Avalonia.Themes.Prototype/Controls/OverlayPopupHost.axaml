@@ -1,11 +1,13 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
-                    xmlns:theme="using:AngelSix.ThemeEngine.Generated">
+                    xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+                    xmlns:colour="using:AngelSix.ThemeEngine.Colours"
+                    xmlns:size="using:AngelSix.ThemeEngine.Sizes">
   <ControlTheme x:Key="{x:Type OverlayPopupHost}" TargetType="OverlayPopupHost">
     <!-- Visual defaults -->
-    <Setter Property="Foreground" Value="{theme:AccentBrush Dark1}"/>
-    <Setter Property="FontSize" Value="{theme:FontSizeMd}"/>
+    <Setter Property="Foreground" Value="{colour:AccentBrush Dark1}"/>
+    <Setter Property="FontSize" Value="{size:FontSizeMd}"/>
     <Setter Property="FontFamily" Value="{theme:FontFamily}" />
     <Setter Property="FontWeight" Value="{theme:FontWeightRegular}" />
     <Setter Property="FontStyle" Value="Normal" />

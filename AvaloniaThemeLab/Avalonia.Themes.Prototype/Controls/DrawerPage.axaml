@@ -2,6 +2,8 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+                    xmlns:colour="using:AngelSix.ThemeEngine.Colours"
+                    xmlns:size="using:AngelSix.ThemeEngine.Sizes"
                     xmlns:icons="using:AngelSix.ThemeEngine.Icons">
   <Design.PreviewWith>
     <DrawerPage Header="Sample Drawer Page"
@@ -16,7 +18,7 @@
     </DrawerPage>
   </Design.PreviewWith>
 
-  <SolidColorBrush x:Key="NavigationControlNavBarBackground" Color="{theme:AccentNeutral}" />
+  <SolidColorBrush x:Key="NavigationControlNavBarBackground" Color="{colour:AccentNeutral}" />
 
   <!-- ============================================================
        ControlTheme: {x:Type DrawerPage}
@@ -24,8 +26,8 @@
   <ControlTheme x:Key="{x:Type DrawerPage}" TargetType="DrawerPage">
 
     <!-- Visual defaults -->
-    <Setter Property="Background" Value="{theme:AccentBrush Light10}" />
-    <Setter Property="Foreground" Value="{theme:AccentBrush Dark1}" />
+    <Setter Property="Background" Value="{colour:AccentBrush Light10}" />
+    <Setter Property="Foreground" Value="{colour:AccentBrush Dark1}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
     <Setter Property="VerticalAlignment" Value="{theme:ContainerVerticalAlignment}" />
     <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
@@ -220,22 +222,22 @@
 
     <!-- Themed defaults for inner template elements (Rule 2: no {theme:...} inside ControlTemplate) -->
     <Style Selector="^ /template/ Border#PART_TopBar">
-      <Setter Property="Padding" Value="{theme:Edges All={theme:SpacingLg}}" />
-      <Setter Property="Height" Value="{theme:ControlHeightLg}" />
+      <Setter Property="Padding" Value="{size:Edges All={size:SpacingLg}}" />
+      <Setter Property="Height" Value="{size:ControlHeightLg}" />
     </Style>
     <Style Selector="^ /template/ ContentControl#PART_TitlePresenter">
-      <Setter Property="FontSize" Value="{theme:FontSizeLg}" />
+      <Setter Property="FontSize" Value="{size:FontSizeLg}" />
       <Setter Property="FontWeight" Value="{theme:FontWeightSemiBold}" />
-      <Setter Property="Margin" Value="{theme:Edges Left={theme:SpacingXl}}" />
+      <Setter Property="Margin" Value="{size:Edges Left={size:SpacingXl}}" />
     </Style>
     <Style Selector="^ /template/ Border#PART_BottomBar">
-      <Setter Property="Padding" Value="{theme:Edges All={theme:SpacingLg}}" />
-      <Setter Property="Height" Value="{theme:ControlHeightLg}" />
+      <Setter Property="Padding" Value="{size:Edges All={size:SpacingLg}}" />
+      <Setter Property="Height" Value="{size:ControlHeightLg}" />
     </Style>
     <Style Selector="^ /template/ ContentControl#PART_BottomTitlePresenter">
-      <Setter Property="FontSize" Value="{theme:FontSizeLg}" />
+      <Setter Property="FontSize" Value="{size:FontSizeLg}" />
       <Setter Property="FontWeight" Value="{theme:FontWeightSemiBold}" />
-      <Setter Property="Margin" Value="{theme:Edges Left={theme:SpacingXl}}" />
+      <Setter Property="Margin" Value="{size:Edges Left={size:SpacingXl}}" />
     </Style>
 
     <Style Selector="^:placement-right /template/ ToggleButton#PART_PaneButton">

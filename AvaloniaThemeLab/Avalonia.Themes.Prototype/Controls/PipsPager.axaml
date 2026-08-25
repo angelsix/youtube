@@ -2,6 +2,8 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+                    xmlns:colour="using:AngelSix.ThemeEngine.Colours"
+                    xmlns:size="using:AngelSix.ThemeEngine.Sizes"
                     xmlns:icons="using:AngelSix.ThemeEngine.Icons">
   <Design.PreviewWith>
     <Border Padding="20">
@@ -22,16 +24,16 @@
   <ControlTheme x:Key="PipsPagerNavigationButtonTheme" TargetType="Button">
     <!-- Visual defaults -->
     <Setter Property="Background" Value="Transparent" />
-    <Setter Property="Foreground" Value="{theme:AccentBrush Light2}" />
+    <Setter Property="Foreground" Value="{colour:AccentBrush Light2}" />
     <Setter Property="BorderBrush" Value="Transparent" />
-    <Setter Property="BorderThickness" Value="{theme:ThicknessSm}" />
+    <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
     <!-- Structural: 24x24 icon button (no matching theme token) -->
     <Setter Property="Width" Value="24" />
     <Setter Property="Height" Value="24" />
     <Setter Property="Padding" Value="0" />
     <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
     <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
-    <Setter Property="CornerRadius" Value="{theme:RadiusSm}" />
+    <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
 
     <!-- Press animation -->
     <Setter Property="RenderTransform" Value="none" />
@@ -74,7 +76,7 @@
     <Style Selector="^:disabled /template/ ContentPresenter#PART_ContentPresenter">
       <Setter Property="Background" Value="Transparent" />
       <Setter Property="BorderBrush" Value="Transparent" />
-      <Setter Property="Foreground" Value="{theme:AccentBrush Light2}" />
+      <Setter Property="Foreground" Value="{colour:AccentBrush Light2}" />
     </Style>
   </ControlTheme>
 
@@ -121,8 +123,8 @@
 
     <!-- Pip default fill and transitions -->
     <Style Selector="^ /template/ Ellipse#PipBackground">
-      <Setter Property="Width" Value="{theme:IconSize}" />
-      <Setter Property="Height" Value="{theme:IconSize}" />
+      <Setter Property="Width" Value="{size:IconSize}" />
+      <Setter Property="Height" Value="{size:IconSize}" />
       <Setter Property="Transitions">
         <Transitions>
           <BrushTransition Property="Fill" Duration="{theme:AnimationNormalMs}" />
@@ -131,9 +133,9 @@
       </Setter>
     </Style>
     <Style Selector="^ /template/ Ellipse#Pip">
-      <Setter Property="Width" Value="{theme:SpacingMd}" />
-      <Setter Property="Height" Value="{theme:SpacingMd}" />
-      <Setter Property="Fill" Value="{theme:AccentBrush Light2}" />
+      <Setter Property="Width" Value="{size:SpacingMd}" />
+      <Setter Property="Height" Value="{size:SpacingMd}" />
+      <Setter Property="Fill" Value="{colour:AccentBrush Light2}" />
       <Setter Property="Transitions">
         <Transitions>
           <DoubleTransition Property="Width" Duration="{theme:AnimationNormalMs}" />
@@ -145,9 +147,9 @@
 
     <!-- Hover state -->
     <Style Selector="^:pointerover /template/ Ellipse#Pip">
-      <Setter Property="Width" Value="{theme:ThicknessXxl}" />
-      <Setter Property="Height" Value="{theme:ThicknessXxl}" />
-      <Setter Property="Fill" Value="{theme:AccentBrush Dark1}" />
+      <Setter Property="Width" Value="{size:ThicknessXxl}" />
+      <Setter Property="Height" Value="{size:ThicknessXxl}" />
+      <Setter Property="Fill" Value="{colour:AccentBrush Dark1}" />
     </Style>
     <Style Selector="^:pointerover /template/ Ellipse#PipBackground">
       <Setter Property="Fill" Value="Transparent" />
@@ -156,9 +158,9 @@
 
     <!-- Pressed state -->
     <Style Selector="^:pressed /template/ Ellipse#Pip">
-      <Setter Property="Width" Value="{theme:SpacingMd}" />
-      <Setter Property="Height" Value="{theme:SpacingMd}" />
-      <Setter Property="Fill" Value="{theme:AccentBrush Dark1}" />
+      <Setter Property="Width" Value="{size:SpacingMd}" />
+      <Setter Property="Height" Value="{size:SpacingMd}" />
+      <Setter Property="Fill" Value="{colour:AccentBrush Dark1}" />
     </Style>
     <Style Selector="^:pressed /template/ Ellipse#PipBackground">
       <Setter Property="Fill" Value="Transparent" />
@@ -167,7 +169,7 @@
 
     <!-- Disabled state -->
     <Style Selector="^:disabled /template/ Ellipse#Pip">
-      <Setter Property="Fill" Value="{theme:AccentBrush Light2}" />
+      <Setter Property="Fill" Value="{colour:AccentBrush Light2}" />
     </Style>
     <Style Selector="^:disabled /template/ Ellipse#PipBackground">
       <Setter Property="Fill" Value="Transparent" />
@@ -176,9 +178,9 @@
 
     <!-- Selected state -->
     <Style Selector="^:selected /template/ Ellipse#Pip">
-      <Setter Property="Width" Value="{theme:ThicknessXxl}" />
-      <Setter Property="Height" Value="{theme:ThicknessXxl}" />
-      <Setter Property="Fill" Value="{theme:AccentBrush Dark1}" />
+      <Setter Property="Width" Value="{size:ThicknessXxl}" />
+      <Setter Property="Height" Value="{size:ThicknessXxl}" />
+      <Setter Property="Fill" Value="{colour:AccentBrush Dark1}" />
     </Style>
     <Style Selector="^:selected /template/ Ellipse#PipBackground">
       <Setter Property="Fill" Value="Transparent" />
@@ -187,9 +189,9 @@
 
     <!-- Selected hover state -->
     <Style Selector="^:selected:pointerover /template/ Ellipse#Pip">
-      <Setter Property="Width" Value="{theme:ThicknessXxl}" />
-      <Setter Property="Height" Value="{theme:ThicknessXxl}" />
-      <Setter Property="Fill" Value="{theme:AccentBrush Dark1}" />
+      <Setter Property="Width" Value="{size:ThicknessXxl}" />
+      <Setter Property="Height" Value="{size:ThicknessXxl}" />
+      <Setter Property="Fill" Value="{colour:AccentBrush Dark1}" />
     </Style>
     <Style Selector="^:selected:pointerover /template/ Ellipse#PipBackground">
       <Setter Property="Fill" Value="Transparent" />
@@ -274,12 +276,12 @@
 
     <!-- Navigation icon sizes -->
     <Style Selector="^ /template/ PathIcon#PreviousButtonIcon">
-      <Setter Property="Width" Value="{theme:IconSize}" />
-      <Setter Property="Height" Value="{theme:IconSize}" />
+      <Setter Property="Width" Value="{size:IconSize}" />
+      <Setter Property="Height" Value="{size:IconSize}" />
     </Style>
     <Style Selector="^ /template/ PathIcon#NextButtonIcon">
-      <Setter Property="Width" Value="{theme:IconSize}" />
-      <Setter Property="Height" Value="{theme:IconSize}" />
+      <Setter Property="Width" Value="{size:IconSize}" />
+      <Setter Property="Height" Value="{size:IconSize}" />
     </Style>
 
     <!-- Pressed state -->
