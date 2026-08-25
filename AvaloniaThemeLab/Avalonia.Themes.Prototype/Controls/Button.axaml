@@ -13,7 +13,7 @@
 
       <StackPanel Spacing="20">
         <Label Content="Button States" />
-        <StackPanel Orientation="Horizontal" Spacing="20">
+        <StackPanel Orientation="Horizontal" Spacing="20" >
           <Button Content="Default" />
           <Button Classes="previewHover" Content="Hover" />
           <Button Classes="previewPressed" Content="Pressed" />
@@ -21,12 +21,12 @@
           <Button Content="Disabled" IsEnabled="False" />
         </StackPanel>
         <Label Content="Accent States" />
-        <StackPanel Orientation="Horizontal" Spacing="20">
-          <Button theme:Accent.Kind="Primary" Content="Default" />
-          <Button Classes="previewHover" theme:Accent.Kind="Primary" Content="Hover" />
-          <Button Classes="previewPressed" theme:Accent.Kind="Primary" Content="Pressed" />
-          <Button Classes="previewFocused" theme:Accent.Kind="Primary" Content="Focused" />
-          <Button theme:Accent.Kind="Primary" Content="Disabled" IsEnabled="False" />
+        <StackPanel theme:Accent.Kind="Primary" Orientation="Horizontal" Spacing="20">
+          <Button Content="Default" />
+          <Button Classes="previewHover" Content="Hover" />
+          <Button Classes="previewPressed" Content="Pressed" />
+          <Button Classes="previewFocused" Content="Focused" />
+          <Button Content="Disabled" IsEnabled="False" />
         </StackPanel>
       </StackPanel>
     </Border>

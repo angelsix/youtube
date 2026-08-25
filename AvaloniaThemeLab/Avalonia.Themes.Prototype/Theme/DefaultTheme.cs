@@ -44,7 +44,7 @@ public class DefaultTheme
     [AccentHue] public virtual Color AccentDestructive => Color.Parse("#C17070");
     [AccentHue] public virtual Color AccentSubtle => Color.Parse("#B088C8");
     public virtual Color AccentBorder => Color.Parse("#B8A8C8");
-    public virtual Color AccentFocus => Color.Parse("#4A90D9");
+    public virtual Color AccentFocus => Color.Parse("#bf4aF9");
 
     #endregion Source Properties
 
