@@ -6,12 +6,6 @@
 
     <Application.Styles>
         <PrototypeTheme />
-        <!--
-            The theme's style-class declarations, so the IDE can resolve theme:Accent.Kind="Primary". Has to be
-            here rather than inside the theme: PrototypeTheme is a C# type whose XAML loads at
-            runtime, so an analyser reading this file cannot follow it into anything. Sets nothing.
-        -->
-        <StyleInclude Source="avares://Avalonia.Themes.Prototype/Theme/StyleClasses.axaml" />
 
         <!-- This app's own variant classes, layered over the theme's ControlThemes. -->
         <StyleInclude Source="avares://AvaloniaThemeLab/Theme/BrandControls.axaml" />

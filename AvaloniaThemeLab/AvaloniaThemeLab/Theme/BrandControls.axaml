@@ -20,8 +20,9 @@
         control dictionaries are x:ClassModifier="internal" — deliberately not consumer API — so
         that resource cannot be reached from here at all.
       - Top-level selectors like Button.hero are visible to static analysis as they stand, so these
-        classes need no StyleClasses.axaml declarations. That file is for classes declared as
-        ^.name *inside* a ControlTheme, which is the theme library's case, not this one.
+        classes need nothing declaring them anywhere. A class only goes unresolved when it is
+        declared as ^.name *inside* a ControlTheme, and the theme no longer has any of those a
+        consumer would write — its preview states are theme:Preview.State now.
 
     Values come from theme tokens rather than literals, so a brand button tracks the theme's spacing
     and type scale instead of drifting away from everything around it.

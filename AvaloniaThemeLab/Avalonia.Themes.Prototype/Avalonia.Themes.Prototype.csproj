@@ -6,10 +6,13 @@
         <Nullable>enable</Nullable>
         <RootNamespace>Avalonia.Themes.Prototype</RootNamespace>
 
-        <!-- The declarations live under Theme/, so the engine's generator has to be told where.
-             Left at its default it looks in the project root, finds nothing, and silently stops
-             generating — the classes would go stale without any error. -->
-        <StyleClassDeclarationsFile>$(MSBuildProjectDirectory)/Theme/StyleClasses.axaml</StyleClassDeclarationsFile>
+        <!-- No GenerateStyleClassDeclarations here, deliberately. The engine can emit a file of stub
+             styles so an IDE stops underlining a Classes="..." it cannot resolve, and this theme
+             needed one while its preview states were style classes. They are attached properties
+             now — theme:Preview.State — which an analyser resolves like any other CLR member, so the
+             stub file, the StyleInclude that consumers had to remember, and the whole class of drift
+             between the two are gone. The only classes left are internal to a single control's own
+             template and no consumer ever writes them. -->
     </PropertyGroup>
 
     <ItemGroup>
@@ -21,7 +24,7 @@
              the generator emits none of those members and the build fails with a few hundred
              "does not exist in the current context" errors rather than anything that names the
              real cause. -->
-        <PackageReference Include="AngelSix.ThemeEngine" Version="1.12.0" />
+        <PackageReference Include="AngelSix.ThemeEngine" Version="1.13.0" />
     </ItemGroup>
 
     <ItemGroup>
