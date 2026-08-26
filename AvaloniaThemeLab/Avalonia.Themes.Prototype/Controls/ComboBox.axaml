@@ -67,7 +67,7 @@
     <Setter Property="FocusAdorner" Value="{x:Null}" />
     <Setter Property="MaxDropDownHeight" Value="504" />
     <Setter Property="Background" Value="{colour:AccentBrush Light10}" />
-    <Setter Property="BorderBrush" Value="{colour:AccentBorderBrush}" />
+    <Setter Property="BorderBrush" Value="{colour:AccentBrush Light6}" />
     <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
     <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
     <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
@@ -197,7 +197,7 @@
 
     <Style Selector="^ /template/ Border#HighlightBackground">
       <Setter Property="Background" Value="{colour:AccentPrimaryBrush}" />
-      <Setter Property="BorderBrush" Value="{colour:AccentBorderBrush}" />
+      <Setter Property="BorderBrush" Value="{colour:AccentBrush Light6}" />
     </Style>
 
     <Style Selector="^ /template/ Border#DropDownOverlay">
@@ -206,8 +206,8 @@
     </Style>
 
     <Style Selector="^ /template/ PathIcon#DropDown">
-      <Setter Property="Height" Value="{size:IconSize}" />
-      <Setter Property="Width" Value="{size:IconSize}" />
+      <Setter Property="Height" Value="{size:IconSizeMd}" />
+      <Setter Property="Width" Value="{size:IconSizeMd}" />
       <Setter Property="Margin" Value="{size:Edges Right={size:SpacingXxl}}" />
       <Setter Property="Foreground" Value="{colour:AccentBrush Light2}" />
     </Style>
@@ -215,7 +215,7 @@
     <Style Selector="^ /template/ Border#PopupBorder">
       <Setter Property="Padding" Value="{size:Edges All={size:SpacingSm}}" />
       <Setter Property="Background" Value="{colour:AccentBrush Light10}" />
-      <Setter Property="BorderBrush" Value="{colour:AccentBorderBrush}" />
+      <Setter Property="BorderBrush" Value="{colour:AccentBrush Light6}" />
       <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
       <Setter Property="CornerRadius" Value="{size:RadiusMd}" />
     </Style>
@@ -227,20 +227,20 @@
     <!-- Hover state -->
     <Style Selector="^:pointerover /template/ Border#Background">
       <Setter Property="Background" Value="{colour:AccentBrush Light8}" />
-      <Setter Property="BorderBrush" Value="{colour:AccentBorderBrush}" />
+      <Setter Property="BorderBrush" Value="{colour:AccentBrush Light6}" />
     </Style>
 
     <!-- Pressed state -->
     <Style Selector="^:pressed /template/ Border#Background">
       <Setter Property="Background" Value="{colour:AccentBrush Light6}" />
-      <Setter Property="BorderBrush" Value="{colour:AccentBorderBrush}" />
+      <Setter Property="BorderBrush" Value="{colour:AccentBrush Light6}" />
     </Style>
 
     <!-- Disabled state -->
     <Style Selector="^:disabled">
       <Style Selector="^ /template/ Border#Background">
         <Setter Property="Background" Value="{colour:OverlayWeakBrush}" />
-        <Setter Property="BorderBrush" Value="{colour:AccentBorderBrush}" />
+        <Setter Property="BorderBrush" Value="{colour:AccentBrush Light6}" />
       </Style>
       <Style Selector="^ /template/ ContentControl#ContentPresenter">
         <Setter Property="Foreground" Value="{colour:AccentBrush Light2}" />

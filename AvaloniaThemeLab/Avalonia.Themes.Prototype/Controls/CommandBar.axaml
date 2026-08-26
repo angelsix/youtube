@@ -240,7 +240,7 @@
 
     <!-- Template element styles -->
     <Style Selector="^ /template/ Border#PART_SeparatorBorder">
-      <Setter Property="Background" Value="{colour:AccentBorderBrush}" />
+      <Setter Property="Background" Value="{colour:AccentBrush Light6}" />
     </Style>
 
     <!-- IsInOverflow: horizontal separator -->
@@ -364,18 +364,18 @@
       <Setter Property="BorderThickness" Value="0" />
       <Setter Property="Padding" Value="{size:Edges Left={size:SpacingXxl}, Right={size:SpacingXxl}}" />
       <Setter Property="MinWidth" Value="{size:ControlHeightMd}" />
-      <Setter Property="FontSize" Value="{size:IconSize}" />
+      <Setter Property="FontSize" Value="{size:IconSizeMd}" />
       <Setter Property="Theme" Value="{StaticResource PrototypeCommandBarOverflowButton}" />
     </Style>
 
     <Style Selector="^ /template/ PathIcon#PART_OverflowIcon">
-      <Setter Property="Width" Value="{size:IconSize}" />
-      <Setter Property="Height" Value="{size:IconSize}" />
+      <Setter Property="Width" Value="{size:IconSizeMd}" />
+      <Setter Property="Height" Value="{size:IconSizeMd}" />
     </Style>
 
     <Style Selector="^ /template/ Border#PART_OverflowBorder">
       <Setter Property="Background" Value="{colour:AccentBrush Light10}" />
-      <Setter Property="BorderBrush" Value="{colour:AccentBorderBrush}" />
+      <Setter Property="BorderBrush" Value="{colour:AccentBrush Light6}" />
       <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
       <Setter Property="CornerRadius" Value="{size:RadiusMd}" />
       <Setter Property="Padding" Value="{size:Edges All={size:SpacingMd}}" />

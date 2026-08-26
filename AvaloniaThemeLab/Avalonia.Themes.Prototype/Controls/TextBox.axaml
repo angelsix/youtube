@@ -120,7 +120,7 @@
     <!-- Visual defaults -->
     <Setter Property="Background" Value="{colour:AccentBrush Light4}" />
     <Setter Property="CaretBrush" Value="{colour:AccentBrush Dark1}" />
-    <Setter Property="BorderBrush" Value="{colour:AccentBorderBrush}" />
+    <Setter Property="BorderBrush" Value="{colour:AccentBrush Light6}" />
     <Setter Property="SelectionBrush" Value="{colour:AccentPrimaryBrush}" />
     <Setter Property="PlaceholderForeground" Value="{colour:AccentBrush Light2}" />
     <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
@@ -302,10 +302,10 @@
                         ClipToBounds="True">
             <Panel>
               <PathIcon Data="{icons:Eye}"
-                        Height="{size:IconSize}" Width="{size:IconSize}"
+                        Height="{size:IconSizeMd}" Width="{size:IconSizeMd}"
                         IsVisible="{Binding !$parent[ToggleButton].IsChecked}"/>
               <PathIcon Data="{icons:EyeOff}"
-                        Height="{size:IconSize}" Width="{size:IconSize}"
+                        Height="{size:IconSizeMd}" Width="{size:IconSizeMd}"
                         IsVisible="{Binding $parent[ToggleButton].IsChecked}"/>
             </Panel>
           </ToggleButton>
@@ -320,7 +320,7 @@
           <Button Theme="{StaticResource PrototypeTextBoxButton}"
                   Command="{Binding $parent[TextBox].Clear}"
                   ClipToBounds="True">
-            <PathIcon Data="{icons:Close}" Height="{size:IconSize}" Width="{size:IconSize}"/>
+            <PathIcon Data="{icons:Close}" Height="{size:IconSizeMd}" Width="{size:IconSizeMd}"/>
           </Button>
         </Template>
       </Setter>

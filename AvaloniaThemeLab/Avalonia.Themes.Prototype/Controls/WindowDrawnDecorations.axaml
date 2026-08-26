@@ -10,7 +10,7 @@
   <ControlTheme x:Key="PrototypeDrawnCaptionButton" TargetType="Button">
     <Setter Property="Background" Value="{colour:AccentBrush Light10}" />
     <Setter Property="Foreground" Value="{colour:AccentBrush Dark1}" />
-    <Setter Property="BorderBrush" Value="{colour:AccentBorderBrush}" />
+    <Setter Property="BorderBrush" Value="{colour:AccentBrush Light6}" />
     <Setter Property="Width" Value="{size:ControlHeightLg}"/>
     <Setter Property="Height" Value="{size:ControlHeightMd}"/>
     <Setter Property="VerticalAlignment" Value="{theme:ContainerVerticalAlignment}"/>
@@ -50,7 +50,7 @@
               <Border x:Name="PART_WindowBorder"
                       Background="{colour:AccentBrush Light10}"
                       BorderThickness="{TemplateBinding FrameThickness}"
-                      BorderBrush="{colour:AccentBorderBrush}"
+                      BorderBrush="{colour:AccentBrush Light6}"
                       IsHitTestVisible="False" />
               <!-- Titlebar: background, title text, and drag area live in underlay -->
               <Panel x:Name="PART_TitleBar" VerticalAlignment="Top"
@@ -86,7 +86,7 @@
                 <Button x:Name="PART_FullScreenButton"
                         Theme="{StaticResource PrototypeDrawnCaptionButton}"
                         WindowDecorationProperties.ElementRole="FullScreenButton">
-                  <Viewbox Width="{size:IconSize}" Margin="{size:Edges All={size:SpacingSm}}">
+                  <Viewbox Width="{size:IconSizeMd}" Margin="{size:Edges All={size:SpacingSm}}">
                     <Path Name="FullScreenButtonPath"
                           Stretch="UniformToFill"
                           Fill="{colour:AccentBrush Dark1}"
@@ -96,7 +96,7 @@
                 <Button x:Name="PART_MinimizeButton"
                         Theme="{StaticResource PrototypeDrawnCaptionButton}"
                         WindowDecorationProperties.ElementRole="MinimizeButton">
-                  <Viewbox Width="{size:IconSize}" Margin="{size:Edges All={size:SpacingSm}}">
+                  <Viewbox Width="{size:IconSizeMd}" Margin="{size:Edges All={size:SpacingSm}}">
                     <Path Stretch="UniformToFill"
                           Fill="{colour:AccentBrush Dark1}"
                           Data="{icons:Minus}" />
@@ -105,7 +105,7 @@
                 <Button x:Name="PART_MaximizeButton"
                         Theme="{StaticResource PrototypeDrawnCaptionButton}"
                         WindowDecorationProperties.ElementRole="MaximizeButton">
-                  <Viewbox Width="{size:IconSize}" Margin="{size:Edges All={size:SpacingSm}}">
+                  <Viewbox Width="{size:IconSizeMd}" Margin="{size:Edges All={size:SpacingSm}}">
                     <Viewbox.RenderTransform>
                       <RotateTransform Angle="-90" />
                     </Viewbox.RenderTransform>
@@ -120,7 +120,7 @@
                         BorderBrush="{colour:AccentBrush Light1}"
                         Theme="{StaticResource PrototypeDrawnCaptionButton}"
                         WindowDecorationProperties.ElementRole="CloseButton">
-                  <Viewbox Width="{size:IconSize}" Margin="{size:Edges All={size:SpacingSm}}">
+                  <Viewbox Width="{size:IconSizeMd}" Margin="{size:Edges All={size:SpacingSm}}">
                     <Path Stretch="UniformToFill"
                           Fill="{colour:AccentBrush Dark1}"
                           Data="{icons:Close}" />
@@ -146,7 +146,7 @@
                 <Button x:Name="PART_PopoverFullScreenButton"
                         Theme="{StaticResource PrototypeDrawnCaptionButton}"
                         WindowDecorationProperties.ElementRole="FullScreenButton">
-                  <Viewbox Width="{size:IconSize}" Margin="{size:Edges All={size:SpacingSm}}">
+                  <Viewbox Width="{size:IconSizeMd}" Margin="{size:Edges All={size:SpacingSm}}">
                     <Path Stretch="UniformToFill"
                           Fill="{colour:AccentBrush Dark1}"
                           Data="{icons:WindowRestore}" />
@@ -157,7 +157,7 @@
                         BorderBrush="{colour:AccentBrush Light1}"
                         Theme="{StaticResource PrototypeDrawnCaptionButton}"
                         WindowDecorationProperties.ElementRole="CloseButton">
-                  <Viewbox Width="{size:IconSize}" Margin="{size:Edges All={size:SpacingSm}}">
+                  <Viewbox Width="{size:IconSizeMd}" Margin="{size:Edges All={size:SpacingSm}}">
                     <Path Stretch="UniformToFill"
                           Fill="{colour:AccentBrush Dark1}"
                           Data="{icons:Close}" />
