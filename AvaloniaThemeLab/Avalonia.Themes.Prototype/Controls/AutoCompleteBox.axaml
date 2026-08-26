@@ -24,7 +24,7 @@
               </generic:List>
             </AutoCompleteBox.ItemsSource>
           </AutoCompleteBox>
-          <AutoCompleteBox Width="200" Classes="previewFocused" PlaceholderText="Focused">
+          <AutoCompleteBox Width="200" theme:Preview.State="Focused" PlaceholderText="Focused">
             <AutoCompleteBox.ItemsSource>
               <generic:List x:TypeArguments="x:String">
                 <x:String>Alabama</x:String>
@@ -158,7 +158,7 @@
     </Style>
 
     <!-- Focus state -->
-    <Style Selector="^:focus-visible /template/ TextBox#PART_TextBox, ^.previewFocused /template/ TextBox#PART_TextBox">
+    <Style Selector="^:focus-visible /template/ TextBox#PART_TextBox, ^[(theme|Preview.State)=Focused] /template/ TextBox#PART_TextBox">
       <Setter Property="BorderBrush" Value="{colour:AccentFocusBrush}" />
       <Setter Property="BorderThickness" Value="{size:ThicknessMd}" />
     </Style>

@@ -15,17 +15,17 @@
         <Label Content="CheckBox States" />
         <StackPanel Orientation="Horizontal" Spacing="20">
           <CheckBox>Unchecked</CheckBox>
-          <CheckBox Classes="previewHover" IsChecked="True">Hover</CheckBox>
-          <CheckBox Classes="previewPressed" IsChecked="True">Pressed</CheckBox>
-          <CheckBox Classes="previewFocused" IsChecked="True">Focused</CheckBox>
+          <CheckBox theme:Preview.State="Hover" IsChecked="True">Hover</CheckBox>
+          <CheckBox theme:Preview.State="Pressed" IsChecked="True">Pressed</CheckBox>
+          <CheckBox theme:Preview.State="Focused" IsChecked="True">Focused</CheckBox>
           <CheckBox IsChecked="True" IsEnabled="False">Disabled</CheckBox>
         </StackPanel>
         <Label Content="Accent States" />
         <StackPanel Orientation="Horizontal" Spacing="20">
           <CheckBox theme:Accent.Kind="Primary" IsChecked="True">Default</CheckBox>
-          <CheckBox Classes="previewHover" theme:Accent.Kind="Primary" IsChecked="True">Hover</CheckBox>
-          <CheckBox Classes="previewPressed" theme:Accent.Kind="Primary" IsChecked="True">Pressed</CheckBox>
-          <CheckBox Classes="previewFocused" theme:Accent.Kind="Primary" IsChecked="True">Focused</CheckBox>
+          <CheckBox theme:Preview.State="Hover" theme:Accent.Kind="Primary" IsChecked="True">Hover</CheckBox>
+          <CheckBox theme:Preview.State="Pressed" theme:Accent.Kind="Primary" IsChecked="True">Pressed</CheckBox>
+          <CheckBox theme:Preview.State="Focused" theme:Accent.Kind="Primary" IsChecked="True">Focused</CheckBox>
           <CheckBox theme:Accent.Kind="Primary" IsChecked="True" IsEnabled="False">Disabled</CheckBox>
         </StackPanel>
         <Label Content="Indeterminate" />
@@ -166,17 +166,17 @@
     </Style>
 
     <!-- Hover state -->
-    <Style Selector="^:pointerover, ^.previewHover">
+    <Style Selector="^:pointerover, ^[(theme|Preview.State)=Hover]">
       <Setter Property="BorderBrush" Value="{colour:AccentBrush Dark1}" />
       <Setter Property="Background" Value="{colour:AccentBrush Light10}" />
     </Style>
 
     <!-- Pressed state -->
-    <Style Selector="^:pressed, ^.previewPressed">
+    <Style Selector="^:pressed, ^[(theme|Preview.State)=Pressed]">
       <Setter Property="RenderTransform" Value="{theme:TransformScale Value={size:PressedScale}}" />
     </Style>
 
-    <Style Selector="^:pressed, ^.previewPressed">
+    <Style Selector="^:pressed, ^[(theme|Preview.State)=Pressed]">
       <Setter Property="Background" Value="{colour:AccentBrush Light6}" />
     </Style>
 
@@ -186,7 +186,7 @@
     </Style>
 
     <!-- Focus state -->
-    <Style Selector="^:focus-visible, ^.previewFocused">
+    <Style Selector="^:focus-visible, ^[(theme|Preview.State)=Focused]">
       <Setter Property="BorderBrush" Value="{colour:AccentFocusBrush}" />
       <Setter Property="BorderThickness" Value="{size:ThicknessMd}" />
     </Style>

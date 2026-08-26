@@ -14,31 +14,31 @@
         <Label Content="ToggleButton States" />
         <StackPanel Orientation="Horizontal" Spacing="20">
           <ToggleButton Content="Default" />
-          <ToggleButton Classes="previewHover" Content="Hover" />
-          <ToggleButton Classes="previewPressed" Content="Pressed" />
-          <ToggleButton Classes="previewFocused" Content="Focused" />
+          <ToggleButton theme:Preview.State="Hover" Content="Hover" />
+          <ToggleButton theme:Preview.State="Pressed" Content="Pressed" />
+          <ToggleButton theme:Preview.State="Focused" Content="Focused" />
           <ToggleButton Content="Disabled" IsEnabled="False" />
         </StackPanel>
         <Label Content="Checked States" />
         <StackPanel Orientation="Horizontal" Spacing="20">
           <ToggleButton Content="Checked" IsChecked="True" />
-          <ToggleButton Classes="previewHover" Content="Checked+Hover" IsChecked="True" />
-          <ToggleButton Classes="previewPressed" Content="Checked+Pressed" IsChecked="True" />
+          <ToggleButton theme:Preview.State="Hover" Content="Checked+Hover" IsChecked="True" />
+          <ToggleButton theme:Preview.State="Pressed" Content="Checked+Pressed" IsChecked="True" />
           <ToggleButton Content="Checked+Disabled" IsChecked="True" IsEnabled="False" />
         </StackPanel>
         <Label Content="Indeterminate States" />
         <StackPanel Orientation="Horizontal" Spacing="20">
           <ToggleButton Content="Indeterminate" IsThreeState="True" IsChecked="{x:Null}" />
-          <ToggleButton Classes="previewHover" Content="Indet+Hover" IsThreeState="True" IsChecked="{x:Null}" />
-          <ToggleButton Classes="previewPressed" Content="Indet+Pressed" IsThreeState="True" IsChecked="{x:Null}" />
+          <ToggleButton theme:Preview.State="Hover" Content="Indet+Hover" IsThreeState="True" IsChecked="{x:Null}" />
+          <ToggleButton theme:Preview.State="Pressed" Content="Indet+Pressed" IsThreeState="True" IsChecked="{x:Null}" />
           <ToggleButton Content="Indet+Disabled" IsThreeState="True" IsChecked="{x:Null}" IsEnabled="False" />
         </StackPanel>
         <Label Content="Accent States" />
         <StackPanel Orientation="Horizontal" Spacing="20">
           <ToggleButton theme:Accent.Kind="Primary" Content="Default" />
-          <ToggleButton Classes="previewHover" theme:Accent.Kind="Primary" Content="Hover" />
-          <ToggleButton Classes="previewPressed" theme:Accent.Kind="Primary" Content="Pressed" />
-          <ToggleButton Classes="previewFocused" theme:Accent.Kind="Primary" Content="Focused" />
+          <ToggleButton theme:Preview.State="Hover" theme:Accent.Kind="Primary" Content="Hover" />
+          <ToggleButton theme:Preview.State="Pressed" theme:Accent.Kind="Primary" Content="Pressed" />
+          <ToggleButton theme:Preview.State="Focused" theme:Accent.Kind="Primary" Content="Focused" />
           <ToggleButton theme:Accent.Kind="Primary" Content="Disabled" IsEnabled="False" />
         </StackPanel>
       </StackPanel>
@@ -112,21 +112,21 @@
     </Style>
 
     <!-- Hover state -->
-    <Style Selector="^:pointerover, ^.previewHover">
+    <Style Selector="^:pointerover, ^[(theme|Preview.State)=Hover]">
       <Setter Property="RenderTransform" Value="{theme:TransformScale Value={size:PressedScale}, By=1.07}" />
     </Style>
 
-    <Style Selector="^:pointerover, ^.previewHover">
+    <Style Selector="^:pointerover, ^[(theme|Preview.State)=Hover]">
       <Setter Property="Background" Value="{colour:AccentBrush Light8}" />
       <Setter Property="BorderBrush" Value="Transparent" />
     </Style>
 
     <!-- Pressed state -->
-    <Style Selector="^:pressed, ^.previewPressed">
+    <Style Selector="^:pressed, ^[(theme|Preview.State)=Pressed]">
       <Setter Property="RenderTransform" Value="{theme:TransformScale Value={size:PressedScale}}" />
     </Style>
 
-    <Style Selector="^:pressed, ^.previewPressed">
+    <Style Selector="^:pressed, ^[(theme|Preview.State)=Pressed]">
       <Setter Property="Background" Value="{colour:AccentBrush Light6}" />
       <Setter Property="BorderBrush" Value="Transparent" />
     </Style>
@@ -143,7 +143,7 @@
     </Style>
 
     <!-- Focus state -->
-    <Style Selector="^:focus-visible, ^.previewFocused">
+    <Style Selector="^:focus-visible, ^[(theme|Preview.State)=Focused]">
       <Setter Property="BorderBrush" Value="{colour:AccentFocusBrush}" />
       <Setter Property="BorderThickness" Value="{size:ThicknessMd}" />
     </Style>
@@ -160,7 +160,7 @@
     </Style>
 
     <!-- Checked hover -->
-    <Style Selector="^:checked:pointerover, ^:checked.previewHover">
+    <Style Selector="^:checked:pointerover, ^:checked[(theme|Preview.State)=Hover]">
       <Setter Property="RenderTransform" Value="{theme:TransformScale Value={size:PressedScale}, By=1.07}" />
       <Setter Property="Background" Value="{colour:AccentBrush Light1}" />
       <Setter Property="BorderBrush" Value="Transparent" />
@@ -168,7 +168,7 @@
     </Style>
 
     <!-- Checked pressed -->
-    <Style Selector="^:checked:pressed, ^:checked.previewPressed">
+    <Style Selector="^:checked:pressed, ^:checked[(theme|Preview.State)=Pressed]">
       <Setter Property="RenderTransform" Value="{theme:TransformScale Value={size:PressedScale}}" />
       <Setter Property="Background" Value="{colour:AccentBrush Light6}" />
       <Setter Property="BorderBrush" Value="Transparent" />
@@ -194,14 +194,14 @@
     </Style>
 
     <!-- Indeterminate hover -->
-    <Style Selector="^:indeterminate:pointerover, ^:indeterminate.previewHover">
+    <Style Selector="^:indeterminate:pointerover, ^:indeterminate[(theme|Preview.State)=Hover]">
       <Setter Property="RenderTransform" Value="{theme:TransformScale Value={size:PressedScale}, By=1.07}" />
       <Setter Property="Background" Value="{colour:AccentBrush Light8}" />
       <Setter Property="BorderBrush" Value="{colour:AccentBrush Light6}" />
     </Style>
 
     <!-- Indeterminate pressed -->
-    <Style Selector="^:indeterminate:pressed, ^:indeterminate.previewPressed">
+    <Style Selector="^:indeterminate:pressed, ^:indeterminate[(theme|Preview.State)=Pressed]">
       <Setter Property="RenderTransform" Value="{theme:TransformScale Value={size:PressedScale}}" />
       <Setter Property="Background" Value="{colour:AccentBrush Light6}" />
       <Setter Property="BorderBrush" Value="Transparent" />

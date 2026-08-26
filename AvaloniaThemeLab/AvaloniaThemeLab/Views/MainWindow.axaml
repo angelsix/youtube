@@ -45,8 +45,8 @@
                        ButtonSpinnerLocation="Left" Content="Info (left)" />
 
         <!-- Variant suffixes: hover uses Dark1 + HoverOverlay, pressed uses Dark2 + PressedOverlay -->
-        <ButtonSpinner Classes="previewHover" theme:BrandAccent.Kind="Warning" Content="Warning hover" />
-        <ButtonSpinner Classes="previewPressed" theme:BrandAccent.Kind="Warning" Content="Warning pressed" />
+        <ButtonSpinner theme:Preview.State="Hover" theme:BrandAccent.Kind="Warning" Content="Warning hover" />
+        <ButtonSpinner theme:Preview.State="Pressed" theme:BrandAccent.Kind="Warning" Content="Warning pressed" />
 
         <!-- Kind inherits; the accent class does not -->
         <StackPanel theme:BrandAccent.Kind="Subtle" Spacing="20">

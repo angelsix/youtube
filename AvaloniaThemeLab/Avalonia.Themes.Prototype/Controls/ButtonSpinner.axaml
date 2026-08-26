@@ -217,13 +217,13 @@
 
     <!-- Hover content area -->
     <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter:pointerover,
-                     ^.previewHover /template/ ContentPresenter#PART_ContentPresenter">
+                     ^[(theme|Preview.State)=Hover] /template/ ContentPresenter#PART_ContentPresenter">
       <Setter Property="Background" Value="{colour:AccentBrush Light9}" />
     </Style>
 
     <!-- Pressed state -->
     <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter,
-                     ^.previewPressed /template/ ContentPresenter#PART_ContentPresenter">
+                     ^[(theme|Preview.State)=Pressed] /template/ ContentPresenter#PART_ContentPresenter">
       <Setter Property="Background" Value="{colour:AccentBrush Light6}" />
     </Style>
 

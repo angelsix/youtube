@@ -15,17 +15,17 @@
         <Label Content="DropDownButton States" />
         <StackPanel Orientation="Horizontal" Spacing="20">
           <DropDownButton Content="Default" />
-          <DropDownButton Classes="previewHover" Content="Hover" />
-          <DropDownButton Classes="previewPressed" Content="Pressed" />
-          <DropDownButton Classes="previewFocused" Content="Focused" />
+          <DropDownButton theme:Preview.State="Hover" Content="Hover" />
+          <DropDownButton theme:Preview.State="Pressed" Content="Pressed" />
+          <DropDownButton theme:Preview.State="Focused" Content="Focused" />
           <DropDownButton Content="Disabled" IsEnabled="False" />
         </StackPanel>
         <Label Content="Accent States" />
         <StackPanel Orientation="Horizontal" Spacing="20">
           <DropDownButton theme:Accent.Kind="Primary" Content="Default" />
-          <DropDownButton Classes="previewHover" theme:Accent.Kind="Primary" Content="Hover" />
-          <DropDownButton Classes="previewPressed" theme:Accent.Kind="Primary" Content="Pressed" />
-          <DropDownButton Classes="previewFocused" theme:Accent.Kind="Primary" Content="Focused" />
+          <DropDownButton theme:Preview.State="Hover" theme:Accent.Kind="Primary" Content="Hover" />
+          <DropDownButton theme:Preview.State="Pressed" theme:Accent.Kind="Primary" Content="Pressed" />
+          <DropDownButton theme:Preview.State="Focused" theme:Accent.Kind="Primary" Content="Focused" />
           <DropDownButton theme:Accent.Kind="Primary" Content="Disabled" IsEnabled="False" />
         </StackPanel>
       </StackPanel>
@@ -124,19 +124,19 @@
     </Style>
 
     <!-- Hover state -->
-    <Style Selector="^:pointerover, ^.previewHover">
+    <Style Selector="^:pointerover, ^[(theme|Preview.State)=Hover]">
       <Setter Property="Background" Value="{colour:AccentBrush Light8}" />
       <Setter Property="RenderTransform" Value="{theme:TransformScale Value={size:PressedScale}, By=1.07}" />
     </Style>
-    <Style Selector="^:pointerover /template/ PathIcon#DropDown, ^.previewHover /template/ PathIcon#DropDown">
+    <Style Selector="^:pointerover /template/ PathIcon#DropDown, ^[(theme|Preview.State)=Hover] /template/ PathIcon#DropDown">
     </Style>
 
     <!-- Pressed state -->
-    <Style Selector="^:pressed, ^.previewPressed">
+    <Style Selector="^:pressed, ^[(theme|Preview.State)=Pressed]">
       <Setter Property="RenderTransform" Value="{theme:TransformScale Value={size:PressedScale}}" />
       <Setter Property="Background" Value="{colour:AccentBrush Light6}" />
     </Style>
-    <Style Selector="^:pressed /template/ PathIcon#DropDown, ^.previewPressed /template/ PathIcon#DropDown">
+    <Style Selector="^:pressed /template/ PathIcon#DropDown, ^[(theme|Preview.State)=Pressed] /template/ PathIcon#DropDown">
     </Style>
 
     <!-- Disabled state -->
@@ -145,7 +145,7 @@
     </Style>
 
     <!-- Focus state -->
-    <Style Selector="^:focus-visible, ^.previewFocused">
+    <Style Selector="^:focus-visible, ^[(theme|Preview.State)=Focused]">
       <Setter Property="BorderBrush" Value="{colour:AccentFocusBrush}" />
       <Setter Property="BorderThickness" Value="{size:ThicknessMd}" />
     </Style>

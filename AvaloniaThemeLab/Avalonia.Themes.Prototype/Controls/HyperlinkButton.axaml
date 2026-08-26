@@ -14,9 +14,9 @@
         <Label Content="HyperlinkButton States" />
         <StackPanel Orientation="Horizontal" Spacing="20">
           <HyperlinkButton Content="Default" />
-          <HyperlinkButton Classes="previewHover" Content="Hover" />
-          <HyperlinkButton Classes="previewPressed" Content="Pressed" />
-          <HyperlinkButton Classes="previewFocused" Content="Focused" />
+          <HyperlinkButton theme:Preview.State="Hover" Content="Hover" />
+          <HyperlinkButton theme:Preview.State="Pressed" Content="Pressed" />
+          <HyperlinkButton theme:Preview.State="Focused" Content="Focused" />
           <HyperlinkButton Content="Disabled" IsEnabled="False" />
         </StackPanel>
       </StackPanel>
@@ -95,21 +95,21 @@
     </Style>
 
     <!-- Hover state -->
-    <Style Selector="^:pointerover, ^.previewHover">
+    <Style Selector="^:pointerover, ^[(theme|Preview.State)=Hover]">
       <Setter Property="RenderTransform" Value="{theme:TransformScale Value={size:PressedScale}, By=1.07}" />
     </Style>
 
-    <Style Selector="^:pointerover, ^.previewHover">
+    <Style Selector="^:pointerover, ^[(theme|Preview.State)=Hover]">
       <Setter Property="Background" Value="{colour:AccentBrush Light8}" />
       <Setter Property="Foreground" Value="{colour:AccentPrimaryBrush}" />
     </Style>
 
     <!-- Pressed state -->
-    <Style Selector="^:pressed, ^.previewPressed">
+    <Style Selector="^:pressed, ^[(theme|Preview.State)=Pressed]">
       <Setter Property="RenderTransform" Value="{theme:TransformScale Value={size:PressedScale}}" />
     </Style>
 
-    <Style Selector="^:pressed, ^.previewPressed">
+    <Style Selector="^:pressed, ^[(theme|Preview.State)=Pressed]">
       <Setter Property="Background" Value="{colour:AccentBrush Light6}" />
       <Setter Property="Foreground" Value="{colour:AccentBrush Dark1}" />
     </Style>
@@ -120,7 +120,7 @@
     </Style>
 
     <!-- Focus state -->
-    <Style Selector="^:focus-visible, ^.previewFocused">
+    <Style Selector="^:focus-visible, ^[(theme|Preview.State)=Focused]">
       <Setter Property="BorderBrush" Value="{colour:AccentFocusBrush}" />
       <Setter Property="BorderThickness" Value="{size:ThicknessMd}" />
     </Style>

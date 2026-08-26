@@ -15,17 +15,17 @@
         <Label Content="Button States" />
         <StackPanel Orientation="Horizontal" Spacing="20" >
           <Button Content="Default" />
-          <Button Classes="previewHover" Content="Hover" />
-          <Button Classes="previewPressed" Content="Pressed" />
-          <Button Classes="previewFocused" Content="Focused" />
+          <Button theme:Preview.State="Hover" Content="Hover" />
+          <Button theme:Preview.State="Pressed" Content="Pressed" />
+          <Button theme:Preview.State="Focused" Content="Focused" />
           <Button Content="Disabled" IsEnabled="False" />
         </StackPanel>
         <Label Content="Accent States" />
         <StackPanel theme:Accent.Kind="Primary" Orientation="Horizontal" Spacing="20">
           <Button Content="Default" />
-          <Button Classes="previewHover" Content="Hover" />
-          <Button Classes="previewPressed" Content="Pressed" />
-          <Button Classes="previewFocused" Content="Focused" />
+          <Button theme:Preview.State="Hover" Content="Hover" />
+          <Button theme:Preview.State="Pressed" Content="Pressed" />
+          <Button theme:Preview.State="Focused" Content="Focused" />
           <Button Content="Disabled" IsEnabled="False" />
         </StackPanel>
       </StackPanel>
@@ -101,17 +101,17 @@
          property, so a translucent value replaces the button's fill instead of layering over it,
          and the page would show through. That read correctly only while the button and the page
          were the same colour. -->
-    <Style Selector="^:pointerover, ^.previewHover">
+    <Style Selector="^:pointerover, ^[(theme|Preview.State)=Hover]">
       <Setter Property="Background" Value="{colour:AccentBrush Light8}" />
       <Setter Property="RenderTransform" Value="{theme:TransformScale Value={size:PressedScale}, By=1.07}" />
     </Style>
 
     <!-- Pressed state -->
-    <Style Selector="^:pressed, ^.previewPressed">
+    <Style Selector="^:pressed, ^[(theme|Preview.State)=Pressed]">
       <Setter Property="RenderTransform" Value="{theme:TransformScale Value={size:PressedScale}}" />
     </Style>
 
-    <Style Selector="^:pressed, ^.previewPressed">
+    <Style Selector="^:pressed, ^[(theme|Preview.State)=Pressed]">
       <Setter Property="Background" Value="{colour:AccentBrush Light6}" />
     </Style>
 
@@ -121,7 +121,7 @@
     </Style>
 
     <!-- Focus state -->
-    <Style Selector="^:focus-visible, ^.previewFocused">
+    <Style Selector="^:focus-visible, ^[(theme|Preview.State)=Focused]">
       <Setter Property="BorderBrush" Value="{colour:AccentFocusBrush}" />
       <Setter Property="BorderThickness" Value="{size:ThicknessMd}" />
     </Style>

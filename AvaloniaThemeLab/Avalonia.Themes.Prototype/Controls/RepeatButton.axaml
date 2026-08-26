@@ -14,17 +14,17 @@
         <Label Content="RepeatButton States" />
         <StackPanel Orientation="Horizontal" Spacing="20">
           <RepeatButton Content="Default" />
-          <RepeatButton Classes="previewHover" Content="Hover" />
-          <RepeatButton Classes="previewPressed" Content="Pressed" />
-          <RepeatButton Classes="previewFocused" Content="Focused" />
+          <RepeatButton theme:Preview.State="Hover" Content="Hover" />
+          <RepeatButton theme:Preview.State="Pressed" Content="Pressed" />
+          <RepeatButton theme:Preview.State="Focused" Content="Focused" />
           <RepeatButton Content="Disabled" IsEnabled="False" />
         </StackPanel>
         <Label Content="Accent States" />
         <StackPanel Orientation="Horizontal" Spacing="20">
           <RepeatButton theme:Accent.Kind="Primary" Content="Default" />
-          <RepeatButton Classes="previewHover" theme:Accent.Kind="Primary" Content="Hover" />
-          <RepeatButton Classes="previewPressed" theme:Accent.Kind="Primary" Content="Pressed" />
-          <RepeatButton Classes="previewFocused" theme:Accent.Kind="Primary" Content="Focused" />
+          <RepeatButton theme:Preview.State="Hover" theme:Accent.Kind="Primary" Content="Hover" />
+          <RepeatButton theme:Preview.State="Pressed" theme:Accent.Kind="Primary" Content="Pressed" />
+          <RepeatButton theme:Preview.State="Focused" theme:Accent.Kind="Primary" Content="Focused" />
           <RepeatButton theme:Accent.Kind="Primary" Content="Disabled" IsEnabled="False" />
         </StackPanel>
       </StackPanel>
@@ -100,17 +100,17 @@
     </Style>
 
     <!-- Hover state -->
-    <Style Selector="^:pointerover, ^.previewHover">
+    <Style Selector="^:pointerover, ^[(theme|Preview.State)=Hover]">
       <Setter Property="Background" Value="{colour:AccentBrush Light8}" />
       <Setter Property="RenderTransform" Value="{theme:TransformScale Value={size:PressedScale}, By=1.07}" />
     </Style>
 
     <!-- Pressed state -->
-    <Style Selector="^:pressed, ^.previewPressed">
+    <Style Selector="^:pressed, ^[(theme|Preview.State)=Pressed]">
       <Setter Property="RenderTransform" Value="{theme:TransformScale Value={size:PressedScale}}" />
     </Style>
 
-    <Style Selector="^:pressed, ^.previewPressed">
+    <Style Selector="^:pressed, ^[(theme|Preview.State)=Pressed]">
       <Setter Property="Background" Value="{colour:AccentBrush Light6}" />
     </Style>
 
@@ -120,7 +120,7 @@
     </Style>
 
     <!-- Focus state -->
-    <Style Selector="^:focus-visible, ^.previewFocused">
+    <Style Selector="^:focus-visible, ^[(theme|Preview.State)=Focused]">
       <Setter Property="BorderBrush" Value="{colour:AccentFocusBrush}" />
       <Setter Property="BorderThickness" Value="{size:ThicknessMd}" />
     </Style>
