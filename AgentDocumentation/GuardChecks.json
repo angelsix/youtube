@@ -1,11 +1,65 @@
 {
   "version": 1,
+  "build": {
+    "commands": [
+      "dotnet build \"ASP.Net Core/EntityFrameworkBasics/EntityFrameworkBasics.sln\" --no-restore",
+      "dotnet build \"ASP.Net Core/MVCBasics/test.sln\" --no-restore",
+      "dotnet build \"ASP.Net Core/SqlConnector/SqlConnector.sln\" --no-restore",
+      "dotnet build \"Avalonia BatchProcess/Source/BatchProcess3.sln\" --no-restore",
+      "dotnet build AvaloniaLoudnessMeter/AvaloniaLoudnessMeter.sln --no-restore",
+      "dotnet build AvaloniaThemeLab/AvaloniaThemeLab.sln --no-restore",
+      "dotnet build \"C# Beginners/BasicCalculator/BasicCalculator.sln\" --no-restore",
+      "dotnet build \"C# Beginners/BitwiseOperators/BitwiseOperators.sln\" --no-restore",
+      "dotnet build \"C# Beginners/ConsoleApplication1/ConsoleApplication1.sln\" --no-restore",
+      "dotnet build \"C# Beginners/TicTacToe/TicTacToe.sln\" --no-restore",
+      "dotnet build \"C# General/DelegatesMethodsLambdas/DelegatesMethodsLambdas.sln\" --no-restore",
+      "dotnet build \"C# General/Windows Installer Wix DotNet Core/ConsoleApp1.sln\" --no-restore",
+      "dotnet build DependencyInjectionExample/DependencyExample.sln --no-restore",
+      "dotnet build DotNetCoreDependencyInjection/ConsoleApp1.sln --no-restore",
+      "dotnet build \"Email HTML Template/EmailSendTester/EmailSendTester.sln\" --no-restore",
+      "dotnet build FileFormats/BinaryViewer/BinaryViewer.sln --no-restore",
+      "dotnet build Tasks/TasksInConsole/TasksInConsole.sln --no-restore",
+      "dotnet build Tasks/TasksInWPF/TasksInWPF.sln --no-restore",
+      "dotnet build WPF/01-WpfBasics/WpfBasics.sln --no-restore",
+      "dotnet build WPF/02-TreeViewsAndValueConverters/WpfTreeView/WpfTreeView.sln --no-restore",
+      "dotnet build WPF/03-TreeViewsSimpleViewModel/WpfTreeView/WpfTreeView.sln --no-restore",
+      "dotnet build \"Xamarin Android/Android Lifecycle/AndroidLifecycle.sln\" --no-restore",
+      "dotnet build StreamElectronics/Software/StreamElectronics.csproj --no-restore"
+    ]
+  },
+  "test": {
+    "commands": [
+      "dotnet test \"ASP.Net Core/MVCBasics/test.csproj\" --no-restore"
+    ]
+  },
+  "verify": {
+    "includes": [
+      "build",
+      "test"
+    ]
+  },
+  "sweep": {
+    "commands": [
+      "guard sweep ."
+    ]
+  },
+  "checkup": {
+    "commands": [
+      "guard checkup ."
+    ]
+  },
+  "all": {
+    "includes": [
+      "verify",
+      "sweep"
+    ]
+  },
   "_comment_pre-push": [
     "The PUSH GATE: the security checks that must pass before anything leaves the machine.",
     "tracked-secrets catches a secret git already tracks (.gitignore cannot help there).",
-    "web-exposure catches a static web root that is a source tree, or a path gate that decides",
-    "on the raw request path while the file is read from the decoded one — the RetroSix Live",
-    "disclosure of 29 Aug 2026. Both are fast; neither needs the app built or running."
+    "web-exposure catches a static web root that is a source tree, a path gate that decides on the",
+    "raw request path while the file is read from the decoded one, or credentials kept inside the",
+    "served tree - the RetroSix Live disclosure of 29 Aug 2026. Fast; no build, no running app."
   ],
   "pre-push": {
     "expectedDurationSeconds": 15,
