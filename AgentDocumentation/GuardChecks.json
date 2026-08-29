@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "_comment_pre-push": [
+    "The PUSH GATE: the security checks that must pass before anything leaves the machine.",
+    "tracked-secrets catches a secret git already tracks (.gitignore cannot help there).",
+    "web-exposure catches a static web root that is a source tree, or a path gate that decides",
+    "on the raw request path while the file is read from the decoded one — the RetroSix Live",
+    "disclosure of 29 Aug 2026. Both are fast; neither needs the app built or running."
+  ],
+  "pre-push": {
+    "expectedDurationSeconds": 15,
+    "notice": "Push gate: security checks",
+    "commands": [
+      "guard security tracked-secrets .",
+      "guard security web-exposure ."
+    ]
+  }
+}
