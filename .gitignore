@@ -299,4 +299,6 @@ env
 # AI Mecca agent scaffolding: session notes accumulate operational detail
 # (other-repo names, local paths) that must never ship to this public repo.
 # Files stay on disk for agents; excluded from version control.
-AgentDocumentation/Sessions/
+# **/ prefix: without it the pattern anchors to the repo root only, so per-project
+# copies (e.g. AvaloniaThemeLab/AgentDocumentation/Sessions/) escaped it.
+**/AgentDocumentation/Sessions/

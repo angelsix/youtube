@@ -1,0 +1,151 @@
+# Luke's canonical C# code style — the single source of truth for identifier naming and a few
+# unambiguous style rules, ENFORCED AT BUILD (paired with Directory.Build.props'
+# EnforceCodeStyleInBuild=true, so `dotnet build`/`dotnet test` fails on a violation rather than
+# only flagging it in the IDE). Copied into a project by `guard cs install-standards`; a project
+# then owns and may freely edit its copy.
+#
+# What is NOT here (can't be expressed as build analyzers):
+#   • member ORDER within a class + the #region-per-section convention → `guard cs conventions`
+#     (the built-in ordering analyzer's fixed order is the opposite of Luke's, and it discourages
+#     regions, so it is deliberately not used).
+#   • `Async` suffix, property form, constructor choice, XML-doc scoping, when-to-split → judgment
+#     (see the CodingConventions.md stub / the model's C# primer).
+#   • expression-bodied METHODS, constructors, local functions — deliberately OFF. Multi-statement
+#     bodies forced into arrows fight reviewers; properties/accessors/indexers are fine (they are
+#     almost always one-liners anyway).
+#
+# Severities default to `warning` (promote to `error` per project once the code is clean).
+
+root = true
+
+[*.cs]
+
+# The naming analyzer (IDE1006) is gated separately from the per-rule severities below — without
+# this line the rules only show in the IDE, never at build. This is what makes `dotnet build` fail
+# on a naming violation.
+dotnet_diagnostic.IDE1006.severity = warning
+
+# ── Identifier naming ──
+# Symbol groups
+dotnet_naming_symbols.interfaces.applicable_kinds = interface
+dotnet_naming_symbols.types.applicable_kinds = class, struct, enum, delegate
+dotnet_naming_symbols.const_fields.applicable_kinds = field
+dotnet_naming_symbols.const_fields.required_modifiers = const
+dotnet_naming_symbols.static_fields.applicable_kinds = field
+dotnet_naming_symbols.static_fields.applicable_accessibilities = private, internal
+dotnet_naming_symbols.static_fields.required_modifiers = static
+dotnet_naming_symbols.instance_fields.applicable_kinds = field
+dotnet_naming_symbols.instance_fields.applicable_accessibilities = private, internal
+dotnet_naming_symbols.public_members.applicable_kinds = property, method, event, field
+dotnet_naming_symbols.public_members.applicable_accessibilities = public, protected, protected_internal
+dotnet_naming_symbols.locals_params.applicable_kinds = parameter, local, local_function
+
+# Styles
+dotnet_naming_style.pascal.capitalization = pascal_case
+dotnet_naming_style.camel.capitalization = camel_case
+dotnet_naming_style.underscore_camel.capitalization = camel_case
+dotnet_naming_style.underscore_camel.required_prefix = _
+dotnet_naming_style.i_pascal.capitalization = pascal_case
+dotnet_naming_style.i_pascal.required_prefix = I
+
+# Rules — order matters: the first matching rule wins, so const beats the field rules.
+dotnet_naming_rule.interfaces_i_prefixed.symbols = interfaces
+dotnet_naming_rule.interfaces_i_prefixed.style = i_pascal
+dotnet_naming_rule.interfaces_i_prefixed.severity = warning
+
+dotnet_naming_rule.types_pascal.symbols = types
+dotnet_naming_rule.types_pascal.style = pascal
+dotnet_naming_rule.types_pascal.severity = warning
+
+dotnet_naming_rule.const_pascal.symbols = const_fields
+dotnet_naming_rule.const_pascal.style = pascal
+dotnet_naming_rule.const_pascal.severity = warning
+
+dotnet_naming_rule.static_private_camel.symbols = static_fields
+dotnet_naming_rule.static_private_camel.style = camel
+dotnet_naming_rule.static_private_camel.severity = warning
+
+dotnet_naming_rule.instance_private_underscore.symbols = instance_fields
+dotnet_naming_rule.instance_private_underscore.style = underscore_camel
+dotnet_naming_rule.instance_private_underscore.severity = warning
+
+dotnet_naming_rule.public_members_pascal.symbols = public_members
+dotnet_naming_rule.public_members_pascal.style = pascal
+dotnet_naming_rule.public_members_pascal.severity = warning
+
+dotnet_naming_rule.locals_params_camel.symbols = locals_params
+dotnet_naming_rule.locals_params_camel.style = camel
+dotnet_naming_rule.locals_params_camel.severity = warning
+
+# ── No `this.` qualifier (Luke uses it only when the language genuinely needs it) ──
+dotnet_style_qualification_for_field = false:warning
+dotnet_style_qualification_for_property = false:warning
+dotnet_style_qualification_for_method = false:warning
+dotnet_style_qualification_for_event = false:warning
+
+# ── `var` when the type is apparent, explicit otherwise (soft — a suggestion, not a build break) ──
+csharp_style_var_when_type_is_apparent = true:suggestion
+csharp_style_var_for_built_in_types = false:suggestion
+csharp_style_var_elsewhere = false:suggestion
+
+# ── Dead locals are a warning, because a dead local is usually dropped intent ──
+# A value computed and never used is rarely harmless. In bedrock-wiki, an agent implementing a plan
+# fetched `var options = config.GetSection("Voice").Get<VoiceOptions>()` and then hardcoded the speed
+# the options carried — the unused local was the only visible trace that the intent had been dropped.
+# It built clean, passed the full guard gate and two AI reviews. At warning level the compiler says it.
+dotnet_diagnostic.IDE0059.severity = warning
+
+# ── Modern syntax (C# 12+) ──
+# The mechanical rewrites the language gained since the codebase matured: collection expressions,
+# target-typed new, using declarations, throw/switch expressions, simplified interpolation and null
+# checks. These are SAFE — none changes what the program does — so this repo escalates them to
+# `error` (still enforced at build) rather than leaving them as warnings or suggestions the IDE
+# shows and everyone ignores. To deliberately build despite them (mid-refactor, triage, a spike),
+# pass `-p:DisableModernSyntaxChecks=true` — off by default, nothing is silenced unless you ask.
+# `guard cs fix-modern-syntax <repo> --apply` applies them mechanically via `dotnet format style`.
+#
+# Collection expressions need LangVersion >= 12 (pinned in Directory.Build.props).
+# `when_types_exactly_match` (not the looser default) keeps the conversion from silently widening
+# or narrowing the element type — a semantics change dressed up as a style fix.
+dotnet_style_prefer_collection_expression = when_types_exactly_match
+dotnet_diagnostic.IDE0028.severity = error   # umbrella for the collection-expression family
+dotnet_diagnostic.IDE0300.severity = error   # new T[] { .. } -> [..]
+dotnet_diagnostic.IDE0301.severity = error   # Array.Empty<T>() -> []
+dotnet_diagnostic.IDE0306.severity = error   # new List<T>(x) -> [.. x]
+
+# Target-typed new drops the type the assignment already states: `double[] nums = new double[] {...}`
+# repeats the type twice for no information. Off by default; on here.
+csharp_style_implicit_object_creation_when_type_is_apparent = true
+dotnet_diagnostic.IDE0090.severity = error
+
+# Using declarations (`using var w = ...`) drop braces and the dispose-at-close ceremony of a block
+# whose sole job was disposal. Safe when the variable's lifetime is the enclosing scope.
+csharp_prefer_simple_using_statement = true
+dotnet_diagnostic.IDE0063.severity = error
+
+# Throw expression folds a one-line `if (...) { throw ...; }` into `return cond ? a : b;` territory —
+# shorter, and impossible to accidentally fall through.
+csharp_style_throw_expression = true
+dotnet_diagnostic.IDE0016.severity = error
+
+# Switch expression replaces the assign-and-break ladder with a single expression. Purely cosmetic
+# for the reader, strictly less code for the maintainer.
+csharp_style_prefer_switch_expression = true
+dotnet_diagnostic.IDE0066.severity = error
+
+# Properties, accessors and indexers become arrow bodies freely — they are almost always one-liners.
+# Methods, constructors and local functions stay BLOCK-BODIED on purpose: forcing a multi-statement
+# method onto an arrow fights reviewers and hides control flow. Deliberately not set below.
+csharp_style_expression_bodied_properties = true
+csharp_style_expression_bodied_accessors = true
+csharp_style_expression_bodied_indexers = true
+
+# `$"{n.ToString()}"` carries a call the interpolation operator already performs. Simplified form
+# reads cleaner and costs nothing.
+dotnet_style_prefer_simplified_interpolation = true
+dotnet_diagnostic.IDE0071.severity = error
+
+# `ReferenceEquals(x, null)` spells out what `x is null` means in fewer tokens and without boxing
+# ambiguity. Strictly clearer.
+dotnet_style_prefer_is_null_check_over_reference_equality_method = true
+dotnet_diagnostic.IDE0041.severity = error

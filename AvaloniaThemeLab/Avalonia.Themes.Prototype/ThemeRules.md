@@ -649,4 +649,4 @@ After reviewing the calendar controls against the existing `DefaultTheme`, the c
 | **Animation** | `AnimationFastMs` (75), `AnimationNormalMs` (150), `AnimationSlowMs` (300) |
 | **Derived brushes** | All 13 colours as brushes, 3 surface overlay brushes (weak/medium/strong), 9 accents × 3 shades × 2 (dark/light), all shade brushes |
 | **Shadow / overlay** | `OverlayWeakBrush` (8%), `OverlayMediumBrush` (16%), `OverlayStrongBrush` (32%) — translucent tints off `PrimaryDark5`, for shadows and scrims only |
-| **Dark variant** | `DefaultThemeDark` — overrides `IsDark`, `Primary`, `AccentDestructive`. Every stage falls out of the mirrored ramp |
+| **Dark variant** | No separate dark variant class — darkness is a state of the theme, selected by setting `IsDark` on the instance. Every stage falls out of the mirrored ramp |

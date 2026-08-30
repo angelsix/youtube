@@ -23,5 +23,6 @@ This is a PUBLIC GitHub repository. Its audience includes people who have no rel
 - **Never record information about other repositories** in any file here — not their names, locations, folder structures, or contents. Refer to them only as "a separate private repo".
 - **Never record absolute local filesystem paths** (e.g. `/Users/<name>/...`). Paths relative to this repo are fine.
 - **Never disclose business details of AngelSix's other ventures** (company sites, products, customers, incidents) beyond what is already public on angelsix.com.
+- **Never name internal infrastructure or agent-toolchain specifics** — server/hostnames, model identities, private tool names, workflow internals — even in code comments, MSBuild props, or doc prose. Build files ship to every fork; a comment explaining *why* a target exists must describe the engineering reason generically, never the measurement environment it came from. Proprietary tools referenced by build steps must degrade silently when absent (detect natively, skip), because a public clone will never have them.
 - Session notes (`AgentDocumentation/Sessions/`, gitignored) are exempt from shipping but NOT from these rules — assume anything written there could be recovered from history.
 - When unsure whether a fact is public, treat it as non-public and leave it out.

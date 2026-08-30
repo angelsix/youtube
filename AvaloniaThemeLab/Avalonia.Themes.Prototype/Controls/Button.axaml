@@ -6,29 +6,55 @@
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes"
                     >
   <Design.PreviewWith>
-    <Border Padding="20">
+    <Border>
       <Border.Styles>
         <prototype:PrototypeTheme />
       </Border.Styles>
 
-      <StackPanel Spacing="20">
-        <Label Content="Button States" />
-        <StackPanel Orientation="Horizontal" Spacing="20">
-          <Button Content="Default" />
-          <Button theme:Preview.State="Hover" Content="Hover" />
-          <Button theme:Preview.State="Pressed" Content="Pressed" />
-          <Button theme:Preview.State="Focused" Content="Focused" />
-          <Button Content="Disabled" IsEnabled="False" />
-        </StackPanel>
-        <Label Content="Accent States" />
-        <StackPanel theme:Accent.Kind="Primary" Orientation="Horizontal" Spacing="20">
-          <Button Content="Default" />
-          <Button theme:Preview.State="Hover" Content="Hover" />
-          <Button theme:Preview.State="Pressed" Content="Pressed" />
-          <Button theme:Preview.State="Focused" Content="Focused" />
-          <Button Content="Disabled" IsEnabled="False" />
-        </StackPanel>
+      <StackPanel>
+        <!-- Light -->
+        <Border Padding="20" Background="{colour:AccentBrush Light10}">
+          <StackPanel Spacing="10" >
+            <Label Content="Button States - Dark" />
+            <StackPanel Orientation="Horizontal" Spacing="20">
+              <Button Content="Default" />
+              <Button theme:Preview.State="Hover" Content="Hover" />
+              <Button theme:Preview.State="Pressed" Content="Pressed" />
+              <Button theme:Preview.State="Focused" Content="Focused" />
+              <Button Content="Disabled" IsEnabled="False" />
+            </StackPanel>
+            <StackPanel theme:Accent.Kind="Primary" Orientation="Horizontal" Spacing="20">
+              <Button Content="Default" />
+              <Button theme:Preview.State="Hover" Content="Hover" />
+              <Button theme:Preview.State="Pressed" Content="Pressed" />
+              <Button theme:Preview.State="Focused" Content="Focused" />
+              <Button Content="Disabled" IsEnabled="False" />
+            </StackPanel>
+          </StackPanel>
+        </Border>
+        
+        <!-- Dark -->
+        <Border Padding="20" theme:ThemeRegion.IsDark="True" Background="{colour:AccentBrush Light10}">
+          <StackPanel Spacing="10" >
+            <Label Content="Button States - Dark" />
+            <StackPanel Orientation="Horizontal" Spacing="20">
+              <Button Content="Default" />
+              <Button theme:Preview.State="Hover" Content="Hover" />
+              <Button theme:Preview.State="Pressed" Content="Pressed" />
+              <Button theme:Preview.State="Focused" Content="Focused" />
+              <Button Content="Disabled" IsEnabled="False" />
+            </StackPanel>
+            <StackPanel theme:Accent.Kind="Primary" Orientation="Horizontal" Spacing="20">
+              <Button Content="Default" />
+              <Button theme:Preview.State="Hover" Content="Hover" />
+              <Button theme:Preview.State="Pressed" Content="Pressed" />
+              <Button theme:Preview.State="Focused" Content="Focused" />
+              <Button Content="Disabled" IsEnabled="False" />
+            </StackPanel>
+          </StackPanel>
+        </Border>
       </StackPanel>
+      
     </Border>
   </Design.PreviewWith>
 

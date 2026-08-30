@@ -34,7 +34,11 @@ public partial class DefaultTheme
     /// Whether this is a dark palette. Selects the mirrored ramp, so a control theme asking for
     /// <c>PrimaryDark3</c> as its text colour gets a readable one in either palette.
     /// </summary>
-    public virtual bool IsDark => false;
+    /// <remarks>
+    /// Settable, so a consumer can flip a live instance into its mirrored palette — e.g. for a
+    /// scoped dark region.
+    /// </remarks>
+    public virtual bool IsDark { get; set; } = false;
 
     #endregion Identity
 
@@ -49,7 +53,7 @@ public partial class DefaultTheme
     // drawn *over* the palette — shadows and scrims — are built from its darkest stage.
 
     [AccentHue]
-    [ColourRamp(OverlayLevels = new[] { 0.08, 0.16, 0.32 })]
+    [ColourRamp(OverlayLevels = [0.08, 0.16, 0.32])]
     public virtual Color AccentNeutral => Color.Parse("#2E2E2E");
 
     [AccentHue, ColourRamp] public virtual Color AccentPrimary => Color.Parse("#5BA3C9");
@@ -102,11 +106,11 @@ public partial class DefaultTheme
     public virtual double Radius => BaseSize;
 
     /// <summary>Uniform border/outline thicknesses: ThicknessSm through ThicknessXxl.</summary>
-    [SizeScale(Multipliers = new double[] { 1, 2, 3, 4, 6 }, Types = new[] { typeof(Thickness) })]
+    [SizeScale(Multipliers = [1, 2, 3, 4, 6], Types = new[] { typeof(Thickness) })]
     public virtual double Thickness => BaseSize;
 
     /// <summary>Icon ladder: IconSizeSm through IconSizeXl. Md is the everyday glyph size.</summary>
-    [SizeScale(Multipliers = new double[] { 12, 16, 24, 32 })]
+    [SizeScale(Multipliers = [12, 16, 24, 32])]
     public virtual double IconSize => BaseSize;
 
     /// <summary>
@@ -118,7 +122,7 @@ public partial class DefaultTheme
     /// borrowed an unrelated token as an arithmetic base: a notification card's width has nothing
     /// to do with a button's minimum width, and the two could never move independently.
     /// </remarks>
-    [SizeScale(Multipliers = new double[] { 256, 320, 384 }, Labels = new[] { "Sm", "Md", "Lg" })]
+    [SizeScale(Multipliers = [256, 320, 384], Labels = ["Sm", "Md", "Lg"])]
     public virtual double SurfaceWidth => BaseSize;
 
     #endregion Size Scales
@@ -135,7 +139,7 @@ public partial class DefaultTheme
     // but generating them keeps the names identical across themes, so a control style written
     // against {theme:FontWeightSemiBold} survives a theme swap.
     [FontWeights]
-    public virtual FontFamily FontFamily => new FontFamily("Inter, $Default");
+    public virtual FontFamily FontFamily => new("Inter, $Default");
 
     // Accent visual properties (for highlighted/prominent elements)
     public virtual double AccentBorderStrokeThickness => 2 * BaseSize;
@@ -148,9 +152,9 @@ public partial class DefaultTheme
     /// Animation timing, in milliseconds: AnimationFastMs, AnimationNormalMs and AnimationSlowMs.
     /// The base is the normal duration, so retuning the whole feel of the theme is one number.
     /// </summary>
-    [SizeScale(Multipliers = new double[] { 0.5, 1, 2 },
-               Labels = new[] { "FastMs", "NormalMs", "SlowMs" },
-               Types = new[] { typeof(TimeSpan) })]
+    [SizeScale(Multipliers = [0.5, 1, 2],
+               Labels = ["FastMs", "NormalMs", "SlowMs"],
+               Types = [typeof(TimeSpan)])]
     public virtual double Animation => 150;
 
     // Control alignment defaults (for interactive controls: buttons, inputs, pickers, etc.)
@@ -175,31 +179,4 @@ public partial class DefaultTheme
     public virtual ThemeIconGallery Icons => new();
 
     #endregion Icon Gallery
-}
-
-/// <summary>
-/// Dark variant of the default theme. Sets the neutral centre point and the palette direction;
-/// every stage falls out of the mirrored ramp. Only the destructive accent differs beyond that.
-/// </summary>
-/// <remarks>
-/// It generates nothing of its own. The seeds it overrides are read virtually by the ramps
-/// generated onto <see cref="DefaultTheme"/>, so overriding <c>IsDark</c> and one colour moves the
-/// whole palette with it.
-/// </remarks>
-[Theme]
-public class DefaultThemeDark : DefaultTheme
-{
-    #region Properties
-
-    public override string ThemeName => "Default Dark";
-
-    public override bool IsDark => true;
-
-    // The neutral centre, as in the light palette: the default fill of a control.
-    public override Color AccentNeutral => Color.Parse("#D8D8E4");
-
-    // Destructive accent (darker red)
-    public override Color AccentDestructive => Color.Parse("#C17070");
-
-    #endregion Properties
 }

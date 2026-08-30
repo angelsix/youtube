@@ -1,0 +1,96 @@
+<Project>
+
+  <!-- Copied into a project root by `guard cs install-standards`, alongside the template
+       .editorconfig. It makes the .editorconfig code-style rules fail the BUILD, not just show in
+       the IDE — so `dotnet build` / `dotnet test` (the end gate) is where C# style is enforced,
+       instead of prose a model has to remember. Severities live in .editorconfig (default warning;
+       promote to error per project once clean). If a project already has a Directory.Build.props,
+       merge this PropertyGroup into it rather than overwriting. -->
+  <PropertyGroup>
+    <!-- Hard floor for collection expressions ([..], []) and target-typed new, which the Modern
+         syntax section of .editorconfig relies on. net8+ defaults to C# 12 anyway, but pinning it
+         deliberately means a downgrade or an older SDK fails loudly instead of silently disabling
+         the rules (CS9058) mid-build. -->
+    <LangVersion>12</LangVersion>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+    <AnalysisLevel>latest</AnalysisLevel>
+  </PropertyGroup>
+
+  <!-- ── Working opt-in bypass for the modern-syntax rules ────────────────────────────────
+       Once a repo is clean, the .editorconfig promotes the modern-syntax IDE#### rules to
+       `error`, so `dotnet build` refuses to ship legacy constructs. When you deliberately want
+       to build despite them (mid-refactor, triage, a spike), pass:
+
+           dotnet build -p:DisableModernSyntaxChecks=true
+
+       Off by default — nothing is silenced unless you explicitly ask for it.
+
+       WHY NOT NoWarn: verified empirically, `NoWarn` cannot demote IDE#### diagnostics that
+       the .editorconfig has escalated to `error` — the flagged build still failed. What works
+       instead is this target: it drops a SCOPED .editorconfig one level BELOW the repo root —
+       i.e. inside the project directory — which is the NEAREST ancestor config to every source
+       file and therefore overrides the repo-root severities for the ten modern-syntax IDs,
+       resetting them to `none`. Rewritten on flagged builds, removed on ordinary builds. The
+       generated file is transient; add */modern-syntax-bypass.generated.editorconfig to your
+       .gitignore. -->
+  <PropertyGroup>
+    <ModernSyntaxBypassConfig Condition="'$(ModernSyntaxBypassConfig)' == ''">$(MSBuildProjectDirectory)/modern-syntax-bypass.generated.editorconfig</ModernSyntaxBypassConfig>
+  </PropertyGroup>
+  <Target Name="ApplyModernSyntaxBypass" BeforeTargets="CoreCompile">
+    <PropertyGroup>
+      <_msynl>$([System.Environment]::NewLine)</_msynl>
+      <_mssynContent>[*.cs]$(_msynl)dotnet_diagnostic.IDE0028.severity = none$(_msynl)dotnet_diagnostic.IDE0300.severity = none$(_msynl)dotnet_diagnostic.IDE0301.severity = none$(_msynl)dotnet_diagnostic.IDE0306.severity = none$(_msynl)dotnet_diagnostic.IDE0090.severity = none$(_msynl)dotnet_diagnostic.IDE0063.severity = none$(_msynl)dotnet_diagnostic.IDE0016.severity = none$(_msynl)dotnet_diagnostic.IDE0066.severity = none$(_msynl)dotnet_diagnostic.IDE0071.severity = none$(_msynl)dotnet_diagnostic.IDE0041.severity = none</_mssynContent>
+    </PropertyGroup>
+    <ItemGroup Condition="'$(DisableModernSyntaxChecks)' == 'true'">
+      <EditorConfigFiles Include="$(ModernSyntaxBypassConfig)" />
+    </ItemGroup>
+    <WriteLinesToFile
+        Condition="'$(DisableModernSyntaxChecks)' == 'true'"
+        File="$(ModernSyntaxBypassConfig)"
+        Lines="$(_mssynContent)"
+        Overwrite="true"
+        WriteOnlyWhenDifferent="true" />
+    <Delete
+        Condition="'$(DisableModernSyntaxChecks)' != 'true' AND '$([System.IO.File]::Exists($(ModernSyntaxBypassConfig)))' == 'true'"
+        Files="$(ModernSyntaxBypassConfig)"
+        ContinueOnError="true" />
+    <ItemGroup Condition="'$(DisableModernSyntaxChecks)' != 'true'">
+      <EditorConfigFiles Remove="$(ModernSyntaxBypassConfig)" />
+    </ItemGroup>
+  </Target>
+
+  <!-- ── Optional post-build lint, run as part of the build ────────────────────────────────────
+
+       Motivation: measured, not assumed. Across several automated coding sessions, every run
+       verified its work with exactly one command — `dotnet build` — and none ever ran the extra
+       lint pass, so a class of bug that builds clean but cannot start at runtime sailed through
+       green gates. A check that must be remembered is not a check; this target puts the cheapest
+       fatal-class check inside the one command everyone already runs.
+
+       The lint tool (`guard`) is PROPRIETARY and not distributed publicly. Anyone cloning this
+       repo — CI runners, forks, collaborators — will not have it, and that is NORMAL: the target
+       detects its absence and skips silently. The gate must never be the reason someone cannot
+       build. Detection is done natively in MSBuild (no shell probing): on Windows the global-tools
+       shim is looked up under %USERPROFILE%; elsewhere the unix symlink under ~/.dotnet/tools.
+       Set RunGuardChecks=false to opt a project out; add further `guard` lines as checks earn
+       their place at build time. -->
+  <PropertyGroup>
+    <_GuardUnixShim Condition="'$(OS)' != 'Windows_NT'">$([System.Environment]::GetEnvironmentVariable('HOME'))/.dotnet/tools/guard</_GuardUnixShim>
+    <_GuardWinShim Condition="'$(OS)' == 'Windows_NT'">$([System.Environment]::GetEnvironmentVariable('USERPROFILE'))/.dotnet/tools/guard.exe</_GuardWinShim>
+    <_GuardAvailable Condition="'$(OS)' != 'Windows_NT'">$([System.IO.File]::Exists('$(_GuardUnixShim)'))</_GuardAvailable>
+    <_GuardAvailable Condition="'$(OS)' == 'Windows_NT'">$([System.IO.File]::Exists('$(_GuardWinShim)'))</_GuardAvailable>
+  </PropertyGroup>
+  <Target Name="GuardBuildChecks"
+          AfterTargets="Build"
+          Condition="'$(RunGuardChecks)' != 'false' AND '$(OutputType)' == 'Exe' AND '$(IsTestProject)' != 'true' AND '$(_GuardAvailable)' == 'true'">
+    <Exec Condition="'$(OS)' != 'Windows_NT'"
+          Command="$(_GuardUnixShim) cs service-lifetimes &quot;$(MSBuildProjectDirectory)&quot;"
+          StandardOutputImportance="high"
+          IgnoreStandardErrorWarningFormat="true" />
+    <Exec Condition="'$(OS)' == 'Windows_NT'"
+          Command="$(_GuardWinShim) cs service-lifetimes &quot;$(MSBuildProjectDirectory)&quot;"
+          StandardOutputImportance="high"
+          IgnoreStandardErrorWarningFormat="true" />
+  </Target>
+
+</Project>
