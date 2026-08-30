@@ -67,7 +67,7 @@
   <ControlTheme x:Key="PrototypeExpanderToggleButtonTheme" TargetType="ToggleButton">
 
     <!-- Visual defaults -->
-    <Setter Property="Background" Value="{colour:AccentBrush Light10}" />
+    <Setter Property="Background" Value="{colour:BackgroundDefaultBrush}" />
     <Setter Property="BorderBrush" Value="{colour:OverlayWeakBrush}" />
     <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
     <Setter Property="Padding" Value="{size:Edges Left={size:SpacingXxl}}" />
@@ -158,7 +158,7 @@
 
     <!-- Hover state -->
     <Style Selector="^:pointerover /template/ Border#ToggleButtonBackground">
-      <Setter Property="Background" Value="{colour:AccentBrush Light10}" />
+      <Setter Property="Background" Value="{colour:BackgroundDefaultBrush}" />
       <Setter Property="BorderBrush" Value="{colour:OverlayWeakBrush}" />
     </Style>
     <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
@@ -173,7 +173,7 @@
 
     <!-- Pressed state -->
     <Style Selector="^:pressed /template/ Border#ToggleButtonBackground">
-      <Setter Property="Background" Value="{colour:AccentBrush Light10}" />
+      <Setter Property="Background" Value="{colour:BackgroundDefaultBrush}" />
       <Setter Property="BorderBrush" Value="{colour:OverlayWeakBrush}" />
     </Style>
     <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter">
@@ -188,11 +188,11 @@
 
     <!-- Disabled state -->
     <Style Selector="^:disabled /template/ Border#ToggleButtonBackground">
-      <Setter Property="Background" Value="{colour:AccentBrush Light10}" />
+      <Setter Property="Background" Value="{colour:BackgroundDefaultBrush}" />
       <Setter Property="BorderBrush" Value="{colour:OverlayWeakBrush}" />
     </Style>
     <Style Selector="^:disabled /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="Foreground" Value="{colour:AccentBrush Light2}" />
+      <Setter Property="Foreground" Value="{colour:DimTextDefaultBrush}" />
     </Style>
     <Style Selector="^:disabled /template/ Border#ExpandCollapseChevronBorder">
       <Setter Property="Background" Value="Transparent" />
@@ -253,8 +253,8 @@
     <Setter Property="IsTabStop" Value="False" />
     <Setter Property="MinWidth" Value="{size:ControlMinWidth}" />
     <Setter Property="MinHeight" Value="{size:ControlHeightLg}" />
-    <Setter Property="Background" Value="{colour:AccentBrush Light10}" />
-    <Setter Property="Foreground" Value="{colour:AccentBrush Dark1}" />
+    <Setter Property="Background" Value="{colour:BackgroundDefaultBrush}" />
+    <Setter Property="Foreground" Value="{colour:TextDefaultBrush}" />
     <Setter Property="BorderBrush" Value="{colour:OverlayWeakBrush}" />
     <Setter Property="BorderThickness" Value="{size:Edges Left={size:BaseSize}, Right={size:BaseSize}, Bottom={size:BaseSize}}" />
     <Setter Property="Padding" Value="{size:Edges All={size:SpacingXxl}}" />

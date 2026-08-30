@@ -35,7 +35,7 @@
       </Style>
       <Style Selector="^/template/ ContentPresenter">
         <Setter Property="Background" Value="Transparent" />
-        <Setter Property="Foreground" Value="{colour:AccentBrush Dark1}"/>
+        <Setter Property="Foreground" Value="{colour:TextDefaultBrush}"/>
       </Style>
     </Style>
 
@@ -77,16 +77,16 @@
 
     <!-- Hover state -->
     <Style Selector="^:pointerover /template/ ContentPresenter">
-      <Setter Property="Background" Value="{colour:AccentBrush Light8}"/>
+      <Setter Property="Background" Value="{colour:HoverBackgroundDefaultBrush}"/>
       <Setter Property="BorderBrush" Value="Transparent"/>
-      <Setter Property="Foreground" Value="{colour:AccentBrush Dark1}"/>
+      <Setter Property="Foreground" Value="{colour:TextDefaultBrush}"/>
     </Style>
 
     <!-- Pressed state -->
     <Style Selector="^:pressed /template/ ContentPresenter">
-      <Setter Property="Background" Value="{colour:AccentBrush Light6}"/>
+      <Setter Property="Background" Value="{colour:PressedBackgroundDefaultBrush}"/>
       <Setter Property="BorderBrush" Value="Transparent"/>
-      <Setter Property="Foreground" Value="{colour:AccentBrush Dark1}"/>
+      <Setter Property="Foreground" Value="{colour:TextDefaultBrush}"/>
     </Style>
   </ControlTheme>
 
@@ -96,8 +96,8 @@
     <Setter Property="Height" Value="{size:ControlHeightSm}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
     <Setter Property="Focusable" Value="False" />
-    <Setter Property="Background" Value="{colour:AccentBrush Light10}" />
-    <Setter Property="Foreground" Value="{colour:AccentBrush Dark1}" />
+    <Setter Property="Background" Value="{colour:BackgroundDefaultBrush}" />
+    <Setter Property="Foreground" Value="{colour:TextDefaultBrush}" />
     <Setter Property="IsVisible" Value="False"/>
     <Setter Property="Content">
       <Template>
@@ -114,8 +114,8 @@
     <Setter Property="Height" Value="{size:ControlHeightSm}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
     <Setter Property="Focusable" Value="False" />
-    <Setter Property="Background" Value="{colour:AccentBrush Light10}" />
-    <Setter Property="Foreground" Value="{colour:AccentBrush Dark1}" />
+    <Setter Property="Background" Value="{colour:BackgroundDefaultBrush}" />
+    <Setter Property="Foreground" Value="{colour:TextDefaultBrush}" />
     <Setter Property="IsVisible" Value="False"/>
     <Setter Property="Content">
       <Template>

@@ -34,7 +34,7 @@
   <ControlTheme x:Key="PrototypeScrollBarThumb" TargetType="Thumb">
     <!-- Visual defaults -->
     <Setter Property="Background" Value="{colour:AccentBrush Light2}"/>
-    <Setter Property="Foreground" Value="{colour:AccentBrush Dark1}" />
+    <Setter Property="Foreground" Value="{colour:TextDefaultBrush}" />
     <Setter Property="BorderBrush" Value="{colour:AccentBrush Light2}"/>
     <Setter Property="BorderThickness" Value="{size:ThicknessSm}"/>
     <Setter Property="CornerRadius" Value="{size:RadiusSm}"/>
@@ -79,8 +79,8 @@
   <!-- ScrollBar Page Button sub-theme -->
   <ControlTheme x:Key="PrototypeScrollBarPageButton" TargetType="RepeatButton">
     <!-- Visual defaults -->
-    <Setter Property="Background" Value="{colour:AccentBrush Light10}"/>
-    <Setter Property="Foreground" Value="{colour:AccentBrush Dark1}" />
+    <Setter Property="Background" Value="{colour:BackgroundDefaultBrush}"/>
+    <Setter Property="Foreground" Value="{colour:TextDefaultBrush}" />
     <Setter Property="BorderBrush" Value="{colour:AccentBrush Light2}"/>
     <Setter Property="BorderThickness" Value="{size:ThicknessSm}"/>
     <Setter Property="CornerRadius" Value="{size:RadiusSm}"/>
@@ -103,8 +103,8 @@
   <!-- ScrollBar Line Button sub-theme -->
   <ControlTheme x:Key="PrototypeScrollBarLineButton" TargetType="RepeatButton">
     <!-- Visual defaults -->
-    <Setter Property="Background" Value="{colour:AccentBrush Light10}"/>
-    <Setter Property="Foreground" Value="{colour:AccentBrush Dark1}" />
+    <Setter Property="Background" Value="{colour:BackgroundDefaultBrush}"/>
+    <Setter Property="Foreground" Value="{colour:TextDefaultBrush}" />
     <Setter Property="BorderBrush" Value="{colour:AccentBrush Light2}"/>
     <Setter Property="BorderThickness" Value="{size:ThicknessSm}"/>
     <Setter Property="CornerRadius" Value="{size:RadiusSm}"/>
@@ -130,7 +130,7 @@
 
     <!-- Hover state -->
     <Style Selector="^:pointerover">
-      <Setter Property="TextElement.Foreground" Value="{colour:AccentBrush Dark1}"/>
+      <Setter Property="TextElement.Foreground" Value="{colour:TextDefaultBrush}"/>
 
       <Style Selector="^ /template/ ContentPresenter" >
         <Setter Property="Background" Value="{colour:OverlayWeakBrush}" />
@@ -164,8 +164,8 @@
     <!-- Visual defaults -->
     <Setter Property="MinWidth" Value="{size:ControlHeightSm}" />
     <Setter Property="MinHeight" Value="{size:ControlHeightSm}" />
-    <Setter Property="Background" Value="{colour:AccentBrush Light10}" />
-    <Setter Property="Foreground" Value="{colour:AccentBrush Dark1}" />
+    <Setter Property="Background" Value="{colour:BackgroundDefaultBrush}" />
+    <Setter Property="Foreground" Value="{colour:TextDefaultBrush}" />
     <Setter Property="BorderBrush" Value="{colour:AccentBrush Light2}" />
     <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
     <Setter Property="CornerRadius" Value="{size:RadiusSm}" />

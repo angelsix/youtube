@@ -22,8 +22,8 @@
   <ControlTheme x:Key="{x:Type CalendarButton}" TargetType="CalendarButton">
 
     <!-- Visual defaults -->
-    <Setter Property="Background" Value="{colour:AccentBrush Light10}" />
-    <Setter Property="Foreground" Value="{colour:AccentBrush Dark1}" />
+    <Setter Property="Background" Value="{colour:BackgroundDefaultBrush}" />
+    <Setter Property="Foreground" Value="{colour:TextDefaultBrush}" />
     <Setter Property="BorderBrush" Value="{colour:AccentBrush Dark1}" />
     <Setter Property="BorderThickness" Value="{size:ThicknessMd}" />
     <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
@@ -74,18 +74,18 @@
 
     <!-- Hover state -->
     <Style Selector="^:pointerover">
-      <Setter Property="Background" Value="{colour:AccentBrush Light8}" />
-      <Setter Property="Foreground" Value="{colour:AccentBrush Dark1}" />
+      <Setter Property="Background" Value="{colour:HoverBackgroundDefaultBrush}" />
+      <Setter Property="Foreground" Value="{colour:TextDefaultBrush}" />
       <Setter Property="RenderTransform" Value="{theme:TransformScale Value={size:PressedScale}, By=1.07}" />
       <Style Selector="^ /template/ Border#Border">
-        <Setter Property="BorderBrush" Value="{colour:AccentBrush Light6}" />
+        <Setter Property="BorderBrush" Value="{colour:BorderDefaultBrush}" />
       </Style>
     </Style>
 
     <!-- Pressed state -->
     <Style Selector="^:pressed">
       <Setter Property="RenderTransform" Value="{theme:TransformScale Value={size:PressedScale}}" />
-      <Setter Property="Background" Value="{colour:AccentBrush Light6}" />
+      <Setter Property="Background" Value="{colour:PressedBackgroundDefaultBrush}" />
       <Style Selector="^ /template/ Border#Border">
         <Setter Property="BorderBrush" Value="{colour:AccentBrush Dark2}" />
       </Style>
@@ -147,7 +147,7 @@
     <!-- Blackout state -->
     <Style Selector="^:blackout">
       <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
-        <Setter Property="Foreground" Value="{colour:AccentBrush Light2}" />
+        <Setter Property="Foreground" Value="{colour:DimTextDefaultBrush}" />
       </Style>
     </Style>
 

@@ -66,9 +66,9 @@
     <Setter Property="Padding" Value="{size:Edges Left={size:SpacingXxl}, Top={size:SpacingMd}, Bottom={size:SpacingXl}}" />
     <Setter Property="FocusAdorner" Value="{x:Null}" />
     <Setter Property="MaxDropDownHeight" Value="504" />
-    <Setter Property="Background" Value="{colour:AccentBrush Light10}" />
-    <Setter Property="Foreground" Value="{colour:AccentBrush Dark1}" />
-    <Setter Property="BorderBrush" Value="{colour:AccentBrush Light6}" />
+    <Setter Property="Background" Value="{colour:BackgroundDefaultBrush}" />
+    <Setter Property="Foreground" Value="{colour:TextDefaultBrush}" />
+    <Setter Property="BorderBrush" Value="{colour:BorderDefaultBrush}" />
     <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
     <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
     <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
@@ -78,7 +78,7 @@
     <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
     <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
     <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
-    <Setter Property="PlaceholderForeground" Value="{colour:AccentBrush Light2}" />
+    <Setter Property="PlaceholderForeground" Value="{colour:DimTextDefaultBrush}" />
 
     <!-- Template -->
     <Setter Property="Template">
@@ -198,7 +198,7 @@
 
     <Style Selector="^ /template/ Border#HighlightBackground">
       <Setter Property="Background" Value="{colour:AccentPrimaryBrush}" />
-      <Setter Property="BorderBrush" Value="{colour:AccentBrush Light6}" />
+      <Setter Property="BorderBrush" Value="{colour:BorderDefaultBrush}" />
     </Style>
 
     <Style Selector="^ /template/ Border#DropDownOverlay">
@@ -210,13 +210,13 @@
       <Setter Property="Height" Value="{size:IconSizeMd}" />
       <Setter Property="Width" Value="{size:IconSizeMd}" />
       <Setter Property="Margin" Value="{size:Edges Right={size:SpacingXxl}}" />
-      <Setter Property="Foreground" Value="{colour:AccentBrush Light2}" />
+      <Setter Property="Foreground" Value="{colour:DimTextDefaultBrush}" />
     </Style>
 
     <Style Selector="^ /template/ Border#PopupBorder">
       <Setter Property="Padding" Value="{size:Edges All={size:SpacingSm}}" />
-      <Setter Property="Background" Value="{colour:AccentBrush Light10}" />
-      <Setter Property="BorderBrush" Value="{colour:AccentBrush Light6}" />
+      <Setter Property="Background" Value="{colour:BackgroundDefaultBrush}" />
+      <Setter Property="BorderBrush" Value="{colour:BorderDefaultBrush}" />
       <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
       <Setter Property="CornerRadius" Value="{size:RadiusMd}" />
     </Style>
@@ -227,30 +227,30 @@
 
     <!-- Hover state -->
     <Style Selector="^:pointerover /template/ Border#Background">
-      <Setter Property="Background" Value="{colour:AccentBrush Light8}" />
-      <Setter Property="BorderBrush" Value="{colour:AccentBrush Light6}" />
+      <Setter Property="Background" Value="{colour:HoverBackgroundDefaultBrush}" />
+      <Setter Property="BorderBrush" Value="{colour:BorderDefaultBrush}" />
     </Style>
 
     <!-- Pressed state -->
     <Style Selector="^:pressed /template/ Border#Background">
-      <Setter Property="Background" Value="{colour:AccentBrush Light6}" />
-      <Setter Property="BorderBrush" Value="{colour:AccentBrush Light6}" />
+      <Setter Property="Background" Value="{colour:PressedBackgroundDefaultBrush}" />
+      <Setter Property="BorderBrush" Value="{colour:BorderDefaultBrush}" />
     </Style>
 
     <!-- Disabled state -->
     <Style Selector="^:disabled">
       <Style Selector="^ /template/ Border#Background">
         <Setter Property="Background" Value="{colour:OverlayWeakBrush}" />
-        <Setter Property="BorderBrush" Value="{colour:AccentBrush Light6}" />
+        <Setter Property="BorderBrush" Value="{colour:BorderDefaultBrush}" />
       </Style>
       <Style Selector="^ /template/ ContentControl#ContentPresenter">
-        <Setter Property="Foreground" Value="{colour:AccentBrush Light2}" />
+        <Setter Property="Foreground" Value="{colour:DimTextDefaultBrush}" />
       </Style>
       <Style Selector="^ /template/ TextBlock#PlaceholderTextBlock">
-        <Setter Property="Foreground" Value="{colour:AccentBrush Light2}" />
+        <Setter Property="Foreground" Value="{colour:DimTextDefaultBrush}" />
       </Style>
       <Style Selector="^ /template/ PathIcon#DropDown">
-        <Setter Property="Foreground" Value="{colour:AccentBrush Light2}" />
+        <Setter Property="Foreground" Value="{colour:DimTextDefaultBrush}" />
       </Style>
     </Style>
 
@@ -265,7 +265,7 @@
       <Style Selector="^ /template/ TextBlock#PlaceholderTextBlock">
       </Style>
       <Style Selector="^ /template/ PathIcon#DropDown">
-        <Setter Property="Foreground" Value="{colour:AccentBrush Light2}" />
+        <Setter Property="Foreground" Value="{colour:DimTextDefaultBrush}" />
       </Style>
     </Style>
 
@@ -276,7 +276,7 @@
       <Style Selector="^ /template/ TextBlock#PlaceholderTextBlock">
       </Style>
       <Style Selector="^ /template/ PathIcon#DropDown">
-        <Setter Property="Foreground" Value="{colour:AccentBrush Light2}" />
+        <Setter Property="Foreground" Value="{colour:DimTextDefaultBrush}" />
       </Style>
     </Style>
 

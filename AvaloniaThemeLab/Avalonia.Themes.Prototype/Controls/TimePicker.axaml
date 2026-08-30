@@ -58,23 +58,23 @@
 
     <!-- Pressed template state -->
     <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="Background" Value="{colour:AccentBrush Light6}"/>
-      <Setter Property="Foreground" Value="{colour:AccentBrush Dark1}"/>
+      <Setter Property="Background" Value="{colour:PressedBackgroundDefaultBrush}"/>
+      <Setter Property="Foreground" Value="{colour:TextDefaultBrush}"/>
     </Style>
 
     <!-- Disabled template state -->
     <Style Selector="^:disabled /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="BorderBrush" Value="{colour:AccentBrush Light6}"/>
+      <Setter Property="BorderBrush" Value="{colour:BorderDefaultBrush}"/>
       <Setter Property="Background" Value="{colour:OverlayWeakBrush}"/>
-      <Setter Property="Foreground" Value="{colour:AccentBrush Light2}"/>
+      <Setter Property="Foreground" Value="{colour:DimTextDefaultBrush}"/>
     </Style>
   </ControlTheme>
 
   <!-- Main TimePicker theme -->
   <ControlTheme x:Key="{x:Type TimePicker}" TargetType="TimePicker">
     <!-- Visual defaults -->
-    <Setter Property="Background" Value="{colour:AccentBrush Light10}" />
-    <Setter Property="BorderBrush" Value="{colour:AccentBrush Light6}" />
+    <Setter Property="Background" Value="{colour:BackgroundDefaultBrush}" />
+    <Setter Property="BorderBrush" Value="{colour:BorderDefaultBrush}" />
     <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
     <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
     <Setter Property="Padding" Value="{size:Edges Horizontal={size:SpacingMd}, Vertical={size:SpacingMd}}" />
@@ -188,7 +188,7 @@
 
     <!-- Watermark state -->
     <Style Selector="^:hasnotime /template/ Button#PART_FlyoutButton TextBlock">
-      <Setter Property="Foreground" Value="{colour:AccentBrush Light2}"/>
+      <Setter Property="Foreground" Value="{colour:DimTextDefaultBrush}"/>
     </Style>
 
     <!-- Error state -->
@@ -215,9 +215,9 @@
   <ControlTheme x:Key="{x:Type TimePickerPresenter}" TargetType="TimePickerPresenter">
     <!-- Visual defaults -->
 
-    <Setter Property="Background" Value="{colour:AccentBrush Light10}" />
-    <Setter Property="Foreground" Value="{colour:AccentBrush Dark1}" />
-    <Setter Property="BorderBrush" Value="{colour:AccentBrush Light6}" />
+    <Setter Property="Background" Value="{colour:BackgroundDefaultBrush}" />
+    <Setter Property="Foreground" Value="{colour:TextDefaultBrush}" />
+    <Setter Property="BorderBrush" Value="{colour:BorderDefaultBrush}" />
     <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
     <Setter Property="CornerRadius" Value="{size:RadiusMd}" />
 

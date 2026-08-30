@@ -37,8 +37,8 @@
   <ControlTheme x:Key="{x:Type RepeatButton}" TargetType="RepeatButton">
 
     <!-- Visual defaults -->
-    <Setter Property="Background" Value="{colour:AccentBrush Light10}" />
-    <Setter Property="Foreground" Value="{colour:AccentBrush Dark1}" />
+    <Setter Property="Background" Value="{colour:BackgroundDefaultBrush}" />
+    <Setter Property="Foreground" Value="{colour:TextDefaultBrush}" />
     <Setter Property="BorderBrush" Value="{colour:AccentBrush Dark1}" />
     <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
     <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
@@ -101,7 +101,7 @@
 
     <!-- Hover state -->
     <Style Selector="^:pointerover, ^[(theme|Preview.State)=Hover]">
-      <Setter Property="Background" Value="{colour:AccentBrush Light8}" />
+      <Setter Property="Background" Value="{colour:HoverBackgroundDefaultBrush}" />
       <Setter Property="RenderTransform" Value="{theme:TransformScale Value={size:PressedScale}, By=1.07}" />
     </Style>
 
@@ -111,7 +111,7 @@
     </Style>
 
     <Style Selector="^:pressed, ^[(theme|Preview.State)=Pressed]">
-      <Setter Property="Background" Value="{colour:AccentBrush Light6}" />
+      <Setter Property="Background" Value="{colour:PressedBackgroundDefaultBrush}" />
     </Style>
 
     <!-- Disabled state -->

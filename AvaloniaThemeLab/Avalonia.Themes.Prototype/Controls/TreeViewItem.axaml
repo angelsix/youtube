@@ -58,7 +58,7 @@
 
     <!-- Visual defaults -->
     <Setter Property="Background" Value="Transparent" />
-    <Setter Property="Foreground" Value="{colour:AccentBrush Dark1}" />
+    <Setter Property="Foreground" Value="{colour:TextDefaultBrush}" />
     <Setter Property="BorderBrush" Value="Transparent" />
     <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
     <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
@@ -115,7 +115,7 @@
 
     <!-- Hover state -->
     <Style Selector="^ /template/ Border#PART_LayoutRoot:pointerover">
-      <Setter Property="Background" Value="{colour:AccentBrush Light8}" />
+      <Setter Property="Background" Value="{colour:HoverBackgroundDefaultBrush}" />
       <Setter Property="BorderBrush" Value="Transparent" />
     </Style>
     <Style Selector="^ /template/ Border#PART_LayoutRoot:pointerover > ContentPresenter#PART_HeaderPresenter">
@@ -123,7 +123,7 @@
 
     <!-- Pressed state -->
     <Style Selector="^:pressed /template/ Border#PART_LayoutRoot:pointerover">
-      <Setter Property="Background" Value="{colour:AccentBrush Light8}" />
+      <Setter Property="Background" Value="{colour:HoverBackgroundDefaultBrush}" />
       <Setter Property="BorderBrush" Value="Transparent" />
     </Style>
     <Style Selector="^:pressed /template/ Border#PART_LayoutRoot:pointerover > ContentPresenter#PART_HeaderPresenter">
@@ -135,7 +135,7 @@
       <Setter Property="BorderBrush" Value="Transparent" />
     </Style>
     <Style Selector="^:disabled /template/ ContentPresenter#PART_HeaderPresenter">
-      <Setter Property="Foreground" Value="{colour:AccentBrush Light2}" />
+      <Setter Property="Foreground" Value="{colour:DimTextDefaultBrush}" />
     </Style>
 
     <!-- Selected state -->
@@ -156,7 +156,7 @@
 
     <!-- Selected pressed state -->
     <Style Selector="^:pressed:selected /template/ Border#PART_LayoutRoot:pointerover">
-      <Setter Property="Background" Value="{colour:AccentBrush Light8}" />
+      <Setter Property="Background" Value="{colour:HoverBackgroundDefaultBrush}" />
       <Setter Property="BorderBrush" Value="Transparent" />
     </Style>
     <Style Selector="^:pressed:selected /template/ Border#PART_LayoutRoot:pointerover > ContentPresenter#PART_HeaderPresenter">
@@ -168,7 +168,7 @@
       <Setter Property="BorderBrush" Value="Transparent" />
     </Style>
     <Style Selector="^:disabled:selected /template/ Border#PART_LayoutRoot > ContentPresenter#PART_HeaderPresenter">
-      <Setter Property="Foreground" Value="{colour:AccentBrush Light2}" />
+      <Setter Property="Foreground" Value="{colour:DimTextDefaultBrush}" />
     </Style>
 
     <!-- Empty state -->

@@ -43,8 +43,8 @@
   <ControlTheme x:Key="{x:Type CheckBox}" TargetType="CheckBox">
 
     <!-- Visual defaults -->
-    <Setter Property="Background" Value="{colour:AccentBrush Light10}" />
-    <Setter Property="Foreground" Value="{colour:AccentBrush Dark1}" />
+    <Setter Property="Background" Value="{colour:BackgroundDefaultBrush}" />
+    <Setter Property="Foreground" Value="{colour:TextDefaultBrush}" />
     <Setter Property="BorderBrush" Value="{colour:OverlayMediumBrush}" />
     <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
     <Setter Property="CornerRadius" Value="{size:RadiusMd}" />
@@ -154,7 +154,7 @@
       <Setter Property="Width" Value="10" />
       <Setter Property="Height" Value="10" />
       <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
-      <Setter Property="Background" Value="{colour:AccentBrush Light10}" />
+      <Setter Property="Background" Value="{colour:BackgroundDefaultBrush}" />
     </Style>
 
     <!-- Accent border visuals -->
@@ -168,7 +168,7 @@
     <!-- Hover state -->
     <Style Selector="^:pointerover, ^[(theme|Preview.State)=Hover]">
       <Setter Property="BorderBrush" Value="{colour:AccentBrush Dark1}" />
-      <Setter Property="Background" Value="{colour:AccentBrush Light10}" />
+      <Setter Property="Background" Value="{colour:BackgroundDefaultBrush}" />
     </Style>
 
     <!-- Pressed state -->
@@ -177,7 +177,7 @@
     </Style>
 
     <Style Selector="^:pressed, ^[(theme|Preview.State)=Pressed]">
-      <Setter Property="Background" Value="{colour:AccentBrush Light6}" />
+      <Setter Property="Background" Value="{colour:PressedBackgroundDefaultBrush}" />
     </Style>
 
     <!-- Disabled state -->

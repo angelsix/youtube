@@ -100,7 +100,7 @@
     </Style>
 
     <Style Selector="^:pointerover, ^[(theme|Preview.State)=Hover]">
-      <Setter Property="Background" Value="{colour:AccentBrush Light8}" />
+      <Setter Property="Background" Value="{colour:HoverBackgroundDefaultBrush}" />
       <Setter Property="Foreground" Value="{colour:AccentPrimaryBrush}" />
     </Style>
 
@@ -110,8 +110,8 @@
     </Style>
 
     <Style Selector="^:pressed, ^[(theme|Preview.State)=Pressed]">
-      <Setter Property="Background" Value="{colour:AccentBrush Light6}" />
-      <Setter Property="Foreground" Value="{colour:AccentBrush Dark1}" />
+      <Setter Property="Background" Value="{colour:PressedBackgroundDefaultBrush}" />
+      <Setter Property="Foreground" Value="{colour:TextDefaultBrush}" />
     </Style>
 
     <!-- Disabled state -->
@@ -136,7 +136,7 @@
       </Style>
 
       <Style Selector="^:pressed /template/ ContentPresenter">
-        <Setter Property="Foreground" Value="{colour:AccentBrush Dark1}" />
+        <Setter Property="Foreground" Value="{colour:TextDefaultBrush}" />
       </Style>
     </Style>
 

@@ -24,7 +24,7 @@
     <!-- Visual defaults -->
     <Setter Property="ClickMode" Value="Release" />
     <Setter Property="Background" Value="Transparent" />
-    <Setter Property="Foreground" Value="{colour:AccentBrush Dark1}" />
+    <Setter Property="Foreground" Value="{colour:TextDefaultBrush}" />
     <Setter Property="BorderBrush" Value="Transparent" />
     <Setter Property="BorderThickness" Value="{size:ThicknessMd}" />
     <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
@@ -70,17 +70,17 @@
 
     <!-- Hover state -->
     <Style Selector="^:pointerover /template/ Border#Border">
-      <Setter Property="BorderBrush" Value="{colour:AccentBrush Light6}" />
+      <Setter Property="BorderBrush" Value="{colour:BorderDefaultBrush}" />
     </Style>
 
     <!-- Pressed state -->
     <Style Selector="^:pressed /template/ Border#Border">
-      <Setter Property="BorderBrush" Value="{colour:AccentBrush Light6}" />
+      <Setter Property="BorderBrush" Value="{colour:BorderDefaultBrush}" />
     </Style>
 
     <!-- Disabled state -->
     <Style Selector="^:disabled /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="Foreground" Value="{colour:AccentBrush Light2}" />
+      <Setter Property="Foreground" Value="{colour:DimTextDefaultBrush}" />
     </Style>
 
     <!-- Selected state -->
@@ -124,7 +124,7 @@
 
     <!-- Blackout state -->
     <Style Selector="^:blackout /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="Foreground" Value="{colour:AccentBrush Light2}" />
+      <Setter Property="Foreground" Value="{colour:DimTextDefaultBrush}" />
     </Style>
 
   </ControlTheme>

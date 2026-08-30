@@ -51,8 +51,8 @@
   <ControlTheme x:Key="{x:Type ToggleButton}" TargetType="ToggleButton">
 
     <!-- Visual defaults -->
-    <Setter Property="Background" Value="{colour:AccentBrush Light10}" />
-    <Setter Property="Foreground" Value="{colour:AccentBrush Dark1}" />
+    <Setter Property="Background" Value="{colour:BackgroundDefaultBrush}" />
+    <Setter Property="Foreground" Value="{colour:TextDefaultBrush}" />
     <Setter Property="BorderBrush" Value="Transparent" />
     <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
     <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
@@ -118,7 +118,7 @@
     </Style>
 
     <Style Selector="^:pointerover, ^[(theme|Preview.State)=Hover]">
-      <Setter Property="Background" Value="{colour:AccentBrush Light8}" />
+      <Setter Property="Background" Value="{colour:HoverBackgroundDefaultBrush}" />
       <Setter Property="BorderBrush" Value="Transparent" />
     </Style>
 
@@ -128,7 +128,7 @@
     </Style>
 
     <Style Selector="^:pressed, ^[(theme|Preview.State)=Pressed]">
-      <Setter Property="Background" Value="{colour:AccentBrush Light6}" />
+      <Setter Property="Background" Value="{colour:PressedBackgroundDefaultBrush}" />
       <Setter Property="BorderBrush" Value="Transparent" />
     </Style>
 
@@ -138,9 +138,9 @@
     </Style>
 
     <Style Selector="^:disabled">
-      <Setter Property="Background" Value="{colour:AccentBrush Light6}" />
+      <Setter Property="Background" Value="{colour:PressedBackgroundDefaultBrush}" />
       <Setter Property="BorderBrush" Value="Transparent" />
-      <Setter Property="Foreground" Value="{colour:AccentBrush Light2}" />
+      <Setter Property="Foreground" Value="{colour:DimTextDefaultBrush}" />
     </Style>
 
     <!-- Focus state -->
@@ -171,7 +171,7 @@
     <!-- Checked pressed -->
     <Style Selector="^:checked:pressed, ^:checked[(theme|Preview.State)=Pressed]">
       <Setter Property="RenderTransform" Value="{theme:TransformScale Value={size:PressedScale}}" />
-      <Setter Property="Background" Value="{colour:AccentBrush Light6}" />
+      <Setter Property="Background" Value="{colour:PressedBackgroundDefaultBrush}" />
       <Setter Property="BorderBrush" Value="Transparent" />
       <Setter Property="Foreground" Value="{colour:AccentBrush Light10}" />
     </Style>
@@ -181,7 +181,7 @@
       <Setter Property="Opacity" Value="{size:DisabledOpacity}" />
       <Setter Property="Background" Value="{colour:AccentBrush Light6}" />
       <Setter Property="BorderBrush" Value="Transparent" />
-      <Setter Property="Foreground" Value="{colour:AccentBrush Light2}" />
+      <Setter Property="Foreground" Value="{colour:DimTextDefaultBrush}" />
     </Style>
 
     <!-- ============================================================
@@ -190,7 +190,7 @@
 
     <!-- Indeterminate default -->
     <Style Selector="^:indeterminate">
-      <Setter Property="Background" Value="{colour:AccentBrush Light8}" />
+      <Setter Property="Background" Value="{colour:HoverBackgroundDefaultBrush}" />
       <Setter Property="BorderBrush" Value="Transparent" />
     </Style>
 
@@ -198,7 +198,7 @@
     <Style Selector="^:indeterminate:pointerover, ^:indeterminate[(theme|Preview.State)=Hover]">
       <Setter Property="RenderTransform" Value="{theme:TransformScale Value={size:PressedScale}, By=1.07}" />
       <Setter Property="Background" Value="{colour:AccentBrush Light8}" />
-      <Setter Property="BorderBrush" Value="{colour:AccentBrush Light6}" />
+      <Setter Property="BorderBrush" Value="{colour:BorderDefaultBrush}" />
     </Style>
 
     <!-- Indeterminate pressed -->
@@ -213,7 +213,7 @@
       <Setter Property="Opacity" Value="{size:DisabledOpacity}" />
       <Setter Property="Background" Value="{colour:AccentBrush Light6}" />
       <Setter Property="BorderBrush" Value="Transparent" />
-      <Setter Property="Foreground" Value="{colour:AccentBrush Light2}" />
+      <Setter Property="Foreground" Value="{colour:DimTextDefaultBrush}" />
     </Style>
 
   </ControlTheme>

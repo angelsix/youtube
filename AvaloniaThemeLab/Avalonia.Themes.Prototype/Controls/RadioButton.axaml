@@ -24,8 +24,8 @@
   <ControlTheme x:Key="{x:Type RadioButton}" TargetType="RadioButton">
 
     <!-- Visual defaults -->
-    <Setter Property="Background" Value="{colour:AccentBrush Light10}" />
-    <Setter Property="Foreground" Value="{colour:AccentBrush Dark1}" />
+    <Setter Property="Background" Value="{colour:BackgroundDefaultBrush}" />
+    <Setter Property="Foreground" Value="{colour:TextDefaultBrush}" />
     <Setter Property="BorderBrush" Value="{colour:OverlayMediumBrush}" />
     <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
     <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
@@ -124,7 +124,7 @@
 
     <!-- Hover state -->
     <Style Selector="^:pointerover">
-      <Setter Property="Background" Value="{colour:AccentBrush Light10}" />
+      <Setter Property="Background" Value="{colour:BackgroundDefaultBrush}" />
       <Setter Property="BorderBrush" Value="{colour:AccentBrush Dark1}" />
     </Style>
 
@@ -148,7 +148,7 @@
 
     <!-- Pressed state -->
     <Style Selector="^:pressed">
-      <Setter Property="Background" Value="{colour:AccentBrush Light6}" />
+      <Setter Property="Background" Value="{colour:PressedBackgroundDefaultBrush}" />
       <Setter Property="BorderBrush" Value="{colour:AccentBrush Dark1}" />
     </Style>
 
@@ -176,7 +176,7 @@
     </Style>
 
     <Style Selector="^:disabled /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="Foreground" Value="{colour:AccentBrush Light2}" />
+      <Setter Property="Foreground" Value="{colour:DimTextDefaultBrush}" />
     </Style>
 
     <Style Selector="^:disabled /template/ Ellipse#OuterEllipse">

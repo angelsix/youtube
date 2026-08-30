@@ -5,9 +5,12 @@
                     xmlns:colour="using:AngelSix.ThemeEngine.Colours"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes">
   <ControlTheme x:Key="{x:Type Window}" TargetType="Window">
-    <Setter Property="Background" Value="{colour:AccentBrush Light10}"/>
-    <Setter Property="TransparencyBackgroundFallback" Value="{colour:AccentBrush Light10}" />
-    <Setter Property="TopLevel.SystemBarColor" Value="{colour:AccentBrush Light10}"/>
+    <!-- Canvas colour: SurfaceDefault is the dedicated application-background token — paper seed
+         when light, mirrored near-black when dark — so the window tracks the palette without any
+         consumer branching on IsDark. -->
+    <Setter Property="Background" Value="{colour:SurfaceDefaultBrush}"/>
+    <Setter Property="TransparencyBackgroundFallback" Value="{colour:SurfaceDefaultBrush}" />
+    <Setter Property="TopLevel.SystemBarColor" Value="{colour:SurfaceDefaultBrush}"/>
     <Setter Property="Foreground" Value="{colour:AccentBrush Dark5}"/>
     <Setter Property="FontSize" Value="{size:FontSizeMd}"/>
     <Setter Property="FontFamily" Value="{theme:FontFamily}" />

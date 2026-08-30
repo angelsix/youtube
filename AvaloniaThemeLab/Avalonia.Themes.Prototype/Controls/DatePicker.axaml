@@ -56,14 +56,14 @@
     </Style>
 
     <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="Background" Value="{colour:AccentBrush Light6}" />
+      <Setter Property="Background" Value="{colour:PressedBackgroundDefaultBrush}" />
     </Style>
 
     <!-- Disabled state -->
     <Style Selector="^:disabled /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="BorderBrush" Value="{colour:AccentBrush Light6}" />
+      <Setter Property="BorderBrush" Value="{colour:BorderDefaultBrush}" />
       <Setter Property="Background" Value="{colour:OverlayWeakBrush}" />
-      <Setter Property="Foreground" Value="{colour:AccentBrush Light2}" />
+      <Setter Property="Foreground" Value="{colour:DimTextDefaultBrush}" />
     </Style>
   </ControlTheme>
 
@@ -73,8 +73,8 @@
   <ControlTheme x:Key="{x:Type DatePicker}" TargetType="DatePicker">
 
     <!-- Visual defaults -->
-    <Setter Property="Background" Value="{colour:AccentBrush Light10}" />
-    <Setter Property="BorderBrush" Value="{colour:AccentBrush Light6}" />
+    <Setter Property="Background" Value="{colour:BackgroundDefaultBrush}" />
+    <Setter Property="BorderBrush" Value="{colour:BorderDefaultBrush}" />
     <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
     <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
     <Setter Property="Padding" Value="{size:Edges Top={size:SpacingMd}, Bottom={size:SpacingMd}, Left={size:SpacingMd}, Right={size:SpacingMd}}" />
@@ -161,7 +161,7 @@
 
     <!-- Watermark state (no date selected) -->
     <Style Selector="^:hasnodate /template/ Button#PART_FlyoutButton TextBlock">
-      <Setter Property="Foreground" Value="{colour:AccentBrush Light2}" />
+      <Setter Property="Foreground" Value="{colour:DimTextDefaultBrush}" />
     </Style>
 
     <!-- Focus state -->
@@ -182,9 +182,9 @@
   <ControlTheme x:Key="{x:Type DatePickerPresenter}" TargetType="DatePickerPresenter">
     <Setter Property="Width" Value="296" />
     <Setter Property="MinWidth" Value="296" />
-    <Setter Property="Background" Value="{colour:AccentBrush Light10}" />
-    <Setter Property="Foreground" Value="{colour:AccentBrush Dark1}" />
-    <Setter Property="BorderBrush" Value="{colour:AccentBrush Light6}" />
+    <Setter Property="Background" Value="{colour:BackgroundDefaultBrush}" />
+    <Setter Property="Foreground" Value="{colour:TextDefaultBrush}" />
+    <Setter Property="BorderBrush" Value="{colour:BorderDefaultBrush}" />
     <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
     <Setter Property="CornerRadius" Value="{size:RadiusMd}" />
 

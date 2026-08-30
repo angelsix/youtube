@@ -23,7 +23,7 @@
   </Design.PreviewWith>
 
   <ControlTheme x:Key="{x:Type ToggleSwitch}" TargetType="ToggleSwitch">
-    <Setter Property="Background" Value="{colour:AccentBrush Light10}" />
+    <Setter Property="Background" Value="{colour:BackgroundDefaultBrush}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
     <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
     <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
@@ -151,7 +151,7 @@
 
     <Style Selector="^ /template/ Border#OuterBorder">
       <Setter Property="Background" Value="Transparent" />
-      <Setter Property="BorderBrush" Value="{colour:AccentBrush Light6}" />
+      <Setter Property="BorderBrush" Value="{colour:BorderDefaultBrush}" />
       <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
       <Setter Property="CornerRadius" Value="{size:RadiusMd}" />
     </Style>
@@ -219,7 +219,7 @@
 
     <!-- Disabled state -->
     <Style Selector="^:disabled">
-      <Setter Property="Foreground" Value="{colour:AccentBrush Light2}" />
+      <Setter Property="Foreground" Value="{colour:DimTextDefaultBrush}" />
     </Style>
 
     <Style Selector="^:disabled /template/ Border#OuterBorder">

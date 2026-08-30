@@ -68,19 +68,19 @@
     </Style>
 
     <Style Selector="^:pointerover /template/ ContentPresenter">
-      <Setter Property="Background" Value="{colour:AccentBrush Light8}" />
+      <Setter Property="Background" Value="{colour:HoverBackgroundDefaultBrush}" />
       <Setter Property="BorderBrush" Value="Transparent" />
     </Style>
 
     <Style Selector="^:pressed /template/ ContentPresenter">
-      <Setter Property="Background" Value="{colour:AccentBrush Light6}" />
+      <Setter Property="Background" Value="{colour:PressedBackgroundDefaultBrush}" />
       <Setter Property="BorderBrush" Value="Transparent" />
     </Style>
 
     <Style Selector="^:disabled /template/ ContentPresenter">
       <Setter Property="Background" Value="{colour:OverlayWeakBrush}" />
       <Setter Property="BorderBrush" Value="Transparent" />
-      <Setter Property="Foreground" Value="{colour:AccentBrush Light2}" />
+      <Setter Property="Foreground" Value="{colour:DimTextDefaultBrush}" />
     </Style>
 
     <Style Selector="^[Tag=flyout-open] /template/ ContentPresenter">
@@ -123,7 +123,7 @@
 
   <ControlTheme x:Key="{x:Type SplitButton}" TargetType="SplitButton">
     <Setter Property="Background" Value="{colour:OverlayWeakBrush}" />
-    <Setter Property="Foreground" Value="{colour:AccentBrush Dark1}" />
+    <Setter Property="Foreground" Value="{colour:TextDefaultBrush}" />
     <Setter Property="BorderBrush" Value="Transparent" />
     <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
     <Setter Property="MinHeight" Value="{size:ControlHeightSm}" />

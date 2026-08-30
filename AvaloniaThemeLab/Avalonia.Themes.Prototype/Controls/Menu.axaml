@@ -78,8 +78,8 @@
 
     <!-- Popup border and items presenter theming -->
     <Style Selector="^ /template/ Border#PART_PopupBorder">
-      <Setter Property="Background" Value="{colour:AccentBrush Light10}" />
-      <Setter Property="BorderBrush" Value="{colour:AccentBrush Light6}" />
+      <Setter Property="Background" Value="{colour:BackgroundDefaultBrush}" />
+      <Setter Property="BorderBrush" Value="{colour:BorderDefaultBrush}" />
       <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
       <Setter Property="Padding" Value="0" />
       <Setter Property="MinHeight" Value="{size:ControlHeightSm}" />
@@ -99,7 +99,7 @@
 
     <!--  Listen for PART_LayoutRoot:pointerover, so it will not be triggered when subitem is pressed  -->
     <Style Selector="^:pressed /template/ Border#PART_LayoutRoot:pointerover">
-      <Setter Property="Background" Value="{colour:AccentBrush Light8}" />
+      <Setter Property="Background" Value="{colour:HoverBackgroundDefaultBrush}" />
       <Style Selector="^ ContentPresenter#PART_HeaderPresenter">
       </Style>
     </Style>
@@ -109,7 +109,7 @@
         <Setter Property="Background" Value="Transparent" />
       </Style>
       <Style Selector="^ /template/ ContentPresenter#PART_HeaderPresenter">
-        <Setter Property="Foreground" Value="{colour:AccentBrush Light2}" />
+        <Setter Property="Foreground" Value="{colour:DimTextDefaultBrush}" />
       </Style>
     </Style>
   </ControlTheme>

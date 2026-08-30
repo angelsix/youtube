@@ -94,7 +94,7 @@
         </Style>
 
         <Style Selector="^:pointerover /template/ Border#LayoutRoot">
-          <Setter Property="Background" Value="{colour:AccentBrush Light8}"/>
+          <Setter Property="Background" Value="{colour:HoverBackgroundDefaultBrush}"/>
         </Style>
         <Style Selector="^:selected /template/ Border#LayoutRoot">
           <Setter Property="Background" Value="{colour:AccentBrush Light6}"/>
@@ -235,9 +235,9 @@
         </internal:ResourceSelectorConverter>
       </ResourceDictionary>
     </ControlTheme.Resources>
-    <Setter Property="Background" Value="{colour:AccentBrush Light10}"/>
-    <Setter Property="Foreground" Value="{colour:AccentBrush Dark1}" />
-    <Setter Property="BorderBrush" Value="{colour:AccentBrush Light6}" />
+    <Setter Property="Background" Value="{colour:BackgroundDefaultBrush}"/>
+    <Setter Property="Foreground" Value="{colour:TextDefaultBrush}" />
+    <Setter Property="BorderBrush" Value="{colour:BorderDefaultBrush}" />
     <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
     <Setter Property="CornerRadius" Value="{size:RadiusMd}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />

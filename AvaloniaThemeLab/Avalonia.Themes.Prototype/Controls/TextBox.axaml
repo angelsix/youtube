@@ -119,11 +119,11 @@
   <ControlTheme x:Key="{x:Type TextBox}" TargetType="TextBox">
     <!-- Visual defaults -->
     <Setter Property="Background" Value="{colour:AccentBrush Light4}" />
-    <Setter Property="Foreground" Value="{colour:AccentBrush Dark1}" />
+    <Setter Property="Foreground" Value="{colour:TextDefaultBrush}" />
     <Setter Property="CaretBrush" Value="{colour:AccentBrush Dark1}" />
-    <Setter Property="BorderBrush" Value="{colour:AccentBrush Light6}" />
+    <Setter Property="BorderBrush" Value="{colour:BorderDefaultBrush}" />
     <Setter Property="SelectionBrush" Value="{colour:AccentPrimaryBrush}" />
-    <Setter Property="PlaceholderForeground" Value="{colour:AccentBrush Light2}" />
+    <Setter Property="PlaceholderForeground" Value="{colour:DimTextDefaultBrush}" />
     <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
     <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
     <Setter Property="MinHeight" Value="{size:ControlHeightSm}" />
@@ -261,7 +261,7 @@
 
     <!-- Disabled state -->
     <Style Selector="^:disabled">
-      <Setter Property="Foreground" Value="{colour:AccentBrush Light2}" />
+      <Setter Property="Foreground" Value="{colour:DimTextDefaultBrush}" />
 
       <Style Selector="^ /template/ Border#PART_BorderElement">
         <Setter Property="Background" Value="{colour:OverlayWeakBrush}" />

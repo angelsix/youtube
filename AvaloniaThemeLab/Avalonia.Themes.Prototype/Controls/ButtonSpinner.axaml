@@ -119,9 +119,9 @@
 
     <!-- Visual defaults -->
     <Setter Property="Padding" Value="{size:Edges Horizontal={size:SpacingXl}}" />
-    <Setter Property="Background" Value="{colour:AccentBrush Light10}" />
-    <Setter Property="Foreground" Value="{colour:AccentBrush Dark2}" />
-    <Setter Property="BorderBrush" Value="{colour:AccentBrush Light6}" />
+    <Setter Property="Background" Value="{colour:BackgroundDefaultBrush}" />
+    <Setter Property="Foreground" Value="{colour:TextDefaultBrush}" />
+    <Setter Property="BorderBrush" Value="{colour:BorderDefaultBrush}" />
     <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
     <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
     <Setter Property="MinHeight" Value="{size:ControlHeightSm}" />
@@ -212,7 +212,7 @@
          chevron (AllowSpin=False) and does not restore it until the pointer moves, so a Border hover colour
          flashes back to its rest value on every click. Reproduced on the stock Fluent theme. -->
     <Style Selector="^ /template/ RepeatButton:pointerover:not(:disabled)">
-      <Setter Property="Background" Value="{colour:AccentBrush Light8}" />
+      <Setter Property="Background" Value="{colour:HoverBackgroundDefaultBrush}" />
       <Setter Property="Foreground" Value="{colour:AccentBrush Dark7}" />
     </Style>
 
@@ -226,11 +226,11 @@
     <!-- Pressed state -->
     <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter,
                      ^[(theme|Preview.State)=Pressed] /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="Background" Value="{colour:AccentBrush Light6}" />
+      <Setter Property="Background" Value="{colour:PressedBackgroundDefaultBrush}" />
     </Style>
 
     <Style Selector="^ /template/ RepeatButton:pressed:not(:disabled)">
-      <Setter Property="Background" Value="{colour:AccentBrush Light6}" />
+      <Setter Property="Background" Value="{colour:PressedBackgroundDefaultBrush}" />
     </Style>
 
     <!-- Disabled state -->
