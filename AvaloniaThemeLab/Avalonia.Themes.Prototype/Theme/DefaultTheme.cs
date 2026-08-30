@@ -100,6 +100,43 @@ public partial class DefaultTheme
     /// </remarks>
     public virtual Color SurfaceDefault => IsDark ? AccentSurfaceLight9 : AccentSurface;
 
+    // Accent roles: named aliases for one stage of the CONTROL'S OWN hue ramp. The property name
+    // is the token and its RampStage value is the pinned stage; the generator emits two extensions
+    // per role into AngelSix.ThemeEngine.Colours — {colour:X} (the colour) and {colour:XBrush}
+    // (the brush) — which resolve against whatever Accent.Kind the target carries at render time.
+    // Unlike SurfaceDefault above, a role never freezes a colour: it keeps following the hue and
+    // the palette while giving every outlined control one shared spelling. Retuning a role
+    // globally is editing its RampStage here and rebuilding.
+    //
+    // Deliberately internal: the generator bakes each stage into the generated extensions at
+    // build time, so nothing ever reads these properties at runtime — they exist purely as the
+    // single editable source of truth. internal keeps them out of the public API surface (and
+    // every consumer's IntelliSense) while staying overridable inside this assembly.
+
+    /// <summary>Outlined-control text ink.</summary>
+    [AccentRole]
+    internal virtual RampStage TextDefault => RampStage.Dark7;
+
+    /// <summary>Outlined-control border.</summary>
+    [AccentRole]
+    internal virtual RampStage BorderDefault => RampStage.Light6;
+
+    /// <summary>Outlined-control rest fill.</summary>
+    [AccentRole]
+    internal virtual RampStage BackgroundDefault => RampStage.Light10;
+
+    /// <summary>Outlined-control hover fill.</summary>
+    [AccentRole]
+    internal virtual RampStage HoverBackgroundDefault => RampStage.Light8;
+
+    /// <summary>Outlined-control pressed fill.</summary>
+    [AccentRole]
+    internal virtual RampStage PressedBackgroundDefault => RampStage.Light6;
+
+    /// <summary>Dimmed text: placeholders, captions, secondary labels.</summary>
+    [AccentRole]
+    internal virtual RampStage DimTextDefault => RampStage.Light2;
+
     #endregion Theme-Specific Defaults
 
     #region Size Scales

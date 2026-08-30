@@ -133,6 +133,20 @@ On a control with no `Accent.Kind` the two render identically today, which is ex
 
 **Stage properties have no markup extension.** The generator suppresses them, because `{colour:AccentBrush Dark2}` already reaches every one and ~460 entries make IntelliSense unusable. Only the base `Accent{Hue}` and `Accent{Hue}Brush` are emitted. There is no colour-valued equivalent of `AccentBrush`, so a `GradientStop` or `Pen` can only reach a hue's base.
 
+### Accent Roles — Named Stages for Recurring Assignments
+
+Where the same stage recurs as a *semantic* assignment (outlined text ink, rest fill, border, hover, pressed), prefer the role token over the raw stage:
+
+| You mean | Use | Raw equivalent |
+|---|---|---|
+| outlined-control text ink | `{colour:TextDefault}` | `{colour:AccentBrush Dark1}` |
+| outlined-control border | `{colour:BorderDefault}` | `{colour:AccentBrush Light6}` |
+| outlined-control rest fill | `{colour:BackgroundDefault}` | `{colour:AccentBrush Light10}` |
+| outlined-control hover fill | `{colour:HoverBackgroundDefault}` | `{colour:AccentBrush Light8}` |
+| outlined-control pressed fill | `{colour:PressedBackgroundDefault}` | `{colour:AccentBrush Light6}` |
+
+Roles are declared on the theme class beside `[Theme]` — `[AccentRole("TextDefault", RampStage.Dark1)]` — where the stage is picked from the closed `RampStage` enum (`Base`, `Light1..20`, `Dark1..20`), so completion offers every legal stage and a typo cannot compile. They resolve through the **same accent machinery** as `AccentBrush`: the hue still comes from the target control (`Accent.Kind` inherits down into template parts), scoped regions still mirror the ramp, and the brush is read off the live theme at render time. A role never freezes a colour — it pins only the *stage*, so retuning "all outlined text globally" is editing one `RampStage` argument in `DefaultTheme.cs` and rebuilding. Deliberate deviations keep the raw spelling: `Button`'s `Dark2` ink, `Window`'s `Dark5`, `.hero`'s filled-inverse assignments. If a site uses a raw stage that matches a role but means something different, leave it raw — the role name would lie.
+
 > **Never use an `Overlay*` brush as a `Background` for a state.** `Background` is a single property, so a translucent value *replaces* the fill rather than layering over it, and whatever is behind the control shows through. It reads correctly only while the control and the page are the same colour. Overlays are for shadows and scrims, drawn as their own `Border` behind the target — see below.
 
 ### Shadow Theming
@@ -637,6 +651,7 @@ After reviewing the calendar controls against the existing `DefaultTheme`, the c
 | **Colour ramps** | One hue per `[AccentHue] Color Accent{Hue}`, each with `Light1..10` / `Dark1..10` from `ColorRamp`. Reached as `{colour:AccentBrush Dark2}`; the stage properties have no extension of their own |
 | **Accent colours (10)** | `AccentPrimary`, `AccentSuccess`, `AccentWarning`, `AccentError`, `AccentInfo`, `AccentDestructive`, `AccentSubtle`, `AccentNeutral`, `AccentBorder`, **`AccentFocus`**, **`AccentSurface`** (surface/background hue — seed is the fill, not the ink) |
 | **Surfaces** | `SurfaceDefault` — application background/canvas: paper seed when light, mirrored far-light stage (`AccentSurfaceLight10`) when dark; consumed as `{colour:SurfaceDefaultBrush}` with no IsDark awareness |
+| **Accent roles** | `[AccentRole(name, RampStage)]` on the theme class generates one extension per role into the colour namespace: `TextDefault` (Dark1), `BorderDefault` (Light6), `BackgroundDefault` (Light10), `HoverBackgroundDefault` (Light8), `PressedBackgroundDefault` (Light6). Consumed as `{colour:TextDefault}` etc. — see below |
 | **Spacing (5)** | `SpacingSm` (2), `SpacingMd` (4), `SpacingLg` (8), `SpacingXl` (12), `SpacingXxl` (16) |
 | **Type scale** | `FontSizeSm` (12), `FontSizeMd` (14), `FontSizeLg` (16), `FontSizeXl` (20), `FontSizeXxl` (24) |
 | **Typeface** | `FontFamily`, `FontWeightRegular`, `FontWeightSemiBold`, `FontWeightBold` |
