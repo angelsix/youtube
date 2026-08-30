@@ -635,7 +635,8 @@ After reviewing the calendar controls against the existing `DefaultTheme`, the c
 |----------|--------|
 | **Theme identity** | `ThemeName`, `BaseSize`, **`IsDark`** |
 | **Colour ramps** | One hue per `[AccentHue] Color Accent{Hue}`, each with `Light1..10` / `Dark1..10` from `ColorRamp`. Reached as `{colour:AccentBrush Dark2}`; the stage properties have no extension of their own |
-| **Accent colours (10)** | `AccentPrimary`, `AccentSuccess`, `AccentWarning`, `AccentError`, `AccentInfo`, `AccentDestructive`, `AccentSubtle`, `AccentNeutral`, `AccentBorder`, **`AccentFocus`** |
+| **Accent colours (10)** | `AccentPrimary`, `AccentSuccess`, `AccentWarning`, `AccentError`, `AccentInfo`, `AccentDestructive`, `AccentSubtle`, `AccentNeutral`, `AccentBorder`, **`AccentFocus`**, **`AccentSurface`** (surface/background hue — seed is the fill, not the ink) |
+| **Surfaces** | `SurfaceDefault` — application background/canvas: paper seed when light, mirrored far-light stage (`AccentSurfaceLight10`) when dark; consumed as `{colour:SurfaceDefaultBrush}` with no IsDark awareness |
 | **Spacing (5)** | `SpacingSm` (2), `SpacingMd` (4), `SpacingLg` (8), `SpacingXl` (12), `SpacingXxl` (16) |
 | **Type scale** | `FontSizeSm` (12), `FontSizeMd` (14), `FontSizeLg` (16), `FontSizeXl` (20), `FontSizeXxl` (24) |
 | **Typeface** | `FontFamily`, `FontWeightRegular`, `FontWeightSemiBold`, `FontWeightBold` |

@@ -13,9 +13,9 @@
 
       <StackPanel>
         <!-- Light -->
-        <Border Padding="20" Background="{colour:AccentBrush Light10}">
+        <Border Padding="20" Background="{colour:SurfaceDefaultBrush}">
           <StackPanel Spacing="10" >
-            <Label Content="Button States - Dark" />
+            <Label Content="Button States - Light" />
             <StackPanel Orientation="Horizontal" Spacing="20">
               <Button Content="Default" />
               <Button theme:Preview.State="Hover" Content="Hover" />
@@ -34,7 +34,7 @@
         </Border>
         
         <!-- Dark -->
-        <Border Padding="20" theme:ThemeRegion.IsDark="True" Background="{colour:AccentBrush Light10}">
+        <Border Padding="20" theme:ThemeRegion.IsDark="True" Background="{colour:SurfaceDefaultBrush}">
           <StackPanel Spacing="10" >
             <Label Content="Button States - Dark" />
             <StackPanel Orientation="Horizontal" Spacing="20">
