@@ -24,14 +24,14 @@ This project had no agent docs at the root. Created the standard `AgentDocumenta
 
 Category: Context
 
-AvaloniaThemeLab (a lab under this repo) uses the `AngelSix.ThemeEngine` package; its bundled analyzer regenerates the theme markup extensions at compile time. Don't commit a `Generated/ThemeExtensions.g.cs` (or any `Generated/` copy) — a stale committed copy broke the build here when the engine's `ThemeContext` API changed after the move from in-repo source to NuGet. The engine's source lives in the separate `angelsix-consulting` repo.
+AvaloniaThemeLab (a lab under this repo) uses the `AngelSix.ThemeEngine` package; its bundled analyzer regenerates the theme markup extensions at compile time. Don't commit a `Generated/ThemeExtensions.g.cs` (or any `Generated/` copy) — a stale committed copy broke the build here when the engine's `ThemeContext` API changed after the move from in-repo source to NuGet. The engine's source lives in a separate private repo.
 
 ### 2026-08-22: AvaloniaThemeLab pins NuGet to nuget.org; accents resolve per-control
 
 Category: Context
 
 The machine-wide NuGet config carries folder feeds pointing into the `AngelSix.ThemeEngine`
-source tree in `angelsix-consulting`, used to test the package before release. `AvaloniaThemeLab/NuGet.config`
+source tree in the engine's private repo, used to test the package before release. `AvaloniaThemeLab/NuGet.config`
 now clears them, so the lab always builds against the published package and restores on a clean
 machine. Iterating on the engine locally means publishing, or adding the folder feed back into
 that file while doing it — a local engine change will *not* show up in the lab otherwise.

@@ -334,7 +334,7 @@ A comment explaining WHY a non-obvious element exists IS appropriate, because th
 | `TransformScale` | `{theme:TransformScale Value={size:PressedScale}, By=1}` | Wrap a double token into a `TransformOperations` for `RenderTransform` |
 | `AccentBrush` | `{colour:AccentBrush}` / `{colour:AccentBrush Dark1}` | Resolve an accent brush against the hue the target control carries (see Rule 16) |
 
-All live in `Angelsix-consulting/Avalonia Themes/AngelSix.ThemeEngine/`. After adding a new one, rebuild the NuGet package and push to nuget.org.
+All live in the ThemeEngine source repo. After adding a new one, rebuild the NuGet package and push to nuget.org.
 
 ---
 

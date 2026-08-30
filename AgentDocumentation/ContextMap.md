@@ -5,7 +5,7 @@ Orientation map for agents working in the `youtube` repo (`github.com/angelsix/y
 For change-impact on a method **inside one of the .NET Samples**, run the live tool against that Sample's own solution, e.g.:
 
 ```sh
-contextmap impact --member "MainViewModel.SomeMethod" --solution "~/Documents/GitHub/youtube/AvaloniaThemeLab/AvaloniaThemeLab.sln"
+contextmap impact --member "MainViewModel.SomeMethod" --solution "AvaloniaThemeLab/AvaloniaThemeLab.sln"
 ```
 
 ## What this is
