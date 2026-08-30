@@ -13,7 +13,7 @@
 
       <StackPanel Spacing="20">
         <Label Content="Button States" />
-        <StackPanel Orientation="Horizontal" Spacing="20" >
+        <StackPanel Orientation="Horizontal" Spacing="20">
           <Button Content="Default" />
           <Button theme:Preview.State="Hover" Content="Hover" />
           <Button theme:Preview.State="Pressed" Content="Pressed" />
@@ -39,7 +39,7 @@
 
     <!-- Visual defaults -->
     <Setter Property="Background" Value="{colour:AccentBrush Light10}" />
-    <Setter Property="Foreground" Value="{colour:AccentBrush Dark1}" />
+    <Setter Property="Foreground" Value="{colour:AccentBrush Dark2}" />
     <Setter Property="BorderBrush" Value="{colour:AccentBrush Light6}" />
     <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
     <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
@@ -103,18 +103,16 @@
          were the same colour. -->
     <Style Selector="^:pointerover, ^[(theme|Preview.State)=Hover]">
       <Setter Property="Background" Value="{colour:AccentBrush Light8}" />
+      <Setter Property="Foreground" Value="{colour:AccentBrush Dark7}" />
       <Setter Property="RenderTransform" Value="{theme:TransformScale Value={size:PressedScale}, By=1.07}" />
     </Style>
 
     <!-- Pressed state -->
     <Style Selector="^:pressed, ^[(theme|Preview.State)=Pressed]">
       <Setter Property="RenderTransform" Value="{theme:TransformScale Value={size:PressedScale}}" />
-    </Style>
-
-    <Style Selector="^:pressed, ^[(theme|Preview.State)=Pressed]">
       <Setter Property="Background" Value="{colour:AccentBrush Light6}" />
     </Style>
-
+    
     <!-- Disabled state -->
     <Style Selector="^:disabled">
       <Setter Property="Opacity" Value="{size:DisabledOpacity}" />
