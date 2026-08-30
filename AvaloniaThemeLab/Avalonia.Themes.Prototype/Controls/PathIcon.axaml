@@ -3,7 +3,8 @@
                     xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes"
-                    xmlns:icons="using:AngelSix.ThemeEngine.Icons">
+                    xmlns:icons="using:AngelSix.ThemeEngine.Icons"
+                    xmlns:colour="using:AngelSix.ThemeEngine.Colours">
   <Design.PreviewWith>
     <StackPanel>
       <StackPanel.Styles>
@@ -17,8 +18,9 @@
        ============================================================ -->
   <ControlTheme x:Key="{x:Type PathIcon}" TargetType="PathIcon">
 
-    <!-- Visual defaults (Foreground is deliberately unset: it inherits, so an icon takes its container's colour) -->
+    <!-- Visual defaults -->
     <Setter Property="Background" Value="Transparent" />
+    <Setter Property="Foreground" Value="{colour:AccentBrush Dark1}" />
     <Setter Property="Height" Value="{size:IconSizeMd}" />
     <Setter Property="Width" Value="{size:IconSizeMd}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
