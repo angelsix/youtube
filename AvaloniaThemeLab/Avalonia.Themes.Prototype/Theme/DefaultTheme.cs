@@ -69,7 +69,7 @@ public partial class DefaultTheme
     // Find the light and dark brush for this called Surface Default in the theme specific defaults. 
     [AccentHue]
     [ColourRamp]
-    public virtual Color AccentSurface => Color.Parse("#E6E5E3");
+    public virtual Color AccentSurface => Color.Parse("#fdfdfd");
 
     // The focus ring is the one colour that is deliberately not a hue: a focused control should
     // announce itself the same way whatever accent it carries, so this must not follow Accent.Kind.
@@ -115,7 +115,7 @@ public partial class DefaultTheme
 
     /// <summary>Outlined-control text ink.</summary>
     [AccentRole]
-    internal virtual RampStage TextDefault => RampStage.Dark7;
+    internal virtual RampStage TextDefault => RampStage.Dark4;
 
     /// <summary>Outlined-control border.</summary>
     [AccentRole]
@@ -128,6 +128,10 @@ public partial class DefaultTheme
     /// <summary>Outlined-control hover fill.</summary>
     [AccentRole]
     internal virtual RampStage HoverBackgroundDefault => RampStage.Light8;
+
+    /// <summary>Outlined-control hover text.</summary>
+    [AccentRole]
+    internal virtual RampStage HoverTextDefault => RampStage.Dark7;
 
     /// <summary>Outlined-control pressed fill.</summary>
     [AccentRole]

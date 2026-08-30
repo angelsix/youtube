@@ -213,14 +213,14 @@
          flashes back to its rest value on every click. Reproduced on the stock Fluent theme. -->
     <Style Selector="^ /template/ RepeatButton:pointerover:not(:disabled)">
       <Setter Property="Background" Value="{colour:HoverBackgroundDefaultBrush}" />
-      <Setter Property="Foreground" Value="{colour:AccentBrush Dark7}" />
+      <Setter Property="Foreground" Value="{colour:HoverTextDefaultBrush}" />
     </Style>
 
     <!-- Hover content area -->
     <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter:pointerover,
                      ^[(theme|Preview.State)=Hover] /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="Background" Value="{colour:AccentBrush Light9}" />
-      <Setter Property="Foreground" Value="{colour:AccentBrush Dark7}" />
+      <Setter Property="Background" Value="{colour:HoverBackgroundDefaultBrush}" />
+      <Setter Property="Foreground" Value="{colour:HoverTextDefaultBrush}" />
     </Style>
 
     <!-- Pressed state -->
