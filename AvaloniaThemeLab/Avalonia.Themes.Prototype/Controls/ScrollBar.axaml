@@ -162,8 +162,6 @@
   <!-- ScrollBar main theme -->
   <ControlTheme x:Key="{x:Type ScrollBar}" TargetType="ScrollBar">
     <!-- Visual defaults -->
-    <Setter Property="MinWidth" Value="{size:ControlHeightSm}" />
-    <Setter Property="MinHeight" Value="{size:ControlHeightSm}" />
     <Setter Property="Background" Value="{colour:BackgroundDefaultBrush}" />
     <Setter Property="Foreground" Value="{colour:TextDefaultBrush}" />
     <Setter Property="BorderBrush" Value="{colour:AccentBrush Light2}" />
@@ -343,6 +341,15 @@
           </Grid>
         </ControlTemplate>
       </Setter>
+    </Style>
+
+    <!-- Bar thickness: the cross-axis hugs the icon-sized thumb; the old ControlHeightSm (32)
+         minimum doubled it and read as a floating panel. -->
+    <Style Selector="^:vertical">
+      <Setter Property="MinWidth" Value="{size:Scaled Value={size:IconSizeMd}, By=1.25}" />
+    </Style>
+    <Style Selector="^:horizontal">
+      <Setter Property="MinHeight" Value="{size:Scaled Value={size:IconSizeMd}, By=1.25}" />
     </Style>
 
     <!-- Default template element styles — vertical orientation -->

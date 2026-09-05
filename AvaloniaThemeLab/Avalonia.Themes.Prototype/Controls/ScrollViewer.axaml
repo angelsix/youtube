@@ -37,6 +37,9 @@
     <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
     <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
     <Setter Property="Padding" Value="{size:Edges Horizontal={size:SpacingMd}, Vertical={size:SpacingMd}}" />
+    <!-- Bars live beside the content, not over it: auto-hide would span the presenter under the
+         bar, so the bar overlays and eats the content's right edge. -->
+    <Setter Property="AllowAutoHide" Value="False" />
 
     <!-- Template -->
     <Setter Property="Template">

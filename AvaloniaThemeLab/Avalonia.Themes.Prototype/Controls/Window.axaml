@@ -17,8 +17,10 @@
     <Setter Property="FontWeight" Value="{theme:FontWeightRegular}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
     <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
-    <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
-    <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
+    <!-- Window content must fill the client area: the Control* content tokens (Center) would lay
+         the content out at its desired size, so a root ScrollViewer or panel could never stretch. -->
+    <Setter Property="HorizontalContentAlignment" Value="{theme:ContainerHorizontalAlignment}" />
+    <Setter Property="VerticalContentAlignment" Value="{theme:ContainerVerticalAlignment}" />
     <Setter Property="Template">
       <ControlTemplate>
         <!-- Layout root stacking the surface behind the content -->
