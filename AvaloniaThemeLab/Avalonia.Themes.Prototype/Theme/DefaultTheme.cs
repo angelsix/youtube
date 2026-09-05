@@ -64,11 +64,13 @@ public partial class DefaultTheme
     [AccentHue, ColourRamp] public virtual Color AccentDestructive => Color.Parse("#C17070");
     [AccentHue, ColourRamp] public virtual Color AccentSubtle => Color.Parse("#B088C8");
 
-    // Used as the primary background colour for the application or Windows with the colour itself
-    // being the default light colour and the dark colour being a dark hue of this colour. 
-    // Find the light and dark brush for this called Surface Default in the theme specific defaults. 
+    // The surface hue seeds the application canvas. In the light palette it keeps the paper seed
+    // (#fdfdfd) and mirrors as usual; in the dark palette the whole ramp is re-centred on the
+    // DarkSeed literal, so it behaves as if the seed itself had been that colour — every stage,
+    // overlay and accent role derives off it, mirrored as usual. A downstream theme overriding
+    // this seed must repeat the attribute including DarkSeed, or it loses the re-centring.
     [AccentHue]
-    [ColourRamp]
+    [ColourRamp(DarkSeed = "#032030")]
     public virtual Color AccentSurface => Color.Parse("#fdfdfd");
 
     // The focus ring is the one colour that is deliberately not a hue: a focused control should
@@ -87,18 +89,20 @@ public partial class DefaultTheme
     /// <summary>The application-wide background/canvas colour.</summary>
     /// <remarks>
     /// <para>
-    /// The light theme takes the seed itself (<see cref="AccentSurface"/>); the dark theme
-    /// takes the mirrored far-light stage — <c>AccentSurfaceLight9</c>, which the
-    /// MirroredColorRamp turns near-black in a dark palette. Consumers write
-    /// <c>{colour:SurfaceDefaultBrush}</c>: its brush companion is generated automatically (every
-    /// Color gets one), so no consumer ever branches on <see cref="IsDark"/>.
+    /// Reads <see cref="SurfaceSeed"/>, the effective seed the generator emits for the surface
+    /// hue: the raw seed (<see cref="AccentSurface"/>) in light mode, the <c>DarkSeed</c> value
+    /// in dark mode. The canvas is therefore the paper seed when light and exactly the
+    /// <c>DarkSeed</c> literal when dark, with no <see cref="IsDark"/> branching anywhere in
+    /// hand-written code. Consumers write <c>{colour:SurfaceDefaultBrush}</c>: its brush
+    /// companion is generated automatically (every Color gets one).
     /// </para>
     /// <para>
     /// This single property is the deliberate guard against proliferating paired
-    /// brush/color/is-dark properties: one token, one spelling, both palettes.
+    /// brush/color/is-dark properties: one token, one spelling, both palettes — even though the
+    /// two palettes now anchor on entirely different colours.
     /// </para>
     /// </remarks>
-    public virtual Color SurfaceDefault => IsDark ? AccentSurfaceLight9 : AccentSurface;
+    public virtual Color SurfaceDefault => SurfaceSeed;
 
     // Accent roles: named aliases for one stage of the CONTROL'S OWN hue ramp. The property name
     // is the token and its RampStage value is the pinned stage; the generator emits two extensions
@@ -115,7 +119,7 @@ public partial class DefaultTheme
 
     /// <summary>Outlined-control text ink.</summary>
     [AccentRole]
-    internal virtual RampStage TextDefault => RampStage.Dark4;
+    internal virtual RampStage TextDefault => RampStage.Dark9;
 
     /// <summary>Outlined-control border.</summary>
     [AccentRole]

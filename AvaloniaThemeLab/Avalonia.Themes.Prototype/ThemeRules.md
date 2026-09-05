@@ -120,6 +120,14 @@ One block serves a plain control, `Accent.Kind="Warning"` and `Accent.Kind="Bran
 
 **Declaring a hue is all-or-nothing.** The hues carry `[AccentHue]`, which puts the generator in explicit mode: any hue *anywhere*, including in a downstream theme, must then carry it too or it silently drops out of the `AccentKind` enum. `AccentBorder` and `AccentFocus` deliberately lack it — they are role colours, reached as `{colour:AccentBorderBrush}`, not hues a control can *be*.
 
+**An automatic dark counterpart is not always wanted.** Mirroring gives every hue a sensible dark twin, but some seeds should simply become a different colour in a dark palette rather than a mirror of themselves. `ColourRamp.DarkSeed` supplies that literal:
+
+```csharp
+[AccentHue] [ColourRamp(DarkSeed = "#ff0000")] public virtual Color AccentSurface => Color.Parse("#fdfdfd");
+```
+
+In a dark palette the whole ramp re-centres on `#ff0000` — every stage, overlay and accent role derives off it, mirrored as usual — and the generator adds an effective-seed token `{Hue}Seed` (`{colour:SurfaceSeed}` here): the raw seed when light, the `DarkSeed` value when dark. Fail-soft: a malformed hex is diagnostic ASTE035 and ignored; a valid hex with no `IsDark` property is ASTE037 and likewise ignored. A downstream theme overriding the seed must repeat the attribute including `DarkSeed`, or it loses the re-centring.
+
 **A downstream hue must supply the full stage set.** `AccentBrushResolver` returns `UnsetValue` for a stage a theme does not define, so a partial hue renders with no fill and no border rather than erroring. Build it on `ColorRamp` like the built-in hues.
 
 **Neutral is reachable directly, and that is a different statement.** `{colour:AccentBrush Dark1}` follows whatever `Accent.Kind` the control carries; `{theme:NeutralDark1Brush}` is always the neutral ramp. The `Neutral*` family exists for the parts of an accented control that must *not* take the hue — a caret, a disabled label, a divider, a scrollbar groove.
@@ -227,7 +235,7 @@ When you find any hard-coded colour value, apply this test **before** deciding w
 
 **Justification:** A style applied via the ControlTheme's `Style` children targets the visual tree *from the outside* and respects style precedence correctly. This means a consumer *can* override it with a higher-specificity style if needed. It also keeps the ControlTemplate itself "dumb" — a pure binding surface — which makes it easier to read and maintain.
 
-**Reference example:** The Button control uses `<Style Selector="^:pointerover">` with `{colour:OverlayWeakBrush}` for hover and `<Style Selector="^:pressed">` with `{colour:OverlayStrongBrush}` for pressed — these are setters on the Button's ControlTheme, not inside the template. Similarly, the CalendarItem uses `<Style Selector="^ /template/ Button:pointerover > Path">` to update the nav arrow stroke colour on hover.
+**Reference example:** The Button control uses `<Style Selector="^:pointerover">` with `{colour:OverlayWeakBrush}` for hover and `<Style Selector="^:pressed">` with `{colour:OverlayStrongBrush}` for pressed — these are setters on the Button's ControlTheme, not inside the template. Similarly, the CalendarView uses `^ /template/` styles on its zoom-grid and picker parts to switch their visibility per pseudo-class state.
 
 ---
 
@@ -283,7 +291,7 @@ When you find any hard-coded colour value, apply this test **before** deciding w
 
 ## Rule 7: Named Sub-Themes for Internal Controls Use `{StaticResource}` Lookup
 
-**Statement:** When a control's template uses a sub-control that needs its own theme (e.g. a `Button` inside a `CalendarItem`), define a named `ControlTheme` (e.g. `x:Key="PrototypeCalendarButton"`) in the same file and reference it via `Theme="{StaticResource ...}"`. Do NOT use inline styling of the sub-control's inner parts for structural theming.
+**Statement:** When a control's template uses a sub-control that needs its own theme (e.g. a `Button` inside a `CalendarView`), define a named `ControlTheme` (e.g. `x:Key="PrototypeCalendarViewNavButton"`) in the same file and reference it via `Theme="{StaticResource ...}"`. Do NOT use inline styling of the sub-control's inner parts for structural theming.
 
 **Justification:** Named sub-themes allow the sub-control's appearance to be cleanly separated from its parent and, critically, allow the sub-theme itself to follow Rules 1-6. The parent can then compose multiple sub-themes without duplicating template code.
 
@@ -650,7 +658,7 @@ After reviewing the calendar controls against the existing `DefaultTheme`, the c
 | **Theme identity** | `ThemeName`, `BaseSize`, **`IsDark`** |
 | **Colour ramps** | One hue per `[AccentHue] Color Accent{Hue}`, each with `Light1..10` / `Dark1..10` from `ColorRamp`. Reached as `{colour:AccentBrush Dark2}`; the stage properties have no extension of their own |
 | **Accent colours (10)** | `AccentPrimary`, `AccentSuccess`, `AccentWarning`, `AccentError`, `AccentInfo`, `AccentDestructive`, `AccentSubtle`, `AccentNeutral`, `AccentBorder`, **`AccentFocus`**, **`AccentSurface`** (surface/background hue — seed is the fill, not the ink) |
-| **Surfaces** | `SurfaceDefault` — application background/canvas: paper seed when light, mirrored far-light stage (`AccentSurfaceLight10`) when dark; consumed as `{colour:SurfaceDefaultBrush}` with no IsDark awareness |
+| **Surfaces** | `SurfaceDefault` — application background/canvas: the effective seed — paper seed when light, the `DarkSeed` value when dark; consumed as `{colour:SurfaceDefaultBrush}` with no IsDark awareness |
 | **Accent roles** | `[AccentRole(name, RampStage)]` on the theme class generates one extension per role into the colour namespace: `TextDefault` (Dark1), `BorderDefault` (Light6), `BackgroundDefault` (Light10), `HoverBackgroundDefault` (Light8), `PressedBackgroundDefault` (Light6). Consumed as `{colour:TextDefault}` etc. — see below |
 | **Spacing (5)** | `SpacingSm` (2), `SpacingMd` (4), `SpacingLg` (8), `SpacingXl` (12), `SpacingXxl` (16) |
 | **Type scale** | `FontSizeSm` (12), `FontSizeMd` (14), `FontSizeLg` (16), `FontSizeXl` (20), `FontSizeXxl` (24) |
