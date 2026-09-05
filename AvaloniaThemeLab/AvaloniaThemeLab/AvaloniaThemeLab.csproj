@@ -17,8 +17,7 @@
              package downgrade and NuGet fails the restore outright (NU1605). -->
         <PackageReference Include="AngelSix.ThemeEngine" Version="1.17.1"/>
         <!-- The calendar control's TYPES live here (styling stays in the theme, which styles them
-             exactly like a stock Avalonia control). Until 1.0.0 is pushed to nuget.org this
-             restores from the local feed; see NuGet.config. -->
+             exactly like a stock Avalonia control). Published to nuget.org. -->
         <PackageReference Include="AngelSix.ThemeEngine.Controls" Version="1.0.0"/>
         <PackageReference Include="AvaloniaUI.DiagnosticsSupport" Version="2.2.1">
             <IncludeAssets Condition="'$(Configuration)' != 'Debug'">None</IncludeAssets>
