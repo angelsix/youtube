@@ -17,6 +17,12 @@
 
     <ItemGroup>
         <PackageReference Include="Avalonia" Version="12.0.1"/>
+        <!-- Home of the CalendarView/CalendarSelectionEngine types. Their STYLING stays in this
+             theme (Controls/CalendarView.axaml) — a ControlTheme targeting a foreign type is the
+             same relationship as every other control file here (Button, ComboBox...). The engine's
+             dictionary-list generator scans this project's .axaml by content, so the theme keeps
+             merging the calendar's dictionaries automatically; nothing else needs wiring. -->
+        <PackageReference Include="AngelSix.ThemeEngine.Controls" Version="1.0.0"/>
 
         <!-- 1.12.0 or later is required, not merely preferred: the theme is built on attributes
              this version introduced — [Brush], [GradientBrush], [FontWeights], ColourRamp's

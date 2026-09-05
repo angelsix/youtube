@@ -1,6 +1,7 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
+                    xmlns:controls="using:AngelSix.ThemeEngine.Controls"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
                     xmlns:colour="using:AngelSix.ThemeEngine.Colours"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes"
@@ -11,9 +12,9 @@
         <prototype:PrototypeTheme />
       </Border.Styles>
       <StackPanel Spacing="20">
-        <CalendarView />
-        <CalendarView SelectionMode="Range" />
-        <CalendarView DisplayAsPicker="True" />
+        <controls:CalendarView />
+        <controls:CalendarView SelectionMode="Range" />
+        <controls:CalendarView DisplayAsPicker="True" />
       </StackPanel>
     </Border>
   </Design.PreviewWith>
@@ -98,7 +99,7 @@
   <!-- ============================================================
        ControlTheme: {x:Type CalendarViewCell}
        ============================================================ -->
-  <ControlTheme x:Key="{x:Type CalendarViewCell}" TargetType="CalendarViewCell">
+  <ControlTheme x:Key="{x:Type controls:CalendarViewCell}" TargetType="controls:CalendarViewCell">
 
     <!-- Visual defaults -->
     <Setter Property="Background" Value="Transparent" />
@@ -236,7 +237,7 @@
   <!-- ============================================================
        ControlTheme: {x:Type CalendarView}
        ============================================================ -->
-  <ControlTheme x:Key="{x:Type CalendarView}" TargetType="CalendarView">
+  <ControlTheme x:Key="{x:Type controls:CalendarView}" TargetType="controls:CalendarView">
 
     <!-- Visual defaults -->
     <Setter Property="Background" Value="{colour:BackgroundDefault}" />
@@ -350,7 +351,7 @@
                  PlacementTarget="{TemplateBinding}"
                  IsLightDismissEnabled="True">
             <!-- The same control, inline, driving the same selection -->
-            <CalendarView Name="PopupCalendar"
+            <controls:CalendarView Name="PopupCalendar"
                           DisplayAsPicker="False"
                           SelectionMode="{TemplateBinding SelectionMode}"
                           FirstDayOfWeek="{TemplateBinding FirstDayOfWeek}"

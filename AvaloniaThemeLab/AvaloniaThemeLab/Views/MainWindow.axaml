@@ -6,6 +6,7 @@
         Width="700" Height="1000"
         xmlns:generic="using:System.Collections.Generic"
         xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+        xmlns:controls="using:AngelSix.ThemeEngine.Controls"
         x:Class="AvaloniaThemeLab.MainWindow"
         Title="AvaloniaThemeLab">
     <ScrollViewer AllowAutoHide="True">
@@ -70,12 +71,12 @@
         </StackPanel>
 
         <!-- CalendarView: single selection, weekends disabled and marker dots from code-behind -->
-        <CalendarView x:Name="DemoCalendar" />
+        <controls:CalendarView x:Name="DemoCalendar" />
         <TextBlock x:Name="SingleLabel"
                    Text="{Binding #DemoCalendar.SelectedDate, StringFormat='Selected: {0:d}'}" />
 
         <!-- CalendarView: range selection -->
-        <CalendarView x:Name="RangeCalendar" SelectionMode="Range" />
+        <controls:CalendarView x:Name="RangeCalendar" SelectionMode="Range" />
         <StackPanel Orientation="Horizontal" Spacing="8">
             <TextBlock x:Name="RangeStartLabel"
                        Text="{Binding #RangeCalendar.RangeStart, StringFormat='From: {0:d}'}" />
@@ -84,7 +85,7 @@
         </StackPanel>
 
         <!-- CalendarView: picker presentation -->
-        <CalendarView x:Name="PickerCalendar" DisplayAsPicker="True" HorizontalAlignment="Stretch" />
+        <controls:CalendarView x:Name="PickerCalendar" DisplayAsPicker="True" HorizontalAlignment="Stretch" />
     </StackPanel>
     </ScrollViewer>
 </Window>

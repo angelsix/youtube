@@ -1,7 +1,7 @@
 using System;
+using AngelSix.ThemeEngine.Controls;
 using Avalonia.Controls;
 using Avalonia.Media;
-using Avalonia.Themes.Prototype;
 
 namespace AvaloniaThemeLab;
 

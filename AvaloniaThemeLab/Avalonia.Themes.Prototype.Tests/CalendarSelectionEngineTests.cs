@@ -1,5 +1,5 @@
 using System.Globalization;
-using Avalonia.Themes.Prototype;
+using AngelSix.ThemeEngine.Controls;
 
 namespace Avalonia.Themes.Prototype.Tests;
 
