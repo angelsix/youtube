@@ -77,6 +77,7 @@ Settled while brainstorming:
 ## Pinned terms
 
 ## Agent activity log
+- 2026-09-05: Archived to `Plans/Archive/` as `2026-09-05 01 Remake the calendar as one custom control [Done].md`.
 - 2026-09-05: Task 9 evidence re-proofed by `guard plan mark-done`.
 - 2026-09-05: Task 5 evidence re-proofed by `guard plan mark-done`.
 - 2026-09-05: Task 4 evidence re-proofed by `guard plan mark-done`.
