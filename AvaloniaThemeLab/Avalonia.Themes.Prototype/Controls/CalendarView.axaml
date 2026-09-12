@@ -16,7 +16,7 @@
           <StackPanel Spacing="20">
             <controls:CalendarView />
             <controls:CalendarView SelectionMode="Range" />
-            <controls:CalendarView DisplayAsPicker="True" />
+            <controls:CalendarView DisplayAsPicker="True" HorizontalAlignment="Stretch" />
           </StackPanel>
         </Border>
         <Border theme:ThemeRegion.IsDark="True" theme:Accent.Kind="Primary" Padding="20" Background="{colour:SurfaceDefaultBrush}">
@@ -394,9 +394,12 @@
       <Setter Property="FontWeight" Value="{theme:FontWeightSemiBold}" />
     </Style>
 
-    <!-- Picker text box -->
+    <!-- Picker text box. A TextBox scrolls its text rather than reporting it, so MinWidth is its
+         only width: size it off the type that draws the date, not the control ladder's 64. -->
     <Style Selector="^ /template/ TextBox#PART_TextBox">
       <Setter Property="Padding" Value="{size:Edges Horizontal={size:SpacingMd}, Vertical={size:SpacingMd}}" />
+      <Setter Property="HorizontalAlignment" Value="Stretch"></Setter>
+      <Setter Property="MinWidth" Value="{size:Scaled Value={size:FontSizeMd}, By=8}" />
     </Style>
 
     <!-- Month view: the zoom grid is hidden but still measured.
