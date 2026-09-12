@@ -7,14 +7,25 @@
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes"
                     xmlns:icons="using:AngelSix.ThemeEngine.Icons">
   <Design.PreviewWith>
-    <Border Padding="20">
+    <Border>
       <Border.Styles>
         <prototype:PrototypeTheme />
       </Border.Styles>
-      <StackPanel Spacing="20">
-        <controls:CalendarView />
-        <controls:CalendarView SelectionMode="Range" />
-        <controls:CalendarView DisplayAsPicker="True" />
+      <StackPanel Orientation="Horizontal">
+        <Border Padding="20">
+          <StackPanel Spacing="20">
+            <controls:CalendarView />
+            <controls:CalendarView SelectionMode="Range" />
+            <controls:CalendarView DisplayAsPicker="True" />
+          </StackPanel>
+        </Border>
+        <Border theme:ThemeRegion.IsDark="True" theme:Accent.Kind="Primary" Padding="20" Background="{colour:SurfaceDefaultBrush}">
+          <StackPanel Spacing="20">
+            <controls:CalendarView />
+            <controls:CalendarView SelectionMode="Range" />
+            <controls:CalendarView DisplayAsPicker="True" />
+          </StackPanel>
+        </Border>
       </StackPanel>
     </Border>
   </Design.PreviewWith>
@@ -29,7 +40,7 @@
     <Setter Property="Foreground" Value="{colour:TextDefault}" />
     <Setter Property="BorderBrush" Value="Transparent" />
     <Setter Property="BorderThickness" Value="0" />
-    <Setter Property="Padding" Value="{size:Edges All={size:SpacingMd}}" />
+    <Setter Property="Padding" Value="{size:Edges All={size:SpacingLg}}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
     <Setter Property="VerticalAlignment" Value="{theme:ContainerVerticalAlignment}" />
     <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
@@ -97,7 +108,7 @@
   </ControlTheme>
 
   <!-- ============================================================
-       ControlTheme: {x:Type CalendarViewCell}
+       ControlTheme: {x:Type CalendarViewCell} - main day/date cells
        ============================================================ -->
   <ControlTheme x:Key="{x:Type controls:CalendarViewCell}" TargetType="controls:CalendarViewCell">
 
@@ -186,26 +197,29 @@
 
     <!-- In-range band state -->
     <Style Selector="^:in-range /template/ Border#Fill">
-      <Setter Property="Background" Value="{colour:AccentBrush Light8}" />
+      <Setter Property="Background" Value="{colour:HoverBackgroundDefault}" />
       <Setter Property="Margin" Value="{size:Edges Vertical={size:ThicknessSm}}" />
       <Setter Property="CornerRadius" Value="0" />
     </Style>
 
-    <!-- Selected state -->
-    <Style Selector="^:selected">
-      <Style Selector="^ /template/ Border#Fill">
-        <Setter Property="Background" Value="{colour:AccentBrush Dark1}" />
-      </Style>
-      <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
-        <Setter Property="Foreground" Value="{colour:AccentBrush Light10}" />
-        <Setter Property="FontWeight" Value="{theme:FontWeightSemiBold}" />
-      </Style>
-    </Style>
-
     <!-- Keyboard focus state -->
+    <!-- Maybe redundant as overridden by Selected State? -->
     <Style Selector="^:day-focused /template/ Border#Fill">
       <Setter Property="BorderBrush" Value="{colour:AccentFocusBrush}" />
       <Setter Property="BorderThickness" Value="{size:ThicknessMd}" />
+    </Style>
+    
+    <!-- Selected state -->
+    <Style Selector="^:selected">
+      <Style Selector="^ /template/ Border#Fill">
+        <Setter Property="Background" Value="{colour:HoverBackgroundDefault}" />
+        <Setter Property="BorderBrush" Value="{colour:DimTextDefault}" />
+        <Setter Property="BorderThickness" Value="{size:ThicknessMd}" />
+      </Style>
+      <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Foreground" Value="{colour:HoverTextDefault}" />
+        <Setter Property="FontWeight" Value="{theme:FontWeightSemiBold}" />
+      </Style>
     </Style>
 
     <!-- Blackout state -->
@@ -265,8 +279,8 @@
                   BorderThickness="{TemplateBinding BorderThickness}"
                   CornerRadius="{TemplateBinding CornerRadius}"
                   Padding="{TemplateBinding Padding}">
-            <!-- Rows: header, day titles, then the active grid -->
-            <Grid RowDefinitions="Auto,Auto,*">
+            <!-- Rows: header, then the active presentation -->
+            <Grid RowDefinitions="Auto,*">
               <!-- Header row: month label left, arrows right -->
               <Grid ColumnDefinitions="*,Auto,Auto"
                     Background="{TemplateBinding HeaderBackground}">
@@ -296,20 +310,26 @@
                             VerticalAlignment="{theme:ControlVerticalContentAlignment}" />
                 </Button>
               </Grid>
-              <!-- The seven day-of-week titles -->
-              <UniformGrid Name="PART_DayTitles"
-                           Grid.Row="1"
-                           Columns="7" />
-              <!-- Hosts the month grid and the zoom grid -->
-              <Panel Grid.Row="2">
-                <!-- The six-week grid of day cells -->
-                <UniformGrid Name="PART_MonthGrid"
-                             Columns="7" />
+              <!-- Overlays the two presentations. Whichever is hidden is dimmed to nothing rather
+                   than collapsed, so this Panel always measures to the taller of the two and the
+                   card keeps one height across every mode. The styles below own the swap. -->
+              <Panel Grid.Row="1">
+                <!-- The month presentation: day titles and the six-week grid move as ONE block, so
+                     that when it hides the zoom grid takes the whole area back. Titles in their own
+                     outer row would keep their band under the header with nothing drawn in it. -->
+                <Grid Name="MonthRoot" RowDefinitions="Auto,*">
+                  <!-- The seven day-of-week titles -->
+                  <UniformGrid Name="PART_DayTitles"
+                               Columns="7" />
+                  <!-- The six-week grid of day cells -->
+                  <UniformGrid Name="PART_MonthGrid"
+                               Grid.Row="1"
+                               Columns="7" />
+                </Grid>
                 <!-- The grid of months or years when zoomed out -->
                 <UniformGrid Name="PART_ZoomGrid"
                              Columns="4"
-                             MinWidth="{size:Scaled Value={size:ControlHeightSm}, By=7}"
-                             IsVisible="False" />
+                             MinWidth="{size:Scaled Value={size:ControlHeightSm}, By=7}" />
               </Panel>
             </Grid>
           </Border>
@@ -379,16 +399,26 @@
       <Setter Property="Padding" Value="{size:Edges Horizontal={size:SpacingMd}, Vertical={size:SpacingMd}}" />
     </Style>
 
-    <!-- Zoomed-out views -->
+    <!-- Month view: the zoom grid is hidden but still measured.
+         IsHitTestVisible is not optional here — the zoom grid sits ABOVE the month grid in the
+         template's Panel, so a transparent-but-clickable one would swallow clicks on the first
+         rows of days and bounce the calendar back out to the year view. -->
+    <Style Selector="^ /template/ UniformGrid#PART_ZoomGrid">
+      <Setter Property="Opacity" Value="0" />
+      <Setter Property="IsHitTestVisible" Value="False" />
+    </Style>
+
+    <!-- Zoomed-out views: show the zoom grid and hide the whole month block WITHOUT collapsing it,
+         so the card's height is the union of both presentations and never jumps as the header is
+         clicked, while the zoom grid still gets the full area to lay out in. -->
     <Style Selector="^:year, ^:decade">
       <Style Selector="^ /template/ UniformGrid#PART_ZoomGrid">
-        <Setter Property="IsVisible" Value="True" />
+        <Setter Property="Opacity" Value="1" />
+        <Setter Property="IsHitTestVisible" Value="True" />
       </Style>
-      <Style Selector="^ /template/ UniformGrid#PART_MonthGrid">
-        <Setter Property="IsVisible" Value="False" />
-      </Style>
-      <Style Selector="^ /template/ UniformGrid#PART_DayTitles">
-        <Setter Property="IsVisible" Value="False" />
+      <Style Selector="^ /template/ Grid#MonthRoot">
+        <Setter Property="Opacity" Value="0" />
+        <Setter Property="IsHitTestVisible" Value="False" />
       </Style>
     </Style>
 
