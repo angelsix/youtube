@@ -70,7 +70,7 @@ public partial class DefaultTheme
     // overlay and accent role derives off it, mirrored as usual. A downstream theme overriding
     // this seed must repeat the attribute including DarkSeed, or it loses the re-centring.
     [AccentHue]
-    [ColourRamp(DarkSeed = "#032030")]
+    [ColourRamp(DarkSeed = "#222222")]
     public virtual Color AccentSurface => Color.Parse("#fdfdfd");
 
     // The focus ring is the one colour that is deliberately not a hue: a focused control should
