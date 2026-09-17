@@ -45,16 +45,29 @@ public class DarkSeedTests
     [Fact]
     public void Dark_ramp_recentres_on_the_dark_seed()
     {
-        // The paper seed is grey, so its ramp stages stay grey (R = G = B). A dark ramp merely
-        // mirroring the paper seed would be grey too; one that re-centres on a coloured DarkSeed
-        // is not. Guard the precondition so a future grey DarkSeed invalidates the test loudly.
-        var seed = DeclaredDarkSeed();
-        Assert.False(seed.R == seed.G && seed.G == seed.B);
+        // Both seeds are greys, so "is the stage coloured?" cannot tell the two ramps apart — it
+        // only worked while the DarkSeed happened to be a colour. What still separates a ramp that
+        // re-centres from one mirroring the paper seed is where its stages sit, so measure that:
+        // every dark stage must land nearer the DarkSeed than the paper seed, and vice versa.
+        var paperSeed = new DefaultTheme().AccentSurface;
+        var darkSeed = DeclaredDarkSeed();
 
-        var light = new DefaultTheme().AccentSurfaceLight2;
-        var dark = new DefaultTheme { IsDark = true }.AccentSurfaceLight2;
+        var light = new DefaultTheme();
+        var dark = new DefaultTheme { IsDark = true };
 
-        Assert.True(light.R == light.G && light.G == light.B);
-        Assert.False(dark.R == dark.G && dark.G == dark.B);
+        foreach (var stage in new[] { dark.AccentSurfaceLight2, dark.AccentSurfaceDark2 })
+            Assert.True(Distance(stage, darkSeed) < Distance(stage, paperSeed),
+                $"Dark stage {stage} sits nearer the paper seed {paperSeed} than the dark seed {darkSeed}.");
+
+        foreach (var stage in new[] { light.AccentSurfaceLight2, light.AccentSurfaceDark2 })
+            Assert.True(Distance(stage, paperSeed) < Distance(stage, darkSeed),
+                $"Light stage {stage} sits nearer the dark seed {darkSeed} than the paper seed {paperSeed}.");
     }
+
+    /// <summary>
+    /// Channel-sum distance between two colours. Crude on purpose: the ramps here are far enough
+    /// apart that anything more elaborate would only obscure what the assertion is claiming.
+    /// </summary>
+    private static int Distance(Color a, Color b)
+        => Math.Abs(a.R - b.R) + Math.Abs(a.G - b.G) + Math.Abs(a.B - b.B);
 }
