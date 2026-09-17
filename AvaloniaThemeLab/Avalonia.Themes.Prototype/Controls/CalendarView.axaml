@@ -1,11 +1,15 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                     xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
+                    xmlns:design="clr-namespace:Avalonia.Themes.Prototype.Design"
                     xmlns:controls="using:AngelSix.ThemeEngine.Controls"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
                     xmlns:colour="using:AngelSix.ThemeEngine.Colours"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes"
-                    xmlns:icons="using:AngelSix.ThemeEngine.Icons">
+                    xmlns:icons="using:AngelSix.ThemeEngine.Icons"
+                    mc:Ignorable="d">
   <Design.PreviewWith>
     <Border>
       <Border.Styles>
@@ -14,16 +18,22 @@
       <StackPanel Orientation="Horizontal">
         <Border Padding="20">
           <StackPanel Spacing="20">
-            <controls:CalendarView />
-            <controls:CalendarView SelectionMode="Range" />
+            <controls:CalendarView HorizontalAlignment="Stretch" />
+            <controls:CalendarView x:DataType="design:CalendarViewDesignModel"
+                                   IsWeekNumberVisible="True"
+                                   DataContext="{x:Static design:CalendarViewDesignData.Sample}"
+                                   Events="{Binding Events}" />
             <controls:CalendarView DisplayAsPicker="True" HorizontalAlignment="Stretch" />
           </StackPanel>
         </Border>
-        <Border theme:ThemeRegion.IsDark="True" theme:Accent.Kind="Primary" Padding="20" Background="{colour:SurfaceDefaultBrush}">
+        <Border Padding="20" theme:ThemeRegion.IsDark="True" theme:Accent.Kind="Success" Background="{colour:SurfaceDefaultBrush}">
           <StackPanel Spacing="20">
-            <controls:CalendarView />
-            <controls:CalendarView SelectionMode="Range" />
-            <controls:CalendarView DisplayAsPicker="True" />
+            <controls:CalendarView HorizontalAlignment="Stretch" />
+            <controls:CalendarView x:DataType="design:CalendarViewDesignModel"
+                                   IsWeekNumberVisible="True"
+                                   DataContext="{x:Static design:CalendarViewDesignData.Sample}"
+                                   Events="{Binding Events}" />
+            <controls:CalendarView DisplayAsPicker="True" HorizontalAlignment="Stretch" />
           </StackPanel>
         </Border>
       </StackPanel>
@@ -310,21 +320,20 @@
                             VerticalAlignment="{theme:ControlVerticalContentAlignment}" />
                 </Button>
               </Grid>
-              <!-- Overlays the two presentations. Whichever is hidden is dimmed to nothing rather
-                   than collapsed, so this Panel always measures to the taller of the two and the
-                   card keeps one height across every mode. The styles below own the swap. -->
+              <!-- Month and zoom presentations overlaid; swapped by the styles below -->
               <Panel Grid.Row="1">
-                <!-- The month presentation: day titles and the six-week grid move as ONE block, so
-                     that when it hides the zoom grid takes the whole area back. Titles in their own
-                     outer row would keep their band under the header with nothing drawn in it. -->
-                <Grid Name="MonthRoot" RowDefinitions="Auto,*">
-                  <!-- The seven day-of-week titles -->
-                  <UniformGrid Name="PART_DayTitles"
-                               Columns="7" />
-                  <!-- The six-week grid of day cells -->
-                  <UniformGrid Name="PART_MonthGrid"
-                               Grid.Row="1"
-                               Columns="7" />
+                                <!-- Month grid: week-number gutter column, then seven day columns. The six gutter
+                     labels are static template parts; the control writes their text. Day titles
+                     and day cells are added by the control into the same grid. -->
+                <Grid Name="PART_MonthBody"
+                      ColumnDefinitions="Auto,*,*,*,*,*,*,*"
+                      RowDefinitions="Auto,*,*,*,*,*,*">
+                  <TextBlock Classes="weeknumber" Grid.Row="1" Grid.Column="0" Focusable="False" />
+                  <TextBlock Classes="weeknumber" Grid.Row="2" Grid.Column="0" Focusable="False" />
+                  <TextBlock Classes="weeknumber" Grid.Row="3" Grid.Column="0" Focusable="False" />
+                  <TextBlock Classes="weeknumber" Grid.Row="4" Grid.Column="0" Focusable="False" />
+                  <TextBlock Classes="weeknumber" Grid.Row="5" Grid.Column="0" Focusable="False" />
+                  <TextBlock Classes="weeknumber" Grid.Row="6" Grid.Column="0" Focusable="False" />
                 </Grid>
                 <!-- The grid of months or years when zoomed out -->
                 <UniformGrid Name="PART_ZoomGrid"
@@ -380,6 +389,9 @@
                           MaxDate="{TemplateBinding MaxDate}"
                           IsDateDisabled="{TemplateBinding IsDateDisabled}"
                           Markers="{TemplateBinding Markers}"
+                          Events="{TemplateBinding Events}"
+                          IsWeekNumberVisible="{TemplateBinding IsWeekNumberVisible}"
+                          WeekNumberRule="{TemplateBinding WeekNumberRule}"
                           SelectedDate="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=SelectedDate, Mode=TwoWay}"
                           RangeStart="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=RangeStart, Mode=TwoWay}"
                           RangeEnd="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=RangeEnd, Mode=TwoWay}" />
@@ -394,35 +406,45 @@
       <Setter Property="FontWeight" Value="{theme:FontWeightSemiBold}" />
     </Style>
 
-    <!-- Picker text box. A TextBox scrolls its text rather than reporting it, so MinWidth is its
-         only width: size it off the type that draws the date, not the control ladder's 64. -->
+    <!-- Picker text box: MinWidth sized off the date typeface -->
     <Style Selector="^ /template/ TextBox#PART_TextBox">
       <Setter Property="Padding" Value="{size:Edges Horizontal={size:SpacingMd}, Vertical={size:SpacingMd}}" />
       <Setter Property="HorizontalAlignment" Value="Stretch"></Setter>
       <Setter Property="MinWidth" Value="{size:Scaled Value={size:FontSizeMd}, By=8}" />
     </Style>
 
-    <!-- Month view: the zoom grid is hidden but still measured.
-         IsHitTestVisible is not optional here — the zoom grid sits ABOVE the month grid in the
-         template's Panel, so a transparent-but-clickable one would swallow clicks on the first
-         rows of days and bounce the calendar back out to the year view. -->
+    <!-- Zoom grid: invisible in month view; hit-testing off so it steals no clicks -->
     <Style Selector="^ /template/ UniformGrid#PART_ZoomGrid">
       <Setter Property="Opacity" Value="0" />
       <Setter Property="IsHitTestVisible" Value="False" />
     </Style>
 
-    <!-- Zoomed-out views: show the zoom grid and hide the whole month block WITHOUT collapsing it,
-         so the card's height is the union of both presentations and never jumps as the header is
-         clicked, while the zoom grid still gets the full area to lay out in. -->
+    <!-- Zoomed-out views: swap to the zoom grid without collapsing the month block -->
     <Style Selector="^:year, ^:decade">
       <Style Selector="^ /template/ UniformGrid#PART_ZoomGrid">
         <Setter Property="Opacity" Value="1" />
         <Setter Property="IsHitTestVisible" Value="True" />
       </Style>
-      <Style Selector="^ /template/ Grid#MonthRoot">
+      <Style Selector="^ /template/ Grid#PART_MonthBody">
         <Setter Property="Opacity" Value="0" />
         <Setter Property="IsHitTestVisible" Value="False" />
       </Style>
+    </Style>
+
+    <!-- Week number labels: static template parts, styled like any other themed node -->
+    <Style Selector="^ /template/ TextBlock.weeknumber">
+      <Setter Property="FontSize" Value="{size:FontSizeSm}" />
+      <Setter Property="FontWeight" Value="Bold" />
+      <Setter Property="FontStyle" Value="Italic" />
+      <Setter Property="Foreground" Value="{colour:AccentBrush Light6}" />
+      <Setter Property="HorizontalAlignment" Value="Center" />
+      <Setter Property="VerticalAlignment" Value="Center" />
+      <Setter Property="Margin" Value="{size:Edges Left={size:SpacingSm}}" />
+    </Style>
+
+    <!-- Gutter width once week numbers switch on -->
+    <Style Selector="^:hasweeknumbers /template/ TextBlock.weeknumber">
+      <Setter Property="MinWidth" Value="{size:Scaled Value={size:FontSizeSm}, By=2}" />
     </Style>
 
     <!-- Picker presentation -->

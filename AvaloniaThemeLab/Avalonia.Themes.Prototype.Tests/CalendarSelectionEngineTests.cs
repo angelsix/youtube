@@ -163,6 +163,66 @@ public class CalendarSelectionEngineTests
         Assert.Equal(2010, CalendarSelectionEngine.DecadeStart(2019));
     }
 
+    // --- Week numbers ---
+
+    [Theory]
+    // ISO 8601: week 1 of 2023 starts on Monday 2 Jan 2023
+    [InlineData(2023, 1, 2, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday, 1)]
+    // 2022-12-31 is still in ISO week 52 of 2022
+    [InlineData(2022, 12, 31, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday, 52)]
+    // .NET bug: 2018-12-31 is a Monday and is ISO week 1 of 2019, not week 53 of 2018
+    [InlineData(2018, 12, 31, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday, 1)]
+    // 29 Dec 2014 (Monday) is ISO week 1 of 2015
+    [InlineData(2014, 12, 29, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday, 1)]
+    // US rule: week 1 always starts on Jan 1; 2023 has 53 Sunday-start weeks
+    [InlineData(2023, 1, 1, CalendarWeekRule.FirstDay, DayOfWeek.Sunday, 1)]
+    [InlineData(2023, 12, 31, CalendarWeekRule.FirstDay, DayOfWeek.Sunday, 53)]
+    public void GetWeekOfYear_returns_the_expected_number_under_each_rule(
+        int year, int month, int day, CalendarWeekRule rule, DayOfWeek firstDayOfWeek, int expectedWeek)
+    {
+        var culture = CultureInfo.GetCultureInfo("en-GB");
+        var date = new DateTime(year, month, day);
+
+        Assert.Equal(expectedWeek, CalendarSelectionEngine.GetWeekOfYear(date, rule, firstDayOfWeek, culture));
+    }
+
+    [Fact]
+    public void Week_numbers_align_with_the_month_grid_rows()
+    {
+        var culture = CultureInfo.GetCultureInfo("en-GB");
+        // September 2026 begins on a Tuesday; with a Monday start the grid's first row is
+        // Mon 31 Aug through Sun 6 Sep — ISO week 36.
+        var cells = CalendarSelectionEngine.MonthCells(2026, 9, DayOfWeek.Monday);
+
+        var numbers = CalendarSelectionEngine.WeekNumbers(cells, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday, culture);
+
+        Assert.Equal(6, numbers.Length);
+        // Row zero begins Mon 31 Aug (ISO 36); row four begins Mon 28 Sep (ISO 40); row five
+        // spills into October (Mon 5 Oct, ISO 41) — the gutter must number the ROW, not the month.
+        Assert.Equal(ISOWeek.GetWeekOfYear(new DateTime(2026, 8, 31)), int.Parse(numbers[0]));
+        Assert.Equal(ISOWeek.GetWeekOfYear(new DateTime(2026, 9, 7)), int.Parse(numbers[1]));
+        Assert.Equal(ISOWeek.GetWeekOfYear(new DateTime(2026, 9, 28)), int.Parse(numbers[4]));
+        Assert.Equal(ISOWeek.GetWeekOfYear(new DateTime(2026, 10, 5)), int.Parse(numbers[5]));
+    }
+
+    [Fact]
+    public void Week_numbers_follow_a_sunday_week_start()
+    {
+        var culture = CultureInfo.GetCultureInfo("en-US");
+        var cells = CalendarSelectionEngine.MonthCells(2026, 9, DayOfWeek.Sunday);
+
+        var numbers = CalendarSelectionEngine.WeekNumbers(cells, CalendarWeekRule.FirstDay, DayOfWeek.Sunday, culture);
+
+        Assert.Equal(6, numbers.Length);
+        Assert.All(numbers, n => Assert.Matches(@"^\d+$", n));
+        // Non-ISO rules delegate to the BCL calendar — each row's number must agree with the raw
+        // CultureCalendar computation for that row's first day.
+        for (var row = 0; row < 6; row++)
+            Assert.Equal(
+                culture.Calendar.GetWeekOfYear(cells[row * 7], CalendarWeekRule.FirstDay, DayOfWeek.Sunday),
+                int.Parse(numbers[row]));
+    }
+
     [Fact]
     public void Selectable_honours_min_max_and_predicate()
     {

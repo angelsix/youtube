@@ -18,7 +18,9 @@
         <PackageReference Include="AngelSix.ThemeEngine" Version="1.17.1"/>
         <!-- The calendar control's TYPES live here (styling stays in the theme, which styles them
              exactly like a stock Avalonia control). Published to nuget.org. -->
-        <PackageReference Include="AngelSix.ThemeEngine.Controls" Version="1.0.0"/>
+        <!-- 1.1.0 adds CalendarEvent/CalendarEvent<TData>, CalendarView.Events and the week-number
+             properties (IsWeekNumberVisible, WeekNumberRule). -->
+        <PackageReference Include="AngelSix.ThemeEngine.Controls" Version="1.1.0"/>
         <PackageReference Include="AvaloniaUI.DiagnosticsSupport" Version="2.2.1">
             <IncludeAssets Condition="'$(Configuration)' != 'Debug'">None</IncludeAssets>
             <PrivateAssets Condition="'$(Configuration)' != 'Debug'">All</PrivateAssets>
