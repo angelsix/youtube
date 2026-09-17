@@ -164,7 +164,7 @@
                   IsVisible="False"
                   IsHitTestVisible="False" />
 
-          <!-- Modal overlay: ZIndex=99 holds the static layer during transitions; ZIndex=100 is the animating modal. -->
+          <!-- Modal overlay: ZIndex 99 static, 100 animating -->
           <ContentPresenter Name="PART_ModalBackPresenter"
                             ZIndex="99"
                             IsVisible="False"
@@ -247,11 +247,7 @@
       <Setter Property="DefaultLabelPosition" Value="Collapsed" />
     </Style>
 
-    <!-- Back button styles live in PrototypeNavigationBarButton above, applied to PART_BackButton.
-
-         The overflow button's states are not here: PART_OverflowButton belongs to CommandBar's template,
-         not this one, so no selector rooted at NavigationPage could ever have reached it. Its states are
-         held in CommandBar.axaml, on the template that actually declares it. -->
+    <!-- Back button styled via PrototypeNavigationBarButton -->
 
     <!-- CommandBar styles (moved from ContentPresenter.Styles per Rule 2/3) -->
     <Style Selector="^ /template/ ContentPresenter#PART_TopCommandBar CommandBar">

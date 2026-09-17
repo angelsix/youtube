@@ -25,7 +25,7 @@
     <Setter Property="BorderBrush" Value="Transparent" />
     <Setter Property="BorderThickness" Value="0" />
     <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
-    <!--  Narrow padding should be used for mouse input, when non-narrow one should be used for touch input in future.  -->
+    <!-- Narrow padding for mouse; widen for touch input later -->
     <Setter Property="Padding" Value="{size:Edges Horizontal={size:SpacingXxl}}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
     <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
@@ -97,7 +97,7 @@
       </Style>
     </Style>
 
-    <!--  Listen for PART_LayoutRoot:pointerover, so it will not be triggered when subitem is pressed  -->
+    <!-- Uses PART_LayoutRoot:pointerover so subitem presses do not trigger it -->
     <Style Selector="^:pressed /template/ Border#PART_LayoutRoot:pointerover">
       <Setter Property="Background" Value="{colour:HoverBackgroundDefaultBrush}" />
       <Style Selector="^ ContentPresenter#PART_HeaderPresenter">

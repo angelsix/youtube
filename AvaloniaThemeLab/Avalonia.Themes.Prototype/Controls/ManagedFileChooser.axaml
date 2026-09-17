@@ -78,7 +78,7 @@
           </ControlTemplate>
         </Setter>
 
-        <!-- LayoutRoot theming (Rule 2: no {theme:...} inside ControlTemplate) -->
+        <!-- Themed defaults for inner template elements (Rule 2) -->
         <Style Selector="^ /template/ Border#LayoutRoot">
           <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
           <Setter Property="Margin" Value="{size:Edges Left={size:SpacingXxl}, Right={size:SpacingXxl}}" />
@@ -111,9 +111,7 @@
   <ControlTheme x:Key="{x:Type dialogs:ManagedFileChooser}" TargetType="dialogs:ManagedFileChooser">
     <ControlTheme.Resources>
       <ResourceDictionary>
-        <!-- Icon artwork: file/folder/volume glyphs for the file picker dialog.
-             These are intrinsic drawn graphics (DrawingGroup/GeometryDrawing), not UI surfaces,
-             and are exempt from theming per ThemeRules.md. -->
+        <!-- Icon artwork: intrinsic glyphs, exempt from theming per ThemeRules.md -->
         <GradientStops x:Key="IconRes.FolderBackGradientStops">
         </GradientStops>
         <GradientStops x:Key="IconRes.FolderFrontGradientStops">
@@ -394,7 +392,7 @@
       </ControlTemplate>
     </Setter>
 
-    <!-- Themed defaults for inner template elements (Rule 2: no {theme:...} inside ControlTemplate) -->
+    <!-- Themed defaults for inner template elements (Rule 2) -->
     <Style Selector="^ /template/ DockPanel#NavBar">
       <Setter Property="Margin" Value="{size:Edges Left={size:SpacingXl}, Top={size:SpacingLg}, Right={size:SpacingXl}}" />
     </Style>

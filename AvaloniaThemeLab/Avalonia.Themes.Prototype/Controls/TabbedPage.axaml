@@ -32,7 +32,7 @@
   <SolidColorBrush x:Key="TabbedPageTabItemHeaderBackgroundSelectedPressed" Color="Transparent" />
   <SolidColorBrush x:Key="TabbedPageTabItemHeaderBackgroundDisabled" Color="Transparent" />
 
-  <!-- Foregrounds (override via TabbedPageTabItemHeaderForegroundSelected / TabbedPageTabItemHeaderForegroundUnselected resources) -->
+  <!-- Foregrounds: override via the TabbedPageTabItemHeaderForeground resources -->
   <SolidColorBrush x:Key="TabbedPageTabItemHeaderForegroundUnselected" Color="{colour:AccentNeutral}" />
   <SolidColorBrush x:Key="TabbedPageTabItemHeaderForegroundSelected" Color="{colour:AccentPrimary}" />
   <SolidColorBrush x:Key="TabbedPageTabItemHeaderForegroundDisabled" Color="{colour:AccentNeutral}" />
@@ -174,12 +174,12 @@
 
     <!-- Placement-specific pipe positioning (structural: indicator aligns to tab strip edge) -->
     <Style Selector="^[TabStripPlacement=Top] /template/ ContentPresenter#PART_SelectedPipe">
-      <!-- Theme Exception: the selected pipe sits at the bottom edge of the tab when the strip is on top; the literal is the placement, not a theme layout choice. Luke to validate reason -->
+      <!-- Theme Exception: pipe sits at the bottom edge when the strip is on top. Luke to validate -->
       <Setter Property="VerticalAlignment" Value="Bottom" />
       <Setter Property="Height" Value="{size:SpacingSm}" />
     </Style>
     <Style Selector="^[TabStripPlacement=Bottom] /template/ ContentPresenter#PART_SelectedPipe">
-      <!-- Theme Exception: the selected pipe sits at the top edge of the tab when the strip is on the bottom; the literal is the placement, not a theme layout choice. Luke to validate reason -->
+      <!-- Theme Exception: top-edge pipe, strip on bottom. Luke to validate -->
       <Setter Property="VerticalAlignment" Value="Top" />
       <Setter Property="Height" Value="{size:SpacingSm}" />
     </Style>
@@ -195,7 +195,7 @@
       </Setter>
     </Style>
     <Style Selector="^[TabStripPlacement=Right] /template/ ContentPresenter#PART_SelectedPipe">
-      <!-- Theme Exception: the selected pipe sits at the right edge when the strip is on the right; the literal is the placement, not a theme layout choice. Luke to validate reason -->
+      <!-- Theme Exception: right-edge pipe, strip on right. Luke to validate -->
       <Setter Property="HorizontalAlignment" Value="Right" />
       <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
     </Style>
@@ -211,7 +211,7 @@
       </Setter>
     </Style>
     <Style Selector="^[TabStripPlacement=Left] /template/ ContentPresenter#PART_SelectedPipe">
-      <!-- Theme Exception: the selected pipe sits at the left edge when the strip is on the left; the literal is the placement, not a theme layout choice. Luke to validate reason -->
+      <!-- Theme Exception: left-edge pipe, strip on left. Luke to validate -->
       <Setter Property="HorizontalAlignment" Value="Left" />
       <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
     </Style>

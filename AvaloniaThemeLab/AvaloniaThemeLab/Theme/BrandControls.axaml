@@ -4,42 +4,11 @@
         xmlns:colour="using:AngelSix.ThemeEngine.Colours"
         xmlns:size="using:AngelSix.ThemeEngine.Sizes"
         xmlns:local="clr-namespace:AvaloniaThemeLab">
-  <!--
-    A consumer's own style classes, living downstream of the theme library.
-
-    This is the other half of extending a theme. BrandTheme adds an accent *hue*, which needs
-    nothing beyond declaring the colours — theme:Accent.Kind="Brand" then works. This is the other
-    thing you are likely to want: variants of your own on top of the theme's controls.
-
-    Written as a Styles collection layering setters over the theme's ControlThemes, rather than as a
-    ControlTheme of its own. That is the right shape for "the theme's button, but ours too":
-
-      - The theme's Button ControlTheme still supplies the template and every state, so a brand
-        button stays a normal button and keeps working when the theme changes.
-      - A ControlTheme would mean BasedOn="{StaticResource {x:Type Button}}", and the theme's
-        control dictionaries are x:ClassModifier="internal" — deliberately not consumer API — so
-        that resource cannot be reached from here at all.
-      - Top-level selectors like Button.hero are visible to static analysis as they stand, so these
-        classes need nothing declaring them anywhere. A class only goes unresolved when it is
-        declared as ^.name *inside* a ControlTheme, and the theme no longer has any of those a
-        consumer would write — its preview states are theme:Preview.State now.
-
-    Values come from theme tokens rather than literals, so a brand button tracks the theme's spacing
-    and type scale instead of drifting away from everything around it.
-
-    Three xmlns cover all of it. AngelSix.ThemeEngine.Colours holds the brushes and colours as
-    {colour:Token}; AngelSix.ThemeEngine.Sizes holds the metrics as {size:Token}: spacing,
-    thicknesses, radii, control heights, and the hand-written composites like Edges and Scaled.
-    AngelSix.ThemeEngine.Generated keeps the remainder: alignments, fonts, timing, and the
-    attached properties such as this project's own BrandAccent, named after BrandTheme, because
-    the theme it extends already owns the plain "Accent" name.
-  -->
+  <!-- Consumer style classes layered over the theme's ControlThemes; values from theme tokens -->
 
   <Design.PreviewWith>
     <Border Padding="20">
-      <!-- BrandPreviewTheme, not PrototypeTheme directly: it supplies the Button ControlTheme these
-           styles layer over AND registers BrandTheme as the active token theme, without which the
-           Brand hue below resolves to nothing and this preview cannot show the brand. -->
+      <!-- Preview uses BrandPreviewTheme: supplies the Button theme and activates the Brand hue -->
       <Border.Styles>
         <local:BrandPreviewTheme />
       </Border.Styles>
@@ -66,11 +35,9 @@
     </Border>
   </Design.PreviewWith>
 
-  <!-- Filled brand button. AccentBrush resolves against the hue the control carries, so this one
-       style serves Brand, Success or anything else the theme declares. -->
+  <!-- Filled brand button: serves any declared hue -->
   <Style Selector="Button.hero">
-    <!-- The filled variant: the hue IS the fill and the text is the near-white stage. The inverse
-         of an outlined control, so it cannot share the same stage assignments. -->
+    <!-- Filled variant: hue is the fill, text is the near-white stage -->
     <Setter Property="Background" Value="{colour:AccentBrush Dark1}" />
     <Setter Property="Foreground" Value="{colour:AccentBrush Light10}" />
     <Setter Property="FontWeight" Value="{theme:FontWeightBold}" />
@@ -78,8 +45,7 @@
     <Setter Property="BorderThickness" Value="0" />
   </Style>
 
-  <!-- These states have to be restated: an app-level Style outranks the ControlTheme's own
-       :pointerover, so without them a hero button would keep its rest background on hover. -->
+  <!-- States restated: app-level styles outrank the ControlTheme's own -->
   <Style Selector="Button.hero:pointerover">
     <Setter Property="Background" Value="{colour:AccentBrush Dark2}" />
   </Style>

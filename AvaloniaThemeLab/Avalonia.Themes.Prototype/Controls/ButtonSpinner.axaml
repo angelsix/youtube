@@ -24,8 +24,7 @@
         <ButtonSpinner Content="Right spinner" />
         <ButtonSpinner ButtonSpinnerLocation="Left"
                        Content="Left spinner" />
-        <!-- Accent hues. The `accent` class opts into the accented look; Accent.Kind picks the
-             hue and defaults to Primary, so the first one needs no Kind at all. -->
+        <!-- Accent hues: Accent.Kind picks the hue, defaulting to Primary -->
         <ButtonSpinner theme:Accent.Kind="Primary"
                        Content="Accent (default Primary)" />
         <ButtonSpinner ButtonSpinnerLocation="Left"
@@ -33,9 +32,7 @@
         <ButtonSpinner Content="Accent Success" theme:Accent.Kind="Success"/>
         <ButtonSpinner Content="Accent Destructive" theme:Accent.Kind="Destructive"/>
 
-        <!-- Kind inherits, so tinting the panel tints every control beneath it. There is no
-             opting out with a class any more: a child either states its own Kind or wears the
-             panel's. Only a control outside the scope falls back to Neutral. -->
+        <!-- Kind inherits: tinting the panel tints every control beneath it -->
         <StackPanel theme:Accent.Kind="Subtle" Spacing="20">
           <ButtonSpinner Content="Inherited Subtle" />
           <ButtonSpinner theme:Accent.Kind="Primary" Content="Overrides to Primary" />
@@ -82,8 +79,7 @@
       </Transitions>
     </Setter>
 
-    <!-- Template: deliberately not BasedOn the RepeatButton theme, whose state backgrounds and MinWidth
-         do not apply to a spinner chevron. Without this the buttons fall back to Avalonia's built-in template. -->
+    <!-- Template: deliberately not BasedOn the RepeatButton theme -->
     <Setter Property="Template">
       <ControlTemplate>
         <!-- The chevron icon -->
@@ -101,7 +97,7 @@
       </ControlTemplate>
     </Setter>
 
-    <!-- Pressed state (state colours live on the ButtonSpinner theme, which knows whether it is accent) -->
+    <!-- Pressed state: colours set by the ButtonSpinner theme -->
     <Style Selector="^:pressed">
       <Setter Property="RenderTransform" Value="{theme:TransformScale Value={size:PressedScale}}" />
     </Style>
@@ -202,15 +198,12 @@
       <Setter Property="Width" Value="{size:IconSizeMd}" />
     </Style>
 
-    <!-- Corner radius: round edge button's outer corners to match control (Border does not clip children) -->
+    <!-- Corner radius: rounds the edge button's outer corners -->
     <Style Selector="^ /template/ RepeatButton#PART_DecreaseButton">
       <Setter Property="CornerRadius" Value="{size:Corners Radius={TemplateBinding CornerRadius}, Right=True}" />
     </Style>
 
-    <!-- Hover state — carried by the spinner buttons, deliberately not by the Border.
-         Avalonia clears IsPointerOver on the ButtonSpinner when the pointer is released over a disabled
-         chevron (AllowSpin=False) and does not restore it until the pointer moves, so a Border hover colour
-         flashes back to its rest value on every click. Reproduced on the stock Fluent theme. -->
+    <!-- Hover state: on the buttons, not the Border (IsPointerOver quirk) -->
     <Style Selector="^ /template/ RepeatButton:pointerover:not(:disabled)">
       <Setter Property="Background" Value="{colour:HoverBackgroundDefaultBrush}" />
       <Setter Property="Foreground" Value="{colour:HoverTextDefaultBrush}" />
@@ -249,10 +242,7 @@
       <Setter Property="BorderBrush" Value="{colour:AccentErrorBrush}" />
     </Style>
     
-    <!-- Accent class. Hue-agnostic: {colour:AccentBrush Light10} resolves against whatever
-         prototype:Accent.Kind the control is carrying, so this one block serves every accent
-         rather than being copy-pasted once per hue. Accent.Kind inherits, which is what carries
-         the hue into the /template/ RepeatButton styles below. -->
+    <!-- Accent class: hue-agnostic, resolves against the control's Accent.Kind -->
 
     <!-- Left spinner position -->
     <Style Selector="^:left">

@@ -45,7 +45,7 @@
       <ControlTemplate>
         <!-- Gap of 6 for the header notch mask (structural — BorderGapMaskConverter requirement) -->
         <Grid x:Name="RootGrid" UseLayoutRounding="true" ColumnDefinitions="6,Auto,*,6" RowDefinitions="Auto,Auto,*,6">
-          <!-- Background border (separate from stroke border so the opacity mask does not clip the background) -->
+          <!-- Background border, kept apart from the stroke border -->
           <Border Grid.Row="1"
                   Grid.RowSpan="3"
                   Grid.Column="0"

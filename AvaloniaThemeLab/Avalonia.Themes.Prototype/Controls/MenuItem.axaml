@@ -65,7 +65,7 @@
     <Setter Property="BorderBrush" Value="Transparent" />
     <Setter Property="BorderThickness" Value="0" />
     <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
-    <!--  Narrow padding should be used for mouse input, when non-narrow one should be used for touch input in future.  -->
+    <!-- Narrow padding for mouse; widen for touch input later -->
     <Setter Property="Padding" Value="{size:Edges Left={size:SpacingXxl}, Top={size:SpacingMd}, Right={size:SpacingXxl}, Bottom={size:SpacingLg}}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
     <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
@@ -156,7 +156,7 @@
       <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
     </Style>
 
-    <!-- Themed defaults for inner template elements (Rule 2: no {theme:...} inside ControlTemplate) -->
+    <!-- Themed defaults for inner template elements (Rule 2) -->
     <Style Selector="^ /template/ ContentControl#PART_ToggleIconPresenter">
       <Setter Property="Margin" Value="{size:Edges Right={size:SpacingXxl}}" />
     </Style>
@@ -207,7 +207,7 @@
       </Style>
     </Style>
 
-    <!--  Listen for PART_LayoutRoot:pointerover, so it will not be triggered when subitem is pressed  -->
+    <!-- Uses PART_LayoutRoot:pointerover so subitem presses do not trigger it -->
     <Style Selector="^:pressed /template/ Border#PART_LayoutRoot:pointerover">
       <Setter Property="Background" Value="{colour:HoverBackgroundDefaultBrush}" />
       <Style Selector="^ ContentPresenter#PART_HeaderPresenter">

@@ -220,7 +220,7 @@
       </ControlTemplate>
     </Setter>
 
-    <!-- Themed defaults for inner template elements (Rule 2: no {theme:...} inside ControlTemplate) -->
+    <!-- Themed defaults for inner template elements (Rule 2) -->
     <Style Selector="^ /template/ Border#PART_TopBar">
       <Setter Property="Padding" Value="{size:Edges All={size:SpacingLg}}" />
       <Setter Property="Height" Value="{size:ControlHeightLg}" />
@@ -260,7 +260,7 @@
       <Setter Property="IsVisible" Value="False" />
     </Style>
 
-    <!-- Horizontal pane (Bottom/Top): compact toggle must dock Left so drawer content can fill the rest -->
+    <!-- Horizontal panes: toggle docks left so content fills the rest -->
     <Style Selector="^:placement-bottom /template/ ToggleButton#PART_CompactPaneToggle">
       <Setter Property="DockPanel.Dock" Value="Left" />
     </Style>

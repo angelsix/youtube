@@ -5,9 +5,7 @@
                     xmlns:colour="using:AngelSix.ThemeEngine.Colours"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes">
   <ControlTheme x:Key="{x:Type Window}" TargetType="Window">
-    <!-- Canvas colour: SurfaceDefault is the dedicated application-background token — paper seed
-         when light, mirrored near-black when dark — so the window tracks the palette without any
-         consumer branching on IsDark. -->
+    <!-- Canvas colour: SurfaceDefault follows the palette -->
     <Setter Property="Background" Value="{colour:SurfaceDefaultBrush}"/>
     <Setter Property="TransparencyBackgroundFallback" Value="{colour:SurfaceDefaultBrush}" />
     <Setter Property="TopLevel.SystemBarColor" Value="{colour:SurfaceDefaultBrush}"/>
@@ -17,8 +15,7 @@
     <Setter Property="FontWeight" Value="{theme:FontWeightRegular}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
     <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
-    <!-- Window content must fill the client area: the Control* content tokens (Center) would lay
-         the content out at its desired size, so a root ScrollViewer or panel could never stretch. -->
+    <!-- Content stretches to fill the client area -->
     <Setter Property="HorizontalContentAlignment" Value="{theme:ContainerHorizontalAlignment}" />
     <Setter Property="VerticalContentAlignment" Value="{theme:ContainerVerticalAlignment}" />
     <Setter Property="Template">

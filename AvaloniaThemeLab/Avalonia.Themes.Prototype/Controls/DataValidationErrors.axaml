@@ -48,8 +48,7 @@
       <ControlTemplate TargetType="DataValidationErrors">
         <!-- Layout root stacking the message under the control -->
         <DockPanel LastChildFill="True">
-          <!-- The error message, shown below while the value is invalid.
-               Width tracks the control so a long message wraps instead of widening it. -->
+          <!-- Error message shown while the value is invalid -->
           <ContentControl Name="PART_ErrorIndicator"
                           DockPanel.Dock="Bottom"
                           Width="{Binding #PART_ContentPresenter.Bounds.Width}"

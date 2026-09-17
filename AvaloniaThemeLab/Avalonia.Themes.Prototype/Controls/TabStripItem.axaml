@@ -64,7 +64,7 @@
     </Setter>
 
     <!--  Selected state  -->
-    <!--  We don't use selector to PART_LayoutRoot, so developer can override selected item background with TabStripItem.Background  -->
+    <!-- Leaves PART_LayoutRoot unselected so TabStripItem.Background can override it -->
     <Style Selector="^:selected">
       <Setter Property="Background" Value="Transparent" />
     </Style>

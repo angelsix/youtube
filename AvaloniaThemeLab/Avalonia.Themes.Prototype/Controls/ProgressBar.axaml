@@ -125,13 +125,13 @@
 
     <!-- Template: determinate indicator positioning -->
     <Style Selector="^:horizontal /template/ Border#PART_Indicator">
-      <!-- Theme Exception: the indicator grows from the left in horizontal orientation, so it must anchor left rather than stretch or centre. Luke to validate reason -->
+      <!-- Theme Exception: indicator anchors left so it grows from the left. Luke to validate -->
       <Setter Property="HorizontalAlignment" Value="Left" />
       <Setter Property="VerticalAlignment" Value="{theme:ContainerVerticalAlignment}" />
     </Style>
     <Style Selector="^:vertical /template/ Border#PART_Indicator">
       <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
-      <!-- Theme Exception: the indicator grows from the bottom in vertical orientation, so it must anchor bottom rather than stretch or centre. Luke to validate reason -->
+      <!-- Theme Exception: indicator anchors bottom so it grows upward. Luke to validate -->
       <Setter Property="VerticalAlignment" Value="Bottom" />
     </Style>
 
