@@ -1,30 +1,72 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="using:System"
                     xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
                     xmlns:colour="using:AngelSix.ThemeEngine.Colours"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes"
                     xmlns:icons="using:AngelSix.ThemeEngine.Icons">
   <Design.PreviewWith>
-    <Border Padding="20">
+    <Border>
       <Border.Styles>
         <prototype:PrototypeTheme />
       </Border.Styles>
 
-      <StackPanel Spacing="20">
-        <TextBox>Left</TextBox>
-        <TextBox TextAlignment="Center">Center</TextBox>
-        <TextBox Classes="clearButton">Clear</TextBox>
-        <TextBox PasswordChar="*" Classes="revealPasswordButton">Reveal Password</TextBox>
-        <TextBox PasswordChar="*" Classes="revealPasswordButton" RevealPassword="True">Password Revealed</TextBox>
-        <TextBox PlaceholderText="Placeholder"/> 
-        <TextBox PlaceholderText="Floating Placeholder" UseFloatingPlaceholder="True"/>
-        <TextBox PlaceholderText="Floating Placeholder" UseFloatingPlaceholder="True">Content</TextBox>
+      <StackPanel Orientation="Horizontal">
+        <!-- Light -->
+        <Border Padding="20" Background="{colour:SurfaceDefaultBrush}">
+          <StackPanel Spacing="10">
+            <Label Content="TextBox States - Light" />
+            <TextBox Text="Default Textbox" />
+            <TextBox theme:Preview.State="Hover" Text="Hover" />
+            <TextBox theme:Preview.State="Focused" Text="Focused" />
+            <TextBox Text="Error">
+              <DataValidationErrors.Error>
+                <sys:Exception><x:Arguments><x:String>Error</x:String></x:Arguments></sys:Exception>
+              </DataValidationErrors.Error>
+            </TextBox>
+            <TextBox IsEnabled="False" Text="Disabled" />
+            <TextBox IsReadOnly="True" Text="Read only" />
+            <TextBox AcceptsReturn="True" TextWrapping="Wrap" Text="Multiline&#x0a;second line" />
+            <TextBox TextAlignment="Center" Text="Center aligned" />
+            <TextBox PlaceholderText="Empty with placeholder" />
+            <TextBox PlaceholderText="Floating placeholder" UseFloatingPlaceholder="True" />
+            <TextBox PlaceholderText="Floating placeholder" UseFloatingPlaceholder="True" Text="Floated over content" />
+            <TextBox Classes="clearButton" Text="Clear button" />
+            <TextBox PasswordChar="*" Classes="revealPasswordButton" Text="Hidden password" />
+            <TextBox PasswordChar="*" Classes="revealPasswordButton" RevealPassword="True" Text="Revealed password" />
+          </StackPanel>
+        </Border>
+
+        <!-- Dark -->
+        <Border Padding="20" theme:ThemeRegion.IsDark="True" Background="{colour:SurfaceDefaultBrush}">
+          <StackPanel Spacing="10">
+            <Label Content="TextBox States - Dark" />
+            <TextBox Text="Default" />
+            <TextBox theme:Preview.State="Hover" Text="Hover" />
+            <TextBox theme:Preview.State="Focused" Text="Focused" />
+            <TextBox Text="Error">
+              <DataValidationErrors.Error>
+                <sys:Exception><x:Arguments><x:String>Error</x:String></x:Arguments></sys:Exception>
+              </DataValidationErrors.Error>
+            </TextBox>
+            <TextBox IsEnabled="False" Text="Disabled" />
+            <TextBox IsReadOnly="True" Text="Read only" />
+            <TextBox AcceptsReturn="True" TextWrapping="Wrap" Text="Multiline&#x0a;second line" />
+            <TextBox TextAlignment="Center" Text="Center aligned" />
+            <TextBox PlaceholderText="Empty with placeholder" />
+            <TextBox PlaceholderText="Floating placeholder" UseFloatingPlaceholder="True" />
+            <TextBox PlaceholderText="Floating placeholder" UseFloatingPlaceholder="True" Text="Floated over content" />
+            <TextBox Classes="clearButton" Text="Clear button" />
+            <TextBox PasswordChar="*" Classes="revealPasswordButton" Text="Hidden password" />
+            <TextBox PasswordChar="*" Classes="revealPasswordButton" RevealPassword="True" Text="Revealed password" />
+          </StackPanel>
+        </Border>
       </StackPanel>
     </Border>
   </Design.PreviewWith>
 
-  <!-- Context flyouts -->
+  <!-- Context fly-outs -->
   <MenuFlyout x:Key="DefaultTextBoxContextFlyout" ShowMode="{OnFormFactor Desktop=Standard, Mobile=Transient}">
     <MenuItem Header="Cut" Command="{Binding $parent[TextBox].Cut}" IsEnabled="{Binding $parent[TextBox].CanCut}" InputGesture="{x:Static TextBox.CutGesture}" />
     <MenuItem Header="Copy" Command="{Binding $parent[TextBox].Copy}" IsEnabled="{Binding $parent[TextBox].CanCopy}" InputGesture="{x:Static TextBox.CopyGesture}"/>
@@ -37,88 +79,11 @@
   </MenuFlyout>
 
   <!-- ============================================================
-       Sub-theme: PrototypeTextBoxButton
-       ============================================================ -->
-  <ControlTheme x:Key="PrototypeTextBoxButton" TargetType="Button">
-    <!-- Visual defaults -->
-    <Setter Property="Background" Value="Transparent" />
-    <Setter Property="BorderBrush" Value="Transparent" />
-    <Setter Property="Focusable" Value="False"/>
-    <Setter Property="MinWidth" Value="{size:ControlMinWidth}" />
-    <Setter Property="Padding" Value="{size:Edges All={size:SpacingMd}}" />
-    <Setter Property="Width" Value="{Binding $self.Bounds.Height}"/>
-    <Setter Property="TextElement.Foreground" Value="{colour:AccentBrush Light2}"/>
-
-    <!-- Template -->
-    <Setter Property="Template">
-      <Setter.Value>
-        <ControlTemplate TargetType="Button">
-          <!-- The button's icon -->
-          <ContentPresenter x:Name="PART_ContentPresenter"
-                            Background="{TemplateBinding Background}"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}"
-                            Content="{TemplateBinding Content}"
-                            Padding="{TemplateBinding Padding}">
-          </ContentPresenter>
-        </ControlTemplate>
-      </Setter.Value>
-    </Setter>
-
-    <!-- Hover state -->
-    <Style Selector="^:pointerover /template/ ContentPresenter">
-      <Setter Property="Background" Value="Transparent" />
-      <Setter Property="BorderBrush" Value="Transparent" />
-      <Setter Property="Foreground" Value="{colour:AccentPrimaryBrush}" />
-    </Style>
-
-    <!-- Pressed state -->
-    <Style Selector="^:pressed /template/ ContentPresenter">
-      <Setter Property="Background" Value="{colour:AccentPrimaryBrush}" />
-      <Setter Property="BorderBrush" Value="Transparent" />
-      <Setter Property="Foreground" Value="{colour:AccentBrush Light10}" />
-    </Style>
-
-    <!-- Disabled state -->
-    <Style Selector="^:disabled /template/ ContentPresenter">
-      <Setter Property="Opacity" Value="0" />
-    </Style>
-  </ControlTheme>
-
-  <!-- ============================================================
-       Sub-theme: PrototypeTextBoxToggleButton
-       ============================================================ -->
-  <ControlTheme x:Key="PrototypeTextBoxToggleButton"
-                TargetType="ToggleButton"
-                BasedOn="{StaticResource PrototypeTextBoxButton}">
-    <!-- Template -->
-    <Setter Property="Template">
-      <Setter.Value>
-        <ControlTemplate TargetType="ToggleButton">
-          <!-- The button's icon -->
-          <ContentPresenter x:Name="PART_ContentPresenter"
-                            Background="{TemplateBinding Background}"
-                            Content="{TemplateBinding Content}"
-                            Padding="{TemplateBinding Padding}">
-          </ContentPresenter>
-        </ControlTemplate>
-      </Setter.Value>
-    </Setter>
-
-    <!-- Checked / Indeterminate state -->
-    <Style Selector="^:checked /template/ ContentPresenter, ^:indeterminate /template/ ContentPresenter">
-      <Setter Property="Background" Value="{colour:AccentPrimaryBrush}" />
-      <Setter Property="BorderBrush" Value="Transparent" />
-      <Setter Property="Foreground" Value="{colour:AccentBrush Light10}" />
-    </Style>
-  </ControlTheme>
-
-  <!-- ============================================================
        ControlTheme: {x:Type TextBox}
        ============================================================ -->
   <ControlTheme x:Key="{x:Type TextBox}" TargetType="TextBox">
     <!-- Visual defaults -->
-    <Setter Property="Background" Value="{colour:AccentBrush Light4}" />
+    <Setter Property="Background" Value="Transparent" />
     <Setter Property="Foreground" Value="{colour:TextDefaultBrush}" />
     <Setter Property="CaretBrush" Value="{colour:AccentBrush Dark1}" />
     <Setter Property="BorderBrush" Value="{colour:BorderDefaultBrush}" />
@@ -142,100 +107,92 @@
       <ControlTemplate>
         <!-- Validation error message for the whole control -->
         <DataValidationErrors>
-          <!-- Layout root stacking the text over its frame -->
-          <Panel>
-            <!-- Outer frame around the field -->
-            <Border
-              Name="PART_BorderElement"
-              Background="{TemplateBinding Background}"
-              BorderBrush="{TemplateBinding BorderBrush}"
-              BorderThickness="{TemplateBinding BorderThickness}"
-              CornerRadius="{TemplateBinding CornerRadius}"
-              MinWidth="{TemplateBinding MinWidth}"
-              MinHeight="{TemplateBinding MinHeight}">
-            </Border>
+          <!-- Rows: optional floating label, then the framed field -->
+          <Grid RowDefinitions="Auto,*">
+            <!-- Label that floats above the field (own row, so it never crowds the text) -->
+            <TextBlock Grid.Row="0"
+                       Name="PART_FloatingPlaceholder"
+                       Foreground="{TemplateBinding PlaceholderForeground}"
+                       Margin="{size:Edges Bottom={size:SpacingSm}}"
+                       IsVisible="False"
+                       Text="{TemplateBinding PlaceholderText}" />
 
-            <!-- Inset area inside the frame -->
-            <Border
-              Margin="{TemplateBinding BorderThickness}">
+            <!-- Single frame border owning the field; content sits inside its stroke -->
+            <Border Grid.Row="1"
+                    Name="PART_BorderElement"
+                    Background="{TemplateBinding Background}"
+                    BorderBrush="{TemplateBinding BorderBrush}"
+                    BorderThickness="{TemplateBinding BorderThickness}"
+                    CornerRadius="{TemplateBinding CornerRadius}"
+                    MinWidth="{TemplateBinding MinWidth}"
+                    MinHeight="{TemplateBinding MinHeight}">
               <!-- Columns: leading content, text, trailing content -->
-              <Grid ColumnDefinitions="Auto,*,Auto" >
+              <Grid ColumnDefinitions="Auto,*,Auto">
                 <!-- Caller content pinned to the field's left edge -->
                 <ContentPresenter Grid.Column="0"
-                                  Grid.ColumnSpan="1"
                                   VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
                                   Content="{TemplateBinding InnerLeftContent}"/>
-                <!-- Docks the floating label above the text -->
-                <DockPanel x:Name="PART_InnerDockPanel"
-                           Grid.Column="1"
-                           Grid.ColumnSpan="1"
-                           Margin="{TemplateBinding Padding}">
-                  <!-- Label that floats above once text is entered -->
-                  <TextBlock Name="PART_FloatingPlaceholder"
-                             Foreground="{TemplateBinding PlaceholderForeground}"
-                             IsVisible="False"
-                             Text="{TemplateBinding PlaceholderText}"
-                             DockPanel.Dock="Top" />
 
-                  <!-- Scrolls the text when it overflows -->
-                  <ScrollViewer Name="PART_ScrollViewer"
-                                HorizontalScrollBarVisibility="{TemplateBinding (ScrollViewer.HorizontalScrollBarVisibility)}"
-                                VerticalScrollBarVisibility="{TemplateBinding (ScrollViewer.VerticalScrollBarVisibility)}"
-                                IsScrollChainingEnabled="{TemplateBinding (ScrollViewer.IsScrollChainingEnabled)}"
-                                AllowAutoHide="{TemplateBinding (ScrollViewer.AllowAutoHide)}"
-                                BringIntoViewOnFocusChange="{TemplateBinding (ScrollViewer.BringIntoViewOnFocusChange)}">
-                    <!-- Layout root stacking the prompt behind the text -->
-                    <Panel>
-                      <!-- Prompt shown while the field is empty -->
-                      <TextBlock Name="PART_Placeholder"
-                                 Foreground="{TemplateBinding PlaceholderForeground}"
-                                 Text="{TemplateBinding PlaceholderText}"
-                                 TextAlignment="{TemplateBinding TextAlignment}"
-                                 TextWrapping="{TemplateBinding TextWrapping}"
-                                 HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                 VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
-                        <TextBlock.IsVisible>
-                          <MultiBinding Converter="{x:Static BoolConverters.And}">
-                            <Binding ElementName="PART_TextPresenter" Path="PreeditText" Converter="{x:Static StringConverters.IsNullOrEmpty}"/>
-                            <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="Text" Converter="{x:Static StringConverters.IsNullOrEmpty}"/>
-                          </MultiBinding>
-                        </TextBlock.IsVisible>
-                      </TextBlock>
+                <!-- Scrolls the text when it overflows; owns the field's padding -->
+                <ScrollViewer Grid.Column="1"
+                              Name="PART_ScrollViewer"
+                              Margin="{TemplateBinding Padding}"
+                              HorizontalScrollBarVisibility="{TemplateBinding (ScrollViewer.HorizontalScrollBarVisibility)}"
+                              VerticalScrollBarVisibility="{TemplateBinding (ScrollViewer.VerticalScrollBarVisibility)}"
+                              IsScrollChainingEnabled="{TemplateBinding (ScrollViewer.IsScrollChainingEnabled)}"
+                              AllowAutoHide="{TemplateBinding (ScrollViewer.AllowAutoHide)}"
+                              BringIntoViewOnFocusChange="{TemplateBinding (ScrollViewer.BringIntoViewOnFocusChange)}">
+                  <!-- Layout root stacking the prompt behind the text -->
+                  <Panel>
+                    <!-- Prompt shown while the field is empty -->
+                    <TextBlock Name="PART_Placeholder"
+                               Foreground="{TemplateBinding PlaceholderForeground}"
+                               Text="{TemplateBinding PlaceholderText}"
+                               TextAlignment="{TemplateBinding TextAlignment}"
+                               TextWrapping="{TemplateBinding TextWrapping}"
+                               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
+                      <TextBlock.IsVisible>
+                        <MultiBinding Converter="{x:Static BoolConverters.And}">
+                          <Binding ElementName="PART_TextPresenter" Path="PreeditText" Converter="{x:Static StringConverters.IsNullOrEmpty}"/>
+                          <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="Text" Converter="{x:Static StringConverters.IsNullOrEmpty}"/>
+                        </MultiBinding>
+                      </TextBlock.IsVisible>
+                    </TextBlock>
 
-                      <!-- The editable text and caret -->
-                      <TextPresenter Name="PART_TextPresenter"
-                                     Text="{TemplateBinding Text, Mode=TwoWay}"
-                                     CaretBlinkInterval="{TemplateBinding CaretBlinkInterval}"
-                                     CaretIndex="{TemplateBinding CaretIndex}"
-                                     SelectionStart="{TemplateBinding SelectionStart}"
-                                     SelectionEnd="{TemplateBinding SelectionEnd}"
-                                     TextAlignment="{TemplateBinding TextAlignment}"
-                                     TextWrapping="{TemplateBinding TextWrapping}"
-                                     LineHeight="{TemplateBinding LineHeight}"
-                                     LetterSpacing="{TemplateBinding LetterSpacing}"
-                                     PasswordChar="{TemplateBinding PasswordChar}"
-                                     RevealPassword="{TemplateBinding RevealPassword}"
-                                     SelectionBrush="{TemplateBinding SelectionBrush}"
-                                     SelectionForegroundBrush="{TemplateBinding SelectionForegroundBrush}"
-                                     CaretBrush="{TemplateBinding CaretBrush}"
-                                     HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                     VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                    </Panel>
-                    <ScrollViewer.Styles>
-                      <Style Selector="ScrollContentPresenter#PART_ContentPresenter">
-                        <Setter Property="Cursor" Value="IBeam" />
-                      </Style>
-                    </ScrollViewer.Styles>
-                  </ScrollViewer>
-                </DockPanel>
+                    <!-- The editable text and caret -->
+                    <TextPresenter Name="PART_TextPresenter"
+                                   Text="{TemplateBinding Text, Mode=TwoWay}"
+                                   CaretBlinkInterval="{TemplateBinding CaretBlinkInterval}"
+                                   CaretIndex="{TemplateBinding CaretIndex}"
+                                   SelectionStart="{TemplateBinding SelectionStart}"
+                                   SelectionEnd="{TemplateBinding SelectionEnd}"
+                                   TextAlignment="{TemplateBinding TextAlignment}"
+                                   TextWrapping="{TemplateBinding TextWrapping}"
+                                   LineHeight="{TemplateBinding LineHeight}"
+                                   LetterSpacing="{TemplateBinding LetterSpacing}"
+                                   PasswordChar="{TemplateBinding PasswordChar}"
+                                   RevealPassword="{TemplateBinding RevealPassword}"
+                                   SelectionBrush="{TemplateBinding SelectionBrush}"
+                                   SelectionForegroundBrush="{TemplateBinding SelectionForegroundBrush}"
+                                   CaretBrush="{TemplateBinding CaretBrush}"
+                                   HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                   VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                  </Panel>
+                  <ScrollViewer.Styles>
+                    <Style Selector="ScrollContentPresenter#PART_ContentPresenter">
+                      <Setter Property="Cursor" Value="IBeam" />
+                    </Style>
+                  </ScrollViewer.Styles>
+                </ScrollViewer>
+
                 <!-- Caller content pinned to the field's right edge -->
                 <ContentPresenter Grid.Column="2"
-                                  Grid.ColumnSpan="1"
                                   VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
                                   Content="{TemplateBinding InnerRightContent}"/>
               </Grid>
             </Border>
-          </Panel>
+          </Grid>
         </DataValidationErrors>
       </ControlTemplate>
     </Setter>
@@ -250,12 +207,10 @@
       <Setter Property="Opacity" Value="{size:Scaled Value={size:DisabledOpacity}, By=1.667}" />
     </Style>
 
-    <!-- Hover state -->
-    <Style Selector="^:pointerover">
-
+    <!-- Hover state: house outlined-field fill across the whole frame -->
+    <Style Selector="^:pointerover, ^[(theme|Preview.State)=Hover]">
       <Style Selector="^ /template/ Border#PART_BorderElement">
-        <Setter Property="BorderBrush" Value="{colour:AccentBrush Light2}"/>
-        <Setter Property="Background" Value="{colour:AccentBrush Light4}" />
+        <Setter Property="Background" Value="{colour:HoverBackgroundDefaultBrush}" />
       </Style>
     </Style>
 
@@ -269,13 +224,10 @@
       </Style>
     </Style>
 
-    <!-- Focus state -->
-    <Style Selector="^:focus">
-
+    <!-- Focus state: accent outline at constant thickness — no fill repaint, no growth -->
+    <Style Selector="^:focus, ^[(theme|Preview.State)=Focused]">
       <Style Selector="^ /template/ Border#PART_BorderElement">
-        <Setter Property="Background" Value="{colour:AccentBrush Light4}"/>
-        <Setter Property="BorderBrush" Value="{colour:AccentPrimaryBrush}"/>
-        <Setter Property="BorderThickness" Value="{size:ThicknessMd}" />
+        <Setter Property="BorderBrush" Value="{colour:AccentFocusBrush}" />
       </Style>
     </Style>
 
@@ -298,8 +250,7 @@
     <Style Selector="^.revealPasswordButton[AcceptsReturn=False][IsReadOnly=False]:not(TextBox:empty)">
       <Setter Property="InnerRightContent">
         <Template>
-          <ToggleButton Theme="{StaticResource PrototypeTextBoxToggleButton}"
-                        IsChecked="{Binding $parent[TextBox].RevealPassword, Mode=TwoWay}"
+          <ToggleButton IsChecked="{Binding $parent[TextBox].RevealPassword, Mode=TwoWay}"
                         ClipToBounds="True">
             <Panel>
               <PathIcon Data="{icons:Eye}"
@@ -314,12 +265,12 @@
       </Setter>
     </Style>
 
-    <!-- Clear button class -->
-    <Style Selector="^.clearButton[AcceptsReturn=False][IsReadOnly=False]:focus:not(TextBox:empty)">
+    <!-- Clear button class: persists while there is text (never pops in on focus) -->
+    <Style Selector="^.clearButton[AcceptsReturn=False][IsReadOnly=False]:not(TextBox:empty)">
       <Setter Property="InnerRightContent">
         <Template>
-          <Button Theme="{StaticResource PrototypeTextBoxButton}"
-                  Command="{Binding $parent[TextBox].Clear}"
+          <Button Command="{Binding $parent[TextBox].Clear}"
+                  BorderThickness="0"
                   ClipToBounds="True">
             <PathIcon Data="{icons:Close}" Height="{size:IconSizeMd}" Width="{size:IconSizeMd}"/>
           </Button>
