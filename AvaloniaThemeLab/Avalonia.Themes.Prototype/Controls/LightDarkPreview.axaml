@@ -1,0 +1,32 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:p="clr-namespace:Avalonia.Themes.Prototype"
+                    xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+                    xmlns:colour="using:AngelSix.ThemeEngine.Colours">
+  <!-- Design-preview scaffolding only: two identical panes, the second flipped into a dark
+       region. Each pane binds its ContentTemplate to the owner's EffectiveContentTemplate, so
+       both present INDEPENDENT instantiations of the same template and never share instances. -->
+  <ControlTheme x:Key="{x:Type p:LightDarkPreview}" TargetType="p:LightDarkPreview">
+    <Setter Property="Template">
+      <ControlTemplate>
+        <StackPanel Orientation="{Binding Orientation, RelativeSource={RelativeSource FindAncestor, AncestorType=p:LightDarkPreview}}">
+          <!-- Light -->
+          <Border Padding="20" Background="{colour:SurfaceDefaultBrush}">
+            <StackPanel Spacing="10">
+              <Label Content="{Binding Title, RelativeSource={RelativeSource FindAncestor, AncestorType=p:LightDarkPreview}, StringFormat='{}{0} - Light'}" />
+              <ContentControl ContentTemplate="{Binding PaneContentTemplate, RelativeSource={RelativeSource FindAncestor, AncestorType=p:LightDarkPreview}}" />
+            </StackPanel>
+          </Border>
+
+          <!-- Dark -->
+          <Border Padding="20" theme:ThemeRegion.IsDark="True" Background="{colour:SurfaceDefaultBrush}">
+            <StackPanel Spacing="10">
+              <Label Content="{Binding Title, RelativeSource={RelativeSource FindAncestor, AncestorType=p:LightDarkPreview}, StringFormat='{}{0} - Dark'}" />
+              <ContentControl ContentTemplate="{Binding PaneContentTemplate, RelativeSource={RelativeSource FindAncestor, AncestorType=p:LightDarkPreview}}" />
+            </StackPanel>
+          </Border>
+        </StackPanel>
+      </ControlTemplate>
+    </Setter>
+  </ControlTheme>
+</ResourceDictionary>

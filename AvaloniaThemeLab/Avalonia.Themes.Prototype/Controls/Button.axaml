@@ -1,5 +1,6 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="using:System"
                     xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
                     xmlns:colour="using:AngelSix.ThemeEngine.Colours"
@@ -11,50 +12,28 @@
         <prototype:PrototypeTheme />
       </Border.Styles>
 
-      <StackPanel>
-        <!-- Light -->
-        <Border Padding="20" Background="{colour:SurfaceDefaultBrush}">
-          <StackPanel Spacing="10" >
-            <Label Content="Button States - Light" />
-            <StackPanel Orientation="Horizontal" Spacing="20">
-              <Button Content="Default" />
-              <Button theme:Preview.State="Hover" Content="Hover" />
-              <Button theme:Preview.State="Pressed" Content="Pressed" />
-              <Button theme:Preview.State="Focused" Content="Focused" />
-              <Button Content="Disabled" IsEnabled="False" />
-            </StackPanel>
-            <StackPanel theme:Accent.Kind="Primary" Orientation="Horizontal" Spacing="20">
-              <Button Content="Default" />
-              <Button theme:Preview.State="Hover" Content="Hover" />
-              <Button theme:Preview.State="Pressed" Content="Pressed" />
-              <Button theme:Preview.State="Focused" Content="Focused" />
-              <Button Content="Disabled" IsEnabled="False" />
-            </StackPanel>
+      <!-- The shared state row, written once as a template: each pane instantiates its own copy -->
+      <prototype:LightDarkPreview Title="Button States" Orientation="Vertical">
+        <DataTemplate>
+        <StackPanel Orientation="Horizontal" Spacing="20">
+            <Button Content="Default" />
+            <Button theme:Preview.State="Hover" Content="Hover" />
+            <Button theme:Preview.State="Pressed" Content="Pressed" />
+            <Button theme:Preview.State="Focused" Content="Focused" />
+            <Button Content="Disabled" IsEnabled="False" />
+            <Button Content="Error">
+              <DataValidationErrors.Error>
+                <sys:Exception>
+                  <x:Arguments>
+                    <x:String>Error</x:String>
+                  </x:Arguments>
+                </sys:Exception>
+              </DataValidationErrors.Error>
+            </Button>
           </StackPanel>
-        </Border>
-        
-        <!-- Dark -->
-        <Border Padding="20" theme:ThemeRegion.IsDark="True" Background="{colour:SurfaceDefaultBrush}">
-          <StackPanel Spacing="10">
-            <Label Content="Button States - Dark" />
-            <StackPanel Orientation="Horizontal" Spacing="20">
-              <Button Content="Default" />
-              <Button theme:Preview.State="Hover" Content="Hover" />
-              <Button theme:Preview.State="Pressed" Content="Pressed" />
-              <Button theme:Preview.State="Focused" Content="Focused" />
-              <Button Content="Disabled" IsEnabled="False" />
-            </StackPanel>
-            <StackPanel theme:Accent.Kind="Primary" Orientation="Horizontal" Spacing="20">
-              <Button Content="Default" />
-              <Button theme:Preview.State="Hover" Content="Hover" />
-              <Button theme:Preview.State="Pressed" Content="Pressed" />
-              <Button theme:Preview.State="Focused" Content="Focused" />
-              <Button Content="Disabled" IsEnabled="False" />
-            </StackPanel>
-          </StackPanel>
-        </Border>
-      </StackPanel>
-      
+        </DataTemplate>
+      </prototype:LightDarkPreview>
+
     </Border>
   </Design.PreviewWith>
 
