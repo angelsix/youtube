@@ -11,48 +11,50 @@
         <prototype:PrototypeTheme />
       </Border.Styles>
 
-      <StackPanel Spacing="20">
-         <NumericUpDown Minimum="0"
-                        Maximum="10"
-                        Increment="0.5"
-                        PlaceholderText="Enter text" />
-        <NumericUpDown Minimum="0"
-                        Maximum="10"
-                        Increment="0.5"
-                        VerticalContentAlignment="Center"
-                        HorizontalContentAlignment="Center"
-                        ButtonSpinnerLocation="Left"
-                        PlaceholderText="Enter text" />
-        <NumericUpDown ButtonSpinnerLocation="Left">
-          <NumericUpDown.InnerLeftContent>
-            <TextBlock Text="m"
-                       TextAlignment="Center"
-                       VerticalAlignment="Center"/>
-          </NumericUpDown.InnerLeftContent>
-          <NumericUpDown.InnerRightContent>
-            <Button Content="X"/>
-          </NumericUpDown.InnerRightContent>
-        </NumericUpDown>
-        <NumericUpDown ButtonSpinnerLocation="Right">
-          <NumericUpDown.InnerLeftContent>
-            <Button Content="X"/>
-          </NumericUpDown.InnerLeftContent>
-          <NumericUpDown.InnerRightContent>
-            <TextBlock Text="m"
-                       TextAlignment="Center"
-                       VerticalAlignment="Center"/>
-          </NumericUpDown.InnerRightContent>
-        </NumericUpDown>
-        <NumericUpDown>
-          <DataValidationErrors.Error>
-            <sys:Exception>
-              <x:Arguments>
-                <x:String>Error</x:String>
-              </x:Arguments>
-            </sys:Exception>
-          </DataValidationErrors.Error>
-        </NumericUpDown>
-      </StackPanel>
+      <!-- Shared column written once as a template: each pane instantiates its own copy -->
+      <prototype:LightDarkPreview Title="NumericUpDown States" Orientation="Vertical">
+        <DataTemplate>
+          <StackPanel Orientation="Vertical" Spacing="12">
+            <NumericUpDown Minimum="0" Maximum="10" Increment="0.5" Value="5" />
+            <!-- Spinner moved left so both content slots can share the opposite side -->
+            <NumericUpDown Minimum="0" Maximum="10" Increment="0.5" Value="5"
+                           ButtonSpinnerLocation="Left">
+              <NumericUpDown.InnerLeftContent>
+                <TextBlock Text="m" TextAlignment="Center" VerticalAlignment="Center" />
+              </NumericUpDown.InnerLeftContent>
+              <NumericUpDown.InnerRightContent>
+                <Button Content="X" />
+              </NumericUpDown.InnerRightContent>
+            </NumericUpDown>
+            <!-- Centred alignment rides along here rather than taking its own instance -->
+            <NumericUpDown Minimum="0" Maximum="10" Increment="0.5" Value="5"
+                           ButtonSpinnerLocation="Right"
+                           HorizontalContentAlignment="Center"
+                           VerticalContentAlignment="Center">
+              <NumericUpDown.InnerLeftContent>
+                <Button Content="X" />
+              </NumericUpDown.InnerLeftContent>
+              <NumericUpDown.InnerRightContent>
+                <TextBlock Text="m" TextAlignment="Center" VerticalAlignment="Center" />
+              </NumericUpDown.InnerRightContent>
+            </NumericUpDown>
+            <!-- Disabled paired with an empty value doubles as the placeholder demo -->
+            <NumericUpDown Minimum="0" Maximum="10" Increment="0.5"
+                           PlaceholderText="Enter a value"
+                           IsEnabled="False" />
+            <!-- The template wraps the spinner in DataValidationErrors, so the error banner is fully wired -->
+            <NumericUpDown Minimum="0" Maximum="10" Increment="0.5" Value="5">
+              <DataValidationErrors.Error>
+                <sys:Exception>
+                  <x:Arguments>
+                    <x:String>Error</x:String>
+                  </x:Arguments>
+                </sys:Exception>
+              </DataValidationErrors.Error>
+            </NumericUpDown>
+          </StackPanel>
+        </DataTemplate>
+      </prototype:LightDarkPreview>
     </Border>
   </Design.PreviewWith>
 

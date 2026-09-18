@@ -6,11 +6,29 @@
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes"
                     xmlns:icons="using:AngelSix.ThemeEngine.Icons">
   <Design.PreviewWith>
-    <Border Padding="20">
+    <Border>
       <Border.Styles>
         <prototype:PrototypeTheme />
       </Border.Styles>
-      <PipsPager NumberOfPages="5" SelectedPageIndex="2" />
+
+      <!-- Pip states come from live selection/disabled properties; hover and pressed need pointer interaction -->
+      <prototype:LightDarkPreview Title="PipsPager States" Orientation="Vertical">
+        <DataTemplate>
+          <StackPanel Orientation="Vertical" Spacing="16">
+            <PipsPager NumberOfPages="5" SelectedPageIndex="2" />
+            <PipsPager NumberOfPages="5" SelectedPageIndex="0" />
+            <PipsPager NumberOfPages="5" SelectedPageIndex="4" />
+            <PipsPager NumberOfPages="5" SelectedPageIndex="2" IsEnabled="False" />
+            <PipsPager NumberOfPages="5" SelectedPageIndex="2" Orientation="Vertical" />
+            <!-- Chevrons are hidden by default; shown here mid-range, fading out at the first/last page -->
+            <StackPanel Orientation="Horizontal" Spacing="16">
+              <PipsPager NumberOfPages="5" SelectedPageIndex="2" IsPreviousButtonVisible="True" IsNextButtonVisible="True" />
+              <PipsPager NumberOfPages="5" SelectedPageIndex="0" IsPreviousButtonVisible="True" IsNextButtonVisible="True" />
+              <PipsPager NumberOfPages="5" SelectedPageIndex="4" IsPreviousButtonVisible="True" IsNextButtonVisible="True" />
+            </StackPanel>
+          </StackPanel>
+        </DataTemplate>
+      </prototype:LightDarkPreview>
     </Border>
   </Design.PreviewWith>
 

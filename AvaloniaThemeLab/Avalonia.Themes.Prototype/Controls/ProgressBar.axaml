@@ -6,27 +6,39 @@
                     xmlns:colour="using:AngelSix.ThemeEngine.Colours"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes">
   <Design.PreviewWith>
-    <Border Padding="20">
+    <Border>
       <Border.Styles>
         <prototype:PrototypeTheme />
       </Border.Styles>
 
-      <StackPanel Orientation="Horizontal" Spacing="10">
-        <StackPanel Spacing="10">
-          <ProgressBar Value="5" Maximum="10" />
-          <ProgressBar Value="50" />
-          <ProgressBar Value="50" Minimum="25" Maximum="75" />
-          <ProgressBar IsIndeterminate="True" />
-          <ProgressBar ShowProgressText="True" Value="50"/>
-          <ProgressBar ShowProgressText="True" 
-                       ProgressTextFormat="\{1\} percent"
-                       Minimum="50" 
-                       Maximum="100" 
-                       Value="70"/>
-        </StackPanel>
-        <ProgressBar IsIndeterminate="True" Orientation="Vertical" />
-        <ProgressBar ShowProgressText="True" Value="50" Orientation="Vertical"/>
-      </StackPanel>
+      <!-- One template instantiated per pane; covers every axis the theme styles: value position, range, text/format, indeterminate, disabled, accent hue, and both orientations -->
+      <prototype:LightDarkPreview Title="ProgressBar States" Orientation="Vertical">
+        <DataTemplate>
+          <StackPanel Spacing="16">
+            <!-- Horizontal bars share one column so value/range/text/accent read top-to-bottom -->
+            <StackPanel Spacing="8">
+              <ProgressBar Value="5" Maximum="10" Width="240" />
+              <ProgressBar Value="50" Width="240" />
+              <ProgressBar Value="100" Width="240" />
+              <ProgressBar Minimum="25" Maximum="75" Value="50" Width="240" />
+              <ProgressBar ShowProgressText="True" Value="50" Width="240" />
+              <ProgressBar ShowProgressText="True" ProgressTextFormat="\{1\} percent" Minimum="50" Maximum="100" Value="70" Width="240" />
+              <ProgressBar IsIndeterminate="True" Width="240" />
+              <ProgressBar IsIndeterminate="True" Width="240" IsEnabled="False" />
+              <!-- Non-default hues ride the same fill so they compose with the value axis -->
+              <ProgressBar Value="50" Width="240" theme:Accent.Kind="Warning" />
+              <ProgressBar Value="50" Width="240" theme:Accent.Kind="Success" ShowProgressText="True" />
+            </StackPanel>
+            <!-- Same axes rotated: the :vertical branch flips growth direction and rotates the text -->
+            <StackPanel Orientation="Horizontal" Spacing="16">
+              <ProgressBar Value="50" Height="120" />
+              <ProgressBar ShowProgressText="True" Value="50" Height="120" />
+              <ProgressBar IsIndeterminate="True" Height="120" />
+              <ProgressBar IsIndeterminate="True" Height="120" theme:Accent.Kind="Warning" />
+            </StackPanel>
+          </StackPanel>
+        </DataTemplate>
+      </prototype:LightDarkPreview>
     </Border>
   </Design.PreviewWith>
 

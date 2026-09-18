@@ -6,31 +6,81 @@
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes"
                     xmlns:icons="using:AngelSix.ThemeEngine.Icons">
   <Design.PreviewWith>
-    <Border Padding="20" Width="600">
+    <Border>
       <Border.Styles>
         <prototype:PrototypeTheme />
       </Border.Styles>
 
-      <StackPanel Spacing="12">
-        <CommandBar>
-          <CommandBarButton Label="New">
-            <CommandBarButton.Icon>
-              <PathIcon Data="{icons:Plus}" />
-            </CommandBarButton.Icon>
-          </CommandBarButton>
-          <CommandBarButton Label="Save">
-            <CommandBarButton.Icon>
-              <PathIcon Data="{icons:Save}" />
-            </CommandBarButton.Icon>
-          </CommandBarButton>
-          <CommandBarSeparator />
-          <CommandBarToggleButton Label="Favourite">
-            <CommandBarToggleButton.Icon>
-              <PathIcon Data="{icons:Star}" />
-            </CommandBarToggleButton.Icon>
-          </CommandBarToggleButton>
-        </CommandBar>
-      </StackPanel>
+      <!-- Shared bar gallery written once; each pane instantiates its own copy -->
+      <prototype:LightDarkPreview Title="CommandBar States" Orientation="Horizontal">
+        <DataTemplate>
+          <StackPanel Orientation="Vertical" Spacing="12">
+            <!-- Standard bar: faces spread across few commands + separator; hover/press/focus need live input (themes lack Preview.State hooks).
+                 Overflow dot omitted: IsOverflowButtonVisible's setter is non-public in Avalonia 12, so it cannot be forced from markup -->
+            <CommandBar>
+              <CommandBarButton Label="Rest">
+                <CommandBarButton.Icon>
+                  <PathIcon Data="{icons:Plus}" />
+                </CommandBarButton.Icon>
+              </CommandBarButton>
+              <CommandBarButton Label="Press">
+                <CommandBarButton.Icon>
+                  <PathIcon Data="{icons:Save}" />
+                </CommandBarButton.Icon>
+              </CommandBarButton>
+              <CommandBarSeparator />
+              <CommandBarToggleButton Label="Focus">
+                <CommandBarToggleButton.Icon>
+                  <PathIcon Data="{icons:Star}" />
+                </CommandBarToggleButton.Icon>
+              </CommandBarToggleButton>
+              <CommandBarButton Label="Off" IsEnabled="False">
+                <CommandBarButton.Icon>
+                  <PathIcon Data="{icons:Close}" />
+                </CommandBarButton.Icon>
+              </CommandBarButton>
+            </CommandBar>
+            <!-- LabelPosition=Right: icon beside label, auto-width items -->
+            <CommandBar DefaultLabelPosition="Right">
+              <CommandBarButton Label="Undo">
+                <CommandBarButton.Icon>
+                  <PathIcon Data="{icons:ArrowLeft}" />
+                </CommandBarButton.Icon>
+              </CommandBarButton>
+              <CommandBarButton Label="Redo">
+                <CommandBarButton.Icon>
+                  <PathIcon Data="{icons:ArrowRight}" />
+                </CommandBarButton.Icon>
+              </CommandBarButton>
+              <CommandBarSeparator />
+              <CommandBarToggleButton Label="Done" IsChecked="True">
+                <CommandBarToggleButton.Icon>
+                  <PathIcon Data="{icons:Checkmark}" />
+                </CommandBarToggleButton.Icon>
+              </CommandBarToggleButton>
+            </CommandBar>
+            <!-- Compact hides labels; checked face proves generic accent resolution incl. non-default hue -->
+            <CommandBar DefaultLabelPosition="Collapsed">
+              <CommandBarButton>
+                <CommandBarButton.Icon>
+                  <PathIcon Data="{icons:Minus}" />
+                </CommandBarButton.Icon>
+              </CommandBarButton>
+              <CommandBarButton>
+                <CommandBarButton.Icon>
+                  <PathIcon Data="{icons:Refresh}" />
+                </CommandBarButton.Icon>
+              </CommandBarButton>
+              <CommandBarSeparator />
+              <CommandBarToggleButton theme:Accent.Kind="Warning" IsChecked="True">
+                <CommandBarToggleButton.Icon>
+                  <PathIcon Data="{icons:Star}" />
+                </CommandBarToggleButton.Icon>
+              </CommandBarToggleButton>
+            </CommandBar>
+          </StackPanel>
+        </DataTemplate>
+      </prototype:LightDarkPreview>
     </Border>
   </Design.PreviewWith>
 

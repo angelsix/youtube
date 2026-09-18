@@ -11,24 +11,25 @@
         <prototype:PrototypeTheme />
       </Border.Styles>
 
-      <StackPanel Spacing="20">
-        <Label Content="DropDownButton States" />
-        <StackPanel Orientation="Horizontal" Spacing="20">
-          <DropDownButton Content="Default" />
-          <DropDownButton theme:Preview.State="Hover" Content="Hover" />
-          <DropDownButton theme:Preview.State="Pressed" Content="Pressed" />
-          <DropDownButton theme:Preview.State="Focused" Content="Focused" />
-          <DropDownButton Content="Disabled" IsEnabled="False" />
-        </StackPanel>
-        <Label Content="Accent States" />
-        <StackPanel Orientation="Horizontal" Spacing="20">
-          <DropDownButton theme:Accent.Kind="Primary" Content="Default" />
-          <DropDownButton theme:Preview.State="Hover" theme:Accent.Kind="Primary" Content="Hover" />
-          <DropDownButton theme:Preview.State="Pressed" theme:Accent.Kind="Primary" Content="Pressed" />
-          <DropDownButton theme:Preview.State="Focused" theme:Accent.Kind="Primary" Content="Focused" />
-          <DropDownButton theme:Accent.Kind="Primary" Content="Disabled" IsEnabled="False" />
-        </StackPanel>
-      </StackPanel>
+      <!-- Written once as a template: light and dark panes each instantiate their own copy -->
+      <prototype:LightDarkPreview Title="DropDownButton States" Orientation="Vertical">
+        <DataTemplate>
+          <StackPanel Spacing="20">
+            <StackPanel Orientation="Horizontal" Spacing="20">
+              <DropDownButton Content="Default" />
+              <DropDownButton theme:Preview.State="Hover" Content="Hover" />
+              <DropDownButton theme:Preview.State="Pressed" Content="Pressed" />
+              <DropDownButton theme:Preview.State="Focused" Content="Focused" />
+              <DropDownButton Content="Disabled" IsEnabled="False" />
+            </StackPanel>
+            <!-- Hues ride on Focused: the focus ring is the only accent-coloured surface in this theme -->
+            <StackPanel Orientation="Horizontal" Spacing="20">
+              <DropDownButton theme:Preview.State="Focused" theme:Accent.Kind="Warning" Content="Warn · Focus" />
+              <DropDownButton theme:Preview.State="Focused" theme:Accent.Kind="Success" Content="OK · Focus" />
+            </StackPanel>
+          </StackPanel>
+        </DataTemplate>
+      </prototype:LightDarkPreview>
     </Border>
   </Design.PreviewWith>
 

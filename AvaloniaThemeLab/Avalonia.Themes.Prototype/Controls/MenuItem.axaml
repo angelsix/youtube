@@ -7,52 +7,31 @@
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes"
                     xmlns:icons="using:AngelSix.ThemeEngine.Icons">
   <Design.PreviewWith>
-    <Border Padding="20" Width="320">
+    <Border>
       <Border.Styles>
         <prototype:PrototypeTheme />
       </Border.Styles>
-      <StackPanel Spacing="20" HorizontalAlignment="Left">
-        <MenuItem Header="_Standard"/>
-        <MenuItem IsSelected="True" Header="Selected"/>
-        <MenuItem Header="With Icon">
-          <MenuItem.Icon>
-            <TextBlock>😊</TextBlock>
-          </MenuItem.Icon>
-        </MenuItem>
-        <MenuItem Header="With CheckBox">
-          <MenuItem.Icon>
-            <CheckBox IsChecked="True"/>
-          </MenuItem.Icon>
-        </MenuItem>
-        <MenuItem Header="Input Gesture" InputGesture="Ctrl+G"/>
-        <MenuItem Header="Disabled" IsEnabled="False"/>
-        <MenuItem Header="-"/>
-        <MenuItem Header="Parent" IsSubMenuOpen="True">
-          <MenuItem Header="Child 1"/>
-          <MenuItem Header="Child 2"/>
-          <MenuItem Header="Child 3"/>
-          <Separator/>
-          <MenuItem Header="Child 4"/>
-          <MenuItem Header="Child 5"/>
-          <MenuItem Header="Child 6"/>
-          <MenuItem Header="Child 7"/>
-          <MenuItem Header="Child 8"/>
-          <MenuItem Header="Child 9"/>
-          <MenuItem Header="Child 10"/>
-          <MenuItem Header="Child 11"/>
-          <MenuItem Header="Child 12"/>
-          <MenuItem Header="Child 13"/>
-          <MenuItem Header="Child 14"/>
-          <MenuItem Header="Child 15"/>
-          <MenuItem Header="Child 16"/>
-          <MenuItem Header="Child 17"/>
-          <MenuItem Header="Child 18"/>
-          <MenuItem Header="Child 19"/>
-        </MenuItem>
-        <MenuItem Header="Disabled Parent" IsEnabled="False">
-          <MenuItem Header="Child"/>
-        </MenuItem>
-      </StackPanel>
+
+      <!-- One list mixes every paintable state: icon slot, input-gesture hint, :selected overlay, :disabled dimming, separator swap and the submenu chevron -->
+      <prototype:LightDarkPreview Title="MenuItem States" Orientation="Vertical">
+        <DataTemplate>
+          <StackPanel Spacing="4" HorizontalAlignment="Left">
+            <MenuItem Header="_Standard" />
+            <MenuItem Header="With _Icon">
+              <MenuItem.Icon>
+                <TextBlock>😊</TextBlock>
+              </MenuItem.Icon>
+            </MenuItem>
+            <MenuItem Header="Input _Gesture" InputGesture="Ctrl+G" />
+            <MenuItem Header="_Selected" IsSelected="True" />
+            <MenuItem Header="_Disabled" IsEnabled="False" />
+            <MenuItem Header="-" />
+            <MenuItem Header="_Submenu">
+              <MenuItem Header="Child" />
+            </MenuItem>
+          </StackPanel>
+        </DataTemplate>
+      </prototype:LightDarkPreview>
     </Border>
   </Design.PreviewWith>
 

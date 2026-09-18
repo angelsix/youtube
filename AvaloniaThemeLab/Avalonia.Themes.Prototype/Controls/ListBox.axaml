@@ -10,12 +10,33 @@
         <prototype:PrototypeTheme />
       </Border.Styles>
 
-      <ListBox>
-        <ListBoxItem>Test</ListBoxItem>
-        <ListBoxItem>Test</ListBoxItem>
-        <ListBoxItem>Test</ListBoxItem>
-        <ListBoxItem>Test</ListBoxItem>
-      </ListBox>
+      <!-- Three lists side by side exceed half-pane width, hence vertical stacking; item states come from item properties because the ListBoxItem theme exposes no Preview.State hooks -->
+      <prototype:LightDarkPreview Title="ListBox States" Orientation="Vertical">
+        <DataTemplate>
+          <StackPanel Orientation="Horizontal" Spacing="20">
+            <!-- Mixed-item list: every item state the ListBoxItem theme implements, forced via item properties -->
+            <ListBox Width="180">
+              <ListBoxItem>Default</ListBoxItem>
+              <ListBoxItem IsSelected="True">Selected</ListBoxItem>
+              <ListBoxItem IsEnabled="False">Disabled</ListBoxItem>
+              <ListBoxItem IsSelected="True" IsEnabled="False">Selected · Disabled</ListBoxItem>
+            </ListBox>
+            <!-- Frame-only options compose onto one instance each: selection mode + inherited accent hue -->
+            <ListBox Width="180" SelectionMode="Multiple" theme:Accent.Kind="Warning">
+              <ListBoxItem IsSelected="True">A</ListBoxItem>
+              <ListBoxItem>B</ListBoxItem>
+              <ListBoxItem IsSelected="True">C</ListBoxItem>
+            </ListBox>
+            <!-- Toggle = ctrl-click multi-select: Avalonia 12's SelectionMode has no MultiExtended member -->
+            <ListBox Width="180" SelectionMode="Toggle" SelectedIndex="1" theme:Accent.Kind="Success">
+              <ListBoxItem>X</ListBoxItem>
+              <ListBoxItem>Y</ListBoxItem>
+              <ListBoxItem>Z</ListBoxItem>
+            </ListBox>
+          </StackPanel>
+        </DataTemplate>
+      </prototype:LightDarkPreview>
+
     </Border>
   </Design.PreviewWith>
 

@@ -7,25 +7,33 @@
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes"
                     xmlns:icons="using:AngelSix.ThemeEngine.Icons">
   <Design.PreviewWith>
-    <Border Padding="20" Height="500">
+    <Border>
       <Border.Styles>
         <prototype:PrototypeTheme />
       </Border.Styles>
 
-      <StackPanel Spacing="20" VerticalAlignment="Center">
-        <DatePicker />
-        <DatePicker CornerRadius="10" />
-        <DatePicker IsEnabled="False" />
-        <DatePicker>
-          <DataValidationErrors.Error>
-            <sys:Exception>
-              <x:Arguments>
-                <x:String>Error</x:String>
-              </x:Arguments>
-            </sys:Exception>
-          </DataValidationErrors.Error>
-        </DatePicker>
-      </StackPanel>
+      <!-- One row per pane; the theme exposes no Preview.State hooks for hover/press/focus, so only the states it really paints are shown -->
+      <prototype:LightDarkPreview Title="DatePicker States" Orientation="Vertical">
+        <DataTemplate>
+          <StackPanel Orientation="Horizontal" Spacing="20">
+            <DatePicker SelectedDate="2026-09-18" />
+            <DatePicker />
+            <DatePicker SelectedDate="2026-09-18" IsEnabled="False" />
+            <DatePicker SelectedDate="2026-09-18" theme:Accent.Kind="Warning" />
+            <DatePicker SelectedDate="2026-09-18" theme:Accent.Kind="Success" IsEnabled="False" />
+            <!-- Dated so only the error border differs from the default -->
+            <DatePicker SelectedDate="2026-09-18">
+              <DataValidationErrors.Error>
+                <sys:Exception>
+                  <x:Arguments>
+                    <x:String>Error</x:String>
+                  </x:Arguments>
+                </sys:Exception>
+              </DataValidationErrors.Error>
+            </DatePicker>
+          </StackPanel>
+        </DataTemplate>
+      </prototype:LightDarkPreview>
     </Border>
   </Design.PreviewWith>
 

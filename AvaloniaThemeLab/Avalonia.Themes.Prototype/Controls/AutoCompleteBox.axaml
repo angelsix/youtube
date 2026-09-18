@@ -6,42 +6,69 @@
                     xmlns:colour="using:AngelSix.ThemeEngine.Colours"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes">
   <Design.PreviewWith>
-    <Border Padding="20">
+    <Border>
       <Border.Styles>
         <prototype:PrototypeTheme />
       </Border.Styles>
 
-      <StackPanel Spacing="20">
-        <Label Content="AutoCompleteBox States" />
-        <StackPanel Orientation="Horizontal" Spacing="20">
-          <AutoCompleteBox Width="200" PlaceholderText="Default">
-            <AutoCompleteBox.ItemsSource>
-              <generic:List x:TypeArguments="x:String">
-                <x:String>Alabama</x:String>
-                <x:String>Alaska</x:String>
-                <x:String>Arizona</x:String>
-                <x:String>Arkansas</x:String>
-              </generic:List>
-            </AutoCompleteBox.ItemsSource>
-          </AutoCompleteBox>
-          <AutoCompleteBox Width="200" theme:Preview.State="Focused" PlaceholderText="Focused">
-            <AutoCompleteBox.ItemsSource>
-              <generic:List x:TypeArguments="x:String">
-                <x:String>Alabama</x:String>
-                <x:String>Alaska</x:String>
-              </generic:List>
-            </AutoCompleteBox.ItemsSource>
-          </AutoCompleteBox>
-          <AutoCompleteBox Width="200" IsEnabled="False" Text="Disabled">
-            <AutoCompleteBox.ItemsSource>
-              <generic:List x:TypeArguments="x:String">
-                <x:String>Alabama</x:String>
-                <x:String>Alaska</x:String>
-              </generic:List>
-            </AutoCompleteBox.ItemsSource>
-          </AutoCompleteBox>
-        </StackPanel>
-      </StackPanel>
+      <!-- Row templated once per pane (light + dark); Vertical stacks five 200px boxes so none spills past a half-width pane -->
+      <prototype:LightDarkPreview Title="AutoCompleteBox States" Orientation="Vertical">
+        <DataTemplate>
+          <StackPanel Spacing="20">
+            <AutoCompleteBox Width="200" PlaceholderText="Default">
+              <AutoCompleteBox.ItemsSource>
+                <generic:List x:TypeArguments="x:String">
+                  <x:String>Apple</x:String>
+                  <x:String>Banana</x:String>
+                  <x:String>Cherry</x:String>
+                  <x:String>Date</x:String>
+                </generic:List>
+              </AutoCompleteBox.ItemsSource>
+            </AutoCompleteBox>
+            <AutoCompleteBox Width="200" theme:Preview.State="Focused" PlaceholderText="Focused">
+              <AutoCompleteBox.ItemsSource>
+                <generic:List x:TypeArguments="x:String">
+                  <x:String>Apple</x:String>
+                  <x:String>Banana</x:String>
+                  <x:String>Cherry</x:String>
+                  <x:String>Date</x:String>
+                </generic:List>
+              </AutoCompleteBox.ItemsSource>
+            </AutoCompleteBox>
+            <!-- Non-default accent hues ride on the focused boxes so each extra instance also demos a state -->
+            <AutoCompleteBox Width="200" theme:Preview.State="Focused" theme:Accent.Kind="Warning" PlaceholderText="Warn">
+              <AutoCompleteBox.ItemsSource>
+                <generic:List x:TypeArguments="x:String">
+                  <x:String>Apple</x:String>
+                  <x:String>Banana</x:String>
+                  <x:String>Cherry</x:String>
+                  <x:String>Date</x:String>
+                </generic:List>
+              </AutoCompleteBox.ItemsSource>
+            </AutoCompleteBox>
+            <AutoCompleteBox Width="200" theme:Preview.State="Focused" theme:Accent.Kind="Success" PlaceholderText="Success">
+              <AutoCompleteBox.ItemsSource>
+                <generic:List x:TypeArguments="x:String">
+                  <x:String>Apple</x:String>
+                  <x:String>Banana</x:String>
+                  <x:String>Cherry</x:String>
+                  <x:String>Date</x:String>
+                </generic:List>
+              </AutoCompleteBox.ItemsSource>
+            </AutoCompleteBox>
+            <AutoCompleteBox Width="200" IsEnabled="False" Text="Disabled">
+              <AutoCompleteBox.ItemsSource>
+                <generic:List x:TypeArguments="x:String">
+                  <x:String>Apple</x:String>
+                  <x:String>Banana</x:String>
+                  <x:String>Cherry</x:String>
+                  <x:String>Date</x:String>
+                </generic:List>
+              </AutoCompleteBox.ItemsSource>
+            </AutoCompleteBox>
+          </StackPanel>
+        </DataTemplate>
+      </prototype:LightDarkPreview>
     </Border>
   </Design.PreviewWith>
 

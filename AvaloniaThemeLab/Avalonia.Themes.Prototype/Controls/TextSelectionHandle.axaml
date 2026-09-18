@@ -5,19 +5,20 @@
                     xmlns:colour="using:AngelSix.ThemeEngine.Colours"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes">
   <Design.PreviewWith>
-    <Grid>
-      <Grid.Styles>
+    <Border>
+      <Border.Styles>
         <prototype:PrototypeTheme />
-      </Grid.Styles>
-      <Border>
-        <Image Stretch="Uniform" HorizontalAlignment="Left"
-               Cursor="Arrow"
-               Name="PART_HandlePathIcon"
-               Height="{size:ControlHeightSm}"
-               Source="{DynamicResource TextSelectionHandleDrawing}">
-        </Image>
-      </Border>
-    </Grid>
+      </Border.Styles>
+
+      <!-- Default grip only: the :caret/:start/:end variants are set internally by TextBox during a live drag -->
+      <prototype:LightDarkPreview Title="TextSelectionHandle States" Orientation="Horizontal">
+        <DataTemplate>
+          <StackPanel Orientation="Horizontal" Spacing="16">
+            <TextSelectionHandle />
+          </StackPanel>
+        </DataTemplate>
+      </prototype:LightDarkPreview>
+    </Border>
   </Design.PreviewWith>
 
   <DrawingImage x:Key="TextSelectionHandleDrawing">

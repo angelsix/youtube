@@ -5,43 +5,39 @@
                     xmlns:colour="using:AngelSix.ThemeEngine.Colours"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes">
   <Design.PreviewWith>
-    <Border Padding="20">
+    <Border>
       <Border.Styles>
         <prototype:PrototypeTheme />
       </Border.Styles>
 
-      <StackPanel Spacing="20">
-        <Label Content="ToggleButton States" />
-        <StackPanel Orientation="Horizontal" Spacing="20">
-          <ToggleButton Content="Default" />
-          <ToggleButton theme:Preview.State="Hover" Content="Hover" />
-          <ToggleButton theme:Preview.State="Pressed" Content="Pressed" />
-          <ToggleButton theme:Preview.State="Focused" Content="Focused" />
-          <ToggleButton Content="Disabled" IsEnabled="False" />
-        </StackPanel>
-        <Label Content="Checked States" />
-        <StackPanel Orientation="Horizontal" Spacing="20">
-          <ToggleButton Content="Checked" IsChecked="True" />
-          <ToggleButton theme:Preview.State="Hover" Content="Checked+Hover" IsChecked="True" />
-          <ToggleButton theme:Preview.State="Pressed" Content="Checked+Pressed" IsChecked="True" />
-          <ToggleButton Content="Checked+Disabled" IsChecked="True" IsEnabled="False" />
-        </StackPanel>
-        <Label Content="Indeterminate States" />
-        <StackPanel Orientation="Horizontal" Spacing="20">
-          <ToggleButton Content="Indeterminate" IsThreeState="True" IsChecked="{x:Null}" />
-          <ToggleButton theme:Preview.State="Hover" Content="Indet+Hover" IsThreeState="True" IsChecked="{x:Null}" />
-          <ToggleButton theme:Preview.State="Pressed" Content="Indet+Pressed" IsThreeState="True" IsChecked="{x:Null}" />
-          <ToggleButton Content="Indet+Disabled" IsThreeState="True" IsChecked="{x:Null}" IsEnabled="False" />
-        </StackPanel>
-        <Label Content="Accent States" />
-        <StackPanel Orientation="Horizontal" Spacing="20">
-          <ToggleButton theme:Accent.Kind="Primary" Content="Default" />
-          <ToggleButton theme:Preview.State="Hover" theme:Accent.Kind="Primary" Content="Hover" />
-          <ToggleButton theme:Preview.State="Pressed" theme:Accent.Kind="Primary" Content="Pressed" />
-          <ToggleButton theme:Preview.State="Focused" theme:Accent.Kind="Primary" Content="Focused" />
-          <ToggleButton theme:Accent.Kind="Primary" Content="Disabled" IsEnabled="False" />
-        </StackPanel>
-      </StackPanel>
+      <!-- Written once as a template: each pane instantiates its own copy, so nothing may depend on appearing twice -->
+      <prototype:LightDarkPreview Title="ToggleButton States" Orientation="Vertical">
+        <DataTemplate>
+          <StackPanel Spacing="20">
+            <!-- Interaction states behave identically across all three logical states, so only the unchecked row demos them -->
+            <StackPanel Orientation="Horizontal" Spacing="20">
+              <ToggleButton Content="Default" />
+              <ToggleButton theme:Preview.State="Hover" Content="Hover" />
+              <ToggleButton theme:Preview.State="Pressed" Content="Pressed" />
+              <ToggleButton theme:Preview.State="Focused" Content="Focused" />
+              <ToggleButton Content="Disabled" IsEnabled="False" />
+            </StackPanel>
+            <!-- Non-default hues ride along with a stateful instance instead of owning a row -->
+            <StackPanel Orientation="Horizontal" Spacing="20">
+              <ToggleButton Content="Checked" IsChecked="True" />
+              <ToggleButton theme:Accent.Kind="Warning" theme:Preview.State="Hover" Content="Checked + Hover" IsChecked="True" />
+              <ToggleButton theme:Preview.State="Pressed" Content="Checked + Pressed" IsChecked="True" />
+              <ToggleButton Content="Checked + Disabled" IsChecked="True" IsEnabled="False" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Spacing="20">
+              <ToggleButton Content="Indeterminate" IsThreeState="True" IsChecked="{x:Null}" />
+              <ToggleButton theme:Accent.Kind="Success" theme:Preview.State="Hover" Content="Indet + Hover" IsThreeState="True" IsChecked="{x:Null}" />
+              <ToggleButton theme:Preview.State="Pressed" Content="Indet + Pressed" IsThreeState="True" IsChecked="{x:Null}" />
+              <ToggleButton Content="Indet + Disabled" IsThreeState="True" IsChecked="{x:Null}" IsEnabled="False" />
+            </StackPanel>
+          </StackPanel>
+        </DataTemplate>
+      </prototype:LightDarkPreview>
     </Border>
   </Design.PreviewWith>
 

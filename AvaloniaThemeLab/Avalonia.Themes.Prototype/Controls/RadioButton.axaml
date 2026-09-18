@@ -5,16 +5,33 @@
                     xmlns:colour="using:AngelSix.ThemeEngine.Colours"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes">
   <Design.PreviewWith>
-    <Border Padding="20">
+    <Border>
       <Border.Styles>
         <prototype:PrototypeTheme />
       </Border.Styles>
 
-      <StackPanel Spacing="10">
-        <RadioButton Content="Option 1" />
-        <RadioButton Content="Option 2" IsChecked="True" />
-        <RadioButton Content="Option 3" IsEnabled="False" />
-      </StackPanel>
+      <!-- Written once as a template: each pane instantiates its own copy -->
+      <prototype:LightDarkPreview Title="RadioButton States" Orientation="Horizontal">
+        <DataTemplate>
+          <StackPanel Spacing="16">
+            <!-- Selection is meaningful per group, so each column keeps a selected/unselected pair; the theme has no :error selector -->
+            <StackPanel Orientation="Horizontal" Spacing="20">
+              <RadioButton Content="Unselected" />
+              <RadioButton theme:Preview.State="Hover" Content="Hover" />
+              <RadioButton IsChecked="True" Content="Selected" />
+              <RadioButton theme:Preview.State="Pressed" IsChecked="True" Content="Pressed" />
+              <RadioButton theme:Preview.State="Focused" IsChecked="True" Content="Focused" />
+              <RadioButton IsEnabled="False" Content="Disabled" />
+            </StackPanel>
+            <!-- Hues tint the AccentBrush-driven rings; combine them with states instead of repeating rows -->
+            <StackPanel Orientation="Horizontal" Spacing="20">
+              <RadioButton theme:Accent.Kind="Warning" Content="Warning" />
+              <RadioButton theme:Accent.Kind="Success" theme:Preview.State="Focused" IsChecked="True" Content="Success + Focused" />
+              <RadioButton theme:Accent.Kind="Warning" IsChecked="True" IsEnabled="False" Content="Warning Disabled" />
+            </StackPanel>
+          </StackPanel>
+        </DataTemplate>
+      </prototype:LightDarkPreview>
     </Border>
   </Design.PreviewWith>
 
@@ -123,49 +140,49 @@
     </Style>
 
     <!-- Hover state -->
-    <Style Selector="^:pointerover">
+    <Style Selector="^:pointerover, ^[(theme|Preview.State)=Hover]">
       <Setter Property="Background" Value="{colour:BackgroundDefaultBrush}" />
       <Setter Property="BorderBrush" Value="{colour:AccentBrush Dark1}" />
     </Style>
 
-    <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+    <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter, ^[(theme|Preview.State)=Hover] /template/ ContentPresenter#PART_ContentPresenter">
     </Style>
 
-    <Style Selector="^:pointerover /template/ Ellipse#OuterEllipse">
+    <Style Selector="^:pointerover /template/ Ellipse#OuterEllipse, ^[(theme|Preview.State)=Hover] /template/ Ellipse#OuterEllipse">
       <Setter Property="Stroke" Value="{colour:AccentBrush Light2}" />
       <Setter Property="Fill" Value="{colour:AccentBrush Light10}" />
     </Style>
 
-    <Style Selector="^:pointerover /template/ Ellipse#CheckOuterEllipse">
+    <Style Selector="^:pointerover /template/ Ellipse#CheckOuterEllipse, ^[(theme|Preview.State)=Hover] /template/ Ellipse#CheckOuterEllipse">
       <Setter Property="Stroke" Value="{colour:AccentBrush Light1}" />
       <Setter Property="Fill" Value="{colour:AccentBrush Light1}" />
     </Style>
 
-    <Style Selector="^:pointerover /template/ Ellipse#CheckGlyph">
+    <Style Selector="^:pointerover /template/ Ellipse#CheckGlyph, ^[(theme|Preview.State)=Hover] /template/ Ellipse#CheckGlyph">
       <Setter Property="Stroke" Value="{colour:AccentBrush Light10}" />
       <Setter Property="Fill" Value="{colour:AccentBrush Light10}" />
     </Style>
 
     <!-- Pressed state -->
-    <Style Selector="^:pressed">
+    <Style Selector="^:pressed, ^[(theme|Preview.State)=Pressed]">
       <Setter Property="Background" Value="{colour:PressedBackgroundDefaultBrush}" />
       <Setter Property="BorderBrush" Value="{colour:AccentBrush Dark1}" />
     </Style>
 
-    <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter">
+    <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter, ^[(theme|Preview.State)=Pressed] /template/ ContentPresenter#PART_ContentPresenter">
     </Style>
 
-    <Style Selector="^:pressed /template/ Ellipse#OuterEllipse">
+    <Style Selector="^:pressed /template/ Ellipse#OuterEllipse, ^[(theme|Preview.State)=Pressed] /template/ Ellipse#OuterEllipse">
       <Setter Property="Stroke" Value="{colour:AccentBrush Dark1}" />
       <Setter Property="Fill" Value="{colour:AccentBrush Light2}" />
     </Style>
 
-    <Style Selector="^:pressed /template/ Ellipse#CheckOuterEllipse">
+    <Style Selector="^:pressed /template/ Ellipse#CheckOuterEllipse, ^[(theme|Preview.State)=Pressed] /template/ Ellipse#CheckOuterEllipse">
       <Setter Property="Stroke" Value="{colour:AccentBrush Dark1}" />
       <Setter Property="Fill" Value="{colour:AccentBrush Dark1}" />
     </Style>
 
-    <Style Selector="^:pressed /template/ Ellipse#CheckGlyph">
+    <Style Selector="^:pressed /template/ Ellipse#CheckGlyph, ^[(theme|Preview.State)=Pressed] /template/ Ellipse#CheckGlyph">
       <Setter Property="Stroke" Value="{colour:AccentBrush Light10}" />
       <Setter Property="Fill" Value="{colour:AccentBrush Light10}" />
     </Style>
@@ -195,11 +212,11 @@
     </Style>
 
     <!-- Focus state -->
-    <Style Selector="^:focus-visible">
+    <Style Selector="^:focus-visible, ^[(theme|Preview.State)=Focused]">
       <Setter Property="BorderBrush" Value="{colour:AccentFocusBrush}" />
     </Style>
 
-    <Style Selector="^:focus-visible /template/ Ellipse#OuterEllipse">
+    <Style Selector="^:focus-visible /template/ Ellipse#OuterEllipse, ^[(theme|Preview.State)=Focused] /template/ Ellipse#OuterEllipse">
       <Setter Property="Stroke" Value="{colour:AccentFocusBrush}" />
     </Style>
 

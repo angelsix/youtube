@@ -12,52 +12,39 @@
         <prototype:PrototypeTheme />
       </Border.Styles>
 
-      <StackPanel Spacing="20">
-        
-        <!-- Full width buttons -->
-        <StackPanel.Styles>
-          <Style Selector="ButtonSpinner">
-            <Setter Property="HorizontalAlignment" Value="Stretch"></Setter>
-          </Style>
-        </StackPanel.Styles>
-        
-        <ButtonSpinner Content="Right spinner" />
-        <ButtonSpinner ButtonSpinnerLocation="Left"
-                       Content="Left spinner" />
-        <!-- Accent hues: Accent.Kind picks the hue, defaulting to Primary -->
-        <ButtonSpinner theme:Accent.Kind="Primary"
-                       Content="Accent (default Primary)" />
-        <ButtonSpinner ButtonSpinnerLocation="Left"
-                       Content="Accent Warning" theme:Accent.Kind="Warning"/>
-        <ButtonSpinner Content="Accent Success" theme:Accent.Kind="Success"/>
-        <ButtonSpinner Content="Accent Destructive" theme:Accent.Kind="Destructive"/>
-
-        <!-- Kind inherits: tinting the panel tints every control beneath it -->
-        <StackPanel theme:Accent.Kind="Subtle" Spacing="20">
-          <ButtonSpinner Content="Inherited Subtle" />
-          <ButtonSpinner theme:Accent.Kind="Primary" Content="Overrides to Primary" />
-        </StackPanel>
-
-        <ButtonSpinner Content="Right disabled"
-                       AllowSpin="False"/>
-        <ButtonSpinner ButtonSpinnerLocation="Left"
-                       Content="Left disabled"
-                       AllowSpin="False" />
-        <ButtonSpinner ButtonSpinnerLocation="Left"
-                       Content="Fully disabled"
-                       IsEnabled="False" />
-        <ButtonSpinner ShowButtonSpinner="False"
-                       Content="Hide spinner" />
-        <ButtonSpinner Content="Error">
-          <DataValidationErrors.Error>
-            <sys:Exception>
-              <x:Arguments>
-                <x:String>Error</x:String>
-              </x:Arguments>
-            </sys:Exception>
-          </DataValidationErrors.Error>
-        </ButtonSpinner>
-      </StackPanel>
+      <!-- One shared grid instantiated per pane; Location/Hue fold onto the state instances so nothing repeats -->
+      <prototype:LightDarkPreview Title="ButtonSpinner States" Orientation="Horizontal">
+        <DataTemplate>
+          <WrapPanel ItemSpacing="8">
+            <ButtonSpinner Content="Default" />
+            <ButtonSpinner ButtonSpinnerLocation="Left"
+                           theme:Accent.Kind="Warning"
+                           Content="Left · Warning" />
+            <ButtonSpinner theme:Preview.State="Hover"
+                           theme:Accent.Kind="Success"
+                           Content="Hover · Success" />
+            <ButtonSpinner theme:Preview.State="Pressed"
+                           Content="Pressed" />
+            <ButtonSpinner ButtonSpinnerLocation="Left"
+                           theme:Accent.Kind="Warning"
+                           IsEnabled="False"
+                           Content="Disabled · Left" />
+            <ButtonSpinner theme:Accent.Kind="Destructive"
+                           Content="Error · Destructive">
+              <DataValidationErrors.Error>
+                <sys:Exception>
+                  <x:Arguments>
+                    <x:String>Error</x:String>
+                  </x:Arguments>
+                </sys:Exception>
+              </DataValidationErrors.Error>
+            </ButtonSpinner>
+            <ButtonSpinner ShowButtonSpinner="False"
+                           theme:Accent.Kind="Subtle"
+                           Content="No spinner · Subtle" />
+          </WrapPanel>
+        </DataTemplate>
+      </prototype:LightDarkPreview>
     </Border>
   </Design.PreviewWith>
 

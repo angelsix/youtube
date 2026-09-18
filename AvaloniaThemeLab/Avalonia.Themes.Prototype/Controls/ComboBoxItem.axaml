@@ -5,20 +5,27 @@
                     xmlns:colour="using:AngelSix.ThemeEngine.Colours"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes">
   <Design.PreviewWith>
-    <Border Padding="20">
+    <Border>
       <Border.Styles>
         <prototype:PrototypeTheme />
       </Border.Styles>
 
-      <Border Background="{colour:AccentBrush Light10}" BorderBrush="{colour:AccentBrush Light6}" BorderThickness="{size:ThicknessSm}" Margin="{size:Edges Top={size:Scaled Value={size:BaseSize}, By=-1}, Bottom={size:Scaled Value={size:BaseSize}, By=-1}}" Padding="0" CornerRadius="{size:RadiusMd}">
-        <StackPanel HorizontalAlignment="Stretch">
-          <ComboBoxItem>Item 1</ComboBoxItem>
-          <ComboBoxItem>Item 2 long</ComboBoxItem>
-          <ComboBoxItem IsSelected="True">Item 3</ComboBoxItem>
-          <ComboBoxItem IsEnabled="False">Item 4</ComboBoxItem>
-          <ComboBoxItem IsSelected="True" IsEnabled="False">Item 5</ComboBoxItem>
-        </StackPanel>
-      </Border>
+      <!-- The shared state column, written once as a template: each pane instantiates its own copy -->
+      <prototype:LightDarkPreview Title="ComboBoxItem States" Orientation="Vertical">
+        <DataTemplate>
+          <!-- Item states come from item properties only: the theme exposes no Preview.State hooks, so hover/pressed/focus need live interaction -->
+          <StackPanel Orientation="Vertical" Spacing="8">
+            <ComboBoxItem>Default</ComboBoxItem>
+            <ComboBoxItem IsSelected="True">Selected</ComboBoxItem>
+            <ComboBoxItem IsEnabled="False">Disabled</ComboBoxItem>
+            <ComboBoxItem IsSelected="True" IsEnabled="False">Selected · Disabled</ComboBoxItem>
+            <!-- Non-default accent hues ride the generic {colour:AccentPrimaryBrush} selected fill -->
+            <ComboBoxItem IsSelected="True" theme:Accent.Kind="Warning">Warn</ComboBoxItem>
+            <ComboBoxItem IsSelected="True" theme:Accent.Kind="Success">Success</ComboBoxItem>
+          </StackPanel>
+        </DataTemplate>
+      </prototype:LightDarkPreview>
+
     </Border>
   </Design.PreviewWith>
 

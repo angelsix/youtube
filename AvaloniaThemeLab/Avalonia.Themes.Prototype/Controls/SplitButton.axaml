@@ -11,30 +11,32 @@
       <Border.Styles>
         <prototype:PrototypeTheme />
       </Border.Styles>
-      <StackPanel Spacing="20">
-        <SplitButton Content="SplitButton">
-          <SplitButton.Flyout>
-            <Flyout>Hello</Flyout>
-          </SplitButton.Flyout>
-        </SplitButton>
-        <SplitButton CornerRadius="16" Content="Rounded">
-          <SplitButton.Flyout>
-            <Flyout>Hello</Flyout>
-          </SplitButton.Flyout>
-        </SplitButton>
-        <SplitButton IsEnabled="False">Disabled</SplitButton>
-        <ToggleSplitButton Content="ToggleSplitButton">
-          <ToggleSplitButton.Flyout>
-            <Flyout>Hello</Flyout>
-          </ToggleSplitButton.Flyout>
-        </ToggleSplitButton>
-        <ToggleSplitButton Content="Checked" IsChecked="True">
-          <ToggleSplitButton.Flyout>
-            <Flyout>Hello</Flyout>
-          </ToggleSplitButton.Flyout>
-        </ToggleSplitButton>
-        <ToggleSplitButton Content="Checked Disabled" IsChecked="True" IsEnabled="False"/>
-      </StackPanel>
+
+      <!-- Instantiated once per pane (light + dark); the theme paints no Preview.State hooks, so only natively-forceable states appear -->
+      <prototype:LightDarkPreview Title="SplitButton States" Orientation="Vertical">
+        <DataTemplate>
+          <StackPanel Spacing="20">
+            <!-- Plain split button: neutral face versus disabled face -->
+            <StackPanel Orientation="Horizontal" Spacing="20">
+              <SplitButton Content="Default" />
+              <SplitButton Content="Disabled" IsEnabled="False" />
+            </StackPanel>
+
+            <!-- Toggling variant: unchecked, checked (accent fill), and checked while disabled -->
+            <StackPanel Orientation="Horizontal" Spacing="20">
+              <ToggleSplitButton Content="Unchecked" />
+              <ToggleSplitButton Content="Checked" IsChecked="True" />
+              <ToggleSplitButton Content="Checked Off" IsChecked="True" IsEnabled="False" />
+            </StackPanel>
+
+            <!-- Accent hue only shows on the checked face, so each pairs with IsChecked instead of standing alone -->
+            <StackPanel Orientation="Horizontal" Spacing="20">
+              <ToggleSplitButton Content="Warn" IsChecked="True" theme:Accent.Kind="Warning" />
+              <ToggleSplitButton Content="Success" IsChecked="True" theme:Accent.Kind="Success" />
+            </StackPanel>
+          </StackPanel>
+        </DataTemplate>
+      </prototype:LightDarkPreview>
     </Border>
   </Design.PreviewWith>
 

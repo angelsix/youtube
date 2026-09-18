@@ -12,48 +12,82 @@
         <prototype:PrototypeTheme />
       </Border.Styles>
 
-      <StackPanel Spacing="10">
-        <ComboBox PlaceholderText="Select an item">
-          <ComboBoxItem>Item 1</ComboBoxItem>
-          <ComboBoxItem>Item 2</ComboBoxItem>
-        </ComboBox>
-        <ComboBox IsEnabled="False"
-                  Width="200"
-                  SelectedIndex="1"
-                  HorizontalContentAlignment="Center">
-          <ComboBoxItem>Item 1</ComboBoxItem>
-          <ComboBoxItem>Item 2</ComboBoxItem>
-        </ComboBox>
-
-        <ComboBox PlaceholderText="Error">
-          <DataValidationErrors.Error>
-            <sys:Exception>
-              <x:Arguments>
-                <x:String>Error</x:String>
-              </x:Arguments>
-            </sys:Exception>
-          </DataValidationErrors.Error>
-        </ComboBox>
-
-        <ComboBox SelectedIndex="1" IsEditable="True">
-          <ComboBoxItem>Item A</ComboBoxItem>
-          <ComboBoxItem>Item b</ComboBoxItem>
-          <ComboBoxItem>Item c</ComboBoxItem>
-        </ComboBox>
-
-        <ComboBox SelectedIndex="0">
-          <ComboBox.SelectionBoxItemTemplate>
-            <DataTemplate>
-              <Border Padding="20" BorderBrush="Red" BorderThickness="1">
-                <TextBlock Text="{ReflectionBinding}"/>
-              </Border>
-            </DataTemplate>
-          </ComboBox.SelectionBoxItemTemplate>
-          <ComboBoxItem>Item A</ComboBoxItem>
-          <ComboBoxItem>Item b</ComboBoxItem>
-          <ComboBoxItem>Item c</ComboBoxItem>
-        </ComboBox>
-      </StackPanel>
+      <!-- Authored once; each pane (light/dark) builds its own copy of the matrix -->
+      <prototype:LightDarkPreview Title="ComboBox States" Orientation="Vertical">
+        <DataTemplate>
+          <WrapPanel ItemSpacing="12">
+            <!-- Empty prompt beside a filled selection: the two resting faces -->
+            <ComboBox Width="180" PlaceholderText="Select…">
+              <ComboBoxItem>One</ComboBoxItem>
+              <ComboBoxItem>Two</ComboBoxItem>
+              <ComboBoxItem>Three</ComboBoxItem>
+            </ComboBox>
+            <ComboBox Width="180" SelectedIndex="1">
+              <ComboBoxItem>One</ComboBoxItem>
+              <ComboBoxItem>Two</ComboBoxItem>
+              <ComboBoxItem>Three</ComboBoxItem>
+            </ComboBox>
+            <!-- Opening the box exposes the popup frame and item list -->
+            <ComboBox Width="180" SelectedIndex="1" IsDropDownOpen="True">
+              <ComboBoxItem>One</ComboBoxItem>
+              <ComboBoxItem>Two</ComboBoxItem>
+              <ComboBoxItem>Three</ComboBoxItem>
+            </ComboBox>
+            <!-- Pointer and focus states, each holding a selection so the value stays readable -->
+            <ComboBox Width="180" SelectedIndex="1" theme:Preview.State="Hover">
+              <ComboBoxItem>One</ComboBoxItem>
+              <ComboBoxItem>Two</ComboBoxItem>
+              <ComboBoxItem>Three</ComboBoxItem>
+            </ComboBox>
+            <ComboBox Width="180" SelectedIndex="1" theme:Preview.State="Pressed">
+              <ComboBoxItem>One</ComboBoxItem>
+              <ComboBoxItem>Two</ComboBoxItem>
+              <ComboBoxItem>Three</ComboBoxItem>
+            </ComboBox>
+            <ComboBox Width="180" SelectedIndex="1" theme:Preview.State="Focused">
+              <ComboBoxItem>One</ComboBoxItem>
+              <ComboBoxItem>Two</ComboBoxItem>
+              <ComboBoxItem>Three</ComboBoxItem>
+            </ComboBox>
+            <!-- Repeat the focus wash in two hues to prove accents resolve generically -->
+            <ComboBox Width="180" SelectedIndex="1" theme:Preview.State="Focused" theme:Accent.Kind="Warning">
+              <ComboBoxItem>One</ComboBoxItem>
+              <ComboBoxItem>Two</ComboBoxItem>
+              <ComboBoxItem>Three</ComboBoxItem>
+            </ComboBox>
+            <ComboBox Width="180" SelectedIndex="1" theme:Preview.State="Focused" theme:Accent.Kind="Success">
+              <ComboBoxItem>One</ComboBoxItem>
+              <ComboBoxItem>Two</ComboBoxItem>
+              <ComboBoxItem>Three</ComboBoxItem>
+            </ComboBox>
+            <!-- Greyed-out, unusable input -->
+            <ComboBox Width="180" SelectedIndex="1" IsEnabled="False">
+              <ComboBoxItem>One</ComboBoxItem>
+              <ComboBoxItem>Two</ComboBoxItem>
+              <ComboBoxItem>Three</ComboBoxItem>
+            </ComboBox>
+            <!-- Failed validation lights the error border -->
+            <ComboBox Width="180" SelectedIndex="1">
+              <DataValidationErrors.Error>
+                <sys:Exception>
+                  <x:Arguments>
+                    <x:String>Error</x:String>
+                  </x:Arguments>
+                </sys:Exception>
+              </DataValidationErrors.Error>
+              <ComboBoxItem>One</ComboBoxItem>
+              <ComboBoxItem>Two</ComboBoxItem>
+              <ComboBoxItem>Three</ComboBoxItem>
+            </ComboBox>
+            <!-- Free-text mode swaps the picker face for a TextBox -->
+            <ComboBox Width="180" SelectedIndex="1" IsEditable="True">
+              <ComboBoxItem>One</ComboBoxItem>
+              <ComboBoxItem>Two</ComboBoxItem>
+              <ComboBoxItem>Three</ComboBoxItem>
+            </ComboBox>
+          </WrapPanel>
+        </DataTemplate>
+      </prototype:LightDarkPreview>
     </Border>
   </Design.PreviewWith>
 
@@ -226,13 +260,13 @@
     </Style>
 
     <!-- Hover state -->
-    <Style Selector="^:pointerover /template/ Border#Background">
+    <Style Selector="^:pointerover /template/ Border#Background, ^[(theme|Preview.State)=Hover] /template/ Border#Background">
       <Setter Property="Background" Value="{colour:HoverBackgroundDefaultBrush}" />
       <Setter Property="BorderBrush" Value="{colour:BorderDefaultBrush}" />
     </Style>
 
     <!-- Pressed state -->
-    <Style Selector="^:pressed /template/ Border#Background">
+    <Style Selector="^:pressed /template/ Border#Background, ^[(theme|Preview.State)=Pressed] /template/ Border#Background">
       <Setter Property="Background" Value="{colour:PressedBackgroundDefaultBrush}" />
       <Setter Property="BorderBrush" Value="{colour:BorderDefaultBrush}" />
     </Style>
@@ -255,7 +289,7 @@
     </Style>
 
     <!-- Focus state -->
-    <Style Selector="^:focus-visible">
+    <Style Selector="^:focus-visible, ^[(theme|Preview.State)=Focused]">
       <Style Selector="^ /template/ Border#HighlightBackground">
         <Setter Property="IsVisible" Value="True" />
         <Setter Property="BorderBrush" Value="Transparent" />

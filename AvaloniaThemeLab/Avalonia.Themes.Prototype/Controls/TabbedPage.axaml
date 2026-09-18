@@ -5,21 +5,29 @@
                     xmlns:colour="using:AngelSix.ThemeEngine.Colours"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes">
   <Design.PreviewWith>
-    <Border Width="400" Height="400">
+    <Border>
       <Border.Styles>
         <prototype:PrototypeTheme />
       </Border.Styles>
-      <TabbedPage>
-        <ContentPage Header="Home">
-          <TextBlock Text="Home page" HorizontalAlignment="Center" VerticalAlignment="Center" />
-        </ContentPage>
-        <ContentPage Header="Favorites">
-          <TextBlock Text="Favorites page" HorizontalAlignment="Center" VerticalAlignment="Center" />
-        </ContentPage>
-        <ContentPage Header="Profile">
-          <TextBlock Text="Profile page" HorizontalAlignment="Center" VerticalAlignment="Center" />
-        </ContentPage>
-      </TabbedPage>
+
+      <!-- One strip shows the selectable states at once: index 0 selected (pipe + accent foreground), middle unselected, last disabled. -->
+      <prototype:LightDarkPreview Title="TabbedPage States" Orientation="Horizontal">
+        <DataTemplate>
+          <Border Width="360" Height="240">
+            <TabbedPage>
+              <ContentPage Header="Home">
+                <TextBlock Text="Home page" HorizontalAlignment="Center" VerticalAlignment="Center" />
+              </ContentPage>
+              <ContentPage Header="Favorites">
+                <TextBlock Text="Favorites page" HorizontalAlignment="Center" VerticalAlignment="Center" />
+              </ContentPage>
+              <ContentPage Header="Profile" IsEnabled="False">
+                <TextBlock Text="Profile page" HorizontalAlignment="Center" VerticalAlignment="Center" />
+              </ContentPage>
+            </TabbedPage>
+          </Border>
+        </DataTemplate>
+      </prototype:LightDarkPreview>
     </Border>
   </Design.PreviewWith>
 

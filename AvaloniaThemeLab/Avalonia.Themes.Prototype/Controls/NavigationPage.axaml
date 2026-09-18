@@ -6,11 +6,19 @@
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes"
                     xmlns:icons="using:AngelSix.ThemeEngine.Icons">
   <Design.PreviewWith>
-    <Border Width="400" Height="600">
+    <Border>
       <Border.Styles>
         <prototype:PrototypeTheme />
       </Border.Styles>
-      <NavigationPage />
+
+      <!-- Chrome demo: back button, header title and command bars bind to the live navigation stack, so a static preview shows the bare scaffold once per pane. -->
+      <prototype:LightDarkPreview Title="NavigationPage States" Orientation="Horizontal">
+        <DataTemplate>
+          <Border Width="340" Height="300">
+            <NavigationPage />
+          </Border>
+        </DataTemplate>
+      </prototype:LightDarkPreview>
     </Border>
   </Design.PreviewWith>
 

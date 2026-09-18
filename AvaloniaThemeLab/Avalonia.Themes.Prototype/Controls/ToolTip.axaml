@@ -11,16 +11,21 @@
         <prototype:PrototypeTheme />
       </Border.Styles>
 
-      <StackPanel Spacing="20">
-        <ToolTip Opacity="1">Text Content</ToolTip>
-        <ToolTip Opacity="1">Very long text content which should exceed the maximum with of the tooltip and wrap.</ToolTip>
-        <ToolTip Opacity="1">
-          <StackPanel>
-            <TextBlock>Multi-line</TextBlock>
-            <TextBlock>Control Content</TextBlock>
+      <!-- Inline-rendered with Opacity pinned to 1: the theme's lone state (^:open) flips Opacity 0 -> 1, which a static preview cannot trigger on a live popup -->
+      <prototype:LightDarkPreview Title="ToolTip States" Orientation="Horizontal">
+        <DataTemplate>
+          <StackPanel Spacing="20">
+            <ToolTip Opacity="1">Short plain-text tip</ToolTip>
+            <ToolTip Opacity="1">Longer copy that exceeds the themed MaxWidth, so the bubble widens up to its cap and the text wraps rather than clips.</ToolTip>
+            <ToolTip Opacity="1">
+              <StackPanel Spacing="4">
+                <TextBlock FontWeight="Bold">Templated content</TextBlock>
+                <TextBlock>A second line proving arbitrary child layout sits cleanly inside the same styled bubble.</TextBlock>
+              </StackPanel>
+            </ToolTip>
           </StackPanel>
-        </ToolTip>
-      </StackPanel>
+        </DataTemplate>
+      </prototype:LightDarkPreview>
     </Border>
   </Design.PreviewWith>
 

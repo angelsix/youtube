@@ -15,28 +15,26 @@
       <Border.Styles>
         <prototype:PrototypeTheme />
       </Border.Styles>
-      <StackPanel Orientation="Horizontal">
-        <Border Padding="20">
+      <!-- Cell states (:selected/:in-range/:today) derive from the engine's own selection model, not Preview.State —
+           so each calendar packs its public options densely instead of multiplying instances -->
+      <prototype:LightDarkPreview Title="CalendarView States">
+        <DataTemplate>
           <StackPanel Spacing="20">
-            <controls:CalendarView HorizontalAlignment="Stretch" />
+            <!-- One calendar carries every dense option at once: week-number gutter, event dots,
+                 a selected range (painting :in-range days), and the Success hue tinting nav + selection -->
             <controls:CalendarView x:DataType="design:CalendarViewDesignModel"
-                                   IsWeekNumberVisible="True"
-                                   DataContext="{x:Static design:CalendarViewDesignData.Sample}"
-                                   Events="{Binding Events}" />
+                                    theme:Accent.Kind="Success"
+                                    IsWeekNumberVisible="True"
+                                    SelectedDate="2026-09-18"
+                                    RangeStart="2026-09-14"
+                                    RangeEnd="2026-09-25"
+                                    DataContext="{x:Static design:CalendarViewDesignData.Sample}"
+                                    Events="{Binding Events}" />
+            <!-- Picker chrome is a distinct surface (inline root, hover/focus rings), shown alone -->
             <controls:CalendarView DisplayAsPicker="True" HorizontalAlignment="Stretch" />
           </StackPanel>
-        </Border>
-        <Border Padding="20" theme:ThemeRegion.IsDark="True" theme:Accent.Kind="Success" Background="{colour:SurfaceDefaultBrush}">
-          <StackPanel Spacing="20">
-            <controls:CalendarView HorizontalAlignment="Stretch" />
-            <controls:CalendarView x:DataType="design:CalendarViewDesignModel"
-                                   IsWeekNumberVisible="True"
-                                   DataContext="{x:Static design:CalendarViewDesignData.Sample}"
-                                   Events="{Binding Events}" />
-            <controls:CalendarView DisplayAsPicker="True" HorizontalAlignment="Stretch" />
-          </StackPanel>
-        </Border>
-      </StackPanel>
+        </DataTemplate>
+      </prototype:LightDarkPreview>
     </Border>
   </Design.PreviewWith>
 
@@ -337,8 +335,7 @@
                 </Grid>
                 <!-- The grid of months or years when zoomed out -->
                 <UniformGrid Name="PART_ZoomGrid"
-                             Columns="4"
-                             MinWidth="{size:Scaled Value={size:ControlHeightSm}, By=7}" />
+                             Columns="4" />
               </Panel>
             </Grid>
           </Border>

@@ -5,11 +5,23 @@
                     xmlns:colour="using:AngelSix.ThemeEngine.Colours"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes">
   <Design.PreviewWith>
-    <Border Padding="0" Background="{colour:AccentBrush Light10}">
+    <Border>
       <Border.Styles>
         <prototype:PrototypeTheme />
       </Border.Styles>
-      <NotificationCard Content="Testing" />
+
+      <!-- Cards stack vertically: each carries the theme's wide shadow margin, so a shared row would overflow a half-width pane -->
+      <prototype:LightDarkPreview Title="NotificationCard States" Orientation="Vertical">
+        <DataTemplate>
+          <!-- One card per NotificationType severity; the DP defaults to Information, so a bare card adds nothing. No Preview.State/:disabled/:error selectors exist -->
+          <StackPanel Orientation="Vertical" Spacing="24">
+            <NotificationCard NotificationType="Information" Content="Information" />
+            <NotificationCard NotificationType="Success" Content="Success" />
+            <NotificationCard NotificationType="Warning" Content="Warning" />
+            <NotificationCard NotificationType="Error" Content="Error" />
+          </StackPanel>
+        </DataTemplate>
+      </prototype:LightDarkPreview>
     </Border>
   </Design.PreviewWith>
   <ControlTheme x:Key="{x:Type NotificationCard}" TargetType="NotificationCard">

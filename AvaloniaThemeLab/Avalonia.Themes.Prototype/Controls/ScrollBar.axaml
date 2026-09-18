@@ -6,23 +6,38 @@
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes"
                     xmlns:icons="using:AngelSix.ThemeEngine.Icons">
   <Design.PreviewWith>
-    <Border Padding="20">
+    <Border>
       <Border.Styles>
         <prototype:PrototypeTheme />
       </Border.Styles>
 
-      <StackPanel Orientation="Horizontal" Spacing="20">
-        <StackPanel Spacing="20">
-          <ScrollBar Orientation="Horizontal" AllowAutoHide="False" VerticalAlignment="Center" Width="100"/>
-          <ScrollBar Orientation="Horizontal" AllowAutoHide="False" VerticalAlignment="Center" Width="100" IsEnabled="False"/>
-          <ScrollBar Orientation="Horizontal" AllowAutoHide="True" VerticalAlignment="Center" Width="100"/>
-          <ScrollBar Orientation="Horizontal" AllowAutoHide="True" VerticalAlignment="Center" Width="100" IsEnabled="False"/>
-        </StackPanel>
-        <ScrollBar Orientation="Vertical" AllowAutoHide="False" HorizontalAlignment="Center" Height="100"/>
-        <ScrollBar Orientation="Vertical" AllowAutoHide="False" HorizontalAlignment="Center" Height="100" IsEnabled="False"/>
-        <ScrollBar Orientation="Vertical" AllowAutoHide="True" HorizontalAlignment="Center" Height="100"/>
-        <ScrollBar Orientation="Vertical" AllowAutoHide="True" HorizontalAlignment="Center" Height="100" IsEnabled="False"/>
-      </StackPanel>
+      <!-- One shared row per pane: the theme exposes no Preview.State/Error/Focus tokens, so every
+           instance forces a REAL state — collapse-vs-expand ([IsExpanded]), enablement (:disabled),
+           orientation (:vertical/:horizontal) and thumb position (Value); options compose onto one bar. -->
+      <prototype:LightDarkPreview Title="ScrollBar States" Orientation="Vertical">
+        <DataTemplate>
+          <StackPanel Orientation="Horizontal" Spacing="20">
+            <!-- Collapsed (auto-hide): near-invisible until hovered — the resting look -->
+            <ScrollBar Orientation="Horizontal" AllowAutoHide="True" Width="100" VerticalAlignment="Center"/>
+            <!-- Always-expanded: full-height thumb + faded track rect + arrow buttons revealed -->
+            <ScrollBar Orientation="Horizontal" AllowAutoHide="False" Width="100" VerticalAlignment="Center"/>
+            <!-- Disabled collapses to a faint ghosted strip -->
+            <ScrollBar Orientation="Horizontal" AllowAutoHide="True" Width="100" VerticalAlignment="Center" IsEnabled="False"/>
+            <!-- Expanded + disabled: dimmed arrows/thumb, still occupying full height -->
+            <ScrollBar Orientation="Horizontal" AllowAutoHide="False" Width="100" VerticalAlignment="Center" IsEnabled="False"/>
+            <!-- Auto-hidden yet scrolled far right: thumb parked away from centre -->
+            <ScrollBar Orientation="Horizontal" AllowAutoHide="True" Width="100" VerticalAlignment="Center" Minimum="0" Maximum="100" Value="90"/>
+            <!-- Vertical axis mirrors the same matrix so both templates render per pane -->
+            <StackPanel Orientation="Vertical" Spacing="10">
+              <ScrollBar Orientation="Vertical" AllowAutoHide="True" Height="100" HorizontalAlignment="Center"/>
+              <ScrollBar Orientation="Vertical" AllowAutoHide="False" Height="100" HorizontalAlignment="Center"/>
+              <ScrollBar Orientation="Vertical" AllowAutoHide="True" Height="100" HorizontalAlignment="Center" IsEnabled="False"/>
+              <ScrollBar Orientation="Vertical" AllowAutoHide="False" Height="100" HorizontalAlignment="Center" IsEnabled="False"/>
+              <ScrollBar Orientation="Vertical" AllowAutoHide="True" Height="100" HorizontalAlignment="Center" Minimum="0" Maximum="100" Value="90"/>
+            </StackPanel>
+          </StackPanel>
+        </DataTemplate>
+      </prototype:LightDarkPreview>
     </Border>
   </Design.PreviewWith>
 

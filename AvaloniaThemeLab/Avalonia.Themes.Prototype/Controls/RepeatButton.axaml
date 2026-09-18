@@ -10,24 +10,25 @@
         <prototype:PrototypeTheme />
       </Border.Styles>
 
-      <StackPanel Spacing="20">
-        <Label Content="RepeatButton States" />
-        <StackPanel Orientation="Horizontal" Spacing="20">
-          <RepeatButton Content="Default" />
-          <RepeatButton theme:Preview.State="Hover" Content="Hover" />
-          <RepeatButton theme:Preview.State="Pressed" Content="Pressed" />
-          <RepeatButton theme:Preview.State="Focused" Content="Focused" />
-          <RepeatButton Content="Disabled" IsEnabled="False" />
-        </StackPanel>
-        <Label Content="Accent States" />
-        <StackPanel Orientation="Horizontal" Spacing="20">
-          <RepeatButton theme:Accent.Kind="Primary" Content="Default" />
-          <RepeatButton theme:Preview.State="Hover" theme:Accent.Kind="Primary" Content="Hover" />
-          <RepeatButton theme:Preview.State="Pressed" theme:Accent.Kind="Primary" Content="Pressed" />
-          <RepeatButton theme:Preview.State="Focused" theme:Accent.Kind="Primary" Content="Focused" />
-          <RepeatButton theme:Accent.Kind="Primary" Content="Disabled" IsEnabled="False" />
-        </StackPanel>
-      </StackPanel>
+      <!-- Shared template instantiated once per pane; accent hues fold onto live states to hold the instance count down -->
+      <prototype:LightDarkPreview Title="RepeatButton States" Orientation="Vertical">
+        <DataTemplate>
+          <StackPanel Spacing="20">
+            <StackPanel Orientation="Horizontal" Spacing="20">
+              <RepeatButton Content="Default" />
+              <RepeatButton theme:Preview.State="Hover" Content="Hover" />
+              <RepeatButton theme:Preview.State="Pressed" Content="Pressed" />
+              <RepeatButton theme:Preview.State="Focused" Content="Focused" />
+              <RepeatButton Content="Disabled" IsEnabled="False" />
+            </StackPanel>
+            <!-- Non-default hues ride on enabled states so each extra instance proves two things at once -->
+            <StackPanel Orientation="Horizontal" Spacing="20">
+              <RepeatButton theme:Accent.Kind="Warning" theme:Preview.State="Hover" Content="Warning · Hover" />
+              <RepeatButton theme:Accent.Kind="Success" theme:Preview.State="Focused" Content="Success · Focused" />
+            </StackPanel>
+          </StackPanel>
+        </DataTemplate>
+      </prototype:LightDarkPreview>
     </Border>
   </Design.PreviewWith>
 

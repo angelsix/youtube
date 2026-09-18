@@ -5,19 +5,29 @@
                     xmlns:colour="using:AngelSix.ThemeEngine.Colours"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes">
   <Design.PreviewWith>
-    <Border Padding="0">
+    <Border>
       <Border.Styles>
         <prototype:PrototypeTheme />
       </Border.Styles>
 
-      <ListBox>
-        <ListBoxItem IsEnabled="False">Disabled</ListBoxItem>
-        <ListBoxItem Background="{colour:OverlayWeakBrush}"
-                     Padding="{size:SpacingXxl}">
-          Test
-        </ListBoxItem>
-        <ListBoxItem>Test</ListBoxItem>
-      </ListBox>
+      <!-- Narrow columns fit a half-width pane, so the two panes sit side by side -->
+      <prototype:LightDarkPreview Title="ListBoxItem States" Orientation="Horizontal">
+        <DataTemplate>
+          <!-- Each pane instantiates its own list; states come from real DPs the ControlTheme's pseudo-class selectors consume -->
+          <ListBox Width="220">
+            <!-- Baseline: transparent chrome, default text -->
+            <ListBoxItem>Default</ListBoxItem>
+            <!-- :selected -> accent-primary fill (same brush focused or not) -->
+            <ListBoxItem IsSelected="True">Selected</ListBoxItem>
+            <!-- Same rule resolving {colour:AccentPrimaryBrush} under a non-default accent kind -->
+            <ListBoxItem IsSelected="True" theme:Accent.Kind="Success">Selected + Success</ListBoxItem>
+            <!-- :disabled -> dimmed foreground -->
+            <ListBoxItem IsEnabled="False">Disabled</ListBoxItem>
+            <!-- Composition: disabled beats selection, surfacing the flat-chrome treatment -->
+            <ListBoxItem IsEnabled="False" IsSelected="True">Disabled + Selected</ListBoxItem>
+          </ListBox>
+        </DataTemplate>
+      </prototype:LightDarkPreview>
     </Border>
   </Design.PreviewWith>
 

@@ -5,19 +5,26 @@
                     xmlns:colour="using:AngelSix.ThemeEngine.Colours"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes">
   <Design.PreviewWith>
-    <Border Padding="20">
+    <Border>
       <Border.Styles>
         <prototype:PrototypeTheme />
       </Border.Styles>
 
-      <StackPanel Spacing="20">
-        <TreeView>
-          <TreeViewItem Header="Root" IsExpanded="True">
-            <TreeViewItem Header="Child1"/>
-            <TreeViewItem Header="Child2"/>
-          </TreeViewItem>
-        </TreeView>
-      </StackPanel>
+      <!-- One shared tree per pane: the TreeView theme is structural-only (frame + scroll + presenter), so states ride on TreeViewItem DPs -->
+      <prototype:LightDarkPreview Title="TreeView States" Orientation="Horizontal">
+        <DataTemplate>
+          <TreeView>
+            <TreeViewItem Header="Branch A" IsExpanded="True">
+              <TreeViewItem Header="Leaf – Default" />
+              <TreeViewItem Header="Leaf – Selected" IsSelected="True" />
+              <TreeViewItem Header="Leaf – Disabled" IsEnabled="False" />
+              <TreeViewItem Header="Leaf – Disabled + Selected" IsEnabled="False" IsSelected="True" />
+              <TreeViewItem Header="Leaf – Warning Selected" theme:Accent.Kind="Warning" IsSelected="True" />
+            </TreeViewItem>
+            <TreeViewItem Header="Branch B" />
+          </TreeView>
+        </DataTemplate>
+      </prototype:LightDarkPreview>
     </Border>
   </Design.PreviewWith>
 

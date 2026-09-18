@@ -4,14 +4,24 @@
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
                     xmlns:colour="using:AngelSix.ThemeEngine.Colours">
   <Design.PreviewWith>
-    <ContentPage Header="Sample Page">
-      <ContentPage.Styles>
+    <Border>
+      <Border.Styles>
         <prototype:PrototypeTheme />
-      </ContentPage.Styles>
-      <TextBlock Text="Content goes here"
-                 HorizontalAlignment="Center"
-                 VerticalAlignment="Center" />
-    </ContentPage>
+      </Border.Styles>
+
+      <!-- Scaffold only: the theme defines no hover/press/state selectors, so the shared template shows the page chrome once per pane. -->
+      <prototype:LightDarkPreview Title="ContentPage States" Orientation="Horizontal">
+        <DataTemplate>
+          <Border Width="340" Height="280">
+            <ContentPage Header="Sample Page">
+              <TextBlock Text="Content goes here"
+                         HorizontalAlignment="Center"
+                         VerticalAlignment="Center" />
+            </ContentPage>
+          </Border>
+        </DataTemplate>
+      </prototype:LightDarkPreview>
+    </Border>
   </Design.PreviewWith>
 
   <!-- ============================================================

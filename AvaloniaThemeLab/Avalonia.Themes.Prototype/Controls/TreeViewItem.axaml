@@ -8,22 +8,34 @@
         xmlns:icons="using:AngelSix.ThemeEngine.Icons">
 
   <Design.PreviewWith>
-    <Border Padding="20"
-            MinWidth="300">
+    <Border>
       <Border.Styles>
         <prototype:PrototypeTheme />
       </Border.Styles>
-      <TreeView>
-        <TreeViewItem Header="Level 1" IsExpanded="True">
-          <TreeViewItem Header="Level 2.1" IsSelected="True" IsExpanded="True">
-            <TreeViewItem Header="Level 3.1" />
-            <TreeViewItem Header="Level 3.2" IsSelected="True">
-              <TreeViewItem Header="Level 4" />
+
+      <!-- Tree written once; each pane (light + dark) instantiates its own copy -->
+      <prototype:LightDarkPreview Title="TreeViewItem States" Orientation="Horizontal">
+        <DataTemplate>
+          <!-- Multiple lets the two selected samples coexist; narrow tree fits a half-width pane -->
+          <TreeView SelectionMode="Multiple" Width="260">
+            <!-- Open item: collapse chevron, and hosts the state samples beneath -->
+            <TreeViewItem Header="Open - expanded" IsExpanded="True">
+              <!-- Closed item with a child: expand chevron; its leaf child hits :empty (no chevron) -->
+              <TreeViewItem Header="Closed - has child">
+                <TreeViewItem Header="Leaf - empty" />
+              </TreeViewItem>
+              <!-- Plain selected: accent-primary fill -->
+              <TreeViewItem Header="Selected" IsSelected="True" />
+              <!-- Forced hover: hover-background fill -->
+              <TreeViewItem Header="Hovered" theme:Preview.State="Hover" />
+              <!-- Disabled: flat chrome, dimmed text -->
+              <TreeViewItem Header="Disabled" IsEnabled="False" />
+              <!-- Disabled + selected together: surfaces the dedicated :disabled:selected fill -->
+              <TreeViewItem Header="Disabled + Selected" IsEnabled="False" IsSelected="True" />
             </TreeViewItem>
-          </TreeViewItem>
-          <TreeViewItem Header="Level 2.2" IsEnabled="False" />
-        </TreeViewItem>
-      </TreeView>
+          </TreeView>
+        </DataTemplate>
+      </prototype:LightDarkPreview>
     </Border>
   </Design.PreviewWith>
 
@@ -114,19 +126,19 @@
     </Setter>
 
     <!-- Hover state -->
-    <Style Selector="^ /template/ Border#PART_LayoutRoot:pointerover">
+    <Style Selector="^ /template/ Border#PART_LayoutRoot:pointerover, ^[(theme|Preview.State)=Hover] /template/ Border#PART_LayoutRoot">
       <Setter Property="Background" Value="{colour:HoverBackgroundDefaultBrush}" />
       <Setter Property="BorderBrush" Value="Transparent" />
     </Style>
-    <Style Selector="^ /template/ Border#PART_LayoutRoot:pointerover > ContentPresenter#PART_HeaderPresenter">
+    <Style Selector="^ /template/ Border#PART_LayoutRoot:pointerover > ContentPresenter#PART_HeaderPresenter, ^[(theme|Preview.State)=Hover] /template/ Border#PART_LayoutRoot > ContentPresenter#PART_HeaderPresenter">
     </Style>
 
     <!-- Pressed state -->
-    <Style Selector="^:pressed /template/ Border#PART_LayoutRoot:pointerover">
+    <Style Selector="^:pressed /template/ Border#PART_LayoutRoot:pointerover, ^:pressed[(theme|Preview.State)=Pressed] /template/ Border#PART_LayoutRoot">
       <Setter Property="Background" Value="{colour:HoverBackgroundDefaultBrush}" />
       <Setter Property="BorderBrush" Value="Transparent" />
     </Style>
-    <Style Selector="^:pressed /template/ Border#PART_LayoutRoot:pointerover > ContentPresenter#PART_HeaderPresenter">
+    <Style Selector="^:pressed /template/ Border#PART_LayoutRoot:pointerover > ContentPresenter#PART_HeaderPresenter, ^:pressed[(theme|Preview.State)=Pressed] /template/ Border#PART_LayoutRoot > ContentPresenter#PART_HeaderPresenter">
     </Style>
 
     <!-- Disabled state -->
@@ -147,19 +159,19 @@
     </Style>
 
     <!-- Selected hover state -->
-    <Style Selector="^:selected /template/ Border#PART_LayoutRoot:pointerover">
+    <Style Selector="^:selected /template/ Border#PART_LayoutRoot:pointerover, ^:selected[(theme|Preview.State)=Hover] /template/ Border#PART_LayoutRoot">
       <Setter Property="Background" Value="{colour:AccentPrimaryBrush}" />
       <Setter Property="BorderBrush" Value="Transparent" />
     </Style>
-    <Style Selector="^:selected /template/ Border#PART_LayoutRoot:pointerover > ContentPresenter#PART_HeaderPresenter">
+    <Style Selector="^:selected /template/ Border#PART_LayoutRoot:pointerover > ContentPresenter#PART_HeaderPresenter, ^:selected[(theme|Preview.State)=Hover] /template/ Border#PART_LayoutRoot > ContentPresenter#PART_HeaderPresenter">
     </Style>
 
     <!-- Selected pressed state -->
-    <Style Selector="^:pressed:selected /template/ Border#PART_LayoutRoot:pointerover">
+    <Style Selector="^:pressed:selected /template/ Border#PART_LayoutRoot:pointerover, ^:pressed:selected[(theme|Preview.State)=Pressed] /template/ Border#PART_LayoutRoot">
       <Setter Property="Background" Value="{colour:HoverBackgroundDefaultBrush}" />
       <Setter Property="BorderBrush" Value="Transparent" />
     </Style>
-    <Style Selector="^:pressed:selected /template/ Border#PART_LayoutRoot:pointerover > ContentPresenter#PART_HeaderPresenter">
+    <Style Selector="^:pressed:selected /template/ Border#PART_LayoutRoot:pointerover > ContentPresenter#PART_HeaderPresenter, ^:pressed:selected[(theme|Preview.State)=Pressed] /template/ Border#PART_LayoutRoot > ContentPresenter#PART_HeaderPresenter">
     </Style>
 
     <!-- Disabled selected state -->

@@ -9,11 +9,33 @@
         xmlns:size="using:AngelSix.ThemeEngine.Sizes"
         xmlns:icons="using:AngelSix.ThemeEngine.Icons">
   <Design.PreviewWith>
-    <Border Padding="20" Width="800" Height="500">
+    <Border>
       <Border.Styles>
         <prototype:PrototypeTheme />
       </Border.Styles>
-      <dialogs:ManagedFileChooser/>
+
+      <!-- Authored once; each pane (light + dark) instantiates its own independent copy -->
+      <prototype:LightDarkPreview Title="Managed File Chooser States" Orientation="Vertical">
+        <DataTemplate>
+          <StackPanel Orientation="Vertical" Spacing="16">
+            <!-- Full picker surface; its ControlTheme applies implicitly by type -->
+            <dialogs:ManagedFileChooser MinHeight="240"/>
+
+            <!-- Row-selection theme, proven with one forced-selected entry -->
+            <ListBox Theme="{StaticResource PrototypeManagedFileChooserQuickLinks}"
+                     SelectedIndex="1" Focusable="False" MaxWidth="200" HorizontalAlignment="Left">
+              <ListBox.Items>
+                <TextBlock Text="Documents"/>
+                <TextBlock Text="Downloads"/>
+                <TextBlock Text="Pictures"/>
+              </ListBox.Items>
+            </ListBox>
+
+            <!-- Overwrite-prompt theme: generically-accented confirm button -->
+            <dialogs:ManagedFileChooserOverwritePrompt HorizontalAlignment="Left"/>
+          </StackPanel>
+        </DataTemplate>
+      </prototype:LightDarkPreview>
     </Border>
   </Design.PreviewWith>
 

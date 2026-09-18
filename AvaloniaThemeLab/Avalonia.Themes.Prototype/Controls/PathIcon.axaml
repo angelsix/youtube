@@ -6,12 +6,31 @@
                     xmlns:icons="using:AngelSix.ThemeEngine.Icons"
                     xmlns:colour="using:AngelSix.ThemeEngine.Colours">
   <Design.PreviewWith>
-    <StackPanel>
-      <StackPanel.Styles>
+    <Border>
+      <Border.Styles>
         <prototype:PrototypeTheme />
-      </StackPanel.Styles>
-      <PathIcon Data="{icons:Star}" />
-    </StackPanel>
+      </Border.Styles>
+
+      <!-- Stateless glyph: sized down the icon ladder, then tinted through the generic accent brushes -->
+      <prototype:LightDarkPreview Title="PathIcon States" Orientation="Vertical">
+        <DataTemplate>
+          <StackPanel Orientation="Vertical" Spacing="12">
+            <StackPanel Orientation="Horizontal" Spacing="16">
+              <PathIcon Data="{icons:Star}" Width="{size:IconSizeSm}" Height="{size:IconSizeSm}" />
+              <PathIcon Data="{icons:Star}" Width="{size:IconSizeMd}" Height="{size:IconSizeMd}" />
+              <PathIcon Data="{icons:Star}" Width="{size:IconSizeLg}" Height="{size:IconSizeLg}" />
+              <PathIcon Data="{icons:Star}" Width="{size:IconSizeXl}" Height="{size:IconSizeXl}" />
+            </StackPanel>
+            <!-- Colours ride the generic accent tokens, so the hue follows the active accent kind -->
+            <StackPanel Orientation="Horizontal" Spacing="16">
+              <PathIcon Data="{icons:Star}" Foreground="{colour:AccentPrimaryBrush}" />
+              <PathIcon Data="{icons:Star}" Foreground="{colour:AccentPrimaryBrush}" theme:Accent.Kind="Warning" />
+              <PathIcon Data="{icons:Star}" Foreground="{colour:AccentPrimaryBrush}" theme:Accent.Kind="Success" />
+            </StackPanel>
+          </StackPanel>
+        </DataTemplate>
+      </prototype:LightDarkPreview>
+    </Border>
   </Design.PreviewWith>
   <!-- ============================================================
        ControlTheme: {x:Type PathIcon}

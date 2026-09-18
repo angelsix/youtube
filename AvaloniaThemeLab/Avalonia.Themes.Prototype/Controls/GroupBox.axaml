@@ -7,14 +7,28 @@
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes"
                     >
   <Design.PreviewWith>
-    <Border Padding="20">
+    <Border>
       <Border.Styles>
         <prototype:PrototypeTheme />
       </Border.Styles>
 
-      <GroupBox Padding="10" Margin="10">
-        <TextBlock Text="Hello World" />
-      </GroupBox>
+      <!-- One row per pane: the theme exposes no Preview.State or :error selectors, so its full surface is enabled/disabled plus inherited accent hue -->
+      <prototype:LightDarkPreview Title="GroupBox States" Orientation="Horizontal">
+        <DataTemplate>
+          <StackPanel Orientation="Vertical" Spacing="16" Width="340">
+            <GroupBox Header="Default">
+              <TextBlock Text="Grouped content" />
+            </GroupBox>
+            <!-- Disabled rides the Warning hue so both axes show in one instance -->
+            <GroupBox Header="Warning · Disabled" theme:Accent.Kind="Warning" IsEnabled="False">
+              <TextBlock Text="Grouped content" />
+            </GroupBox>
+            <GroupBox Header="Success" theme:Accent.Kind="Success">
+              <TextBlock Text="Grouped content" />
+            </GroupBox>
+          </StackPanel>
+        </DataTemplate>
+      </prototype:LightDarkPreview>
     </Border>
   </Design.PreviewWith>
 

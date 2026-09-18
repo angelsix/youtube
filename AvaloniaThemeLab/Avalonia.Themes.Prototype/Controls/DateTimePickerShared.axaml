@@ -6,18 +6,24 @@
         xmlns:size="using:AngelSix.ThemeEngine.Sizes"
         xmlns:icons="using:AngelSix.ThemeEngine.Icons">
   <Design.PreviewWith>
-    <Border Padding="20" Width="200">
+    <Border>
       <Border.Styles>
         <prototype:PrototypeTheme />
       </Border.Styles>
 
-      <StackPanel Spacing="20">
-        <ListBoxItem Theme="{DynamicResource PrototypeDateTimePickerItem}">Standard Item</ListBoxItem>
-        <ListBoxItem Theme="{DynamicResource PrototypeDateTimePickerItem}" Classes="MonthItem">Month Item</ListBoxItem>
-        <RepeatButton Theme="{DynamicResource PrototypeDateTimePickerButton}">Button</RepeatButton>
-        <RepeatButton Theme="{DynamicResource PrototypeDateTimePickerUpButton}" IsVisible="True"/>
-        <RepeatButton Theme="{DynamicResource PrototypeDateTimePickerDownButton}" IsVisible="True"/>
-      </StackPanel>
+      <!-- Picker-part themes shown once per pane; states driven by real item props (these themes expose no Preview.State hooks) -->
+      <prototype:LightDarkPreview Title="DateTimePicker Parts" Orientation="Vertical">
+        <DataTemplate>
+          <StackPanel Spacing="10" Width="200">
+            <ListBoxItem Theme="{DynamicResource PrototypeDateTimePickerItem}">Standard Item</ListBoxItem>
+            <ListBoxItem Theme="{DynamicResource PrototypeDateTimePickerItem}" Classes="MonthItem">Month Item</ListBoxItem>
+            <ListBoxItem Theme="{DynamicResource PrototypeDateTimePickerItem}" IsSelected="True">Selected Item</ListBoxItem>
+            <RepeatButton Theme="{DynamicResource PrototypeDateTimePickerButton}" Content="Button"/>
+            <RepeatButton Theme="{DynamicResource PrototypeDateTimePickerUpButton}" IsVisible="True"/>
+            <RepeatButton Theme="{DynamicResource PrototypeDateTimePickerDownButton}" IsVisible="True"/>
+          </StackPanel>
+        </DataTemplate>
+      </prototype:LightDarkPreview>
     </Border>
   </Design.PreviewWith>
 

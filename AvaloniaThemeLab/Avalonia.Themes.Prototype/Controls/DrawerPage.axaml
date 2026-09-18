@@ -6,16 +6,58 @@
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes"
                     xmlns:icons="using:AngelSix.ThemeEngine.Icons">
   <Design.PreviewWith>
-    <DrawerPage Header="Sample Drawer Page"
-                DrawerLength="200"
-                IsOpen="True">
-      <DrawerPage.Styles>
+    <Border>
+      <Border.Styles>
         <prototype:PrototypeTheme />
-      </DrawerPage.Styles>
-      <ContentPage Header="Drawer Content">
-        <TextBlock Text="Drawer menu" />
-      </ContentPage>
-    </DrawerPage>
+      </Border.Styles>
+
+      <!-- Driven by the real DPs the theme consumes (DisplayMode/IsOpen), not Preview.State: open, compact-overlay-with-scrim, and closed. -->
+      <prototype:LightDarkPreview Title="DrawerPage States" Orientation="Horizontal">
+        <DataTemplate>
+          <StackPanel Orientation="Vertical" Spacing="12">
+            <StackPanel Orientation="Vertical" Spacing="4">
+              <TextBlock Text="Default · Open" FontSize="11" Opacity="0.7" />
+              <Border Width="360" Height="150">
+                <DrawerPage Header="Menu" DrawerLength="150" IsOpen="True">
+                  <DrawerPage.Drawer>
+                    <TextBlock Text="NAV" Margin="10" />
+                  </DrawerPage.Drawer>
+                  <DrawerPage.Content>
+                    <TextBlock Text="Main content" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                  </DrawerPage.Content>
+                </DrawerPage>
+              </Border>
+            </StackPanel>
+            <StackPanel Orientation="Vertical" Spacing="4">
+              <TextBlock Text="CompactOverlay · Open" FontSize="11" Opacity="0.7" />
+              <Border Width="360" Height="150">
+                <DrawerPage Header="Menu" DrawerLength="150" DisplayMode="CompactOverlay" IsOpen="True">
+                  <DrawerPage.Drawer>
+                    <TextBlock Text="NAV" Margin="10" />
+                  </DrawerPage.Drawer>
+                  <DrawerPage.Content>
+                    <TextBlock Text="Main content" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                  </DrawerPage.Content>
+                </DrawerPage>
+              </Border>
+            </StackPanel>
+            <StackPanel Orientation="Vertical" Spacing="4">
+              <TextBlock Text="Default · Closed" FontSize="11" Opacity="0.7" />
+              <Border Width="360" Height="150">
+                <DrawerPage Header="Menu" DrawerLength="150" IsOpen="False">
+                  <DrawerPage.Drawer>
+                    <TextBlock Text="NAV" Margin="10" />
+                  </DrawerPage.Drawer>
+                  <DrawerPage.Content>
+                    <TextBlock Text="Main content" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                  </DrawerPage.Content>
+                </DrawerPage>
+              </Border>
+            </StackPanel>
+          </StackPanel>
+        </DataTemplate>
+      </prototype:LightDarkPreview>
+    </Border>
   </Design.PreviewWith>
 
   <SolidColorBrush x:Key="NavigationControlNavBarBackground" Color="{colour:AccentNeutral}" />

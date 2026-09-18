@@ -8,22 +8,30 @@
                     xmlns:icons="using:AngelSix.ThemeEngine.Icons">
 
   <Design.PreviewWith>
-    <ScrollViewer Theme="{DynamicResource PrototypeMenuScrollViewer}" Width="200" Height="200">
-      <ScrollViewer.Styles>
+    <Border>
+      <Border.Styles>
         <prototype:PrototypeTheme />
-      </ScrollViewer.Styles>
-      <StackPanel Spacing="20">
-        <TextBlock>Item 1</TextBlock>
-        <TextBlock>Item 2</TextBlock>
-        <TextBlock>Item 3</TextBlock>
-        <TextBlock>Item 4</TextBlock>
-        <TextBlock>Item 5</TextBlock>
-        <TextBlock>Item 6</TextBlock>
-        <TextBlock>Item 7</TextBlock>
-        <TextBlock>Item 8</TextBlock>
-        <TextBlock>Item 9</TextBlock>
-      </StackPanel>
-    </ScrollViewer>
+      </Border.Styles>
+
+      <!-- Overflowing content forces BOTH repeat-button chevrons visible; their hover tint needs a live pointer -->
+      <prototype:LightDarkPreview Title="MenuScrollViewer States" Orientation="Horizontal">
+        <DataTemplate>
+          <ScrollViewer Theme="{StaticResource PrototypeMenuScrollViewer}" Width="160" Height="120">
+            <StackPanel Spacing="20">
+              <TextBlock>Item 1</TextBlock>
+              <TextBlock>Item 2</TextBlock>
+              <TextBlock>Item 3</TextBlock>
+              <TextBlock>Item 4</TextBlock>
+              <TextBlock>Item 5</TextBlock>
+              <TextBlock>Item 6</TextBlock>
+              <TextBlock>Item 7</TextBlock>
+              <TextBlock>Item 8</TextBlock>
+              <TextBlock>Item 9</TextBlock>
+            </StackPanel>
+          </ScrollViewer>
+        </DataTemplate>
+      </prototype:LightDarkPreview>
+    </Border>
   </Design.PreviewWith>
 
   <ControlTheme x:Key="PrototypeMenuScrollViewer" TargetType="ScrollViewer">

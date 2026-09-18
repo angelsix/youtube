@@ -5,16 +5,22 @@
                     xmlns:colour="using:AngelSix.ThemeEngine.Colours"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes">
   <Design.PreviewWith>
-    <Border Padding="20">
+    <Border>
       <Border.Styles>
         <prototype:PrototypeTheme />
       </Border.Styles>
 
-      <Menu>
-        <MenuItem Header="_Standard" />
-        <MenuItem Header="Selected" IsSelected="True" />
-        <MenuItem Header="Disabled" IsEnabled="False" />
-      </Menu>
+      <!-- One bar mixes every top-level state the theme paints (:selected overlay, :disabled dimming, separator); hover/press need a live pointer -->
+      <prototype:LightDarkPreview Title="Menu States" Orientation="Horizontal">
+        <DataTemplate>
+          <Menu>
+            <MenuItem Header="_Standard" />
+            <MenuItem Header="_Selected" IsSelected="True" />
+            <Separator />
+            <MenuItem Header="_Disabled" IsEnabled="False" />
+          </Menu>
+        </DataTemplate>
+      </prototype:LightDarkPreview>
     </Border>
   </Design.PreviewWith>
 

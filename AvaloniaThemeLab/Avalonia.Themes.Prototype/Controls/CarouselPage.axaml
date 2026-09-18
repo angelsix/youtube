@@ -5,18 +5,25 @@
                     xmlns:colour="using:AngelSix.ThemeEngine.Colours"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes">
   <Design.PreviewWith>
-    <Border Width="400" Height="300">
+    <Border>
       <Border.Styles>
         <prototype:PrototypeTheme />
       </Border.Styles>
-      <CarouselPage>
-        <ContentPage Header="Page 1">
-          <TextBlock Text="First page" HorizontalAlignment="Center" VerticalAlignment="Center" />
-        </ContentPage>
-        <ContentPage Header="Page 2">
-          <TextBlock Text="Second page" HorizontalAlignment="Center" VerticalAlignment="Center" />
-        </ContentPage>
-      </CarouselPage>
+
+      <!-- Written once as a template; each pane clones it. The theme defines no state hooks, so a single default instance is the fullest honest view -->
+      <prototype:LightDarkPreview Title="CarouselPage States" Orientation="Vertical">
+        <DataTemplate>
+          <CarouselPage Width="360" Height="200">
+            <ContentPage Header="Page 1">
+              <TextBlock Text="First page" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            </ContentPage>
+            <ContentPage Header="Page 2">
+              <TextBlock Text="Second page" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            </ContentPage>
+          </CarouselPage>
+        </DataTemplate>
+      </prototype:LightDarkPreview>
+
     </Border>
   </Design.PreviewWith>
 

@@ -6,19 +6,99 @@
         xmlns:colour="using:AngelSix.ThemeEngine.Colours"
         xmlns:size="using:AngelSix.ThemeEngine.Sizes">
   <Design.PreviewWith>
-    <Border Width="400" Height="400">
+    <Border>
       <Border.Styles>
         <prototype:PrototypeTheme />
       </Border.Styles>
-      <SplitView DisplayMode="Inline"
-                 IsPaneOpen="True">
-        <SplitView.Pane>
-          <Border Background="Green" />
-        </SplitView.Pane>
-        <SplitView.Content>
-          <Border Background="Blue" />
-        </SplitView.Content>
-      </SplitView>
+
+      <!-- Config matrix written once; each pane instantiates its own copy. States are driven by the real DPs the theme consumes (placement/display/open/light-dismiss), not Preview.State. -->
+      <prototype:LightDarkPreview Title="SplitView States" Orientation="Horizontal">
+        <DataTemplate>
+          <!-- StackPanel has no Padding property in Avalonia 12; spacing alone separates the cases -->
+          <StackPanel Orientation="Vertical" Spacing="14">
+
+            <!-- Canonical left drawer: reserved column, open width pushing content aside -->
+            <StackPanel Orientation="Vertical" Spacing="4">
+              <TextBlock Text="Left · Inline · Open" FontSize="11" Opacity="0.7" />
+              <SplitView Height="96" PanePlacement="Left" DisplayMode="Inline" IsPaneOpen="True">
+                <SplitView.Pane>
+                  <TextBlock Text="NAV" FontWeight="Bold" FontSize="12" Margin="10,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
+                </SplitView.Pane>
+                <SplitView.Content>
+                  <TextBlock Text="Main content" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                </SplitView.Content>
+              </SplitView>
+            </StackPanel>
+
+            <!-- Overlay floats the pane over full-width content; pairing it with light-dismiss exercises the scrim branch in one instance -->
+            <StackPanel Orientation="Vertical" Spacing="4">
+              <TextBlock Text="Left · Overlay · Open · LightDismiss" FontSize="11" Opacity="0.7" />
+              <SplitView Height="96" PanePlacement="Left" DisplayMode="Overlay" IsPaneOpen="True" UseLightDismissOverlayMode="True">
+                <SplitView.Pane>
+                  <TextBlock Text="NAV" FontWeight="Bold" FontSize="12" Margin="10,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
+                </SplitView.Pane>
+                <SplitView.Content>
+                  <TextBlock Text="Main content" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                </SplitView.Content>
+              </SplitView>
+            </StackPanel>
+
+            <!-- Collapsed strip: closed width, content reclaiming the freed column -->
+            <StackPanel Orientation="Vertical" Spacing="4">
+              <TextBlock Text="Left · Closed" FontSize="11" Opacity="0.7" />
+              <SplitView Height="96" PanePlacement="Left" DisplayMode="Inline" IsPaneOpen="False">
+                <SplitView.Pane>
+                  <TextBlock Text="NAV" FontWeight="Bold" FontSize="12" Margin="10,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
+                </SplitView.Pane>
+                <SplitView.Content>
+                  <TextBlock Text="Main content" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                </SplitView.Content>
+              </SplitView>
+            </StackPanel>
+
+            <!-- Mirrored right-edge template -->
+            <StackPanel Orientation="Vertical" Spacing="4">
+              <TextBlock Text="Right · Inline · Open" FontSize="11" Opacity="0.7" />
+              <SplitView Height="96" PanePlacement="Right" DisplayMode="Inline" IsPaneOpen="True">
+                <SplitView.Pane>
+                  <TextBlock Text="NAV" FontWeight="Bold" FontSize="12" Margin="0,10,10,0" HorizontalAlignment="Right" VerticalAlignment="Top" />
+                </SplitView.Pane>
+                <SplitView.Content>
+                  <TextBlock Text="Main content" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                </SplitView.Content>
+              </SplitView>
+            </StackPanel>
+
+            <!-- Top-edge template: horizontal bar reserving a row above content -->
+            <StackPanel Orientation="Vertical" Spacing="4">
+              <TextBlock Text="Top · Inline · Open" FontSize="11" Opacity="0.7" />
+              <SplitView Height="96" PanePlacement="Top" DisplayMode="Inline" IsPaneOpen="True">
+                <SplitView.Pane>
+                  <TextBlock Text="NAV BAR" FontWeight="Bold" FontSize="12" Margin="10,6,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
+                </SplitView.Pane>
+                <SplitView.Content>
+                  <TextBlock Text="Main content" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                </SplitView.Content>
+              </SplitView>
+            </StackPanel>
+
+            <!-- Bottom-edge template: horizontal bar reserving a row below content -->
+            <StackPanel Orientation="Vertical" Spacing="4">
+              <TextBlock Text="Bottom · Inline · Open" FontSize="11" Opacity="0.7" />
+              <SplitView Height="96" PanePlacement="Bottom" DisplayMode="Inline" IsPaneOpen="True">
+                <SplitView.Pane>
+                  <TextBlock Text="NAV BAR" FontWeight="Bold" FontSize="12" Margin="10,0,0,6" HorizontalAlignment="Left" VerticalAlignment="Bottom" />
+                </SplitView.Pane>
+                <SplitView.Content>
+                  <TextBlock Text="Main content" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                </SplitView.Content>
+              </SplitView>
+            </StackPanel>
+
+          </StackPanel>
+        </DataTemplate>
+      </prototype:LightDarkPreview>
+
     </Border>
   </Design.PreviewWith>
 

@@ -6,34 +6,34 @@
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes"
                     xmlns:icons="using:AngelSix.ThemeEngine.Icons">
   <Design.PreviewWith>
-    <Border Padding="20">
+    <Border>
       <Border.Styles>
         <prototype:PrototypeTheme />
       </Border.Styles>
 
-      <StackPanel Spacing="20">
-        <Label Content="CheckBox States" />
-        <StackPanel Orientation="Horizontal" Spacing="20">
-          <CheckBox>Unchecked</CheckBox>
-          <CheckBox theme:Preview.State="Hover" IsChecked="True">Hover</CheckBox>
-          <CheckBox theme:Preview.State="Pressed" IsChecked="True">Pressed</CheckBox>
-          <CheckBox theme:Preview.State="Focused" IsChecked="True">Focused</CheckBox>
-          <CheckBox IsChecked="True" IsEnabled="False">Disabled</CheckBox>
-        </StackPanel>
-        <Label Content="Accent States" />
-        <StackPanel Orientation="Horizontal" Spacing="20">
-          <CheckBox theme:Accent.Kind="Primary" IsChecked="True">Default</CheckBox>
-          <CheckBox theme:Preview.State="Hover" theme:Accent.Kind="Primary" IsChecked="True">Hover</CheckBox>
-          <CheckBox theme:Preview.State="Pressed" theme:Accent.Kind="Primary" IsChecked="True">Pressed</CheckBox>
-          <CheckBox theme:Preview.State="Focused" theme:Accent.Kind="Primary" IsChecked="True">Focused</CheckBox>
-          <CheckBox theme:Accent.Kind="Primary" IsChecked="True" IsEnabled="False">Disabled</CheckBox>
-        </StackPanel>
-        <Label Content="Indeterminate" />
-        <StackPanel Orientation="Horizontal" Spacing="20">
-          <CheckBox IsThreeState="True" IsChecked="{x:Null}">Default</CheckBox>
-          <CheckBox theme:Accent.Kind="Primary" IsThreeState="True" IsChecked="{x:Null}">Accent</CheckBox>
-        </StackPanel>
-      </StackPanel>
+      <!-- Written once as a template: each pane instantiates its own copy -->
+      <prototype:LightDarkPreview Title="CheckBox States" Orientation="Horizontal">
+        <DataTemplate>
+          <StackPanel Spacing="16">
+            <!-- Interaction states ride on a checked box so the tick shows alongside each effect; the theme has no :error selector -->
+            <StackPanel Orientation="Horizontal" Spacing="20">
+              <CheckBox>Unchecked</CheckBox>
+              <CheckBox IsChecked="True">Checked</CheckBox>
+              <CheckBox theme:Preview.State="Hover" IsChecked="True">Hover</CheckBox>
+              <CheckBox theme:Preview.State="Pressed" IsChecked="True">Pressed</CheckBox>
+              <CheckBox theme:Preview.State="Focused" IsChecked="True">Focused</CheckBox>
+              <CheckBox IsChecked="True" IsEnabled="False">Disabled</CheckBox>
+            </StackPanel>
+            <!-- Hues tint the AccentBrush-driven fill and borders; the tick stays AccentPrimary, so combine hues with states instead of repeating rows -->
+            <StackPanel Orientation="Horizontal" Spacing="20">
+              <CheckBox IsThreeState="True" IsChecked="{x:Null}">Indeterminate</CheckBox>
+              <CheckBox theme:Accent.Kind="Warning" IsChecked="True">Warning Checked</CheckBox>
+              <CheckBox theme:Accent.Kind="Success" theme:Preview.State="Focused" IsChecked="True">Success + Focused</CheckBox>
+              <CheckBox theme:Accent.Kind="Warning" IsChecked="True" IsEnabled="False">Warning Disabled</CheckBox>
+            </StackPanel>
+          </StackPanel>
+        </DataTemplate>
+      </prototype:LightDarkPreview>
     </Border>
   </Design.PreviewWith>
 

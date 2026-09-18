@@ -7,24 +7,31 @@
         xmlns:size="using:AngelSix.ThemeEngine.Sizes"
         xmlns:icons="using:AngelSix.ThemeEngine.Icons">
   <Design.PreviewWith>
-    <Border Padding="20" Height="500">
+    <Border>
       <Border.Styles>
         <prototype:PrototypeTheme />
       </Border.Styles>
-      <StackPanel Spacing="20" VerticalAlignment="Center">
-        <TimePicker />
-        <TimePicker CornerRadius="10" />
-        <TimePicker IsEnabled="False"/>
-        <TimePicker>
-          <DataValidationErrors.Error>
-            <sys:Exception>
-              <x:Arguments>
-                <x:String>Error</x:String>
-              </x:Arguments>
-            </sys:Exception>
-          </DataValidationErrors.Error>
-        </TimePicker>
-      </StackPanel>
+
+      <!-- Rendered once per pane so light and dark each instantiate their own copies -->
+      <prototype:LightDarkPreview Title="TimePicker States" Orientation="Vertical">
+        <DataTemplate>
+          <!-- Only the states the theme actually styles: default, no-time watermark, disabled, error -->
+          <StackPanel Orientation="Horizontal" Spacing="20">
+            <TimePicker SelectedTime="14:30" />
+            <TimePicker />
+            <TimePicker SelectedTime="14:30" IsEnabled="False" />
+            <TimePicker SelectedTime="14:30">
+              <DataValidationErrors.Error>
+                <sys:Exception>
+                  <x:Arguments>
+                    <x:String>Error</x:String>
+                  </x:Arguments>
+                </sys:Exception>
+              </DataValidationErrors.Error>
+            </TimePicker>
+          </StackPanel>
+        </DataTemplate>
+      </prototype:LightDarkPreview>
     </Border>
   </Design.PreviewWith>
 

@@ -8,48 +8,51 @@
                     xmlns:converters="using:Avalonia.Controls.Converters">
 
   <Design.PreviewWith>
-    <Border Padding="20">
+    <Border>
       <Border.Styles>
         <prototype:PrototypeTheme />
       </Border.Styles>
-      <StackPanel Orientation="Vertical" Spacing="20" Width="350" Height="600">
-        <Expander ExpandDirection="Up" Header="Expand Up">
-          <StackPanel>
-            <TextBlock>Expanded content</TextBlock>
+
+      <!-- Stacked groups: a flat row of six expanders exceeds half-pane width -->
+      <prototype:LightDarkPreview Title="Expander States" Orientation="Vertical">
+        <DataTemplate>
+          <StackPanel Orientation="Vertical" Spacing="20">
+            <!-- Default direction carries every interaction state; the theme defines no :focus selector -->
+            <StackPanel Orientation="Horizontal" Spacing="20">
+              <Expander Header="Collapsed">
+                <TextBlock>Content</TextBlock>
+              </Expander>
+              <Expander Header="Expanded" IsExpanded="True">
+                <TextBlock>Content</TextBlock>
+              </Expander>
+              <Expander Header="Hover" theme:Preview.State="Hover">
+                <TextBlock>Content</TextBlock>
+              </Expander>
+              <Expander Header="Pressed" theme:Preview.State="Pressed">
+                <TextBlock>Content</TextBlock>
+              </Expander>
+              <Expander Header="Disabled" IsEnabled="False">
+                <TextBlock>Content</TextBlock>
+              </Expander>
+              <Expander Header="Success Expanded" IsExpanded="True" theme:Accent.Kind="Success">
+                <TextBlock>Content</TextBlock>
+              </Expander>
+            </StackPanel>
+            <!-- Remaining directions fold in the second hue and a state composition -->
+            <StackPanel Orientation="Horizontal" Spacing="20">
+              <Expander ExpandDirection="Up" Header="Up Collapsed" theme:Accent.Kind="Warning">
+                <TextBlock>Content</TextBlock>
+              </Expander>
+              <Expander ExpandDirection="Left" Header="Left Expanded" IsExpanded="True">
+                <TextBlock>Content</TextBlock>
+              </Expander>
+              <Expander ExpandDirection="Right" Header="Right Hover" theme:Preview.State="Hover">
+                <TextBlock>Content</TextBlock>
+              </Expander>
+            </StackPanel>
           </StackPanel>
-        </Expander>
-        <Expander ExpandDirection="Down" Header="Expand Down">
-          <StackPanel>
-            <TextBlock>Expanded content</TextBlock>
-          </StackPanel>
-        </Expander>
-        <Expander ExpandDirection="Left" Header="Expand Left">
-          <StackPanel>
-            <TextBlock>Expanded content</TextBlock>
-          </StackPanel>
-        </Expander>
-        <Expander ExpandDirection="Right" Header="Expand Right">
-          <StackPanel>
-            <TextBlock>Expanded content</TextBlock>
-          </StackPanel>
-        </Expander>
-        <Expander ExpandDirection="Up">
-          <Expander.Header>
-            <Grid ColumnDefinitions="*, Auto">
-              <TextBlock Grid.Column="0" Text="Control" />
-              <TextBlock Grid.Column="1" Text="Header" />
-            </Grid>
-          </Expander.Header>
-          <StackPanel>
-            <TextBlock>Expanded content</TextBlock>
-          </StackPanel>
-        </Expander>
-        <Expander ExpandDirection="Up" Header="Rounded" CornerRadius="25">
-          <StackPanel>
-            <TextBlock>Expanded content</TextBlock>
-          </StackPanel>
-        </Expander>
-      </StackPanel>
+        </DataTemplate>
+      </prototype:LightDarkPreview>
     </Border>
   </Design.PreviewWith>
 
@@ -157,32 +160,32 @@
     </Style>
 
     <!-- Hover state -->
-    <Style Selector="^:pointerover /template/ Border#ToggleButtonBackground">
+    <Style Selector="^:pointerover /template/ Border#ToggleButtonBackground, ^[(theme|Preview.State)=Hover] /template/ Border#ToggleButtonBackground">
       <Setter Property="Background" Value="{colour:BackgroundDefaultBrush}" />
       <Setter Property="BorderBrush" Value="{colour:OverlayWeakBrush}" />
     </Style>
-    <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+    <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter, ^[(theme|Preview.State)=Hover] /template/ ContentPresenter#PART_ContentPresenter">
     </Style>
-    <Style Selector="^:pointerover /template/ Border#ExpandCollapseChevronBorder">
+    <Style Selector="^:pointerover /template/ Border#ExpandCollapseChevronBorder, ^[(theme|Preview.State)=Hover] /template/ Border#ExpandCollapseChevronBorder">
       <Setter Property="Background" Value="{colour:AccentBrush Dark1}" />
       <Setter Property="BorderBrush" Value="Transparent" />
     </Style>
-    <Style Selector="^:pointerover /template/ Path#ExpandCollapseChevron">
+    <Style Selector="^:pointerover /template/ Path#ExpandCollapseChevron, ^[(theme|Preview.State)=Hover] /template/ Path#ExpandCollapseChevron">
       <Setter Property="Stroke" Value="{colour:AccentBrush Dark1}" />
     </Style>
 
     <!-- Pressed state -->
-    <Style Selector="^:pressed /template/ Border#ToggleButtonBackground">
+    <Style Selector="^:pressed /template/ Border#ToggleButtonBackground, ^[(theme|Preview.State)=Pressed] /template/ Border#ToggleButtonBackground">
       <Setter Property="Background" Value="{colour:BackgroundDefaultBrush}" />
       <Setter Property="BorderBrush" Value="{colour:OverlayWeakBrush}" />
     </Style>
-    <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter">
+    <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter, ^[(theme|Preview.State)=Pressed] /template/ ContentPresenter#PART_ContentPresenter">
     </Style>
-    <Style Selector="^:pressed /template/ Border#ExpandCollapseChevronBorder">
+    <Style Selector="^:pressed /template/ Border#ExpandCollapseChevronBorder, ^[(theme|Preview.State)=Pressed] /template/ Border#ExpandCollapseChevronBorder">
       <Setter Property="Background" Value="Transparent" />
       <Setter Property="BorderBrush" Value="Transparent" />
     </Style>
-    <Style Selector="^:pressed /template/ Path#ExpandCollapseChevron">
+    <Style Selector="^:pressed /template/ Path#ExpandCollapseChevron, ^[(theme|Preview.State)=Pressed] /template/ Path#ExpandCollapseChevron">
       <Setter Property="Stroke" Value="{colour:AccentBrush Dark1}" />
     </Style>
 

@@ -5,21 +5,31 @@
                     xmlns:colour="using:AngelSix.ThemeEngine.Colours"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes">
   <Design.PreviewWith>
-    <Border Padding="20">
+    <Border>
       <Border.Styles>
         <prototype:PrototypeTheme />
       </Border.Styles>
 
-      <StackPanel Spacing="20">
-        <Label Content="HyperlinkButton States" />
-        <StackPanel Orientation="Horizontal" Spacing="20">
-          <HyperlinkButton Content="Default" />
-          <HyperlinkButton theme:Preview.State="Hover" Content="Hover" />
-          <HyperlinkButton theme:Preview.State="Pressed" Content="Pressed" />
-          <HyperlinkButton theme:Preview.State="Focused" Content="Focused" />
-          <HyperlinkButton Content="Disabled" IsEnabled="False" />
-        </StackPanel>
-      </StackPanel>
+      <!-- Shared content written once; each pane instantiates its own copy -->
+      <prototype:LightDarkPreview Title="HyperlinkButton States" Orientation="Vertical">
+        <DataTemplate>
+          <StackPanel Spacing="16">
+            <!-- Core states: the theme forces only Hover/Pressed/Focused via Preview.State -->
+            <StackPanel Orientation="Horizontal" Spacing="20">
+              <HyperlinkButton Content="Default" />
+              <HyperlinkButton theme:Preview.State="Hover" Content="Hover" />
+              <HyperlinkButton theme:Preview.State="Pressed" Content="Pressed" />
+              <HyperlinkButton theme:Preview.State="Focused" Content="Focused" />
+              <HyperlinkButton Content="Disabled" IsEnabled="False" />
+            </StackPanel>
+            <!-- Accents resolve generically through the accent brushes, paired with states to save instances -->
+            <StackPanel Orientation="Horizontal" Spacing="20">
+              <HyperlinkButton theme:Accent.Kind="Warning" theme:Preview.State="Hover" Content="Warning · Hover" />
+              <HyperlinkButton theme:Accent.Kind="Success" theme:Preview.State="Focused" Content="Success · Focused" />
+            </StackPanel>
+          </StackPanel>
+        </DataTemplate>
+      </prototype:LightDarkPreview>
     </Border>
   </Design.PreviewWith>
 

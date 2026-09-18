@@ -6,16 +6,26 @@
     xmlns:colour="using:AngelSix.ThemeEngine.Colours"
     xmlns:size="using:AngelSix.ThemeEngine.Sizes">
   <Design.PreviewWith>
-    <Border Padding="20">
+    <Border>
       <Border.Styles>
         <prototype:PrototypeTheme />
       </Border.Styles>
 
-      <StackPanel Spacing="20">
-        <TabStripItem>Leaf</TabStripItem>
-        <TabStripItem IsSelected="True">Arch</TabStripItem>
-        <TabStripItem Background="Yellow">Background</TabStripItem>
-      </StackPanel>
+      <!-- Shared state column written once as a template; each pane instantiates its own copy -->
+      <prototype:LightDarkPreview Title="TabStripItem States" Orientation="Vertical">
+        <DataTemplate>
+          <StackPanel Orientation="Vertical" Spacing="16">
+            <TabStripItem>Unselected</TabStripItem>
+            <TabStripItem IsSelected="True">Selected</TabStripItem>
+            <TabStripItem theme:Preview.State="Hover">Hover</TabStripItem>
+            <TabStripItem IsSelected="True" theme:Preview.State="Hover">Selected · Hover</TabStripItem>
+            <TabStripItem theme:Preview.State="Pressed">Pressed</TabStripItem>
+            <TabStripItem IsEnabled="False">Disabled</TabStripItem>
+            <TabStripItem theme:Accent.Kind="Warning">Warning</TabStripItem>
+            <TabStripItem IsSelected="True" theme:Accent.Kind="Success">Success · Selected</TabStripItem>
+          </StackPanel>
+        </DataTemplate>
+      </prototype:LightDarkPreview>
     </Border>
   </Design.PreviewWith>
 
@@ -79,25 +89,25 @@
     </Style>
 
     <!--  PointerOver state  -->
-    <Style Selector="^:pointerover /template/ Border#PART_LayoutRoot">
+    <Style Selector="^:pointerover /template/ Border#PART_LayoutRoot, ^[(theme|Preview.State)=Hover] /template/ Border#PART_LayoutRoot">
       <Setter Property="Background" Value="Transparent" />
       <Setter Property="TextElement.Foreground" Value="{colour:AccentBrush Light2}" />
     </Style>
 
     <!--  Selected PointerOver state  -->
-    <Style Selector="^:selected:pointerover /template/ Border#PART_LayoutRoot">
+    <Style Selector="^:selected:pointerover /template/ Border#PART_LayoutRoot, ^:selected[(theme|Preview.State)=Hover] /template/ Border#PART_LayoutRoot">
       <Setter Property="Background" Value="Transparent" />
       <Setter Property="TextElement.Foreground" Value="{colour:AccentBrush Light2}" />
     </Style>
 
     <!--  Pressed state  -->
-    <Style Selector="^:pressed /template/ Border#PART_LayoutRoot">
+    <Style Selector="^:pressed /template/ Border#PART_LayoutRoot, ^[(theme|Preview.State)=Pressed] /template/ Border#PART_LayoutRoot">
       <Setter Property="Background" Value="Transparent" />
       <Setter Property="TextElement.Foreground" Value="{colour:AccentBrush Light2}" />
     </Style>
 
     <!--  Selected Pressed state  -->
-    <Style Selector="^:selected:pressed /template/ Border#PART_LayoutRoot">
+    <Style Selector="^:selected:pressed /template/ Border#PART_LayoutRoot, ^:selected[(theme|Preview.State)=Pressed] /template/ Border#PART_LayoutRoot">
       <Setter Property="Background" Value="Transparent" />
       <Setter Property="TextElement.Foreground" Value="{colour:AccentBrush Light2}" />
     </Style>

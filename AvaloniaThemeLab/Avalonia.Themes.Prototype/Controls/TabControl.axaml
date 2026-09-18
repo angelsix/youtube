@@ -10,17 +10,43 @@
         <prototype:PrototypeTheme />
       </Border.Styles>
 
-      <TabControl>
-        <TabItem Header="Arch">
-          <Border Background="{colour:OverlayWeakBrush}" Height="100">
-            <TextBlock Text="Content" Foreground="{colour:AccentBrush Dark1}" FontSize="{size:FontSizeMd}" />
-          </Border>
-        </TabItem>
-        <TabItem Header="Leaf">
-          <Border Background="{colour:AccentSuccessBrush}" Height="100" />
-        </TabItem>
-        <TabItem Header="Disabled" IsEnabled="False" />
-      </TabControl>
+      <!-- Written once as a template: each pane (light + dark) instantiates its own copy -->
+      <prototype:LightDarkPreview Title="TabControl States" Orientation="Vertical">
+        <DataTemplate>
+          <StackPanel Spacing="20">
+            <!-- Every state and accent hue composed into one strip; the selected tab feeds the page below -->
+            <TabControl>
+              <TabItem Header="Home" IsSelected="True">
+                <Border Background="{colour:OverlayWeakBrush}" Height="90" CornerRadius="{size:RadiusSm}">
+                  <TextBlock Text="Selected page content" Foreground="{colour:TextDefaultBrush}"
+                             FontSize="{size:FontSizeMd}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                </Border>
+              </TabItem>
+              <TabItem Header="Hover" theme:Preview.State="Hover" theme:Accent.Kind="Warning" />
+              <TabItem Header="Pressed" theme:Preview.State="Pressed" theme:Accent.Kind="Success" />
+              <!-- The theme defines no :focus selector for tabs, so Focused renders identically to Rest -->
+              <TabItem Header="Off" IsEnabled="False" />
+              <TabItem Header="Rest" />
+            </TabControl>
+
+            <!-- Left and Right mirror the vertical-strip layout; Bottom shares Top's geometry so it is omitted -->
+            <StackPanel Orientation="Horizontal" Spacing="20">
+              <TabControl TabStripPlacement="Left" Height="120">
+                <TabItem Header="A" IsSelected="True">
+                  <TextBlock Text="Page A" Foreground="{colour:TextDefaultBrush}" />
+                </TabItem>
+                <TabItem Header="B" />
+              </TabControl>
+              <TabControl TabStripPlacement="Right" Height="120">
+                <TabItem Header="C" IsSelected="True">
+                  <TextBlock Text="Page C" Foreground="{colour:TextDefaultBrush}" />
+                </TabItem>
+                <TabItem Header="D" />
+              </TabControl>
+            </StackPanel>
+          </StackPanel>
+        </DataTemplate>
+      </prototype:LightDarkPreview>
     </Border>
   </Design.PreviewWith>
 

@@ -12,39 +12,15 @@
         <prototype:PrototypeTheme />
       </Border.Styles>
 
-      <StackPanel Orientation="Horizontal">
-        <!-- Light -->
-        <Border Padding="20" Background="{colour:SurfaceDefaultBrush}">
+      <!-- Shared state list, written once: each pane instantiates its own copy -->
+      <prototype:LightDarkPreview Title="TextBox States">
+        <DataTemplate>
           <StackPanel Spacing="10">
-            <Label Content="TextBox States - Light" />
-            <TextBox Text="Default Textbox" />
-            <TextBox theme:Preview.State="Hover" Text="Hover" />
-            <TextBox theme:Preview.State="Focused" Text="Focused" />
-            <TextBox Text="Error">
-              <DataValidationErrors.Error>
-                <sys:Exception><x:Arguments><x:String>Error</x:String></x:Arguments></sys:Exception>
-              </DataValidationErrors.Error>
-            </TextBox>
-            <TextBox IsEnabled="False" Text="Disabled" />
-            <TextBox IsReadOnly="True" Text="Read only" />
-            <TextBox AcceptsReturn="True" TextWrapping="Wrap" Text="Multiline&#x0a;second line" />
-            <TextBox TextAlignment="Center" Text="Center aligned" />
-            <TextBox PlaceholderText="Empty with placeholder" />
-            <TextBox PlaceholderText="Floating placeholder" UseFloatingPlaceholder="True" />
-            <TextBox PlaceholderText="Floating placeholder" UseFloatingPlaceholder="True" Text="Floated over content" />
-            <TextBox Classes="clearButton" Text="Clear button" />
-            <TextBox PasswordChar="*" Classes="revealPasswordButton" Text="Hidden password" />
-            <TextBox PasswordChar="*" Classes="revealPasswordButton" RevealPassword="True" Text="Revealed password" />
-          </StackPanel>
-        </Border>
-
-        <!-- Dark -->
-        <Border Padding="20" theme:ThemeRegion.IsDark="True" Background="{colour:SurfaceDefaultBrush}">
-          <StackPanel Spacing="10">
-            <Label Content="TextBox States - Dark" />
             <TextBox Text="Default" />
             <TextBox theme:Preview.State="Hover" Text="Hover" />
             <TextBox theme:Preview.State="Focused" Text="Focused" />
+            <!-- Hue inherits down, so one instance proves both accent and focus together -->
+            <TextBox theme:Accent.Kind="Warning" theme:Preview.State="Focused" Text="Accent focused" />
             <TextBox Text="Error">
               <DataValidationErrors.Error>
                 <sys:Exception><x:Arguments><x:String>Error</x:String></x:Arguments></sys:Exception>
@@ -61,8 +37,8 @@
             <TextBox PasswordChar="*" Classes="revealPasswordButton" Text="Hidden password" />
             <TextBox PasswordChar="*" Classes="revealPasswordButton" RevealPassword="True" Text="Revealed password" />
           </StackPanel>
-        </Border>
-      </StackPanel>
+        </DataTemplate>
+      </prototype:LightDarkPreview>
     </Border>
   </Design.PreviewWith>
 
@@ -113,7 +89,8 @@
             <TextBlock Grid.Row="0"
                        Name="PART_FloatingPlaceholder"
                        Foreground="{TemplateBinding PlaceholderForeground}"
-                       Margin="{size:Edges Bottom={size:SpacingSm}}"
+                       Margin="{size:Edges All={size:SpacingMd}}"
+                       FontSize="{size:FontSizeSm}"
                        IsVisible="False"
                        Text="{TemplateBinding PlaceholderText}" />
 

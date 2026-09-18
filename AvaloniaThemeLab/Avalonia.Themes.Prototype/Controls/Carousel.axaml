@@ -5,15 +5,31 @@
                     xmlns:colour="using:AngelSix.ThemeEngine.Colours"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes">
   <Design.PreviewWith>
-    <Border Padding="20">
+    <Border>
       <Border.Styles>
         <prototype:PrototypeTheme />
       </Border.Styles>
 
-      <StackPanel Spacing="20">
-        <Label Content="Carousel" />
-        <Carousel />
-      </StackPanel>
+      <!-- Written once as a template; each pane clones it. Vertical so the paired carousels span full pane width; the theme only branches on ^:disabled -->
+      <prototype:LightDarkPreview Title="Carousel States" Orientation="Vertical">
+        <DataTemplate>
+          <StackPanel Orientation="Horizontal" Spacing="20">
+            <!-- Enabled: three slides reveal the clipped viewport and page-slide affordance -->
+            <Carousel Width="340" Height="160">
+              <Border Margin="8"><Label Content="Slide 1" HorizontalAlignment="Center" VerticalAlignment="Center" /></Border>
+              <Border Margin="8"><Label Content="Slide 2" HorizontalAlignment="Center" VerticalAlignment="Center" /></Border>
+              <Border Margin="8"><Label Content="Slide 3" HorizontalAlignment="Center" VerticalAlignment="Center" /></Border>
+            </Carousel>
+            <!-- Disabled: exercises the theme's lone state hook (^:disabled -> DisabledOpacity) -->
+            <Carousel Width="340" Height="160" IsEnabled="False">
+              <Border Margin="8"><Label Content="Slide 1" HorizontalAlignment="Center" VerticalAlignment="Center" /></Border>
+              <Border Margin="8"><Label Content="Slide 2" HorizontalAlignment="Center" VerticalAlignment="Center" /></Border>
+              <Border Margin="8"><Label Content="Slide 3" HorizontalAlignment="Center" VerticalAlignment="Center" /></Border>
+            </Carousel>
+          </StackPanel>
+        </DataTemplate>
+      </prototype:LightDarkPreview>
+
     </Border>
   </Design.PreviewWith>
 
