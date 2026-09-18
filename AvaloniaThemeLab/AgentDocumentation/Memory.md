@@ -2,6 +2,28 @@
 
 Durable, cross-session facts. Session-by-session detail lives in `Sessions/`.
 
+## Paint tokens: American spelling + the three-way `Brush`-suffix rule (post 1.18.0)
+
+The engine went American in **AngelSix.ThemeEngine 1.18.0** (breaking): paint namespace is now
+`AngelSix.ThemeEngine.Colors`, prefix `{color:...}`, attribute `[ColorRamp]`. The British forms
+(`Colours` / `colour:` / `[ColourRamp]`) no longer resolve at all. Lab consumes via nuget.org only
+(NuGet.config pins it), so an engine change needs a published version before the lab can build.
+
+**Do NOT strip `Brush` from every paint token.** The bare vs suffixed split is per-family, and
+`ShorthandSafetyTests` (in the Tests project) pins all three behaviours so a blind widen fails the build:
+- **Roles** (`TextDefault`, `BackgroundDefault`, `BorderDefault`, `HoverBackgroundDefault`,
+  `PressedBackgroundDefault`, `DimTextDefault`, `HoverTextDefault`): the bare extension omits the
+  `PropertySuffix` override and inherits the base `"Brush"`, so `{color:X}` reads the SAME `…Brush`
+  member as `{color:XBrush}` — a pure alias. **Bare form is the house style; the suffixed form is banned.**
+- **Plain tokens** (`AccentPrimary`, `SurfaceDefault`, `NeutralDark1`, …): the bare form reads the
+  `Color` member — a *different type*. In an `IBrush` slot the renderer throws
+  `InvalidCastException: Color → IBrush` (verified against the live pipeline). **Keep the suffix there**;
+  the bare form belongs only in `Color` slots (`GradientStop.Color`, `SolidColorBrush.Color`).
+- **Overlays** (`OverlayWeakBrush`, …): emit no bare form at all — keep the suffix everywhere.
+
+Net: "bare by default where a bare form exists and the slot accepts it; `Brush` survives only where
+load-bearing." Codified in ThemeRules.md (§ Shorthand + § Spelling-is-American callout).
+
 ## Architecture: themes own appearance, packages ship types only
 
 The Prototype theme (`Avalonia.Themes.Prototype`) styles controls; it does **not** define them.
