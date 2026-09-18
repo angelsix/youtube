@@ -299,9 +299,17 @@ When you find any hard-coded colour value, apply this test **before** deciding w
 
 ## Rule 8: Section Comments Should Say What the Section Is, Not What It Does
 
-**Statement:** Every logical section of a control XAML file — visual defaults, template, state styles, class styles — should have a brief label comment stating what it is. The comment names the section so glancing down the file you can navigate: "hover state", "pressed state", "accent class", "template". Do NOT explain what the styles inside do — the XAML already says that. Do NOT explain why something works — save that for the one element that genuinely needs it (e.g. a workaround rectangle).
+**Statement:** Every logical section of a control XAML file — visual defaults, template, state styles, class styles, sub-themes — should have a brief label comment stating **what the thing is**, not where it lives or what kind of node it is. The comment describes the section's *role*: "Header & Arrows", "Spinner buttons", "Hover state", "Pressed state", "Accent class", "Template". Glancing down the file you can navigate by role alone.
 
-**Justification:** A file of 20 style blocks with no section labels forces the reader to parse every selector to find the block they want. Short labels like "Hover state" or "Accent class" act as headings, making the file scannable. But restating the implementation ("hides solid border, shows dashed overlay") is fragile — if you change the implementation the comment is now wrong, and it adds no value because the implementation is already visible in the setters beneath it.
+Three things are banned from a label comment:
+
+1. **The node kind.** Never lead with "ControlTheme:", "Sub-theme:", "Style:", "Setter:" — the tag on the next line already says what kind of node this is. `<!-- ControlTheme: {x:Type Button} -->` carries zero information the markup doesn't.
+2. **The type/class name.** Never restate the target type or key — `{x:Type Button}`, `TargetType="Button"`, `x:Key="PrototypeCalendarViewNavButton"` all sit on the very next line. Restating them is location, not meaning.
+3. **What the styles inside do.** The XAML already says that; see below.
+
+So `<!-- ControlTheme: PrototypeCalendarViewNavButton (header and arrows) -->` becomes `<!-- Header & Arrows -->`: drop the kind, drop the name, keep the parenthetical that actually tells you what the block is for.
+
+**Justification:** A file of 20 style blocks with no section labels forces the reader to parse every selector to find the block they want. Short role labels like "Header & Arrows" or "Hover state" act as headings, making the file scannable. But a label that restates the node kind or the target type is pure noise — both are visible on the adjacent line, so the comment adds length without adding navigation value. And restating the implementation ("hides solid border, shows dashed overlay") is fragile: if you change the implementation the comment is now wrong, and it adds no value because the implementation is already visible in the setters beneath it.
 
 **Pattern:**
 ```xml
@@ -311,12 +319,16 @@ When you find any hard-coded colour value, apply this test **before** deciding w
 <!-- Hover state -->
 <Style Selector="^:pointerover"> ... </Style>
 
-<!-- Accent class -->
-<Style Selector="^:pointerover"> ... </Style>
+<!-- Header & Arrows -->
+<ControlTheme x:Key="PrototypeCalendarViewNavButton" TargetType="Button"> ... </ControlTheme>
 ```
 
 **Not:**
 ```xml
+<!-- Bad: restates the node kind AND the type name — both on the next line -->
+<!-- ControlTheme: {x:Type Button} -->
+<ControlTheme x:Key="{x:Type Button}" TargetType="Button"> ... </ControlTheme>
+
 <!-- Bad: explains what the style does (redundant — read the setters) -->
 <!-- Hides the solid border and reveals a dashed overlay -->
 <Style Selector="^:pointerover"> ... </Style>
