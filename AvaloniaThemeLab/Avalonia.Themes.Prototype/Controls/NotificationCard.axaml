@@ -2,7 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
-                    xmlns:colour="using:AngelSix.ThemeEngine.Colours"
+                    xmlns:color="using:AngelSix.ThemeEngine.Colors"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes">
   <Design.PreviewWith>
     <Border>
@@ -30,8 +30,8 @@
     <Setter Property="Width" Value="{size:SurfaceWidthMd}"/>
     <Setter Property="RenderTransformOrigin" Value="50%,75%"/>
     <Setter Property="BorderThickness" Value="0" />
-    <Setter Property="Background" Value="{colour:BackgroundDefaultBrush}" />
-    <Setter Property="Foreground" Value="{colour:TextDefaultBrush}" />
+    <Setter Property="Background" Value="{color:BackgroundDefault}" />
+    <Setter Property="Foreground" Value="{color:TextDefault}" />
     <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
     <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
@@ -56,9 +56,9 @@
                       BorderThickness="{TemplateBinding BorderThickness}"
                       CornerRadius="{TemplateBinding CornerRadius}"
                       ClipToBounds="True">
-                <!-- Docks the coloured bar beside the message -->
+                <!-- Docks the colored bar beside the message -->
                 <DockPanel>
-                  <!-- Colour bar marking the notification type -->
+                  <!-- Color bar marking the notification type -->
                   <Panel x:Name="PART_HeaderBar" DockPanel.Dock="Top" />
                   <!-- The notification's message -->
                   <ContentPresenter Name="PART_ContentPresenter" Content="{TemplateBinding Content}" />
@@ -121,21 +121,21 @@
     </Style>
 
     <Style Selector="^:information /template/ Panel#PART_HeaderBar">
-      <Setter Property="Background" Value="{colour:AccentInfoBrush}"/>
+      <Setter Property="Background" Value="{color:AccentInfoBrush}"/>
     </Style>
     <Style Selector="^:success /template/ Panel#PART_HeaderBar">
-      <Setter Property="Background" Value="{colour:AccentSuccessBrush}"/>
+      <Setter Property="Background" Value="{color:AccentSuccessBrush}"/>
     </Style>
     <Style Selector="^:warning /template/ Panel#PART_HeaderBar">
-      <Setter Property="Background" Value="{colour:AccentWarningBrush}"/>
+      <Setter Property="Background" Value="{color:AccentWarningBrush}"/>
     </Style>
     <Style Selector="^:error /template/ Panel#PART_HeaderBar">
-      <Setter Property="Background" Value="{colour:AccentErrorBrush}"/>
+      <Setter Property="Background" Value="{color:AccentErrorBrush}"/>
     </Style>
 
     <!-- Shadow border (elevation behind card) -->
     <Style Selector="^ /template/ Border#PART_ShadowBorder">
-      <Setter Property="Background" Value="{colour:OverlayMediumBrush}" />
+      <Setter Property="Background" Value="{color:OverlayMediumBrush}" />
       <Setter Property="Margin" Value="{size:Edges Left={size:SpacingLg}, Top={size:SpacingLg}, Right={size:SpacingLg}, Bottom={size:SpacingXxl}}" />
     </Style>
 
@@ -147,7 +147,7 @@
     <!-- Header bar default (height and neutral background) -->
     <Style Selector="^ /template/ Panel#PART_HeaderBar">
       <Setter Property="Height" Value="{size:ThicknessXxl}" />
-      <Setter Property="Background" Value="{colour:AccentBrush Light2}" />
+      <Setter Property="Background" Value="{color:AccentBrush Light2}" />
     </Style>
 
     <!-- Content presenter minimum height -->

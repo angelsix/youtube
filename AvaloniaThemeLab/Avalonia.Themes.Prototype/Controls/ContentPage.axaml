@@ -2,7 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
-                    xmlns:colour="using:AngelSix.ThemeEngine.Colours">
+                    xmlns:color="using:AngelSix.ThemeEngine.Colors">
   <Design.PreviewWith>
     <Border>
       <Border.Styles>
@@ -30,8 +30,8 @@
   <ControlTheme x:Key="{x:Type ContentPage}" TargetType="ContentPage">
 
     <!-- Visual defaults -->
-    <Setter Property="Background" Value="{colour:BackgroundDefaultBrush}" />
-    <Setter Property="Foreground" Value="{colour:TextDefaultBrush}" />
+    <Setter Property="Background" Value="{color:BackgroundDefault}" />
+    <Setter Property="Foreground" Value="{color:TextDefault}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
     <Setter Property="VerticalAlignment" Value="{theme:ContainerVerticalAlignment}" />
     <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />

@@ -2,7 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
-                    xmlns:colour="using:AngelSix.ThemeEngine.Colours"
+                    xmlns:color="using:AngelSix.ThemeEngine.Colors"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes">
   <Design.PreviewWith>
     <Border>
@@ -19,7 +19,7 @@
             <ComboBoxItem IsSelected="True">Selected</ComboBoxItem>
             <ComboBoxItem IsEnabled="False">Disabled</ComboBoxItem>
             <ComboBoxItem IsSelected="True" IsEnabled="False">Selected · Disabled</ComboBoxItem>
-            <!-- Non-default accent hues ride the generic {colour:AccentPrimaryBrush} selected fill -->
+            <!-- Non-default accent hues ride the generic {color:AccentPrimaryBrush} selected fill -->
             <ComboBoxItem IsSelected="True" theme:Accent.Kind="Warning">Warn</ComboBoxItem>
             <ComboBoxItem IsSelected="True" theme:Accent.Kind="Success">Success</ComboBoxItem>
           </StackPanel>
@@ -36,7 +36,7 @@
 
     <!-- Visual defaults -->
     <Setter Property="Background" Value="Transparent" />
-    <Setter Property="Foreground" Value="{colour:TextDefaultBrush}" />
+    <Setter Property="Foreground" Value="{color:TextDefault}" />
     <Setter Property="BorderBrush" Value="Transparent" />
     <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
     <Setter Property="CornerRadius" Value="{size:RadiusMd}" />
@@ -67,13 +67,13 @@
 
     <!-- PointerOver state -->
     <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="Background" Value="{colour:HoverBackgroundDefaultBrush}" />
+      <Setter Property="Background" Value="{color:HoverBackgroundDefault}" />
       <Setter Property="BorderBrush" Value="Transparent" />
     </Style>
 
     <!-- Pressed state -->
     <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="Background" Value="{colour:PressedBackgroundDefaultBrush}" />
+      <Setter Property="Background" Value="{color:PressedBackgroundDefault}" />
       <Setter Property="BorderBrush" Value="Transparent" />
     </Style>
 
@@ -81,12 +81,12 @@
     <Style Selector="^:disabled /template/ ContentPresenter#PART_ContentPresenter">
       <Setter Property="Background" Value="Transparent" />
       <Setter Property="BorderBrush" Value="Transparent" />
-      <Setter Property="Foreground" Value="{colour:DimTextDefaultBrush}" />
+      <Setter Property="Foreground" Value="{color:DimTextDefault}" />
     </Style>
 
     <!-- Focus state -->
     <Style Selector="^:focus-visible /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="BorderBrush" Value="{colour:AccentFocusBrush}" />
+      <Setter Property="BorderBrush" Value="{color:AccentFocusBrush}" />
       <Setter Property="BorderThickness" Value="{size:ThicknessMd}" />
     </Style>
 
@@ -95,19 +95,19 @@
 
       <!-- Selected default -->
       <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
-        <Setter Property="Background" Value="{colour:AccentPrimaryBrush}" />
+        <Setter Property="Background" Value="{color:AccentPrimaryBrush}" />
         <Setter Property="BorderBrush" Value="Transparent" />
       </Style>
 
       <!-- Selected PointerOver state -->
       <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
-        <Setter Property="Background" Value="{colour:AccentPrimaryBrush}" />
+        <Setter Property="Background" Value="{color:AccentPrimaryBrush}" />
         <Setter Property="BorderBrush" Value="Transparent" />
       </Style>
 
       <!-- Selected Pressed state -->
       <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter">
-        <Setter Property="Background" Value="{colour:AccentPrimaryBrush}" />
+        <Setter Property="Background" Value="{color:AccentPrimaryBrush}" />
         <Setter Property="BorderBrush" Value="Transparent" />
       </Style>
 
@@ -115,7 +115,7 @@
       <Style Selector="^:disabled /template/ ContentPresenter#PART_ContentPresenter">
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="BorderBrush" Value="Transparent" />
-        <Setter Property="Foreground" Value="{colour:DimTextDefaultBrush}" />
+        <Setter Property="Foreground" Value="{color:DimTextDefault}" />
       </Style>
     </Style>
 

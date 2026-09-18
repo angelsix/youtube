@@ -2,7 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
-                    xmlns:colour="using:AngelSix.ThemeEngine.Colours"
+                    xmlns:color="using:AngelSix.ThemeEngine.Colors"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes">
   <Design.PreviewWith>
     <Border>
@@ -34,16 +34,16 @@
   <!-- Backgrounds -->
   <SolidColorBrush x:Key="TabbedPageTabItemHeaderBackgroundUnselected" Color="Transparent" />
   <SolidColorBrush x:Key="TabbedPageTabItemHeaderBackgroundSelected" Color="Transparent" />
-  <SolidColorBrush x:Key="TabbedPageTabItemHeaderBackgroundUnselectedPointerOver" Color="{colour:AccentNeutral}" />
+  <SolidColorBrush x:Key="TabbedPageTabItemHeaderBackgroundUnselectedPointerOver" Color="{color:AccentNeutral}" />
   <SolidColorBrush x:Key="TabbedPageTabItemHeaderBackgroundSelectedPointerOver" Color="Transparent" />
-  <SolidColorBrush x:Key="TabbedPageTabItemHeaderBackgroundUnselectedPressed" Color="{colour:AccentNeutral}" />
+  <SolidColorBrush x:Key="TabbedPageTabItemHeaderBackgroundUnselectedPressed" Color="{color:AccentNeutral}" />
   <SolidColorBrush x:Key="TabbedPageTabItemHeaderBackgroundSelectedPressed" Color="Transparent" />
   <SolidColorBrush x:Key="TabbedPageTabItemHeaderBackgroundDisabled" Color="Transparent" />
 
   <!-- Foregrounds: override via the TabbedPageTabItemHeaderForeground resources -->
-  <SolidColorBrush x:Key="TabbedPageTabItemHeaderForegroundUnselected" Color="{colour:AccentNeutral}" />
-  <SolidColorBrush x:Key="TabbedPageTabItemHeaderForegroundSelected" Color="{colour:AccentPrimary}" />
-  <SolidColorBrush x:Key="TabbedPageTabItemHeaderForegroundDisabled" Color="{colour:AccentNeutral}" />
+  <SolidColorBrush x:Key="TabbedPageTabItemHeaderForegroundUnselected" Color="{color:AccentNeutral}" />
+  <SolidColorBrush x:Key="TabbedPageTabItemHeaderForegroundSelected" Color="{color:AccentPrimary}" />
+  <SolidColorBrush x:Key="TabbedPageTabItemHeaderForegroundDisabled" Color="{color:AccentNeutral}" />
 
 
   <!-- Tab item sizing & shape -->
@@ -252,7 +252,7 @@
 
     <!-- Focus visible -->
     <Style Selector="^:focus-visible /template/ Border#PART_LayoutRoot">
-      <Setter Property="BorderBrush" Value="{colour:AccentBrush Dark1}" />
+      <Setter Property="BorderBrush" Value="{color:AccentBrush Dark1}" />
       <Setter Property="BorderThickness" Value="{size:ThicknessMd}" />
     </Style>
 
@@ -270,8 +270,8 @@
   </ControlTheme>
 
   <ControlTheme x:Key="{x:Type TabbedPage}" TargetType="TabbedPage">
-    <Setter Property="Background" Value="{colour:BackgroundDefaultBrush}" />
-    <Setter Property="Foreground" Value="{colour:TextDefaultBrush}" />
+    <Setter Property="Background" Value="{color:BackgroundDefault}" />
+    <Setter Property="Foreground" Value="{color:TextDefault}" />
     <Setter Property="Template">
       <ControlTemplate>
         <!-- Layout root for the tabbed page -->

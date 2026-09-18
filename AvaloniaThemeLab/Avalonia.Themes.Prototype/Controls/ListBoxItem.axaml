@@ -2,7 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
-                    xmlns:colour="using:AngelSix.ThemeEngine.Colours"
+                    xmlns:color="using:AngelSix.ThemeEngine.Colors"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes">
   <Design.PreviewWith>
     <Border>
@@ -19,7 +19,7 @@
             <ListBoxItem>Default</ListBoxItem>
             <!-- :selected -> accent-primary fill (same brush focused or not) -->
             <ListBoxItem IsSelected="True">Selected</ListBoxItem>
-            <!-- Same rule resolving {colour:AccentPrimaryBrush} under a non-default accent kind -->
+            <!-- Same rule resolving {color:AccentPrimaryBrush} under a non-default accent kind -->
             <ListBoxItem IsSelected="True" theme:Accent.Kind="Success">Selected + Success</ListBoxItem>
             <!-- :disabled -> dimmed foreground -->
             <ListBoxItem IsEnabled="False">Disabled</ListBoxItem>
@@ -38,7 +38,7 @@
 
     <!-- Visual defaults -->
     <Setter Property="Background" Value="Transparent" />
-    <Setter Property="Foreground" Value="{colour:TextDefaultBrush}" />
+    <Setter Property="Foreground" Value="{color:TextDefault}" />
     <Setter Property="BorderBrush" Value="Transparent" />
     <Setter Property="BorderThickness" Value="0" />
     <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
@@ -69,22 +69,22 @@
 
     <!-- Hover state -->
     <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="Background" Value="{colour:HoverBackgroundDefaultBrush}" />
+      <Setter Property="Background" Value="{color:HoverBackgroundDefault}" />
     </Style>
 
     <!-- Pressed state -->
     <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="Background" Value="{colour:PressedBackgroundDefaultBrush}" />
+      <Setter Property="Background" Value="{color:PressedBackgroundDefault}" />
     </Style>
 
     <!-- Disabled state -->
     <Style Selector="^:disabled /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="Foreground" Value="{colour:DimTextDefaultBrush}" />
+      <Setter Property="Foreground" Value="{color:DimTextDefault}" />
     </Style>
 
     <!-- Focus state -->
     <Style Selector="^:focus-visible">
-      <Setter Property="BorderBrush" Value="{colour:AccentFocusBrush}" />
+      <Setter Property="BorderBrush" Value="{color:AccentFocusBrush}" />
       <Setter Property="BorderThickness" Value="{size:ThicknessMd}" />
     </Style>
 
@@ -92,22 +92,22 @@
     <Style Selector="^:selected">
 
       <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
-        <Setter Property="Background" Value="{colour:AccentPrimaryBrush}" />
+        <Setter Property="Background" Value="{color:AccentPrimaryBrush}" />
       </Style>
 
       <!-- Selected unfocused state -->
       <Style Selector="^:not(:focus) /template/ ContentPresenter#PART_ContentPresenter">
-        <Setter Property="Background" Value="{colour:AccentPrimaryBrush}" />
+        <Setter Property="Background" Value="{color:AccentPrimaryBrush}" />
       </Style>
 
       <!-- Selected hover state -->
       <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
-        <Setter Property="Background" Value="{colour:AccentPrimaryBrush}" />
+        <Setter Property="Background" Value="{color:AccentPrimaryBrush}" />
       </Style>
 
       <!-- Selected pressed state -->
       <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter">
-        <Setter Property="Background" Value="{colour:AccentPrimaryBrush}" />
+        <Setter Property="Background" Value="{color:AccentPrimaryBrush}" />
       </Style>
     </Style>
 

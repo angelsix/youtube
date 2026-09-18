@@ -3,7 +3,7 @@
                     xmlns:sys="using:System"
                     xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
-                    xmlns:colour="using:AngelSix.ThemeEngine.Colours"
+                    xmlns:color="using:AngelSix.ThemeEngine.Colors"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes"
                     xmlns:icons="using:AngelSix.ThemeEngine.Icons">
   <Design.PreviewWith>
@@ -60,11 +60,11 @@
   <ControlTheme x:Key="{x:Type TextBox}" TargetType="TextBox">
     <!-- Visual defaults -->
     <Setter Property="Background" Value="Transparent" />
-    <Setter Property="Foreground" Value="{colour:TextDefaultBrush}" />
-    <Setter Property="CaretBrush" Value="{colour:AccentBrush Dark1}" />
-    <Setter Property="BorderBrush" Value="{colour:BorderDefaultBrush}" />
-    <Setter Property="SelectionBrush" Value="{colour:AccentPrimaryBrush}" />
-    <Setter Property="PlaceholderForeground" Value="{colour:DimTextDefaultBrush}" />
+    <Setter Property="Foreground" Value="{color:TextDefault}" />
+    <Setter Property="CaretBrush" Value="{color:AccentBrush Dark1}" />
+    <Setter Property="BorderBrush" Value="{color:BorderDefault}" />
+    <Setter Property="SelectionBrush" Value="{color:AccentPrimaryBrush}" />
+    <Setter Property="PlaceholderForeground" Value="{color:DimTextDefault}" />
     <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
     <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
     <Setter Property="MinHeight" Value="{size:ControlHeightSm}" />
@@ -187,30 +187,30 @@
     <!-- Hover state: house outlined-field fill across the whole frame -->
     <Style Selector="^:pointerover, ^[(theme|Preview.State)=Hover]">
       <Style Selector="^ /template/ Border#PART_BorderElement">
-        <Setter Property="Background" Value="{colour:HoverBackgroundDefaultBrush}" />
+        <Setter Property="Background" Value="{color:HoverBackgroundDefault}" />
       </Style>
     </Style>
 
     <!-- Disabled state -->
     <Style Selector="^:disabled">
-      <Setter Property="Foreground" Value="{colour:DimTextDefaultBrush}" />
+      <Setter Property="Foreground" Value="{color:DimTextDefault}" />
 
       <Style Selector="^ /template/ Border#PART_BorderElement">
-        <Setter Property="Background" Value="{colour:OverlayWeakBrush}" />
-        <Setter Property="BorderBrush" Value="{colour:OverlayWeakBrush}" />
+        <Setter Property="Background" Value="{color:OverlayWeakBrush}" />
+        <Setter Property="BorderBrush" Value="{color:OverlayWeakBrush}" />
       </Style>
     </Style>
 
     <!-- Focus state: accent outline at constant thickness — no fill repaint, no growth -->
     <Style Selector="^:focus, ^[(theme|Preview.State)=Focused]">
       <Style Selector="^ /template/ Border#PART_BorderElement">
-        <Setter Property="BorderBrush" Value="{colour:AccentFocusBrush}" />
+        <Setter Property="BorderBrush" Value="{color:AccentFocusBrush}" />
       </Style>
     </Style>
 
     <!-- Error state -->
     <Style Selector="^:error /template/ Border#PART_BorderElement">
-      <Setter Property="BorderBrush" Value="{colour:AccentErrorBrush}"/>
+      <Setter Property="BorderBrush" Value="{color:AccentErrorBrush}"/>
     </Style>
 
     <!-- Touch mode -->

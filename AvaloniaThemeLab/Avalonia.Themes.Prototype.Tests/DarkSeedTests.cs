@@ -5,9 +5,9 @@ using Avalonia.Media;
 namespace Avalonia.Themes.Prototype.Tests;
 
 /// <summary>
-/// Proves the ColourRamp DarkSeed contract on the surface hue: the canvas token is the paper seed
+/// Proves the ColorRamp DarkSeed contract on the surface hue: the canvas token is the paper seed
 /// in the light palette and exactly the DarkSeed literal in the dark palette, and the whole dark
-/// ramp re-centres on that literal rather than mirroring the paper seed. The expected colours are
+/// ramp re-centres on that literal rather than mirroring the paper seed. The expected colors are
 /// read off the attribute so retuning the seed never breaks these tests.
 /// </summary>
 public class DarkSeedTests
@@ -15,7 +15,7 @@ public class DarkSeedTests
     private static Color DeclaredDarkSeed()
     {
         var attribute = typeof(DefaultTheme).GetProperty(nameof(DefaultTheme.AccentSurface))!
-            .GetCustomAttribute<ColourRampAttribute>()!;
+            .GetCustomAttribute<ColorRampAttribute>()!;
         return Color.Parse(attribute.DarkSeed);
     }
 
@@ -45,8 +45,8 @@ public class DarkSeedTests
     [Fact]
     public void Dark_ramp_recentres_on_the_dark_seed()
     {
-        // Both seeds are greys, so "is the stage coloured?" cannot tell the two ramps apart — it
-        // only worked while the DarkSeed happened to be a colour. What still separates a ramp that
+        // Both seeds are greys, so "is the stage colored?" cannot tell the two ramps apart — it
+        // only worked while the DarkSeed happened to be a color. What still separates a ramp that
         // re-centres from one mirroring the paper seed is where its stages sit, so measure that:
         // every dark stage must land nearer the DarkSeed than the paper seed, and vice versa.
         var paperSeed = new DefaultTheme().AccentSurface;
@@ -65,7 +65,7 @@ public class DarkSeedTests
     }
 
     /// <summary>
-    /// Channel-sum distance between two colours. Crude on purpose: the ramps here are far enough
+    /// Channel-sum distance between two colors. Crude on purpose: the ramps here are far enough
     /// apart that anything more elaborate would only obscure what the assertion is claiming.
     /// </summary>
     private static int Distance(Color a, Color b)

@@ -2,7 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
-                    xmlns:colour="using:AngelSix.ThemeEngine.Colours"
+                    xmlns:color="using:AngelSix.ThemeEngine.Colors"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes">
   <Design.PreviewWith>
     <Border>
@@ -16,11 +16,11 @@
           <TabStrip>
             <!-- Baseline: DimTextDefault label, no pipe -->
             <TabStripItem>Plain</TabStripItem>
-            <!-- :selected reveals the accent-coloured pipe under the label -->
+            <!-- :selected reveals the accent-colored pipe under the label -->
             <TabStripItem IsSelected="True">Selected</TabStripItem>
             <!-- :disabled recolors the label to the accent Light2 tint, like the hover/pressed branches -->
             <TabStripItem IsEnabled="False">Disabled</TabStripItem>
-            <!-- Non-default hues: the pipe resolves {colour:AccentPrimaryBrush} against each item's Accent.Kind -->
+            <!-- Non-default hues: the pipe resolves {color:AccentPrimaryBrush} against each item's Accent.Kind -->
             <TabStripItem IsSelected="True" theme:Accent.Kind="Warning">Warn</TabStripItem>
             <TabStripItem IsSelected="True" theme:Accent.Kind="Success">Ok</TabStripItem>
           </TabStrip>
@@ -36,9 +36,9 @@
   <ControlTheme x:Key="{x:Type TabStrip}" TargetType="TabStrip">
 
     <!-- Visual defaults -->
-    <Setter Property="Background" Value="{colour:BackgroundDefaultBrush}" />
-    <Setter Property="Foreground" Value="{colour:TextDefaultBrush}" />
-    <Setter Property="BorderBrush" Value="{colour:AccentBrush Dark1}" />
+    <Setter Property="Background" Value="{color:BackgroundDefault}" />
+    <Setter Property="Foreground" Value="{color:TextDefault}" />
+    <Setter Property="BorderBrush" Value="{color:AccentBrush Dark1}" />
     <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
     <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
     <Setter Property="Padding" Value="{size:SpacingSm}" />

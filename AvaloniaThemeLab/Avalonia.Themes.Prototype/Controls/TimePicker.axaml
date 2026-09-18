@@ -3,7 +3,7 @@
         xmlns:sys="using:System"
         xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
         xmlns:theme="using:AngelSix.ThemeEngine.Generated"
-        xmlns:colour="using:AngelSix.ThemeEngine.Colours"
+        xmlns:color="using:AngelSix.ThemeEngine.Colors"
         xmlns:size="using:AngelSix.ThemeEngine.Sizes"
         xmlns:icons="using:AngelSix.ThemeEngine.Icons">
   <Design.PreviewWith>
@@ -65,23 +65,23 @@
 
     <!-- Pressed template state -->
     <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="Background" Value="{colour:PressedBackgroundDefaultBrush}"/>
-      <Setter Property="Foreground" Value="{colour:TextDefaultBrush}"/>
+      <Setter Property="Background" Value="{color:PressedBackgroundDefault}"/>
+      <Setter Property="Foreground" Value="{color:TextDefault}"/>
     </Style>
 
     <!-- Disabled template state -->
     <Style Selector="^:disabled /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="BorderBrush" Value="{colour:BorderDefaultBrush}"/>
-      <Setter Property="Background" Value="{colour:OverlayWeakBrush}"/>
-      <Setter Property="Foreground" Value="{colour:DimTextDefaultBrush}"/>
+      <Setter Property="BorderBrush" Value="{color:BorderDefault}"/>
+      <Setter Property="Background" Value="{color:OverlayWeakBrush}"/>
+      <Setter Property="Foreground" Value="{color:DimTextDefault}"/>
     </Style>
   </ControlTheme>
 
   <!-- Main TimePicker theme -->
   <ControlTheme x:Key="{x:Type TimePicker}" TargetType="TimePicker">
     <!-- Visual defaults -->
-    <Setter Property="Background" Value="{colour:BackgroundDefaultBrush}" />
-    <Setter Property="BorderBrush" Value="{colour:BorderDefaultBrush}" />
+    <Setter Property="Background" Value="{color:BackgroundDefault}" />
+    <Setter Property="BorderBrush" Value="{color:BorderDefault}" />
     <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
     <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
     <Setter Property="Padding" Value="{size:Edges Horizontal={size:SpacingMd}, Vertical={size:SpacingMd}}" />
@@ -190,17 +190,17 @@
 
     <!-- Disabled state -->
     <Style Selector="^:disabled /template/ Rectangle">
-      <Setter Property="Fill" Value="{colour:OverlayWeakBrush}"/>
+      <Setter Property="Fill" Value="{color:OverlayWeakBrush}"/>
     </Style>
 
     <!-- Watermark state -->
     <Style Selector="^:hasnotime /template/ Button#PART_FlyoutButton TextBlock">
-      <Setter Property="Foreground" Value="{colour:DimTextDefaultBrush}"/>
+      <Setter Property="Foreground" Value="{color:DimTextDefault}"/>
     </Style>
 
     <!-- Error state -->
     <Style Selector="^:error /template/ Button#PART_FlyoutButton">
-      <Setter Property="BorderBrush" Value="{colour:AccentErrorBrush}"/>
+      <Setter Property="BorderBrush" Value="{color:AccentErrorBrush}"/>
     </Style>
 
     <!-- Themed properties moved out of ControlTemplate -->
@@ -213,7 +213,7 @@
     <Style Selector="^ /template/ Rectangle#PART_FirstColumnDivider,
            ^ /template/ Rectangle#PART_SecondColumnDivider,
            ^ /template/ Rectangle#PART_ThirdColumnDivider">
-      <Setter Property="Fill" Value="{colour:OverlayWeakBrush}" />
+      <Setter Property="Fill" Value="{color:OverlayWeakBrush}" />
       <Setter Property="Width" Value="{size:BaseSize}" />
     </Style>
   </ControlTheme>
@@ -222,9 +222,9 @@
   <ControlTheme x:Key="{x:Type TimePickerPresenter}" TargetType="TimePickerPresenter">
     <!-- Visual defaults -->
 
-    <Setter Property="Background" Value="{colour:BackgroundDefaultBrush}" />
-    <Setter Property="Foreground" Value="{colour:TextDefaultBrush}" />
-    <Setter Property="BorderBrush" Value="{colour:BorderDefaultBrush}" />
+    <Setter Property="Background" Value="{color:BackgroundDefault}" />
+    <Setter Property="Foreground" Value="{color:TextDefault}" />
+    <Setter Property="BorderBrush" Value="{color:BorderDefault}" />
     <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
     <Setter Property="CornerRadius" Value="{size:RadiusMd}" />
 
@@ -378,18 +378,18 @@
       <Setter Property="ItemHeight" Value="{size:ControlHeightMd}" />
     </Style>
     <Style Selector="^ /template/ Rectangle#HighlightRect">
-      <Setter Property="Fill" Value="{colour:AccentPrimaryBrush}" />
+      <Setter Property="Fill" Value="{color:AccentPrimaryBrush}" />
       <Setter Property="Height" Value="{size:ControlHeightMd}" />
     </Style>
     <Style Selector="^ /template/ Rectangle#PART_FirstSpacer,
            ^ /template/ Rectangle#PART_SecondSpacer,
            ^ /template/ Rectangle#PART_ThirdSpacer">
-      <Setter Property="Fill" Value="{colour:OverlayWeakBrush}" />
+      <Setter Property="Fill" Value="{color:OverlayWeakBrush}" />
       <Setter Property="Width" Value="{size:BaseSize}" />
     </Style>
     <Style Selector="^ /template/ Rectangle#PART_TopDivider">
       <Setter Property="Height" Value="{size:BaseSize}" />
-      <Setter Property="Fill" Value="{colour:OverlayWeakBrush}" />
+      <Setter Property="Fill" Value="{color:OverlayWeakBrush}" />
     </Style>
     <Style Selector="^ /template/ Button#PART_AcceptButton,
            ^ /template/ Button#PART_DismissButton">

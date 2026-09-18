@@ -2,7 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:p="clr-namespace:Avalonia.Themes.Prototype"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
-                    xmlns:colour="using:AngelSix.ThemeEngine.Colours">
+                    xmlns:color="using:AngelSix.ThemeEngine.Colors">
   <!-- Two identical panes, the second flipped into a dark region; each presents an independent
        instantiation of the caller's template -->
   <ControlTheme x:Key="{x:Type p:LightDarkPreview}" TargetType="p:LightDarkPreview">
@@ -10,7 +10,7 @@
       <ControlTemplate>
         <StackPanel Orientation="{Binding Orientation, RelativeSource={RelativeSource FindAncestor, AncestorType=p:LightDarkPreview}}">
           <!-- Light -->
-          <Border Padding="20" Background="{colour:SurfaceDefaultBrush}">
+          <Border Padding="20" Background="{color:SurfaceDefaultBrush}">
             <StackPanel Spacing="10">
               <Label Content="{Binding Title, RelativeSource={RelativeSource FindAncestor, AncestorType=p:LightDarkPreview}, StringFormat='{}{0} - Light'}" />
               <ContentControl ContentTemplate="{Binding PaneContentTemplate, RelativeSource={RelativeSource FindAncestor, AncestorType=p:LightDarkPreview}}" />
@@ -18,7 +18,7 @@
           </Border>
 
           <!-- Dark -->
-          <Border Padding="20" theme:ThemeRegion.IsDark="True" Background="{colour:SurfaceDefaultBrush}">
+          <Border Padding="20" theme:ThemeRegion.IsDark="True" Background="{color:SurfaceDefaultBrush}">
             <StackPanel Spacing="10">
               <Label Content="{Binding Title, RelativeSource={RelativeSource FindAncestor, AncestorType=p:LightDarkPreview}, StringFormat='{}{0} - Dark'}" />
               <ContentControl ContentTemplate="{Binding PaneContentTemplate, RelativeSource={RelativeSource FindAncestor, AncestorType=p:LightDarkPreview}}" />

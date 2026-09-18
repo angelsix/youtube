@@ -3,7 +3,7 @@
                     xmlns:sys="using:System"
                     xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
-                    xmlns:colour="using:AngelSix.ThemeEngine.Colours"
+                    xmlns:color="using:AngelSix.ThemeEngine.Colors"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes"
                     xmlns:icons="using:AngelSix.ThemeEngine.Icons">
   <Design.PreviewWith>
@@ -84,7 +84,7 @@
       </ControlTemplate>
     </Setter>
 
-    <!-- Pressed state: colours set by the ButtonSpinner theme -->
+    <!-- Pressed state: colors set by the ButtonSpinner theme -->
     <Style Selector="^:pressed">
       <Setter Property="RenderTransform" Value="{theme:TransformScale Value={size:PressedScale}}" />
     </Style>
@@ -102,9 +102,9 @@
 
     <!-- Visual defaults -->
     <Setter Property="Padding" Value="{size:Edges Horizontal={size:SpacingXl}}" />
-    <Setter Property="Background" Value="{colour:BackgroundDefaultBrush}" />
-    <Setter Property="Foreground" Value="{colour:TextDefaultBrush}" />
-    <Setter Property="BorderBrush" Value="{colour:BorderDefaultBrush}" />
+    <Setter Property="Background" Value="{color:BackgroundDefault}" />
+    <Setter Property="Foreground" Value="{color:TextDefault}" />
+    <Setter Property="BorderBrush" Value="{color:BorderDefault}" />
     <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
     <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
     <Setter Property="MinHeight" Value="{size:ControlHeightSm}" />
@@ -192,25 +192,25 @@
 
     <!-- Hover state: on the buttons, not the Border (IsPointerOver quirk) -->
     <Style Selector="^ /template/ RepeatButton:pointerover:not(:disabled)">
-      <Setter Property="Background" Value="{colour:HoverBackgroundDefaultBrush}" />
-      <Setter Property="Foreground" Value="{colour:HoverTextDefaultBrush}" />
+      <Setter Property="Background" Value="{color:HoverBackgroundDefault}" />
+      <Setter Property="Foreground" Value="{color:HoverTextDefault}" />
     </Style>
 
     <!-- Hover content area -->
     <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter:pointerover,
                      ^[(theme|Preview.State)=Hover] /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="Background" Value="{colour:HoverBackgroundDefaultBrush}" />
-      <Setter Property="Foreground" Value="{colour:HoverTextDefaultBrush}" />
+      <Setter Property="Background" Value="{color:HoverBackgroundDefault}" />
+      <Setter Property="Foreground" Value="{color:HoverTextDefault}" />
     </Style>
 
     <!-- Pressed state -->
     <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter,
                      ^[(theme|Preview.State)=Pressed] /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="Background" Value="{colour:PressedBackgroundDefaultBrush}" />
+      <Setter Property="Background" Value="{color:PressedBackgroundDefault}" />
     </Style>
 
     <Style Selector="^ /template/ RepeatButton:pressed:not(:disabled)">
-      <Setter Property="Background" Value="{colour:PressedBackgroundDefaultBrush}" />
+      <Setter Property="Background" Value="{color:PressedBackgroundDefault}" />
     </Style>
 
     <!-- Disabled state -->
@@ -220,13 +220,13 @@
 
     <!-- Focus state -->
     <Style Selector="^:focus-visible /template/ Border">
-      <Setter Property="BorderBrush" Value="{colour:AccentFocusBrush}" />
+      <Setter Property="BorderBrush" Value="{color:AccentFocusBrush}" />
       <Setter Property="BorderThickness" Value="{size:ThicknessMd}" />
     </Style>
 
     <!-- Error state -->
     <Style Selector="^:error">
-      <Setter Property="BorderBrush" Value="{colour:AccentErrorBrush}" />
+      <Setter Property="BorderBrush" Value="{color:AccentErrorBrush}" />
     </Style>
     
     <!-- Accent class: hue-agnostic, resolves against the control's Accent.Kind -->

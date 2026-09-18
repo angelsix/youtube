@@ -2,13 +2,13 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
-                    xmlns:colour="using:AngelSix.ThemeEngine.Colours"
+                    xmlns:color="using:AngelSix.ThemeEngine.Colors"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes"
                     >
   <ControlTheme x:Key="{x:Type EmbeddableControlRoot}" TargetType="EmbeddableControlRoot">
-    <Setter Property="Foreground" Value="{colour:TextDefaultBrush}"/>
-    <Setter Property="Background" Value="{colour:BackgroundDefaultBrush}"/>
-    <Setter Property="TopLevel.SystemBarColor" Value="{colour:BackgroundDefaultBrush}"/>
+    <Setter Property="Foreground" Value="{color:TextDefault}"/>
+    <Setter Property="Background" Value="{color:BackgroundDefault}"/>
+    <Setter Property="TopLevel.SystemBarColor" Value="{color:BackgroundDefault}"/>
     <Setter Property="FontSize" Value="{size:FontSizeMd}"/>
     <Setter Property="FontFamily" Value="{theme:FontFamily}" />
     <Setter Property="FontWeight" Value="{theme:FontWeightRegular}" />

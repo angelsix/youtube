@@ -3,7 +3,7 @@
                     xmlns:converters="using:Avalonia.Controls.Converters"
                     xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
-                    xmlns:colour="using:AngelSix.ThemeEngine.Colours"
+                    xmlns:color="using:AngelSix.ThemeEngine.Colors"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes">
   <Design.PreviewWith>
     <Border>
@@ -50,8 +50,8 @@
   <ControlTheme x:Key="{x:Type ProgressBar}" TargetType="ProgressBar">
 
     <!-- Visual defaults -->
-    <Setter Property="Foreground" Value="{colour:AccentPrimaryBrush}" />
-    <Setter Property="Background" Value="{colour:AccentBrush Light8}" />
+    <Setter Property="Foreground" Value="{color:AccentPrimaryBrush}" />
+    <Setter Property="Background" Value="{color:AccentBrush Light8}" />
     <Setter Property="BorderBrush" Value="Transparent" />
     <Setter Property="BorderThickness" Value="0" />
     <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
@@ -131,7 +131,7 @@
       </ControlTemplate>
     </Setter>
 
-    <!-- Template: progress text colour -->
+    <!-- Template: progress text color -->
     <Style Selector="^ /template/ TextBlock">
     </Style>
 

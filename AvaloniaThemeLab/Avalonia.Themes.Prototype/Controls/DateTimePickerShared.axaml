@@ -2,7 +2,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
         xmlns:theme="using:AngelSix.ThemeEngine.Generated"
-        xmlns:colour="using:AngelSix.ThemeEngine.Colours"
+        xmlns:color="using:AngelSix.ThemeEngine.Colors"
         xmlns:size="using:AngelSix.ThemeEngine.Sizes"
         xmlns:icons="using:AngelSix.ThemeEngine.Icons">
   <Design.PreviewWith>
@@ -41,7 +41,7 @@
       </Style>
       <Style Selector="^/template/ ContentPresenter">
         <Setter Property="Background" Value="Transparent" />
-        <Setter Property="Foreground" Value="{colour:TextDefaultBrush}"/>
+        <Setter Property="Foreground" Value="{color:TextDefault}"/>
       </Style>
     </Style>
 
@@ -83,16 +83,16 @@
 
     <!-- Hover state -->
     <Style Selector="^:pointerover /template/ ContentPresenter">
-      <Setter Property="Background" Value="{colour:HoverBackgroundDefaultBrush}"/>
+      <Setter Property="Background" Value="{color:HoverBackgroundDefault}"/>
       <Setter Property="BorderBrush" Value="Transparent"/>
-      <Setter Property="Foreground" Value="{colour:TextDefaultBrush}"/>
+      <Setter Property="Foreground" Value="{color:TextDefault}"/>
     </Style>
 
     <!-- Pressed state -->
     <Style Selector="^:pressed /template/ ContentPresenter">
-      <Setter Property="Background" Value="{colour:PressedBackgroundDefaultBrush}"/>
+      <Setter Property="Background" Value="{color:PressedBackgroundDefault}"/>
       <Setter Property="BorderBrush" Value="Transparent"/>
-      <Setter Property="Foreground" Value="{colour:TextDefaultBrush}"/>
+      <Setter Property="Foreground" Value="{color:TextDefault}"/>
     </Style>
   </ControlTheme>
 
@@ -102,8 +102,8 @@
     <Setter Property="Height" Value="{size:ControlHeightSm}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
     <Setter Property="Focusable" Value="False" />
-    <Setter Property="Background" Value="{colour:BackgroundDefaultBrush}" />
-    <Setter Property="Foreground" Value="{colour:TextDefaultBrush}" />
+    <Setter Property="Background" Value="{color:BackgroundDefault}" />
+    <Setter Property="Foreground" Value="{color:TextDefault}" />
     <Setter Property="IsVisible" Value="False"/>
     <Setter Property="Content">
       <Template>
@@ -120,8 +120,8 @@
     <Setter Property="Height" Value="{size:ControlHeightSm}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
     <Setter Property="Focusable" Value="False" />
-    <Setter Property="Background" Value="{colour:BackgroundDefaultBrush}" />
-    <Setter Property="Foreground" Value="{colour:TextDefaultBrush}" />
+    <Setter Property="Background" Value="{color:BackgroundDefault}" />
+    <Setter Property="Foreground" Value="{color:TextDefault}" />
     <Setter Property="IsVisible" Value="False"/>
     <Setter Property="Content">
       <Template>

@@ -4,7 +4,7 @@
                     xmlns:collections="using:System.Collections"
                     xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
-                    xmlns:colour="using:AngelSix.ThemeEngine.Colours"
+                    xmlns:color="using:AngelSix.ThemeEngine.Colors"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes"
                     xmlns:icons="using:AngelSix.ThemeEngine.Icons">
   <Design.PreviewWith>
@@ -19,7 +19,7 @@
           <StackPanel Orientation="Horizontal" Spacing="32">
             <!-- Clean value: the wrapper renders nothing extra around healthy content -->
             <TextBox Text="Valid" Width="140" />
-            <!-- Single error: glyph + message in the error colour beneath the field -->
+            <!-- Single error: glyph + message in the error color beneath the field -->
             <TextBox Text="Invalid" Width="140">
               <DataValidationErrors.Error>
                 <sys:Exception>
@@ -81,7 +81,7 @@
       <Setter Property="Margin" Value="{size:Edges Top={size:SpacingMd}}" />
     </Style>
 
-    <!-- Error message: the glyph and the text of each error, in the error colour -->
+    <!-- Error message: the glyph and the text of each error, in the error color -->
     <Setter Property="ErrorTemplate">
       <DataTemplate>
         <ItemsControl ItemsSource="{Binding}"
@@ -89,7 +89,7 @@
                       Background="Transparent"
                       BorderThickness="0"
                       Padding="0"
-                      Foreground="{colour:AccentErrorBrush}">
+                      Foreground="{color:AccentErrorBrush}">
           <ItemsControl.ItemTemplate>
             <DataTemplate>
               <DockPanel LastChildFill="True">

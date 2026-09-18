@@ -3,7 +3,7 @@
                     xmlns:sys="using:System"
                     xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
-                    xmlns:colour="using:AngelSix.ThemeEngine.Colours"
+                    xmlns:color="using:AngelSix.ThemeEngine.Colors"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes">
   <Design.PreviewWith>
     <Border Margin="20" Width="400" Height="600">
@@ -124,9 +124,9 @@
   <ControlTheme x:Key="{x:Type Slider}" TargetType="Slider">
 
     <!-- Visual defaults -->
-    <Setter Property="Background" Value="{colour:AccentBrush Light2}" />
+    <Setter Property="Background" Value="{color:AccentBrush Light2}" />
     <Setter Property="BorderThickness" Value="0" />
-    <Setter Property="Foreground" Value="{colour:AccentPrimaryBrush}" />
+    <Setter Property="Foreground" Value="{color:AccentPrimaryBrush}" />
 
     <!-- Horizontal template -->
     <Style Selector="^:horizontal">
@@ -341,12 +341,12 @@
     <Style Selector="^ /template/ Thumb">
       <Setter Property="Width" Value="{size:IconSizeMd}" />
       <Setter Property="Height" Value="{size:IconSizeMd}" />
-      <Setter Property="Background" Value="{colour:AccentPrimaryBrush}" />
+      <Setter Property="Background" Value="{color:AccentPrimaryBrush}" />
       <Setter Property="CornerRadius" Value="{size:RadiusMd}" />
     </Style>
 
     <Style Selector="^ /template/ TickBar">
-      <Setter Property="Fill" Value="{colour:AccentBrush Light2}" />
+      <Setter Property="Fill" Value="{color:AccentBrush Light2}" />
     </Style>
 
     <Style Selector="^ /template/ TickBar#TopTickBar">
@@ -392,13 +392,13 @@
         <Setter Property="Background" Value="Transparent" />
       </Style>
       <Style Selector="^ /template/ RepeatButton#PART_IncreaseButton">
-        <Setter Property="Background" Value="{colour:AccentBrush Light2}" />
+        <Setter Property="Background" Value="{color:AccentBrush Light2}" />
       </Style>
       <Style Selector="^ /template/ RepeatButton#PART_DecreaseButton">
-        <Setter Property="Background" Value="{colour:AccentPrimaryBrush}" />
+        <Setter Property="Background" Value="{color:AccentPrimaryBrush}" />
       </Style>
       <Style Selector="^ /template/ Thumb">
-        <Setter Property="Background" Value="{colour:AccentBrush Light1}" />
+        <Setter Property="Background" Value="{color:AccentBrush Light1}" />
       </Style>
     </Style>
 
@@ -408,45 +408,45 @@
         <Setter Property="Background" Value="Transparent" />
       </Style>
       <Style Selector="^ /template/ RepeatButton#PART_DecreaseButton">
-        <Setter Property="Background" Value="{colour:AccentPrimaryBrush}" />
+        <Setter Property="Background" Value="{color:AccentPrimaryBrush}" />
       </Style>
       <Style Selector="^ /template/ RepeatButton#PART_IncreaseButton">
-        <Setter Property="Background" Value="{colour:AccentBrush Light2}" />
+        <Setter Property="Background" Value="{color:AccentBrush Light2}" />
       </Style>
       <Style Selector="^ /template/ Thumb">
-        <Setter Property="Background" Value="{colour:AccentBrush Dark1}" />
+        <Setter Property="Background" Value="{color:AccentBrush Dark1}" />
       </Style>
     </Style>
 
     <!-- Disabled state -->
     <Style Selector="^:disabled">
       <Style Selector="^ /template/ RepeatButton#PART_DecreaseButton">
-        <Setter Property="Background" Value="{colour:AccentBrush Light2}" />
+        <Setter Property="Background" Value="{color:AccentBrush Light2}" />
       </Style>
       <Style Selector="^ /template/ RepeatButton#PART_IncreaseButton">
-        <Setter Property="Background" Value="{colour:AccentBrush Light2}" />
+        <Setter Property="Background" Value="{color:AccentBrush Light2}" />
       </Style>
       <Style Selector="^ /template/ Thumb">
-        <Setter Property="Background" Value="{colour:AccentBrush Light2}" />
+        <Setter Property="Background" Value="{color:AccentBrush Light2}" />
       </Style>
       <Style Selector="^ /template/ TickBar">
-        <Setter Property="Fill" Value="{colour:AccentBrush Light2}" />
+        <Setter Property="Fill" Value="{color:AccentBrush Light2}" />
       </Style>
     </Style>
 
     <!-- Focus state -->
     <Style Selector="^:focus-visible">
       <Style Selector="^ /template/ Thumb">
-        <Setter Property="BorderBrush" Value="{colour:AccentFocusBrush}" />
+        <Setter Property="BorderBrush" Value="{color:AccentFocusBrush}" />
         <Setter Property="BorderThickness" Value="{size:ThicknessMd}" />
       </Style>
     </Style>
 
     <!-- Error state -->
     <Style Selector="^:error">
-      <Setter Property="Foreground" Value="{colour:AccentErrorBrush}" />
+      <Setter Property="Foreground" Value="{color:AccentErrorBrush}" />
       <Style Selector="^ /template/ Thumb">
-        <Setter Property="Background" Value="{colour:AccentErrorBrush}" />
+        <Setter Property="Background" Value="{color:AccentErrorBrush}" />
       </Style>
     </Style>
 

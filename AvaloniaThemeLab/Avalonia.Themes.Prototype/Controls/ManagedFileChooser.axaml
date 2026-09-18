@@ -5,7 +5,7 @@
         xmlns:converters="clr-namespace:Avalonia.Controls.Converters;assembly=Avalonia.Controls"
         xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
         xmlns:theme="using:AngelSix.ThemeEngine.Generated"
-        xmlns:colour="using:AngelSix.ThemeEngine.Colours"
+        xmlns:color="using:AngelSix.ThemeEngine.Colors"
         xmlns:size="using:AngelSix.ThemeEngine.Sizes"
         xmlns:icons="using:AngelSix.ThemeEngine.Icons">
   <Design.PreviewWith>
@@ -43,7 +43,7 @@
        ListBox theme reaches it where the ManagedFileChooser theme could not (two /template/ hops) -->
   <ControlTheme x:Key="PrototypeManagedFileChooserQuickLinks" TargetType="ListBox">
     <Setter Property="Margin" Value="0"/>
-    <Setter Property="Background" Value="{colour:AccentBrush Light8}"/>
+    <Setter Property="Background" Value="{color:AccentBrush Light8}"/>
     <Setter Property="BorderThickness" Value="0"/>
     <Setter Property="Width" Value="{size:SurfaceWidthSm}"/>
     <Setter Property="Padding" Value="{size:Edges Top={size:SpacingXxl}, Bottom={size:SpacingXxl}}"/>
@@ -107,21 +107,21 @@
           <Setter Property="Margin" Value="{size:Edges Horizontal={size:SpacingSm}, Vertical={size:SpacingLg}}" />
           <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
           <Setter Property="Width" Value="{size:ThicknessLg}" />
-          <Setter Property="Background" Value="{colour:AccentPrimaryBrush}" />
+          <Setter Property="Background" Value="{color:AccentPrimaryBrush}" />
         </Style>
 
         <Style Selector="^:pointerover /template/ Border#LayoutRoot">
-          <Setter Property="Background" Value="{colour:HoverBackgroundDefaultBrush}"/>
+          <Setter Property="Background" Value="{color:HoverBackgroundDefault}"/>
         </Style>
         <Style Selector="^:selected /template/ Border#LayoutRoot">
-          <Setter Property="Background" Value="{colour:AccentBrush Light6}"/>
+          <Setter Property="Background" Value="{color:AccentBrush Light6}"/>
         </Style>
       </ControlTheme>
     </Setter>
 
     <!-- Inset shadow for depth (Rule 2: no {theme:...} inside ControlTemplate) -->
     <Style Selector="^ /template/ Border#PART_ShadowBorder">
-      <Setter Property="Background" Value="{colour:OverlayWeakBrush}" />
+      <Setter Property="Background" Value="{color:OverlayWeakBrush}" />
     </Style>
   </ControlTheme>
 
@@ -250,9 +250,9 @@
         </internal:ResourceSelectorConverter>
       </ResourceDictionary>
     </ControlTheme.Resources>
-    <Setter Property="Background" Value="{colour:BackgroundDefaultBrush}"/>
-    <Setter Property="Foreground" Value="{colour:TextDefaultBrush}" />
-    <Setter Property="BorderBrush" Value="{colour:BorderDefaultBrush}" />
+    <Setter Property="Background" Value="{color:BackgroundDefault}"/>
+    <Setter Property="Foreground" Value="{color:TextDefault}" />
+    <Setter Property="BorderBrush" Value="{color:BorderDefault}" />
     <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
     <Setter Property="CornerRadius" Value="{size:RadiusMd}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
@@ -414,7 +414,7 @@
       <Setter Property="Margin" Value="{size:Edges Left={size:SpacingXl}, Top={size:SpacingLg}, Right={size:SpacingXl}}" />
     </Style>
     <Style Selector="^ /template/ Rectangle#NavBarSeparator">
-      <Setter Property="Fill" Value="{colour:AccentBrush Light6}" />
+      <Setter Property="Fill" Value="{color:AccentBrush Light6}" />
       <Setter Property="Margin" Value="{size:Edges Top={size:SpacingLg}}" />
     </Style>
     <Style Selector="^ /template/ DockPanel#NavBarInner">
@@ -430,7 +430,7 @@
       <Setter Property="Margin" Value="{size:Edges Left={size:SpacingXl}, Right={size:SpacingXl}, Bottom={size:SpacingLg}}" />
     </Style>
     <Style Selector="^ /template/ Rectangle#BottomBarSeparator">
-      <Setter Property="Fill" Value="{colour:AccentBrush Light6}" />
+      <Setter Property="Fill" Value="{color:AccentBrush Light6}" />
       <Setter Property="Margin" Value="{size:Edges Bottom={size:SpacingLg}}" />
     </Style>
     <Style Selector="^ /template/ DockPanel#BottomBarInner">

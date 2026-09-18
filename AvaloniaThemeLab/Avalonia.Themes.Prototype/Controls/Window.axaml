@@ -2,14 +2,14 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
-                    xmlns:colour="using:AngelSix.ThemeEngine.Colours"
+                    xmlns:color="using:AngelSix.ThemeEngine.Colors"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes">
   <ControlTheme x:Key="{x:Type Window}" TargetType="Window">
-    <!-- Canvas colour: SurfaceDefault follows the palette -->
-    <Setter Property="Background" Value="{colour:SurfaceDefaultBrush}"/>
-    <Setter Property="TransparencyBackgroundFallback" Value="{colour:SurfaceDefaultBrush}" />
-    <Setter Property="TopLevel.SystemBarColor" Value="{colour:SurfaceDefaultBrush}"/>
-    <Setter Property="Foreground" Value="{colour:AccentBrush Dark5}"/>
+    <!-- Canvas color: SurfaceDefault follows the palette -->
+    <Setter Property="Background" Value="{color:SurfaceDefaultBrush}"/>
+    <Setter Property="TransparencyBackgroundFallback" Value="{color:SurfaceDefaultBrush}" />
+    <Setter Property="TopLevel.SystemBarColor" Value="{color:SurfaceDefaultBrush}"/>
+    <Setter Property="Foreground" Value="{color:AccentBrush Dark5}"/>
     <Setter Property="FontSize" Value="{size:FontSizeMd}"/>
     <Setter Property="FontFamily" Value="{theme:FontFamily}" />
     <Setter Property="FontWeight" Value="{theme:FontWeightRegular}" />

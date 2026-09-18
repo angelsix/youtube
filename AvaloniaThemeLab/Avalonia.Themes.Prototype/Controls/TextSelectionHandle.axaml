@@ -2,7 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
-                    xmlns:colour="using:AngelSix.ThemeEngine.Colours"
+                    xmlns:color="using:AngelSix.ThemeEngine.Colors"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes">
   <Design.PreviewWith>
     <Border>
@@ -24,10 +24,10 @@
   <DrawingImage x:Key="TextSelectionHandleDrawing">
     <DrawingImage.Drawing>
       <GeometryDrawing Geometry="{DynamicResource TextSelectionHandlePath}"
-                       Brush="{colour:AccentPrimaryBrush}"
+                       Brush="{color:AccentPrimaryBrush}"
                        >
         <GeometryDrawing.Pen>
-          <Pen Thickness="0.5" Brush="{colour:AccentBrush Dark1}" LineJoin="Round"/>
+          <Pen Thickness="0.5" Brush="{color:AccentBrush Dark1}" LineJoin="Round"/>
         </GeometryDrawing.Pen>
       </GeometryDrawing>
     </DrawingImage.Drawing>
@@ -36,10 +36,10 @@
   <DrawingImage x:Key="TextCaretHandleDrawing">
     <DrawingImage.Drawing>
       <GeometryDrawing Geometry="{DynamicResource TextCaretHandlePath}"
-                       Brush="{colour:AccentPrimaryBrush}"
+                       Brush="{color:AccentPrimaryBrush}"
                        >
         <GeometryDrawing.Pen>
-          <Pen Thickness="0.5" Brush="{colour:AccentBrush Dark1}" LineJoin="Round"/>
+          <Pen Thickness="0.5" Brush="{color:AccentBrush Dark1}" LineJoin="Round"/>
         </GeometryDrawing.Pen>
       </GeometryDrawing>
     </DrawingImage.Drawing>
@@ -80,7 +80,7 @@
   <ControlTheme x:Key="{x:Type TextSelectionHandle}"
                 TargetType="TextSelectionHandle">
     <Setter Property="Background"
-            Value="{colour:AccentPrimaryBrush}" />
+            Value="{color:AccentPrimaryBrush}" />
     <Setter Property="HorizontalAlignment"
             Value="{theme:ControlHorizontalAlignment}" />
     <Setter Property="Template">

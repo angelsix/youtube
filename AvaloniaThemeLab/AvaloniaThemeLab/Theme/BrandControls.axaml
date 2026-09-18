@@ -1,7 +1,7 @@
 <Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:theme="using:AngelSix.ThemeEngine.Generated"
-        xmlns:colour="using:AngelSix.ThemeEngine.Colours"
+        xmlns:color="using:AngelSix.ThemeEngine.Colors"
         xmlns:size="using:AngelSix.ThemeEngine.Sizes"
         xmlns:local="clr-namespace:AvaloniaThemeLab">
   <!-- Consumer style classes layered over the theme's ControlThemes; values from theme tokens -->
@@ -22,7 +22,7 @@
 
         <Button Classes="hero" theme:BrandAccent.Kind="Brand" Content="Brand disabled" IsEnabled="False" />
 
-        <!-- The same .hero class under other hues, which is the point of {colour:AccentBrush Dark1}. -->
+        <!-- The same .hero class under other hues, which is the point of {color:AccentBrush Dark1}. -->
         <StackPanel Orientation="Horizontal" Spacing="12">
           <Button Classes="hero" theme:BrandAccent.Kind="Success" Content="Success" />
           <Button Classes="hero" theme:BrandAccent.Kind="Warning" Content="Warning" />
@@ -38,8 +38,8 @@
   <!-- Filled brand button: serves any declared hue -->
   <Style Selector="Button.hero">
     <!-- Filled variant: hue is the fill, text is the near-white stage -->
-    <Setter Property="Background" Value="{colour:AccentBrush Dark1}" />
-    <Setter Property="Foreground" Value="{colour:AccentBrush Light10}" />
+    <Setter Property="Background" Value="{color:AccentBrush Dark1}" />
+    <Setter Property="Foreground" Value="{color:AccentBrush Light10}" />
     <Setter Property="FontWeight" Value="{theme:FontWeightBold}" />
     <Setter Property="Padding" Value="{size:Edges Horizontal={size:SpacingXxl}, Vertical={size:SpacingLg}}" />
     <Setter Property="BorderThickness" Value="0" />
@@ -47,22 +47,22 @@
 
   <!-- States restated: app-level styles outrank the ControlTheme's own -->
   <Style Selector="Button.hero:pointerover">
-    <Setter Property="Background" Value="{colour:AccentBrush Dark2}" />
+    <Setter Property="Background" Value="{color:AccentBrush Dark2}" />
   </Style>
 
   <Style Selector="Button.hero:pressed">
-    <Setter Property="Background" Value="{colour:AccentBrush Dark3}" />
+    <Setter Property="Background" Value="{color:AccentBrush Dark3}" />
   </Style>
 
   <!-- Text-only counterpart, for the secondary action beside a hero. -->
   <Style Selector="Button.quiet">
     <Setter Property="Background" Value="Transparent" />
     <Setter Property="BorderThickness" Value="0" />
-    <Setter Property="Foreground" Value="{colour:AccentBrush Dark1}" />
+    <Setter Property="Foreground" Value="{color:AccentBrush Dark1}" />
   </Style>
 
   <Style Selector="Button.quiet:pointerover">
-    <Setter Property="Foreground" Value="{colour:AccentBrush Dark3}" />
+    <Setter Property="Foreground" Value="{color:AccentBrush Dark3}" />
   </Style>
 
 </Styles>

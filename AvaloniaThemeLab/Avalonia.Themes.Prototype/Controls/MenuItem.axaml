@@ -3,7 +3,7 @@
                     xmlns:conv="using:Avalonia.Controls.Converters"
                     xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
-                    xmlns:colour="using:AngelSix.ThemeEngine.Colours"
+                    xmlns:color="using:AngelSix.ThemeEngine.Colors"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes"
                     xmlns:icons="using:AngelSix.ThemeEngine.Icons">
   <Design.PreviewWith>
@@ -40,7 +40,7 @@
   <ControlTheme x:Key="{x:Type MenuItem}" TargetType="MenuItem">
     <!-- Visual defaults -->
     <Setter Property="Background" Value="Transparent" />
-    <Setter Property="Foreground" Value="{colour:TextDefaultBrush}" />
+    <Setter Property="Foreground" Value="{color:TextDefault}" />
     <Setter Property="BorderBrush" Value="Transparent" />
     <Setter Property="BorderThickness" Value="0" />
     <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
@@ -144,14 +144,14 @@
     </Style>
     <Style Selector="^ /template/ TextBlock#PART_InputGestureText">
       <Setter Property="Margin" Value="{size:Edges Left={size:SpacingXxl}}" />
-      <Setter Property="Foreground" Value="{colour:DimTextDefaultBrush}" />
+      <Setter Property="Foreground" Value="{color:DimTextDefault}" />
       <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
       <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalContentAlignment}" />
     </Style>
     <Style Selector="^ /template/ Path#PART_ChevronPath">
       <Setter Property="Width" Value="{size:IconSizeMd}" />
       <Setter Property="Height" Value="{size:IconSizeMd}" />
-      <Setter Property="Fill" Value="{colour:AccentBrush Light2}" />
+      <Setter Property="Fill" Value="{color:AccentBrush Light2}" />
       <Setter Property="Margin" Value="{size:Edges Left={size:SpacingXxl}}" />
       <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalContentAlignment}" />
     </Style>
@@ -159,8 +159,8 @@
       <Setter Property="HorizontalOffset" Value="{size:Scaled Value={size:SpacingMd}, By=-1}" />
     </Style>
     <Style Selector="^ /template/ Border#PART_PopupBorder">
-      <Setter Property="Background" Value="{colour:BackgroundDefaultBrush}" />
-      <Setter Property="BorderBrush" Value="{colour:BorderDefaultBrush}" />
+      <Setter Property="Background" Value="{color:BackgroundDefault}" />
+      <Setter Property="BorderBrush" Value="{color:BorderDefault}" />
       <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
       <Setter Property="MinHeight" Value="{size:ControlHeightSm}" />
       <Setter Property="CornerRadius" Value="{size:RadiusMd}" />
@@ -174,28 +174,28 @@
     </Style>
     <Style Selector="^:selected">
       <Style Selector="^ /template/ Border#PART_LayoutRoot">
-        <Setter Property="Background" Value="{colour:OverlayWeakBrush}" />
+        <Setter Property="Background" Value="{color:OverlayWeakBrush}" />
       </Style>
       <Style Selector="^ /template/ ContentPresenter#PART_HeaderPresenter">
       </Style>
       <Style Selector="^ /template/ TextBlock#PART_InputGestureText">
-        <Setter Property="Foreground" Value="{colour:DimTextDefaultBrush}" />
+        <Setter Property="Foreground" Value="{color:DimTextDefault}" />
       </Style>
       <Style Selector="^ /template/ Path#PART_ChevronPath">
-        <Setter Property="Fill" Value="{colour:AccentBrush Dark1}" />
+        <Setter Property="Fill" Value="{color:AccentBrush Dark1}" />
       </Style>
     </Style>
 
     <!-- Uses PART_LayoutRoot:pointerover so subitem presses do not trigger it -->
     <Style Selector="^:pressed /template/ Border#PART_LayoutRoot:pointerover">
-      <Setter Property="Background" Value="{colour:HoverBackgroundDefaultBrush}" />
+      <Setter Property="Background" Value="{color:HoverBackgroundDefault}" />
       <Style Selector="^ ContentPresenter#PART_HeaderPresenter">
       </Style>
       <Style Selector="^ TextBlock#PART_InputGestureText">
-        <Setter Property="Foreground" Value="{colour:DimTextDefaultBrush}" />
+        <Setter Property="Foreground" Value="{color:DimTextDefault}" />
       </Style>
       <Style Selector="^ Path#PART_ChevronPath">
-        <Setter Property="Fill" Value="{colour:AccentBrush Dark1}" />
+        <Setter Property="Fill" Value="{color:AccentBrush Dark1}" />
       </Style>
     </Style>
 
@@ -204,18 +204,18 @@
         <Setter Property="Background" Value="Transparent" />
       </Style>
       <Style Selector="^ /template/ ContentPresenter#PART_HeaderPresenter">
-        <Setter Property="Foreground" Value="{colour:DimTextDefaultBrush}" />
+        <Setter Property="Foreground" Value="{color:DimTextDefault}" />
       </Style>
       <Style Selector="^ /template/ TextBlock#PART_InputGestureText">
-        <Setter Property="Foreground" Value="{colour:DimTextDefaultBrush}" />
+        <Setter Property="Foreground" Value="{color:DimTextDefault}" />
       </Style>
       <Style Selector="^ /template/ Path#PART_ChevronPath">
-        <Setter Property="Fill" Value="{colour:AccentBrush Light2}" />
+        <Setter Property="Fill" Value="{color:AccentBrush Light2}" />
       </Style>
     </Style>
 
     <Style Selector="^:open /template/ Path#PART_ChevronPath">
-      <Setter Property="Fill" Value="{colour:AccentBrush Dark1}" />
+      <Setter Property="Fill" Value="{color:AccentBrush Dark1}" />
     </Style>
 
     <Style Selector="^:empty /template/ Path#PART_ChevronPath">

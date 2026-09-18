@@ -2,7 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
-                    xmlns:colour="using:AngelSix.ThemeEngine.Colours"
+                    xmlns:color="using:AngelSix.ThemeEngine.Colors"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes">
   <Design.PreviewWith>
     <Border Padding="20">
@@ -17,8 +17,8 @@
             <!-- Every state and accent hue composed into one strip; the selected tab feeds the page below -->
             <TabControl>
               <TabItem Header="Home" IsSelected="True">
-                <Border Background="{colour:OverlayWeakBrush}" Height="90" CornerRadius="{size:RadiusSm}">
-                  <TextBlock Text="Selected page content" Foreground="{colour:TextDefaultBrush}"
+                <Border Background="{color:OverlayWeakBrush}" Height="90" CornerRadius="{size:RadiusSm}">
+                  <TextBlock Text="Selected page content" Foreground="{color:TextDefault}"
                              FontSize="{size:FontSizeMd}" HorizontalAlignment="Center" VerticalAlignment="Center" />
                 </Border>
               </TabItem>
@@ -33,13 +33,13 @@
             <StackPanel Orientation="Horizontal" Spacing="20">
               <TabControl TabStripPlacement="Left" Height="120">
                 <TabItem Header="A" IsSelected="True">
-                  <TextBlock Text="Page A" Foreground="{colour:TextDefaultBrush}" />
+                  <TextBlock Text="Page A" Foreground="{color:TextDefault}" />
                 </TabItem>
                 <TabItem Header="B" />
               </TabControl>
               <TabControl TabStripPlacement="Right" Height="120">
                 <TabItem Header="C" IsSelected="True">
-                  <TextBlock Text="Page C" Foreground="{colour:TextDefaultBrush}" />
+                  <TextBlock Text="Page C" Foreground="{color:TextDefault}" />
                 </TabItem>
                 <TabItem Header="D" />
               </TabControl>
@@ -56,9 +56,9 @@
   <ControlTheme x:Key="{x:Type TabControl}" TargetType="TabControl">
 
     <!-- Visual defaults -->
-    <Setter Property="Background" Value="{colour:BackgroundDefaultBrush}" />
-    <Setter Property="Foreground" Value="{colour:TextDefaultBrush}" />
-    <Setter Property="BorderBrush" Value="{colour:BorderDefaultBrush}" />
+    <Setter Property="Background" Value="{color:BackgroundDefault}" />
+    <Setter Property="Foreground" Value="{color:TextDefault}" />
+    <Setter Property="BorderBrush" Value="{color:BorderDefault}" />
     <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
     <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
     <Setter Property="Padding" Value="{size:Edges Horizontal={size:SpacingXxl}}" />

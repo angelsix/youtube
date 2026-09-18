@@ -3,7 +3,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
-    xmlns:colour="using:AngelSix.ThemeEngine.Colours"
+    xmlns:color="using:AngelSix.ThemeEngine.Colors"
     xmlns:size="using:AngelSix.ThemeEngine.Sizes">
   <Design.PreviewWith>
     <Border>
@@ -33,8 +33,8 @@
   <ControlTheme x:Key="{x:Type TabStripItem}" TargetType="TabStripItem">
     <Setter Property="FontSize" Value="{size:FontSizeXxl}" />
     <Setter Property="Background" Value="Transparent" />
-    <Setter Property="Foreground" Value="{colour:DimTextDefaultBrush}" />
-    <Setter Property="BorderBrush" Value="{colour:AccentBrush Dark1}" />
+    <Setter Property="Foreground" Value="{color:DimTextDefault}" />
+    <Setter Property="BorderBrush" Value="{color:AccentBrush Dark1}" />
     <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
     <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
     <Setter Property="Padding" Value="{size:Edges Horizontal={size:SpacingXxl}}" />
@@ -79,7 +79,7 @@
       <Setter Property="Background" Value="Transparent" />
     </Style>
     <Style Selector="^ /template/ Border#PART_SelectedPipe">
-      <Setter Property="Background" Value="{colour:AccentPrimaryBrush}" />
+      <Setter Property="Background" Value="{color:AccentPrimaryBrush}" />
       <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
       <Setter Property="Height" Value="{size:SpacingSm}" />
       <Setter Property="Margin" Value="{size:Edges Bottom={size:SpacingSm}}" />
@@ -91,31 +91,31 @@
     <!--  PointerOver state  -->
     <Style Selector="^:pointerover /template/ Border#PART_LayoutRoot, ^[(theme|Preview.State)=Hover] /template/ Border#PART_LayoutRoot">
       <Setter Property="Background" Value="Transparent" />
-      <Setter Property="TextElement.Foreground" Value="{colour:AccentBrush Light2}" />
+      <Setter Property="TextElement.Foreground" Value="{color:AccentBrush Light2}" />
     </Style>
 
     <!--  Selected PointerOver state  -->
     <Style Selector="^:selected:pointerover /template/ Border#PART_LayoutRoot, ^:selected[(theme|Preview.State)=Hover] /template/ Border#PART_LayoutRoot">
       <Setter Property="Background" Value="Transparent" />
-      <Setter Property="TextElement.Foreground" Value="{colour:AccentBrush Light2}" />
+      <Setter Property="TextElement.Foreground" Value="{color:AccentBrush Light2}" />
     </Style>
 
     <!--  Pressed state  -->
     <Style Selector="^:pressed /template/ Border#PART_LayoutRoot, ^[(theme|Preview.State)=Pressed] /template/ Border#PART_LayoutRoot">
       <Setter Property="Background" Value="Transparent" />
-      <Setter Property="TextElement.Foreground" Value="{colour:AccentBrush Light2}" />
+      <Setter Property="TextElement.Foreground" Value="{color:AccentBrush Light2}" />
     </Style>
 
     <!--  Selected Pressed state  -->
     <Style Selector="^:selected:pressed /template/ Border#PART_LayoutRoot, ^:selected[(theme|Preview.State)=Pressed] /template/ Border#PART_LayoutRoot">
       <Setter Property="Background" Value="Transparent" />
-      <Setter Property="TextElement.Foreground" Value="{colour:AccentBrush Light2}" />
+      <Setter Property="TextElement.Foreground" Value="{color:AccentBrush Light2}" />
     </Style>
 
     <!--  Disabled state  -->
     <Style Selector="^:disabled /template/ Border#PART_LayoutRoot">
       <Setter Property="Background" Value="Transparent" />
-      <Setter Property="TextElement.Foreground" Value="{colour:AccentBrush Light2}" />
+      <Setter Property="TextElement.Foreground" Value="{color:AccentBrush Light2}" />
     </Style>
   </ControlTheme>
 </ResourceDictionary>

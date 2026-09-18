@@ -2,18 +2,18 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
-                    xmlns:colour="using:AngelSix.ThemeEngine.Colours"
+                    xmlns:color="using:AngelSix.ThemeEngine.Colors"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes"
                     >
     <ControlTheme x:Key="{x:Type GridSplitter}" TargetType="GridSplitter">
       <Setter Property="Focusable" Value="True" />
       <Setter Property="MinWidth" Value="6" />
       <Setter Property="MinHeight" Value="6" />
-      <Setter Property="Background" Value="{colour:AccentBrush Light6}" />
-      <Setter Property="Foreground" Value="{colour:TextDefaultBrush}" />
+      <Setter Property="Background" Value="{color:AccentBrush Light6}" />
+      <Setter Property="Foreground" Value="{color:TextDefault}" />
       <Setter Property="PreviewContent">
         <Template>
-          <Rectangle Fill="{colour:AccentPrimaryBrush}" />
+          <Rectangle Fill="{color:AccentPrimaryBrush}" />
         </Template>
       </Setter>
       <Setter Property="Template">

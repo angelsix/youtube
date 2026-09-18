@@ -4,7 +4,7 @@
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes"
                     xmlns:icons="using:AngelSix.ThemeEngine.Icons"
-                    xmlns:colour="using:AngelSix.ThemeEngine.Colours">
+                    xmlns:color="using:AngelSix.ThemeEngine.Colors">
   <Design.PreviewWith>
     <Border>
       <Border.Styles>
@@ -21,11 +21,11 @@
               <PathIcon Data="{icons:Star}" Width="{size:IconSizeLg}" Height="{size:IconSizeLg}" />
               <PathIcon Data="{icons:Star}" Width="{size:IconSizeXl}" Height="{size:IconSizeXl}" />
             </StackPanel>
-            <!-- Colours ride the generic accent tokens, so the hue follows the active accent kind -->
+            <!-- Colors ride the generic accent tokens, so the hue follows the active accent kind -->
             <StackPanel Orientation="Horizontal" Spacing="16">
-              <PathIcon Data="{icons:Star}" Foreground="{colour:AccentPrimaryBrush}" />
-              <PathIcon Data="{icons:Star}" Foreground="{colour:AccentPrimaryBrush}" theme:Accent.Kind="Warning" />
-              <PathIcon Data="{icons:Star}" Foreground="{colour:AccentPrimaryBrush}" theme:Accent.Kind="Success" />
+              <PathIcon Data="{icons:Star}" Foreground="{color:AccentPrimaryBrush}" />
+              <PathIcon Data="{icons:Star}" Foreground="{color:AccentPrimaryBrush}" theme:Accent.Kind="Warning" />
+              <PathIcon Data="{icons:Star}" Foreground="{color:AccentPrimaryBrush}" theme:Accent.Kind="Success" />
             </StackPanel>
           </StackPanel>
         </DataTemplate>
@@ -39,7 +39,7 @@
 
     <!-- Visual defaults -->
     <Setter Property="Background" Value="Transparent" />
-    <Setter Property="Foreground" Value="{colour:TextDefaultBrush}" />
+    <Setter Property="Foreground" Value="{color:TextDefault}" />
     <Setter Property="Height" Value="{size:IconSizeMd}" />
     <Setter Property="Width" Value="{size:IconSizeMd}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />

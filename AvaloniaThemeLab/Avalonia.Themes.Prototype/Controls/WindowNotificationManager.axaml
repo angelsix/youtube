@@ -3,7 +3,7 @@
                     x:DataType="WindowNotificationManager"
                     xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
-                    xmlns:colour="using:AngelSix.ThemeEngine.Colours"
+                    xmlns:color="using:AngelSix.ThemeEngine.Colors"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes">
   <ControlTheme x:Key="{x:Type WindowNotificationManager}" TargetType="WindowNotificationManager">
     <Setter Property="Margin" Value="0 0" />
@@ -17,7 +17,7 @@
               <StackPanel
                   Margin="{size:Edges All={size:SpacingXxl}}"
                   Spacing="{size:SpacingXl}"
-                  TextElement.Foreground="{colour:AccentBrush Dark1}">
+                  TextElement.Foreground="{color:AccentBrush Dark1}">
                 <!-- The notification's title -->
                 <TextBlock Text="{Binding Title}"
                            FontWeight="{theme:FontWeightSemiBold}" />
@@ -32,7 +32,7 @@
               <!-- A plain text notification -->
               <TextBlock Text="{Binding}"
                          Margin="{size:Edges All={size:SpacingXxl}}"
-                         Foreground="{colour:AccentBrush Dark1}" />
+                         Foreground="{color:AccentBrush Dark1}" />
             </DataTemplate>
           </ReversibleStackPanel.DataTemplates>
         </ReversibleStackPanel>

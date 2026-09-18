@@ -1,7 +1,7 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
-                    xmlns:colour="using:AngelSix.ThemeEngine.Colours"
+                    xmlns:color="using:AngelSix.ThemeEngine.Colors"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes">
 
   <!-- ============================================================
@@ -10,12 +10,12 @@
   <ControlTheme x:Key="{x:Type SelectableTextBlock}" TargetType="SelectableTextBlock">
 
     <!-- Visual defaults -->
-    <Setter Property="Background" Value="{colour:BackgroundDefaultBrush}" />
-    <Setter Property="Foreground" Value="{colour:TextDefaultBrush}" />
+    <Setter Property="Background" Value="{color:BackgroundDefault}" />
+    <Setter Property="Foreground" Value="{color:TextDefault}" />
     <Setter Property="Padding" Value="{size:SpacingMd}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
     <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
-    <Setter Property="SelectionBrush" Value="{colour:AccentPrimaryBrush}" />
+    <Setter Property="SelectionBrush" Value="{color:AccentPrimaryBrush}" />
 
     <!-- Enabled state -->
     <Style Selector="^[IsEnabled=True]">

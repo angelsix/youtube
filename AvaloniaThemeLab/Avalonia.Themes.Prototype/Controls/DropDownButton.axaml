@@ -2,7 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
-                    xmlns:colour="using:AngelSix.ThemeEngine.Colours"
+                    xmlns:color="using:AngelSix.ThemeEngine.Colors"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes"
                     xmlns:icons="using:AngelSix.ThemeEngine.Icons">
   <Design.PreviewWith>
@@ -22,7 +22,7 @@
               <DropDownButton theme:Preview.State="Focused" Content="Focused" />
               <DropDownButton Content="Disabled" IsEnabled="False" />
             </StackPanel>
-            <!-- Hues ride on Focused: the focus ring is the only accent-coloured surface in this theme -->
+            <!-- Hues ride on Focused: the focus ring is the only accent-colored surface in this theme -->
             <StackPanel Orientation="Horizontal" Spacing="20">
               <DropDownButton theme:Preview.State="Focused" theme:Accent.Kind="Warning" Content="Warn · Focus" />
               <DropDownButton theme:Preview.State="Focused" theme:Accent.Kind="Success" Content="OK · Focus" />
@@ -39,9 +39,9 @@
   <ControlTheme x:Key="{x:Type DropDownButton}" TargetType="DropDownButton">
 
     <!-- Visual defaults -->
-    <Setter Property="Background" Value="{colour:BackgroundDefaultBrush}" />
-    <Setter Property="Foreground" Value="{colour:TextDefaultBrush}" />
-    <Setter Property="BorderBrush" Value="{colour:BorderDefaultBrush}" />
+    <Setter Property="Background" Value="{color:BackgroundDefault}" />
+    <Setter Property="Foreground" Value="{color:TextDefault}" />
+    <Setter Property="BorderBrush" Value="{color:BorderDefault}" />
     <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
     <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
     <Setter Property="Padding" Value="{size:Edges Horizontal={size:SpacingXl}, Vertical={size:SpacingLg}}" />
@@ -112,14 +112,14 @@
 
     <!-- Drop-down glyph -->
     <Style Selector="^ /template/ PathIcon#DropDown">
-      <Setter Property="Foreground" Value="{colour:DimTextDefaultBrush}" />
+      <Setter Property="Foreground" Value="{color:DimTextDefault}" />
       <Setter Property="Height" Value="{size:IconSizeMd}" />
       <Setter Property="Width" Value="{size:IconSizeMd}" />
     </Style>
 
     <!-- Accent border visuals -->
     <Style Selector="^ /template/ Rectangle#PART_AccentBorder">
-      <Setter Property="Stroke" Value="{colour:AccentPrimaryBrush}" />
+      <Setter Property="Stroke" Value="{color:AccentPrimaryBrush}" />
       <Setter Property="StrokeThickness" Value="{size:AccentBorderStrokeThickness}" />
       <Setter Property="RadiusX" Value="{size:RadiusSmDouble}" />
       <Setter Property="RadiusY" Value="{size:RadiusSmDouble}" />
@@ -127,7 +127,7 @@
 
     <!-- Hover state -->
     <Style Selector="^:pointerover, ^[(theme|Preview.State)=Hover]">
-      <Setter Property="Background" Value="{colour:HoverBackgroundDefaultBrush}" />
+      <Setter Property="Background" Value="{color:HoverBackgroundDefault}" />
       <Setter Property="RenderTransform" Value="{theme:TransformScale Value={size:PressedScale}, By=1.07}" />
     </Style>
     <Style Selector="^:pointerover /template/ PathIcon#DropDown, ^[(theme|Preview.State)=Hover] /template/ PathIcon#DropDown">
@@ -136,7 +136,7 @@
     <!-- Pressed state -->
     <Style Selector="^:pressed, ^[(theme|Preview.State)=Pressed]">
       <Setter Property="RenderTransform" Value="{theme:TransformScale Value={size:PressedScale}}" />
-      <Setter Property="Background" Value="{colour:PressedBackgroundDefaultBrush}" />
+      <Setter Property="Background" Value="{color:PressedBackgroundDefault}" />
     </Style>
     <Style Selector="^:pressed /template/ PathIcon#DropDown, ^[(theme|Preview.State)=Pressed] /template/ PathIcon#DropDown">
     </Style>
@@ -148,7 +148,7 @@
 
     <!-- Focus state -->
     <Style Selector="^:focus-visible, ^[(theme|Preview.State)=Focused]">
-      <Setter Property="BorderBrush" Value="{colour:AccentFocusBrush}" />
+      <Setter Property="BorderBrush" Value="{color:AccentFocusBrush}" />
       <Setter Property="BorderThickness" Value="{size:ThicknessMd}" />
     </Style>
 

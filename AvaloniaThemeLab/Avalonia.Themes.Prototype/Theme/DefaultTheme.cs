@@ -16,10 +16,10 @@ namespace Avalonia.Themes.Prototype;
 /// values for alternative palettes (e.g. dark mode).
 /// </para>
 /// <para>
-/// The class is <c>partial</c> because most of it is generated. A <c>[ColourRamp]</c> seed expands
-/// into its ramp, twenty stage colours, twenty-one brushes and — for the fallback hue — the neutral
+/// The class is <c>partial</c> because most of it is generated. A <c>[ColorRamp]</c> seed expands
+/// into its ramp, twenty stage colors, twenty-one brushes and — for the fallback hue — the neutral
 /// aliases; a <c>[SizeScale]</c> base expands into its ladder. What is left here is the material
-/// that cannot be derived: the seed colours, the base sizes and the handful of values that are
+/// that cannot be derived: the seed colors, the base sizes and the handful of values that are
 /// genuinely one-offs.
 /// </para>
 /// </remarks>
@@ -32,7 +32,7 @@ public partial class DefaultTheme
 
     /// <summary>
     /// Whether this is a dark palette. Selects the mirrored ramp, so a control theme asking for
-    /// <c>PrimaryDark3</c> as its text colour gets a readable one in either palette.
+    /// <c>PrimaryDark3</c> as its text color gets a readable one in either palette.
     /// </summary>
     /// <remarks>
     /// Settable, so a consumer can flip a live instance into its mirrored palette — e.g. for a
@@ -42,73 +42,73 @@ public partial class DefaultTheme
 
     #endregion Identity
 
-    #region Seed Colours
+    #region Seed Colors
 
-    // Every colour in the theme is a hue with a ramp. AccentNeutral is the palette's default —
+    // Every color in the theme is a hue with a ramp. AccentNeutral is the palette's default —
     // [Theme(FallbackHue = "Neutral")] above — so a control that sets no Accent.Kind draws itself
     // from this one. Setting Accent.Kind is what opts a control into any of the others.
     //
-    // [AccentHue] marks it a hue for the accent surface; [ColourRamp] is what makes the generator
+    // [AccentHue] marks it a hue for the accent surface; [ColorRamp] is what makes the generator
     // expand it. Neutral additionally carries the overlay opacities, because the translucent tints
     // drawn *over* the palette — shadows and scrims — are built from its darkest stage.
 
     [AccentHue]
-    [ColourRamp(OverlayLevels = [0.08, 0.16, 0.32])]
+    [ColorRamp(OverlayLevels = [0.08, 0.16, 0.32])]
     public virtual Color AccentNeutral => Color.Parse("#2E2E2E");
 
-    [AccentHue, ColourRamp] public virtual Color AccentPrimary => Color.Parse("#5BA3C9");
-    [AccentHue, ColourRamp] public virtual Color AccentSuccess => Color.Parse("#6DB87E");
-    [AccentHue, ColourRamp] public virtual Color AccentWarning => Color.Parse("#E0B860");
-    [AccentHue, ColourRamp] public virtual Color AccentError => Color.Parse("#D47A7A");
-    [AccentHue, ColourRamp] public virtual Color AccentInfo => Color.Parse("#E89F4A");
-    [AccentHue, ColourRamp] public virtual Color AccentDestructive => Color.Parse("#C17070");
-    [AccentHue, ColourRamp] public virtual Color AccentSubtle => Color.Parse("#B088C8");
+    [AccentHue, ColorRamp] public virtual Color AccentPrimary => Color.Parse("#5BA3C9");
+    [AccentHue, ColorRamp] public virtual Color AccentSuccess => Color.Parse("#6DB87E");
+    [AccentHue, ColorRamp] public virtual Color AccentWarning => Color.Parse("#E0B860");
+    [AccentHue, ColorRamp] public virtual Color AccentError => Color.Parse("#D47A7A");
+    [AccentHue, ColorRamp] public virtual Color AccentInfo => Color.Parse("#E89F4A");
+    [AccentHue, ColorRamp] public virtual Color AccentDestructive => Color.Parse("#C17070");
+    [AccentHue, ColorRamp] public virtual Color AccentSubtle => Color.Parse("#B088C8");
 
     // The surface hue seeds the application canvas. In the light palette it keeps the paper seed
     // (#fdfdfd) and mirrors as usual; in the dark palette the whole ramp is re-centred on the
-    // DarkSeed literal, so it behaves as if the seed itself had been that colour — every stage,
+    // DarkSeed literal, so it behaves as if the seed itself had been that color — every stage,
     // overlay and accent role derives off it, mirrored as usual. A downstream theme overriding
     // this seed must repeat the attribute including DarkSeed, or it loses the re-centring.
     [AccentHue]
-    [ColourRamp(DarkSeed = "#222222")]
+    [ColorRamp(DarkSeed = "#222222")]
     public virtual Color AccentSurface => Color.Parse("#fdfdfd");
 
-    // The focus ring is the one colour that is deliberately not a hue: a focused control should
+    // The focus ring is the one color that is deliberately not a hue: a focused control should
     // announce itself the same way whatever accent it carries, so this must not follow Accent.Kind.
-    // Its brush is generated — every Color gets one — so there is nothing to declare but the colour.
+    // Its brush is generated — every Color gets one — so there is nothing to declare but the color.
     //
     // There was an AccentBorder here too, for the resting border of every control. It was a mistake:
-    // being a fixed colour it bypassed the accent entirely, so an accented control drew a border
-    // that ignored its own hue. Borders now use {colour:AccentBrush Light6}, which follows the hue.
+    // being a fixed color it bypassed the accent entirely, so an accented control drew a border
+    // that ignored its own hue. Borders now use {color:AccentBrush Light6}, which follows the hue.
     public virtual Color AccentFocus => Color.Parse("#bf4aF9");
 
-    #endregion Seed Colours
+    #endregion Seed Colors
 
     #region Theme-Specific Defaults
 
-    /// <summary>The application-wide background/canvas colour.</summary>
+    /// <summary>The application-wide background/canvas color.</summary>
     /// <remarks>
     /// <para>
     /// Reads <see cref="SurfaceSeed"/>, the effective seed the generator emits for the surface
     /// hue: the raw seed (<see cref="AccentSurface"/>) in light mode, the <c>DarkSeed</c> value
     /// in dark mode. The canvas is therefore the paper seed when light and exactly the
     /// <c>DarkSeed</c> literal when dark, with no <see cref="IsDark"/> branching anywhere in
-    /// hand-written code. Consumers write <c>{colour:SurfaceDefaultBrush}</c>: its brush
+    /// hand-written code. Consumers write <c>{color:SurfaceDefaultBrush}</c>: its brush
     /// companion is generated automatically (every Color gets one).
     /// </para>
     /// <para>
     /// This single property is the deliberate guard against proliferating paired
     /// brush/color/is-dark properties: one token, one spelling, both palettes — even though the
-    /// two palettes now anchor on entirely different colours.
+    /// two palettes now anchor on entirely different colors.
     /// </para>
     /// </remarks>
     public virtual Color SurfaceDefault => SurfaceSeed;
 
     // Accent roles: named aliases for one stage of the CONTROL'S OWN hue ramp. The property name
     // is the token and its RampStage value is the pinned stage; the generator emits two extensions
-    // per role into AngelSix.ThemeEngine.Colours — {colour:X} (the colour) and {colour:XBrush}
+    // per role into AngelSix.ThemeEngine.Colors — {color:X} (the color) and {color:XBrush}
     // (the brush) — which resolve against whatever Accent.Kind the target carries at render time.
-    // Unlike SurfaceDefault above, a role never freezes a colour: it keeps following the hue and
+    // Unlike SurfaceDefault above, a role never freezes a color: it keeps following the hue and
     // the palette while giving every outlined control one shared spelling. Retuning a role
     // globally is editing its RampStage here and rebuilding.
     //
@@ -123,7 +123,7 @@ public partial class DefaultTheme
 
     /// <summary>Outlined-control border.</summary>
     [AccentRole]
-    internal virtual RampStage BorderDefault => RampStage.Light6;
+    internal virtual RampStage BorderDefault => RampStage.Light3;
 
     /// <summary>Outlined-control rest fill.</summary>
     [AccentRole]
@@ -143,7 +143,7 @@ public partial class DefaultTheme
 
     /// <summary>Dimmed text: placeholders, captions, secondary labels.</summary>
     [AccentRole]
-    internal virtual RampStage DimTextDefault => RampStage.Light2;
+    internal virtual RampStage DimTextDefault => RampStage.Dark2;
 
     #endregion Theme-Specific Defaults
 

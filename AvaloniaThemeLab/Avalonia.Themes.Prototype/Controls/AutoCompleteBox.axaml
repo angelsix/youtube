@@ -3,7 +3,7 @@
                     xmlns:generic="using:System.Collections.Generic"
                     xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
-                    xmlns:colour="using:AngelSix.ThemeEngine.Colours"
+                    xmlns:color="using:AngelSix.ThemeEngine.Colors"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes">
   <Design.PreviewWith>
     <Border>
@@ -79,10 +79,10 @@
   <ControlTheme x:Key="{x:Type AutoCompleteBox}" TargetType="AutoCompleteBox">
 
     <!-- Visual defaults -->
-    <Setter Property="Background" Value="{colour:BackgroundDefaultBrush}" />
-    <Setter Property="Foreground" Value="{colour:TextDefaultBrush}" />
-    <Setter Property="PlaceholderForeground" Value="{colour:DimTextDefaultBrush}" />
-    <Setter Property="BorderBrush" Value="{colour:AccentBrush Dark1}" />
+    <Setter Property="Background" Value="{color:BackgroundDefault}" />
+    <Setter Property="Foreground" Value="{color:TextDefault}" />
+    <Setter Property="PlaceholderForeground" Value="{color:DimTextDefault}" />
+    <Setter Property="BorderBrush" Value="{color:AccentBrush Dark1}" />
     <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
     <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
@@ -164,8 +164,8 @@
     <!-- Popup styles -->
     <Style Selector="^ /template/ Border#PART_SuggestionsContainer">
       <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
-      <Setter Property="BorderBrush" Value="{colour:BorderDefaultBrush}" />
-      <Setter Property="Background" Value="{colour:BackgroundDefaultBrush}" />
+      <Setter Property="BorderBrush" Value="{color:BorderDefault}" />
+      <Setter Property="Background" Value="{color:BackgroundDefault}" />
       <Setter Property="CornerRadius" Value="{size:RadiusMd}" />
       <Setter Property="Padding" Value="{size:Edges Vertical={size:SpacingSm}}" />
     </Style>
@@ -176,7 +176,7 @@
 
     <!-- Hover state -->
     <Style Selector="^:pointerover /template/ TextBox#PART_TextBox">
-      <Setter Property="Background" Value="{colour:HoverBackgroundDefaultBrush}" />
+      <Setter Property="Background" Value="{color:HoverBackgroundDefault}" />
     </Style>
 
     <!-- Disabled state -->
@@ -186,7 +186,7 @@
 
     <!-- Focus state -->
     <Style Selector="^:focus-visible /template/ TextBox#PART_TextBox, ^[(theme|Preview.State)=Focused] /template/ TextBox#PART_TextBox">
-      <Setter Property="BorderBrush" Value="{colour:AccentFocusBrush}" />
+      <Setter Property="BorderBrush" Value="{color:AccentFocusBrush}" />
       <Setter Property="BorderThickness" Value="{size:ThicknessMd}" />
     </Style>
 

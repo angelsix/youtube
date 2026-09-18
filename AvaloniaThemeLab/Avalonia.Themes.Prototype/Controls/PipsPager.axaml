@@ -2,7 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
-                    xmlns:colour="using:AngelSix.ThemeEngine.Colours"
+                    xmlns:color="using:AngelSix.ThemeEngine.Colors"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes"
                     xmlns:icons="using:AngelSix.ThemeEngine.Icons">
   <Design.PreviewWith>
@@ -42,7 +42,7 @@
   <ControlTheme x:Key="PipsPagerNavigationButtonTheme" TargetType="Button">
     <!-- Visual defaults -->
     <Setter Property="Background" Value="Transparent" />
-    <Setter Property="Foreground" Value="{colour:DimTextDefaultBrush}" />
+    <Setter Property="Foreground" Value="{color:DimTextDefault}" />
     <Setter Property="BorderBrush" Value="Transparent" />
     <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
     <!-- Structural: 24x24 icon button (no matching theme token) -->
@@ -94,7 +94,7 @@
     <Style Selector="^:disabled /template/ ContentPresenter#PART_ContentPresenter">
       <Setter Property="Background" Value="Transparent" />
       <Setter Property="BorderBrush" Value="Transparent" />
-      <Setter Property="Foreground" Value="{colour:DimTextDefaultBrush}" />
+      <Setter Property="Foreground" Value="{color:DimTextDefault}" />
     </Style>
   </ControlTheme>
 
@@ -153,7 +153,7 @@
     <Style Selector="^ /template/ Ellipse#Pip">
       <Setter Property="Width" Value="{size:SpacingMd}" />
       <Setter Property="Height" Value="{size:SpacingMd}" />
-      <Setter Property="Fill" Value="{colour:AccentBrush Light2}" />
+      <Setter Property="Fill" Value="{color:AccentBrush Light2}" />
       <Setter Property="Transitions">
         <Transitions>
           <DoubleTransition Property="Width" Duration="{theme:AnimationNormalMs}" />
@@ -167,7 +167,7 @@
     <Style Selector="^:pointerover /template/ Ellipse#Pip">
       <Setter Property="Width" Value="{size:ThicknessXxl}" />
       <Setter Property="Height" Value="{size:ThicknessXxl}" />
-      <Setter Property="Fill" Value="{colour:AccentBrush Dark1}" />
+      <Setter Property="Fill" Value="{color:AccentBrush Dark1}" />
     </Style>
     <Style Selector="^:pointerover /template/ Ellipse#PipBackground">
       <Setter Property="Fill" Value="Transparent" />
@@ -178,7 +178,7 @@
     <Style Selector="^:pressed /template/ Ellipse#Pip">
       <Setter Property="Width" Value="{size:SpacingMd}" />
       <Setter Property="Height" Value="{size:SpacingMd}" />
-      <Setter Property="Fill" Value="{colour:AccentBrush Dark1}" />
+      <Setter Property="Fill" Value="{color:AccentBrush Dark1}" />
     </Style>
     <Style Selector="^:pressed /template/ Ellipse#PipBackground">
       <Setter Property="Fill" Value="Transparent" />
@@ -187,7 +187,7 @@
 
     <!-- Disabled state -->
     <Style Selector="^:disabled /template/ Ellipse#Pip">
-      <Setter Property="Fill" Value="{colour:AccentBrush Light2}" />
+      <Setter Property="Fill" Value="{color:AccentBrush Light2}" />
     </Style>
     <Style Selector="^:disabled /template/ Ellipse#PipBackground">
       <Setter Property="Fill" Value="Transparent" />
@@ -198,7 +198,7 @@
     <Style Selector="^:selected /template/ Ellipse#Pip">
       <Setter Property="Width" Value="{size:ThicknessXxl}" />
       <Setter Property="Height" Value="{size:ThicknessXxl}" />
-      <Setter Property="Fill" Value="{colour:AccentBrush Dark1}" />
+      <Setter Property="Fill" Value="{color:AccentBrush Dark1}" />
     </Style>
     <Style Selector="^:selected /template/ Ellipse#PipBackground">
       <Setter Property="Fill" Value="Transparent" />
@@ -209,7 +209,7 @@
     <Style Selector="^:selected:pointerover /template/ Ellipse#Pip">
       <Setter Property="Width" Value="{size:ThicknessXxl}" />
       <Setter Property="Height" Value="{size:ThicknessXxl}" />
-      <Setter Property="Fill" Value="{colour:AccentBrush Dark1}" />
+      <Setter Property="Fill" Value="{color:AccentBrush Dark1}" />
     </Style>
     <Style Selector="^:selected:pointerover /template/ Ellipse#PipBackground">
       <Setter Property="Fill" Value="Transparent" />

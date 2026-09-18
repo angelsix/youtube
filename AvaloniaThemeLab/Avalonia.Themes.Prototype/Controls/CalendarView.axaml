@@ -6,7 +6,7 @@
                     xmlns:design="clr-namespace:Avalonia.Themes.Prototype.Design"
                     xmlns:controls="using:AngelSix.ThemeEngine.Controls"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
-                    xmlns:colour="using:AngelSix.ThemeEngine.Colours"
+                    xmlns:color="using:AngelSix.ThemeEngine.Colors"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes"
                     xmlns:icons="using:AngelSix.ThemeEngine.Icons"
                     mc:Ignorable="d">
@@ -20,10 +20,14 @@
       <prototype:LightDarkPreview Title="CalendarView States">
         <DataTemplate>
           <StackPanel Spacing="20">
+            
+            <!-- Default -->
+            <controls:CalendarView HorizontalAlignment="Stretch" />
+
             <!-- One calendar carries every dense option at once: week-number gutter, event dots,
                  a selected range (painting :in-range days), and the Success hue tinting nav + selection -->
             <controls:CalendarView x:DataType="design:CalendarViewDesignModel"
-                                    theme:Accent.Kind="Success"
+                                    theme:Accent.Kind="Primary"
                                     IsWeekNumberVisible="True"
                                     SelectedDate="2026-09-18"
                                     RangeStart="2026-09-14"
@@ -45,7 +49,7 @@
 
     <!-- Visual defaults -->
     <Setter Property="Background" Value="Transparent" />
-    <Setter Property="Foreground" Value="{colour:TextDefault}" />
+    <Setter Property="Foreground" Value="{color:TextDefault}" />
     <Setter Property="BorderBrush" Value="Transparent" />
     <Setter Property="BorderThickness" Value="0" />
     <Setter Property="Padding" Value="{size:Edges All={size:SpacingLg}}" />
@@ -69,7 +73,7 @@
 
     <!-- Pressed state -->
     <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="Foreground" Value="{colour:DimTextDefaultBrush}" />
+      <Setter Property="Foreground" Value="{color:DimTextDefault}" />
     </Style>
 
     <!-- Disabled state -->
@@ -117,7 +121,7 @@
 
     <!-- Visual defaults -->
     <Setter Property="Background" Value="Transparent" />
-    <Setter Property="Foreground" Value="{colour:TextDefault}" />
+    <Setter Property="Foreground" Value="{color:TextDefault}" />
     <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
     <Setter Property="MinWidth" Value="{size:ControlHeightSm}" />
     <Setter Property="MinHeight" Value="{size:ControlHeightSm}" />
@@ -177,30 +181,30 @@
 
     <!-- Hover state -->
     <Style Selector="^:pointerover /template/ Border#Fill">
-      <Setter Property="Background" Value="{colour:HoverBackgroundDefault}" />
+      <Setter Property="Background" Value="{color:HoverBackgroundDefault}" />
     </Style>
 
     <!-- Inactive state -->
     <Style Selector="^:inactive /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="Foreground" Value="{colour:DimTextDefaultBrush}" />
+      <Setter Property="Foreground" Value="{color:DimTextDefault}" />
     </Style>
 
     <!-- Today state -->
     <Style Selector="^:today /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="Foreground" Value="{colour:AccentBrush Dark1}" />
+      <Setter Property="Foreground" Value="{color:AccentBrush Dark1}" />
       <Setter Property="FontWeight" Value="{theme:FontWeightSemiBold}" />
     </Style>
 
     <!-- Preview band state -->
     <Style Selector="^:preview /template/ Border#Fill">
-      <Setter Property="Background" Value="{colour:AccentBrush Light9}" />
+      <Setter Property="Background" Value="{color:AccentBrush Light9}" />
       <Setter Property="Margin" Value="{size:Edges Vertical={size:ThicknessSm}}" />
       <Setter Property="CornerRadius" Value="0" />
     </Style>
 
     <!-- In-range band state -->
     <Style Selector="^:in-range /template/ Border#Fill">
-      <Setter Property="Background" Value="{colour:HoverBackgroundDefault}" />
+      <Setter Property="Background" Value="{color:HoverBackgroundDefault}" />
       <Setter Property="Margin" Value="{size:Edges Vertical={size:ThicknessSm}}" />
       <Setter Property="CornerRadius" Value="0" />
     </Style>
@@ -208,19 +212,19 @@
     <!-- Keyboard focus state -->
     <!-- Maybe redundant as overridden by Selected State? -->
     <Style Selector="^:day-focused /template/ Border#Fill">
-      <Setter Property="BorderBrush" Value="{colour:AccentFocusBrush}" />
+      <Setter Property="BorderBrush" Value="{color:AccentFocusBrush}" />
       <Setter Property="BorderThickness" Value="{size:ThicknessMd}" />
     </Style>
     
     <!-- Selected state -->
     <Style Selector="^:selected">
       <Style Selector="^ /template/ Border#Fill">
-        <Setter Property="Background" Value="{colour:HoverBackgroundDefault}" />
-        <Setter Property="BorderBrush" Value="{colour:DimTextDefault}" />
+        <Setter Property="Background" Value="{color:HoverBackgroundDefault}" />
+        <Setter Property="BorderBrush" Value="{color:DimTextDefault}" />
         <Setter Property="BorderThickness" Value="{size:ThicknessMd}" />
       </Style>
       <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
-        <Setter Property="Foreground" Value="{colour:HoverTextDefault}" />
+        <Setter Property="Foreground" Value="{color:HoverTextDefault}" />
         <Setter Property="FontWeight" Value="{theme:FontWeightSemiBold}" />
       </Style>
     </Style>
@@ -229,7 +233,7 @@
     <Style Selector="^:blackout">
       <Setter Property="Opacity" Value="{size:DisabledOpacity}" />
       <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
-        <Setter Property="Foreground" Value="{colour:DimTextDefaultBrush}" />
+        <Setter Property="Foreground" Value="{color:DimTextDefault}" />
       </Style>
       <Style Selector="^:pointerover /template/ Border#Fill">
         <Setter Property="Background" Value="Transparent" />
@@ -241,7 +245,7 @@
       <Setter Property="IsHitTestVisible" Value="False" />
       <Setter Property="FontSize" Value="{size:FontSizeSm}" />
       <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
-        <Setter Property="Foreground" Value="{colour:DimTextDefaultBrush}" />
+        <Setter Property="Foreground" Value="{color:DimTextDefault}" />
       </Style>
     </Style>
 
@@ -257,17 +261,17 @@
   <ControlTheme x:Key="{x:Type controls:CalendarView}" TargetType="controls:CalendarView">
 
     <!-- Visual defaults -->
-    <Setter Property="Background" Value="{colour:BackgroundDefault}" />
-    <Setter Property="Foreground" Value="{colour:TextDefault}" />
-    <Setter Property="BorderBrush" Value="{colour:BorderDefault}" />
+    <Setter Property="Background" Value="{color:BackgroundDefault}" />
+    <Setter Property="Foreground" Value="{color:TextDefault}" />
+    <Setter Property="BorderBrush" Value="{color:BorderDefault}" />
     <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
     <Setter Property="CornerRadius" Value="{size:RadiusMd}" />
     <Setter Property="Padding" Value="{size:Edges All={size:SpacingLg}}" />
     <Setter Property="MinWidth" Value="{size:ControlMinWidth}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
     <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
-    <Setter Property="HeaderBackground" Value="{colour:BackgroundDefault}" />
-    <Setter Property="MarkerBrush" Value="{colour:AccentBrush Dark1}" />
+    <Setter Property="HeaderBackground" Value="{color:BackgroundDefault}" />
+    <Setter Property="MarkerBrush" Value="{color:AccentBrush Dark1}" />
     <Setter Property="Focusable" Value="True" />
 
     <!-- Template -->
@@ -427,7 +431,7 @@
       <Setter Property="FontSize" Value="{size:FontSizeSm}" />
       <Setter Property="FontWeight" Value="Bold" />
       <Setter Property="FontStyle" Value="Italic" />
-      <Setter Property="Foreground" Value="{colour:AccentBrush Dark4}" />
+      <Setter Property="Foreground" Value="{color:AccentBrush Dark4}" />
       <Setter Property="HorizontalAlignment" Value="Center" />
       <Setter Property="VerticalAlignment" Value="Center" />
       <Setter Property="Margin" Value="{size:Edges Left={size:SpacingSm}}" />
@@ -450,8 +454,8 @@
 
     <!-- Picker hover state -->
     <Style Selector="^:picker:pointerover /template/ Border#PickerRoot">
-      <Setter Property="BorderBrush" Value="{colour:BorderDefault}" />
-      <Setter Property="Background" Value="{colour:HoverBackgroundDefault}" />
+      <Setter Property="BorderBrush" Value="{color:BorderDefault}" />
+      <Setter Property="Background" Value="{color:HoverBackgroundDefault}" />
     </Style>
 
     <!-- Disabled state -->
@@ -461,13 +465,13 @@
 
     <!-- Focus state -->
     <Style Selector="^:focus-visible /template/ Border#InlineRoot">
-      <Setter Property="BorderBrush" Value="{colour:AccentFocusBrush}" />
+      <Setter Property="BorderBrush" Value="{color:AccentFocusBrush}" />
       <Setter Property="BorderThickness" Value="{size:ThicknessMd}" />
     </Style>
 
     <!-- Picker focus state -->
     <Style Selector="^:picker:focus-within /template/ Border#PickerRoot">
-      <Setter Property="BorderBrush" Value="{colour:AccentFocusBrush}" />
+      <Setter Property="BorderBrush" Value="{color:AccentFocusBrush}" />
       <Setter Property="BorderThickness" Value="{size:ThicknessMd}" />
     </Style>
   </ControlTheme>

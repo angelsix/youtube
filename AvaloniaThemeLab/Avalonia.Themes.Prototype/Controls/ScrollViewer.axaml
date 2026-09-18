@@ -3,7 +3,7 @@
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
   xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
   xmlns:theme="using:AngelSix.ThemeEngine.Generated"
-  xmlns:colour="using:AngelSix.ThemeEngine.Colours"
+  xmlns:color="using:AngelSix.ThemeEngine.Colors"
   xmlns:size="using:AngelSix.ThemeEngine.Sizes">
   <Design.PreviewWith>
     <Border>
@@ -19,57 +19,57 @@
             <!-- Both bars beside content, enabled, corner hidden: the resting look -->
             <ScrollViewer Width="180" Height="150" Margin="0,0,0,4">
               <Grid ColumnDefinitions="100,100,100" RowDefinitions="60,60,60">
-                <Rectangle Grid.Column="0" Grid.Row="0" Fill="{colour:OverlayWeakBrush}" Margin="4" />
-                <Rectangle Grid.Column="1" Grid.Row="0" Fill="{colour:OverlayWeakBrush}" Margin="4" />
-                <Rectangle Grid.Column="2" Grid.Row="0" Fill="{colour:OverlayWeakBrush}" Margin="4" />
-                <Rectangle Grid.Column="0" Grid.Row="1" Fill="{colour:OverlayWeakBrush}" Margin="4" />
-                <Rectangle Grid.Column="1" Grid.Row="1" Fill="{colour:OverlayWeakBrush}" Margin="4" />
-                <Rectangle Grid.Column="2" Grid.Row="1" Fill="{colour:OverlayWeakBrush}" Margin="4" />
-                <Rectangle Grid.Column="0" Grid.Row="2" Fill="{colour:OverlayWeakBrush}" Margin="4" />
-                <Rectangle Grid.Column="1" Grid.Row="2" Fill="{colour:OverlayWeakBrush}" Margin="4" />
-                <Rectangle Grid.Column="2" Grid.Row="2" Fill="{colour:OverlayWeakBrush}" Margin="4" />
+                <Rectangle Grid.Column="0" Grid.Row="0" Fill="{color:OverlayWeakBrush}" Margin="4" />
+                <Rectangle Grid.Column="1" Grid.Row="0" Fill="{color:OverlayWeakBrush}" Margin="4" />
+                <Rectangle Grid.Column="2" Grid.Row="0" Fill="{color:OverlayWeakBrush}" Margin="4" />
+                <Rectangle Grid.Column="0" Grid.Row="1" Fill="{color:OverlayWeakBrush}" Margin="4" />
+                <Rectangle Grid.Column="1" Grid.Row="1" Fill="{color:OverlayWeakBrush}" Margin="4" />
+                <Rectangle Grid.Column="2" Grid.Row="1" Fill="{color:OverlayWeakBrush}" Margin="4" />
+                <Rectangle Grid.Column="0" Grid.Row="2" Fill="{color:OverlayWeakBrush}" Margin="4" />
+                <Rectangle Grid.Column="1" Grid.Row="2" Fill="{color:OverlayWeakBrush}" Margin="4" />
+                <Rectangle Grid.Column="2" Grid.Row="2" Fill="{color:OverlayWeakBrush}" Margin="4" />
               </Grid>
             </ScrollViewer>
             <!-- Bars overlay the content (AllowAutoHide) with a Warning-accented frame -->
             <ScrollViewer Width="180" Height="150" Margin="0,0,0,4" AllowAutoHide="True" theme:Accent.Kind="Warning">
               <Grid ColumnDefinitions="100,100,100" RowDefinitions="60,60,60">
-                <Rectangle Grid.Column="0" Grid.Row="0" Fill="{colour:OverlayWeakBrush}" Margin="4" />
-                <Rectangle Grid.Column="1" Grid.Row="0" Fill="{colour:OverlayWeakBrush}" Margin="4" />
-                <Rectangle Grid.Column="2" Grid.Row="0" Fill="{colour:OverlayWeakBrush}" Margin="4" />
-                <Rectangle Grid.Column="0" Grid.Row="1" Fill="{colour:OverlayWeakBrush}" Margin="4" />
-                <Rectangle Grid.Column="1" Grid.Row="1" Fill="{colour:OverlayWeakBrush}" Margin="4" />
-                <Rectangle Grid.Column="2" Grid.Row="1" Fill="{colour:OverlayWeakBrush}" Margin="4" />
-                <Rectangle Grid.Column="0" Grid.Row="2" Fill="{colour:OverlayWeakBrush}" Margin="4" />
-                <Rectangle Grid.Column="1" Grid.Row="2" Fill="{colour:OverlayWeakBrush}" Margin="4" />
-                <Rectangle Grid.Column="2" Grid.Row="2" Fill="{colour:OverlayWeakBrush}" Margin="4" />
+                <Rectangle Grid.Column="0" Grid.Row="0" Fill="{color:OverlayWeakBrush}" Margin="4" />
+                <Rectangle Grid.Column="1" Grid.Row="0" Fill="{color:OverlayWeakBrush}" Margin="4" />
+                <Rectangle Grid.Column="2" Grid.Row="0" Fill="{color:OverlayWeakBrush}" Margin="4" />
+                <Rectangle Grid.Column="0" Grid.Row="1" Fill="{color:OverlayWeakBrush}" Margin="4" />
+                <Rectangle Grid.Column="1" Grid.Row="1" Fill="{color:OverlayWeakBrush}" Margin="4" />
+                <Rectangle Grid.Column="2" Grid.Row="1" Fill="{color:OverlayWeakBrush}" Margin="4" />
+                <Rectangle Grid.Column="0" Grid.Row="2" Fill="{color:OverlayWeakBrush}" Margin="4" />
+                <Rectangle Grid.Column="1" Grid.Row="2" Fill="{color:OverlayWeakBrush}" Margin="4" />
+                <Rectangle Grid.Column="2" Grid.Row="2" Fill="{color:OverlayWeakBrush}" Margin="4" />
               </Grid>
             </ScrollViewer>
             <!-- Disabled: dimmed frame and ghosted bars, still occupying their lanes -->
             <ScrollViewer Width="180" Height="150" Margin="0,0,0,4" IsEnabled="False">
               <Grid ColumnDefinitions="100,100,100" RowDefinitions="60,60,60">
-                <Rectangle Grid.Column="0" Grid.Row="0" Fill="{colour:OverlayWeakBrush}" Margin="4" />
-                <Rectangle Grid.Column="1" Grid.Row="0" Fill="{colour:OverlayWeakBrush}" Margin="4" />
-                <Rectangle Grid.Column="2" Grid.Row="0" Fill="{colour:OverlayWeakBrush}" Margin="4" />
-                <Rectangle Grid.Column="0" Grid.Row="1" Fill="{colour:OverlayWeakBrush}" Margin="4" />
-                <Rectangle Grid.Column="1" Grid.Row="1" Fill="{colour:OverlayWeakBrush}" Margin="4" />
-                <Rectangle Grid.Column="2" Grid.Row="1" Fill="{colour:OverlayWeakBrush}" Margin="4" />
-                <Rectangle Grid.Column="0" Grid.Row="2" Fill="{colour:OverlayWeakBrush}" Margin="4" />
-                <Rectangle Grid.Column="1" Grid.Row="2" Fill="{colour:OverlayWeakBrush}" Margin="4" />
-                <Rectangle Grid.Column="2" Grid.Row="2" Fill="{colour:OverlayWeakBrush}" Margin="4" />
+                <Rectangle Grid.Column="0" Grid.Row="0" Fill="{color:OverlayWeakBrush}" Margin="4" />
+                <Rectangle Grid.Column="1" Grid.Row="0" Fill="{color:OverlayWeakBrush}" Margin="4" />
+                <Rectangle Grid.Column="2" Grid.Row="0" Fill="{color:OverlayWeakBrush}" Margin="4" />
+                <Rectangle Grid.Column="0" Grid.Row="1" Fill="{color:OverlayWeakBrush}" Margin="4" />
+                <Rectangle Grid.Column="1" Grid.Row="1" Fill="{color:OverlayWeakBrush}" Margin="4" />
+                <Rectangle Grid.Column="2" Grid.Row="1" Fill="{color:OverlayWeakBrush}" Margin="4" />
+                <Rectangle Grid.Column="0" Grid.Row="2" Fill="{color:OverlayWeakBrush}" Margin="4" />
+                <Rectangle Grid.Column="1" Grid.Row="2" Fill="{color:OverlayWeakBrush}" Margin="4" />
+                <Rectangle Grid.Column="2" Grid.Row="2" Fill="{color:OverlayWeakBrush}" Margin="4" />
               </Grid>
             </ScrollViewer>
             <!-- Success-accented frame. Corner box omitted: set_IsExpanded is non-public in Avalonia 12, so the [IsExpanded] branch cannot fire from markup -->
             <ScrollViewer Width="180" Height="150" Margin="0,0,0,4" theme:Accent.Kind="Success">
               <Grid ColumnDefinitions="100,100,100" RowDefinitions="60,60,60">
-                <Rectangle Grid.Column="0" Grid.Row="0" Fill="{colour:OverlayWeakBrush}" Margin="4" />
-                <Rectangle Grid.Column="1" Grid.Row="0" Fill="{colour:OverlayWeakBrush}" Margin="4" />
-                <Rectangle Grid.Column="2" Grid.Row="0" Fill="{colour:OverlayWeakBrush}" Margin="4" />
-                <Rectangle Grid.Column="0" Grid.Row="1" Fill="{colour:OverlayWeakBrush}" Margin="4" />
-                <Rectangle Grid.Column="1" Grid.Row="1" Fill="{colour:OverlayWeakBrush}" Margin="4" />
-                <Rectangle Grid.Column="2" Grid.Row="1" Fill="{colour:OverlayWeakBrush}" Margin="4" />
-                <Rectangle Grid.Column="0" Grid.Row="2" Fill="{colour:OverlayWeakBrush}" Margin="4" />
-                <Rectangle Grid.Column="1" Grid.Row="2" Fill="{colour:OverlayWeakBrush}" Margin="4" />
-                <Rectangle Grid.Column="2" Grid.Row="2" Fill="{colour:OverlayWeakBrush}" Margin="4" />
+                <Rectangle Grid.Column="0" Grid.Row="0" Fill="{color:OverlayWeakBrush}" Margin="4" />
+                <Rectangle Grid.Column="1" Grid.Row="0" Fill="{color:OverlayWeakBrush}" Margin="4" />
+                <Rectangle Grid.Column="2" Grid.Row="0" Fill="{color:OverlayWeakBrush}" Margin="4" />
+                <Rectangle Grid.Column="0" Grid.Row="1" Fill="{color:OverlayWeakBrush}" Margin="4" />
+                <Rectangle Grid.Column="1" Grid.Row="1" Fill="{color:OverlayWeakBrush}" Margin="4" />
+                <Rectangle Grid.Column="2" Grid.Row="1" Fill="{color:OverlayWeakBrush}" Margin="4" />
+                <Rectangle Grid.Column="0" Grid.Row="2" Fill="{color:OverlayWeakBrush}" Margin="4" />
+                <Rectangle Grid.Column="1" Grid.Row="2" Fill="{color:OverlayWeakBrush}" Margin="4" />
+                <Rectangle Grid.Column="2" Grid.Row="2" Fill="{color:OverlayWeakBrush}" Margin="4" />
               </Grid>
             </ScrollViewer>
           </StackPanel>
@@ -84,9 +84,9 @@
   <ControlTheme x:Key="{x:Type ScrollViewer}" TargetType="ScrollViewer">
 
     <!-- Visual defaults -->
-    <Setter Property="Background" Value="{colour:BackgroundDefaultBrush}" />
-    <Setter Property="Foreground" Value="{colour:TextDefaultBrush}" />
-    <Setter Property="BorderBrush" Value="{colour:AccentBrush Light2}" />
+    <Setter Property="Background" Value="{color:BackgroundDefault}" />
+    <Setter Property="Foreground" Value="{color:TextDefault}" />
+    <Setter Property="BorderBrush" Value="{color:AccentBrush Light2}" />
     <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
     <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
     <Setter Property="Padding" Value="{size:Edges Horizontal={size:SpacingMd}, Vertical={size:SpacingMd}}" />
@@ -145,7 +145,7 @@
 
     <!-- Separator background -->
     <Style Selector="^ /template/ Panel#PART_ScrollBarsSeparator">
-      <Setter Property="Background" Value="{colour:AccentBrush Light6}" />
+      <Setter Property="Background" Value="{color:AccentBrush Light6}" />
     </Style>
 
     <!-- Auto hide mode -->

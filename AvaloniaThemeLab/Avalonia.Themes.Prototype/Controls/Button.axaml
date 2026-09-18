@@ -3,7 +3,7 @@
                     xmlns:sys="using:System"
                     xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
-                    xmlns:colour="using:AngelSix.ThemeEngine.Colours"
+                    xmlns:color="using:AngelSix.ThemeEngine.Colors"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes"
                     >
   <Design.PreviewWith>
@@ -43,9 +43,9 @@
   <ControlTheme x:Key="{x:Type Button}" TargetType="Button">
 
     <!-- Visual defaults -->
-    <Setter Property="Background" Value="{colour:BackgroundDefaultBrush}" />
-    <Setter Property="Foreground" Value="{colour:TextDefaultBrush}" />
-    <Setter Property="BorderBrush" Value="{colour:BorderDefaultBrush}" />
+    <Setter Property="Background" Value="{color:BackgroundDefault}" />
+    <Setter Property="Foreground" Value="{color:TextDefault}" />
+    <Setter Property="BorderBrush" Value="{color:BorderDefault}" />
     <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
     <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
     <Setter Property="Padding" Value="{size:Edges Horizontal={size:SpacingXl}, Vertical={size:SpacingLg}}" />
@@ -96,7 +96,7 @@
 
     <!-- Accent border visuals -->
     <Style Selector="^ /template/ Rectangle#PART_AccentBorder">
-      <Setter Property="Stroke" Value="{colour:AccentPrimaryBrush}" />
+      <Setter Property="Stroke" Value="{color:AccentPrimaryBrush}" />
       <Setter Property="StrokeThickness" Value="{size:AccentBorderStrokeThickness}" />
       <Setter Property="RadiusX" Value="{size:RadiusSmDouble}" />
       <Setter Property="RadiusY" Value="{size:RadiusSmDouble}" />
@@ -104,15 +104,15 @@
 
     <!-- Hover state: opaque ramp stage, not an overlay — translucency would erase the fill -->
     <Style Selector="^:pointerover, ^[(theme|Preview.State)=Hover]">
-      <Setter Property="Background" Value="{colour:HoverBackgroundDefaultBrush}" />
-      <Setter Property="Foreground" Value="{colour:HoverTextDefaultBrush}" />
+      <Setter Property="Background" Value="{color:HoverBackgroundDefault}" />
+      <Setter Property="Foreground" Value="{color:HoverTextDefault}" />
       <Setter Property="RenderTransform" Value="{theme:TransformScale Value={size:PressedScale}, By=1.07}" />
     </Style>
 
     <!-- Pressed state -->
     <Style Selector="^:pressed, ^[(theme|Preview.State)=Pressed]">
       <Setter Property="RenderTransform" Value="{theme:TransformScale Value={size:PressedScale}}" />
-      <Setter Property="Background" Value="{colour:PressedBackgroundDefaultBrush}" />
+      <Setter Property="Background" Value="{color:PressedBackgroundDefault}" />
     </Style>
     
     <!-- Disabled state -->
@@ -122,7 +122,7 @@
 
     <!-- Focus state -->
     <Style Selector="^:focus-visible, ^[(theme|Preview.State)=Focused]">
-      <Setter Property="BorderBrush" Value="{colour:AccentFocusBrush}" />
+      <Setter Property="BorderBrush" Value="{color:AccentFocusBrush}" />
       <Setter Property="BorderThickness" Value="{size:ThicknessMd}" />
     </Style>
     

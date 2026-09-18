@@ -2,7 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:prototype="clr-namespace:Avalonia.Themes.Prototype"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
-                    xmlns:colour="using:AngelSix.ThemeEngine.Colours"
+                    xmlns:color="using:AngelSix.ThemeEngine.Colors"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes"
                     xmlns:icons="using:AngelSix.ThemeEngine.Icons"
                     xmlns:converters="using:Avalonia.Controls.Converters">
@@ -70,8 +70,8 @@
   <ControlTheme x:Key="PrototypeExpanderToggleButtonTheme" TargetType="ToggleButton">
 
     <!-- Visual defaults -->
-    <Setter Property="Background" Value="{colour:BackgroundDefaultBrush}" />
-    <Setter Property="BorderBrush" Value="{colour:OverlayWeakBrush}" />
+    <Setter Property="Background" Value="{color:BackgroundDefault}" />
+    <Setter Property="BorderBrush" Value="{color:OverlayWeakBrush}" />
     <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
     <Setter Property="Padding" Value="{size:Edges Left={size:SpacingXxl}}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
@@ -130,7 +130,7 @@
 
     <!-- Chevron path default -->
     <Style Selector="^ /template/ Path#ExpandCollapseChevron">
-      <Setter Property="Stroke" Value="{colour:AccentBrush Dark1}" />
+      <Setter Property="Stroke" Value="{color:AccentBrush Dark1}" />
       <Setter Property="StrokeThickness" Value="{size:ThicknessSm}" />
     </Style>
 
@@ -161,23 +161,23 @@
 
     <!-- Hover state -->
     <Style Selector="^:pointerover /template/ Border#ToggleButtonBackground, ^[(theme|Preview.State)=Hover] /template/ Border#ToggleButtonBackground">
-      <Setter Property="Background" Value="{colour:BackgroundDefaultBrush}" />
-      <Setter Property="BorderBrush" Value="{colour:OverlayWeakBrush}" />
+      <Setter Property="Background" Value="{color:BackgroundDefault}" />
+      <Setter Property="BorderBrush" Value="{color:OverlayWeakBrush}" />
     </Style>
     <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter, ^[(theme|Preview.State)=Hover] /template/ ContentPresenter#PART_ContentPresenter">
     </Style>
     <Style Selector="^:pointerover /template/ Border#ExpandCollapseChevronBorder, ^[(theme|Preview.State)=Hover] /template/ Border#ExpandCollapseChevronBorder">
-      <Setter Property="Background" Value="{colour:AccentBrush Dark1}" />
+      <Setter Property="Background" Value="{color:AccentBrush Dark1}" />
       <Setter Property="BorderBrush" Value="Transparent" />
     </Style>
     <Style Selector="^:pointerover /template/ Path#ExpandCollapseChevron, ^[(theme|Preview.State)=Hover] /template/ Path#ExpandCollapseChevron">
-      <Setter Property="Stroke" Value="{colour:AccentBrush Dark1}" />
+      <Setter Property="Stroke" Value="{color:AccentBrush Dark1}" />
     </Style>
 
     <!-- Pressed state -->
     <Style Selector="^:pressed /template/ Border#ToggleButtonBackground, ^[(theme|Preview.State)=Pressed] /template/ Border#ToggleButtonBackground">
-      <Setter Property="Background" Value="{colour:BackgroundDefaultBrush}" />
-      <Setter Property="BorderBrush" Value="{colour:OverlayWeakBrush}" />
+      <Setter Property="Background" Value="{color:BackgroundDefault}" />
+      <Setter Property="BorderBrush" Value="{color:OverlayWeakBrush}" />
     </Style>
     <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter, ^[(theme|Preview.State)=Pressed] /template/ ContentPresenter#PART_ContentPresenter">
     </Style>
@@ -186,23 +186,23 @@
       <Setter Property="BorderBrush" Value="Transparent" />
     </Style>
     <Style Selector="^:pressed /template/ Path#ExpandCollapseChevron, ^[(theme|Preview.State)=Pressed] /template/ Path#ExpandCollapseChevron">
-      <Setter Property="Stroke" Value="{colour:AccentBrush Dark1}" />
+      <Setter Property="Stroke" Value="{color:AccentBrush Dark1}" />
     </Style>
 
     <!-- Disabled state -->
     <Style Selector="^:disabled /template/ Border#ToggleButtonBackground">
-      <Setter Property="Background" Value="{colour:BackgroundDefaultBrush}" />
-      <Setter Property="BorderBrush" Value="{colour:OverlayWeakBrush}" />
+      <Setter Property="Background" Value="{color:BackgroundDefault}" />
+      <Setter Property="BorderBrush" Value="{color:OverlayWeakBrush}" />
     </Style>
     <Style Selector="^:disabled /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="Foreground" Value="{colour:DimTextDefaultBrush}" />
+      <Setter Property="Foreground" Value="{color:DimTextDefault}" />
     </Style>
     <Style Selector="^:disabled /template/ Border#ExpandCollapseChevronBorder">
       <Setter Property="Background" Value="Transparent" />
       <Setter Property="BorderBrush" Value="Transparent" />
     </Style>
     <Style Selector="^:disabled /template/ Path#ExpandCollapseChevron">
-      <Setter Property="Stroke" Value="{colour:AccentBrush Light2}" />
+      <Setter Property="Stroke" Value="{color:AccentBrush Light2}" />
     </Style>
 
   </ControlTheme>
@@ -256,9 +256,9 @@
     <Setter Property="IsTabStop" Value="False" />
     <Setter Property="MinWidth" Value="{size:ControlMinWidth}" />
     <Setter Property="MinHeight" Value="{size:ControlHeightLg}" />
-    <Setter Property="Background" Value="{colour:BackgroundDefaultBrush}" />
-    <Setter Property="Foreground" Value="{colour:TextDefaultBrush}" />
-    <Setter Property="BorderBrush" Value="{colour:OverlayWeakBrush}" />
+    <Setter Property="Background" Value="{color:BackgroundDefault}" />
+    <Setter Property="Foreground" Value="{color:TextDefault}" />
+    <Setter Property="BorderBrush" Value="{color:OverlayWeakBrush}" />
     <Setter Property="BorderThickness" Value="{size:Edges Left={size:BaseSize}, Right={size:BaseSize}, Bottom={size:BaseSize}}" />
     <Setter Property="Padding" Value="{size:Edges All={size:SpacingXxl}}" />
     <Setter Property="FontFamily" Value="{theme:FontFamily}" />
