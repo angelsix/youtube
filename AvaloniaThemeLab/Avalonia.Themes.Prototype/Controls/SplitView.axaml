@@ -11,7 +11,7 @@
         <prototype:PrototypeTheme />
       </Border.Styles>
 
-      <!-- Config matrix written once; each pane instantiates its own copy. States are driven by the real DPs the theme consumes (placement/display/open/light-dismiss), not Preview.State. -->
+      <!-- States driven by the real DPs the theme consumes (placement/display/open/light-dismiss), not Preview.State -->
       <prototype:LightDarkPreview Title="SplitView States" Orientation="Horizontal">
         <DataTemplate>
           <!-- StackPanel has no Padding property in Avalonia 12; spacing alone separates the cases -->

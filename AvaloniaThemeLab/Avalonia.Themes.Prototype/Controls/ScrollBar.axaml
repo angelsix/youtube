@@ -11,9 +11,8 @@
         <prototype:PrototypeTheme />
       </Border.Styles>
 
-      <!-- One shared row per pane: the theme exposes no Preview.State/Error/Focus tokens, so every
-           instance forces a REAL state — collapse-vs-expand ([IsExpanded]), enablement (:disabled),
-           orientation (:vertical/:horizontal) and thumb position (Value); options compose onto one bar. -->
+      <!-- No Preview.State/Error/Focus tokens exist, so every instance forces a REAL state:
+           expand/collapse, disabled, orientation, thumb position -->
       <prototype:LightDarkPreview Title="ScrollBar States" Orientation="Vertical">
         <DataTemplate>
           <StackPanel Orientation="Horizontal" Spacing="20">

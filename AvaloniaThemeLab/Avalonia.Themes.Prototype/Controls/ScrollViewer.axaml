@@ -11,8 +11,8 @@
         <prototype:PrototypeTheme />
       </Border.Styles>
 
-      <!-- Structural showcase: the theme paints no Preview.State/:error tokens, so each instance composes the real
-           options — bar orientation, AllowAutoHide overlay, enablement, [IsExpanded] corner box, accent hue -->
+      <!-- No Preview.State/:error tokens exist, so each instance composes real options:
+           bar visibility, auto-hide, disabled, accent hue -->
       <prototype:LightDarkPreview Title="ScrollViewer States" Orientation="Vertical">
         <DataTemplate>
           <StackPanel Orientation="Horizontal" Spacing="20">
@@ -58,8 +58,7 @@
                 <Rectangle Grid.Column="2" Grid.Row="2" Fill="{colour:OverlayWeakBrush}" Margin="4" />
               </Grid>
             </ScrollViewer>
-            <!-- Success-accented frame. Corner box omitted: the theme keys it off [IsExpanded=true], but
-                 ScrollViewer.set_IsExpanded is non-public in Avalonia 12, so the branch cannot fire from markup -->
+            <!-- Success-accented frame. Corner box omitted: set_IsExpanded is non-public in Avalonia 12, so the [IsExpanded] branch cannot fire from markup -->
             <ScrollViewer Width="180" Height="150" Margin="0,0,0,4" theme:Accent.Kind="Success">
               <Grid ColumnDefinitions="100,100,100" RowDefinitions="60,60,60">
                 <Rectangle Grid.Column="0" Grid.Row="0" Fill="{colour:OverlayWeakBrush}" Margin="4" />

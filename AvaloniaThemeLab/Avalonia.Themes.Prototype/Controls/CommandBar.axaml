@@ -304,13 +304,8 @@
   </ControlTheme>
 
   <!-- CommandBar ControlTheme -->
-  <!-- ============================================================
-       Sub-theme: the overflow button
-
-       PART_ContentPresenter is inside the Button's own template, so its states cannot be reached from
-       the CommandBar theme — that would be two /template/ hops, which Avalonia rejects when the theme
-       is built. They belong to a Button theme, applied to PART_OverflowButton below.
-       ============================================================ -->
+  <!-- Overflow button: PART_ContentPresenter sits inside Button's own template, so a dedicated
+       Button theme reaches it where the CommandBar theme could not (two /template/ hops) -->
   <ControlTheme x:Key="PrototypeCommandBarOverflowButton"
                 TargetType="Button"
                 BasedOn="{StaticResource {x:Type Button}}">

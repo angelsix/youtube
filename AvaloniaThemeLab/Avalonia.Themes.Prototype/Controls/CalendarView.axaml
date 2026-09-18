@@ -78,13 +78,8 @@
     </Style>
   </ControlTheme>
 
-  <!-- ============================================================
-       ControlTheme: the chromeless TextBox inside the picker
-
-       A selector may cross only one /template/ boundary, so the TextBox's own
-       PART_BorderElement cannot be reached from the CalendarView theme; the rules for it
-       live in a theme for the TextBox itself, applied to PART_TextBox below.
-       ============================================================ -->
+  <!-- Chromeless picker textbox: a selector crosses only one /template/ hop, so the TextBox's own
+       PART_BorderElement is unreachable from here — its rules ride the dedicated theme applied to PART_TextBox -->
   <ControlTheme x:Key="PrototypeCalendarViewTextBox"
                 TargetType="TextBox"
                 BasedOn="{StaticResource {x:Type TextBox}}">
@@ -320,9 +315,8 @@
               </Grid>
               <!-- Month and zoom presentations overlaid; swapped by the styles below -->
               <Panel Grid.Row="1">
-                                <!-- Month grid: week-number gutter column, then seven day columns. The six gutter
-                     labels are static template parts; the control writes their text. Day titles
-                     and day cells are added by the control into the same grid. -->
+                 <!-- Month grid: gutter column + seven day columns. Gutter labels are static parts the control
+                      fills with text; day titles and cells are added into this grid by the control at runtime -->
                 <Grid Name="PART_MonthBody"
                       ColumnDefinitions="Auto,*,*,*,*,*,*,*"
                       RowDefinitions="Auto,*,*,*,*,*,*">

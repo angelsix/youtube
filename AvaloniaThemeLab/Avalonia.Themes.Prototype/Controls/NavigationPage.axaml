@@ -25,13 +25,8 @@
   <SolidColorBrush x:Key="NavigationBarBackground" Color="{colour:AccentNeutral}" />
   <SolidColorBrush x:Key="NavigationBarForeground" Color="{colour:AccentNeutral}" />
 
-  <!-- ============================================================
-       Sub-theme: a nav-bar button
-
-       The button's PART_ContentPresenter is inside the button's own template, so styling it from the
-       NavigationPage theme needs two /template/ hops — which Avalonia rejects when the theme is built.
-       Held as a Button theme instead, where each selector crosses one boundary.
-       ============================================================ -->
+  <!-- Nav bar button: PART_ContentPresenter sits inside the button's own template, so a dedicated
+       Button theme reaches it where the NavigationPage theme could not (two /template/ hops) -->
   <ControlTheme x:Key="PrototypeNavigationBarButton"
                 TargetType="Button"
                 BasedOn="{StaticResource {x:Type Button}}">

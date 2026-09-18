@@ -39,13 +39,8 @@
     </Border>
   </Design.PreviewWith>
 
-  <!-- ============================================================
-       Sub-theme: the quick-links ListBox
-
-       A ControlTheme may cross one /template/ boundary. PART_ShadowBorder lives inside this
-       ListBox's own template, so reaching it from the ManagedFileChooser theme would need two
-       hops and throws when the theme is built. The ListBox owns the part, so it owns the theme.
-       ============================================================ -->
+  <!-- Quick links: PART_ShadowBorder sits inside the ListBox's own template, so a dedicated
+       ListBox theme reaches it where the ManagedFileChooser theme could not (two /template/ hops) -->
   <ControlTheme x:Key="PrototypeManagedFileChooserQuickLinks" TargetType="ListBox">
     <Setter Property="Margin" Value="0"/>
     <Setter Property="Background" Value="{colour:AccentBrush Light8}"/>

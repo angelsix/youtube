@@ -11,8 +11,7 @@
         <prototype:PrototypeTheme />
       </Border.Styles>
 
-      <!-- Written once as a template so each pane owns independent instances; states and hues are
-           combined onto single switches (e.g. Pressed+On, Warning+On) to minimise the count. -->
+      <!-- States and hues combine onto single switches (Pressed+On, Warning+On) to minimise the count -->
       <prototype:LightDarkPreview Title="ToggleSwitch States" Orientation="Vertical">
         <DataTemplate>
           <StackPanel Orientation="Horizontal" Spacing="20">
