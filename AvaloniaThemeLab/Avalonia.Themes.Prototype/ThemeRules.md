@@ -699,7 +699,7 @@ After reviewing the calendar controls against the existing `DefaultTheme`, the c
 | **Control metrics** | `ControlMinWidth` (64), `IconSize` (16) |
 | **Shape** | `RadiusSm` (3), `RadiusMd` (6), `RadiusSmDouble` (3), `RadiusMdDouble` (6) |
 | **Thickness (5)** | `ThicknessSm` (1), `ThicknessMd` (2), `ThicknessLg` (3), `ThicknessXl` (4), `ThicknessXxl` (6) |
-| **Alignment** | `ControlHorizontalAlignment` (Left), `ControlVerticalAlignment` (Center), `ControlHorizontalContentAlignment` (Center), `ControlVerticalContentAlignment` (Center), `ContainerHorizontalAlignment` (Stretch), `ContainerVerticalAlignment` (Stretch) |
+| **Alignment** | `ControlHorizontalAlignment` (Left), `ControlVerticalAlignment` (Center), `ControlHorizontalContentAlignment` (Left), `ControlVerticalContentAlignment` (Center), `ContainerHorizontalAlignment` (Stretch), `ContainerVerticalAlignment` (Stretch) |
 | **Accent specific** | `AccentBorderStrokeThickness` (2), `AccentFontWeight` (SemiBold), `AccentHoverOverlayBrush`, `AccentPressedOverlayBrush` |
 | **State** | `DisabledOpacity` (0.3), `PressedScale` (0.98) |
 | **Animation** | `AnimationFastMs` (75), `AnimationNormalMs` (150), `AnimationSlowMs` (300) |

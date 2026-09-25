@@ -232,7 +232,7 @@ public partial class DefaultTheme
     // Control alignment defaults (for interactive controls: buttons, inputs, pickers, etc.)
     public virtual HorizontalAlignment ControlHorizontalAlignment => HorizontalAlignment.Left;
     public virtual VerticalAlignment ControlVerticalAlignment => VerticalAlignment.Center;
-    public virtual HorizontalAlignment ControlHorizontalContentAlignment => HorizontalAlignment.Center;
+    public virtual HorizontalAlignment ControlHorizontalContentAlignment => HorizontalAlignment.Left;
     public virtual VerticalAlignment ControlVerticalContentAlignment => VerticalAlignment.Center;
 
     // Container alignment defaults (for structural elements that stretch to fill: list items, panels, etc.)

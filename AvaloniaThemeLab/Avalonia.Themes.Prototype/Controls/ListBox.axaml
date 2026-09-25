@@ -60,8 +60,6 @@
     <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
     <Setter Property="ScrollViewer.IsScrollChainingEnabled" Value="True" />
     <Setter Property="ScrollViewer.IsScrollInertiaEnabled" Value="True" />
-    <!-- Bars sit beside the content, as the ScrollViewer theme decides; the template binds this through, so it must be said here too -->
-    <Setter Property="ScrollViewer.AllowAutoHide" Value="False" />
 
     <!-- Template -->
     <Setter Property="Template">
@@ -83,7 +81,6 @@
                         IsScrollChainingEnabled="{TemplateBinding (ScrollViewer.IsScrollChainingEnabled)}"
                         IsScrollInertiaEnabled="{TemplateBinding (ScrollViewer.IsScrollInertiaEnabled)}"
                         IsDeferredScrollingEnabled="{TemplateBinding (ScrollViewer.IsDeferredScrollingEnabled)}"
-                        AllowAutoHide="{TemplateBinding (ScrollViewer.AllowAutoHide)}"
                         BringIntoViewOnFocusChange="{TemplateBinding (ScrollViewer.BringIntoViewOnFocusChange)}">
             <!-- The list items -->
             <ItemsPresenter Name="PART_ItemsPresenter"
