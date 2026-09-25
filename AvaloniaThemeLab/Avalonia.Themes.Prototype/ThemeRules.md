@@ -349,7 +349,7 @@ So `<!-- ControlTheme: PrototypeCalendarViewNavButton (header and arrows) -->` b
 ```
 
 **Exception — workaround elements:**
-A comment explaining WHY a non-obvious element or attribute exists IS appropriate, because the XAML cannot express that. It earns at most **two lines**: one stating the constraint, one the consequence if violated. A multi-paragraph narrative is a report, not a comment — the mechanism belongs in `AgentDocumentation` or a session note, and the markup gets the shortest sentence that still warns the next editor:
+A comment explaining WHY a non-obvious element or attribute exists IS appropriate, because the XAML cannot express that. It earns at most **two lines**: one stating the constraint, one the consequence if violated. A multi-paragraph narrative is a report, not a comment — the mechanism belongs in the project docs, and the markup gets the shortest sentence that still warns the next editor:
 ```xml
 <!-- Good: one line, states the constraint and the payoff -->
 <!-- Accent border overlay (required: ContentPresenter lacks StrokeDashArray) -->
@@ -361,7 +361,7 @@ A comment explaining WHY a non-obvious element or attribute exists IS appropriat
      {color:*} token falls back to the default hue. Reading the templated parent's
      RESOLVED value means a hue set on an ancestor panel still reaches the dropdown. -->
 ```
-When the *reason* needs more room than two lines, write the full argument somewhere durable and leave a pointer (`See AgentDocumentation/Memory.md — popup hue seam`) rather than bloating the file.
+When the *reason* needs more room than two lines, write the full argument somewhere durable and leave a pointer (`See docs/popup-hue-seam.md`) rather than bloating the file.
 
 > **Scope.** This rule governs the *style blocks* in a file — the selectors and setters, whose behaviour the XAML already states. It does NOT apply inside a `ControlTemplate`, where the opposite is required: every structural element must be named and its role explained. See **Rule 15**.
 
@@ -499,7 +499,7 @@ The marker converts an invisible intention into a checkable fact. It also makes 
 
 **When writing a new one:** exhaust the themed route first. An exception is for values that are structural or intrinsic to the control's mechanics — a full-height hit area, a positional class like `TopLeft`, an indeterminate progress bar's travel — not for "the token didn't look quite right", which is a request to change the token.
 
-**Tooling note:** `guard xaml analyze` does not currently check the alignment-token or inherited-property rules, so nothing enforces those automatically today; the marker binds readers and agents. Any check added for them later must skip a setter preceded by a `Theme Exception:` comment, or it will produce exactly the false positives this rule exists to prevent.
+**Tooling note:** nothing checks the alignment-token or inherited-property rules automatically today; the marker binds readers. Any check added for them later must skip a setter preceded by a `Theme Exception:` comment, or it will produce exactly the false positives this rule exists to prevent.
 
 **Reference example:** `Controls/ButtonSpinner.axaml` — `VerticalAlignment="Stretch"` on the spinner's RepeatButton sub-theme. Rule 12 would map this to `{theme:ContainerVerticalAlignment}`; the literal is required so the chevron buttons fill the control's height and their hover fills the full edge-to-edge area rather than a centred band.
 
@@ -634,8 +634,6 @@ It cannot be included from `PrototypeTheme.axaml` on the consumer's behalf, and 
 **How the generation works:** `StyleClasses.targets` declares an inline MSBuild task that runs before the build, walks every `.axaml` in the project, and collects the classes each ControlTheme defines — taking only the part of a selector before a `/template/` hop or a descendant space, since past either of those the selector names a template part a consumer never writes. It replaces only the region between the markers, so the prose above it stays hand-written, and it writes only when the content actually differs, so a build in sync causes no file churn.
 
 It is an inline task rather than a script or a tool so the theme project stays self-contained: nothing to install, no interpreter assumed, same behaviour on a build server.
-
-**Belt and braces:** `guard xaml analyze` (AVL015) reports any class a ControlTheme defines that no `Styles` collection declares, naming the exact selector to add. Generation makes drift almost impossible; AVL015 catches the cases generation cannot see — someone editing a ControlTheme without building this project, or a CI checkout where the generated file was committed stale.
 
 **Only ControlTheme-nested classes need declaring.** A top-level selector like `<Style Selector="Button.hero">` in a `Styles` collection is visible to static analysis as it stands. Declarations exist solely for the `^.name` form nested inside a `ControlTheme`, which is this theme library's shape — not most consumers'.
 

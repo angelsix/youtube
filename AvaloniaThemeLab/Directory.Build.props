@@ -1,84 +1,17 @@
 <Project>
 
-  <!-- Copied into a project root by `guard cs install-standards`, alongside the template
-       .editorconfig. It makes the .editorconfig code-style rules fail the BUILD, not just show in
-       the IDE — so `dotnet build` / `dotnet test` (the end gate) is where C# style is enforced,
-       instead of prose a model has to remember. Severities live in .editorconfig (default warning;
-       promote to error per project once clean). If a project already has a Directory.Build.props,
-       merge this PropertyGroup into it rather than overwriting. -->
+  <!-- Code style from .editorconfig fails the build, not just the IDE. LangVersion is latestMajor
+       (the newest major the installed compiler supports), never a literal pin: a literal is a
+       ceiling that silently lowers the language on newer SDKs. -->
   <PropertyGroup>
-    <!-- Floor of C# 12 for collection expressions ([..], []) and target-typed new, which the
-         Modern syntax section of .editorconfig relies on — expressed as `latestMajor`, NEVER as a
-         literal number. This said `12` until 2026-09-16, and that is a CEILING, not a floor:
-         MSBuild's LangVersion is an exact pin, so installing this template into a net10.0 repo
-         silently took the compiler from C# 14 down to C# 12, with a green build the whole way and
-         a baffling CS9058/CS0103 waiting for whoever next wrote a newer language feature.
-         `latestMajor` takes the newest major the installed compiler supports: the floor is met on
-         any modern SDK, and an SDK too old to reach C# 12 fails loudly at the first collection
-         expression instead of quietly disabling the rules that need it. `guard cs lang-version`
-         now fails any repo that pins below its TargetFramework's default. -->
     <LangVersion>latestMajor</LangVersion>
     <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
     <AnalysisLevel>latest</AnalysisLevel>
   </PropertyGroup>
 
-  <!-- ── Working opt-in bypass for the modern-syntax rules ────────────────────────────────
-       Once a repo is clean, the .editorconfig promotes the modern-syntax IDE#### rules to
-       `error`, so `dotnet build` refuses to ship legacy constructs. When you deliberately want
-       to build despite them (mid-refactor, triage, a spike), pass:
-
-           dotnet build -p:DisableModernSyntaxChecks=true
-
-       Off by default — nothing is silenced unless you explicitly ask for it.
-
-       This used to be done by generating a scoped .editorconfig into the project directory, on the
-       stated grounds that "verified empirically, NoWarn cannot demote IDE#### diagnostics that the
-       .editorconfig has escalated to error". Re-tested on SDK 10.0.101 (2026-09-16) and that is
-       false: with `dotnet_diagnostic.IDE0090.severity = error` in the root .editorconfig, a plain
-       build FAILS on IDE0090 and the same build with `-p:NoWarn=IDE0090` SUCCEEDS. NoWarn is all
-       this needs. The generated-file version also left an untracked artefact in the source tree
-       every time the flag was used. Re-run that two-arm experiment before reintroducing anything
-       more elaborate here. -->
+  <!-- Build despite the modern-syntax rules (mid-refactor, spikes) with -p:DisableModernSyntaxChecks=true. -->
   <PropertyGroup Condition="'$(DisableModernSyntaxChecks)' == 'true'">
-    <!-- IDE0028/0300/0301/0306 collection expressions · IDE0090 target-typed new · IDE0063 using
-         declaration · IDE0016 throw expression · IDE0066 switch expression · IDE0071 simplified
-         interpolation · IDE0041 is-null check. Kept in step with the Modern syntax section of
-         .editorconfig. -->
     <NoWarn>$(NoWarn);IDE0028;IDE0300;IDE0301;IDE0306;IDE0090;IDE0063;IDE0016;IDE0066;IDE0071;IDE0041</NoWarn>
   </PropertyGroup>
-
-  <!-- ── Optional post-build lint, run as part of the build ────────────────────────────────────
-
-       Motivation: measured, not assumed. Across several automated coding sessions, every run
-       verified its work with exactly one command — `dotnet build` — and none ever ran the extra
-       lint pass, so a class of bug that builds clean but cannot start at runtime sailed through
-       green gates. A check that must be remembered is not a check; this target puts the cheapest
-       fatal-class check inside the one command everyone already runs.
-
-       The lint tool (`guard`) is PROPRIETARY and not distributed publicly. Anyone cloning this
-       repo — CI runners, forks, collaborators — will not have it, and that is NORMAL: the target
-       detects its absence and skips silently. The gate must never be the reason someone cannot
-       build. Detection is done natively in MSBuild (no shell probing): on Windows the global-tools
-       shim is looked up under %USERPROFILE%; elsewhere the unix symlink under ~/.dotnet/tools.
-       Set RunGuardChecks=false to opt a project out; add further `guard` lines as checks earn
-       their place at build time. -->
-  <PropertyGroup>
-    <_GuardUnixShim Condition="'$(OS)' != 'Windows_NT'">$([System.Environment]::GetEnvironmentVariable('HOME'))/.dotnet/tools/guard</_GuardUnixShim>
-    <_GuardWinShim Condition="'$(OS)' == 'Windows_NT'">$([System.Environment]::GetEnvironmentVariable('USERPROFILE'))/.dotnet/tools/guard.exe</_GuardWinShim>
-    <_GuardAvailable Condition="'$(OS)' != 'Windows_NT'">$([System.IO.File]::Exists('$(_GuardUnixShim)'))</_GuardAvailable>
-    <_GuardAvailable Condition="'$(OS)' == 'Windows_NT'">$([System.IO.File]::Exists('$(_GuardWinShim)'))</_GuardAvailable>
-  </PropertyGroup>
-  <Target Name="GuardBuildChecks"
-          AfterTargets="Build"
-          Condition="'$(RunGuardChecks)' != 'false' AND '$(OutputType)' == 'Exe' AND '$(IsTestProject)' != 'true' AND '$(_GuardAvailable)' == 'true'">
-    <Exec Condition="'$(OS)' != 'Windows_NT'"
-          Command="&quot;$(_GuardUnixShim)&quot; cs service-lifetimes &quot;$(MSBuildProjectDirectory)&quot;"
-          StandardOutputImportance="high"
-          IgnoreStandardErrorWarningFormat="true" />
-    <Exec Condition="'$(OS)' == 'Windows_NT'"
-          Command="&quot;$(_GuardWinShim)&quot; cs service-lifetimes &quot;$(MSBuildProjectDirectory)&quot;"
-          StandardOutputImportance="high"
-          IgnoreStandardErrorWarningFormat="true" />
-  </Target>
 
 </Project>

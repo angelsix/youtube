@@ -1,15 +1,6 @@
-# Luke's canonical C# code style — the single source of truth for identifier naming and a few
-# unambiguous style rules, ENFORCED AT BUILD (paired with Directory.Build.props'
-# EnforceCodeStyleInBuild=true, so `dotnet build`/`dotnet test` fails on a violation rather than
-# only flagging it in the IDE). Copied into a project by `guard cs install-standards`; a project
-# then owns and may freely edit its copy.
-#
-# What is NOT here (can't be expressed as build analyzers):
-#   • member ORDER within a class + the #region-per-section convention → `guard cs conventions`
-#     (the built-in ordering analyzer's fixed order is the opposite of Luke's, and it discourages
-#     regions, so it is deliberately not used).
-#   • `Async` suffix, property form, constructor choice, XML-doc scoping, when-to-split → judgment
-#     (see the CodingConventions.md stub / the model's C# primer).
+# C# code style for this project — identifier naming and a few unambiguous style rules, ENFORCED
+# AT BUILD (paired with Directory.Build.props' EnforceCodeStyleInBuild=true, so `dotnet build` fails
+# on a violation rather than only flagging it in the IDE).
 #   • expression-bodied METHODS, constructors, local functions — deliberately OFF. Multi-statement
 #     bodies forced into arrows fight reviewers; properties/accessors/indexers are fine (they are
 #     almost always one-liners anyway).
@@ -89,10 +80,8 @@ csharp_style_var_for_built_in_types = false:suggestion
 csharp_style_var_elsewhere = false:suggestion
 
 # ── Dead locals are a warning, because a dead local is usually dropped intent ──
-# A value computed and never used is rarely harmless. In bedrock-wiki, an agent implementing a plan
-# fetched `var options = config.GetSection("Voice").Get<VoiceOptions>()` and then hardcoded the speed
-# the options carried — the unused local was the only visible trace that the intent had been dropped.
-# It built clean, passed the full guard gate and two AI reviews. At warning level the compiler says it.
+# A value computed and never used is rarely harmless: an unused local is often the only visible
+# trace that an intended use was dropped. At warning level the compiler says so.
 dotnet_diagnostic.IDE0059.severity = warning
 
 # ── Modern syntax (C# 12+) ──
@@ -102,7 +91,7 @@ dotnet_diagnostic.IDE0059.severity = warning
 # `error` (still enforced at build) rather than leaving them as warnings or suggestions the IDE
 # shows and everyone ignores. To deliberately build despite them (mid-refactor, triage, a spike),
 # pass `-p:DisableModernSyntaxChecks=true` — off by default, nothing is silenced unless you ask.
-# `guard cs fix-modern-syntax <repo> --apply` applies them mechanically via `dotnet format style`.
+# `dotnet format style` applies them mechanically.
 #
 # Collection expressions need LangVersion >= 12 (pinned in Directory.Build.props).
 # `when_types_exactly_match` (not the looser default) keeps the conversion from silently widening
