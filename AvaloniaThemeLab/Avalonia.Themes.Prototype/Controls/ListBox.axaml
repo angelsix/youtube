@@ -60,6 +60,8 @@
     <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
     <Setter Property="ScrollViewer.IsScrollChainingEnabled" Value="True" />
     <Setter Property="ScrollViewer.IsScrollInertiaEnabled" Value="True" />
+    <!-- Bars sit beside the content, as the ScrollViewer theme decides; the template binds this through, so it must be said here too -->
+    <Setter Property="ScrollViewer.AllowAutoHide" Value="False" />
 
     <!-- Template -->
     <Setter Property="Template">
