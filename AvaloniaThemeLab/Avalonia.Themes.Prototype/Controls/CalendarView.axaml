@@ -427,10 +427,12 @@
     </Style>
 
     <!-- Week number labels: static template parts, styled like any other themed node -->
+    <!-- No FontStyle=Italic here: on macOS the first slanted request for the hidden .AppleSystemUIFont makes
+         CoreText refuse that name for the rest of the process, so every font resolved afterwards falls back
+         to Helvetica (measured 25 September 2026: 13px lines instead of 16px once a calendar had opened). -->
     <Style Selector="^ /template/ TextBlock.weeknumber">
       <Setter Property="FontSize" Value="{size:FontSizeSm}" />
       <Setter Property="FontWeight" Value="Bold" />
-      <Setter Property="FontStyle" Value="Italic" />
       <Setter Property="Foreground" Value="{color:AccentBrush Dark4}" />
       <Setter Property="HorizontalAlignment" Value="Center" />
       <Setter Property="VerticalAlignment" Value="Center" />
