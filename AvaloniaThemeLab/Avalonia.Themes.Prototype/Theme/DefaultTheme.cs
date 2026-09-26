@@ -209,8 +209,12 @@ public partial class DefaultTheme
 
     // Typeface. The weights are a named vocabulary rather than anything derived from the family,
     // but generating them keeps the names identical across themes, so a control style written
-    // against {theme:FontWeightSemiBold} survives a theme swap.
-    [FontWeights]
+    // against {theme:FontWeightSemiBold} survives a theme swap. Medium sits between Regular and
+    // SemiBold for the emphasis a capsule button label carries without reading as a heading. The
+    // labels are stated because SemiBold shares its enum value with DemiBold, and an explicit list
+    // without labels would be spelt FontWeightDemiBold.
+    [FontWeights(Weights = [FontWeight.Normal, FontWeight.Medium, FontWeight.SemiBold, FontWeight.Bold],
+                 Labels = ["Regular", "Medium", "SemiBold", "Bold"])]
     public virtual FontFamily FontFamily => new("Inter, $Default");
 
     // Accent visual properties (for highlighted/prominent elements)

@@ -110,10 +110,12 @@
                                   VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
                                   Content="{TemplateBinding InnerLeftContent}"/>
 
-                <!-- Scrolls the text when it overflows; owns the field's padding -->
+                <!-- Scrolls the text when it overflows; the field's Padding is its Margin, so its own Padding is zero
+                     (the ScrollViewer theme's 4px would otherwise start the text 4px in and cost the slot 8px) -->
                 <ScrollViewer Grid.Column="1"
                               Name="PART_ScrollViewer"
                               Margin="{TemplateBinding Padding}"
+                              Padding="0"
                               HorizontalScrollBarVisibility="{TemplateBinding (ScrollViewer.HorizontalScrollBarVisibility)}"
                               VerticalScrollBarVisibility="{TemplateBinding (ScrollViewer.VerticalScrollBarVisibility)}"
                               IsScrollChainingEnabled="{TemplateBinding (ScrollViewer.IsScrollChainingEnabled)}"

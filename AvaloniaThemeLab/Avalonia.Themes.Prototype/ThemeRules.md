@@ -694,7 +694,7 @@ After reviewing the calendar controls against the existing `DefaultTheme`, the c
 | **Accent roles** | `[AccentRole(name, RampStage)]` on the theme class generates one extension per role into the color namespace: `TextDefault` (Dark1), `BorderDefault` (Light6), `BackgroundDefault` (Light10), `HoverBackgroundDefault` (Light8), `PressedBackgroundDefault` (Light6). Consumed as `{color:TextDefault}` etc. — see below |
 | **Spacing (5)** | `SpacingSm` (2), `SpacingMd` (4), `SpacingLg` (8), `SpacingXl` (12), `SpacingXxl` (16) |
 | **Type scale** | `FontSizeSm` (12), `FontSizeMd` (14), `FontSizeLg` (16), `FontSizeXl` (20), `FontSizeXxl` (24) |
-| **Typeface** | `FontFamily`, `FontWeightRegular`, `FontWeightSemiBold`, `FontWeightBold` |
+| **Typeface** | `FontFamily`, `FontWeightRegular`, `FontWeightMedium`, `FontWeightSemiBold`, `FontWeightBold` |
 | **Control height** | `ControlHeightSm` (32), `ControlHeightMd` (40), `ControlHeightLg` (48) |
 | **Control metrics** | `ControlMinWidth` (64), `IconSize` (16) |
 | **Shape** | `RadiusSm` (3), `RadiusMd` (6), `RadiusSmDouble` (3), `RadiusMdDouble` (6) |

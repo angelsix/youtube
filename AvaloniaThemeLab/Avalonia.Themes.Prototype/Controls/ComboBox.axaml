@@ -205,8 +205,10 @@
               <!-- Panel behind the dropdown list -->
               <Border x:Name="PopupBorder"
                       HorizontalAlignment="Stretch">
-                <!-- Scrolls the list when it overflows -->
+                <!-- Scrolls the list when it overflows; zero Padding because the popup sizes to content and a padded
+                     ScrollViewer arranges its list 8px short of what it measured (AVL023) -->
                 <ScrollViewer HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
+                              Padding="0"
                               IsScrollChainingEnabled="False"
                               VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}"
                               IsDeferredScrollingEnabled="{TemplateBinding (ScrollViewer.IsDeferredScrollingEnabled)}">
