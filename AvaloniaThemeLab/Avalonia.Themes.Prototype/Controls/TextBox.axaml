@@ -111,11 +111,14 @@
                                   Content="{TemplateBinding InnerLeftContent}"/>
 
                 <!-- Scrolls the text when it overflows; the field's Padding is its Margin, so its own Padding is zero
-                     (the ScrollViewer theme's 4px would otherwise start the text 4px in and cost the slot 8px) -->
+                     (the ScrollViewer theme's 4px would otherwise start the text 4px in and cost the slot 8px), and it
+                     paints nothing, so a field with its own Background is one tone (the theme's viewer fill drew a
+                     lighter slab across the text) -->
                 <ScrollViewer Grid.Column="1"
                               Name="PART_ScrollViewer"
                               Margin="{TemplateBinding Padding}"
                               Padding="0"
+                              Background="Transparent"
                               HorizontalScrollBarVisibility="{TemplateBinding (ScrollViewer.HorizontalScrollBarVisibility)}"
                               VerticalScrollBarVisibility="{TemplateBinding (ScrollViewer.VerticalScrollBarVisibility)}"
                               IsScrollChainingEnabled="{TemplateBinding (ScrollViewer.IsScrollChainingEnabled)}"
