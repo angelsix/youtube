@@ -215,7 +215,9 @@ public partial class DefaultTheme
     // without labels would be spelt FontWeightDemiBold.
     [FontWeights(Weights = [FontWeight.Normal, FontWeight.Medium, FontWeight.SemiBold, FontWeight.Bold],
                  Labels = ["Regular", "Medium", "SemiBold", "Bold"])]
-    public virtual FontFamily FontFamily => new("Inter, $Default");
+    // WithInterFont() registers Inter as the "fonts:Inter" collection only. The bare name "Inter" matched no
+    // registered family, so every text fell back to the platform default (Helvetica on macOS) until 29 Sep 2026.
+    public virtual FontFamily FontFamily => new("fonts:Inter#Inter, $Default");
 
     // Accent visual properties (for highlighted/prominent elements)
     public virtual double AccentBorderStrokeThickness => 2 * BaseSize;
