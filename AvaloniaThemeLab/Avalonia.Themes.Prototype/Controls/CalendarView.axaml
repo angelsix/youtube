@@ -55,7 +55,8 @@
     <Setter Property="Padding" Value="{size:Edges All={size:SpacingLg}}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
     <Setter Property="VerticalAlignment" Value="{theme:ContainerVerticalAlignment}" />
-    <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
+    <!-- A chevron centred in its button, not at the theme-wide Left content alignment -->
+    <Setter Property="HorizontalContentAlignment" Value="Center" />
     <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
 
     <!-- Template -->
@@ -125,7 +126,9 @@
     <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
     <Setter Property="MinWidth" Value="{size:ControlHeightSm}" />
     <Setter Property="MinHeight" Value="{size:ControlHeightSm}" />
-    <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
+    <!-- A day, month or year sits in the middle of its cell and its selection disc, whatever the theme-wide content
+         alignment is: the theme-wide Left (for text fields and dropdowns) put every number at its cell's left edge -->
+    <Setter Property="HorizontalContentAlignment" Value="Center" />
     <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
     <Setter Property="FontSize" Value="{size:FontSizeMd}" />
 
@@ -149,7 +152,7 @@
                           Theme="{StaticResource PrototypeCalendarMarkerStrip}"
                           ItemsSource="{TemplateBinding Markers}"
                           IsHitTestVisible="False"
-                          HorizontalAlignment="{theme:ControlHorizontalContentAlignment}"
+                          HorizontalAlignment="Center"
                           VerticalAlignment="Bottom">
               <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
