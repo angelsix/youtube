@@ -41,8 +41,9 @@
   </Design.PreviewWith>
 
   <!-- Transform resources -->
-  <TransformOperations x:Key="VerticalSmallScrollThumbScaleTransform">scaleX(0.125) translateX(-2px)</TransformOperations>
-  <TransformOperations x:Key="HorizontalSmallScrollThumbScaleTransform">scaleY(0.125) translateY(-2px)</TransformOperations>
+  <!-- The resting thumb draws a quarter of the bar's width (about 4.5px); an eighth drew a 2px hairline (Luke, 29 Sep 2026) -->
+  <TransformOperations x:Key="VerticalSmallScrollThumbScaleTransform">scaleX(0.25) translateX(-2px)</TransformOperations>
+  <TransformOperations x:Key="HorizontalSmallScrollThumbScaleTransform">scaleY(0.25) translateY(-2px)</TransformOperations>
 
   <!-- ScrollBar Thumb sub-theme -->
   <ControlTheme x:Key="PrototypeScrollBarThumb" TargetType="Thumb">
@@ -50,7 +51,7 @@
     <Setter Property="Background" Value="{color:AccentBrush Light2}"/>
     <Setter Property="Foreground" Value="{color:TextDefault}" />
     <Setter Property="BorderBrush" Value="{color:AccentBrush Light2}"/>
-    <Setter Property="BorderThickness" Value="{size:ThicknessSm}"/>
+    <Setter Property="BorderThickness" Value="0"/>
     <Setter Property="CornerRadius" Value="{size:RadiusSm}"/>
 
     <!-- Template -->
@@ -179,7 +180,8 @@
     <Setter Property="Background" Value="{color:BackgroundDefault}" />
     <Setter Property="Foreground" Value="{color:TextDefault}" />
     <Setter Property="BorderBrush" Value="{color:AccentBrush Light2}" />
-    <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
+    <!-- No outline: a 1px border drew a dark frame round every scrollbar (Luke, 29 Sep 2026) -->
+    <Setter Property="BorderThickness" Value="0" />
     <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
 
     <!-- Vertical template -->
