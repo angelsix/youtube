@@ -1,0 +1,130 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="using:System"
+                    xmlns:default="clr-namespace:Avalonia.Themes.Default"
+                    xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+                    xmlns:color="using:AngelSix.ThemeEngine.Colors"
+                    xmlns:size="using:AngelSix.ThemeEngine.Sizes"
+                    >
+  <Design.PreviewWith>
+    <Border>
+      <Border.Styles>
+        <default:DefaultThemeStyles />
+      </Border.Styles>
+
+      <!-- The shared state row, written once as a template: each pane instantiates its own copy -->
+      <default:LightDarkPreview Title="Button States" Orientation="Vertical">
+        <DataTemplate>
+        <StackPanel Orientation="Horizontal" Spacing="20">
+            <Button Content="Default" />
+            <Button theme:Preview.State="Hover" Content="Hover" />
+            <Button theme:Preview.State="Pressed" Content="Pressed" />
+            <Button theme:Preview.State="Focused" Content="Focused" />
+            <Button Content="Disabled" IsEnabled="False" />
+            <Button Content="Error">
+              <DataValidationErrors.Error>
+                <sys:Exception>
+                  <x:Arguments>
+                    <x:String>Error</x:String>
+                  </x:Arguments>
+                </sys:Exception>
+              </DataValidationErrors.Error>
+            </Button>
+          </StackPanel>
+        </DataTemplate>
+      </default:LightDarkPreview>
+
+    </Border>
+  </Design.PreviewWith>
+
+  <!-- ============================================================
+       Template
+       ============================================================ -->
+  <ControlTheme x:Key="{x:Type Button}" TargetType="Button">
+
+    <!-- Visual defaults -->
+    <Setter Property="Background" Value="{color:BackgroundDefault}" />
+    <Setter Property="Foreground" Value="{color:TextDefault}" />
+    <Setter Property="BorderBrush" Value="{color:BorderDefault}" />
+    <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
+    <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
+    <Setter Property="Padding" Value="{size:Edges Horizontal={size:SpacingXl}, Vertical={size:SpacingLg}}" />
+    <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
+    <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
+    <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
+    <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
+
+    <!-- Press animation -->
+    <Setter Property="RenderTransform" Value="none" />
+    <Setter Property="Transitions">
+      <Transitions>
+        <TransformOperationsTransition Property="RenderTransform" Duration="{theme:AnimationFastMs}" />
+      </Transitions>
+    </Setter>
+
+    <!-- Template -->
+    <Setter Property="Template">
+      <ControlTemplate>
+        <!-- Layout root stacking the label and accent outline -->
+        <Grid>
+          <!-- The button's label -->
+          <ContentPresenter x:Name="PART_ContentPresenter"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="{TemplateBinding CornerRadius}"
+                            Content="{TemplateBinding Content}"
+                            ContentTemplate="{TemplateBinding ContentTemplate}"
+                            Padding="{TemplateBinding Padding}"
+                            HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+
+          <!-- Accent border overlay -->
+          <Rectangle x:Name="PART_AccentBorder"
+                     IsVisible="False"
+                     IsHitTestVisible="False"
+                     Fill="Transparent"
+                     StrokeDashArray="3, 2, 6, 2" />
+        </Grid>
+      </ControlTemplate>
+    </Setter>
+
+    <!-- Access key support -->
+    <Style Selector="^ /template/ ContentPresenter">
+      <Setter Property="RecognizesAccessKey" Value="True" />
+    </Style>
+
+    <!-- Accent border visuals -->
+    <Style Selector="^ /template/ Rectangle#PART_AccentBorder">
+      <Setter Property="Stroke" Value="{color:AccentPrimaryBrush}" />
+      <Setter Property="StrokeThickness" Value="{size:AccentBorderStrokeThickness}" />
+      <Setter Property="RadiusX" Value="{size:RadiusSmDouble}" />
+      <Setter Property="RadiusY" Value="{size:RadiusSmDouble}" />
+    </Style>
+
+    <!-- Hover state: opaque ramp stage, not an overlay — translucency would erase the fill -->
+    <Style Selector="^:pointerover, ^[(theme|Preview.State)=Hover]">
+      <Setter Property="Background" Value="{color:HoverBackgroundDefault}" />
+      <Setter Property="Foreground" Value="{color:HoverTextDefault}" />
+      <Setter Property="RenderTransform" Value="{theme:TransformScale Value={size:PressedScale}, By=1.07}" />
+    </Style>
+
+    <!-- Pressed state -->
+    <Style Selector="^:pressed, ^[(theme|Preview.State)=Pressed]">
+      <Setter Property="RenderTransform" Value="{theme:TransformScale Value={size:PressedScale}}" />
+      <Setter Property="Background" Value="{color:PressedBackgroundDefault}" />
+    </Style>
+    
+    <!-- Disabled state -->
+    <Style Selector="^:disabled">
+      <Setter Property="Opacity" Value="{size:DisabledOpacity}" />
+    </Style>
+
+    <!-- Focus state -->
+    <Style Selector="^:focus-visible, ^[(theme|Preview.State)=Focused]">
+      <Setter Property="BorderBrush" Value="{color:AccentFocusBrush}" />
+      <Setter Property="BorderThickness" Value="{size:ThicknessMd}" />
+    </Style>
+    
+  </ControlTheme>
+</ResourceDictionary>

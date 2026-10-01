@@ -1,0 +1,354 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="using:System"
+                    xmlns:default="clr-namespace:Avalonia.Themes.Default"
+                    xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+                    xmlns:color="using:AngelSix.ThemeEngine.Colors"
+                    xmlns:size="using:AngelSix.ThemeEngine.Sizes"
+                    xmlns:icons="using:AngelSix.ThemeEngine.Icons">
+  <Design.PreviewWith>
+    <Border>
+      <Border.Styles>
+        <default:DefaultThemeStyles />
+      </Border.Styles>
+
+      <!-- One row per pane; the theme exposes no Preview.State hooks for hover/press/focus, so only the states it really paints are shown -->
+      <default:LightDarkPreview Title="DatePicker States" Orientation="Vertical">
+        <DataTemplate>
+          <StackPanel Orientation="Horizontal" Spacing="20">
+            <DatePicker SelectedDate="2026-09-18" />
+            <DatePicker />
+            <DatePicker SelectedDate="2026-09-18" IsEnabled="False" />
+            <DatePicker SelectedDate="2026-09-18" theme:Accent.Kind="Warning" />
+            <DatePicker SelectedDate="2026-09-18" theme:Accent.Kind="Success" IsEnabled="False" />
+            <!-- Dated so only the error border differs from the default -->
+            <DatePicker SelectedDate="2026-09-18">
+              <DataValidationErrors.Error>
+                <sys:Exception>
+                  <x:Arguments>
+                    <x:String>Error</x:String>
+                  </x:Arguments>
+                </sys:Exception>
+              </DataValidationErrors.Error>
+            </DatePicker>
+          </StackPanel>
+        </DataTemplate>
+      </default:LightDarkPreview>
+    </Border>
+  </Design.PreviewWith>
+
+  <!-- Flyout button sub-theme -->
+  <ControlTheme x:Key="DefaultDatePickerFlyoutButton" TargetType="Button">
+    <!-- Visual defaults -->
+    <Setter Property="RenderTransform" Value="none" />
+    <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
+    <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
+    <Setter Property="Template">
+      <ControlTemplate>
+        <!-- The button's label -->
+        <ContentPresenter Name="PART_ContentPresenter"
+                          BorderBrush="{TemplateBinding BorderBrush}"
+                          Background="{TemplateBinding Background}"
+                          BorderThickness="{TemplateBinding BorderThickness}"
+                          Content="{TemplateBinding Content}"
+                          Foreground="{TemplateBinding Foreground}"
+                          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                          VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                          CornerRadius="{TemplateBinding CornerRadius}" />
+      </ControlTemplate>
+    </Setter>
+
+    <!-- Pressed state -->
+    <Style Selector="^:pressed">
+      <Setter Property="RenderTransform" Value="{theme:TransformScale Value={size:PressedScale}}" />
+    </Style>
+
+    <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="{color:PressedBackgroundDefault}" />
+    </Style>
+
+    <!-- Disabled state -->
+    <Style Selector="^:disabled /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="BorderBrush" Value="{color:BorderDefault}" />
+      <Setter Property="Background" Value="{color:OverlayWeakBrush}" />
+      <Setter Property="Foreground" Value="{color:DimTextDefault}" />
+    </Style>
+  </ControlTheme>
+
+  <!-- ============================================================
+       Template
+       ============================================================ -->
+  <ControlTheme x:Key="{x:Type DatePicker}" TargetType="DatePicker">
+
+    <!-- Visual defaults -->
+    <Setter Property="Background" Value="{color:BackgroundDefault}" />
+    <Setter Property="BorderBrush" Value="{color:BorderDefault}" />
+    <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
+    <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
+    <Setter Property="Padding" Value="{size:Edges Top={size:SpacingMd}, Bottom={size:SpacingMd}, Left={size:SpacingMd}, Right={size:SpacingMd}}" />
+    <Setter Property="MinHeight" Value="{size:ControlHeightSm}" />
+    <Setter Property="MinWidth" Value="{size:ControlMinWidth}" />
+    <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
+    <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
+
+
+    <!-- Template -->
+    <Setter Property="Template">
+      <ControlTemplate>
+        <!-- Validation error message for the whole control -->
+        <DataValidationErrors>
+          <!-- Layout root for the picker button -->
+          <Grid Name="LayoutRoot" Margin="{TemplateBinding Padding}">
+            <!-- Opens the date picker when clicked -->
+            <Button Name="PART_FlyoutButton"
+                    Theme="{StaticResource DefaultDatePickerFlyoutButton}"
+                    Foreground="{TemplateBinding Foreground}"
+                    Background="{TemplateBinding Background}"
+                    BorderBrush="{TemplateBinding BorderBrush}"
+                    BorderThickness="{TemplateBinding BorderThickness}"
+                    CornerRadius="{TemplateBinding CornerRadius}"
+                    IsEnabled="{TemplateBinding IsEnabled}"
+                    MinWidth="{TemplateBinding MinWidth}"
+                    MaxWidth="{TemplateBinding MaxWidth}"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    TemplatedControl.IsTemplateFocusTarget="True">
+              <!-- Splits the button into day, month and year -->
+              <Grid Name="PART_ButtonContentGrid" ColumnDefinitions="78*,Auto,132*,Auto,78*">
+                <!-- The selected day, or a prompt -->
+                <TextBlock Name="PART_DayTextBlock" Text="day" HorizontalAlignment="Center" />
+                <!-- The selected month, or a prompt -->
+                <TextBlock Name="PART_MonthTextBlock" Text="month" TextAlignment="Left" />
+                <!-- The selected year, or a prompt -->
+                <TextBlock Name="PART_YearTextBlock" Text="year" HorizontalAlignment="Center" />
+                <!-- Divider between the day and month -->
+                <Rectangle x:Name="PART_FirstSpacer"
+                           HorizontalAlignment="Center"
+                           Grid.Column="1" />
+                <!-- Divider between the month and year -->
+                <Rectangle x:Name="PART_SecondSpacer"
+                           HorizontalAlignment="Center"
+                           Grid.Column="3" />
+              </Grid>
+            </Button>
+
+            <!-- The picker shown when choosing a date -->
+            <Popup Name="PART_Popup" WindowManagerAddShadowHint="False"
+                   IsLightDismissEnabled="True" PlacementTarget="{TemplateBinding}"
+                   Placement="Bottom">
+              <!-- The spinning day, month and year columns -->
+              <DatePickerPresenter Name="PART_PickerPresenter" />
+            </Popup>
+          </Grid>
+        </DataValidationErrors>
+      </ControlTemplate>
+    </Setter>
+
+    <!-- Template element styles -->
+    <Style Selector="^ /template/ TextBlock#PART_DayTextBlock">
+      <Setter Property="Padding" Value="{size:Edges Top={size:SpacingMd}, Bottom={size:SpacingLg}}" />
+    </Style>
+
+    <Style Selector="^ /template/ TextBlock#PART_MonthTextBlock">
+      <Setter Property="Padding" Value="{size:Edges Left={size:SpacingXl}, Top={size:SpacingMd}, Bottom={size:SpacingLg}}" />
+    </Style>
+
+    <Style Selector="^ /template/ TextBlock#PART_YearTextBlock">
+      <Setter Property="Padding" Value="{size:Edges Top={size:SpacingMd}, Bottom={size:SpacingLg}}" />
+    </Style>
+
+    <Style Selector="^ /template/ Rectangle#PART_FirstSpacer, ^ /template/ Rectangle#PART_SecondSpacer">
+      <Setter Property="Fill" Value="{color:AccentBrush Light6}" />
+      <Setter Property="Width" Value="{size:ThicknessSm}" />
+    </Style>
+
+    <!-- Disabled state -->
+    <Style Selector="^:disabled /template/ Rectangle">
+      <Setter Property="Fill" Value="{color:AccentBrush Light6}" />
+    </Style>
+
+    <!-- Watermark state (no date selected) -->
+    <Style Selector="^:hasnodate /template/ Button#PART_FlyoutButton TextBlock">
+      <Setter Property="Foreground" Value="{color:DimTextDefault}" />
+    </Style>
+
+    <!-- Focus state -->
+    <Style Selector="^:focus-visible /template/ Button#PART_FlyoutButton">
+      <Setter Property="BorderBrush" Value="{color:AccentFocusBrush}" />
+      <Setter Property="BorderThickness" Value="{size:ThicknessMd}" />
+    </Style>
+
+    <!-- Error state -->
+    <Style Selector="^:error /template/ Button#PART_FlyoutButton">
+      <Setter Property="BorderBrush" Value="{color:AccentErrorBrush}" />
+    </Style>
+  </ControlTheme>
+
+  <!-- ============================================================
+       Template
+       ============================================================ -->
+  <ControlTheme x:Key="{x:Type DatePickerPresenter}" TargetType="DatePickerPresenter">
+    <Setter Property="Width" Value="296" />
+    <Setter Property="MinWidth" Value="296" />
+    <Setter Property="Background" Value="{color:BackgroundDefault}" />
+    <Setter Property="Foreground" Value="{color:TextDefault}" />
+    <Setter Property="BorderBrush" Value="{color:BorderDefault}" />
+    <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
+    <Setter Property="CornerRadius" Value="{size:RadiusMd}" />
+
+    <!-- Template -->
+    <Setter Property="Template">
+      <ControlTemplate>
+        <!-- Outer frame around the picker -->
+        <Border Name="Background" Background="{TemplateBinding Background}"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}"
+                CornerRadius="{TemplateBinding CornerRadius}">
+          <!-- Splits the picker from its accept and dismiss row -->
+          <Grid Name="ContentRoot" RowDefinitions="*,Auto">
+            <!-- Holds the day, month and year columns -->
+            <Grid Name="PART_PickerContainer">
+              <Grid.Styles>
+                <Style Selector="DateTimePickerPanel > ListBoxItem">
+                  <Setter Property="Theme" Value="{StaticResource DefaultDateTimePickerItem}" />
+                </Style>
+              </Grid.Styles>
+              <!-- Column definitions set in code, ignore here -->
+              <!-- The month column -->
+              <Panel Name="PART_MonthHost">
+                <!-- Scrolls the month list -->
+                <ScrollViewer HorizontalScrollBarVisibility="Disabled"
+                              VerticalScrollBarVisibility="Hidden">
+                  <!-- The scrolling list of months -->
+                  <DateTimePickerPanel Name="PART_MonthSelector"
+                                       PanelType="Month"
+                                       ShouldLoop="True" />
+                </ScrollViewer>
+                <!-- Scrolls the months up -->
+                <RepeatButton Name="PART_MonthUpButton" Theme="{StaticResource DefaultDateTimePickerUpButton}" />
+                <!-- Scrolls the months down -->
+                <RepeatButton Name="PART_MonthDownButton" Theme="{StaticResource DefaultDateTimePickerDownButton}" />
+              </Panel>
+              <!-- The day column -->
+              <Panel Name="PART_DayHost">
+                <!-- Scrolls the day list -->
+                <ScrollViewer HorizontalScrollBarVisibility="Disabled"
+                              VerticalScrollBarVisibility="Hidden">
+                  <!-- The scrolling list of days -->
+                  <DateTimePickerPanel Name="PART_DaySelector"
+                                       PanelType="Day"
+                                       ShouldLoop="True" />
+                </ScrollViewer>
+                <!-- Scrolls the days up -->
+                <RepeatButton Name="PART_DayUpButton" Theme="{StaticResource DefaultDateTimePickerUpButton}" />
+                <!-- Scrolls the days down -->
+                <RepeatButton Name="PART_DayDownButton" Theme="{StaticResource DefaultDateTimePickerDownButton}" />
+              </Panel>
+              <!-- The year column -->
+              <Panel Name="PART_YearHost">
+                <!-- Scrolls the year list -->
+                <ScrollViewer HorizontalScrollBarVisibility="Disabled"
+                              VerticalScrollBarVisibility="Hidden">
+                  <!-- The scrolling list of years -->
+                  <DateTimePickerPanel Name="PART_YearSelector"
+                                       PanelType="Year"
+                                       ShouldLoop="False" />
+                </ScrollViewer>
+                <!-- Scrolls the years up -->
+                <RepeatButton Name="PART_YearUpButton" Theme="{StaticResource DefaultDateTimePickerUpButton}" />
+                <!-- Scrolls the years down -->
+                <RepeatButton Name="PART_YearDownButton" Theme="{StaticResource DefaultDateTimePickerDownButton}" />
+              </Panel>
+              <!-- Band highlighting the centred selection -->
+              <Rectangle Name="HighlightRect" IsHitTestVisible="False" ZIndex="-1"
+                          Grid.Column="0" Grid.ColumnSpan="5" VerticalAlignment="Center" />
+              <!-- Divider between the first two columns -->
+              <Rectangle Name="PART_FirstSpacer"
+                          HorizontalAlignment="Center"
+                          Grid.Column="1" />
+              <!-- Divider between the last two columns -->
+              <Rectangle Name="PART_SecondSpacer"
+                          HorizontalAlignment="Center"
+                          Grid.Column="3" />
+            </Grid>
+
+            <!-- The accept and dismiss row -->
+            <Grid Name="AcceptDismissGrid"
+                  Grid.Row="1"
+                  ColumnDefinitions="*,*">
+              <!-- Line above the accept and dismiss buttons -->
+              <Rectangle x:Name="PART_TopDivider"
+                          VerticalAlignment="Top"
+                          Grid.ColumnSpan="2" />
+              <!-- Confirms the chosen date -->
+              <Button Name="PART_AcceptButton"
+                      Grid.Column="0"
+                      Theme="{StaticResource DefaultDateTimePickerButton}"
+                      HorizontalAlignment="Stretch"
+                      VerticalAlignment="Stretch">
+                <!-- The tick mark -->
+                <Path x:Name="PART_AcceptGlyph"
+                      Stroke="{Binding $parent[Button].Foreground}"
+                      StrokeLineCap="Round"
+                      Data="{icons:Checkmark}" />
+              </Button>
+              <!-- Closes the picker without choosing -->
+              <Button Name="PART_DismissButton"
+                      Grid.Column="1"
+                      Theme="{StaticResource DefaultDateTimePickerButton}"
+                      HorizontalAlignment="Stretch"
+                      VerticalAlignment="Stretch">
+                <!-- The cross mark -->
+                <Path x:Name="PART_DismissGlyph"
+                      Stroke="{Binding $parent[Button].Foreground}"
+                      StrokeLineCap="Round"
+                      Data="{icons:Close}" />
+              </Button>
+            </Grid>
+          </Grid>
+        </Border>
+      </ControlTemplate>
+    </Setter>
+
+    <!-- Template element styles -->
+    <Style Selector="^ /template/ Border#Background">
+      <Setter Property="Padding" Value="{size:Edges All={size:SpacingSm}}" />
+    </Style>
+
+    <Style Selector="^ /template/ DateTimePickerPanel#PART_MonthSelector,
+                     ^ /template/ DateTimePickerPanel#PART_DaySelector,
+                     ^ /template/ DateTimePickerPanel#PART_YearSelector">
+      <Setter Property="ItemHeight" Value="{size:ControlHeightMd}" />
+    </Style>
+
+    <Style Selector="^ /template/ Rectangle#HighlightRect">
+      <Setter Property="Fill" Value="{color:AccentPrimaryBrush}" />
+      <Setter Property="Height" Value="{size:ControlHeightMd}" />
+    </Style>
+
+    <Style Selector="^ /template/ Rectangle#PART_FirstSpacer, ^ /template/ Rectangle#PART_SecondSpacer">
+      <Setter Property="Fill" Value="{color:AccentBrush Light6}" />
+      <Setter Property="Width" Value="{size:BaseSize}" />
+    </Style>
+
+    <Style Selector="^ /template/ Rectangle#PART_TopDivider">
+      <Setter Property="Height" Value="{size:BaseSize}" />
+      <Setter Property="Fill" Value="{color:AccentBrush Light6}" />
+    </Style>
+
+    <Style Selector="^ /template/ Button#PART_AcceptButton, ^ /template/ Button#PART_DismissButton">
+      <Setter Property="Height" Value="{size:ControlHeightMd}" />
+    </Style>
+
+    <Style Selector="^ /template/ Path#PART_AcceptGlyph, ^ /template/ Path#PART_DismissGlyph">
+      <Setter Property="StrokeThickness" Value="{size:ThicknessSm}" />
+    </Style>
+
+    <!-- Hover state for selector repeat buttons -->
+    <Style Selector="^ /template/ Panel">
+      <Style Selector="^:pointerover RepeatButton">
+        <Setter Property="IsVisible" Value="True" />
+      </Style>
+    </Style>
+  </ControlTheme>
+</ResourceDictionary>

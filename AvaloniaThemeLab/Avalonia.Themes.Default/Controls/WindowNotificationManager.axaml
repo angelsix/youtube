@@ -1,0 +1,81 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    x:DataType="WindowNotificationManager"
+                    xmlns:default="clr-namespace:Avalonia.Themes.Default"
+                    xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+                    xmlns:color="using:AngelSix.ThemeEngine.Colors"
+                    xmlns:size="using:AngelSix.ThemeEngine.Sizes">
+  <ControlTheme x:Key="{x:Type WindowNotificationManager}" TargetType="WindowNotificationManager">
+    <Setter Property="Margin" Value="0 0" />
+    <Setter Property="Template">
+      <ControlTemplate>
+        <!-- Stacks notifications toward the chosen corner -->
+        <ReversibleStackPanel Name="PART_Items">
+          <ReversibleStackPanel.DataTemplates>
+            <DataTemplate DataType="INotification">
+              <!-- One notification: its title above its message -->
+              <StackPanel
+                  Margin="{size:Edges All={size:SpacingXxl}}"
+                  Spacing="{size:SpacingXl}"
+                  TextElement.Foreground="{color:AccentBrush Dark1}">
+                <!-- The notification's title -->
+                <TextBlock Text="{Binding Title}"
+                           FontWeight="{theme:FontWeightSemiBold}" />
+                <!-- The notification's message -->
+                <TextBlock MaxHeight="80"
+                           Text="{Binding Message}"
+                           TextWrapping="Wrap"
+                           Margin="{size:Edges Right={size:SpacingXxl}}" />
+              </StackPanel>
+            </DataTemplate>
+            <DataTemplate DataType="x:String">
+              <!-- A plain text notification -->
+              <TextBlock Text="{Binding}"
+                         Margin="{size:Edges All={size:SpacingXxl}}"
+                         Foreground="{color:AccentBrush Dark1}" />
+            </DataTemplate>
+          </ReversibleStackPanel.DataTemplates>
+        </ReversibleStackPanel>
+      </ControlTemplate>
+    </Setter>
+
+    <!-- Theme Exception: :topleft is literal placement; both setters. Luke to validate -->
+    <Style Selector="^:topleft /template/ ReversibleStackPanel#PART_Items">
+      <Setter Property="VerticalAlignment" Value="Top" />
+      <Setter Property="HorizontalAlignment" Value="Left" />
+    </Style>
+
+    <!-- Theme Exception: :topright is literal placement; both setters. Luke to validate -->
+    <Style Selector="^:topright /template/ ReversibleStackPanel#PART_Items">
+      <Setter Property="VerticalAlignment" Value="Top" />
+      <Setter Property="HorizontalAlignment" Value="Right" />
+    </Style>
+
+    <!-- Theme Exception: :topcenter is literal placement; both setters. Luke to validate -->
+    <Style Selector="^:topcenter /template/ ReversibleStackPanel#PART_Items">
+      <Setter Property="VerticalAlignment" Value="Top" />
+      <Setter Property="HorizontalAlignment" Value="Center" />
+    </Style>
+
+    <!-- Theme Exception: :bottomleft is literal placement; both setters. Luke to validate -->
+    <Style Selector="^:bottomleft /template/ ReversibleStackPanel#PART_Items">
+      <Setter Property="ReverseOrder" Value="True" />
+      <Setter Property="VerticalAlignment" Value="Bottom" />
+      <Setter Property="HorizontalAlignment" Value="Left" />
+    </Style>
+
+    <!-- Theme Exception: :bottomright is literal placement; both setters. Luke to validate -->
+    <Style Selector="^:bottomright /template/ ReversibleStackPanel#PART_Items">
+      <Setter Property="ReverseOrder" Value="True" />
+      <Setter Property="VerticalAlignment" Value="Bottom" />
+      <Setter Property="HorizontalAlignment" Value="Right" />
+    </Style>
+
+    <!-- Theme Exception: :bottomcenter is literal placement; both setters. Luke to validate -->
+    <Style Selector="^:bottomcenter /template/ ReversibleStackPanel#PART_Items">
+      <Setter Property="ReverseOrder" Value="True" />
+      <Setter Property="VerticalAlignment" Value="Bottom" />
+      <Setter Property="HorizontalAlignment" Value="Center" />
+    </Style>
+  </ControlTheme>
+</ResourceDictionary>

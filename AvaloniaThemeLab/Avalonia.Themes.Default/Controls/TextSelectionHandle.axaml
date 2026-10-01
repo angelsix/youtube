@@ -1,0 +1,137 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:default="clr-namespace:Avalonia.Themes.Default"
+                    xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+                    xmlns:color="using:AngelSix.ThemeEngine.Colors"
+                    xmlns:size="using:AngelSix.ThemeEngine.Sizes">
+  <Design.PreviewWith>
+    <Border>
+      <Border.Styles>
+        <default:DefaultThemeStyles />
+      </Border.Styles>
+
+      <!-- Default grip only: the :caret/:start/:end variants are set internally by TextBox during a live drag -->
+      <default:LightDarkPreview Title="TextSelectionHandle States" Orientation="Horizontal">
+        <DataTemplate>
+          <StackPanel Orientation="Horizontal" Spacing="16">
+            <TextSelectionHandle />
+          </StackPanel>
+        </DataTemplate>
+      </default:LightDarkPreview>
+    </Border>
+  </Design.PreviewWith>
+
+  <DrawingImage x:Key="TextSelectionHandleDrawing">
+    <DrawingImage.Drawing>
+      <GeometryDrawing Geometry="{DynamicResource TextSelectionHandlePath}"
+                       Brush="{color:AccentPrimaryBrush}"
+                       >
+        <GeometryDrawing.Pen>
+          <Pen Thickness="0.5" Brush="{color:AccentBrush Dark1}" LineJoin="Round"/>
+        </GeometryDrawing.Pen>
+      </GeometryDrawing>
+    </DrawingImage.Drawing>
+  </DrawingImage>
+
+  <DrawingImage x:Key="TextCaretHandleDrawing">
+    <DrawingImage.Drawing>
+      <GeometryDrawing Geometry="{DynamicResource TextCaretHandlePath}"
+                       Brush="{color:AccentPrimaryBrush}"
+                       >
+        <GeometryDrawing.Pen>
+          <Pen Thickness="0.5" Brush="{color:AccentBrush Dark1}" LineJoin="Round"/>
+        </GeometryDrawing.Pen>
+      </GeometryDrawing>
+    </DrawingImage.Drawing>
+  </DrawingImage>
+
+  <GeometryGroup x:Key="TextSelectionHandlePath">
+    <CombinedGeometry>
+      <CombinedGeometry.Geometry1>
+        <RectangleGeometry Rect="0,0,16,16"/>
+      </CombinedGeometry.Geometry1>
+      <CombinedGeometry.Geometry2>
+        <EllipseGeometry Center="16,16"
+                         RadiusX="16"
+                         RadiusY="16"/>
+      </CombinedGeometry.Geometry2>
+    </CombinedGeometry>
+  </GeometryGroup>
+
+  <GeometryGroup x:Key="TextCaretHandlePath">
+    <CombinedGeometry>
+      <CombinedGeometry.Geometry1>
+        <RectangleGeometry Rect="0,0,16,16">
+          <RectangleGeometry.Transform>
+            <TransformGroup >
+              <RotateTransform CenterX="16"
+                               Angle="-45"/>
+            </TransformGroup>
+          </RectangleGeometry.Transform>
+        </RectangleGeometry>
+      </CombinedGeometry.Geometry1>
+      <CombinedGeometry.Geometry2>
+        <EllipseGeometry Center="16,22.7"
+                         RadiusX="16"
+                         RadiusY="16"/>
+      </CombinedGeometry.Geometry2>
+    </CombinedGeometry>
+  </GeometryGroup>
+  <ControlTheme x:Key="{x:Type TextSelectionHandle}"
+                TargetType="TextSelectionHandle">
+    <Setter Property="Background"
+            Value="{color:AccentPrimaryBrush}" />
+    <Setter Property="HorizontalAlignment"
+            Value="{theme:ControlHorizontalAlignment}" />
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate>
+          <!-- Layout root stacking the grip over its hit area -->
+          <Grid>
+            <!-- Enlarged touch area around the grip -->
+            <Border x:Name="PART_HitTarget" IsHitTestVisible="True" Background="Transparent">
+              <!-- The grip artwork -->
+              <Image Stretch="Uniform"
+                     Cursor="Arrow"
+                     Name="PART_HandlePathIcon"
+                     Source="{DynamicResource TextSelectionHandleDrawing}"/>
+            </Border>
+            <!-- The line joining the grip to the caret -->
+            <Border Background="Transparent"
+                    Name="PART_Indicator"
+                    HorizontalAlignment="Center"
+                    Width="1" 
+                    VerticalAlignment="Top" 
+                    Height="5"/>
+          </Grid>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+    <Style Selector="^:caret /template/ Image#PART_HandlePathIcon">
+      <Setter Property="Source" Value="{DynamicResource TextCaretHandleDrawing}" />
+    </Style>
+    <Style Selector="^:start /template/ Image#PART_HandlePathIcon">
+      <Setter Property="RenderTransform">
+        <ScaleTransform ScaleX="-1" ScaleY="1"/>
+      </Setter>
+    </Style>
+    <!-- Theme Exception: caret/end/start indicators anchor centre/left/right. Luke to validate -->
+    <Style Selector="^:caret /template/ Border#PART_Indicator">
+      <Setter Property="HorizontalAlignment" Value="Center" />
+    </Style>
+    <Style Selector="^:end /template/ Border#PART_Indicator">
+      <Setter Property="HorizontalAlignment" Value="Left" />
+    </Style>
+    <Style Selector="^:start /template/ Border#PART_Indicator">
+      <Setter Property="HorizontalAlignment" Value="Right" />
+    </Style>
+
+    <!-- Themed properties moved out of ControlTemplate -->
+    <Style Selector="^ /template/ Border#PART_HitTarget">
+      <Setter Property="Padding" Value="{size:Edges Bottom={size:SpacingXxl}}" />
+    </Style>
+    <Style Selector="^ /template/ Image#PART_HandlePathIcon">
+      <Setter Property="Height" Value="{size:ControlHeightSm}" />
+    </Style>
+  </ControlTheme>
+</ResourceDictionary>

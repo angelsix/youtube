@@ -1,0 +1,122 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=System.Runtime"
+                    xmlns:default="clr-namespace:Avalonia.Themes.Default"
+                    xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+                    xmlns:color="using:AngelSix.ThemeEngine.Colors"
+                    xmlns:size="using:AngelSix.ThemeEngine.Sizes">
+  <Design.PreviewWith>
+    <Border Padding="20">
+      <Border.Styles>
+        <default:DefaultThemeStyles />
+      </Border.Styles>
+
+      <!-- Shared column written once as a template: each pane instantiates its own copy -->
+      <default:LightDarkPreview Title="NumericUpDown States" Orientation="Vertical">
+        <DataTemplate>
+          <StackPanel Orientation="Vertical" Spacing="12">
+            <NumericUpDown Minimum="0" Maximum="10" Increment="0.5" Value="5" />
+            <!-- Spinner moved left so both content slots can share the opposite side -->
+            <NumericUpDown Minimum="0" Maximum="10" Increment="0.5" Value="5"
+                           ButtonSpinnerLocation="Left">
+              <NumericUpDown.InnerLeftContent>
+                <TextBlock Text="m" TextAlignment="Center" VerticalAlignment="Center" />
+              </NumericUpDown.InnerLeftContent>
+              <NumericUpDown.InnerRightContent>
+                <Button Content="X" />
+              </NumericUpDown.InnerRightContent>
+            </NumericUpDown>
+            <!-- Centred alignment rides along here rather than taking its own instance -->
+            <NumericUpDown Minimum="0" Maximum="10" Increment="0.5" Value="5"
+                           ButtonSpinnerLocation="Right"
+                           HorizontalContentAlignment="Center"
+                           VerticalContentAlignment="Center">
+              <NumericUpDown.InnerLeftContent>
+                <Button Content="X" />
+              </NumericUpDown.InnerLeftContent>
+              <NumericUpDown.InnerRightContent>
+                <TextBlock Text="m" TextAlignment="Center" VerticalAlignment="Center" />
+              </NumericUpDown.InnerRightContent>
+            </NumericUpDown>
+            <!-- Disabled paired with an empty value doubles as the placeholder demo -->
+            <NumericUpDown Minimum="0" Maximum="10" Increment="0.5"
+                           PlaceholderText="Enter a value"
+                           IsEnabled="False" />
+            <!-- The template wraps the spinner in DataValidationErrors, so the error banner is fully wired -->
+            <NumericUpDown Minimum="0" Maximum="10" Increment="0.5" Value="5">
+              <DataValidationErrors.Error>
+                <sys:Exception>
+                  <x:Arguments>
+                    <x:String>Error</x:String>
+                  </x:Arguments>
+                </sys:Exception>
+              </DataValidationErrors.Error>
+            </NumericUpDown>
+          </StackPanel>
+        </DataTemplate>
+      </default:LightDarkPreview>
+    </Border>
+  </Design.PreviewWith>
+
+  <ControlTheme x:Key="{x:Type NumericUpDown}" TargetType="NumericUpDown">
+    <!-- Visual defaults -->
+    <Setter Property="Background" Value="{color:BackgroundDefault}" />
+    <Setter Property="Foreground" Value="{color:TextDefault}" />
+    <Setter Property="PlaceholderForeground" Value="{color:DimTextDefault}" />
+    <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
+    <Setter Property="BorderBrush" Value="{color:BorderDefault}" />
+    <Setter Property="MinHeight" Value="{size:ControlHeightSm}" />
+    <Setter Property="MinWidth" Value="{size:ControlMinWidth}" />
+    <Setter Property="Padding" Value="{size:Edges Left={size:SpacingXxl}, Top={size:SpacingLg}, Right={size:SpacingLg}, Bottom={size:SpacingMd}}" />
+    <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
+    <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
+    <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
+    <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
+    <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
+    <Setter Property="Template">
+      <ControlTemplate>
+        <!-- Validation error message for the whole control -->
+        <DataValidationErrors>
+          <!-- The up and down buttons around the value -->
+          <ButtonSpinner Name="PART_Spinner"
+                         Background="{TemplateBinding Background}"
+                         BorderThickness="{TemplateBinding BorderThickness}"
+                         BorderBrush="{TemplateBinding BorderBrush}"
+                         CornerRadius="{TemplateBinding CornerRadius}"
+                         IsTabStop="False"
+                         Padding="0"
+                         MinWidth="0"
+                         HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                         VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                         AllowSpin="{TemplateBinding AllowSpin}"
+                         ShowButtonSpinner="{TemplateBinding ShowButtonSpinner}"
+                         ButtonSpinnerLocation="{TemplateBinding ButtonSpinnerLocation}">
+            <!-- The number, typed or stepped -->
+            <TextBox Name="PART_TextBox"
+                     Background="Transparent"
+                     BorderBrush="Transparent"
+                     Padding="{TemplateBinding Padding}"
+                     MinWidth="0"
+                     Foreground="{TemplateBinding Foreground}"
+                     PlaceholderText="{TemplateBinding PlaceholderText}"
+                     PlaceholderForeground="{TemplateBinding PlaceholderForeground}"
+                     IsReadOnly="{TemplateBinding IsReadOnly}"
+                     VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                     HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                     Text="{TemplateBinding Text}"
+                     TextAlignment="{TemplateBinding TextAlignment}"
+                     AcceptsReturn="False"
+                     TextWrapping="NoWrap"
+                     InnerLeftContent="{Binding InnerLeftContent, RelativeSource={RelativeSource TemplatedParent}}"
+                     InnerRightContent="{Binding InnerRightContent, RelativeSource={RelativeSource TemplatedParent}}"/>
+          </ButtonSpinner>
+        </DataValidationErrors>
+      </ControlTemplate>
+    </Setter>
+
+    <!-- TextBox margin (negative margin to offset ButtonSpinner padding) -->
+    <Style Selector="^ /template/ TextBox#PART_TextBox">
+      <Setter Property="Margin" Value="{size:Edges All={size:Scaled Value={size:BaseSize}, By=-1}}" />
+    </Style>
+  </ControlTheme>
+</ResourceDictionary>

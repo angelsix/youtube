@@ -1,0 +1,46 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <RootNamespace>Avalonia.Themes.Default</RootNamespace>
+
+        <!-- No GenerateStyleClassDeclarations here, deliberately. The engine can emit a file of stub
+             styles so an IDE stops underlining a Classes="..." it cannot resolve, and this theme
+             needed one while its preview states were style classes. They are attached properties
+             now — theme:Preview.State — which an analyser resolves like any other CLR member, so the
+             stub file, the StyleInclude that consumers had to remember, and the whole class of drift
+             between the two are gone. The only classes left are internal to a single control's own
+             template and no consumer ever writes them. -->
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Avalonia" Version="12.0.1"/>
+        <!-- Home of the CalendarView/CalendarSelectionEngine types. Their STYLING stays in this
+             theme (Controls/CalendarView.axaml) — a ControlTheme targeting a foreign type is the
+             same relationship as every other control file here (Button, ComboBox...). The engine's
+             dictionary-list generator scans this project's .axaml by content, so the theme keeps
+             merging the calendar's dictionaries automatically; nothing else needs wiring. -->
+        <!-- 1.1.0 adds CalendarEvent/CalendarEvent<TData>, CalendarView.Events and the week-number
+             properties (IsWeekNumberVisible, WeekNumberRule). -->
+        <PackageReference Include="AngelSix.ThemeEngine.Controls" Version="1.1.0"/>
+
+        <!-- 1.12.0 or later is required, not merely preferred: the theme is built on attributes
+             this version introduced — [Brush], [GradientBrush], [FontWeights], ColourRamp's
+             OverlayLabels, and SizeScale's TypeSuffixes and TimeSpan support. On an older package
+             the generator emits none of those members and the build fails with a few hundred
+             "does not exist in the current context" errors rather than anything that names the
+             real cause. (1.17.0 also adds ColourRamp's DarkSeed.) -->
+        <PackageReference Include="AngelSix.ThemeEngine" Version="1.18.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <!-- Icons/Svg/*.svg are the icon set — the engine reads them into ThemeIconGallery, so the
+             geometry reaches the assembly as generated C# and the files themselves are build inputs
+             rather than content. The package already hands them to the generator as AdditionalFiles;
+             this is only so the folder shows up in the IDE beside the class it fills in. -->
+        <None Include="Icons/Svg/Categories.md" />
+    </ItemGroup>
+
+</Project>

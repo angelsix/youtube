@@ -1,0 +1,151 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:default="clr-namespace:Avalonia.Themes.Default"
+                    xmlns:icons="using:AngelSix.ThemeEngine.Icons"
+                    x:Class="Avalonia.Themes.Default.ThemeIconGalleryPreview"
+                    x:ClassModifier="internal">
+  <Design.PreviewWith>
+    <Border Background="#FFFFFFFF" ClipToBounds="False"
+            Padding="20">
+      <Border.Styles>
+        <default:DefaultThemeStyles />
+      </Border.Styles>
+      
+      <StackPanel Spacing="16">
+        <TextBlock Text="Chevron Icons"
+                   FontSize="20"
+                   FontWeight="Bold"
+                   Foreground="#1E1E2E" />
+
+        <WrapPanel ItemSpacing="8">
+          <Button>
+            <PathIcon Data="{icons:ChevronUp}" />
+          </Button>
+          <Button>
+            <PathIcon Data="{icons:ChevronDown}" />
+          </Button>
+          <Button>
+            <PathIcon Data="{icons:ChevronLeft}" />
+          </Button>
+          <Button>
+            <PathIcon Data="{icons:ChevronRight}" />
+          </Button>
+        </WrapPanel>
+
+        <TextBlock Text="Expand / Collapse Chevrons"
+                   FontSize="20"
+                   FontWeight="Bold"
+                   Foreground="#1E1E2E" />
+
+        <WrapPanel ItemSpacing="8">
+          <Button>
+            <PathIcon Data="{icons:ExpandChevron}" />
+          </Button>
+          <Button>
+            <PathIcon Data="{icons:CollapseChevron}" />
+          </Button>
+        </WrapPanel>
+
+        <TextBlock Text="Drop-down &amp; Close"
+                   FontSize="20"
+                   FontWeight="Bold"
+                   Foreground="#1E1E2E" />
+
+        <WrapPanel ItemSpacing="8">
+          <Button>
+            <PathIcon Data="{icons:DropDown}" />
+          </Button>
+          <Button>
+            <PathIcon Data="{icons:Close}" />
+          </Button>
+        </WrapPanel>
+
+        <TextBlock Text="Checkmark &amp; Menu"
+                   FontSize="20"
+                   FontWeight="Bold"
+                   Foreground="#1E1E2E" />
+
+        <WrapPanel ItemSpacing="8">
+          <Button>
+            <PathIcon Data="{icons:Checkmark}" />
+          </Button>
+          <Button>
+            <PathIcon Data="{icons:Menu}" />
+          </Button>
+          <Button>
+            <PathIcon Data="{icons:Star}" />
+          </Button>
+        </WrapPanel>
+
+        <TextBlock Text="Arrow Icons"
+                   FontSize="20"
+                   FontWeight="Bold"
+                   Foreground="#1E1E2E" />
+
+        <WrapPanel ItemSpacing="8">
+          <Button>
+            <PathIcon Data="{icons:ArrowUp}" />
+          </Button>
+          <Button>
+            <PathIcon Data="{icons:ArrowDown}" />
+          </Button>
+          <Button>
+            <PathIcon Data="{icons:ArrowLeft}" />
+          </Button>
+          <Button>
+            <PathIcon Data="{icons:ArrowRight}" />
+          </Button>
+        </WrapPanel>
+
+        <TextBlock Text="Plus / Minus / More"
+                   FontSize="20"
+                   FontWeight="Bold"
+                   Foreground="#1E1E2E" />
+
+        <WrapPanel ItemSpacing="8">
+          <Button>
+            <PathIcon Data="{icons:Plus}" />
+          </Button>
+          <Button>
+            <PathIcon Data="{icons:Minus}" />
+          </Button>
+          <Button>
+            <PathIcon Data="{icons:MoreHorizontal}" />
+          </Button>
+          <Button>
+            <PathIcon Data="{icons:MoreVertical}" />
+          </Button>
+        </WrapPanel>
+
+        <TextBlock Text="Actions and Chrome"
+                   FontSize="20"
+                   FontWeight="Bold"
+                   Foreground="#1E1E2E" />
+
+        <WrapPanel ItemSpacing="8">
+          <Button>
+            <PathIcon Data="{icons:Save}" />
+          </Button>
+          <Button>
+            <PathIcon Data="{icons:Refresh}" />
+          </Button>
+          <Button>
+            <PathIcon Data="{icons:Eye}" />
+          </Button>
+          <Button>
+            <PathIcon Data="{icons:EyeOff}" />
+          </Button>
+          <Button>
+            <PathIcon Data="{icons:WindowMaximize}" />
+          </Button>
+          <Button>
+            <PathIcon Data="{icons:WindowRestore}" />
+          </Button>
+          <Button>
+            <PathIcon Data="{icons:FullScreenEnter}" />
+          </Button>
+        </WrapPanel>
+      </StackPanel>
+    </Border>
+  </Design.PreviewWith>
+</ResourceDictionary>

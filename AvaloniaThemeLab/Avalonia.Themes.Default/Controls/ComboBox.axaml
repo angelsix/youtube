@@ -1,0 +1,331 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="using:System"
+                    xmlns:default="clr-namespace:Avalonia.Themes.Default"
+                    xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+                    xmlns:color="using:AngelSix.ThemeEngine.Colors"
+                    xmlns:size="using:AngelSix.ThemeEngine.Sizes"
+                    xmlns:icons="using:AngelSix.ThemeEngine.Icons">
+  <Design.PreviewWith>
+    <Border Padding="20">
+      <Border.Styles>
+        <default:DefaultThemeStyles />
+      </Border.Styles>
+
+      <!-- Authored once; each pane (light/dark) builds its own copy of the matrix -->
+      <default:LightDarkPreview Title="ComboBox States" Orientation="Vertical">
+        <DataTemplate>
+          <WrapPanel ItemSpacing="12">
+            <!-- Empty prompt beside a filled selection: the two resting faces -->
+            <ComboBox Width="180" PlaceholderText="Select…">
+              <ComboBoxItem>One</ComboBoxItem>
+              <ComboBoxItem>Two</ComboBoxItem>
+              <ComboBoxItem>Three</ComboBoxItem>
+            </ComboBox>
+            <ComboBox Width="180" SelectedIndex="1">
+              <ComboBoxItem>One</ComboBoxItem>
+              <ComboBoxItem>Two</ComboBoxItem>
+              <ComboBoxItem>Three</ComboBoxItem>
+            </ComboBox>
+            <!-- Opening the box exposes the popup frame and item list -->
+            <ComboBox Width="180" SelectedIndex="1" IsDropDownOpen="True">
+              <ComboBoxItem>One</ComboBoxItem>
+              <ComboBoxItem>Two</ComboBoxItem>
+              <ComboBoxItem>Three</ComboBoxItem>
+            </ComboBox>
+            <!-- Pointer and focus states, each holding a selection so the value stays readable -->
+            <ComboBox Width="180" SelectedIndex="1" theme:Preview.State="Hover">
+              <ComboBoxItem>One</ComboBoxItem>
+              <ComboBoxItem>Two</ComboBoxItem>
+              <ComboBoxItem>Three</ComboBoxItem>
+            </ComboBox>
+            <ComboBox Width="180" SelectedIndex="1" theme:Preview.State="Pressed">
+              <ComboBoxItem>One</ComboBoxItem>
+              <ComboBoxItem>Two</ComboBoxItem>
+              <ComboBoxItem>Three</ComboBoxItem>
+            </ComboBox>
+            <ComboBox Width="180" SelectedIndex="1" theme:Preview.State="Focused">
+              <ComboBoxItem>One</ComboBoxItem>
+              <ComboBoxItem>Two</ComboBoxItem>
+              <ComboBoxItem>Three</ComboBoxItem>
+            </ComboBox>
+            <!-- Repeat the focus wash in two hues to prove accents resolve generically -->
+            <ComboBox Width="180" SelectedIndex="1" theme:Preview.State="Focused" theme:Accent.Kind="Warning">
+              <ComboBoxItem>One</ComboBoxItem>
+              <ComboBoxItem>Two</ComboBoxItem>
+              <ComboBoxItem>Three</ComboBoxItem>
+            </ComboBox>
+            <ComboBox Width="180" SelectedIndex="1" theme:Preview.State="Focused" theme:Accent.Kind="Success">
+              <ComboBoxItem>One</ComboBoxItem>
+              <ComboBoxItem>Two</ComboBoxItem>
+              <ComboBoxItem>Three</ComboBoxItem>
+            </ComboBox>
+            <!-- Greyed-out, unusable input -->
+            <ComboBox Width="180" SelectedIndex="1" IsEnabled="False">
+              <ComboBoxItem>One</ComboBoxItem>
+              <ComboBoxItem>Two</ComboBoxItem>
+              <ComboBoxItem>Three</ComboBoxItem>
+            </ComboBox>
+            <!-- Failed validation lights the error border -->
+            <ComboBox Width="180" SelectedIndex="1">
+              <DataValidationErrors.Error>
+                <sys:Exception>
+                  <x:Arguments>
+                    <x:String>Error</x:String>
+                  </x:Arguments>
+                </sys:Exception>
+              </DataValidationErrors.Error>
+              <ComboBoxItem>One</ComboBoxItem>
+              <ComboBoxItem>Two</ComboBoxItem>
+              <ComboBoxItem>Three</ComboBoxItem>
+            </ComboBox>
+            <!-- Free-text mode swaps the picker face for a TextBox -->
+            <ComboBox Width="180" SelectedIndex="1" IsEditable="True">
+              <ComboBoxItem>One</ComboBoxItem>
+              <ComboBoxItem>Two</ComboBoxItem>
+              <ComboBoxItem>Three</ComboBoxItem>
+            </ComboBox>
+          </WrapPanel>
+        </DataTemplate>
+      </default:LightDarkPreview>
+    </Border>
+  </Design.PreviewWith>
+
+  <x:Int32 x:Key="ComboBoxPopupMaxNumberOfItems">15</x:Int32>
+  <x:Int32 x:Key="ComboBoxPopupMaxNumberOfItemsThatCanBeShownOnOneSide">7</x:Int32>
+
+  <ControlTheme x:Key="{x:Type ComboBox}" TargetType="ComboBox">
+
+    <!-- Visual defaults -->
+    <Setter Property="Padding" Value="{size:Edges Left={size:SpacingXxl}, Top={size:SpacingMd}, Bottom={size:SpacingMd}}" />
+    <Setter Property="FocusAdorner" Value="{x:Null}" />
+    <Setter Property="MaxDropDownHeight" Value="504" />
+    <Setter Property="Background" Value="{color:BackgroundDefault}" />
+    <Setter Property="Foreground" Value="{color:TextDefault}" />
+    <Setter Property="BorderBrush" Value="{color:BorderDefault}" />
+    <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
+    <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
+    <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
+    <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
+    <Setter Property="MinHeight" Value="{size:ControlHeightSm}" />
+    <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
+    <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
+    <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
+    <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
+    <Setter Property="PlaceholderForeground" Value="{color:DimTextDefault}" />
+
+    <!-- Template -->
+    <Setter Property="Template">
+      <ControlTemplate>
+        <!-- Validation error message for the whole control -->
+        <DataValidationErrors>
+          <!-- Layout root: value on the left, arrow right -->
+          <Grid ColumnDefinitions="*,32">
+            <!-- Outer frame around the closed box -->
+            <Border x:Name="Background"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="2"
+                    Background="{TemplateBinding Background}"
+                    BorderBrush="{TemplateBinding BorderBrush}"
+                    BorderThickness="{TemplateBinding BorderThickness}"
+                    CornerRadius="{TemplateBinding CornerRadius}" />
+            <!-- Tint drawn over the frame while open -->
+            <Border x:Name="HighlightBackground"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="2"
+                    BorderThickness="{TemplateBinding BorderThickness}"
+                    CornerRadius="{TemplateBinding CornerRadius}"
+                    IsVisible="False" />
+            <!-- Prompt shown when nothing is selected -->
+            <TextBlock x:Name="PlaceholderTextBlock"
+                       Grid.Column="0"
+                       HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                       VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                       Margin="{TemplateBinding Padding}"
+                       Text="{TemplateBinding PlaceholderText}"
+                       Foreground="{TemplateBinding PlaceholderForeground}">
+              <TextBlock.IsVisible>
+                <MultiBinding Converter="{x:Static BoolConverters.And}">
+                  <Binding Path="SelectionBoxItem" RelativeSource="{RelativeSource TemplatedParent}" Converter="{x:Static ObjectConverters.IsNull}" />
+                  <Binding Path="!IsEditable" RelativeSource="{RelativeSource TemplatedParent}" />
+                </MultiBinding>
+              </TextBlock.IsVisible>
+            </TextBlock>
+            <!-- The selected item, when not editable -->
+            <ContentControl x:Name="ContentPresenter"
+                            Content="{TemplateBinding SelectionBoxItem}"
+                            Grid.Column="0"
+                            Margin="{TemplateBinding Padding}"
+                            HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+                            VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                            IsVisible="{TemplateBinding IsEditable, Converter={x:Static BoolConverters.Not}}" />
+
+            <!-- The editable text, when editable -->
+            <TextBox Name="PART_EditableTextBox"
+                     Grid.Column="0"
+                     Padding="{TemplateBinding Padding}"
+                     HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                     VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                     Foreground="{TemplateBinding Foreground}"
+                     Background="Transparent"
+                     Text="{TemplateBinding Text, Mode=TwoWay}"
+                     PlaceholderText="{TemplateBinding PlaceholderText}"
+                     IsVisible="{TemplateBinding IsEditable}">
+              <TextBox.Resources>
+                <SolidColorBrush x:Key="TextControlBackgroundFocused">Transparent</SolidColorBrush>
+                <SolidColorBrush x:Key="TextControlBackgroundPointerOver">Transparent</SolidColorBrush>
+              </TextBox.Resources>
+            </TextBox>
+
+            <!-- Invisible hit area over the arrow -->
+            <Border x:Name="DropDownOverlay"
+                    Grid.Column="1"
+                    Background="Transparent"
+                    IsVisible="False"
+                    HorizontalAlignment="Right" />
+
+            <!-- The arrow marking this as a dropdown -->
+            <PathIcon x:Name="DropDown"
+                      Grid.Column="1"
+                      UseLayoutRounding="False"
+                      IsHitTestVisible="False"
+                      HorizontalAlignment="Right"
+                      VerticalAlignment="Center" />
+
+            <!-- The list shown when the box is open -->
+            <Popup Name="PART_Popup"
+                   WindowManagerAddShadowHint="False"
+                   IsOpen="{TemplateBinding IsDropDownOpen, Mode=TwoWay}"
+                   MinWidth="{Binding Bounds.Width, RelativeSource={RelativeSource TemplatedParent}}"
+                   MaxHeight="{TemplateBinding MaxDropDownHeight}"
+                   PlacementTarget="Background"
+                   IsLightDismissEnabled="True"
+                   InheritsTransform="True">
+              <!-- Panel behind the dropdown list -->
+              <Border x:Name="PopupBorder"
+                      HorizontalAlignment="Stretch">
+                <!-- Scrolls the list when it overflows; zero Padding because the popup sizes to content and a padded
+                     ScrollViewer arranges its list 8px short of what it measured (AVL023) -->
+                <ScrollViewer HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
+                              Padding="0"
+                              IsScrollChainingEnabled="False"
+                              VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}"
+                              IsDeferredScrollingEnabled="{TemplateBinding (ScrollViewer.IsDeferredScrollingEnabled)}">
+                  <!-- The selectable items -->
+                  <ItemsPresenter Name="PART_ItemsPresenter"
+                                  ItemsPanel="{TemplateBinding ItemsPanel}" />
+                </ScrollViewer>
+              </Border>
+            </Popup>
+          </Grid>
+        </DataValidationErrors>
+      </ControlTemplate>
+    </Setter>
+
+    <!-- Template element defaults -->
+    <Style Selector="^ /template/ TextBox#PART_EditableTextBox">
+      <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
+    </Style>
+
+    <Style Selector="^ /template/ Border#Background">
+      <Setter Property="MinWidth" Value="{size:ControlMinWidth}" />
+    </Style>
+
+    <Style Selector="^ /template/ Border#HighlightBackground">
+      <Setter Property="Background" Value="{color:AccentPrimaryBrush}" />
+      <Setter Property="BorderBrush" Value="{color:BorderDefault}" />
+    </Style>
+
+    <Style Selector="^ /template/ Border#DropDownOverlay">
+      <Setter Property="Width" Value="{size:ControlHeightSm}" />
+      <Setter Property="Margin" Value="{size:Edges Top={size:BaseSize}, Right={size:BaseSize}, Bottom={size:BaseSize}}" />
+    </Style>
+
+    <Style Selector="^ /template/ PathIcon#DropDown">
+      <Setter Property="Height" Value="{size:IconSizeMd}" />
+      <Setter Property="Width" Value="{size:IconSizeMd}" />
+      <Setter Property="Margin" Value="{size:Edges Right={size:SpacingXxl}}" />
+      <Setter Property="Foreground" Value="{color:DimTextDefault}" />
+    </Style>
+
+    <Style Selector="^ /template/ Border#PopupBorder">
+      <Setter Property="Padding" Value="{size:Edges All={size:SpacingSm}}" />
+      <Setter Property="Background" Value="{color:BackgroundDefault}" />
+      <Setter Property="BorderBrush" Value="{color:BorderDefault}" />
+      <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
+      <Setter Property="CornerRadius" Value="{size:RadiusMd}" />
+    </Style>
+
+    <Style Selector="^ /template/ ItemsPresenter#PART_ItemsPresenter">
+      <Setter Property="Margin" Value="{size:Edges Vertical={size:SpacingMd}}" />
+    </Style>
+
+    <!-- Hover state -->
+    <Style Selector="^:pointerover /template/ Border#Background, ^[(theme|Preview.State)=Hover] /template/ Border#Background">
+      <Setter Property="Background" Value="{color:HoverBackgroundDefault}" />
+      <Setter Property="BorderBrush" Value="{color:BorderDefault}" />
+    </Style>
+
+    <!-- Pressed state -->
+    <Style Selector="^:pressed /template/ Border#Background, ^[(theme|Preview.State)=Pressed] /template/ Border#Background">
+      <Setter Property="Background" Value="{color:PressedBackgroundDefault}" />
+      <Setter Property="BorderBrush" Value="{color:BorderDefault}" />
+    </Style>
+
+    <!-- Disabled state -->
+    <Style Selector="^:disabled">
+      <Style Selector="^ /template/ Border#Background">
+        <Setter Property="Background" Value="{color:OverlayWeakBrush}" />
+        <Setter Property="BorderBrush" Value="{color:BorderDefault}" />
+      </Style>
+      <Style Selector="^ /template/ ContentControl#ContentPresenter">
+        <Setter Property="Foreground" Value="{color:DimTextDefault}" />
+      </Style>
+      <Style Selector="^ /template/ TextBlock#PlaceholderTextBlock">
+        <Setter Property="Foreground" Value="{color:DimTextDefault}" />
+      </Style>
+      <Style Selector="^ /template/ PathIcon#DropDown">
+        <Setter Property="Foreground" Value="{color:DimTextDefault}" />
+      </Style>
+    </Style>
+
+    <!-- Focus state -->
+    <Style Selector="^:focus-visible, ^[(theme|Preview.State)=Focused]">
+      <Style Selector="^ /template/ Border#HighlightBackground">
+        <Setter Property="IsVisible" Value="True" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+      </Style>
+      <Style Selector="^ /template/ ContentControl#ContentPresenter">
+      </Style>
+      <Style Selector="^ /template/ TextBlock#PlaceholderTextBlock">
+      </Style>
+      <Style Selector="^ /template/ PathIcon#DropDown">
+        <Setter Property="Foreground" Value="{color:DimTextDefault}" />
+      </Style>
+    </Style>
+
+    <!-- Focus pressed state -->
+    <Style Selector="^:focus:pressed">
+      <Style Selector="^ /template/ ContentControl#ContentPresenter">
+      </Style>
+      <Style Selector="^ /template/ TextBlock#PlaceholderTextBlock">
+      </Style>
+      <Style Selector="^ /template/ PathIcon#DropDown">
+        <Setter Property="Foreground" Value="{color:DimTextDefault}" />
+      </Style>
+    </Style>
+
+    <!-- Error state -->
+    <Style Selector="^:error /template/ Border#Background">
+      <Setter Property="BorderBrush" Value="{color:AccentErrorBrush}" />
+    </Style>
+
+    <!-- Editable mode -->
+    <Style Selector="^[IsEditable=true]">
+      <Setter Property="IsTabStop" Value="False" />
+      <Setter Property="KeyboardNavigation.TabNavigation" Value="Local" />
+    </Style>
+  </ControlTheme>
+
+</ResourceDictionary>

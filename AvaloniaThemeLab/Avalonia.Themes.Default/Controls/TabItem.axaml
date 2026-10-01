@@ -1,0 +1,160 @@
+<ResourceDictionary
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:default="clr-namespace:Avalonia.Themes.Default"
+    xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+    xmlns:color="using:AngelSix.ThemeEngine.Colors"
+    xmlns:size="using:AngelSix.ThemeEngine.Sizes">
+  <Design.PreviewWith>
+    <Border>
+      <Border.Styles>
+        <default:DefaultThemeStyles />
+      </Border.Styles>
+
+      <!-- One shared row instantiated per pane; :pressed/:disabled render identically to :pointerover so they fold into Hover -->
+      <default:LightDarkPreview Title="TabItem States">
+        <DataTemplate>
+          <StackPanel Orientation="Horizontal" Spacing="20">
+            <TabItem Header="Default" />
+            <TabItem Header="Hover" theme:Preview.State="Hover" />
+            <TabItem Header="Disabled" IsEnabled="False" />
+            <TabItem Header="Selected" IsSelected="True" />
+            <TabItem Header="Sel + Hover" IsSelected="True" theme:Preview.State="Hover" />
+            <TabItem Header="Warn" IsSelected="True" theme:Accent.Kind="Warning" />
+            <TabItem Header="OK" IsSelected="True" theme:Accent.Kind="Success" />
+            <!-- Placement variants live in the TabControl preview: TabStripPlacement's setter is not public on a bare item -->
+          </StackPanel>
+        </DataTemplate>
+      </default:LightDarkPreview>
+    </Border>
+  </Design.PreviewWith>
+
+<!-- Template -->
+  <ControlTheme x:Key="{x:Type TabItem}" TargetType="TabItem">
+
+    <!-- Visual defaults -->
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="Foreground" Value="{color:DimTextDefault}" />
+    <Setter Property="BorderBrush" Value="Transparent" />
+    <Setter Property="BorderThickness" Value="0" />
+    <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
+    <Setter Property="FontSize" Value="{size:FontSizeXxl}" />
+    <Setter Property="Padding" Value="{size:Edges Horizontal={size:SpacingXxl}}" />
+    <Setter Property="Margin" Value="0" />
+    <Setter Property="MinHeight" Value="{size:ControlHeightLg}" />
+    <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
+    <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
+    <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
+    <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
+
+    <!-- Template -->
+    <Setter Property="Template">
+      <ControlTemplate>
+        <!-- Outer frame around the tab -->
+        <Border Name="PART_LayoutRoot"
+                Background="{TemplateBinding Background}"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}"
+                CornerRadius="{TemplateBinding CornerRadius}"
+                Padding="{TemplateBinding Padding}">
+          <!-- Layout root stacking the pipe over the label -->
+          <Panel>
+            <!-- The tab's label -->
+            <ContentPresenter Name="PART_ContentPresenter"
+                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                              Content="{TemplateBinding Header}"
+                              ContentTemplate="{TemplateBinding HeaderTemplate}" />
+            <!-- Bar marking the selected tab -->
+            <Border Name="PART_SelectedPipe"
+                    IsVisible="False" />
+          </Panel>
+        </Border>
+      </ControlTemplate>
+    </Setter>
+
+    <!-- Access key support -->
+    <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="RecognizesAccessKey" Value="True" />
+    </Style>
+
+    <!-- Selected pipe visuals -->
+    <Style Selector="^ /template/ Border#PART_SelectedPipe">
+      <Setter Property="Background" Value="{color:AccentPrimaryBrush}" />
+      <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
+    </Style>
+
+    <!-- Hover state -->
+    <Style Selector="^:pointerover /template/ Border#PART_LayoutRoot, ^[(theme|Preview.State)=Hover] /template/ Border#PART_LayoutRoot">
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="TextElement.Foreground" Value="{color:AccentBrush Light2}" />
+    </Style>
+
+    <!-- Pressed state -->
+    <Style Selector="^:pressed /template/ Border#PART_LayoutRoot, ^[(theme|Preview.State)=Pressed] /template/ Border#PART_LayoutRoot">
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="TextElement.Foreground" Value="{color:AccentBrush Light2}" />
+    </Style>
+
+    <!-- Disabled state -->
+    <Style Selector="^:disabled /template/ Border#PART_LayoutRoot">
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="TextElement.Foreground" Value="{color:AccentBrush Light2}" />
+    </Style>
+
+    <!-- Selected state -->
+    <Style Selector="^:selected">
+      <Setter Property="Background" Value="Transparent" />
+    </Style>
+    <Style Selector="^:selected /template/ Border#PART_SelectedPipe">
+      <Setter Property="IsVisible" Value="True" />
+    </Style>
+
+    <!-- Selected hover state -->
+    <Style Selector="^:selected:pointerover /template/ Border#PART_LayoutRoot, ^:selected[(theme|Preview.State)=Hover] /template/ Border#PART_LayoutRoot">
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="TextElement.Foreground" Value="{color:AccentBrush Light2}" />
+    </Style>
+
+    <!-- Selected pressed state -->
+    <Style Selector="^:selected:pressed /template/ Border#PART_LayoutRoot, ^:selected[(theme|Preview.State)=Pressed] /template/ Border#PART_LayoutRoot">
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="TextElement.Foreground" Value="{color:AccentBrush Light2}" />
+    </Style>
+
+    <!-- TabStripPlacement: Left -->
+    <Style Selector="^[TabStripPlacement=Left] /template/ Border#PART_SelectedPipe">
+      <Setter Property="Width" Value="{size:SpacingSm}" />
+      <Setter Property="Height" Value="{size:ControlHeightSm}" />
+      <Setter Property="Margin" Value="0,0,2,0" />
+      <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
+      <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
+    </Style>
+    <Style Selector="^[TabStripPlacement=Left] /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Margin" Value="8,0,0,0" />
+    </Style>
+
+    <!-- TabStripPlacement: Top and Bottom -->
+    <Style Selector="^[TabStripPlacement=Top] /template/ Border#PART_SelectedPipe, ^[TabStripPlacement=Bottom] /template/ Border#PART_SelectedPipe">
+      <Setter Property="Height" Value="{size:SpacingSm}" />
+      <Setter Property="Margin" Value="0,0,0,2" />
+      <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
+      <Setter Property="VerticalAlignment" Value="{theme:ContainerVerticalAlignment}" />
+    </Style>
+
+    <!-- TabStripPlacement: Right -->
+    <Style Selector="^[TabStripPlacement=Right] /template/ Border#PART_SelectedPipe">
+      <Setter Property="Width" Value="{size:SpacingSm}" />
+      <Setter Property="Height" Value="{size:ControlHeightSm}" />
+      <Setter Property="Margin" Value="2,0,0,0" />
+      <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
+      <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
+    </Style>
+    <Style Selector="^[TabStripPlacement=Right] /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Margin" Value="0,0,8,0" />
+    </Style>
+    <Style Selector="^[TabStripPlacement=Right]">
+      <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
+    </Style>
+  </ControlTheme>
+</ResourceDictionary>

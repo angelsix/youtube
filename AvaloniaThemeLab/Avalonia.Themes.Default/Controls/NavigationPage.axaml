@@ -1,0 +1,275 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:default="clr-namespace:Avalonia.Themes.Default"
+                    xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+                    xmlns:color="using:AngelSix.ThemeEngine.Colors"
+                    xmlns:size="using:AngelSix.ThemeEngine.Sizes"
+                    xmlns:icons="using:AngelSix.ThemeEngine.Icons">
+  <Design.PreviewWith>
+    <Border>
+      <Border.Styles>
+        <default:DefaultThemeStyles />
+      </Border.Styles>
+
+      <!-- Chrome demo: back button, header title and command bars bind to the live navigation stack, so a static preview shows the bare scaffold once per pane. -->
+      <default:LightDarkPreview Title="NavigationPage States" Orientation="Horizontal">
+        <DataTemplate>
+          <Border Width="340" Height="300">
+            <NavigationPage />
+          </Border>
+        </DataTemplate>
+      </default:LightDarkPreview>
+    </Border>
+  </Design.PreviewWith>
+
+  <SolidColorBrush x:Key="NavigationBarBackground" Color="{color:AccentNeutral}" />
+  <SolidColorBrush x:Key="NavigationBarForeground" Color="{color:AccentNeutral}" />
+
+  <!-- Nav bar button: PART_ContentPresenter sits inside the button's own template, so a dedicated
+       Button theme reaches it where the NavigationPage theme could not (two /template/ hops) -->
+  <ControlTheme x:Key="DefaultNavigationBarButton"
+                TargetType="Button"
+                BasedOn="{StaticResource {x:Type Button}}">
+    <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
+    </Style>
+
+    <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="{color:HoverBackgroundDefault}" />
+    </Style>
+
+    <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="{color:PressedBackgroundDefault}" />
+    </Style>
+
+    <Style Selector="^:focus-visible /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="BorderBrush" Value="{color:AccentBrush Dark1}" />
+      <Setter Property="BorderThickness" Value="{size:ThicknessMd}" />
+      <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
+    </Style>
+
+    <Style Selector="^:disabled">
+      <Setter Property="Opacity" Value="{size:DisabledOpacity}" />
+
+      <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="Transparent" />
+      </Style>
+    </Style>
+  </ControlTheme>
+
+  <ControlTheme x:Key="{x:Type NavigationPage}" TargetType="NavigationPage">
+    <!-- Visual defaults -->
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
+    <Setter Property="VerticalAlignment" Value="{theme:ContainerVerticalAlignment}" />
+    <Setter Property="PageTransition">
+      <Setter.Value>
+        <PageSlide Duration="0:0:0.3" Orientation="Horizontal" FillMode="Forward">
+          <PageSlide.SlideInEasing>
+            <SplineEasing X1="0.16" Y1="1" X2="0.3" Y2="1" />
+          </PageSlide.SlideInEasing>
+          <PageSlide.SlideOutEasing>
+            <SplineEasing X1="0.2" Y1="0.85" X2="0.3" Y2="1" />
+          </PageSlide.SlideOutEasing>
+        </PageSlide>
+      </Setter.Value>
+    </Setter>
+    <Setter Property="ModalTransition">
+      <Setter.Value>
+        <PageSlide Duration="0:0:0.25" Orientation="Vertical" FillMode="Forward">
+          <PageSlide.SlideInEasing>
+            <SplineEasing X1="0.16" Y1="1" X2="0.3" Y2="1" />
+          </PageSlide.SlideInEasing>
+          <PageSlide.SlideOutEasing>
+            <SplineEasing X1="0.2" Y1="0.85" X2="0.3" Y2="1" />
+          </PageSlide.SlideOutEasing>
+        </PageSlide>
+      </Setter.Value>
+    </Setter>
+    <Setter Property="Template">
+      <ControlTemplate>
+        <!-- ClipToBounds prevents slide animations bleeding outside the control bounds. -->
+        <Panel ClipToBounds="True">
+          <!-- Layout root docking the bars around the page -->
+          <DockPanel>
+            <!-- Reserves nav-bar height in Inset mode. Invisible in Overlay mode. -->
+            <Border Name="PART_NavBarSpacer"
+                    Height="{TemplateBinding EffectiveBarHeight}"
+                    IsVisible="False"
+                    DockPanel.Dock="Top" />
+
+            <!-- The command bar across the bottom -->
+            <ContentPresenter Name="PART_BottomCommandBar"
+                              DockPanel.Dock="Bottom"
+                              Background="{TemplateBinding Background}"
+                              Content="{Binding CurrentPage?.(NavigationPage.BottomCommandBar), RelativeSource={RelativeSource TemplatedParent}, FallbackValue={x:Null}}" />
+
+            <!-- Back and front presenters enable slide transitions without Control recycling. -->
+            <Grid Name="PART_ContentHost"
+                  Background="{TemplateBinding Background}"
+                  ClipToBounds="True">
+              <!-- The previous page, during a transition -->
+              <ContentPresenter Name="PART_PageBackPresenter" />
+              <!-- The current page -->
+              <ContentPresenter Name="PART_PagePresenter" />
+            </Grid>
+          </DockPanel>
+
+          <!-- Navigation bar floats above content (ZIndex=1). -->
+          <Border Name="PART_NavigationBar"
+                  ZIndex="1"
+                  VerticalAlignment="Top"
+                  ClipToBounds="True"
+                  Height="{TemplateBinding EffectiveBarHeight}">
+            <!-- Places the back button left of the title -->
+            <Grid x:Name="PART_NavBarGrid" ColumnDefinitions="Auto, *, Auto">
+              <!-- Returns to the previous page -->
+              <Button x:Name="PART_BackButton"
+                      Theme="{StaticResource DefaultNavigationBarButton}"
+                      Grid.Column="0"
+                      Background="Transparent"
+                      Foreground="{DynamicResource NavigationBarForeground}"
+                      IsVisible="{TemplateBinding IsBackButtonEffectivelyVisible}"
+                      ToolTip.Tip="{x:Null}">
+                <!-- Overlaps the default arrow and a custom icon -->
+                <Panel Background="Transparent">
+                  <!-- Default back arrow -->
+                  <Path Data="{DynamicResource NavigationPageBackIcon}"
+                        x:Name="PART_BackButtonDefaultIcon"
+                        Fill="{DynamicResource NavigationBarForeground}"
+                        Stretch="Uniform" />
+                  <!-- Custom back icon, when one is supplied -->
+                  <ContentPresenter
+                    x:Name="PART_BackButtonContentPresenter" />
+                </Panel>
+              </Button>
+
+              <!-- The page title -->
+              <ContentPresenter Name="PART_Header"
+                                Grid.Column="1"
+                                Foreground="{DynamicResource NavigationBarForeground}"
+                                Content="{Binding CurrentPage?.Header, RelativeSource={RelativeSource TemplatedParent}, FallbackValue={x:Null}}"
+                                ContentTemplate="{Binding CurrentPage?.HeaderTemplate, RelativeSource={RelativeSource TemplatedParent}, FallbackValue={x:Null}}" />
+
+              <!-- The command bar across the top -->
+              <ContentPresenter Name="PART_TopCommandBar"
+                                Grid.Column="2"
+                                Foreground="{DynamicResource NavigationBarForeground}"
+                                Content="{Binding CurrentPage?.(NavigationPage.TopCommandBar), RelativeSource={RelativeSource TemplatedParent}, FallbackValue={x:Null}}" />
+            </Grid>
+          </Border>
+
+          <!-- Nav-bar shadow gradient. Margin.Top is set from code to match EffectiveBarHeight. -->
+          <Border Name="PART_NavBarShadow"
+                  ZIndex="1"
+                  VerticalAlignment="Top"
+                  IsVisible="False"
+                  IsHitTestVisible="False" />
+
+          <!-- Modal overlay: ZIndex 99 static, 100 animating -->
+          <ContentPresenter Name="PART_ModalBackPresenter"
+                            ZIndex="99"
+                            IsVisible="False"
+                            Background="{TemplateBinding Background}" />
+          <!-- The page shown over everything as a modal -->
+          <ContentPresenter Name="PART_ModalPresenter"
+                            ZIndex="100"
+                            IsVisible="False"
+                            Background="{TemplateBinding Background}" />
+        </Panel>
+      </ControlTemplate>
+    </Setter>
+
+    <!-- Default nav bar background, overridable via a more-specific style selector -->
+    <Style Selector="^ /template/ Border#PART_NavigationBar">
+      <Setter Property="Background" Value="{DynamicResource NavigationBarBackground}" />
+    </Style>
+
+    <!-- Nav bar grid margin -->
+    <Style Selector="^ /template/ Grid#PART_NavBarGrid">
+      <Setter Property="Margin" Value="{size:Edges Left={size:SpacingXxl}}" />
+    </Style>
+
+    <!-- Back button padding and alignment -->
+    <Style Selector="^ /template/ Button#PART_BackButton">
+      <Setter Property="Padding" Value="{size:Edges Left={size:SpacingXl}, Right={size:SpacingXl}}" />
+      <Setter Property="VerticalAlignment" Value="{theme:ContainerVerticalAlignment}" />
+    </Style>
+
+    <!-- Back button icon size -->
+    <Style Selector="^ /template/ Path#PART_BackButtonDefaultIcon">
+      <Setter Property="Width" Value="{size:IconSizeMd}" />
+      <Setter Property="Height" Value="{size:IconSizeMd}" />
+    </Style>
+
+    <!-- Header font size, margin, and alignment -->
+    <Style Selector="^ /template/ ContentPresenter#PART_Header">
+      <Setter Property="FontSize" Value="{size:FontSizeXl}" />
+      <Setter Property="Margin" Value="{size:Edges Right={size:SpacingXxl}}" />
+      <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalContentAlignment}" />
+      <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
+      <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
+    </Style>
+
+    <!-- Top command bar alignment -->
+    <Style Selector="^ /template/ ContentPresenter#PART_TopCommandBar">
+      <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
+      <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
+    </Style>
+
+    <!-- Page presenters alignment -->
+    <Style Selector="^ /template/ ContentPresenter#PART_PageBackPresenter, ^ /template/ ContentPresenter#PART_PagePresenter">
+      <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
+      <Setter Property="VerticalAlignment" Value="{theme:ContainerVerticalAlignment}" />
+    </Style>
+
+    <!-- Back button icon alignment -->
+    <Style Selector="^ /template/ Path#PART_BackButtonDefaultIcon">
+      <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
+      <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalContentAlignment}" />
+    </Style>
+    <Style Selector="^ /template/ ContentPresenter#PART_BackButtonContentPresenter">
+      <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
+      <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalContentAlignment}" />
+    </Style>
+
+    <!-- Nav bar shadow height and background -->
+    <Style Selector="^ /template/ Border#PART_NavBarShadow">
+      <Setter Property="Height" Value="{size:ThicknessXxl}" />
+      <Setter Property="Background" Value="{color:OverlayWeakBrush}" />
+    </Style>
+
+    <!-- :nav-bar-inset: spacer reserves nav-bar height so content is pushed below -->
+    <Style Selector="^:nav-bar-inset /template/ Border#PART_NavBarSpacer">
+      <Setter Property="IsVisible" Value="True" />
+    </Style>
+
+    <!-- :nav-bar-compact: collapse CommandBar labels when bar is too short -->
+    <Style Selector="^:nav-bar-compact /template/ ContentPresenter#PART_TopCommandBar CommandBar">
+      <Setter Property="DefaultLabelPosition" Value="Collapsed" />
+    </Style>
+
+    <!-- Back button styled via DefaultNavigationBarButton -->
+
+    <!-- CommandBar styles (moved from ContentPresenter.Styles per Rule 2/3) -->
+    <Style Selector="^ /template/ ContentPresenter#PART_TopCommandBar CommandBar">
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="MinHeight" Value="0" />
+      <Setter Property="Padding" Value="0" />
+      <Setter Property="VerticalAlignment" Value="{theme:ContainerVerticalAlignment}" />
+    </Style>
+    <Style Selector="^ /template/ ContentPresenter#PART_TopCommandBar CommandBarButton">
+      <Setter Property="MinHeight" Value="0" />
+      <Setter Property="Padding" Value="{size:Edges Left={size:SpacingXxl}, Right={size:SpacingXxl}}" />
+    </Style>
+    <Style Selector="^ /template/ ContentPresenter#PART_TopCommandBar CommandBarToggleButton">
+      <Setter Property="MinHeight" Value="0" />
+      <Setter Property="Padding" Value="{size:Edges Left={size:SpacingXxl}, Right={size:SpacingXxl}}" />
+    </Style>
+    <Style Selector="^ /template/ ContentPresenter#PART_TopCommandBar Button#PART_OverflowButton">
+      <Setter Property="MinHeight" Value="0" />
+      <Setter Property="Padding" Value="{size:Edges Left={size:SpacingXxl}, Right={size:SpacingXxl}}" />
+    </Style>
+  </ControlTheme>
+</ResourceDictionary>

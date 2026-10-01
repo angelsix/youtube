@@ -1,11 +1,11 @@
 using AngelSix.ThemeEngine;
 using Avalonia.Media;
-using Avalonia.Themes.Prototype;
+using Avalonia.Themes.Default;
 
 namespace AvaloniaThemeLab;
 
 /// <summary>
-/// An end-user theme living downstream of the theme library: takes the prototype palette and adds
+/// An end-user theme living downstream of the theme library: takes the default palette and adds
 /// an accent hue of its own, which the library's control styles were compiled long before.
 /// </summary>
 /// <remarks>

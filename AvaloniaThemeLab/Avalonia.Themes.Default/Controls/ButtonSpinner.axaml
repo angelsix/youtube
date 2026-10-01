@@ -1,0 +1,253 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="using:System"
+                    xmlns:default="clr-namespace:Avalonia.Themes.Default"
+                    xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+                    xmlns:color="using:AngelSix.ThemeEngine.Colors"
+                    xmlns:size="using:AngelSix.ThemeEngine.Sizes"
+                    xmlns:icons="using:AngelSix.ThemeEngine.Icons">
+  <Design.PreviewWith>
+    <Border Padding="20">
+      <Border.Styles>
+        <default:DefaultThemeStyles />
+      </Border.Styles>
+
+      <!-- One shared grid instantiated per pane; Location/Hue fold onto the state instances so nothing repeats -->
+      <default:LightDarkPreview Title="ButtonSpinner States" Orientation="Horizontal">
+        <DataTemplate>
+          <WrapPanel ItemSpacing="8">
+            <ButtonSpinner Content="Default" />
+            <ButtonSpinner ButtonSpinnerLocation="Left"
+                           theme:Accent.Kind="Warning"
+                           Content="Left · Warning" />
+            <ButtonSpinner theme:Preview.State="Hover"
+                           theme:Accent.Kind="Success"
+                           Content="Hover · Success" />
+            <ButtonSpinner theme:Preview.State="Pressed"
+                           Content="Pressed" />
+            <ButtonSpinner ButtonSpinnerLocation="Left"
+                           theme:Accent.Kind="Warning"
+                           IsEnabled="False"
+                           Content="Disabled · Left" />
+            <ButtonSpinner theme:Accent.Kind="Destructive"
+                           Content="Error · Destructive">
+              <DataValidationErrors.Error>
+                <sys:Exception>
+                  <x:Arguments>
+                    <x:String>Error</x:String>
+                  </x:Arguments>
+                </sys:Exception>
+              </DataValidationErrors.Error>
+            </ButtonSpinner>
+            <ButtonSpinner ShowButtonSpinner="False"
+                           theme:Accent.Kind="Subtle"
+                           Content="No spinner · Subtle" />
+          </WrapPanel>
+        </DataTemplate>
+      </default:LightDarkPreview>
+    </Border>
+  </Design.PreviewWith>
+
+  <ControlTheme x:Key="DefaultButtonSpinnerRepeatButton" TargetType="RepeatButton">
+
+    <!-- Visual defaults -->
+    <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
+    <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
+    <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
+    <!-- Theme Exception: Stretch required to make spinner button hover effects full height -->
+    <Setter Property="VerticalAlignment" Value="Stretch" />
+    <Setter Property="Background" Value="Transparent" />
+
+    <!-- Press animation -->
+    <Setter Property="RenderTransform" Value="none" />
+    <Setter Property="Transitions">
+      <Transitions>
+        <TransformOperationsTransition Property="RenderTransform" Duration="{theme:AnimationFastMs}" />
+      </Transitions>
+    </Setter>
+
+    <!-- Template: deliberately not BasedOn the RepeatButton theme -->
+    <Setter Property="Template">
+      <ControlTemplate>
+        <!-- The chevron icon -->
+        <ContentPresenter Name="PART_ContentPresenter"
+                          Background="{TemplateBinding Background}"
+                          BorderBrush="{TemplateBinding BorderBrush}"
+                          BorderThickness="{TemplateBinding BorderThickness}"
+                          CornerRadius="{TemplateBinding CornerRadius}"
+                          Content="{TemplateBinding Content}"
+                          ContentTemplate="{TemplateBinding ContentTemplate}"
+                          Foreground="{TemplateBinding Foreground}"
+                          Padding="{TemplateBinding Padding}"
+                          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                          VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+      </ControlTemplate>
+    </Setter>
+
+    <!-- Pressed state: colors set by the ButtonSpinner theme -->
+    <Style Selector="^:pressed">
+      <Setter Property="RenderTransform" Value="{theme:TransformScale Value={size:PressedScale}}" />
+    </Style>
+
+    <!-- Disabled state -->
+    <Style Selector="^:disabled">
+      <Setter Property="Opacity" Value="{size:DisabledOpacity}" />
+    </Style>
+  </ControlTheme>
+
+  <!-- ============================================================
+       Template
+       ============================================================ -->
+  <ControlTheme x:Key="{x:Type ButtonSpinner}" TargetType="ButtonSpinner">
+
+    <!-- Visual defaults -->
+    <Setter Property="Padding" Value="{size:Edges Horizontal={size:SpacingXl}}" />
+    <Setter Property="Background" Value="{color:BackgroundDefault}" />
+    <Setter Property="Foreground" Value="{color:TextDefault}" />
+    <Setter Property="BorderBrush" Value="{color:BorderDefault}" />
+    <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
+    <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
+    <Setter Property="MinHeight" Value="{size:ControlHeightSm}" />
+    <Setter Property="MinWidth" Value="{size:ControlMinWidth}" />
+    <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
+    <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
+    <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
+    <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
+    <Setter Property="Focusable" Value="True"/>
+
+    <!-- Template -->
+    <Setter Property="Template">
+      <ControlTemplate>
+        <!-- Validation error message for the whole control -->
+        <DataValidationErrors>
+          <!-- Outer frame around the value and its buttons -->
+          <Border Background="{TemplateBinding Background}"
+                  BorderBrush="{TemplateBinding BorderBrush}"
+                  BorderThickness="{TemplateBinding BorderThickness}"
+                  CornerRadius="{TemplateBinding CornerRadius}"
+                  MinHeight="{TemplateBinding MinHeight}">
+            <!-- Layout root docking the buttons beside the value -->
+            <DockPanel>
+              <!-- The stacked up and down buttons -->
+              <StackPanel Name="PART_SpinnerPanel"
+                          TabIndex="2"
+                          DockPanel.Dock="Right"
+                          Orientation="Horizontal"
+                          IsVisible="{TemplateBinding ShowButtonSpinner}">
+
+                <!-- Steps the value up, repeating while held -->
+                <RepeatButton Name="PART_IncreaseButton"
+                              IsTabStop="{TemplateBinding IsTabStop}"
+                              Theme="{StaticResource DefaultButtonSpinnerRepeatButton}"
+                              BorderBrush="{TemplateBinding BorderBrush}"
+                              Padding="{TemplateBinding Padding}"
+                              Foreground="{TemplateBinding Foreground}">
+                  <PathIcon Data="{icons:ChevronUp}" />
+                </RepeatButton>
+
+                <!-- Steps the value down, repeating while held -->
+                <RepeatButton Name="PART_DecreaseButton"
+                              IsTabStop="{TemplateBinding IsTabStop}"
+                              Theme="{StaticResource DefaultButtonSpinnerRepeatButton}"
+                              BorderBrush="{TemplateBinding BorderBrush}"
+                              Foreground="{TemplateBinding Foreground}"
+                              Padding="{TemplateBinding Padding}">
+                  <PathIcon Data="{icons:ChevronDown}" />
+                </RepeatButton>
+
+              </StackPanel>
+
+              <!-- The value the spinner is stepping -->
+              <ContentPresenter Name="PART_ContentPresenter"
+                                TabIndex="1"
+                                ContentTemplate="{TemplateBinding ContentTemplate}"
+                                Content="{TemplateBinding Content}"
+                                Background="{TemplateBinding Background}"
+                                Foreground="{TemplateBinding Foreground}"
+                                HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                Padding="{TemplateBinding Padding}" />
+            </DockPanel>
+          </Border>
+        </DataValidationErrors>
+      </ControlTemplate>
+    </Setter>
+
+    <!-- Spinner button padding -->
+    <Style Selector="^ /template/ RepeatButton">
+      <Setter Property="Padding" Value="{size:Edges All={size:SpacingXl}}" />
+      <Setter Property="BorderThickness" Value="{size:Edges Left={TemplateBinding BorderThickness}}" />
+    </Style>
+
+    <!-- Spinner icon size -->
+    <Style Selector="^ /template/ RepeatButton > PathIcon">
+      <Setter Property="Height" Value="{size:IconSizeMd}" />
+      <Setter Property="Width" Value="{size:IconSizeMd}" />
+    </Style>
+
+    <!-- Corner radius: rounds the edge button's outer corners -->
+    <Style Selector="^ /template/ RepeatButton#PART_DecreaseButton">
+      <Setter Property="CornerRadius" Value="{size:Corners Radius={TemplateBinding CornerRadius}, Right=True}" />
+    </Style>
+
+    <!-- Hover state: on the buttons, not the Border (IsPointerOver quirk) -->
+    <Style Selector="^ /template/ RepeatButton:pointerover:not(:disabled)">
+      <Setter Property="Background" Value="{color:HoverBackgroundDefault}" />
+      <Setter Property="Foreground" Value="{color:HoverTextDefault}" />
+    </Style>
+
+    <!-- Hover content area -->
+    <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter:pointerover,
+                     ^[(theme|Preview.State)=Hover] /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="{color:HoverBackgroundDefault}" />
+      <Setter Property="Foreground" Value="{color:HoverTextDefault}" />
+    </Style>
+
+    <!-- Pressed state -->
+    <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter,
+                     ^[(theme|Preview.State)=Pressed] /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="{color:PressedBackgroundDefault}" />
+    </Style>
+
+    <Style Selector="^ /template/ RepeatButton:pressed:not(:disabled)">
+      <Setter Property="Background" Value="{color:PressedBackgroundDefault}" />
+    </Style>
+
+    <!-- Disabled state -->
+    <Style Selector="^:disabled">
+      <Setter Property="Opacity" Value="{size:DisabledOpacity}" />
+    </Style>
+
+    <!-- Focus state -->
+    <Style Selector="^:focus-visible /template/ Border">
+      <Setter Property="BorderBrush" Value="{color:AccentFocusBrush}" />
+      <Setter Property="BorderThickness" Value="{size:ThicknessMd}" />
+    </Style>
+
+    <!-- Error state -->
+    <Style Selector="^:error">
+      <Setter Property="BorderBrush" Value="{color:AccentErrorBrush}" />
+    </Style>
+    
+    <!-- Accent class: hue-agnostic, resolves against the control's Accent.Kind -->
+
+    <!-- Left spinner position -->
+    <Style Selector="^:left">
+      <Style Selector="^ /template/ StackPanel#PART_SpinnerPanel">
+        <Setter Property="DockPanel.Dock" Value="Left" />
+      </Style>
+      <Style Selector="^ /template/ RepeatButton">
+        <Setter Property="BorderThickness" Value="{size:Edges Right={TemplateBinding BorderThickness}}" />
+      </Style>
+      <!-- Corner radius workaround (see above): spinner on the left swaps the edge-touching button. -->
+      <Style Selector="^ /template/ RepeatButton#PART_DecreaseButton">
+        <Setter Property="CornerRadius" Value="0" />
+      </Style>
+      <Style Selector="^ /template/ RepeatButton#PART_IncreaseButton">
+        <Setter Property="CornerRadius" Value="{size:Corners Radius={TemplateBinding CornerRadius}, Left=True}" />
+      </Style>
+    </Style>
+
+  </ControlTheme>
+
+</ResourceDictionary>

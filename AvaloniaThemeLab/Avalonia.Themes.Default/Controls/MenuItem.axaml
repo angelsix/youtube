@@ -1,0 +1,287 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:conv="using:Avalonia.Controls.Converters"
+                    xmlns:default="clr-namespace:Avalonia.Themes.Default"
+                    xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+                    xmlns:color="using:AngelSix.ThemeEngine.Colors"
+                    xmlns:size="using:AngelSix.ThemeEngine.Sizes"
+                    xmlns:icons="using:AngelSix.ThemeEngine.Icons">
+  <Design.PreviewWith>
+    <Border>
+      <Border.Styles>
+        <default:DefaultThemeStyles />
+      </Border.Styles>
+
+      <!-- One list mixes every paintable state: icon slot, input-gesture hint, :selected overlay, :disabled dimming, separator swap and the submenu chevron -->
+      <default:LightDarkPreview Title="MenuItem States" Orientation="Vertical">
+        <DataTemplate>
+          <StackPanel Spacing="4" HorizontalAlignment="Left">
+            <MenuItem Header="_Standard" />
+            <MenuItem Header="With _Icon">
+              <MenuItem.Icon>
+                <TextBlock>😊</TextBlock>
+              </MenuItem.Icon>
+            </MenuItem>
+            <MenuItem Header="Input _Gesture" InputGesture="Ctrl+G" />
+            <MenuItem Header="_Selected" IsSelected="True" />
+            <MenuItem Header="_Disabled" IsEnabled="False" />
+            <MenuItem Header="-" />
+            <MenuItem Header="_Submenu">
+              <MenuItem Header="Child" />
+            </MenuItem>
+          </StackPanel>
+        </DataTemplate>
+      </default:LightDarkPreview>
+    </Border>
+  </Design.PreviewWith>
+
+  <conv:PlatformKeyGestureConverter x:Key="KeyGestureConverter" />
+
+  <ControlTheme x:Key="{x:Type MenuItem}" TargetType="MenuItem">
+    <!-- Visual defaults -->
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="Foreground" Value="{color:TextDefault}" />
+    <Setter Property="BorderBrush" Value="Transparent" />
+    <Setter Property="BorderThickness" Value="0" />
+    <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
+    <!-- Narrow padding for mouse; widen for touch input later -->
+    <Setter Property="Padding" Value="{size:Edges Left={size:SpacingXxl}, Top={size:SpacingMd}, Right={size:SpacingXxl}, Bottom={size:SpacingLg}}" />
+    <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
+    <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
+    <Setter Property="Template">
+      <ControlTemplate>
+        <!-- Layout root stacking the item and its submenu -->
+        <Panel>
+          <!-- Outer frame around the menu item -->
+          <Border Name="PART_LayoutRoot"
+                  Padding="{TemplateBinding Padding}"
+                  Background="{TemplateBinding Background}"
+                  BorderBrush="{TemplateBinding BorderBrush}"
+                  BorderThickness="{TemplateBinding BorderThickness}"
+                  CornerRadius="{TemplateBinding CornerRadius}">
+            <!-- Columns: icon, label, shortcut and chevron -->
+            <Grid>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"
+                                  SharedSizeGroup="ToggleIcon" />
+                <ColumnDefinition Width="Auto"
+                                  SharedSizeGroup="MenuItemIcon" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto"
+                                  SharedSizeGroup="MenuItemIGT" />
+                <ColumnDefinition Width="Auto"
+                                  SharedSizeGroup="MenuItemChevron" />
+              </Grid.ColumnDefinitions>
+
+              <!-- The item's icon -->
+              <ContentControl Grid.Column="0"
+                              x:Name="PART_ToggleIconPresenter"
+                              IsVisible="False"
+                              Theme="{StaticResource DefaultMenuItemIconTheme}" />
+
+              <!-- The tick shown when the item is checked -->
+              <ContentControl Grid.Column="1"
+                              x:Name="PART_IconPresenter"
+                              IsVisible="False"
+                              Theme="{StaticResource DefaultMenuItemIconTheme}"
+                              Content="{TemplateBinding Icon}" />
+
+              <!-- The item's label -->
+              <ContentPresenter Name="PART_HeaderPresenter"
+                                Content="{TemplateBinding Header}"
+                                ContentTemplate="{TemplateBinding HeaderTemplate}"
+                                Grid.Column="2"/>
+              <!-- The keyboard shortcut, shown on the right -->
+              <TextBlock x:Name="PART_InputGestureText"
+                         Grid.Column="3"
+                         Text="{TemplateBinding InputGesture, Converter={StaticResource KeyGestureConverter}}"
+                         HorizontalAlignment="Right"
+                         VerticalAlignment="Center"/>
+              <!-- Chevron marking an item with a submenu -->
+              <Path Name="PART_ChevronPath"
+                    Stretch="Uniform"
+                    Data="{icons:ChevronRight}"
+                    VerticalAlignment="Center"
+                    Grid.Column="4" />
+            </Grid>
+          </Border>
+          <!-- The submenu shown when opened -->
+          <Popup Name="PART_Popup"
+                 WindowManagerAddShadowHint="False"
+                 Placement="RightEdgeAlignedTop"
+                 IsLightDismissEnabled="False"
+                 IsOpen="{TemplateBinding IsSubMenuOpen, Mode=TwoWay}">
+            <!-- Panel behind the submenu -->
+            <Border x:Name="PART_PopupBorder"
+                    Padding="0"
+                    MaxWidth="456"
+                    HorizontalAlignment="Stretch">
+              <!-- Scrolls the submenu when it overflows -->
+              <ScrollViewer Theme="{StaticResource DefaultMenuScrollViewer}">
+                <!-- The submenu entries -->
+                <ItemsPresenter x:Name="PART_PopupItemsPresenter"
+                                ItemsPanel="{TemplateBinding ItemsPanel}"
+                                Grid.IsSharedSizeScope="True" />
+              </ScrollViewer>
+            </Border>
+          </Popup>
+        </Panel>
+      </ControlTemplate>
+    </Setter>
+
+    <Style Selector="^ /template/ ContentPresenter#PART_HeaderPresenter">
+      <Setter Property="RecognizesAccessKey" Value="True" />
+      <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalContentAlignment}" />
+      <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
+    </Style>
+
+    <!-- Themed defaults for inner template elements (Rule 2) -->
+    <Style Selector="^ /template/ ContentControl#PART_ToggleIconPresenter">
+      <Setter Property="Margin" Value="{size:Edges Right={size:SpacingXxl}}" />
+    </Style>
+    <Style Selector="^ /template/ ContentControl#PART_IconPresenter">
+      <Setter Property="Margin" Value="{size:Edges Right={size:SpacingXxl}}" />
+    </Style>
+    <Style Selector="^ /template/ TextBlock#PART_InputGestureText">
+      <Setter Property="Margin" Value="{size:Edges Left={size:SpacingXxl}}" />
+      <Setter Property="Foreground" Value="{color:DimTextDefault}" />
+      <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
+      <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalContentAlignment}" />
+    </Style>
+    <Style Selector="^ /template/ Path#PART_ChevronPath">
+      <Setter Property="Width" Value="{size:IconSizeMd}" />
+      <Setter Property="Height" Value="{size:IconSizeMd}" />
+      <Setter Property="Fill" Value="{color:AccentBrush Light2}" />
+      <Setter Property="Margin" Value="{size:Edges Left={size:SpacingXxl}}" />
+      <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalContentAlignment}" />
+    </Style>
+    <Style Selector="^ /template/ Popup#PART_Popup">
+      <Setter Property="HorizontalOffset" Value="{size:Scaled Value={size:SpacingMd}, By=-1}" />
+    </Style>
+    <Style Selector="^ /template/ Border#PART_PopupBorder">
+      <Setter Property="Background" Value="{color:BackgroundDefault}" />
+      <Setter Property="BorderBrush" Value="{color:BorderDefault}" />
+      <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
+      <Setter Property="MinHeight" Value="{size:ControlHeightSm}" />
+      <Setter Property="CornerRadius" Value="{size:RadiusMd}" />
+    </Style>
+    <Style Selector="^ /template/ ItemsPresenter#PART_PopupItemsPresenter">
+      <Setter Property="Margin" Value="{size:Edges Vertical={size:SpacingMd}}" />
+    </Style>
+
+    <Style Selector="^:icon /template/ ContentControl#PART_IconPresenter">
+      <Setter Property="IsVisible" Value="True" />
+    </Style>
+    <Style Selector="^:selected">
+      <Style Selector="^ /template/ Border#PART_LayoutRoot">
+        <Setter Property="Background" Value="{color:OverlayWeakBrush}" />
+      </Style>
+      <Style Selector="^ /template/ ContentPresenter#PART_HeaderPresenter">
+      </Style>
+      <Style Selector="^ /template/ TextBlock#PART_InputGestureText">
+        <Setter Property="Foreground" Value="{color:DimTextDefault}" />
+      </Style>
+      <Style Selector="^ /template/ Path#PART_ChevronPath">
+        <Setter Property="Fill" Value="{color:AccentBrush Dark1}" />
+      </Style>
+    </Style>
+
+    <!-- Uses PART_LayoutRoot:pointerover so subitem presses do not trigger it -->
+    <Style Selector="^:pressed /template/ Border#PART_LayoutRoot:pointerover">
+      <Setter Property="Background" Value="{color:HoverBackgroundDefault}" />
+      <Style Selector="^ ContentPresenter#PART_HeaderPresenter">
+      </Style>
+      <Style Selector="^ TextBlock#PART_InputGestureText">
+        <Setter Property="Foreground" Value="{color:DimTextDefault}" />
+      </Style>
+      <Style Selector="^ Path#PART_ChevronPath">
+        <Setter Property="Fill" Value="{color:AccentBrush Dark1}" />
+      </Style>
+    </Style>
+
+    <Style Selector="^:disabled">
+      <Style Selector="^ /template/ Border#PART_LayoutRoot">
+        <Setter Property="Background" Value="Transparent" />
+      </Style>
+      <Style Selector="^ /template/ ContentPresenter#PART_HeaderPresenter">
+        <Setter Property="Foreground" Value="{color:DimTextDefault}" />
+      </Style>
+      <Style Selector="^ /template/ TextBlock#PART_InputGestureText">
+        <Setter Property="Foreground" Value="{color:DimTextDefault}" />
+      </Style>
+      <Style Selector="^ /template/ Path#PART_ChevronPath">
+        <Setter Property="Fill" Value="{color:AccentBrush Light2}" />
+      </Style>
+    </Style>
+
+    <Style Selector="^:open /template/ Path#PART_ChevronPath">
+      <Setter Property="Fill" Value="{color:AccentBrush Dark1}" />
+    </Style>
+
+    <Style Selector="^:empty /template/ Path#PART_ChevronPath">
+      <Setter Property="IsVisible" Value="False" />
+    </Style>
+
+    <Style Selector="^:separator">
+      <Setter Property="Template">
+        <ControlTemplate>
+          <!-- The divider line between menu groups -->
+          <Separator/>
+        </ControlTemplate>
+      </Setter>
+    </Style>
+    
+    <Style Selector="^ /template/ Image#PART_ToggleIconImage">
+      <Setter Property="IsVisible" Value="True" />
+    </Style>
+
+    <Style Selector="^:checked:toggle /template/ ContentControl#PART_ToggleIconPresenter">
+      <Setter Property="IsVisible" Value="True" />
+      <Setter Property="Content">
+        <Template>
+          <Path Fill="{Binding $parent[MenuItem].Foreground}"
+                Width="{size:IconSizeMd}"
+                Data="{StaticResource CheckMarkPathData}" />
+        </Template>
+      </Setter>
+    </Style>
+    <Style Selector="^:checked:radio /template/ ContentControl#PART_ToggleIconPresenter">
+      <Setter Property="IsVisible" Value="True" />
+      <Setter Property="Content">
+        <Template>
+          <Ellipse Fill="{Binding $parent[MenuItem].Foreground}"
+                   Margin="{size:Edges All={size:SpacingMd}}" Width="{size:IconSizeMd}" Height="{size:IconSizeMd}" />
+        </Template>
+      </Setter>
+    </Style>
+  </ControlTheme>
+  <ControlTheme x:Key="HorizontalMenuItem" TargetType="MenuItem" BasedOn="{StaticResource DefaultTopLevelMenuItem}">
+    <Setter Property="Padding" Value="{size:Edges Left={size:SpacingXl}, Top={size:SpacingMd}, Right={size:SpacingXl}, Bottom={size:SpacingLg}}" />
+    <Setter Property="Margin" Value="{size:Edges Horizontal={size:SpacingSm}}" />
+    <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
+    <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
+  </ControlTheme>
+
+  <ControlTheme x:Key="DefaultMenuItemIconTheme"
+                TargetType="ContentControl">
+    <!-- Visual defaults -->
+    <Setter Property="Width"
+            Value="{size:IconSizeMd}" />
+    <Setter Property="Height"
+            Value="{size:IconSizeMd}" />
+    <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
+    <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
+    <Setter Property="Template">
+      <ControlTemplate>
+        <!-- Scales the icon to fit its column -->
+        <Viewbox
+          StretchDirection="DownOnly"
+          HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+          VerticalAlignment="{TemplateBinding VerticalAlignment}">
+          <!-- The icon artwork -->
+          <ContentPresenter x:Name="PART_ContentPresenter" Content="{TemplateBinding Content}" />
+        </Viewbox>
+      </ControlTemplate>
+    </Setter>
+  </ControlTheme>
+</ResourceDictionary>

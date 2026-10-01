@@ -38,7 +38,7 @@ that file while doing it — a local engine change will *not* show up in the lab
 
 Accent styling uses `{theme:AccentBrush}`, which resolves against the hue the target control
 carries rather than a named accent, so one style block serves every hue. Rules and gotchas are in
-`AvaloniaThemeLab/Avalonia.Themes.Prototype/ThemeRules.md` Rule 16. The non-obvious part: the hue
+`AvaloniaThemeLab/Avalonia.Themes.Default/ThemeRules.md` Rule 16. The non-obvious part: the hue
 property is deliberately *not* generated. `Accent.Kind` is a per-assembly typed façade that
 forwards onto `ThemeAccent.HueProperty` in the runtime, because a generated enum-typed property
 would be a different `AvaloniaProperty` in each assembly and a shipped theme's styles would never

@@ -1,0 +1,34 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:default="clr-namespace:Avalonia.Themes.Default"
+                    xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+                    xmlns:color="using:AngelSix.ThemeEngine.Colors"
+                    xmlns:size="using:AngelSix.ThemeEngine.Sizes"
+                    xmlns:icons="using:AngelSix.ThemeEngine.Icons">
+  <ControlTheme x:Key="{x:Type RefreshVisualizer}"
+                TargetType="RefreshVisualizer">
+    <!-- Visual defaults -->
+    <Setter Property="IsTabStop" Value="False"/>
+    <Setter Property="IsHitTestVisible" Value="False"/>
+    <Setter Property="Background"
+            Value="Transparent"/>
+    <Setter Property="Foreground"
+            Value="{color:TextDefault}"/>
+    <Setter Property="Content">
+      <Template>
+        <PathIcon Name="PART_Icon"
+                  Data="{icons:Refresh}"
+                  Width="{size:IconSizeMd}"
+                  Height="{size:IconSizeMd}"
+        />
+      </Template>
+    </Setter>
+    <Setter Property="Template">
+      <ControlTemplate>
+        <!-- Layout root for the refresh spinner -->
+        <Grid Name="PART_Root"
+              Background="{TemplateBinding Background}"/>
+    </ControlTemplate>
+    </Setter>
+  </ControlTheme>
+</ResourceDictionary>

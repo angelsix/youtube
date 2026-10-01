@@ -1,0 +1,406 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:sys="using:System"
+        xmlns:default="clr-namespace:Avalonia.Themes.Default"
+        xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+        xmlns:color="using:AngelSix.ThemeEngine.Colors"
+        xmlns:size="using:AngelSix.ThemeEngine.Sizes"
+        xmlns:icons="using:AngelSix.ThemeEngine.Icons">
+  <Design.PreviewWith>
+    <Border>
+      <Border.Styles>
+        <default:DefaultThemeStyles />
+      </Border.Styles>
+
+      <!-- Rendered once per pane so light and dark each instantiate their own copies -->
+      <default:LightDarkPreview Title="TimePicker States" Orientation="Vertical">
+        <DataTemplate>
+          <!-- Only the states the theme actually styles: default, no-time watermark, disabled, error -->
+          <StackPanel Orientation="Horizontal" Spacing="20">
+            <TimePicker SelectedTime="14:30" />
+            <TimePicker />
+            <TimePicker SelectedTime="14:30" IsEnabled="False" />
+            <TimePicker SelectedTime="14:30">
+              <DataValidationErrors.Error>
+                <sys:Exception>
+                  <x:Arguments>
+                    <x:String>Error</x:String>
+                  </x:Arguments>
+                </sys:Exception>
+              </DataValidationErrors.Error>
+            </TimePicker>
+          </StackPanel>
+        </DataTemplate>
+      </default:LightDarkPreview>
+    </Border>
+  </Design.PreviewWith>
+
+  <!-- Flyout button sub-theme -->
+  <ControlTheme x:Key="DefaultTimePickerFlyoutButton" TargetType="Button">
+    <!-- Visual defaults -->
+    <Setter Property="RenderTransform" Value="none" />
+    <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
+    <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
+
+    <!-- Template -->
+    <Setter Property="Template">
+      <ControlTemplate>
+        <!-- The button's label -->
+        <ContentPresenter Name="PART_ContentPresenter"
+                          BorderBrush="{TemplateBinding BorderBrush}"
+                          Background="{TemplateBinding Background}"
+                          BorderThickness="{TemplateBinding BorderThickness}"
+                          Content="{TemplateBinding Content}"
+                          Foreground="{TemplateBinding Foreground}"
+                          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                          VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                          CornerRadius="{TemplateBinding CornerRadius}"/>
+      </ControlTemplate>
+    </Setter>
+
+    <!-- Pressed state -->
+    <Style Selector="^:pressed">
+      <Setter Property="RenderTransform" Value="{theme:TransformScale Value={size:PressedScale}, By=1}" />
+    </Style>
+
+    <!-- Pressed template state -->
+    <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="{color:PressedBackgroundDefault}"/>
+      <Setter Property="Foreground" Value="{color:TextDefault}"/>
+    </Style>
+
+    <!-- Disabled template state -->
+    <Style Selector="^:disabled /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="BorderBrush" Value="{color:BorderDefault}"/>
+      <Setter Property="Background" Value="{color:OverlayWeakBrush}"/>
+      <Setter Property="Foreground" Value="{color:DimTextDefault}"/>
+    </Style>
+  </ControlTheme>
+
+  <!-- Main TimePicker theme -->
+  <ControlTheme x:Key="{x:Type TimePicker}" TargetType="TimePicker">
+    <!-- Visual defaults -->
+    <Setter Property="Background" Value="{color:BackgroundDefault}" />
+    <Setter Property="BorderBrush" Value="{color:BorderDefault}" />
+    <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
+    <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
+    <Setter Property="Padding" Value="{size:Edges Horizontal={size:SpacingMd}, Vertical={size:SpacingMd}}" />
+    <Setter Property="MinHeight" Value="{size:ControlHeightSm}" />
+    <Setter Property="MinWidth" Value="{size:ControlMinWidth}" />
+    <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
+    <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
+
+    <!-- Template -->
+    <Setter Property="Template">
+      <ControlTemplate>
+        <!-- Validation error message for the whole control -->
+        <DataValidationErrors>
+          <!-- Layout root for the picker button -->
+          <Grid Name="LayoutRoot" Margin="{TemplateBinding Padding}">
+            <!-- Opens the time picker when clicked -->
+            <Button x:Name="PART_FlyoutButton"
+                    Theme="{StaticResource DefaultTimePickerFlyoutButton}"
+                    Foreground="{TemplateBinding Foreground}"
+                    Background="{TemplateBinding Background}"
+                    BorderBrush="{TemplateBinding BorderBrush}"
+                    BorderThickness="{TemplateBinding BorderThickness}"
+                    CornerRadius="{TemplateBinding CornerRadius}"
+                    IsEnabled="{TemplateBinding IsEnabled}"
+                    MinWidth="{TemplateBinding MinWidth}"
+                    MaxWidth="{TemplateBinding MaxWidth}"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch">
+
+              <!-- Splits the button into hour, minute and period -->
+              <Grid Name="PART_FlyoutButtonContentGrid">
+                <!--Ignore col defs here, set in code-->
+                <Border x:Name="PART_FirstPickerHost"
+                        Grid.Column="0"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch">
+                  <!-- The selected hour, or a prompt -->
+                  <TextBlock x:Name="PART_HourTextBlock"
+                      Text="hour"
+                      HorizontalAlignment="Center" />
+                </Border>
+
+                <!-- Divider between the hour and minute -->
+                <Rectangle Name="PART_FirstColumnDivider"
+                           HorizontalAlignment="Center"
+                           Grid.Column="1" />
+
+                <!-- The minute column of the button -->
+                <Border x:Name="PART_SecondPickerHost"
+                        Grid.Column="2"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch">
+                  <!-- The selected minute, or a prompt -->
+                  <TextBlock x:Name="PART_MinuteTextBlock"
+                             Text="minute"
+                             HorizontalAlignment="Center"/>
+                </Border>
+
+                <!-- Divider between the minute and seconds -->
+                <Rectangle Name="PART_SecondColumnDivider"
+                           HorizontalAlignment="Center"
+                           Grid.Column="3" />
+                
+                <!-- The seconds column of the button -->
+                <Border x:Name="PART_ThirdPickerHost"
+                        Grid.Column="4"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch">
+                  <!-- The selected seconds, or a prompt -->
+                  <TextBlock x:Name="PART_SecondTextBlock"
+                             Text="second"
+                             HorizontalAlignment="Center"/>
+                </Border>
+
+                <!-- Divider before the AM or PM column -->
+                <Rectangle Name="PART_ThirdColumnDivider"
+                           HorizontalAlignment="Center"
+                           Grid.Column="5" />
+
+                <!-- The AM or PM column of the button -->
+                <Border x:Name="PART_FourthPickerHost"
+                        Grid.Column="6"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch">
+                  <!-- The selected AM or PM -->
+                  <TextBlock x:Name="PART_PeriodTextBlock"
+                             HorizontalAlignment="Center" />
+                </Border>
+              </Grid>
+            </Button>
+
+            <!-- The picker shown when choosing a time -->
+            <Popup Name="PART_Popup"
+                   WindowManagerAddShadowHint="False"
+                   IsLightDismissEnabled="True"
+                   PlacementTarget="{TemplateBinding}"
+                   Placement="Bottom">
+              <!-- The spinning hour, minute and period columns -->
+              <TimePickerPresenter Name="PART_PickerPresenter" />
+            </Popup>
+
+          </Grid>
+        </DataValidationErrors>
+      </ControlTemplate>
+    </Setter>
+
+    <!-- Disabled state -->
+    <Style Selector="^:disabled /template/ Rectangle">
+      <Setter Property="Fill" Value="{color:OverlayWeakBrush}"/>
+    </Style>
+
+    <!-- Watermark state -->
+    <Style Selector="^:hasnotime /template/ Button#PART_FlyoutButton TextBlock">
+      <Setter Property="Foreground" Value="{color:DimTextDefault}"/>
+    </Style>
+
+    <!-- Error state -->
+    <Style Selector="^:error /template/ Button#PART_FlyoutButton">
+      <Setter Property="BorderBrush" Value="{color:AccentErrorBrush}"/>
+    </Style>
+
+    <!-- Themed properties moved out of ControlTemplate -->
+    <Style Selector="^ /template/ TextBlock#PART_HourTextBlock,
+           ^ /template/ TextBlock#PART_MinuteTextBlock,
+           ^ /template/ TextBlock#PART_SecondTextBlock,
+           ^ /template/ TextBlock#PART_PeriodTextBlock">
+      <Setter Property="Padding" Value="{size:Edges Top={size:SpacingMd}, Bottom={size:SpacingLg}}" />
+    </Style>
+    <Style Selector="^ /template/ Rectangle#PART_FirstColumnDivider,
+           ^ /template/ Rectangle#PART_SecondColumnDivider,
+           ^ /template/ Rectangle#PART_ThirdColumnDivider">
+      <Setter Property="Fill" Value="{color:OverlayWeakBrush}" />
+      <Setter Property="Width" Value="{size:BaseSize}" />
+    </Style>
+  </ControlTheme>
+
+  <!-- TimePickerPresenter theme -->
+  <ControlTheme x:Key="{x:Type TimePickerPresenter}" TargetType="TimePickerPresenter">
+    <!-- Visual defaults -->
+
+    <Setter Property="Background" Value="{color:BackgroundDefault}" />
+    <Setter Property="Foreground" Value="{color:TextDefault}" />
+    <Setter Property="BorderBrush" Value="{color:BorderDefault}" />
+    <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
+    <Setter Property="CornerRadius" Value="{size:RadiusMd}" />
+
+    <!-- Template -->
+    <Setter Property="Template">
+      <ControlTemplate>
+        <!-- Outer frame around the picker -->
+        <Border Name="Background"
+                Background="{TemplateBinding Background}"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}"
+                CornerRadius="{TemplateBinding CornerRadius}"
+                Padding="0">
+          <!-- Splits the picker from its accept and dismiss row -->
+          <Grid Name="ContentPanel" RowDefinitions="*,Auto">
+            <!-- Holds the hour, minute and period columns -->
+            <Grid Name="PART_PickerContainer">
+              <!--Ignore col defs here, set in code-->
+              <Panel Name="PART_HourHost" Grid.Column="0">
+                <!-- Scrolls the hour list -->
+                <ScrollViewer HorizontalScrollBarVisibility="Disabled"
+                              VerticalScrollBarVisibility="Hidden">
+                  <!-- The scrolling list of hours -->
+                  <DateTimePickerPanel Name="PART_HourSelector"
+                                       PanelType="Hour"
+                                       ShouldLoop="True"/>
+                </ScrollViewer>
+                <!-- Scrolls the hours up -->
+                <RepeatButton Name="PART_HourUpButton" Theme="{StaticResource DefaultDateTimePickerUpButton}"/>
+                <!-- Scrolls the hours down -->
+                <RepeatButton Name="PART_HourDownButton" Theme="{StaticResource DefaultDateTimePickerDownButton}"/>
+              </Panel>
+
+              <!-- The minute column -->
+              <Panel Name="PART_MinuteHost" Grid.Column="2">
+                <!-- Scrolls the minute list -->
+                <ScrollViewer HorizontalScrollBarVisibility="Disabled"
+                              VerticalScrollBarVisibility="Hidden">
+                  <!-- The scrolling list of minutes -->
+                  <DateTimePickerPanel Name="PART_MinuteSelector"
+                                       PanelType="Minute"
+                                       ShouldLoop="True"/>
+                </ScrollViewer>
+                <!-- Scrolls the minutes up -->
+                <RepeatButton Name="PART_MinuteUpButton" Theme="{StaticResource DefaultDateTimePickerUpButton}"/>
+                <!-- Scrolls the minutes down -->
+                <RepeatButton Name="PART_MinuteDownButton" Theme="{StaticResource DefaultDateTimePickerDownButton}"/>
+              </Panel>
+              
+              <!-- The seconds column -->
+              <Panel Name="PART_SecondHost" Grid.Column="4">
+                <!-- Scrolls the seconds list -->
+                <ScrollViewer HorizontalScrollBarVisibility="Disabled"
+                              VerticalScrollBarVisibility="Hidden">
+                  <!-- The scrolling list of seconds -->
+                  <DateTimePickerPanel Name="PART_SecondSelector"
+                                       PanelType="Second"
+                                       ShouldLoop="True"/>
+                </ScrollViewer>
+                <!-- Scrolls the seconds up -->
+                <RepeatButton Name="PART_SecondUpButton" Theme="{StaticResource DefaultDateTimePickerUpButton}"/>
+                <!-- Scrolls the seconds down -->
+                <RepeatButton Name="PART_SecondDownButton" Theme="{StaticResource DefaultDateTimePickerDownButton}"/>
+              </Panel>
+
+              <!-- The AM or PM column -->
+              <Panel Name="PART_PeriodHost" Grid.Column="6">
+                <!-- Scrolls the AM and PM list -->
+                <ScrollViewer HorizontalScrollBarVisibility="Disabled"
+                              VerticalScrollBarVisibility="Hidden">
+                  <!-- The AM and PM options -->
+                  <DateTimePickerPanel Name="PART_PeriodSelector"
+                                       PanelType="TimePeriod"
+                                       ShouldLoop="False"/>
+                </ScrollViewer>
+                <!-- Scrolls the period up -->
+                <RepeatButton Name="PART_PeriodUpButton" Theme="{StaticResource DefaultDateTimePickerUpButton}"/>
+                <!-- Scrolls the period down -->
+                <RepeatButton Name="PART_PeriodDownButton" Theme="{StaticResource DefaultDateTimePickerDownButton}"/>
+              </Panel>
+
+              <!-- Band highlighting the centred selection -->
+              <Rectangle x:Name="HighlightRect" ZIndex="-1"
+                         Grid.Column="0"
+                         Grid.ColumnSpan="7"
+                         VerticalAlignment="Center" />
+              <!-- Divider between the first two columns -->
+              <Rectangle Name="PART_FirstSpacer"
+                         HorizontalAlignment="Center"
+                         Grid.Column="1" />
+              <!-- Divider between the second and third columns -->
+              <Rectangle Name="PART_SecondSpacer"
+                         HorizontalAlignment="Center"
+                         Grid.Column="3" />
+              <!-- Divider before the last column -->
+              <Rectangle Name="PART_ThirdSpacer"
+                         HorizontalAlignment="Center"
+                         Grid.Column="5" />
+            </Grid>
+
+            <!-- The accept and dismiss row -->
+            <Grid Name="AcceptDismissGrid"
+                  Grid.Row="1"
+                  ColumnDefinitions="*,*">
+              <!-- Line above the accept and dismiss buttons -->
+              <Rectangle x:Name="PART_TopDivider"
+                         VerticalAlignment="Top"
+                         Grid.ColumnSpan="2"/>
+              <!-- Confirms the chosen time -->
+              <Button Name="PART_AcceptButton"
+                      Grid.Column="0"
+                      Theme="{StaticResource DefaultDateTimePickerButton}"
+                      HorizontalAlignment="Stretch"
+                      VerticalAlignment="Stretch">
+                <!-- The tick mark -->
+                <Path x:Name="PART_AcceptIcon"
+                      Stroke="{Binding $parent[Button].Foreground}"
+                      StrokeLineCap="Round"
+                      Data="{icons:Checkmark}" />
+              </Button>
+              <!-- Closes the picker without choosing -->
+              <Button Name="PART_DismissButton"
+                      Grid.Column="1"
+                      Theme="{StaticResource DefaultDateTimePickerButton}"
+                      HorizontalAlignment="Stretch" 
+                      VerticalAlignment="Stretch">
+                <!-- The cross mark -->
+                <Path x:Name="PART_DismissIcon"
+                      Stroke="{Binding $parent[Button].Foreground}" 
+                      StrokeLineCap="Round"
+                      Data="{icons:Close}" />
+              </Button>
+            </Grid>
+          </Grid>
+        </Border>
+      </ControlTemplate>
+    </Setter>
+
+    <!-- Pointerover state -->
+    <Style Selector="^ /template/ Panel">
+      <Style Selector="^:pointerover RepeatButton">
+        <Setter Property="IsVisible" Value="True" />
+      </Style>
+    </Style>
+
+    <!-- Themed properties moved out of ControlTemplate -->
+    <Style Selector="^ /template/ DateTimePickerPanel#PART_HourSelector,
+           ^ /template/ DateTimePickerPanel#PART_MinuteSelector,
+           ^ /template/ DateTimePickerPanel#PART_SecondSelector,
+           ^ /template/ DateTimePickerPanel#PART_PeriodSelector">
+      <Setter Property="ItemHeight" Value="{size:ControlHeightMd}" />
+    </Style>
+    <Style Selector="^ /template/ Rectangle#HighlightRect">
+      <Setter Property="Fill" Value="{color:AccentPrimaryBrush}" />
+      <Setter Property="Height" Value="{size:ControlHeightMd}" />
+    </Style>
+    <Style Selector="^ /template/ Rectangle#PART_FirstSpacer,
+           ^ /template/ Rectangle#PART_SecondSpacer,
+           ^ /template/ Rectangle#PART_ThirdSpacer">
+      <Setter Property="Fill" Value="{color:OverlayWeakBrush}" />
+      <Setter Property="Width" Value="{size:BaseSize}" />
+    </Style>
+    <Style Selector="^ /template/ Rectangle#PART_TopDivider">
+      <Setter Property="Height" Value="{size:BaseSize}" />
+      <Setter Property="Fill" Value="{color:OverlayWeakBrush}" />
+    </Style>
+    <Style Selector="^ /template/ Button#PART_AcceptButton,
+           ^ /template/ Button#PART_DismissButton">
+      <Setter Property="Height" Value="{size:ControlHeightMd}" />
+    </Style>
+    <Style Selector="^ /template/ Button#PART_DismissButton">
+      <Setter Property="FontSize" Value="{size:FontSizeLg}" />
+    </Style>
+    <Style Selector="^ /template/ Path#PART_AcceptIcon,
+           ^ /template/ Path#PART_DismissIcon">
+      <Setter Property="StrokeThickness" Value="{size:ThicknessSm}" />
+    </Style>
+  </ControlTheme>
+</ResourceDictionary>

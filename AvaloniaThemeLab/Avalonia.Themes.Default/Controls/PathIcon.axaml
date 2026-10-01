@@ -1,0 +1,63 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:default="clr-namespace:Avalonia.Themes.Default"
+                    xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+                    xmlns:size="using:AngelSix.ThemeEngine.Sizes"
+                    xmlns:icons="using:AngelSix.ThemeEngine.Icons"
+                    xmlns:color="using:AngelSix.ThemeEngine.Colors">
+  <Design.PreviewWith>
+    <Border>
+      <Border.Styles>
+        <default:DefaultThemeStyles />
+      </Border.Styles>
+
+      <!-- Stateless glyph: sized down the icon ladder, then tinted through the generic accent brushes -->
+      <default:LightDarkPreview Title="PathIcon States" Orientation="Vertical">
+        <DataTemplate>
+          <StackPanel Orientation="Vertical" Spacing="12">
+            <StackPanel Orientation="Horizontal" Spacing="16">
+              <PathIcon Data="{icons:Star}" Width="{size:IconSizeSm}" Height="{size:IconSizeSm}" />
+              <PathIcon Data="{icons:Star}" Width="{size:IconSizeMd}" Height="{size:IconSizeMd}" />
+              <PathIcon Data="{icons:Star}" Width="{size:IconSizeLg}" Height="{size:IconSizeLg}" />
+              <PathIcon Data="{icons:Star}" Width="{size:IconSizeXl}" Height="{size:IconSizeXl}" />
+            </StackPanel>
+            <!-- Colors ride the generic accent tokens, so the hue follows the active accent kind -->
+            <StackPanel Orientation="Horizontal" Spacing="16">
+              <PathIcon Data="{icons:Star}" Foreground="{color:AccentPrimaryBrush}" />
+              <PathIcon Data="{icons:Star}" Foreground="{color:AccentPrimaryBrush}" theme:Accent.Kind="Warning" />
+              <PathIcon Data="{icons:Star}" Foreground="{color:AccentPrimaryBrush}" theme:Accent.Kind="Success" />
+            </StackPanel>
+          </StackPanel>
+        </DataTemplate>
+      </default:LightDarkPreview>
+    </Border>
+  </Design.PreviewWith>
+  <!-- ============================================================
+       Template
+       ============================================================ -->
+  <ControlTheme x:Key="{x:Type PathIcon}" TargetType="PathIcon">
+
+    <!-- Visual defaults -->
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="Foreground" Value="{color:TextDefault}" />
+    <Setter Property="Height" Value="{size:IconSizeMd}" />
+    <Setter Property="Width" Value="{size:IconSizeMd}" />
+    <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
+    <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
+
+    <!-- Template -->
+    <Setter Property="Template">
+      <ControlTemplate>
+        <!-- The icon's background area -->
+        <Border Background="{TemplateBinding Background}">
+          <!-- Scales the glyph to the requested size -->
+          <Viewbox Height="{TemplateBinding Height}" Width="{TemplateBinding Width}">
+            <!-- The icon artwork -->
+            <Path Fill="{TemplateBinding Foreground}" Data="{TemplateBinding Data}" Stretch="Uniform" />
+          </Viewbox>
+        </Border>
+      </ControlTemplate>
+    </Setter>
+
+  </ControlTheme>
+</ResourceDictionary>
