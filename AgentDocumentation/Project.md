@@ -9,7 +9,7 @@ _TODO: what this project is and does._
 ## Agent files
 
 - `AgentDocumentation/Project.md` (this file): project overview + project-specific rules.
-- `AgentDocumentation/Memory.md`: project long-term memory.
+- `AgentDocumentation/Memory.md`: project long-term memory, kept on the local machine only (gitignored).
 - `AgentDocumentation/Sessions/`: per-session `SessionMemory-*.md` reflection files.
 
 ## Rules
@@ -17,6 +17,8 @@ _TODO: what this project is and does._
 Inherits all global rules from `AgentDocumentationGlobal/Global.md` (safety, no-secrets, naming, push-back, no workarounds). Project-specific rules go here as they emerge.
 
 ## Public repository — confidentiality rules
+
+Never commit to or push this repository without Luke's explicit approval for that specific change, even when a task says "commit and push". It is public: every commit is seen. A push also waits for Luke to approve it in a local prompt, and refuses without that.
 
 This is a PUBLIC GitHub repository. Its audience includes people who have no relationship to AngelSix. Therefore:
 

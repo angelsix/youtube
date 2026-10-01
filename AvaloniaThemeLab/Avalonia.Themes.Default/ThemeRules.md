@@ -2,6 +2,8 @@
 
 ## Purpose & Overview
 
+Read [ThemePhilosophy.md](ThemePhilosophy.md) first: it says why these rules exist and what they protect, which is how to decide a case no rule covers.
+
 Avalonia's stock control themes grew organically over years, accumulating legacy patterns, duplicated resources, hard-coded values, and inconsistent styling approaches. The result is a system where restyling even a single control often requires digging through multiple layers of templates, resources, and base themes — and where a global design change (e.g. switching from light to dark, or updating the border radius across all controls) means touching dozens of files individually.
 
 ### The Token System
