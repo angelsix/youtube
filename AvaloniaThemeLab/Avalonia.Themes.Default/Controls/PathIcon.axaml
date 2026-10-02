@@ -37,13 +37,14 @@
        ============================================================ -->
   <ControlTheme x:Key="{x:Type PathIcon}" TargetType="PathIcon">
 
-    <!-- Visual defaults -->
+    <!-- Visual defaults. No Foreground: a glyph inherits its container's text colour, so it follows a hover,
+         a checked fill or a disabled parent (ThemeRules Rule 13). A template wanting another colour sets it there -->
     <Setter Property="Background" Value="Transparent" />
-    <Setter Property="Foreground" Value="{color:TextDefault}" />
     <Setter Property="Height" Value="{size:IconSizeMd}" />
     <Setter Property="Width" Value="{size:IconSizeMd}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
     <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
 
     <!-- Template -->
     <Setter Property="Template">

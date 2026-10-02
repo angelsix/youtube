@@ -7,6 +7,7 @@
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes">
   <ControlTheme x:Key="{x:Type WindowNotificationManager}" TargetType="WindowNotificationManager">
     <Setter Property="Margin" Value="0 0" />
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
     <Setter Property="Template">
       <ControlTemplate>
         <!-- Stacks notifications toward the chosen corner -->
@@ -17,7 +18,7 @@
               <StackPanel
                   Margin="{size:Edges All={size:SpacingXxl}}"
                   Spacing="{size:SpacingXl}"
-                  TextElement.Foreground="{color:AccentBrush Dark1}">
+                  TextElement.Foreground="{color:AccentBrush Dark2}">
                 <!-- The notification's title -->
                 <TextBlock Text="{Binding Title}"
                            FontWeight="{theme:FontWeightSemiBold}" />
@@ -32,7 +33,7 @@
               <!-- A plain text notification -->
               <TextBlock Text="{Binding}"
                          Margin="{size:Edges All={size:SpacingXxl}}"
-                         Foreground="{color:AccentBrush Dark1}" />
+                         Foreground="{color:AccentBrush Dark2}" />
             </DataTemplate>
           </ReversibleStackPanel.DataTemplates>
         </ReversibleStackPanel>

@@ -2,30 +2,128 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:p="clr-namespace:Avalonia.Themes.Default"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
-                    xmlns:color="using:AngelSix.ThemeEngine.Colors">
+                    xmlns:color="using:AngelSix.ThemeEngine.Colors"
+                    xmlns:size="using:AngelSix.ThemeEngine.Sizes">
+  <!-- One accent swatch: a dot in its own hue, ringed when it is the picked one. The item carries its
+       hue as its own Accent.Kind, so a pick recolours the preview's content and never the swatches -->
+  <ControlTheme x:Key="LightDarkPreviewSwatch" TargetType="ListBoxItem" x:DataType="theme:AccentKind">
+    <!-- Visual defaults -->
+    <Setter Property="theme:Accent.Kind" Value="{Binding}" />
+    <Setter Property="Background" Value="{color:AccentBrush Dark3}" />
+    <Setter Property="BorderBrush" Value="Transparent" />
+    <Setter Property="BorderThickness" Value="{size:ThicknessMd}" />
+    <Setter Property="Padding" Value="{size:Edges All={size:SpacingSm}}" />
+    <Setter Property="CornerRadius" Value="{size:RadiusMd}" />
+    <Setter Property="Width" Value="{size:IconSizeLg}" />
+    <Setter Property="Height" Value="{size:IconSizeLg}" />
+    <Setter Property="ToolTip.Tip" Value="{Binding}" />
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
+    <Setter Property="Template">
+      <ControlTemplate>
+        <!-- The ring around the swatch -->
+        <Border BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}"
+                CornerRadius="{TemplateBinding CornerRadius}"
+                Padding="{TemplateBinding Padding}">
+          <!-- The dot painted in the swatch's hue -->
+          <Border Background="{TemplateBinding Background}" CornerRadius="{TemplateBinding CornerRadius}" />
+        </Border>
+      </ControlTemplate>
+    </Setter>
+
+    <!-- Hover state -->
+    <Style Selector="^:pointerover">
+      <Setter Property="BorderBrush" Value="{color:BorderDefault}" />
+    </Style>
+
+    <!-- Selected state -->
+    <Style Selector="^:selected">
+      <Setter Property="BorderBrush" Value="{color:TextDefault}" />
+    </Style>
+
+    <!-- Focus state -->
+    <Style Selector="^:focus-visible">
+      <Setter Property="BorderBrush" Value="{color:AccentFocusBrush}" />
+    </Style>
+  </ControlTheme>
+
+  <!-- The row of accent swatches in a pane's header -->
+  <ControlTheme x:Key="LightDarkPreviewSwatches" TargetType="ListBox">
+    <!-- Visual defaults -->
+    <Setter Property="Padding" Value="{size:Edges Left={size:SpacingLg}}" />
+    <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
+    <Setter Property="SelectionMode" Value="AlwaysSelected" />
+    <Setter Property="ItemContainerTheme" Value="{StaticResource LightDarkPreviewSwatch}" />
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
+    <Setter Property="Template">
+      <ControlTemplate>
+        <!-- The swatches -->
+        <ItemsPresenter Name="PART_ItemsPresenter" Margin="{TemplateBinding Padding}" ItemsPanel="{TemplateBinding ItemsPanel}" />
+      </ControlTemplate>
+    </Setter>
+    <Setter Property="ItemsPanel">
+      <ItemsPanelTemplate>
+        <StackPanel Orientation="Horizontal" />
+      </ItemsPanelTemplate>
+    </Setter>
+  </ControlTheme>
+
   <!-- Two identical panes, the second flipped into a dark region; each presents an independent
        instantiation of the caller's template -->
   <ControlTheme x:Key="{x:Type p:LightDarkPreview}" TargetType="p:LightDarkPreview">
+    <!-- Visual defaults -->
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
+    <!-- Text root: a design preview has no Window above it, so the inherited text properties a Window
+         gives every control (Rule 13) are established here instead; inside a Window they restate the same values -->
+    <Setter Property="Foreground" Value="{color:AccentBrush Dark8}" />
+    <Setter Property="FontSize" Value="{size:FontSizeMd}" />
+    <Setter Property="FontFamily" Value="{theme:FontFamily}" />
+    <Setter Property="FontWeight" Value="{theme:FontWeightRegular}" />
+    <!-- Where each pane places its caption and content across its width; a page lays it out (Center floats them mid-pane) -->
+    <Setter Property="HorizontalContentAlignment" Value="{theme:ContainerHorizontalAlignment}" />
     <Setter Property="Template">
       <ControlTemplate>
-        <StackPanel Orientation="{Binding Orientation, RelativeSource={RelativeSource FindAncestor, AncestorType=p:LightDarkPreview}}">
+        <!-- The two panes, in equal cells: side by side each takes half the width, stacked each takes the full width -->
+        <UniformGrid x:Name="PART_Panes">
           <!-- Light -->
           <Border Padding="20" Background="{color:SurfaceDefaultBrush}">
             <StackPanel Spacing="10">
-              <Label Content="{Binding Title, RelativeSource={RelativeSource FindAncestor, AncestorType=p:LightDarkPreview}, StringFormat='{}{0} - Light'}" />
-              <ContentControl ContentTemplate="{Binding PaneContentTemplate, RelativeSource={RelativeSource FindAncestor, AncestorType=p:LightDarkPreview}}" />
+              <!-- The pane's caption and its accent picker -->
+              <Grid ColumnDefinitions="Auto,Auto" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}">
+                <Label Content="{Binding Title, RelativeSource={RelativeSource FindAncestor, AncestorType=p:LightDarkPreview}, StringFormat='{}{0} - Light'}" />
+                <ListBox Grid.Column="1" Theme="{StaticResource LightDarkPreviewSwatches}" IsVisible="{TemplateBinding IsAccentPickerVisible}"
+                         SelectedItem="{TemplateBinding SelectedAccent, Mode=TwoWay}" ItemsSource="{x:Static p:LightDarkPreview.AccentChoices}" />
+              </Grid>
+              <ContentControl HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" theme:Accent.Kind="{TemplateBinding SelectedAccent}"
+                              ContentTemplate="{Binding PaneContentTemplate, RelativeSource={RelativeSource FindAncestor, AncestorType=p:LightDarkPreview}}" />
             </StackPanel>
           </Border>
 
           <!-- Dark -->
           <Border Padding="20" theme:ThemeRegion.IsDark="True" Background="{color:SurfaceDefaultBrush}">
             <StackPanel Spacing="10">
-              <Label Content="{Binding Title, RelativeSource={RelativeSource FindAncestor, AncestorType=p:LightDarkPreview}, StringFormat='{}{0} - Dark'}" />
-              <ContentControl ContentTemplate="{Binding PaneContentTemplate, RelativeSource={RelativeSource FindAncestor, AncestorType=p:LightDarkPreview}}" />
+              <!-- The pane's caption and its accent picker -->
+              <Grid ColumnDefinitions="Auto,Auto" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}">
+                <Label Content="{Binding Title, RelativeSource={RelativeSource FindAncestor, AncestorType=p:LightDarkPreview}, StringFormat='{}{0} - Dark'}" />
+                <ListBox Grid.Column="1" Theme="{StaticResource LightDarkPreviewSwatches}" IsVisible="{TemplateBinding IsAccentPickerVisible}"
+                         SelectedItem="{TemplateBinding SelectedAccent, Mode=TwoWay}" ItemsSource="{x:Static p:LightDarkPreview.AccentChoices}" />
+              </Grid>
+              <ContentControl HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" theme:Accent.Kind="{TemplateBinding SelectedAccent}"
+                              ContentTemplate="{Binding PaneContentTemplate, RelativeSource={RelativeSource FindAncestor, AncestorType=p:LightDarkPreview}}" />
             </StackPanel>
           </Border>
-        </StackPanel>
+        </UniformGrid>
       </ControlTemplate>
     </Setter>
+
+    <!-- Side by side: one row of two equal columns -->
+    <Style Selector="^[Orientation=Horizontal] /template/ UniformGrid#PART_Panes">
+      <Setter Property="Rows" Value="1" />
+    </Style>
+
+    <!-- Stacked: one column of two equal rows -->
+    <Style Selector="^[Orientation=Vertical] /template/ UniformGrid#PART_Panes">
+      <Setter Property="Columns" Value="1" />
+    </Style>
   </ControlTheme>
 </ResourceDictionary>

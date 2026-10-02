@@ -13,43 +13,39 @@
         <default:DefaultThemeStyles />
       </Border.Styles>
 
-      <!-- Stacked groups: a flat row of six expanders exceeds half-pane width -->
-      <default:LightDarkPreview Title="Expander States" Orientation="Vertical">
+      <!-- One column per pane: expanders stack, as they do on a page -->
+      <default:LightDarkPreview Title="Expander States" Orientation="Horizontal">
         <DataTemplate>
-          <StackPanel Orientation="Vertical" Spacing="20">
+          <StackPanel Spacing="{size:SpacingXl}">
             <!-- Default direction carries every interaction state; the theme defines no :focus selector -->
-            <StackPanel Orientation="Horizontal" Spacing="20">
-              <Expander Header="Collapsed">
-                <TextBlock>Content</TextBlock>
-              </Expander>
-              <Expander Header="Expanded" IsExpanded="True">
-                <TextBlock>Content</TextBlock>
-              </Expander>
-              <Expander Header="Hover" theme:Preview.State="Hover">
-                <TextBlock>Content</TextBlock>
-              </Expander>
-              <Expander Header="Pressed" theme:Preview.State="Pressed">
-                <TextBlock>Content</TextBlock>
-              </Expander>
-              <Expander Header="Disabled" IsEnabled="False">
-                <TextBlock>Content</TextBlock>
-              </Expander>
-              <Expander Header="Success Expanded" IsExpanded="True" theme:Accent.Kind="Success">
-                <TextBlock>Content</TextBlock>
-              </Expander>
-            </StackPanel>
+            <Expander Header="Collapsed">
+              <TextBlock>Content</TextBlock>
+            </Expander>
+            <Expander Header="Expanded" IsExpanded="True">
+              <TextBlock>Content</TextBlock>
+            </Expander>
+            <Expander Header="Hover" theme:Preview.State="Hover">
+              <TextBlock>Content</TextBlock>
+            </Expander>
+            <Expander Header="Pressed" theme:Preview.State="Pressed">
+              <TextBlock>Content</TextBlock>
+            </Expander>
+            <Expander Header="Disabled" IsEnabled="False">
+              <TextBlock>Content</TextBlock>
+            </Expander>
+            <Expander Header="Success Expanded" IsExpanded="True" theme:Accent.Kind="Success">
+              <TextBlock>Content</TextBlock>
+            </Expander>
             <!-- Remaining directions fold in the second hue and a state composition -->
-            <StackPanel Orientation="Horizontal" Spacing="20">
-              <Expander ExpandDirection="Up" Header="Up Collapsed" theme:Accent.Kind="Warning">
-                <TextBlock>Content</TextBlock>
-              </Expander>
-              <Expander ExpandDirection="Left" Header="Left Expanded" IsExpanded="True">
-                <TextBlock>Content</TextBlock>
-              </Expander>
-              <Expander ExpandDirection="Right" Header="Right Hover" theme:Preview.State="Hover">
-                <TextBlock>Content</TextBlock>
-              </Expander>
-            </StackPanel>
+            <Expander ExpandDirection="Up" Header="Up Collapsed" theme:Accent.Kind="Warning">
+              <TextBlock>Content</TextBlock>
+            </Expander>
+            <Expander ExpandDirection="Left" Header="Left Expanded" IsExpanded="True">
+              <TextBlock>Content</TextBlock>
+            </Expander>
+            <Expander ExpandDirection="Right" Header="Right Hover" theme:Preview.State="Hover">
+              <TextBlock>Content</TextBlock>
+            </Expander>
           </StackPanel>
         </DataTemplate>
       </default:LightDarkPreview>
@@ -77,6 +73,7 @@
     <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
     <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
     <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
 
     <!-- Template -->
     <Setter Property="Template">
@@ -269,6 +266,7 @@
     <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
     <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
     <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
 
     <!-- Template -->
     <Setter Property="Template">

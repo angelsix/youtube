@@ -1,0 +1,17 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:size="using:AngelSix.ThemeEngine.Sizes"
+             x:Class="AvaloniaThemeLab.Pages.GridSplitterPage">
+  <StackPanel Spacing="{size:SpacingXl}">
+    <Grid ColumnDefinitions="*,Auto,*" Height="160">
+      <TextBlock Text="Left" />
+      <GridSplitter Grid.Column="1" />
+      <TextBlock Grid.Column="2" Text="Right" />
+    </Grid>
+    <Grid RowDefinitions="*,Auto,*" Height="160">
+      <TextBlock Text="Top" />
+      <GridSplitter Grid.Row="1" />
+      <TextBlock Grid.Row="2" Text="Bottom" />
+    </Grid>
+  </StackPanel>
+</UserControl>

@@ -1,0 +1,19 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:size="using:AngelSix.ThemeEngine.Sizes"
+             x:Class="AvaloniaThemeLab.Pages.ScrollViewerPage">
+  <UserControl.Styles>
+    <!-- The text's inset is its Margin, which the viewers count in their scroll extent -->
+    <Style Selector="ScrollViewer > TextBlock">
+      <Setter Property="Margin" Value="{size:Edges All={size:SpacingMd}}" />
+    </Style>
+  </UserControl.Styles>
+  <StackPanel Spacing="{size:SpacingXl}">
+    <ScrollViewer HorizontalScrollBarVisibility="Auto" Height="160">
+      <TextBlock Text="Line of text long enough to scroll sideways in a small viewport, repeated so the content also scrolls down.&#10;Line of text long enough to scroll sideways in a small viewport, repeated so the content also scrolls down.&#10;Line of text long enough to scroll sideways in a small viewport, repeated so the content also scrolls down.&#10;Line of text long enough to scroll sideways in a small viewport, repeated so the content also scrolls down.&#10;Line of text long enough to scroll sideways in a small viewport, repeated so the content also scrolls down.&#10;Line of text long enough to scroll sideways in a small viewport, repeated so the content also scrolls down.&#10;Line of text long enough to scroll sideways in a small viewport, repeated so the content also scrolls down.&#10;Line of text long enough to scroll sideways in a small viewport, repeated so the content also scrolls down.&#10;Line of text long enough to scroll sideways in a small viewport, repeated so the content also scrolls down.&#10;Line of text long enough to scroll sideways in a small viewport, repeated so the content also scrolls down.&#10;Line of text long enough to scroll sideways in a small viewport, repeated so the content also scrolls down.&#10;Line of text long enough to scroll sideways in a small viewport, repeated so the content also scrolls down.&#10;" />
+    </ScrollViewer>
+    <ScrollViewer HorizontalScrollBarVisibility="Auto" AllowAutoHide="False" Height="120">
+      <TextBlock Text="Line of text long enough to scroll sideways in a small viewport, repeated so the content also scrolls down.&#10;Line of text long enough to scroll sideways in a small viewport, repeated so the content also scrolls down.&#10;Line of text long enough to scroll sideways in a small viewport, repeated so the content also scrolls down.&#10;Line of text long enough to scroll sideways in a small viewport, repeated so the content also scrolls down.&#10;Line of text long enough to scroll sideways in a small viewport, repeated so the content also scrolls down.&#10;Line of text long enough to scroll sideways in a small viewport, repeated so the content also scrolls down.&#10;Line of text long enough to scroll sideways in a small viewport, repeated so the content also scrolls down.&#10;Line of text long enough to scroll sideways in a small viewport, repeated so the content also scrolls down.&#10;Line of text long enough to scroll sideways in a small viewport, repeated so the content also scrolls down.&#10;Line of text long enough to scroll sideways in a small viewport, repeated so the content also scrolls down.&#10;Line of text long enough to scroll sideways in a small viewport, repeated so the content also scrolls down.&#10;Line of text long enough to scroll sideways in a small viewport, repeated so the content also scrolls down.&#10;" />
+    </ScrollViewer>
+  </StackPanel>
+</UserControl>

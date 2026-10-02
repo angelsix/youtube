@@ -22,28 +22,28 @@
     </Border>
   </Design.PreviewWith>
 
-  <SolidColorBrush x:Key="NavigationBarBackground" Color="{color:AccentNeutral}" />
-  <SolidColorBrush x:Key="NavigationBarForeground" Color="{color:AccentNeutral}" />
+  <SolidColorBrush x:Key="NavigationBarBackground" Color="{color:NeutralLight10}" />
+  <SolidColorBrush x:Key="NavigationBarForeground" Color="{color:NeutralDark9}" />
 
-  <!-- Nav bar button: PART_ContentPresenter sits inside the button's own template, so a dedicated
+  <!-- Nav bar button: PART_Border sits inside the button's own template, so a dedicated
        Button theme reaches it where the NavigationPage theme could not (two /template/ hops) -->
   <ControlTheme x:Key="DefaultNavigationBarButton"
                 TargetType="Button"
                 BasedOn="{StaticResource {x:Type Button}}">
-    <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
+    <Style Selector="^ /template/ Border#PART_Border">
       <Setter Property="Background" Value="Transparent" />
       <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
     </Style>
 
-    <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+    <Style Selector="^:pointerover /template/ Border#PART_Border">
       <Setter Property="Background" Value="{color:HoverBackgroundDefault}" />
     </Style>
 
-    <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter">
+    <Style Selector="^:pressed /template/ Border#PART_Border">
       <Setter Property="Background" Value="{color:PressedBackgroundDefault}" />
     </Style>
 
-    <Style Selector="^:focus-visible /template/ ContentPresenter#PART_ContentPresenter">
+    <Style Selector="^:focus-visible /template/ Border#PART_Border">
       <Setter Property="BorderBrush" Value="{color:AccentBrush Dark1}" />
       <Setter Property="BorderThickness" Value="{size:ThicknessMd}" />
       <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
@@ -52,7 +52,7 @@
     <Style Selector="^:disabled">
       <Setter Property="Opacity" Value="{size:DisabledOpacity}" />
 
-      <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
+      <Style Selector="^ /template/ Border#PART_Border">
         <Setter Property="Background" Value="Transparent" />
       </Style>
     </Style>
@@ -63,6 +63,7 @@
     <Setter Property="Background" Value="Transparent" />
     <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
     <Setter Property="VerticalAlignment" Value="{theme:ContainerVerticalAlignment}" />
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
     <Setter Property="PageTransition">
       <Setter.Value>
         <PageSlide Duration="0:0:0.3" Orientation="Horizontal" FillMode="Forward">

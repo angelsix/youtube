@@ -94,6 +94,7 @@
     <Setter Property="MinHeight" Value="{size:ControlHeightMd}" />
     <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
     <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
     <Setter Property="Template">
       <ControlTemplate>
         <!-- Outer frame around the command button -->
@@ -186,6 +187,7 @@
     <Setter Property="MinHeight" Value="{size:ControlHeightMd}" />
     <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
     <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
     <Setter Property="Template">
       <ControlTemplate>
         <!-- Outer frame around the toggle command -->
@@ -278,6 +280,7 @@
     <Setter Property="Width" Value="{size:ThicknessSm}" />
     <Setter Property="MinHeight" Value="{size:ControlHeightSm}" />
     <Setter Property="Margin" Value="{size:Edges Horizontal={size:SpacingLg}, Vertical={size:SpacingMd}}" />
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
     <Setter Property="Template">
       <ControlTemplate>
         <!-- The divider line between command groups -->
@@ -304,21 +307,21 @@
   </ControlTheme>
 
   <!-- CommandBar ControlTheme -->
-  <!-- Overflow button: PART_ContentPresenter sits inside Button's own template, so a dedicated
+  <!-- Overflow button: PART_Border sits inside Button's own template, so a dedicated
        Button theme reaches it where the CommandBar theme could not (two /template/ hops) -->
   <ControlTheme x:Key="DefaultCommandBarOverflowButton"
                 TargetType="Button"
                 BasedOn="{StaticResource {x:Type Button}}">
-    <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
+    <Style Selector="^ /template/ Border#PART_Border">
       <Setter Property="Background" Value="Transparent" />
       <Setter Property="CornerRadius" Value="0" />
     </Style>
 
-    <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+    <Style Selector="^:pointerover /template/ Border#PART_Border">
       <Setter Property="Background" Value="{color:HoverBackgroundDefault}" />
     </Style>
 
-    <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter">
+    <Style Selector="^:pressed /template/ Border#PART_Border">
       <Setter Property="Background" Value="{color:AccentBrush Light6}" />
     </Style>
   </ControlTheme>
@@ -332,6 +335,7 @@
     <Setter Property="ItemWidthBottom" Value="{size:Scaled Value={size:ControlHeightMd}, By=2}" />
     <Setter Property="ItemWidthRight" Value="{size:Scaled Value={size:ControlHeightMd}, By=2.5}" />
     <Setter Property="ItemWidthCollapsed" Value="{size:ControlHeightMd}" />
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
     <Setter Property="Template">
       <ControlTemplate>
         <!-- Outer frame around the whole bar -->
@@ -352,7 +356,6 @@
                       IsVisible="{TemplateBinding IsOverflowButtonVisible}">
                 <!-- The three dots opening the overflow menu -->
                 <PathIcon x:Name="PART_OverflowIcon"
-                          Foreground="{TemplateBinding Foreground}"
                           Data="{icons:MoreHorizontal}" />
               </Button>
 

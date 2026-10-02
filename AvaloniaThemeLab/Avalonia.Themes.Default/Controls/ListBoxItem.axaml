@@ -13,13 +13,14 @@
       <!-- Narrow columns fit a half-width pane, so the two panes sit side by side -->
       <default:LightDarkPreview Title="ListBoxItem States" Orientation="Horizontal">
         <DataTemplate>
-          <!-- Each pane instantiates its own list; states come from real DPs the ControlTheme's pseudo-class selectors consume -->
-          <ListBox Width="220">
+          <!-- Each pane instantiates its own list; states come from real DPs the ControlTheme's pseudo-class selectors consume.
+               Multiple, or single selection keeps only the last IsSelected item and clears the others -->
+          <ListBox Width="220" SelectionMode="Multiple">
             <!-- Baseline: transparent chrome, default text -->
             <ListBoxItem>Default</ListBoxItem>
-            <!-- :selected -> accent-primary fill (same brush focused or not) -->
+            <!-- :selected -> the hue's Dark3 fill with Light10 text (same brush focused or not) -->
             <ListBoxItem IsSelected="True">Selected</ListBoxItem>
-            <!-- Same rule resolving {color:AccentPrimaryBrush} under a non-default accent kind -->
+            <!-- Same rule under another accent kind: the fill takes that hue -->
             <ListBoxItem IsSelected="True" theme:Accent.Kind="Success">Selected + Success</ListBoxItem>
             <!-- :disabled -> dimmed foreground -->
             <ListBoxItem IsEnabled="False">Disabled</ListBoxItem>
@@ -45,10 +46,14 @@
     <Setter Property="MinHeight" Value="{size:ControlHeightSm}" />
     <Setter Property="MinWidth" Value="{size:ControlMinWidth}" />
     <Setter Property="Padding" Value="{size:Edges Left={size:SpacingXxl}, Top={size:SpacingXl}, Right={size:SpacingXxl}, Bottom={size:SpacingXl}}" />
-    <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
+    <!-- A row fills its list, and so does its content: a row's highlight and hit area are the list's width, not its label's -->
+    <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
     <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
-    <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
+    <Setter Property="HorizontalContentAlignment" Value="{theme:ContainerHorizontalAlignment}" />
     <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
+    <!-- Focus is the item's own inset border (below): an outset ring is cut by the list's scroller and crosses its frame -->
+    <Setter Property="FocusAdorner" Value="{x:Null}" />
 
     <!-- Template -->
     <Setter Property="Template">
@@ -90,24 +95,30 @@
 
     <!-- Selected state -->
     <Style Selector="^:selected">
+      <Setter Property="Foreground" Value="{color:AccentBrush Light10}" />
 
       <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
-        <Setter Property="Background" Value="{color:AccentPrimaryBrush}" />
+        <Setter Property="Background" Value="{color:AccentBrush Dark3}" />
       </Style>
 
       <!-- Selected unfocused state -->
       <Style Selector="^:not(:focus) /template/ ContentPresenter#PART_ContentPresenter">
-        <Setter Property="Background" Value="{color:AccentPrimaryBrush}" />
+        <Setter Property="Background" Value="{color:AccentBrush Dark3}" />
       </Style>
 
       <!-- Selected hover state -->
       <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
-        <Setter Property="Background" Value="{color:AccentPrimaryBrush}" />
+        <Setter Property="Background" Value="{color:AccentBrush Dark4}" />
       </Style>
 
       <!-- Selected pressed state -->
       <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter">
-        <Setter Property="Background" Value="{color:AccentPrimaryBrush}" />
+        <Setter Property="Background" Value="{color:AccentBrush Dark5}" />
+      </Style>
+
+      <!-- Selected disabled state: no fill, so the dimmed text sits on the canvas (as ComboBoxItem) -->
+      <Style Selector="^:disabled /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="Transparent" />
       </Style>
     </Style>
 

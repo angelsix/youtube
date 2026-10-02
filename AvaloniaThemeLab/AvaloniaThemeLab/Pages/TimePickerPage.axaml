@@ -1,0 +1,12 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:size="using:AngelSix.ThemeEngine.Sizes"
+             x:Class="AvaloniaThemeLab.Pages.TimePickerPage">
+  <StackPanel Spacing="{size:SpacingXl}">
+    <TimePicker />
+    <TimePicker SelectedTime="10:10:00" />
+    <TimePicker SelectedTime="22:10:00" ClockIdentifier="24HourClock" />
+    <TimePicker SelectedTime="10:10:30" UseSeconds="True" />
+    <TimePicker IsEnabled="False" />
+  </StackPanel>
+</UserControl>

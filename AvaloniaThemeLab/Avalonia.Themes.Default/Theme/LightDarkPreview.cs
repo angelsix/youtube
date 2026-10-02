@@ -1,3 +1,4 @@
+using AngelSix.ThemeEngine.Generated;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Layout;
@@ -11,7 +12,7 @@ namespace Avalonia.Themes.Default;
 /// </summary>
 /// <remarks>
 /// <para>
-/// Used exclusively inside <c>Design.PreviewWith</c> blocks. Supply the shared content once as a
+/// Used by <c>Design.PreviewWith</c> blocks and by any page that shows a control's preview template. Supply the shared content once as a
 /// <see cref="DataTemplate"/> — either written INLINE between the tags (a <see cref="DataTemplate"/>
 /// assigned to <see cref="ContentControl.Content"/> is adopted as the template), or passed via
 /// <see cref="ContentControl.ContentTemplate"/> (typically a keyed resource). Whichever form is
@@ -26,7 +27,13 @@ namespace Avalonia.Themes.Default;
 /// <para>
 /// The dark pane flips <c>ThemeRegion.IsDark</c> on its own border, mirroring the scoping the
 /// hand-written previews used before this existed. Its appearance is defined entirely in
-/// Theme/LightDarkPreview.axaml beside this type.
+/// Controls/LightDarkPreview.axaml.
+/// </para>
+/// <para>
+/// <see cref="IsAccentPickerVisible"/> opts a preview into an accent picker: a row of swatches in each
+/// pane's header, one per hue in <see cref="AccentChoices"/>. Picking one sets <see cref="SelectedAccent"/>,
+/// which both panes' content carries as its <c>Accent.Kind</c>, so light and dark always show the same hue.
+/// The headers and the swatches keep their own colours.
 /// </para>
 /// </remarks>
 public class LightDarkPreview : ContentControl
@@ -53,6 +60,37 @@ public class LightDarkPreview : ContentControl
     /// <summary>Defines the <see cref="Orientation"/> property.</summary>
     public static readonly StyledProperty<Orientation> OrientationProperty =
         AvaloniaProperty.Register<LightDarkPreview, Orientation>(nameof(Orientation), defaultValue: Orientation.Horizontal);
+
+    /// <summary>Whether each pane's header shows the accent swatches. Off by default; a page opts in.</summary>
+    public bool IsAccentPickerVisible
+    {
+        get => GetValue(IsAccentPickerVisibleProperty);
+        set => SetValue(IsAccentPickerVisibleProperty, value);
+    }
+
+    /// <summary>Defines the <see cref="IsAccentPickerVisible"/> property.</summary>
+    public static readonly StyledProperty<bool> IsAccentPickerVisibleProperty =
+        AvaloniaProperty.Register<LightDarkPreview, bool>(nameof(IsAccentPickerVisible));
+
+    /// <summary>The hue both panes' content renders in. <see cref="AccentKind.Neutral"/>, the theme's
+    /// fallback hue, by default, so a preview nobody picks for looks exactly as it would without one.</summary>
+    public AccentKind SelectedAccent
+    {
+        get => GetValue(SelectedAccentProperty);
+        set => SetValue(SelectedAccentProperty, value);
+    }
+
+    /// <summary>Defines the <see cref="SelectedAccent"/> property.</summary>
+    public static readonly StyledProperty<AccentKind> SelectedAccentProperty =
+        AvaloniaProperty.Register<LightDarkPreview, AccentKind>(nameof(SelectedAccent));
+
+    /// <summary>The hues the picker offers, in the order DefaultTheme declares them. Surface is left out:
+    /// it is the canvas's own hue, so content drawn in it disappears into the pane.</summary>
+    public static IReadOnlyList<AccentKind> AccentChoices { get; } =
+    [
+        AccentKind.Neutral, AccentKind.Primary, AccentKind.Success, AccentKind.Warning,
+        AccentKind.Error, AccentKind.Info, AccentKind.Destructive, AccentKind.Subtle,
+    ];
 
     /// <summary>The template both panes present. Kept in sync by <see cref="OnPropertyChanged"/>
     /// from whichever input carries the template; bound to by the panes in the template.</summary>

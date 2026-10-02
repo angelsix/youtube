@@ -45,6 +45,7 @@
     <Setter Property="Foreground" Value="{color:DimTextDefault}" />
     <Setter Property="BorderBrush" Value="Transparent" />
     <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
     <!-- Structural: 24x24 icon button (no matching theme token) -->
     <Setter Property="Width" Value="24" />
     <Setter Property="Height" Value="24" />
@@ -153,7 +154,7 @@
     <Style Selector="^ /template/ Ellipse#Pip">
       <Setter Property="Width" Value="{size:SpacingMd}" />
       <Setter Property="Height" Value="{size:SpacingMd}" />
-      <Setter Property="Fill" Value="{color:AccentBrush Light2}" />
+      <Setter Property="Fill" Value="{color:AccentBrush Light1}" />
       <Setter Property="Transitions">
         <Transitions>
           <DoubleTransition Property="Width" Duration="{theme:AnimationNormalMs}" />
@@ -228,6 +229,7 @@
     <Setter Property="IsTabStop" Value="False" />
     <Setter Property="PreviousButtonTheme" Value="{StaticResource PipsPagerPreviousButtonTheme}" />
     <Setter Property="NextButtonTheme" Value="{StaticResource PipsPagerNextButtonTheme}" />
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
 
     <!-- Template -->
     <Setter Property="Template">

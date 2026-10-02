@@ -54,6 +54,7 @@
     <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
     <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
     <Setter Property="TextBlock.TextDecorations" Value="Underline" />
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
 
     <!-- Press animation -->
     <Setter Property="RenderTransform" Value="none" />
@@ -66,42 +67,24 @@
     <!-- Template -->
     <Setter Property="Template">
       <ControlTemplate>
-        <!-- Layout root stacking the link and accent outline -->
-        <Grid>
-          <!-- The link text -->
-          <ContentPresenter x:Name="PART_ContentPresenter"
-                            Background="{TemplateBinding Background}"
-                            BackgroundSizing="{TemplateBinding BackgroundSizing}"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}"
-                            CornerRadius="{TemplateBinding CornerRadius}"
-                            Content="{TemplateBinding Content}"
-                            ContentTemplate="{TemplateBinding ContentTemplate}"
-                            Padding="{TemplateBinding Padding}"
-                            HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                            VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
-
-          <!-- Accent border overlay (required: ContentPresenter lacks StrokeDashArray) -->
-          <Rectangle x:Name="PART_AccentBorder"
-                     IsVisible="False"
-                     IsHitTestVisible="False"
-                     Fill="Transparent"
-                     StrokeDashArray="3, 2, 6, 2" />
-        </Grid>
+        <!-- The link text -->
+        <ContentPresenter x:Name="PART_ContentPresenter"
+                          Background="{TemplateBinding Background}"
+                          BackgroundSizing="{TemplateBinding BackgroundSizing}"
+                          BorderBrush="{TemplateBinding BorderBrush}"
+                          BorderThickness="{TemplateBinding BorderThickness}"
+                          CornerRadius="{TemplateBinding CornerRadius}"
+                          Content="{TemplateBinding Content}"
+                          ContentTemplate="{TemplateBinding ContentTemplate}"
+                          Padding="{TemplateBinding Padding}"
+                          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                          VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
       </ControlTemplate>
     </Setter>
 
     <!-- Access key support -->
     <Style Selector="^ /template/ ContentPresenter">
       <Setter Property="RecognizesAccessKey" Value="True" />
-    </Style>
-
-    <!-- Accent border visuals -->
-    <Style Selector="^ /template/ Rectangle#PART_AccentBorder">
-      <Setter Property="Stroke" Value="{color:AccentPrimaryBrush}" />
-      <Setter Property="StrokeThickness" Value="{size:AccentBorderStrokeThickness}" />
-      <Setter Property="RadiusX" Value="{size:RadiusSmDouble}" />
-      <Setter Property="RadiusY" Value="{size:RadiusSmDouble}" />
     </Style>
 
     <!-- Hover state -->
@@ -138,11 +121,11 @@
     <!-- Visited state -->
     <Style Selector="^:visited">
       <Style Selector="^ /template/ ContentPresenter">
-        <Setter Property="Foreground" Value="{color:AccentNeutralBrush}" />
+        <Setter Property="Foreground" Value="{color:TextDefault}" />
       </Style>
 
       <Style Selector="^:pointerover /template/ ContentPresenter">
-        <Setter Property="Foreground" Value="{color:AccentNeutralBrush}" />
+        <Setter Property="Foreground" Value="{color:TextDefault}" />
       </Style>
 
       <Style Selector="^:pressed /template/ ContentPresenter">

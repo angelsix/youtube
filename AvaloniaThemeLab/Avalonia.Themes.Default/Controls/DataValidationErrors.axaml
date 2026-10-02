@@ -13,10 +13,10 @@
         <default:DefaultThemeStyles />
       </Border.Styles>
 
-      <!-- One shared row templated per pane: untouched passthrough beside real error chrome, proving the wrapper themes itself -->
+      <!-- One shared column templated per pane: untouched passthrough beside real error chrome, proving the wrapper themes itself -->
       <default:LightDarkPreview Title="DataValidationErrors States" Orientation="Horizontal">
         <DataTemplate>
-          <StackPanel Orientation="Horizontal" Spacing="32">
+          <StackPanel Spacing="{size:SpacingXl}">
             <!-- Clean value: the wrapper renders nothing extra around healthy content -->
             <TextBox Text="Valid" Width="140" />
             <!-- Single error: glyph + message in the error color beneath the field -->
@@ -50,6 +50,8 @@
        ============================================================ -->
   <ControlTheme x:Key="{x:Type DataValidationErrors}"
                 TargetType="DataValidationErrors">
+    <!-- Visual defaults -->
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
     <!-- Template -->
     <Setter Property="Template">
       <ControlTemplate TargetType="DataValidationErrors">
@@ -89,7 +91,8 @@
                       Background="Transparent"
                       BorderThickness="0"
                       Padding="0"
-                      Foreground="{color:AccentErrorBrush}">
+                      theme:Accent.Kind="Error"
+                      Foreground="{color:AccentBrush Dark3}">
           <ItemsControl.ItemTemplate>
             <DataTemplate>
               <DockPanel LastChildFill="True">

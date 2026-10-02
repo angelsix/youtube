@@ -18,7 +18,7 @@ So the first question for any new look is "which values change?", never "which t
 
 ### Few tokens, used well
 
-A token earns its place when it is a real design dimension that several controls share. Before adding one, work with what is there: a colour has a hue and its stages (`Light10`, `Dark3` and so on) and accent roles, so "a lighter tint of the accent" is an existing token, not a new one. A token added for one control, or a near-duplicate of an existing value, is how the old mess starts again.
+A token earns its place when it is a real design dimension that several controls share. Before adding one, work with what is there: a colour has a hue and its stages (`Light10`, `Dark3` and so on) and accent roles, so "a lighter tint of the accent" is an existing token, not a new one. The ramps are hue-aware, so a stage reads at the same lightness in every hue and a role pinned to it (a border, dim text, a selection fill) means the same thing whatever hue a control carries. A token added for one control, or a near-duplicate of an existing value, is how the old mess starts again.
 
 ### The compiler is the first reviewer
 

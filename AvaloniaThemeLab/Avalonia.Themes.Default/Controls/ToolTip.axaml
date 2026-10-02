@@ -6,7 +6,7 @@
                     xmlns:color="using:AngelSix.ThemeEngine.Colors"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes">
   <Design.PreviewWith>
-    <Border Padding="20">
+    <Border>
       <Border.Styles>
         <default:DefaultThemeStyles />
       </Border.Styles>
@@ -34,6 +34,7 @@
     <!-- Alignment -->
     <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
     <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
 
     <!-- Typography -->
     <Setter Property="FontSize" Value="{size:FontSizeSm}" />

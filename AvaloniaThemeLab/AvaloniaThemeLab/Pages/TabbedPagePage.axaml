@@ -1,0 +1,16 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:size="using:AngelSix.ThemeEngine.Sizes"
+             x:Class="AvaloniaThemeLab.Pages.TabbedPagePage">
+  <StackPanel Spacing="{size:SpacingXl}">
+    <TabbedPage Height="240">
+      <ContentPage Header="Home">
+        <TextBlock Text="Home page" />
+      </ContentPage>
+      <ContentPage Header="Favorites">
+        <TextBlock Text="Favorites page" />
+      </ContentPage>
+      <ContentPage Header="Disabled" IsEnabled="False" />
+    </TabbedPage>
+  </StackPanel>
+</UserControl>

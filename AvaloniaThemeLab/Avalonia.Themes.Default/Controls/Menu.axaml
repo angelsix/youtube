@@ -31,6 +31,7 @@
     <Setter Property="BorderBrush" Value="Transparent" />
     <Setter Property="BorderThickness" Value="0" />
     <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
     <!-- Narrow padding for mouse; widen for touch input later -->
     <Setter Property="Padding" Value="{size:Edges Horizontal={size:SpacingXxl}}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
@@ -127,6 +128,7 @@
     <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
     <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
     <Setter Property="ItemContainerTheme" Value="{StaticResource DefaultTopLevelMenuItem}" />
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
     <Setter Property="Template">
       <ControlTemplate>
         <!-- Outer frame around the menu bar -->

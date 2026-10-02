@@ -6,7 +6,7 @@
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes"
                     xmlns:icons="using:AngelSix.ThemeEngine.Icons">
   <Design.PreviewWith>
-    <Border Padding="20">
+    <Border>
       <Border.Styles>
         <default:DefaultThemeStyles />
       </Border.Styles>
@@ -51,6 +51,7 @@
     <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
     <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
     <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
 
     <!-- Press animation -->
     <Setter Property="RenderTransform" Value="none" />
@@ -63,45 +64,36 @@
     <!-- Template -->
     <Setter Property="Template">
       <ControlTemplate>
-        <!-- Layout root stacking the button and accent outline -->
-        <Grid>
-          <!-- Outer frame around the button -->
-          <Border x:Name="RootBorder"
-                  Background="{TemplateBinding Background}"
-                  BorderBrush="{TemplateBinding BorderBrush}"
-                  BorderThickness="{TemplateBinding BorderThickness}"
-                  CornerRadius="{TemplateBinding CornerRadius}"
-                  ClipToBounds="True">
-            <!-- Places the arrow right of the label -->
-            <Grid ColumnDefinitions="*,Auto">
+        <!-- Outer frame around the button -->
+        <Border x:Name="RootBorder"
+                Background="{TemplateBinding Background}"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}"
+                CornerRadius="{TemplateBinding CornerRadius}">
+          <!-- Places the arrow right of the label -->
+          <!-- Clips here, inside the stroke: a clip on the rounded frame cuts at r and shaves its own stroke -->
+          <Grid ColumnDefinitions="*,Auto"
+                ClipToBounds="True">
 
-              <!-- The button's label -->
-              <ContentPresenter x:Name="PART_ContentPresenter"
-                                Grid.Column="0"
-                                Content="{TemplateBinding Content}"
-                                ContentTemplate="{TemplateBinding ContentTemplate}"
-                                Padding="{TemplateBinding Padding}"
-                                HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+            <!-- The button's label -->
+            <ContentPresenter x:Name="PART_ContentPresenter"
+                              Grid.Column="0"
+                              Content="{TemplateBinding Content}"
+                              ContentTemplate="{TemplateBinding ContentTemplate}"
+                              Padding="{TemplateBinding Padding}"
+                              HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                              VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
 
-              <!-- The arrow marking this as a dropdown -->
-              <PathIcon x:Name="DropDown"
-                        Grid.Column="1"
-                        UseLayoutRounding="False"
-                        IsHitTestVisible="False"
-                        Data="{icons:DropDown}"
-                        HorizontalAlignment="Right"
-                        VerticalAlignment="Center" />
-
-              <!-- Accent border overlay (required: Border lacks StrokeDashArray) -->
-              <Rectangle x:Name="PART_AccentBorder"
-                         IsVisible="False"
-                         IsHitTestVisible="False"
-                         Fill="Transparent"
-                         StrokeDashArray="3, 2, 6, 2" />
-            </Grid>
-          </Border>
-        </Grid>
+            <!-- The arrow marking this as a dropdown -->
+            <PathIcon x:Name="DropDown"
+                      Grid.Column="1"
+                      UseLayoutRounding="False"
+                      IsHitTestVisible="False"
+                      Data="{icons:DropDown}"
+                      HorizontalAlignment="Right"
+                      VerticalAlignment="Center" />
+          </Grid>
+        </Border>
       </ControlTemplate>
     </Setter>
 
@@ -115,14 +107,6 @@
       <Setter Property="Foreground" Value="{color:DimTextDefault}" />
       <Setter Property="Height" Value="{size:IconSizeMd}" />
       <Setter Property="Width" Value="{size:IconSizeMd}" />
-    </Style>
-
-    <!-- Accent border visuals -->
-    <Style Selector="^ /template/ Rectangle#PART_AccentBorder">
-      <Setter Property="Stroke" Value="{color:AccentPrimaryBrush}" />
-      <Setter Property="StrokeThickness" Value="{size:AccentBorderStrokeThickness}" />
-      <Setter Property="RadiusX" Value="{size:RadiusSmDouble}" />
-      <Setter Property="RadiusY" Value="{size:RadiusSmDouble}" />
     </Style>
 
     <!-- Hover state -->

@@ -44,6 +44,7 @@
     <Setter Property="BorderBrush" Value="Transparent" />
     <Setter Property="BorderThickness" Value="0" />
     <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
     <!-- Narrow padding for mouse; widen for touch input later -->
     <Setter Property="Padding" Value="{size:Edges Left={size:SpacingXxl}, Top={size:SpacingMd}, Right={size:SpacingXxl}, Bottom={size:SpacingLg}}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
@@ -151,7 +152,7 @@
     <Style Selector="^ /template/ Path#PART_ChevronPath">
       <Setter Property="Width" Value="{size:IconSizeMd}" />
       <Setter Property="Height" Value="{size:IconSizeMd}" />
-      <Setter Property="Fill" Value="{color:AccentBrush Light2}" />
+      <Setter Property="Fill" Value="{color:AccentBrush Light1}" />
       <Setter Property="Margin" Value="{size:Edges Left={size:SpacingXxl}}" />
       <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalContentAlignment}" />
     </Style>
@@ -210,7 +211,7 @@
         <Setter Property="Foreground" Value="{color:DimTextDefault}" />
       </Style>
       <Style Selector="^ /template/ Path#PART_ChevronPath">
-        <Setter Property="Fill" Value="{color:AccentBrush Light2}" />
+        <Setter Property="Fill" Value="{color:AccentBrush Light1}" />
       </Style>
     </Style>
 
@@ -271,6 +272,7 @@
             Value="{size:IconSizeMd}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
     <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
     <Setter Property="Template">
       <ControlTemplate>
         <!-- Scales the icon to fit its column -->

@@ -1,0 +1,13 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:size="using:AngelSix.ThemeEngine.Sizes"
+             x:Class="AvaloniaThemeLab.Pages.CheckBoxPage">
+  <StackPanel Spacing="{size:SpacingXl}">
+    <CheckBox Content="Unchecked" />
+    <CheckBox Content="Checked" IsChecked="True" />
+    <CheckBox Content="Indeterminate" IsThreeState="True" IsChecked="{x:Null}" />
+    <CheckBox />
+    <CheckBox Content="Disabled" IsEnabled="False" />
+    <CheckBox Content="Disabled, checked" IsChecked="True" IsEnabled="False" />
+  </StackPanel>
+</UserControl>

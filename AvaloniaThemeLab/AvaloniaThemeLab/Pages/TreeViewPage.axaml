@@ -1,0 +1,14 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="AvaloniaThemeLab.Pages.TreeViewPage">
+  <TreeView>
+    <TreeViewItem Header="Expanded" IsExpanded="True">
+      <TreeViewItem Header="Child" />
+      <TreeViewItem Header="Collapsed child">
+        <TreeViewItem Header="Grandchild" />
+      </TreeViewItem>
+    </TreeViewItem>
+    <TreeViewItem Header="Selected" IsSelected="True" />
+    <TreeViewItem Header="Disabled" IsEnabled="False" />
+  </TreeView>
+</UserControl>

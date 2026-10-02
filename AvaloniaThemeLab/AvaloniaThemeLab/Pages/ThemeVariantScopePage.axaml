@@ -1,0 +1,23 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:size="using:AngelSix.ThemeEngine.Sizes"
+             x:Class="AvaloniaThemeLab.Pages.ThemeVariantScopePage">
+  <StackPanel Spacing="{size:SpacingXl}">
+    <ThemeVariantScope RequestedThemeVariant="Dark">
+      <StackPanel Spacing="{size:SpacingLg}">
+        <TextBlock Text="Inside a Dark scope" />
+        <Button Content="Button" />
+        <TextBox Text="Text box" />
+        <CheckBox Content="Check box" IsChecked="True" />
+      </StackPanel>
+    </ThemeVariantScope>
+    <ThemeVariantScope RequestedThemeVariant="Light">
+      <StackPanel Spacing="{size:SpacingLg}">
+        <TextBlock Text="Inside a Light scope" />
+        <Button Content="Button" />
+        <TextBox Text="Text box" />
+        <CheckBox Content="Check box" IsChecked="True" />
+      </StackPanel>
+    </ThemeVariantScope>
+  </StackPanel>
+</UserControl>

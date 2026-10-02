@@ -1,0 +1,13 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:size="using:AngelSix.ThemeEngine.Sizes"
+             x:Class="AvaloniaThemeLab.Pages.GroupBoxPage">
+  <StackPanel Spacing="{size:SpacingXl}">
+    <GroupBox Header="Header">
+      <TextBlock Text="Grouped content" />
+    </GroupBox>
+    <GroupBox Header="Disabled" IsEnabled="False">
+      <TextBlock Text="Grouped content" />
+    </GroupBox>
+  </StackPanel>
+</UserControl>

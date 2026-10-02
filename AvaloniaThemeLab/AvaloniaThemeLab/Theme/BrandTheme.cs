@@ -19,5 +19,5 @@ public partial class BrandTheme : DefaultTheme
 {
     public override string ThemeName => "Brand";
 
-    [AccentHue, ColorRamp] public virtual Color AccentBrand => Color.Parse("#7C4DFF");
+    [AccentHue, ColorRamp(HueAware = true)] public virtual Color AccentBrand => Color.Parse("#7C4DFF");
 }

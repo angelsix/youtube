@@ -53,6 +53,7 @@
     <Setter Property="BorderBrush" Value="{color:AccentBrush Light2}"/>
     <Setter Property="BorderThickness" Value="0"/>
     <Setter Property="CornerRadius" Value="{size:RadiusSm}"/>
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
 
     <!-- Template -->
     <Setter Property="Template">
@@ -77,12 +78,12 @@
 
     <!-- Hover state -->
     <Style Selector="^:pointerover /template/ Border">
-      <Setter Property="Background" Value="{color:AccentBrush Light2}" />
+      <Setter Property="Background" Value="{color:AccentBrush Light1}" />
     </Style>
 
     <!-- Pressed state -->
     <Style Selector="^:pressed  /template/ Border">
-      <Setter Property="Background" Value="{color:AccentBrush Light2}" />
+      <Setter Property="Background" Value="{color:AccentBrush Dark1}" />
     </Style>
 
     <!-- Disabled state -->
@@ -94,10 +95,13 @@
   <!-- ScrollBar Page Button sub-theme -->
   <ControlTheme x:Key="DefaultScrollBarPageButton" TargetType="RepeatButton">
     <!-- Visual defaults -->
-    <Setter Property="Background" Value="{color:BackgroundDefault}"/>
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
+    <!-- Visual defaults: paints nothing. The expanded bar shows every RepeatButton, and an opaque,
+         outlined page button drew the empty track as a box (Luke, 1 Oct 2026) -->
+    <Setter Property="Background" Value="Transparent"/>
     <Setter Property="Foreground" Value="{color:TextDefault}" />
     <Setter Property="BorderBrush" Value="{color:AccentBrush Light2}"/>
-    <Setter Property="BorderThickness" Value="{size:ThicknessSm}"/>
+    <Setter Property="BorderThickness" Value="0"/>
     <Setter Property="CornerRadius" Value="{size:RadiusSm}"/>
     <Setter Property="VerticalAlignment" Value="{theme:ContainerVerticalAlignment}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
@@ -124,6 +128,7 @@
     <Setter Property="BorderThickness" Value="{size:ThicknessSm}"/>
     <Setter Property="CornerRadius" Value="{size:RadiusSm}"/>
     <Setter Property="Opacity" Value="0" />
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
 
     <!-- Template -->
     <Setter Property="Template">
@@ -165,7 +170,7 @@
 
     <!-- Disabled state -->
     <Style Selector="^:disabled">
-      <Setter Property="TextElement.Foreground" Value="{color:OverlayWeakBrush}"/>
+      <Setter Property="TextElement.Foreground" Value="{color:DimTextDefault}"/>
 
       <Style Selector="^ /template/ ContentPresenter" >
         <Setter Property="Background" Value="Transparent" />
@@ -180,6 +185,7 @@
     <Setter Property="Background" Value="{color:BackgroundDefault}" />
     <Setter Property="Foreground" Value="{color:TextDefault}" />
     <Setter Property="BorderBrush" Value="{color:AccentBrush Light2}" />
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
     <!-- No outline: a 1px border drew a dark frame round every scrollbar (Luke, 29 Sep 2026) -->
     <Setter Property="BorderThickness" Value="0" />
     <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
@@ -428,7 +434,6 @@
         <Setter Property="Opacity" Value="1" />
       </Style>
       <Style Selector="^ /template/ Thumb">
-        <Setter Property="Background" Value="{color:OverlayWeakBrush}" />
         <Setter Property="RenderTransform" Value="none" />
       </Style>
       <Style Selector="^ /template/ RepeatButton">

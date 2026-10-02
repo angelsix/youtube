@@ -12,10 +12,10 @@
         <default:DefaultThemeStyles />
       </Border.Styles>
 
-      <!-- One row per pane; the theme exposes no Preview.State hooks for hover/press/focus, so only the states it really paints are shown -->
-      <default:LightDarkPreview Title="DatePicker States" Orientation="Vertical">
+      <!-- One column per pane; the theme exposes no Preview.State hooks for hover/press/focus, so only the states it really paints are shown -->
+      <default:LightDarkPreview Title="DatePicker States" Orientation="Horizontal">
         <DataTemplate>
-          <StackPanel Orientation="Horizontal" Spacing="20">
+          <StackPanel Spacing="{size:SpacingXl}">
             <DatePicker SelectedDate="2026-09-18" />
             <DatePicker />
             <DatePicker SelectedDate="2026-09-18" IsEnabled="False" />
@@ -43,6 +43,7 @@
     <Setter Property="RenderTransform" Value="none" />
     <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
     <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
     <Setter Property="Template">
       <ControlTemplate>
         <!-- The button's label -->
@@ -90,6 +91,7 @@
     <Setter Property="MinWidth" Value="{size:ControlMinWidth}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
     <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
 
 
     <!-- Template -->
@@ -195,6 +197,7 @@
     <Setter Property="BorderBrush" Value="{color:BorderDefault}" />
     <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
     <Setter Property="CornerRadius" Value="{size:RadiusMd}" />
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
 
     <!-- Template -->
     <Setter Property="Template">

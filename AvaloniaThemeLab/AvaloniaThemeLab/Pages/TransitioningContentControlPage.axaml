@@ -1,0 +1,13 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:size="using:AngelSix.ThemeEngine.Sizes"
+             x:Class="AvaloniaThemeLab.Pages.TransitioningContentControlPage">
+  <Grid RowDefinitions="*,Auto" RowSpacing="{size:SpacingXl}">
+    <ListBox x:Name="Choice" Grid.Row="0" SelectedIndex="0">
+      <x:String>First</x:String>
+      <x:String>Second</x:String>
+      <x:String>Third</x:String>
+    </ListBox>
+    <TransitioningContentControl Grid.Row="1" Content="{Binding #Choice.SelectedItem}" />
+  </Grid>
+</UserControl>

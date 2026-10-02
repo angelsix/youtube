@@ -5,7 +5,7 @@
                     xmlns:color="using:AngelSix.ThemeEngine.Colors"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes">
   <Design.PreviewWith>
-    <Border Padding="20">
+    <Border>
       <Border.Styles>
         <default:DefaultThemeStyles />
       </Border.Styles>
@@ -14,8 +14,9 @@
       <default:LightDarkPreview Title="ListBox States" Orientation="Vertical">
         <DataTemplate>
           <StackPanel Orientation="Horizontal" Spacing="20">
-            <!-- Mixed-item list: every item state the ListBoxItem theme implements, forced via item properties -->
-            <ListBox Width="180">
+            <!-- Mixed-item list: every item state the ListBoxItem theme implements, forced via item properties.
+                 Multiple, or single selection keeps only the last IsSelected item and clears "Selected" -->
+            <ListBox Width="180" SelectionMode="Multiple">
               <ListBoxItem>Default</ListBoxItem>
               <ListBoxItem IsSelected="True">Selected</ListBoxItem>
               <ListBoxItem IsEnabled="False">Disabled</ListBoxItem>
@@ -48,12 +49,13 @@
     <!-- Visual defaults -->
     <Setter Property="Background" Value="{color:BackgroundDefault}" />
     <Setter Property="Foreground" Value="{color:TextDefault}" />
-    <Setter Property="BorderBrush" Value="{color:AccentBrush Light2}" />
+    <Setter Property="BorderBrush" Value="{color:BorderDefault}" />
     <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
     <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
     <Setter Property="Padding" Value="{size:Edges Horizontal={size:SpacingMd}, Vertical={size:SpacingMd}}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
     <Setter Property="VerticalAlignment" Value="{theme:ContainerVerticalAlignment}" />
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
 
     <!-- ScrollViewer options -->
     <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
@@ -89,6 +91,12 @@
         </Border>
       </ControlTemplate>
     </Setter>
+
+    <!-- The rows' scrolling inset is the items' Margin, which the presenter does count in its extent (the viewer itself
+         has no Padding: see the ScrollViewer theme) -->
+    <Style Selector="^ /template/ ItemsPresenter#PART_ItemsPresenter">
+      <Setter Property="Margin" Value="{size:Edges Horizontal={size:SpacingMd}, Vertical={size:SpacingMd}}" />
+    </Style>
 
   </ControlTheme>
 </ResourceDictionary>

@@ -1,0 +1,23 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:size="using:AngelSix.ThemeEngine.Sizes"
+             xmlns:generic="using:System.Collections.Generic"
+             xmlns:icons="using:AngelSix.ThemeEngine.Icons"
+             x:Class="AvaloniaThemeLab.Pages.AutoCompleteBoxPage">
+  <StackPanel Spacing="{size:SpacingXl}">
+    <AutoCompleteBox PlaceholderText="Type a US state, e.g. A">
+      <AutoCompleteBox.ItemsSource>
+        <generic:List x:TypeArguments="x:String">
+          <x:String>Alabama</x:String>
+          <x:String>Alaska</x:String>
+          <x:String>Arizona</x:String>
+          <x:String>Arkansas</x:String>
+          <x:String>California</x:String>
+          <x:String>Colorado</x:String>
+        </generic:List>
+      </AutoCompleteBox.ItemsSource>
+    </AutoCompleteBox>
+    <AutoCompleteBox Text="Alaska" />
+    <AutoCompleteBox Text="Disabled" IsEnabled="False" />
+  </StackPanel>
+</UserControl>

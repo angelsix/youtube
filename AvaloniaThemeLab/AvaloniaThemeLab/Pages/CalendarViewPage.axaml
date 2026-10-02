@@ -1,0 +1,12 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:size="using:AngelSix.ThemeEngine.Sizes"
+             xmlns:controls="using:AngelSix.ThemeEngine.Controls"
+             x:Class="AvaloniaThemeLab.Pages.CalendarViewPage">
+  <StackPanel Spacing="{size:SpacingXl}">
+    <controls:CalendarView />
+    <controls:CalendarView SelectionMode="Range" IsWeekNumberVisible="True" />
+    <controls:CalendarView DisplayAsPicker="True" />
+    <controls:CalendarView IsEnabled="False" />
+  </StackPanel>
+</UserControl>

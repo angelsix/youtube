@@ -47,6 +47,7 @@
     <Setter Property="BorderThickness" Value="0"/>
     <Setter Property="Width" Value="{size:SurfaceWidthSm}"/>
     <Setter Property="Padding" Value="{size:Edges Top={size:SpacingXxl}, Bottom={size:SpacingXxl}}"/>
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
     <Setter Property="Template">
       <ControlTemplate>
         <!-- Layout root stacking the shadow behind the list -->
@@ -72,6 +73,7 @@
       <ControlTheme TargetType="ListBoxItem">
         <Setter Property="Height" Value="{size:ControlHeightSm}"/>
         <Setter Property="Padding" Value="{size:Edges Left={size:Scaled Value={size:IconSizeMd}, By=2}, Top={size:SpacingMd}, Right={size:Scaled Value={size:IconSizeMd}, By=2}, Bottom={size:SpacingMd}}"/>
+        <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
         <Setter Property="Template">
           <ControlTemplate>
             <!-- Outer frame around one quick link -->
@@ -126,6 +128,8 @@
   </ControlTheme>
 
   <ControlTheme x:Key="{x:Type dialogs:ManagedFileChooser}" TargetType="dialogs:ManagedFileChooser">
+    <!-- Visual defaults -->
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
     <ControlTheme.Resources>
       <ResourceDictionary>
         <!-- Icon artwork: intrinsic glyphs, exempt from theming per ThemeRules.md -->
@@ -471,6 +475,7 @@
     <Setter Property="MaxWidth" Value="{size:SurfaceWidthLg}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
     <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
     <Setter Property="Template">
       <ControlTemplate>
         <!-- Outer frame around the overwrite prompt -->

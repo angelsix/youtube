@@ -6,7 +6,7 @@
                     xmlns:color="using:AngelSix.ThemeEngine.Colors"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes">
   <Design.PreviewWith>
-    <Border Margin="20" Width="400" Height="600">
+    <Border Width="400" Height="600">
       <Border.Styles>
         <default:DefaultThemeStyles />
       </Border.Styles>
@@ -43,6 +43,8 @@
        Template
        ============================================================ -->
   <ControlTheme x:Key="DefaultSliderHorizontalRepeatButton" TargetType="RepeatButton">
+    <!-- Visual defaults -->
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
     <!-- Template -->
     <Setter Property="Template">
       <ControlTemplate>
@@ -74,6 +76,8 @@
        Template
        ============================================================ -->
   <ControlTheme x:Key="DefaultSliderVerticalRepeatButton" TargetType="RepeatButton">
+    <!-- Visual defaults -->
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
     <!-- Template -->
     <Setter Property="Template">
       <ControlTemplate>
@@ -105,6 +109,8 @@
        Template
        ============================================================ -->
   <ControlTheme x:Key="DefaultSliderThumbTheme" TargetType="Thumb">
+    <!-- Visual defaults -->
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
     <!-- Template -->
     <Setter Property="Template">
       <ControlTemplate>
@@ -127,6 +133,7 @@
     <Setter Property="Background" Value="{color:AccentBrush Light2}" />
     <Setter Property="BorderThickness" Value="0" />
     <Setter Property="Foreground" Value="{color:AccentPrimaryBrush}" />
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
 
     <!-- Horizontal template -->
     <Style Selector="^:horizontal">

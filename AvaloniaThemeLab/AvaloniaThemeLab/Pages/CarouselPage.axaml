@@ -1,0 +1,13 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:size="using:AngelSix.ThemeEngine.Sizes"
+             x:Class="AvaloniaThemeLab.Pages.CarouselPage">
+  <StackPanel Spacing="{size:SpacingXl}">
+    <Carousel x:Name="Slides">
+      <TextBlock Text="First slide" />
+      <TextBlock Text="Second slide" />
+      <TextBlock Text="Third slide" />
+    </Carousel>
+    <PipsPager NumberOfPages="3" SelectedPageIndex="{Binding #Slides.SelectedIndex}" />
+  </StackPanel>
+</UserControl>

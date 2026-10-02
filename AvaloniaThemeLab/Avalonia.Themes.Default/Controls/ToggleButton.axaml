@@ -59,6 +59,7 @@
     <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
     <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
     <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
 
     <!-- Press animation -->
     <Setter Property="RenderTransform" Value="none" />
@@ -71,41 +72,23 @@
     <!-- Template -->
     <Setter Property="Template">
       <ControlTemplate>
-        <!-- Layout root stacking the label and accent outline -->
-        <Grid>
-          <!-- The button's label -->
-          <ContentPresenter x:Name="PART_ContentPresenter"
-                            Background="{TemplateBinding Background}"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}"
-                            CornerRadius="{TemplateBinding CornerRadius}"
-                            Content="{TemplateBinding Content}"
-                            ContentTemplate="{TemplateBinding ContentTemplate}"
-                            Padding="{TemplateBinding Padding}"
-                            HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                            VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
-
-          <!-- Accent border overlay -->
-          <Rectangle x:Name="PART_AccentBorder"
-                     IsVisible="False"
-                     IsHitTestVisible="False"
-                     Fill="Transparent"
-                     StrokeDashArray="3, 2, 6, 2" />
-        </Grid>
+        <!-- The button's label -->
+        <ContentPresenter x:Name="PART_ContentPresenter"
+                          Background="{TemplateBinding Background}"
+                          BorderBrush="{TemplateBinding BorderBrush}"
+                          BorderThickness="{TemplateBinding BorderThickness}"
+                          CornerRadius="{TemplateBinding CornerRadius}"
+                          Content="{TemplateBinding Content}"
+                          ContentTemplate="{TemplateBinding ContentTemplate}"
+                          Padding="{TemplateBinding Padding}"
+                          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                          VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
       </ControlTemplate>
     </Setter>
 
     <!-- Access key support -->
     <Style Selector="^ /template/ ContentPresenter">
       <Setter Property="RecognizesAccessKey" Value="True" />
-    </Style>
-
-    <!-- Accent border visuals -->
-    <Style Selector="^ /template/ Rectangle#PART_AccentBorder">
-      <Setter Property="Stroke" Value="{color:AccentPrimaryBrush}" />
-      <Setter Property="StrokeThickness" Value="{size:AccentBorderStrokeThickness}" />
-      <Setter Property="RadiusX" Value="{size:RadiusSmDouble}" />
-      <Setter Property="RadiusY" Value="{size:RadiusSmDouble}" />
     </Style>
 
     <!-- Hover state -->
@@ -151,7 +134,7 @@
 
     <!-- Checked default -->
     <Style Selector="^:checked">
-      <Setter Property="Background" Value="{color:AccentPrimaryBrush}" />
+      <Setter Property="Background" Value="{color:AccentBrush Dark3}" />
       <Setter Property="BorderBrush" Value="Transparent" />
       <Setter Property="Foreground" Value="{color:AccentBrush Light10}" />
     </Style>
@@ -159,7 +142,7 @@
     <!-- Checked hover -->
     <Style Selector="^:checked:pointerover, ^:checked[(theme|Preview.State)=Hover]">
       <Setter Property="RenderTransform" Value="{theme:TransformScale Value={size:PressedScale}, By=1.07}" />
-      <Setter Property="Background" Value="{color:AccentBrush Light1}" />
+      <Setter Property="Background" Value="{color:AccentBrush Dark4}" />
       <Setter Property="BorderBrush" Value="Transparent" />
       <Setter Property="Foreground" Value="{color:AccentBrush Light10}" />
     </Style>
@@ -167,15 +150,15 @@
     <!-- Checked pressed -->
     <Style Selector="^:checked:pressed, ^:checked[(theme|Preview.State)=Pressed]">
       <Setter Property="RenderTransform" Value="{theme:TransformScale Value={size:PressedScale}}" />
-      <Setter Property="Background" Value="{color:PressedBackgroundDefault}" />
+      <Setter Property="Background" Value="{color:AccentBrush Dark5}" />
       <Setter Property="BorderBrush" Value="Transparent" />
       <Setter Property="Foreground" Value="{color:AccentBrush Light10}" />
     </Style>
 
-    <!-- Checked disabled -->
+    <!-- Checked disabled: no fill and full opacity, so the dimmed text sits on the canvas at the dim-text contrast -->
     <Style Selector="^:checked:disabled">
-      <Setter Property="Opacity" Value="{size:DisabledOpacity}" />
-      <Setter Property="Background" Value="{color:AccentBrush Light6}" />
+      <Setter Property="Opacity" Value="1" />
+      <Setter Property="Background" Value="Transparent" />
       <Setter Property="BorderBrush" Value="Transparent" />
       <Setter Property="Foreground" Value="{color:DimTextDefault}" />
     </Style>

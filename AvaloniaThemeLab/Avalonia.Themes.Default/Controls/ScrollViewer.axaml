@@ -86,10 +86,14 @@
     <!-- Visual defaults -->
     <Setter Property="Background" Value="{color:BackgroundDefault}" />
     <Setter Property="Foreground" Value="{color:TextDefault}" />
-    <Setter Property="BorderBrush" Value="{color:AccentBrush Light2}" />
+    <Setter Property="BorderBrush" Value="{color:BorderDefault}" />
     <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
     <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
-    <Setter Property="Padding" Value="{size:Edges Horizontal={size:SpacingMd}, Vertical={size:SpacingMd}}" />
+    <!-- No Padding: ScrollContentPresenter leaves it out of its desired size and extent but still deflates the arranged
+         content by it, so padded content ended 2 x top + bottom past the furthest scroll (AVLG010). An inset is the
+         scrolled content's Margin, which the extent does count -->
+    <Setter Property="Padding" Value="0" />
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
     <!-- Scrollbars sit beside the content, not over it -->
     <Setter Property="AllowAutoHide" Value="False" />
 

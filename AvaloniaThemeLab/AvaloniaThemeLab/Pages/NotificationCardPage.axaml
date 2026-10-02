@@ -1,0 +1,14 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:size="using:AngelSix.ThemeEngine.Sizes"
+             xmlns:vm="using:AvaloniaThemeLab.ViewModels"
+             x:Class="AvaloniaThemeLab.Pages.NotificationCardPage"
+             x:DataType="vm:NotificationCardPageViewModel">
+  <StackPanel Spacing="{size:SpacingXl}">
+    <NotificationCard Content="Information" />
+    <NotificationCard Content="Success" NotificationType="Success" />
+    <NotificationCard Content="Warning" NotificationType="Warning" />
+    <NotificationCard Content="Error" NotificationType="Error" />
+    <Button Content="Show a notification in the window" Command="{Binding ShowNotificationCommand}" />
+  </StackPanel>
+</UserControl>

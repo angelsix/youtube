@@ -1,0 +1,23 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:size="using:AngelSix.ThemeEngine.Sizes"
+             x:Class="AvaloniaThemeLab.Pages.ExpanderPage">
+  <StackPanel Spacing="{size:SpacingXl}">
+    <Expander Header="Collapsed">
+      <TextBlock Text="Expanded content" />
+    </Expander>
+    <Expander Header="Expanded" IsExpanded="True">
+      <TextBlock Text="Expanded content" />
+    </Expander>
+    <Expander Header="Expands up" ExpandDirection="Up" IsExpanded="True">
+      <TextBlock Text="Expanded content" />
+    </Expander>
+    <Expander Header="Expands left" ExpandDirection="Left" IsExpanded="True">
+      <TextBlock Text="Expanded content" />
+    </Expander>
+    <Expander Header="Expands right" ExpandDirection="Right" IsExpanded="True">
+      <TextBlock Text="Expanded content" />
+    </Expander>
+    <Expander Header="Disabled" IsEnabled="False" />
+  </StackPanel>
+</UserControl>

@@ -1,0 +1,34 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:size="using:AngelSix.ThemeEngine.Sizes"
+             xmlns:icons="using:AngelSix.ThemeEngine.Icons"
+             x:Class="AvaloniaThemeLab.Pages.MenuPage">
+  <StackPanel Spacing="{size:SpacingXl}">
+    <Menu>
+      <MenuItem Header="_File">
+        <MenuItem Header="New" InputGesture="Cmd+N">
+          <MenuItem.Icon>
+            <PathIcon Data="{icons:Plus}" />
+          </MenuItem.Icon>
+        </MenuItem>
+        <MenuItem Header="Save" InputGesture="Cmd+S">
+          <MenuItem.Icon>
+            <PathIcon Data="{icons:Save}" />
+          </MenuItem.Icon>
+        </MenuItem>
+        <Separator />
+        <MenuItem Header="Recent">
+          <MenuItem Header="First file" />
+          <MenuItem Header="Second file" />
+        </MenuItem>
+        <MenuItem Header="Disabled" IsEnabled="False" />
+      </MenuItem>
+      <MenuItem Header="_View">
+        <MenuItem Header="Checked" ToggleType="CheckBox" IsChecked="True" />
+        <MenuItem Header="Unchecked" ToggleType="CheckBox" />
+        <MenuItem Header="Radio" ToggleType="Radio" IsChecked="True" />
+      </MenuItem>
+      <MenuItem Header="Disabled" IsEnabled="False" />
+    </Menu>
+  </StackPanel>
+</UserControl>

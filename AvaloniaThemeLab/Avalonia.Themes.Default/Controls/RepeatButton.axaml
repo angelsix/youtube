@@ -5,7 +5,7 @@
                     xmlns:color="using:AngelSix.ThemeEngine.Colors"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes">
   <Design.PreviewWith>
-    <Border Padding="20">
+    <Border>
       <Border.Styles>
         <default:DefaultThemeStyles />
       </Border.Styles>
@@ -50,6 +50,7 @@
     <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
     <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
     <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
 
     <!-- Press animation -->
     <Setter Property="RenderTransform" Value="none" />
@@ -62,42 +63,24 @@
     <!-- Template -->
     <Setter Property="Template">
       <ControlTemplate>
-        <!-- Layout root stacking the label and accent outline -->
-        <Grid>
-          <!-- The button's label -->
-          <ContentPresenter x:Name="PART_ContentPresenter"
-                            Background="{TemplateBinding Background}"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            Foreground="{TemplateBinding Foreground}"
-                            BorderThickness="{TemplateBinding BorderThickness}"
-                            CornerRadius="{TemplateBinding CornerRadius}"
-                            Content="{TemplateBinding Content}"
-                            ContentTemplate="{TemplateBinding ContentTemplate}"
-                            Padding="{TemplateBinding Padding}"
-                            HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                            VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
-
-          <!-- Accent border overlay -->
-          <Rectangle x:Name="PART_AccentBorder"
-                     IsVisible="False"
-                     IsHitTestVisible="False"
-                     Fill="Transparent"
-                     StrokeDashArray="3, 2, 6, 2" />
-        </Grid>
+        <!-- The button's label -->
+        <ContentPresenter x:Name="PART_ContentPresenter"
+                          Background="{TemplateBinding Background}"
+                          BorderBrush="{TemplateBinding BorderBrush}"
+                          Foreground="{TemplateBinding Foreground}"
+                          BorderThickness="{TemplateBinding BorderThickness}"
+                          CornerRadius="{TemplateBinding CornerRadius}"
+                          Content="{TemplateBinding Content}"
+                          ContentTemplate="{TemplateBinding ContentTemplate}"
+                          Padding="{TemplateBinding Padding}"
+                          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                          VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
       </ControlTemplate>
     </Setter>
 
     <!-- Access key support -->
     <Style Selector="^ /template/ ContentPresenter">
       <Setter Property="RecognizesAccessKey" Value="True" />
-    </Style>
-
-    <!-- Accent border visuals -->
-    <Style Selector="^ /template/ Rectangle#PART_AccentBorder">
-      <Setter Property="Stroke" Value="{color:AccentPrimaryBrush}" />
-      <Setter Property="StrokeThickness" Value="{size:AccentBorderStrokeThickness}" />
-      <Setter Property="RadiusX" Value="{size:RadiusSmDouble}" />
-      <Setter Property="RadiusY" Value="{size:RadiusSmDouble}" />
     </Style>
 
     <!-- Hover state -->

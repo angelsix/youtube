@@ -1,0 +1,11 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:size="using:AngelSix.ThemeEngine.Sizes"
+             x:Class="AvaloniaThemeLab.Pages.ButtonSpinnerPage">
+  <StackPanel Spacing="{size:SpacingXl}">
+    <ButtonSpinner Content="Spinner on the right" />
+    <ButtonSpinner Content="Spinner on the left" ButtonSpinnerLocation="Left" />
+    <ButtonSpinner Content="Spinner hidden" ShowButtonSpinner="False" />
+    <ButtonSpinner Content="Disabled" IsEnabled="False" />
+  </StackPanel>
+</UserControl>

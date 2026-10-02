@@ -1,0 +1,16 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:size="using:AngelSix.ThemeEngine.Sizes"
+             x:Class="AvaloniaThemeLab.Pages.DropDownButtonPage">
+  <StackPanel Spacing="{size:SpacingXl}">
+    <DropDownButton Content="Open the menu">
+      <DropDownButton.Flyout>
+        <MenuFlyout>
+          <MenuItem Header="First" />
+          <MenuItem Header="Second" />
+        </MenuFlyout>
+      </DropDownButton.Flyout>
+    </DropDownButton>
+    <DropDownButton Content="Disabled" IsEnabled="False" />
+  </StackPanel>
+</UserControl>

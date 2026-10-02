@@ -5,34 +5,47 @@
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
                     xmlns:color="using:AngelSix.ThemeEngine.Colors"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes"
+                    xmlns:icons="using:AngelSix.ThemeEngine.Icons"
                     >
+  <!-- Design preview: content kinds, then states. The designer and the lab gallery both show this key,
+       so it is declared before Design.PreviewWith uses it. One column: every button stretches to the widest one -->
+  <DataTemplate x:Key="ButtonPreview">
+    <StackPanel Spacing="{size:SpacingXl}" HorizontalAlignment="Left">
+      <StackPanel.Styles>
+        <Style Selector="Button">
+          <Setter Property="HorizontalAlignment" Value="Stretch" />
+        </Style>
+      </StackPanel.Styles>
+      <Button Content="Text" />
+      <Button Icon.Data="{icons:Save}" />
+      <Button Icon.Data="{icons:Save}" Content="Icon and text" />
+      <Button Icon.Data="{icons:Save}" Icon.Placement="Top" Content="Top" />
+      <Button Icon.Data="{icons:Save}" Icon.Placement="Right" Content="Right" />
+      <Button Icon.Data="{icons:Save}" Icon.Placement="Bottom" Content="Bottom" />
+      <Button Content="Default" />
+      <Button theme:Preview.State="Hover" Content="Hover" />
+      <Button theme:Preview.State="Pressed" Content="Pressed" />
+      <Button theme:Preview.State="Focused" Content="Focused" />
+      <Button Content="Disabled" IsEnabled="False" />
+      <Button Content="Error">
+        <DataValidationErrors.Error>
+          <sys:Exception>
+            <x:Arguments>
+              <x:String>Error</x:String>
+            </x:Arguments>
+          </sys:Exception>
+        </DataValidationErrors.Error>
+      </Button>
+    </StackPanel>
+  </DataTemplate>
+
   <Design.PreviewWith>
     <Border>
       <Border.Styles>
         <default:DefaultThemeStyles />
       </Border.Styles>
 
-      <!-- The shared state row, written once as a template: each pane instantiates its own copy -->
-      <default:LightDarkPreview Title="Button States" Orientation="Vertical">
-        <DataTemplate>
-        <StackPanel Orientation="Horizontal" Spacing="20">
-            <Button Content="Default" />
-            <Button theme:Preview.State="Hover" Content="Hover" />
-            <Button theme:Preview.State="Pressed" Content="Pressed" />
-            <Button theme:Preview.State="Focused" Content="Focused" />
-            <Button Content="Disabled" IsEnabled="False" />
-            <Button Content="Error">
-              <DataValidationErrors.Error>
-                <sys:Exception>
-                  <x:Arguments>
-                    <x:String>Error</x:String>
-                  </x:Arguments>
-                </sys:Exception>
-              </DataValidationErrors.Error>
-            </Button>
-          </StackPanel>
-        </DataTemplate>
-      </default:LightDarkPreview>
+      <default:LightDarkPreview Title="Button" ContentTemplate="{StaticResource ButtonPreview}" />
 
     </Border>
   </Design.PreviewWith>
@@ -51,8 +64,9 @@
     <Setter Property="Padding" Value="{size:Edges Horizontal={size:SpacingXl}, Vertical={size:SpacingLg}}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
     <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
-    <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
+    <Setter Property="HorizontalContentAlignment" Value="{theme:ButtonHorizontalContentAlignment}" />
     <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
 
     <!-- Press animation -->
     <Setter Property="RenderTransform" Value="none" />
@@ -65,27 +79,42 @@
     <!-- Template -->
     <Setter Property="Template">
       <ControlTemplate>
-        <!-- Layout root stacking the label and accent outline -->
-        <Grid>
-          <!-- The button's label -->
-          <ContentPresenter x:Name="PART_ContentPresenter"
-                            Background="{TemplateBinding Background}"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}"
-                            CornerRadius="{TemplateBinding CornerRadius}"
-                            Content="{TemplateBinding Content}"
-                            ContentTemplate="{TemplateBinding ContentTemplate}"
-                            Padding="{TemplateBinding Padding}"
-                            HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                            VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+        <!-- The button face -->
+        <Border x:Name="PART_Border"
+                Background="{TemplateBinding Background}"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}"
+                CornerRadius="{TemplateBinding CornerRadius}"
+                Padding="{TemplateBinding Padding}">
+          <!-- Content area, overlaying the strut and the icon layout -->
+          <Panel>
+            <!-- Strut: one empty text line, at least a text button's height -->
+            <TextBlock x:Name="PART_Strut" />
 
-          <!-- Accent border overlay -->
-          <Rectangle x:Name="PART_AccentBorder"
-                     IsVisible="False"
-                     IsHitTestVisible="False"
-                     Fill="Transparent"
-                     StrokeDashArray="3, 2, 6, 2" />
-        </Grid>
+            <!-- Docks the icon beside the label -->
+            <!-- Fills only with a label: without one, DockPanel drops the icon's trailing gap -->
+            <DockPanel x:Name="PART_IconLayout"
+                       LastChildFill="{TemplateBinding Content, Converter={x:Static ObjectConverters.IsNotNull}}"
+                       HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                       VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
+              <!-- The button's icon -->
+              <PathIcon x:Name="PART_Icon"
+                        DockPanel.Dock="{TemplateBinding Icon.Placement}"
+                        Data="{TemplateBinding Icon.Data}"
+                        IsVisible="{TemplateBinding Icon.Data, Converter={x:Static ObjectConverters.IsNotNull}}"
+                        HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                        VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+
+              <!-- The button's label -->
+              <ContentPresenter x:Name="PART_ContentPresenter"
+                                IsVisible="{TemplateBinding Content, Converter={x:Static ObjectConverters.IsNotNull}}"
+                                Content="{TemplateBinding Content}"
+                                ContentTemplate="{TemplateBinding ContentTemplate}"
+                                HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+            </DockPanel>
+          </Panel>
+        </Border>
       </ControlTemplate>
     </Setter>
 
@@ -94,12 +123,16 @@
       <Setter Property="RecognizesAccessKey" Value="True" />
     </Style>
 
-    <!-- Accent border visuals -->
-    <Style Selector="^ /template/ Rectangle#PART_AccentBorder">
-      <Setter Property="Stroke" Value="{color:AccentPrimaryBrush}" />
-      <Setter Property="StrokeThickness" Value="{size:AccentBorderStrokeThickness}" />
-      <Setter Property="RadiusX" Value="{size:RadiusSmDouble}" />
-      <Setter Property="RadiusY" Value="{size:RadiusSmDouble}" />
+    <!-- Icon gap: the padding on the icon's side -->
+    <Style Selector="^ /template/ DockPanel#PART_IconLayout">
+      <Setter Property="HorizontalSpacing" Value="{Binding Padding.Left, RelativeSource={RelativeSource TemplatedParent}}" />
+      <Setter Property="VerticalSpacing" Value="{Binding Padding.Top, RelativeSource={RelativeSource TemplatedParent}}" />
+    </Style>
+    <Style Selector="^[(Icon.Placement)=Right] /template/ DockPanel#PART_IconLayout">
+      <Setter Property="HorizontalSpacing" Value="{Binding Padding.Right, RelativeSource={RelativeSource TemplatedParent}}" />
+    </Style>
+    <Style Selector="^[(Icon.Placement)=Bottom] /template/ DockPanel#PART_IconLayout">
+      <Setter Property="VerticalSpacing" Value="{Binding Padding.Bottom, RelativeSource={RelativeSource TemplatedParent}}" />
     </Style>
 
     <!-- Hover state: opaque ramp stage, not an overlay — translucency would erase the fill -->
@@ -107,6 +140,7 @@
       <Setter Property="Background" Value="{color:HoverBackgroundDefault}" />
       <Setter Property="Foreground" Value="{color:HoverTextDefault}" />
       <Setter Property="RenderTransform" Value="{theme:TransformScale Value={size:PressedScale}, By=1.07}" />
+      <Setter Property="ZIndex" Value="{size:HoverZIndex}" />
     </Style>
 
     <!-- Pressed state -->

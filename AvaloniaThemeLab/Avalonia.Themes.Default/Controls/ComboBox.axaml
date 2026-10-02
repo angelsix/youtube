@@ -7,15 +7,15 @@
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes"
                     xmlns:icons="using:AngelSix.ThemeEngine.Icons">
   <Design.PreviewWith>
-    <Border Padding="20">
+    <Border>
       <Border.Styles>
         <default:DefaultThemeStyles />
       </Border.Styles>
 
       <!-- Authored once; each pane (light/dark) builds its own copy of the matrix -->
-      <default:LightDarkPreview Title="ComboBox States" Orientation="Vertical">
+      <default:LightDarkPreview Title="ComboBox States" Orientation="Horizontal">
         <DataTemplate>
-          <WrapPanel ItemSpacing="12">
+          <StackPanel Spacing="{size:SpacingXl}">
             <!-- Empty prompt beside a filled selection: the two resting faces -->
             <ComboBox Width="180" PlaceholderText="Select…">
               <ComboBoxItem>One</ComboBoxItem>
@@ -85,7 +85,7 @@
               <ComboBoxItem>Two</ComboBoxItem>
               <ComboBoxItem>Three</ComboBoxItem>
             </ComboBox>
-          </WrapPanel>
+          </StackPanel>
         </DataTemplate>
       </default:LightDarkPreview>
     </Border>
@@ -113,6 +113,7 @@
     <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
     <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
     <Setter Property="PlaceholderForeground" Value="{color:DimTextDefault}" />
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
 
     <!-- Template -->
     <Setter Property="Template">
@@ -163,6 +164,7 @@
 
             <!-- The editable text, when editable -->
             <TextBox Name="PART_EditableTextBox"
+                     Theme="{StaticResource DefaultFramelessTextBox}"
                      Grid.Column="0"
                      Padding="{TemplateBinding Padding}"
                      HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
@@ -205,10 +207,8 @@
               <!-- Panel behind the dropdown list -->
               <Border x:Name="PopupBorder"
                       HorizontalAlignment="Stretch">
-                <!-- Scrolls the list when it overflows; zero Padding because the popup sizes to content and a padded
-                     ScrollViewer arranges its list 8px short of what it measured (AVL023) -->
+                <!-- Scrolls the list when it overflows; the list's inset is the items' Margin below -->
                 <ScrollViewer HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
-                              Padding="0"
                               IsScrollChainingEnabled="False"
                               VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}"
                               IsDeferredScrollingEnabled="{TemplateBinding (ScrollViewer.IsDeferredScrollingEnabled)}">
@@ -224,15 +224,13 @@
     </Setter>
 
     <!-- Template element defaults -->
-    <Style Selector="^ /template/ TextBox#PART_EditableTextBox">
-      <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
-    </Style>
-
     <Style Selector="^ /template/ Border#Background">
       <Setter Property="MinWidth" Value="{size:ControlMinWidth}" />
     </Style>
 
+    <!-- Fills inside the frame's stroke (Avalonia's inner-edge geometry), not out to its middle line -->
     <Style Selector="^ /template/ Border#HighlightBackground">
+      <Setter Property="BackgroundSizing" Value="InnerBorderEdge" />
       <Setter Property="Background" Value="{color:AccentPrimaryBrush}" />
       <Setter Property="BorderBrush" Value="{color:BorderDefault}" />
     </Style>
@@ -259,6 +257,11 @@
 
     <Style Selector="^ /template/ ItemsPresenter#PART_ItemsPresenter">
       <Setter Property="Margin" Value="{size:Edges Vertical={size:SpacingMd}}" />
+    </Style>
+
+    <!-- Scroller: no fill of its own; the popup frame paints it, and a square fill inside covers the frame's corners -->
+    <Style Selector="^ /template/ ScrollViewer">
+      <Setter Property="Background" Value="Transparent" />
     </Style>
 
     <!-- Hover state -->

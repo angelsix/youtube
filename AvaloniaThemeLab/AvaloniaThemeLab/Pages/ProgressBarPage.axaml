@@ -1,0 +1,19 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:size="using:AngelSix.ThemeEngine.Sizes"
+             x:Class="AvaloniaThemeLab.Pages.ProgressBarPage">
+  <StackPanel Spacing="{size:SpacingXl}">
+    <TextBlock Text="Empty" />
+    <ProgressBar />
+    <TextBlock Text="40%, with progress text" />
+    <ProgressBar Value="40" ShowProgressText="True" />
+    <TextBlock Text="Full" />
+    <ProgressBar Value="100" />
+    <TextBlock Text="Indeterminate" />
+    <ProgressBar IsIndeterminate="True" />
+    <TextBlock Text="Vertical" />
+    <ProgressBar Value="40" Orientation="Vertical" />
+    <TextBlock Text="Disabled" />
+    <ProgressBar Value="40" IsEnabled="False" />
+  </StackPanel>
+</UserControl>

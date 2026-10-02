@@ -1,0 +1,24 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:size="using:AngelSix.ThemeEngine.Sizes"
+             x:Class="AvaloniaThemeLab.Pages.TabControlPage">
+  <StackPanel Spacing="{size:SpacingXl}">
+    <TabControl>
+      <TabItem Header="First">
+        <TextBlock Text="First tab content" />
+      </TabItem>
+      <TabItem Header="Second">
+        <TextBlock Text="Second tab content" />
+      </TabItem>
+      <TabItem Header="Disabled" IsEnabled="False" />
+    </TabControl>
+    <TabControl TabStripPlacement="Left">
+      <TabItem Header="Left">
+        <TextBlock Text="Tabs placed on the left" />
+      </TabItem>
+      <TabItem Header="Second">
+        <TextBlock Text="Second tab content" />
+      </TabItem>
+    </TabControl>
+  </StackPanel>
+</UserControl>

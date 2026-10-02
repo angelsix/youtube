@@ -19,7 +19,7 @@
             <ComboBoxItem IsSelected="True">Selected</ComboBoxItem>
             <ComboBoxItem IsEnabled="False">Disabled</ComboBoxItem>
             <ComboBoxItem IsSelected="True" IsEnabled="False">Selected · Disabled</ComboBoxItem>
-            <!-- Non-default accent hues ride the generic {color:AccentPrimaryBrush} selected fill -->
+            <!-- Other accent hues: the selected fill takes the item's own hue -->
             <ComboBoxItem IsSelected="True" theme:Accent.Kind="Warning">Warn</ComboBoxItem>
             <ComboBoxItem IsSelected="True" theme:Accent.Kind="Success">Success</ComboBoxItem>
           </StackPanel>
@@ -46,6 +46,7 @@
     <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
     <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
     <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
 
     <!-- Template -->
     <Setter Property="Template">
@@ -92,22 +93,23 @@
 
     <!-- Selected state -->
     <Style Selector="^:selected">
+      <Setter Property="Foreground" Value="{color:AccentBrush Light10}" />
 
       <!-- Selected default -->
       <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
-        <Setter Property="Background" Value="{color:AccentPrimaryBrush}" />
+        <Setter Property="Background" Value="{color:AccentBrush Dark3}" />
         <Setter Property="BorderBrush" Value="Transparent" />
       </Style>
 
       <!-- Selected PointerOver state -->
       <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
-        <Setter Property="Background" Value="{color:AccentPrimaryBrush}" />
+        <Setter Property="Background" Value="{color:AccentBrush Dark4}" />
         <Setter Property="BorderBrush" Value="Transparent" />
       </Style>
 
       <!-- Selected Pressed state -->
       <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter">
-        <Setter Property="Background" Value="{color:AccentPrimaryBrush}" />
+        <Setter Property="Background" Value="{color:AccentBrush Dark5}" />
         <Setter Property="BorderBrush" Value="Transparent" />
       </Style>
 

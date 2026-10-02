@@ -1,0 +1,10 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:size="using:AngelSix.ThemeEngine.Sizes"
+             x:Class="AvaloniaThemeLab.Pages.ToolTipPage">
+  <StackPanel Spacing="{size:SpacingXl}">
+    <TextBlock Text="Hover this text for a tooltip" ToolTip.Tip="Tooltip text" />
+    <Button Content="Hover for a long tooltip"
+            ToolTip.Tip="A longer tooltip that runs to more than one line when the theme limits its width, so wrapping can be judged." />
+  </StackPanel>
+</UserControl>

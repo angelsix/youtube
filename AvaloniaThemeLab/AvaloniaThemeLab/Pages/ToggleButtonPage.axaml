@@ -1,0 +1,12 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:size="using:AngelSix.ThemeEngine.Sizes"
+             x:Class="AvaloniaThemeLab.Pages.ToggleButtonPage">
+  <StackPanel Spacing="{size:SpacingXl}">
+    <ToggleButton Content="Unchecked" />
+    <ToggleButton Content="Checked" IsChecked="True" />
+    <ToggleButton Content="Indeterminate" IsThreeState="True" IsChecked="{x:Null}" />
+    <ToggleButton Content="Disabled" IsEnabled="False" />
+    <ToggleButton Content="Disabled, checked" IsChecked="True" IsEnabled="False" />
+  </StackPanel>
+</UserControl>

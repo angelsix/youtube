@@ -55,6 +55,7 @@
     <Setter Property="Padding" Value="{size:Edges All={size:SpacingLg}}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
     <Setter Property="VerticalAlignment" Value="{theme:ContainerVerticalAlignment}" />
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
     <!-- A chevron centred in its button, not at the theme-wide Left content alignment -->
     <Setter Property="HorizontalContentAlignment" Value="Center" />
     <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
@@ -83,28 +84,12 @@
     </Style>
   </ControlTheme>
 
-  <!-- Chromeless picker textbox: a selector crosses only one /template/ hop, so the TextBox's own
-       PART_BorderElement is unreachable from here — its rules ride the dedicated theme applied to PART_TextBox -->
-  <ControlTheme x:Key="DefaultCalendarViewTextBox"
-                TargetType="TextBox"
-                BasedOn="{StaticResource {x:Type TextBox}}">
-    <!-- The picker's own Border draws the chrome; this TextBox sits inside it and draws none. -->
-    <Style Selector="^:focus /template/ Border#PART_BorderElement">
-      <Setter Property="Background" Value="Transparent" />
-      <Setter Property="BorderBrush" Value="Transparent" />
-      <Setter Property="BorderThickness" Value="0" />
-    </Style>
-
-    <Style Selector="^:disabled /template/ Border#PART_BorderElement">
-      <Setter Property="Background" Value="Transparent" />
-      <Setter Property="BorderBrush" Value="Transparent" />
-    </Style>
-  </ControlTheme>
-
   <!-- ============================================================
        Event marker strip
        ============================================================ -->
   <ControlTheme x:Key="DefaultCalendarMarkerStrip" TargetType="ItemsControl">
+    <!-- Visual defaults -->
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
     <!-- Template -->
     <Setter Property="Template">
       <ControlTemplate>
@@ -126,6 +111,7 @@
     <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
     <Setter Property="MinWidth" Value="{size:ControlHeightSm}" />
     <Setter Property="MinHeight" Value="{size:ControlHeightSm}" />
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
     <!-- A day, month or year sits in the middle of its cell and its selection disc, whatever the theme-wide content
          alignment is: the theme-wide Left (for text fields and dropdowns) put every number at its cell's left edge -->
     <Setter Property="HorizontalContentAlignment" Value="Center" />
@@ -194,7 +180,7 @@
 
     <!-- Today state -->
     <Style Selector="^:today /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="Foreground" Value="{color:AccentBrush Dark1}" />
+      <Setter Property="Foreground" Value="{color:AccentBrush Dark2}" />
       <Setter Property="FontWeight" Value="{theme:FontWeightSemiBold}" />
     </Style>
 
@@ -276,6 +262,7 @@
     <Setter Property="HeaderBackground" Value="{color:BackgroundDefault}" />
     <Setter Property="MarkerBrush" Value="{color:AccentBrush Dark1}" />
     <Setter Property="Focusable" Value="True" />
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
 
     <!-- Template -->
     <Setter Property="Template">
@@ -352,12 +339,10 @@
             <!-- Places the open button right of the text -->
             <Grid ColumnDefinitions="*,Auto">
               <!-- The date, typed or filled from the calendar -->
+              <!-- Frameless: the picker's own frame draws every state -->
               <TextBox Name="PART_TextBox"
-                       Theme="{StaticResource DefaultCalendarViewTextBox}"
+                       Theme="{StaticResource DefaultFramelessTextBox}"
                        Foreground="{TemplateBinding Foreground}"
-                       Background="Transparent"
-                       BorderBrush="Transparent"
-                       BorderThickness="0"
                        VerticalAlignment="{theme:ControlVerticalAlignment}" />
               <!-- Opens the calendar popup -->
               <Button Name="PART_PickerButton"

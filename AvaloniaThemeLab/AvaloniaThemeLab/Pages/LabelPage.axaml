@@ -1,0 +1,10 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:size="using:AngelSix.ThemeEngine.Sizes"
+             x:Class="AvaloniaThemeLab.Pages.LabelPage">
+  <StackPanel Spacing="{size:SpacingXl}">
+    <Label Content="_Label with an access key" Target="Labelled" />
+    <TextBox x:Name="Labelled" />
+    <Label Content="Disabled" IsEnabled="False" />
+  </StackPanel>
+</UserControl>

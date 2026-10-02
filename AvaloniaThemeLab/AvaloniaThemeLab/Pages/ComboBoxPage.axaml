@@ -1,0 +1,19 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:size="using:AngelSix.ThemeEngine.Sizes"
+             x:Class="AvaloniaThemeLab.Pages.ComboBoxPage">
+  <StackPanel Spacing="{size:SpacingXl}">
+    <ComboBox PlaceholderText="Nothing selected">
+      <ComboBoxItem Content="First" />
+      <ComboBoxItem Content="Second" />
+      <ComboBoxItem Content="Disabled item" IsEnabled="False" />
+    </ComboBox>
+    <ComboBox SelectedIndex="1">
+      <ComboBoxItem Content="First" />
+      <ComboBoxItem Content="Second" />
+      <ComboBoxItem Content="Third" />
+    </ComboBox>
+    <ComboBox IsEditable="True" Text="Editable" />
+    <ComboBox PlaceholderText="Disabled" IsEnabled="False" />
+  </StackPanel>
+</UserControl>

@@ -1,0 +1,11 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:size="using:AngelSix.ThemeEngine.Sizes"
+             x:Class="AvaloniaThemeLab.Pages.RadioButtonPage">
+  <StackPanel Spacing="{size:SpacingXl}">
+    <RadioButton Content="Unchecked" />
+    <RadioButton Content="Checked" IsChecked="True" />
+    <RadioButton Content="Disabled" GroupName="Disabled" IsEnabled="False" />
+    <RadioButton Content="Disabled, checked" GroupName="Disabled" IsChecked="True" IsEnabled="False" />
+  </StackPanel>
+</UserControl>

@@ -12,7 +12,7 @@
       </Border.Styles>
 
       <!-- One shared row instantiated per pane; :pressed/:disabled render identically to :pointerover so they fold into Hover -->
-      <default:LightDarkPreview Title="TabItem States">
+      <default:LightDarkPreview Title="TabItem States" Orientation="Vertical">
         <DataTemplate>
           <StackPanel Orientation="Horizontal" Spacing="20">
             <TabItem Header="Default" />
@@ -46,6 +46,7 @@
     <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
     <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
     <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
 
     <!-- Template -->
     <Setter Property="Template">
@@ -87,19 +88,19 @@
     <!-- Hover state -->
     <Style Selector="^:pointerover /template/ Border#PART_LayoutRoot, ^[(theme|Preview.State)=Hover] /template/ Border#PART_LayoutRoot">
       <Setter Property="Background" Value="Transparent" />
-      <Setter Property="TextElement.Foreground" Value="{color:AccentBrush Light2}" />
+      <Setter Property="TextElement.Foreground" Value="{color:DimTextDefault}" />
     </Style>
 
     <!-- Pressed state -->
     <Style Selector="^:pressed /template/ Border#PART_LayoutRoot, ^[(theme|Preview.State)=Pressed] /template/ Border#PART_LayoutRoot">
       <Setter Property="Background" Value="Transparent" />
-      <Setter Property="TextElement.Foreground" Value="{color:AccentBrush Light2}" />
+      <Setter Property="TextElement.Foreground" Value="{color:DimTextDefault}" />
     </Style>
 
     <!-- Disabled state -->
     <Style Selector="^:disabled /template/ Border#PART_LayoutRoot">
       <Setter Property="Background" Value="Transparent" />
-      <Setter Property="TextElement.Foreground" Value="{color:AccentBrush Light2}" />
+      <Setter Property="TextElement.Foreground" Value="{color:DimTextDefault}" />
     </Style>
 
     <!-- Selected state -->
@@ -113,13 +114,13 @@
     <!-- Selected hover state -->
     <Style Selector="^:selected:pointerover /template/ Border#PART_LayoutRoot, ^:selected[(theme|Preview.State)=Hover] /template/ Border#PART_LayoutRoot">
       <Setter Property="Background" Value="Transparent" />
-      <Setter Property="TextElement.Foreground" Value="{color:AccentBrush Light2}" />
+      <Setter Property="TextElement.Foreground" Value="{color:DimTextDefault}" />
     </Style>
 
     <!-- Selected pressed state -->
     <Style Selector="^:selected:pressed /template/ Border#PART_LayoutRoot, ^:selected[(theme|Preview.State)=Pressed] /template/ Border#PART_LayoutRoot">
       <Setter Property="Background" Value="Transparent" />
-      <Setter Property="TextElement.Foreground" Value="{color:AccentBrush Light2}" />
+      <Setter Property="TextElement.Foreground" Value="{color:DimTextDefault}" />
     </Style>
 
     <!-- TabStripPlacement: Left -->

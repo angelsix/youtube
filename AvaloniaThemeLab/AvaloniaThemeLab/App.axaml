@@ -1,8 +1,13 @@
 <Application xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:converters="using:AvaloniaThemeLab.ValueConverters"
              x:Class="AvaloniaThemeLab.App"
              RequestedThemeVariant="Default">
     <!-- Default variant follows the system; Dark/Light are alternatives -->
+
+    <Application.Resources>
+        <converters:PreviewTemplateConverter x:Key="PreviewTemplateConverter" />
+    </Application.Resources>
 
     <Application.Styles>
         <DefaultThemeStyles />

@@ -1,0 +1,14 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:size="using:AngelSix.ThemeEngine.Sizes"
+             x:Class="AvaloniaThemeLab.Pages.ScrollBarPage">
+  <StackPanel Spacing="{size:SpacingXl}">
+    <TextBlock Text="Auto-hiding" />
+    <ScrollBar Orientation="Horizontal" Maximum="100" ViewportSize="25" Value="30" />
+    <TextBlock Text="Always shown" />
+    <ScrollBar Orientation="Horizontal" Maximum="100" ViewportSize="25" Value="30" AllowAutoHide="False" />
+    <ScrollBar Maximum="100" ViewportSize="25" Value="30" AllowAutoHide="False" Height="160" />
+    <TextBlock Text="Disabled" />
+    <ScrollBar Orientation="Horizontal" Maximum="100" ViewportSize="25" Value="30" AllowAutoHide="False" IsEnabled="False" />
+  </StackPanel>
+</UserControl>

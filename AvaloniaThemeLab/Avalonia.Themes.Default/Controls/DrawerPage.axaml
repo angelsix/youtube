@@ -60,7 +60,7 @@
     </Border>
   </Design.PreviewWith>
 
-  <SolidColorBrush x:Key="NavigationControlNavBarBackground" Color="{color:AccentNeutral}" />
+  <SolidColorBrush x:Key="NavigationControlNavBarBackground" Color="{color:NeutralLight10}" />
 
   <!-- ============================================================
        Template
@@ -74,6 +74,7 @@
     <Setter Property="VerticalAlignment" Value="{theme:ContainerVerticalAlignment}" />
     <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
     <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
 
     <!-- Template -->
     <Setter Property="Template">
@@ -153,7 +154,7 @@
                 <DockPanel HorizontalAlignment="Stretch">
                   <DockPanel.Styles>
                     <Styles>
-                      <Style Selector="Button:disabled /template/ ContentPresenter#PART_ContentPresenter">
+                      <Style Selector="Button:disabled /template/ Border#PART_Border">
                         <Setter Property="Background"
                                 Value="Transparent" />
                       </Style>
@@ -202,7 +203,7 @@
                 <DockPanel HorizontalAlignment="Stretch">
                   <DockPanel.Styles>
                     <Styles>
-                      <Style Selector="Button:disabled /template/ ContentPresenter#PART_ContentPresenter">
+                      <Style Selector="Button:disabled /template/ Border#PART_Border">
                         <Setter Property="Background"
                                 Value="Transparent" />
                       </Style>

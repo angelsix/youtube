@@ -1,0 +1,14 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:size="using:AngelSix.ThemeEngine.Sizes"
+             x:Class="AvaloniaThemeLab.Pages.TextBoxPage">
+  <StackPanel Spacing="{size:SpacingXl}">
+    <TextBox PlaceholderText="Empty, with placeholder" />
+    <TextBox Text="With text" />
+    <TextBox Classes="clearButton" Text="clearButton variant" />
+    <TextBox Classes="revealPasswordButton" PasswordChar="&#x2022;" Text="revealPasswordButton variant" />
+    <TextBox AcceptsReturn="True" TextWrapping="Wrap" Text="Multi-line text box&#10;second line" />
+    <TextBox Text="Read-only" IsReadOnly="True" />
+    <TextBox Text="Disabled" IsEnabled="False" />
+  </StackPanel>
+</UserControl>

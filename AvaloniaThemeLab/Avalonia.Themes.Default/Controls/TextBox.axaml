@@ -54,6 +54,27 @@
     <MenuItem Header="Paste" Command="{Binding $parent[TextBox].Paste}" IsEnabled="{Binding $parent[TextBox].CanPaste}" />
   </MenuFlyout>
 
+  <!-- Clear button inside the field: the field's frame is its frame, so it follows that frame's right-hand curve,
+       does not grow past it on hover, and shows focus as its own inset border rather than a ring over the frame -->
+  <ControlTheme x:Key="DefaultTextBoxClearButton" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+    <Setter Property="BorderThickness" Value="0" />
+    <Setter Property="CornerRadius" Value="{default:ConcentricCorners Radius={Binding $parent[TextBox].CornerRadius}, Thickness={Binding $parent[TextBox].BorderThickness}, Right=True}" />
+    <Setter Property="FocusAdorner" Value="{x:Null}" />
+    <Style Selector="^:pointerover">
+      <Setter Property="RenderTransform" Value="none" />
+    </Style>
+  </ControlTheme>
+
+  <!-- Reveal-password toggle inside the field, on the same terms as the clear button -->
+  <ControlTheme x:Key="DefaultTextBoxRevealButton" TargetType="ToggleButton" BasedOn="{StaticResource {x:Type ToggleButton}}">
+    <Setter Property="BorderThickness" Value="0" />
+    <Setter Property="CornerRadius" Value="{default:ConcentricCorners Radius={Binding $parent[TextBox].CornerRadius}, Thickness={Binding $parent[TextBox].BorderThickness}, Right=True}" />
+    <Setter Property="FocusAdorner" Value="{x:Null}" />
+    <Style Selector="^:pointerover">
+      <Setter Property="RenderTransform" Value="none" />
+    </Style>
+  </ControlTheme>
+
   <!-- ============================================================
        Template
        ============================================================ -->
@@ -77,6 +98,7 @@
     <Setter Property="FocusAdorner" Value="{x:Null}" />
     <Setter Property="ScrollViewer.IsScrollChainingEnabled" Value="True" />
     <Setter Property="ContextFlyout" Value="{OnFormFactor Desktop={StaticResource DefaultTextBoxContextFlyout}, Mobile={StaticResource HorizontalTextBoxContextFlyout}}" />
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
 
     <!-- Template -->
     <Setter Property="Template">
@@ -110,14 +132,11 @@
                                   VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
                                   Content="{TemplateBinding InnerLeftContent}"/>
 
-                <!-- Scrolls the text when it overflows; the field's Padding is its Margin, so its own Padding is zero
-                     (the ScrollViewer theme's 4px would otherwise start the text 4px in and cost the slot 8px), and it
-                     paints nothing, so a field with its own Background is one tone (the theme's viewer fill drew a
-                     lighter slab across the text) -->
+                <!-- Scrolls the text when it overflows; the field's Padding is its Margin, and it paints nothing, so a
+                     field with its own Background is one tone (the theme's viewer fill drew a lighter slab across the text) -->
                 <ScrollViewer Grid.Column="1"
                               Name="PART_ScrollViewer"
                               Margin="{TemplateBinding Padding}"
-                              Padding="0"
                               Background="Transparent"
                               HorizontalScrollBarVisibility="{TemplateBinding (ScrollViewer.HorizontalScrollBarVisibility)}"
                               VerticalScrollBarVisibility="{TemplateBinding (ScrollViewer.VerticalScrollBarVisibility)}"
@@ -231,7 +250,8 @@
     <Style Selector="^.revealPasswordButton[AcceptsReturn=False][IsReadOnly=False]:not(TextBox:empty)">
       <Setter Property="InnerRightContent">
         <Template>
-          <ToggleButton IsChecked="{Binding $parent[TextBox].RevealPassword, Mode=TwoWay}"
+          <ToggleButton Theme="{StaticResource DefaultTextBoxRevealButton}"
+                        IsChecked="{Binding $parent[TextBox].RevealPassword, Mode=TwoWay}"
                         ClipToBounds="True">
             <Panel>
               <PathIcon Data="{icons:Eye}"
@@ -250,13 +270,59 @@
     <Style Selector="^.clearButton[AcceptsReturn=False][IsReadOnly=False]:not(TextBox:empty)">
       <Setter Property="InnerRightContent">
         <Template>
-          <Button Command="{Binding $parent[TextBox].Clear}"
-                  BorderThickness="0"
+          <Button Theme="{StaticResource DefaultTextBoxClearButton}"
+                  Command="{Binding $parent[TextBox].Clear}"
                   ClipToBounds="True">
             <PathIcon Data="{icons:Close}" Height="{size:IconSizeMd}" Width="{size:IconSizeMd}"/>
           </Button>
         </Template>
       </Setter>
+    </Style>
+  </ControlTheme>
+
+  <!-- Error message of a frameless field: it sits inside the host's frame, so it keeps the text's inset clear of the
+       frame's curved corners -->
+  <ControlTheme x:Key="DefaultFramelessDataValidationErrors"
+                TargetType="DataValidationErrors"
+                BasedOn="{StaticResource {x:Type DataValidationErrors}}">
+    <Style Selector="^ /template/ ContentControl#PART_ErrorIndicator">
+      <Setter Property="Margin" Value="{size:Edges All={size:SpacingMd}}" />
+    </Style>
+  </ControlTheme>
+
+  <!-- Frameless field: sits inside another control's frame, which draws every state (ComboBox, CalendarView picker) -->
+  <ControlTheme x:Key="DefaultFramelessTextBox"
+                TargetType="TextBox"
+                BasedOn="{StaticResource {x:Type TextBox}}">
+    <Setter Property="BorderThickness" Value="0" />
+    <Setter Property="Background" Value="Transparent" />
+    <!-- One style per state the base theme paints: a comma list holding an always-true branch lost to them (measured) -->
+    <Style Selector="^:pointerover /template/ Border#PART_BorderElement">
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="BorderBrush" Value="Transparent" />
+    </Style>
+    <Style Selector="^[(theme|Preview.State)=Hover] /template/ Border#PART_BorderElement">
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="BorderBrush" Value="Transparent" />
+    </Style>
+    <Style Selector="^:focus /template/ Border#PART_BorderElement">
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="BorderBrush" Value="Transparent" />
+    </Style>
+    <Style Selector="^[(theme|Preview.State)=Focused] /template/ Border#PART_BorderElement">
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="BorderBrush" Value="Transparent" />
+    </Style>
+    <Style Selector="^:disabled /template/ Border#PART_BorderElement">
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="BorderBrush" Value="Transparent" />
+    </Style>
+    <Style Selector="^:error /template/ Border#PART_BorderElement">
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="BorderBrush" Value="Transparent" />
+    </Style>
+    <Style Selector="^ /template/ DataValidationErrors">
+      <Setter Property="Theme" Value="{StaticResource DefaultFramelessDataValidationErrors}" />
     </Style>
   </ControlTheme>
 </ResourceDictionary>

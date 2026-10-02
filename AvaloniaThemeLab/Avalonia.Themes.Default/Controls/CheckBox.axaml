@@ -14,23 +14,19 @@
       <!-- Written once as a template: each pane instantiates its own copy -->
       <default:LightDarkPreview Title="CheckBox States" Orientation="Horizontal">
         <DataTemplate>
-          <StackPanel Spacing="16">
+          <StackPanel Spacing="{size:SpacingXl}">
             <!-- Interaction states ride on a checked box so the tick shows alongside each effect; the theme has no :error selector -->
-            <StackPanel Orientation="Horizontal" Spacing="20">
-              <CheckBox>Unchecked</CheckBox>
-              <CheckBox IsChecked="True">Checked</CheckBox>
-              <CheckBox theme:Preview.State="Hover" IsChecked="True">Hover</CheckBox>
-              <CheckBox theme:Preview.State="Pressed" IsChecked="True">Pressed</CheckBox>
-              <CheckBox theme:Preview.State="Focused" IsChecked="True">Focused</CheckBox>
-              <CheckBox IsChecked="True" IsEnabled="False">Disabled</CheckBox>
-            </StackPanel>
+            <CheckBox>Unchecked</CheckBox>
+            <CheckBox IsChecked="True">Checked</CheckBox>
+            <CheckBox theme:Preview.State="Hover" IsChecked="True">Hover</CheckBox>
+            <CheckBox theme:Preview.State="Pressed" IsChecked="True">Pressed</CheckBox>
+            <CheckBox theme:Preview.State="Focused" IsChecked="True">Focused</CheckBox>
+            <CheckBox IsChecked="True" IsEnabled="False">Disabled</CheckBox>
             <!-- Hues tint the AccentBrush-driven fill and borders; the tick stays AccentPrimary, so combine hues with states instead of repeating rows -->
-            <StackPanel Orientation="Horizontal" Spacing="20">
-              <CheckBox IsThreeState="True" IsChecked="{x:Null}">Indeterminate</CheckBox>
-              <CheckBox theme:Accent.Kind="Warning" IsChecked="True">Warning Checked</CheckBox>
-              <CheckBox theme:Accent.Kind="Success" theme:Preview.State="Focused" IsChecked="True">Success + Focused</CheckBox>
-              <CheckBox theme:Accent.Kind="Warning" IsChecked="True" IsEnabled="False">Warning Disabled</CheckBox>
-            </StackPanel>
+            <CheckBox IsThreeState="True" IsChecked="{x:Null}">Indeterminate</CheckBox>
+            <CheckBox theme:Accent.Kind="Warning" IsChecked="True">Warning Checked</CheckBox>
+            <CheckBox theme:Accent.Kind="Success" theme:Preview.State="Focused" IsChecked="True">Success + Focused</CheckBox>
+            <CheckBox theme:Accent.Kind="Warning" IsChecked="True" IsEnabled="False">Warning Disabled</CheckBox>
           </StackPanel>
         </DataTemplate>
       </default:LightDarkPreview>
@@ -55,6 +51,7 @@
     <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
     <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
     <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
 
     <!-- Press animation -->
     <Setter Property="RenderTransform" Value="none" />
@@ -76,14 +73,6 @@
                   Background="Transparent"
                   BorderBrush="{TemplateBinding BorderBrush}"
                   CornerRadius="{TemplateBinding CornerRadius}" />
-
-          <!-- Accent border overlay -->
-          <Rectangle x:Name="PART_AccentBorder"
-                     Grid.ColumnSpan="2"
-                     IsVisible="False"
-                     IsHitTestVisible="False"
-                     Fill="Transparent"
-                     StrokeDashArray="3, 2, 6, 2" />
 
           <!-- Checkbox indicator -->
           <Grid Grid.Column="0" VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
@@ -155,14 +144,6 @@
       <Setter Property="Height" Value="10" />
       <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
       <Setter Property="Background" Value="{color:BackgroundDefault}" />
-    </Style>
-
-    <!-- Accent border visuals -->
-    <Style Selector="^ /template/ Rectangle#PART_AccentBorder">
-      <Setter Property="Stroke" Value="{color:AccentPrimaryBrush}" />
-      <Setter Property="StrokeThickness" Value="{size:AccentBorderStrokeThickness}" />
-      <Setter Property="RadiusX" Value="{size:RadiusMdDouble}" />
-      <Setter Property="RadiusY" Value="{size:RadiusMdDouble}" />
     </Style>
 
     <!-- Hover state -->

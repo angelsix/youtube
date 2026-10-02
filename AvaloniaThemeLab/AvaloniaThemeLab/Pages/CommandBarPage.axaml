@@ -1,0 +1,49 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:size="using:AngelSix.ThemeEngine.Sizes"
+             xmlns:icons="using:AngelSix.ThemeEngine.Icons"
+             x:Class="AvaloniaThemeLab.Pages.CommandBarPage">
+  <StackPanel Spacing="{size:SpacingXl}">
+    <CommandBar>
+      <CommandBarButton Label="Add">
+        <CommandBarButton.Icon>
+          <PathIcon Data="{icons:Plus}" />
+        </CommandBarButton.Icon>
+      </CommandBarButton>
+      <CommandBarButton Label="Save">
+        <CommandBarButton.Icon>
+          <PathIcon Data="{icons:Save}" />
+        </CommandBarButton.Icon>
+      </CommandBarButton>
+      <CommandBarSeparator />
+      <CommandBarToggleButton Label="Starred" IsChecked="True">
+        <CommandBarToggleButton.Icon>
+          <PathIcon Data="{icons:Star}" />
+        </CommandBarToggleButton.Icon>
+      </CommandBarToggleButton>
+      <CommandBarButton Label="Disabled" IsEnabled="False">
+        <CommandBarButton.Icon>
+          <PathIcon Data="{icons:Close}" />
+        </CommandBarButton.Icon>
+      </CommandBarButton>
+      <CommandBar.SecondaryCommands>
+        <CommandBarButton Label="Refresh" />
+        <CommandBarButton Label="Settings" />
+      </CommandBar.SecondaryCommands>
+    </CommandBar>
+    <CommandBar DefaultLabelPosition="Right">
+      <CommandBarButton Label="Labels on the right">
+        <CommandBarButton.Icon>
+          <PathIcon Data="{icons:ArrowLeft}" />
+        </CommandBarButton.Icon>
+      </CommandBarButton>
+    </CommandBar>
+    <CommandBar DefaultLabelPosition="Collapsed">
+      <CommandBarButton Label="Labels collapsed">
+        <CommandBarButton.Icon>
+          <PathIcon Data="{icons:Refresh}" />
+        </CommandBarButton.Icon>
+      </CommandBarButton>
+    </CommandBar>
+  </StackPanel>
+</UserControl>

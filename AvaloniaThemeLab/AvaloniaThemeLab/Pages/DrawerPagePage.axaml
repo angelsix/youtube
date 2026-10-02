@@ -1,0 +1,21 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:size="using:AngelSix.ThemeEngine.Sizes"
+             x:Class="AvaloniaThemeLab.Pages.DrawerPagePage">
+  <StackPanel Spacing="{size:SpacingXl}">
+    <TextBlock Text="Open" />
+    <DrawerPage Header="Drawer header" IsOpen="True" Height="200">
+      <DrawerPage.Drawer>
+        <TextBlock Text="Drawer" />
+      </DrawerPage.Drawer>
+      <TextBlock Text="Main content" />
+    </DrawerPage>
+    <TextBlock Text="Closed" />
+    <DrawerPage Header="Drawer header" Height="200">
+      <DrawerPage.Drawer>
+        <TextBlock Text="Drawer" />
+      </DrawerPage.Drawer>
+      <TextBlock Text="Main content" />
+    </DrawerPage>
+  </StackPanel>
+</UserControl>

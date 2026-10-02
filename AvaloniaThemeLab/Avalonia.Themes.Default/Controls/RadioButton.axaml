@@ -13,22 +13,18 @@
       <!-- Written once as a template: each pane instantiates its own copy -->
       <default:LightDarkPreview Title="RadioButton States" Orientation="Horizontal">
         <DataTemplate>
-          <StackPanel Spacing="16">
+          <StackPanel Spacing="{size:SpacingXl}">
             <!-- Selection is meaningful per group, so each column keeps a selected/unselected pair; the theme has no :error selector -->
-            <StackPanel Orientation="Horizontal" Spacing="20">
-              <RadioButton Content="Unselected" />
-              <RadioButton theme:Preview.State="Hover" Content="Hover" />
-              <RadioButton IsChecked="True" Content="Selected" />
-              <RadioButton theme:Preview.State="Pressed" IsChecked="True" Content="Pressed" />
-              <RadioButton theme:Preview.State="Focused" IsChecked="True" Content="Focused" />
-              <RadioButton IsEnabled="False" Content="Disabled" />
-            </StackPanel>
+            <RadioButton Content="Unselected" />
+            <RadioButton theme:Preview.State="Hover" Content="Hover" />
+            <RadioButton IsChecked="True" Content="Selected" />
+            <RadioButton theme:Preview.State="Pressed" IsChecked="True" Content="Pressed" />
+            <RadioButton theme:Preview.State="Focused" IsChecked="True" Content="Focused" />
+            <RadioButton IsEnabled="False" Content="Disabled" />
             <!-- Hues tint the AccentBrush-driven rings; combine them with states instead of repeating rows -->
-            <StackPanel Orientation="Horizontal" Spacing="20">
-              <RadioButton theme:Accent.Kind="Warning" Content="Warning" />
-              <RadioButton theme:Accent.Kind="Success" theme:Preview.State="Focused" IsChecked="True" Content="Success + Focused" />
-              <RadioButton theme:Accent.Kind="Warning" IsChecked="True" IsEnabled="False" Content="Warning Disabled" />
-            </StackPanel>
+            <RadioButton theme:Accent.Kind="Warning" Content="Warning" />
+            <RadioButton theme:Accent.Kind="Success" theme:Preview.State="Focused" IsChecked="True" Content="Success + Focused" />
+            <RadioButton theme:Accent.Kind="Warning" IsChecked="True" IsEnabled="False" Content="Warning Disabled" />
           </StackPanel>
         </DataTemplate>
       </default:LightDarkPreview>
@@ -53,6 +49,7 @@
     <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
     <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
     <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
 
     <!-- Template -->
     <Setter Property="Template">
@@ -149,7 +146,7 @@
     </Style>
 
     <Style Selector="^:pointerover /template/ Ellipse#OuterEllipse, ^[(theme|Preview.State)=Hover] /template/ Ellipse#OuterEllipse">
-      <Setter Property="Stroke" Value="{color:AccentBrush Light2}" />
+      <Setter Property="Stroke" Value="{color:AccentBrush Dark1}" />
       <Setter Property="Fill" Value="{color:AccentBrush Light10}" />
     </Style>
 

@@ -1,0 +1,12 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:size="using:AngelSix.ThemeEngine.Sizes"
+             x:Class="AvaloniaThemeLab.Pages.PipsPagerPage">
+  <StackPanel Spacing="{size:SpacingXl}">
+    <PipsPager NumberOfPages="5" />
+    <PipsPager NumberOfPages="10" MaxVisiblePips="5" SelectedPageIndex="4" />
+    <PipsPager NumberOfPages="5" IsPreviousButtonVisible="False" IsNextButtonVisible="False" />
+    <PipsPager NumberOfPages="5" Orientation="Vertical" />
+    <PipsPager NumberOfPages="5" IsEnabled="False" />
+  </StackPanel>
+</UserControl>

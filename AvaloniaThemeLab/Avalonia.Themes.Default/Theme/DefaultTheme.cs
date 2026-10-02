@@ -42,6 +42,33 @@ public partial class DefaultTheme
 
     #endregion Identity
 
+    #region Render Style
+
+    /// <summary>
+    /// Whether controls draw the way the web does: a control does not clip to its own bounds (CSS
+    /// <c>overflow: visible</c>), and a grown hover state paints above its neighbours. Off restores
+    /// Avalonia's defaults: every templated control clips, and nothing is lifted.
+    /// </summary>
+    /// <remarks>
+    /// Clipping stays where something is a viewport: a scroll presenter clips on its own, and a
+    /// template that slides content (TransitioningContentControl) clips its own root. See ThemeRules.md.
+    /// </remarks>
+    public virtual bool WebRenderStyle => true;
+
+    /// <summary>
+    /// ClipToBounds for every templated control, as a setter in each control theme, so a consumer's
+    /// ControlTheme, Style or local value overrides it like any other theme value.
+    /// </summary>
+    public virtual bool ControlClipToBounds => !WebRenderStyle;
+
+    /// <summary>
+    /// ZIndex of a control in a state that grows it, so the growth paints over the sibling it overlaps.
+    /// ZIndex orders siblings of one parent only.
+    /// </summary>
+    public virtual int HoverZIndex => WebRenderStyle ? 1 : 0;
+
+    #endregion Render Style
+
     #region Seed Colors
 
     // Every color in the theme is a hue with a ramp. AccentNeutral is the palette's default —
@@ -51,18 +78,29 @@ public partial class DefaultTheme
     // [AccentHue] marks it a hue for the accent surface; [ColorRamp] is what makes the generator
     // expand it. Neutral additionally carries the overlay opacities, because the translucent tints
     // drawn *over* the palette — shadows and scrims — are built from its darkest stage.
+    //
+    // Neutral's seed is the ink, and dark mode's ink is light, so its dark half re-centres on the
+    // seed's reflection (255 - 0x2E = 0xD1). Without it the dark ramp centres on #2E2E2E, beside the
+    // #222222 canvas, and every border, fill and dim text drawn from it collapses into the canvas.
+    // Dark Light stages travel towards the canvas (the Surface hue's DarkSeed) by engine default.
+    //
+    // HueAware puts stage N at one OKLCH lightness in every hue, so a role pinned to a stage means
+    // the same contrast whatever Accent.Kind a control carries: Dark3 is 7.7-8.6:1 on the light
+    // canvas and 6.0-6.6:1 on the dark one in all eight hues. The seed gives only hue and chroma,
+    // so the seed color itself (Accent{Hue}) is unchanged. Surface stays off: its stages are the
+    // canvas's own tints. A downstream theme overriding a seed must repeat HueAware = true.
 
     [AccentHue]
-    [ColorRamp(OverlayLevels = [0.08, 0.16, 0.32])]
+    [ColorRamp(OverlayLevels = [0.08, 0.16, 0.32], DarkSeed = "#D1D1D1", HueAware = true)]
     public virtual Color AccentNeutral => Color.Parse("#2E2E2E");
 
-    [AccentHue, ColorRamp] public virtual Color AccentPrimary => Color.Parse("#5BA3C9");
-    [AccentHue, ColorRamp] public virtual Color AccentSuccess => Color.Parse("#6DB87E");
-    [AccentHue, ColorRamp] public virtual Color AccentWarning => Color.Parse("#E0B860");
-    [AccentHue, ColorRamp] public virtual Color AccentError => Color.Parse("#D47A7A");
-    [AccentHue, ColorRamp] public virtual Color AccentInfo => Color.Parse("#E89F4A");
-    [AccentHue, ColorRamp] public virtual Color AccentDestructive => Color.Parse("#C17070");
-    [AccentHue, ColorRamp] public virtual Color AccentSubtle => Color.Parse("#B088C8");
+    [AccentHue, ColorRamp(HueAware = true)] public virtual Color AccentPrimary => Color.Parse("#5BA3C9");
+    [AccentHue, ColorRamp(HueAware = true)] public virtual Color AccentSuccess => Color.Parse("#6DB87E");
+    [AccentHue, ColorRamp(HueAware = true)] public virtual Color AccentWarning => Color.Parse("#E0B860");
+    [AccentHue, ColorRamp(HueAware = true)] public virtual Color AccentError => Color.Parse("#D47A7A");
+    [AccentHue, ColorRamp(HueAware = true)] public virtual Color AccentInfo => Color.Parse("#E89F4A");
+    [AccentHue, ColorRamp(HueAware = true)] public virtual Color AccentDestructive => Color.Parse("#C17070");
+    [AccentHue, ColorRamp(HueAware = true)] public virtual Color AccentSubtle => Color.Parse("#B088C8");
 
     // The surface hue seeds the application canvas. In the light palette it keeps the paper seed
     // (#fdfdfd) and mirrors as usual; in the dark palette the whole ramp is re-centred on the
@@ -79,7 +117,7 @@ public partial class DefaultTheme
     //
     // There was an AccentBorder here too, for the resting border of every control. It was a mistake:
     // being a fixed color it bypassed the accent entirely, so an accented control drew a border
-    // that ignored its own hue. Borders now use {color:AccentBrush Light6}, which follows the hue.
+    // that ignored its own hue. Borders now use {color:BorderDefault}, which follows the hue.
     public virtual Color AccentFocus => Color.Parse("#bf4aF9");
 
     #endregion Seed Colors
@@ -121,9 +159,9 @@ public partial class DefaultTheme
     [AccentRole]
     internal virtual RampStage TextDefault => RampStage.Dark9;
 
-    /// <summary>Outlined-control border.</summary>
+    /// <summary>Outlined-control and container border: 3.16-3.71:1 on the canvas in every hue, light and dark, over the 3:1 non-text minimum.</summary>
     [AccentRole]
-    internal virtual RampStage BorderDefault => RampStage.Light3;
+    internal virtual RampStage BorderDefault => RampStage.Light1;
 
     /// <summary>Outlined-control rest fill.</summary>
     [AccentRole]
@@ -141,9 +179,14 @@ public partial class DefaultTheme
     [AccentRole]
     internal virtual RampStage PressedBackgroundDefault => RampStage.Light6;
 
-    /// <summary>Dimmed text: placeholders, captions, secondary labels.</summary>
+    /// <summary>Dimmed text: placeholders, captions, secondary labels, disabled text.</summary>
+    /// <remarks>
+    /// A role, so it follows the control's hue. That is safe only because the ramps are hue-aware:
+    /// Dark3 reads 7.7-8.6:1 on the light canvas and 6.0-6.6:1 on the dark one in every hue, against
+    /// 20.4:1 and 13.6:1 for TextDefault, so it is always readable and always visibly dimmer.
+    /// </remarks>
     [AccentRole]
-    internal virtual RampStage DimTextDefault => RampStage.Dark2;
+    internal virtual RampStage DimTextDefault => RampStage.Dark3;
 
     #endregion Theme-Specific Defaults
 
@@ -172,7 +215,7 @@ public partial class DefaultTheme
     /// Corner radius ladder, emitted twice over: as <c>CornerRadius</c> for Border and friends, and
     /// as a bare <c>double</c> for <c>Shape.RadiusX/Y</c>, which does not take a CornerRadius.
     /// </summary>
-    [SizeScale(Multipliers = [3, 6, 12, 16],
+    [SizeScale(Multipliers = [6, 12, 24, 32],
                Types = [typeof(CornerRadius), typeof(double)],
                TypeSuffixes = ["", "Double"])]
     public virtual double Radius => BaseSize;
@@ -219,9 +262,6 @@ public partial class DefaultTheme
     // registered family, so every text fell back to the platform default (Helvetica on macOS) until 29 Sep 2026.
     public virtual FontFamily FontFamily => new("fonts:Inter#Inter, $Default");
 
-    // Accent visual properties (for highlighted/prominent elements)
-    public virtual double AccentBorderStrokeThickness => 2 * BaseSize;
-
     // State visual properties
     public virtual double DisabledOpacity => 0.3;
     public virtual double PressedScale => 0.98;
@@ -240,6 +280,10 @@ public partial class DefaultTheme
     public virtual VerticalAlignment ControlVerticalAlignment => VerticalAlignment.Center;
     public virtual HorizontalAlignment ControlHorizontalContentAlignment => HorizontalAlignment.Left;
     public virtual VerticalAlignment ControlVerticalContentAlignment => VerticalAlignment.Center;
+
+    // Button content alignment (for every button-like control: Button, RepeatButton, ToggleButton, SplitButton, ...)
+    // A label or icon sits in the middle of the face it presses, whatever the general content alignment is
+    public virtual HorizontalAlignment ButtonHorizontalContentAlignment => HorizontalAlignment.Center;
 
     // Container alignment defaults (for structural elements that stretch to fill: list items, panels, etc.)
     public virtual HorizontalAlignment ContainerHorizontalAlignment => HorizontalAlignment.Stretch;

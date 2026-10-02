@@ -1,0 +1,21 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:size="using:AngelSix.ThemeEngine.Sizes"
+             x:Class="AvaloniaThemeLab.Pages.ContextMenuPage">
+  <StackPanel Spacing="{size:SpacingXl}">
+    <TextBlock Text="Right-click this text to open its context menu">
+      <TextBlock.ContextMenu>
+        <ContextMenu>
+          <MenuItem Header="Cut" InputGesture="Cmd+X" />
+          <MenuItem Header="Copy" InputGesture="Cmd+C" />
+          <MenuItem Header="Disabled" IsEnabled="False" />
+          <Separator />
+          <MenuItem Header="Checked" ToggleType="CheckBox" IsChecked="True" />
+          <MenuItem Header="Submenu">
+            <MenuItem Header="Inside the submenu" />
+          </MenuItem>
+        </ContextMenu>
+      </TextBlock.ContextMenu>
+    </TextBlock>
+  </StackPanel>
+</UserControl>

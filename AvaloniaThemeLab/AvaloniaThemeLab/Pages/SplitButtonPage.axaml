@@ -1,0 +1,16 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:size="using:AngelSix.ThemeEngine.Sizes"
+             x:Class="AvaloniaThemeLab.Pages.SplitButtonPage">
+  <StackPanel Spacing="{size:SpacingXl}">
+    <SplitButton Content="Split button">
+      <SplitButton.Flyout>
+        <MenuFlyout>
+          <MenuItem Header="First" />
+          <MenuItem Header="Second" />
+        </MenuFlyout>
+      </SplitButton.Flyout>
+    </SplitButton>
+    <SplitButton Content="Disabled" IsEnabled="False" />
+  </StackPanel>
+</UserControl>
