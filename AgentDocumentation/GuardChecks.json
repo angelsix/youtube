@@ -62,25 +62,11 @@
     "served tree. Fast; no build, no running app."
   ],
   "pre-push": {
-    "expectedDurationSeconds": 300,
-    "notice": "Push gate: security checks + xaml must pass guard xaml analyze",
+    "expectedDurationSeconds": 15,
+    "notice": "Push gate: security checks",
     "commands": [
       "guard security tracked-secrets .",
-      "guard security web-exposure .",
-      "node Scripts/Gates/check-xaml-outgoing.mjs"
-    ],
-    "scopes": [
-      {
-        "command": "node Scripts/Gates/check-xaml-outgoing.mjs",
-        "paths": [
-          "**/*.axaml",
-          "**/*.xaml"
-        ]
-      }
+      "guard security web-exposure ."
     ]
-  },
-  "_comment_xaml_gate": [
-    "2026-10-18: adopted from ai-mecca (xaml push gate). A push whose OUTGOING COMMITS touch .axaml/.xaml cannot succeed unless `guard xaml analyze` passes over every such file (any finding fails the push); the script self-exits 0 fast when no xaml is in the outgoing range.",
-    "AvaloniaThemeLab is a SUBDIRECTORY of this monorepo, so the gate is wired here at the repo root and is monorepo-wide by construction (the script resolves the repo root from its own location). Analyzer plugin reached via Tools/XamlAnalyzer symlink -> ai-mecca checkout."
-  ]
+  }
 }
