@@ -28,6 +28,12 @@
         </PackageReference>
     </ItemGroup>
 
+    <!-- Runtime XAML parsing for the dev-only preview hot-reload watcher; Debug only, so Release
+         never pulls it in -->
+    <ItemGroup Condition="'$(Configuration)'=='Debug'">
+        <PackageReference Include="Avalonia.Markup.Xaml.Loader" Version="12.0.1"/>
+    </ItemGroup>
+
     <ItemGroup>
       <ProjectReference Include="..\Avalonia.Themes.Default\Avalonia.Themes.Default.csproj" />
     </ItemGroup>

@@ -5,26 +5,28 @@
     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
     xmlns:color="using:AngelSix.ThemeEngine.Colors"
     xmlns:size="using:AngelSix.ThemeEngine.Sizes">
+  <!-- Design preview: the shared state row, declared before Design.PreviewWith uses it.
+       States and hues combine onto single switches (Pressed+On, Warning+On) to minimise the count -->
+  <DataTemplate x:Key="ToggleSwitchPreview">
+    <StackPanel Spacing="{size:SpacingXl}" HorizontalAlignment="Left">
+      <ToggleSwitch Content="Labels" OffContent="Off" OnContent="On" />
+      <ToggleSwitch Content="On" IsChecked="True" />
+      <ToggleSwitch Content="Hover" theme:Preview.State="Hover" />
+      <ToggleSwitch Content="Pressed" theme:Preview.State="Pressed" IsChecked="True" />
+      <ToggleSwitch Content="Disabled" IsEnabled="False" IsChecked="True" />
+      <ToggleSwitch Content="Warning" theme:Accent.Kind="Warning" IsChecked="True" />
+      <ToggleSwitch Content="Success" theme:Accent.Kind="Success" />
+    </StackPanel>
+  </DataTemplate>
+
   <Design.PreviewWith>
     <Border>
       <Border.Styles>
         <default:DefaultThemeStyles />
       </Border.Styles>
 
-      <!-- States and hues combine onto single switches (Pressed+On, Warning+On) to minimise the count -->
-      <default:LightDarkPreview Title="ToggleSwitch States" Orientation="Horizontal">
-        <DataTemplate>
-          <StackPanel Spacing="{size:SpacingXl}">
-            <ToggleSwitch Content="Labels" OffContent="Off" OnContent="On" />
-            <ToggleSwitch Content="On" IsChecked="True" />
-            <ToggleSwitch Content="Hover" theme:Preview.State="Hover" />
-            <ToggleSwitch Content="Pressed" theme:Preview.State="Pressed" IsChecked="True" />
-            <ToggleSwitch Content="Disabled" IsEnabled="False" IsChecked="True" />
-            <ToggleSwitch Content="Warning" theme:Accent.Kind="Warning" IsChecked="True" />
-            <ToggleSwitch Content="Success" theme:Accent.Kind="Success" />
-          </StackPanel>
-        </DataTemplate>
-      </default:LightDarkPreview>
+      <default:LightDarkPreview Title="ToggleSwitch" Orientation="Horizontal" ContentTemplate="{StaticResource ToggleSwitchPreview}" />
+
     </Border>
   </Design.PreviewWith>
 

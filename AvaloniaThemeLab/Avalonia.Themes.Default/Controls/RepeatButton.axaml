@@ -4,31 +4,32 @@
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
                     xmlns:color="using:AngelSix.ThemeEngine.Colors"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes">
+  <!-- Design preview: core states, then non-default hues riding on enabled states. Declared before Design.PreviewWith uses it -->
+  <DataTemplate x:Key="RepeatButtonPreview">
+    <StackPanel Spacing="{size:SpacingXxl}" HorizontalAlignment="Left">
+      <StackPanel Orientation="Horizontal" Spacing="{size:SpacingXxl}">
+        <RepeatButton Content="Default" />
+        <RepeatButton theme:Preview.State="Hover" Content="Hover" />
+        <RepeatButton theme:Preview.State="Pressed" Content="Pressed" />
+        <RepeatButton theme:Preview.State="Focused" Content="Focused" />
+        <RepeatButton Content="Disabled" IsEnabled="False" />
+      </StackPanel>
+      <!-- Non-default hues ride on enabled states so each extra instance proves two things at once -->
+      <StackPanel Orientation="Horizontal" Spacing="{size:SpacingXxl}">
+        <RepeatButton theme:Accent.Kind="Warning" theme:Preview.State="Hover" Content="Warning · Hover" />
+        <RepeatButton theme:Accent.Kind="Success" theme:Preview.State="Focused" Content="Success · Focused" />
+      </StackPanel>
+    </StackPanel>
+  </DataTemplate>
+
   <Design.PreviewWith>
     <Border>
       <Border.Styles>
         <default:DefaultThemeStyles />
       </Border.Styles>
 
-      <!-- Shared template instantiated once per pane; accent hues fold onto live states to hold the instance count down -->
-      <default:LightDarkPreview Title="RepeatButton States" Orientation="Vertical">
-        <DataTemplate>
-          <StackPanel Spacing="20">
-            <StackPanel Orientation="Horizontal" Spacing="20">
-              <RepeatButton Content="Default" />
-              <RepeatButton theme:Preview.State="Hover" Content="Hover" />
-              <RepeatButton theme:Preview.State="Pressed" Content="Pressed" />
-              <RepeatButton theme:Preview.State="Focused" Content="Focused" />
-              <RepeatButton Content="Disabled" IsEnabled="False" />
-            </StackPanel>
-            <!-- Non-default hues ride on enabled states so each extra instance proves two things at once -->
-            <StackPanel Orientation="Horizontal" Spacing="20">
-              <RepeatButton theme:Accent.Kind="Warning" theme:Preview.State="Hover" Content="Warning · Hover" />
-              <RepeatButton theme:Accent.Kind="Success" theme:Preview.State="Focused" Content="Success · Focused" />
-            </StackPanel>
-          </StackPanel>
-        </DataTemplate>
-      </default:LightDarkPreview>
+      <default:LightDarkPreview Title="RepeatButton" Orientation="Vertical" ContentTemplate="{StaticResource RepeatButtonPreview}" />
+
     </Border>
   </Design.PreviewWith>
 
@@ -43,7 +44,7 @@
     <Setter Property="BorderBrush" Value="{color:AccentBrush Dark1}" />
     <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
     <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
-    <Setter Property="Padding" Value="{size:Edges Horizontal={size:SpacingXl}, Vertical={size:SpacingLg}}" />
+    <Setter Property="Padding" Value="{size:Edges Horizontal={size:ContentPaddingWide}, Vertical={size:ContentPadding}}" />
     <Setter Property="MinHeight" Value="{size:ControlHeightSm}" />
     <Setter Property="MinWidth" Value="{size:ControlMinWidth}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />

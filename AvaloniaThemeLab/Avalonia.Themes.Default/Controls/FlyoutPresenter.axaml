@@ -5,6 +5,29 @@
                     xmlns:color="using:AngelSix.ThemeEngine.Colors"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes"
                     >
+  <!-- Design preview: the presenter panel holding a little flyout content. Declared before Design.PreviewWith uses it -->
+  <DataTemplate x:Key="FlyoutPresenterPreview">
+    <StackPanel Spacing="{size:SpacingXl}" HorizontalAlignment="Left">
+      <FlyoutPresenter>
+        <StackPanel Spacing="{size:SpacingMd}">
+          <TextBlock Text="Flyout heading" />
+          <TextBlock Text="Body copy inside the flyout." />
+        </StackPanel>
+      </FlyoutPresenter>
+    </StackPanel>
+  </DataTemplate>
+
+  <Design.PreviewWith>
+    <Border>
+      <Border.Styles>
+        <default:DefaultThemeStyles />
+      </Border.Styles>
+
+      <default:LightDarkPreview Title="FlyoutPresenter" ContentTemplate="{StaticResource FlyoutPresenterPreview}" />
+
+    </Border>
+  </Design.PreviewWith>
+
   <ControlTheme x:Key="{x:Type FlyoutPresenter}" TargetType="FlyoutPresenter">
     <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
     <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />

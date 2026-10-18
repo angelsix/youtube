@@ -7,30 +7,33 @@
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes"
                     xmlns:icons="using:AngelSix.ThemeEngine.Icons">
 
+  <!-- Design preview: overflowing content forces both repeat-button chevrons visible. The designer and the lab
+       gallery both show this key, so it is declared before Design.PreviewWith uses it -->
+  <DataTemplate x:Key="MenuScrollViewerPreview">
+    <!-- Their hover tint needs a live pointer -->
+    <ScrollViewer Theme="{StaticResource DefaultMenuScrollViewer}" Width="160" Height="120">
+      <StackPanel Spacing="{size:SpacingXxl}">
+        <TextBlock>Item 1</TextBlock>
+        <TextBlock>Item 2</TextBlock>
+        <TextBlock>Item 3</TextBlock>
+        <TextBlock>Item 4</TextBlock>
+        <TextBlock>Item 5</TextBlock>
+        <TextBlock>Item 6</TextBlock>
+        <TextBlock>Item 7</TextBlock>
+        <TextBlock>Item 8</TextBlock>
+        <TextBlock>Item 9</TextBlock>
+      </StackPanel>
+    </ScrollViewer>
+  </DataTemplate>
+
   <Design.PreviewWith>
     <Border>
       <Border.Styles>
         <default:DefaultThemeStyles />
       </Border.Styles>
 
-      <!-- Overflowing content forces BOTH repeat-button chevrons visible; their hover tint needs a live pointer -->
-      <default:LightDarkPreview Title="MenuScrollViewer States" Orientation="Horizontal">
-        <DataTemplate>
-          <ScrollViewer Theme="{StaticResource DefaultMenuScrollViewer}" Width="160" Height="120">
-            <StackPanel Spacing="20">
-              <TextBlock>Item 1</TextBlock>
-              <TextBlock>Item 2</TextBlock>
-              <TextBlock>Item 3</TextBlock>
-              <TextBlock>Item 4</TextBlock>
-              <TextBlock>Item 5</TextBlock>
-              <TextBlock>Item 6</TextBlock>
-              <TextBlock>Item 7</TextBlock>
-              <TextBlock>Item 8</TextBlock>
-              <TextBlock>Item 9</TextBlock>
-            </StackPanel>
-          </ScrollViewer>
-        </DataTemplate>
-      </default:LightDarkPreview>
+      <default:LightDarkPreview Title="MenuScrollViewer" Orientation="Horizontal" ContentTemplate="{StaticResource MenuScrollViewerPreview}" />
+
     </Border>
   </Design.PreviewWith>
 

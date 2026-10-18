@@ -2,7 +2,25 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
                     xmlns:color="using:AngelSix.ThemeEngine.Colors"
-                    xmlns:size="using:AngelSix.ThemeEngine.Sizes">
+                    xmlns:size="using:AngelSix.ThemeEngine.Sizes"
+                    xmlns:default="clr-namespace:Avalonia.Themes.Default">
+  <!-- Design preview: one block of selectable text. Declared before Design.PreviewWith uses it -->
+  <DataTemplate x:Key="SelectableTextBlockPreview">
+    <StackPanel Spacing="{size:SpacingXl}" HorizontalAlignment="Left">
+      <SelectableTextBlock>Select me — this paragraph is fully selectable.</SelectableTextBlock>
+    </StackPanel>
+  </DataTemplate>
+
+  <Design.PreviewWith>
+    <Border>
+      <Border.Styles>
+        <default:DefaultThemeStyles />
+      </Border.Styles>
+
+      <default:LightDarkPreview Title="SelectableTextBlock" ContentTemplate="{StaticResource SelectableTextBlockPreview}" />
+
+    </Border>
+  </Design.PreviewWith>
 
   <!-- ============================================================
        Template

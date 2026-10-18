@@ -5,31 +5,33 @@
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes"
                     xmlns:icons="using:AngelSix.ThemeEngine.Icons"
                     xmlns:color="using:AngelSix.ThemeEngine.Colors">
+  <!-- Design preview: the stateless glyph sized down the icon ladder, then tinted through the generic accent brushes.
+       The designer and the lab gallery both show this key, so it is declared before Design.PreviewWith uses it -->
+  <DataTemplate x:Key="PathIconPreview">
+    <StackPanel Orientation="Vertical" Spacing="{size:SpacingXl}">
+      <StackPanel Orientation="Horizontal" Spacing="{size:SpacingXxl}">
+        <PathIcon Data="{icons:Star}" Width="{size:IconSizeSm}" Height="{size:IconSizeSm}" />
+        <PathIcon Data="{icons:Star}" Width="{size:IconSizeMd}" Height="{size:IconSizeMd}" />
+        <PathIcon Data="{icons:Star}" Width="{size:IconSizeLg}" Height="{size:IconSizeLg}" />
+        <PathIcon Data="{icons:Star}" Width="{size:IconSizeXl}" Height="{size:IconSizeXl}" />
+      </StackPanel>
+      <!-- Colors ride the generic accent tokens, so the hue follows the active accent kind -->
+      <StackPanel Orientation="Horizontal" Spacing="{size:SpacingXxl}">
+        <PathIcon Data="{icons:Star}" Foreground="{color:AccentPrimaryBrush}" />
+        <PathIcon Data="{icons:Star}" Foreground="{color:AccentPrimaryBrush}" theme:Accent.Kind="Warning" />
+        <PathIcon Data="{icons:Star}" Foreground="{color:AccentPrimaryBrush}" theme:Accent.Kind="Success" />
+      </StackPanel>
+    </StackPanel>
+  </DataTemplate>
+
   <Design.PreviewWith>
     <Border>
       <Border.Styles>
         <default:DefaultThemeStyles />
       </Border.Styles>
 
-      <!-- Stateless glyph: sized down the icon ladder, then tinted through the generic accent brushes -->
-      <default:LightDarkPreview Title="PathIcon States" Orientation="Vertical">
-        <DataTemplate>
-          <StackPanel Orientation="Vertical" Spacing="12">
-            <StackPanel Orientation="Horizontal" Spacing="16">
-              <PathIcon Data="{icons:Star}" Width="{size:IconSizeSm}" Height="{size:IconSizeSm}" />
-              <PathIcon Data="{icons:Star}" Width="{size:IconSizeMd}" Height="{size:IconSizeMd}" />
-              <PathIcon Data="{icons:Star}" Width="{size:IconSizeLg}" Height="{size:IconSizeLg}" />
-              <PathIcon Data="{icons:Star}" Width="{size:IconSizeXl}" Height="{size:IconSizeXl}" />
-            </StackPanel>
-            <!-- Colors ride the generic accent tokens, so the hue follows the active accent kind -->
-            <StackPanel Orientation="Horizontal" Spacing="16">
-              <PathIcon Data="{icons:Star}" Foreground="{color:AccentPrimaryBrush}" />
-              <PathIcon Data="{icons:Star}" Foreground="{color:AccentPrimaryBrush}" theme:Accent.Kind="Warning" />
-              <PathIcon Data="{icons:Star}" Foreground="{color:AccentPrimaryBrush}" theme:Accent.Kind="Success" />
-            </StackPanel>
-          </StackPanel>
-        </DataTemplate>
-      </default:LightDarkPreview>
+      <default:LightDarkPreview Title="PathIcon" Orientation="Vertical" ContentTemplate="{StaticResource PathIconPreview}" />
+
     </Border>
   </Design.PreviewWith>
   <!-- ============================================================

@@ -6,32 +6,32 @@
         xmlns:color="using:AngelSix.ThemeEngine.Colors"
         xmlns:size="using:AngelSix.ThemeEngine.Sizes"
         xmlns:icons="using:AngelSix.ThemeEngine.Icons">
+  <!-- Rendered once per pane so light and dark each instantiate their own copies -->
+  <DataTemplate x:Key="TimePickerPreview">
+    <!-- Only the states the theme actually styles: default, no-time watermark, disabled, error -->
+    <StackPanel Orientation="Horizontal" Spacing="{size:SpacingXxl}" HorizontalAlignment="Left">
+      <TimePicker SelectedTime="14:30" />
+      <TimePicker />
+      <TimePicker SelectedTime="14:30" IsEnabled="False" />
+      <TimePicker SelectedTime="14:30">
+        <DataValidationErrors.Error>
+          <sys:Exception>
+            <x:Arguments>
+              <x:String>Error</x:String>
+            </x:Arguments>
+          </sys:Exception>
+        </DataValidationErrors.Error>
+      </TimePicker>
+    </StackPanel>
+  </DataTemplate>
+
   <Design.PreviewWith>
     <Border>
       <Border.Styles>
         <default:DefaultThemeStyles />
       </Border.Styles>
 
-      <!-- Rendered once per pane so light and dark each instantiate their own copies -->
-      <default:LightDarkPreview Title="TimePicker States" Orientation="Vertical">
-        <DataTemplate>
-          <!-- Only the states the theme actually styles: default, no-time watermark, disabled, error -->
-          <StackPanel Orientation="Horizontal" Spacing="20">
-            <TimePicker SelectedTime="14:30" />
-            <TimePicker />
-            <TimePicker SelectedTime="14:30" IsEnabled="False" />
-            <TimePicker SelectedTime="14:30">
-              <DataValidationErrors.Error>
-                <sys:Exception>
-                  <x:Arguments>
-                    <x:String>Error</x:String>
-                  </x:Arguments>
-                </sys:Exception>
-              </DataValidationErrors.Error>
-            </TimePicker>
-          </StackPanel>
-        </DataTemplate>
-      </default:LightDarkPreview>
+      <default:LightDarkPreview Title="TimePicker" Orientation="Vertical" ContentTemplate="{StaticResource TimePickerPreview}" />
     </Border>
   </Design.PreviewWith>
 

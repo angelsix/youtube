@@ -5,70 +5,72 @@
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
                     xmlns:color="using:AngelSix.ThemeEngine.Colors"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes">
+  <!-- Design preview: the shared state column, declared before Design.PreviewWith uses it.
+       Vertical stacks five 200px boxes so none spills past a half-width pane -->
+  <DataTemplate x:Key="AutoCompleteBoxPreview">
+    <StackPanel Spacing="{size:SpacingXxl}" HorizontalAlignment="Left">
+      <AutoCompleteBox Width="200" PlaceholderText="Default">
+        <AutoCompleteBox.ItemsSource>
+          <generic:List x:TypeArguments="x:String">
+            <x:String>Apple</x:String>
+            <x:String>Banana</x:String>
+            <x:String>Cherry</x:String>
+            <x:String>Date</x:String>
+          </generic:List>
+        </AutoCompleteBox.ItemsSource>
+      </AutoCompleteBox>
+      <AutoCompleteBox Width="200" theme:Preview.State="Focused" PlaceholderText="Focused">
+        <AutoCompleteBox.ItemsSource>
+          <generic:List x:TypeArguments="x:String">
+            <x:String>Apple</x:String>
+            <x:String>Banana</x:String>
+            <x:String>Cherry</x:String>
+            <x:String>Date</x:String>
+          </generic:List>
+        </AutoCompleteBox.ItemsSource>
+      </AutoCompleteBox>
+      <!-- Non-default accent hues ride on the focused boxes so each extra instance also demos a state -->
+      <AutoCompleteBox Width="200" theme:Accent.Kind="Warning" PlaceholderText="Warn">
+        <AutoCompleteBox.ItemsSource>
+          <generic:List x:TypeArguments="x:String">
+            <x:String>Apple</x:String>
+            <x:String>Banana</x:String>
+            <x:String>Cherry</x:String>
+            <x:String>Date</x:String>
+          </generic:List>
+        </AutoCompleteBox.ItemsSource>
+      </AutoCompleteBox>
+      <AutoCompleteBox Width="200" theme:Accent.Kind="Success" PlaceholderText="Success">
+        <AutoCompleteBox.ItemsSource>
+          <generic:List x:TypeArguments="x:String">
+            <x:String>Apple</x:String>
+            <x:String>Banana</x:String>
+            <x:String>Cherry</x:String>
+            <x:String>Date</x:String>
+          </generic:List>
+        </AutoCompleteBox.ItemsSource>
+      </AutoCompleteBox>
+      <AutoCompleteBox Width="200" IsEnabled="False" Text="Disabled">
+        <AutoCompleteBox.ItemsSource>
+          <generic:List x:TypeArguments="x:String">
+            <x:String>Apple</x:String>
+            <x:String>Banana</x:String>
+            <x:String>Cherry</x:String>
+            <x:String>Date</x:String>
+          </generic:List>
+        </AutoCompleteBox.ItemsSource>
+      </AutoCompleteBox>
+    </StackPanel>
+  </DataTemplate>
+
   <Design.PreviewWith>
     <Border>
       <Border.Styles>
         <default:DefaultThemeStyles />
       </Border.Styles>
 
-      <!-- Row templated once per pane (light + dark); Vertical stacks five 200px boxes so none spills past a half-width pane -->
-      <default:LightDarkPreview Title="AutoCompleteBox States" Orientation="Vertical">
-        <DataTemplate>
-          <StackPanel Spacing="20">
-            <AutoCompleteBox Width="200" PlaceholderText="Default">
-              <AutoCompleteBox.ItemsSource>
-                <generic:List x:TypeArguments="x:String">
-                  <x:String>Apple</x:String>
-                  <x:String>Banana</x:String>
-                  <x:String>Cherry</x:String>
-                  <x:String>Date</x:String>
-                </generic:List>
-              </AutoCompleteBox.ItemsSource>
-            </AutoCompleteBox>
-            <AutoCompleteBox Width="200" theme:Preview.State="Focused" PlaceholderText="Focused">
-              <AutoCompleteBox.ItemsSource>
-                <generic:List x:TypeArguments="x:String">
-                  <x:String>Apple</x:String>
-                  <x:String>Banana</x:String>
-                  <x:String>Cherry</x:String>
-                  <x:String>Date</x:String>
-                </generic:List>
-              </AutoCompleteBox.ItemsSource>
-            </AutoCompleteBox>
-            <!-- Non-default accent hues ride on the focused boxes so each extra instance also demos a state -->
-            <AutoCompleteBox Width="200" theme:Preview.State="Focused" theme:Accent.Kind="Warning" PlaceholderText="Warn">
-              <AutoCompleteBox.ItemsSource>
-                <generic:List x:TypeArguments="x:String">
-                  <x:String>Apple</x:String>
-                  <x:String>Banana</x:String>
-                  <x:String>Cherry</x:String>
-                  <x:String>Date</x:String>
-                </generic:List>
-              </AutoCompleteBox.ItemsSource>
-            </AutoCompleteBox>
-            <AutoCompleteBox Width="200" theme:Preview.State="Focused" theme:Accent.Kind="Success" PlaceholderText="Success">
-              <AutoCompleteBox.ItemsSource>
-                <generic:List x:TypeArguments="x:String">
-                  <x:String>Apple</x:String>
-                  <x:String>Banana</x:String>
-                  <x:String>Cherry</x:String>
-                  <x:String>Date</x:String>
-                </generic:List>
-              </AutoCompleteBox.ItemsSource>
-            </AutoCompleteBox>
-            <AutoCompleteBox Width="200" IsEnabled="False" Text="Disabled">
-              <AutoCompleteBox.ItemsSource>
-                <generic:List x:TypeArguments="x:String">
-                  <x:String>Apple</x:String>
-                  <x:String>Banana</x:String>
-                  <x:String>Cherry</x:String>
-                  <x:String>Date</x:String>
-                </generic:List>
-              </AutoCompleteBox.ItemsSource>
-            </AutoCompleteBox>
-          </StackPanel>
-        </DataTemplate>
-      </default:LightDarkPreview>
+      <default:LightDarkPreview Title="AutoCompleteBox" Orientation="Vertical" ContentTemplate="{StaticResource AutoCompleteBoxPreview}" />
+
     </Border>
   </Design.PreviewWith>
 
@@ -87,18 +89,10 @@
     <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
     <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
-    <Setter Property="Padding" Value="{size:Edges All={size:SpacingMd}}" />
+    <Setter Property="Padding" Value="{size:Edges All={size:ContentPadding}}" />
     <Setter Property="MinHeight" Value="{size:ControlHeightSm}" />
     <Setter Property="MaxDropDownHeight" Value="{size:Scaled Value={size:ControlHeightSm}, By=12}" />
     <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
-
-    <!-- Press animation -->
-    <Setter Property="RenderTransform" Value="none" />
-    <Setter Property="Transitions">
-      <Transitions>
-        <TransformOperationsTransition Property="RenderTransform" Duration="{theme:AnimationFastMs}" />
-      </Transitions>
-    </Setter>
 
     <!-- Template -->
     <Setter Property="Template">

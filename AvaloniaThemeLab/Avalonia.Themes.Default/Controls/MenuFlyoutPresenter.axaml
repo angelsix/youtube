@@ -4,6 +4,27 @@
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
                     xmlns:color="using:AngelSix.ThemeEngine.Colors"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes">
+  <!-- Design preview: the presenter panel holding a couple of menu items. Declared before Design.PreviewWith uses it -->
+  <DataTemplate x:Key="MenuFlyoutPresenterPreview">
+    <StackPanel Spacing="{size:SpacingXl}" HorizontalAlignment="Left">
+      <MenuFlyoutPresenter>
+        <MenuItem Header="Open" />
+        <MenuItem Header="Duplicate" />
+      </MenuFlyoutPresenter>
+    </StackPanel>
+  </DataTemplate>
+
+  <Design.PreviewWith>
+    <Border>
+      <Border.Styles>
+        <default:DefaultThemeStyles />
+      </Border.Styles>
+
+      <default:LightDarkPreview Title="MenuFlyoutPresenter" ContentTemplate="{StaticResource MenuFlyoutPresenterPreview}" />
+
+    </Border>
+  </Design.PreviewWith>
+
   <ControlTheme x:Key="{x:Type MenuFlyoutPresenter}" TargetType="MenuFlyoutPresenter">
     <!-- Visual defaults -->
     <Setter Property="Background" Value="{color:BackgroundDefault}" />

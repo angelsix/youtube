@@ -9,36 +9,39 @@
                     xmlns:color="using:AngelSix.ThemeEngine.Colors"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes"
                     xmlns:icons="using:AngelSix.ThemeEngine.Icons"
+                    xmlns:media="clr-namespace:Avalonia.Media;assembly=Avalonia.Base"
                     mc:Ignorable="d">
+  <!-- Design preview: the shared state column, declared before Design.PreviewWith uses it. Cell states
+       (:selected/:in-range/:today) derive from the engine's own selection model, not Preview.State —
+       so each calendar packs its public options densely instead of multiplying instances -->
+  <DataTemplate x:Key="CalendarViewPreview">
+    <StackPanel Spacing="{size:SpacingXxl}" HorizontalAlignment="Left">
+      <!-- Default -->
+      <controls:CalendarView HorizontalAlignment="Stretch" />
+
+      <!-- One calendar carries every dense option at once: week-number gutter, event dots,
+           a selected range (painting :in-range days), and the Success hue tinting nav + selection -->
+      <controls:CalendarView x:DataType="design:CalendarViewDesignModel"
+                             theme:Accent.Kind="Primary"
+                             IsWeekNumberVisible="True"
+                             SelectedDate="2026-09-18"
+                             RangeStart="2026-09-14"
+                             RangeEnd="2026-09-25"
+                             DataContext="{x:Static design:CalendarViewDesignData.Sample}"
+                             Events="{Binding Events}" />
+      <!-- Picker chrome is a distinct surface (inline root, hover/focus rings), shown alone -->
+      <controls:CalendarView DisplayAsPicker="True" theme:Accent.Kind="Subtle" HorizontalAlignment="Stretch" />
+    </StackPanel>
+  </DataTemplate>
+
   <Design.PreviewWith>
     <Border>
       <Border.Styles>
         <default:DefaultThemeStyles />
       </Border.Styles>
-      <!-- Cell states (:selected/:in-range/:today) derive from the engine's own selection model, not Preview.State —
-           so each calendar packs its public options densely instead of multiplying instances -->
-      <default:LightDarkPreview Title="CalendarView States">
-        <DataTemplate>
-          <StackPanel Spacing="20">
-            
-            <!-- Default -->
-            <controls:CalendarView HorizontalAlignment="Stretch" />
 
-            <!-- One calendar carries every dense option at once: week-number gutter, event dots,
-                 a selected range (painting :in-range days), and the Success hue tinting nav + selection -->
-            <controls:CalendarView x:DataType="design:CalendarViewDesignModel"
-                                    theme:Accent.Kind="Primary"
-                                    IsWeekNumberVisible="True"
-                                    SelectedDate="2026-09-18"
-                                    RangeStart="2026-09-14"
-                                    RangeEnd="2026-09-25"
-                                    DataContext="{x:Static design:CalendarViewDesignData.Sample}"
-                                    Events="{Binding Events}" />
-            <!-- Picker chrome is a distinct surface (inline root, hover/focus rings), shown alone -->
-            <controls:CalendarView DisplayAsPicker="True" theme:Accent.Kind="Subtle" HorizontalAlignment="Stretch" />
-          </StackPanel>
-        </DataTemplate>
-      </default:LightDarkPreview>
+      <default:LightDarkPreview Title="CalendarView" ContentTemplate="{StaticResource CalendarViewPreview}" />
+
     </Border>
   </Design.PreviewWith>
 
@@ -117,44 +120,76 @@
     <Setter Property="HorizontalContentAlignment" Value="Center" />
     <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
     <Setter Property="FontSize" Value="{size:FontSizeMd}" />
+    <!-- Tabular figures keep each digit's advance weight-stable, so switching a day to SemiBold on
+         selection never nudges its centred number sideways -->
+    <Setter Property="FontFeatures">
+      <media:FontFeatureCollection>
+        <media:FontFeature Tag="tnum" Value="1" />
+      </media:FontFeatureCollection>
+    </Setter>
+    <!-- Tight tracking pulls a two-digit day's ink mass back towards the cell centreline: with tnum
+         every digit earns the widest digit's advance, so '12' measures 18.14px (Normal) / 18.77px
+         (SemiBold) yet its ink centroid sat +0.49px / +1.16px right of centre (measured headless,
+         Inter 14px, 2026-10-18). Tracking subtracts equally from BOTH weights, so the pair keeps
+         snapping to one shared box and the weight-stability guarantee survives: measured at -0.45,
+         -0.5 and -0.55 both weights land on the same 18px box (centre delta 0.00px), whereas -0.25
+         splits them 18px vs 19px and revives the 0.5px selection jump. Single digits lose only their
+         TRAILING tracking slot: the glyph itself never moves (rendered pixels verified byte-identical
+         before/after), so no visible offset arises. Raw double rather than a token: no spacing token
+         sits at this sub-point magnitude. -->
+    <Setter Property="LetterSpacing" Value="-0.5" />
 
     <!-- Template -->
     <Setter Property="Template">
       <ControlTemplate>
-        <!-- Filled background of the cell -->
-        <Border Name="Fill"
-                Background="{TemplateBinding Background}"
-                CornerRadius="{TemplateBinding CornerRadius}"
-                ClipToBounds="True">
-          <!-- Overlays the label and its marker dots -->
-          <Panel>
-            <!-- The day number, month or year label -->
-            <ContentPresenter Name="PART_ContentPresenter"
-                              Content="{TemplateBinding Content}"
-                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
-            <!-- Row of event dots along the cell's bottom edge -->
-            <ItemsControl Name="MarkerStrip"
-                          Theme="{StaticResource DefaultCalendarMarkerStrip}"
-                          ItemsSource="{TemplateBinding Markers}"
-                          IsHitTestVisible="False"
-                          HorizontalAlignment="Center"
-                          VerticalAlignment="Bottom">
-              <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                  <StackPanel Orientation="Horizontal" Spacing="{size:SpacingSm}" />
-                </ItemsPanelTemplate>
-              </ItemsControl.ItemsPanel>
-              <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                  <Ellipse Width="{size:RadiusMdDouble}"
-                           Height="{size:RadiusMdDouble}"
-                           Fill="{Binding}" />
-                </DataTemplate>
-              </ItemsControl.ItemTemplate>
-            </ItemsControl>
-          </Panel>
-        </Border>
+        <!-- Layout root: the filled cell plus a constant-footprint selection/focus ring laid over it -->
+        <Panel>
+          <!-- Filled background of the cell; its border stays at zero in every state so the inner
+               panel (label + marker dots) never rearranges when selection or focus changes -->
+          <Border Name="Fill"
+                  Background="{TemplateBinding Background}"
+                  CornerRadius="{TemplateBinding CornerRadius}"
+                  ClipToBounds="True">
+            <!-- Overlays the label and its marker dots -->
+            <Panel>
+              <!-- The day number, month or year label -->
+              <ContentPresenter Name="PART_ContentPresenter"
+                                Content="{TemplateBinding Content}"
+                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+              <!-- Row of event dots along the cell's bottom edge -->
+              <ItemsControl Name="MarkerStrip"
+                            Theme="{StaticResource DefaultCalendarMarkerStrip}"
+                            ItemsSource="{TemplateBinding Markers}"
+                            IsHitTestVisible="False"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Bottom">
+                <ItemsControl.ItemsPanel>
+                  <ItemsPanelTemplate>
+                    <StackPanel Orientation="Horizontal" Spacing="{size:SpacingSm}" />
+                  </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                  <DataTemplate>
+                    <!-- Small enough that a selected day's concentric ring never touches the dot -->
+                    <Ellipse Width="{size:SpacingMd}"
+                             Height="{size:SpacingMd}"
+                             Fill="{Binding}" />
+                  </DataTemplate>
+                </ItemsControl.ItemTemplate>
+              </ItemsControl>
+            </Panel>
+          </Border>
+          <!-- Selection / keyboard-focus outline: a concentric overlay painted over the fill, occupying
+               no layout space of its own so turning it on never displaces the label or the marker dots -->
+          <Border Name="SelectionRing"
+                  Margin="{size:ThicknessSm}"
+                  IsVisible="False"
+                  IsHitTestVisible="False"
+                  Background="Transparent"
+                  BorderThickness="{size:ThicknessMd}"
+                  CornerRadius="{default:ConcentricCorners Radius={TemplateBinding CornerRadius}, Stroke={size:ThicknessMd}, All=True}" />
+        </Panel>
       </ControlTemplate>
     </Setter>
 
@@ -163,9 +198,10 @@
       <Setter Property="Margin" Value="{size:ThicknessSm}" />
     </Style>
 
-    <!-- Marker strip spacing -->
+    <!-- Marker strip spacing: lifted off the bottom edge so the dots keep clear of the selection ring's
+         inner stroke wherever it paints -->
     <Style Selector="^ /template/ ItemsControl#MarkerStrip">
-      <Setter Property="Margin" Value="{size:Edges Bottom={size:SpacingSm}}" />
+      <Setter Property="Margin" Value="{size:Edges Bottom={size:SpacingMd}}" />
     </Style>
 
     <!-- Hover state -->
@@ -198,19 +234,20 @@
       <Setter Property="CornerRadius" Value="0" />
     </Style>
 
-    <!-- Keyboard focus state -->
-    <!-- Maybe redundant as overridden by Selected State? -->
-    <Style Selector="^:day-focused /template/ Border#Fill">
+    <!-- Keyboard focus state: reveal the concentric outline ring (the fill keeps its zero border) -->
+    <Style Selector="^:day-focused /template/ Border#SelectionRing">
+      <Setter Property="IsVisible" Value="True" />
       <Setter Property="BorderBrush" Value="{color:AccentFocusBrush}" />
-      <Setter Property="BorderThickness" Value="{size:ThicknessMd}" />
     </Style>
-    
-    <!-- Selected state -->
+
+    <!-- Selected state: tint the fill and reveal the concentric outline ring -->
     <Style Selector="^:selected">
       <Style Selector="^ /template/ Border#Fill">
         <Setter Property="Background" Value="{color:HoverBackgroundDefault}" />
+      </Style>
+      <Style Selector="^ /template/ Border#SelectionRing">
+        <Setter Property="IsVisible" Value="True" />
         <Setter Property="BorderBrush" Value="{color:DimTextDefault}" />
-        <Setter Property="BorderThickness" Value="{size:ThicknessMd}" />
       </Style>
       <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
         <Setter Property="Foreground" Value="{color:HoverTextDefault}" />
@@ -358,6 +395,27 @@
             </Grid>
           </Border>
 
+          <!-- Keyboard-focus outline for the inline card: a concentric overlay stretched to the control's
+               bounds and inset by its own margin so its stroke centres on the frame's inner edge. Revealed
+               on :focus-visible; constant footprint, so focusing never resizes the control or shifts content -->
+          <Border Name="InlineFocusRing"
+                  IsVisible="False"
+                  IsHitTestVisible="False"
+                  Background="Transparent"
+                  BorderBrush="{color:AccentFocusBrush}"
+                  BorderThickness="{size:ThicknessMd}"
+                  Margin="{size:ThicknessSm}"
+                  CornerRadius="{default:ConcentricCorners Radius={TemplateBinding CornerRadius}, Stroke={size:ThicknessMd}, All=True}" />
+          <!-- Focus outline for the picker frame, revealed on :picker:focus-within; same constant footprint -->
+          <Border Name="PickerFocusRing"
+                  IsVisible="False"
+                  IsHitTestVisible="False"
+                  Background="Transparent"
+                  BorderBrush="{color:AccentFocusBrush}"
+                  BorderThickness="{size:ThicknessMd}"
+                  Margin="{size:ThicknessSm}"
+                  CornerRadius="{default:ConcentricCorners Radius={TemplateBinding CornerRadius}, Stroke={size:ThicknessMd}, All=True}" />
+
           <!-- The calendar shown when picking from the text box -->
           <Popup Name="PART_Popup"
                  PlacementTarget="{TemplateBinding}"
@@ -453,16 +511,14 @@
       <Setter Property="Opacity" Value="{size:DisabledOpacity}" />
     </Style>
 
-    <!-- Focus state -->
-    <Style Selector="^:focus-visible /template/ Border#InlineRoot">
-      <Setter Property="BorderBrush" Value="{color:AccentFocusBrush}" />
-      <Setter Property="BorderThickness" Value="{size:ThicknessMd}" />
+    <!-- Focus state: reveal the inline card's concentric outline; the frame keeps its rest thickness -->
+    <Style Selector="^:focus-visible /template/ Border#InlineFocusRing">
+      <Setter Property="IsVisible" Value="True" />
     </Style>
 
-    <!-- Picker focus state -->
-    <Style Selector="^:picker:focus-within /template/ Border#PickerRoot">
-      <Setter Property="BorderBrush" Value="{color:AccentFocusBrush}" />
-      <Setter Property="BorderThickness" Value="{size:ThicknessMd}" />
+    <!-- Picker focus state: reveal the picker frame's concentric outline; the frame keeps its rest thickness -->
+    <Style Selector="^:picker:focus-within /template/ Border#PickerFocusRing">
+      <Setter Property="IsVisible" Value="True" />
     </Style>
   </ControlTheme>
 </ResourceDictionary>

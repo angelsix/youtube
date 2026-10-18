@@ -5,31 +5,32 @@
                     xmlns:color="using:AngelSix.ThemeEngine.Colors"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes"
                     xmlns:icons="using:AngelSix.ThemeEngine.Icons">
+  <!-- Design preview: core states, then hues riding on Focused (the focus ring is the only accent-colored surface). Declared before Design.PreviewWith uses it -->
+  <DataTemplate x:Key="DropDownButtonPreview">
+    <StackPanel Spacing="{size:SpacingXxl}" HorizontalAlignment="Left">
+      <StackPanel Orientation="Horizontal" Spacing="{size:SpacingXxl}">
+        <DropDownButton Content="Default" />
+        <DropDownButton theme:Preview.State="Hover" Content="Hover" />
+        <DropDownButton theme:Preview.State="Pressed" Content="Pressed" />
+        <DropDownButton theme:Preview.State="Focused" Content="Focused" />
+        <DropDownButton Content="Disabled" IsEnabled="False" />
+      </StackPanel>
+      <!-- Hues ride on Focused: the focus ring is the only accent-colored surface in this theme -->
+      <StackPanel Orientation="Horizontal" Spacing="{size:SpacingXxl}">
+        <DropDownButton theme:Preview.State="Focused" theme:Accent.Kind="Warning" Content="Warn · Focus" />
+        <DropDownButton theme:Preview.State="Focused" theme:Accent.Kind="Success" Content="OK · Focus" />
+      </StackPanel>
+    </StackPanel>
+  </DataTemplate>
+
   <Design.PreviewWith>
     <Border>
       <Border.Styles>
         <default:DefaultThemeStyles />
       </Border.Styles>
 
-      <!-- Written once as a template: light and dark panes each instantiate their own copy -->
-      <default:LightDarkPreview Title="DropDownButton States" Orientation="Vertical">
-        <DataTemplate>
-          <StackPanel Spacing="20">
-            <StackPanel Orientation="Horizontal" Spacing="20">
-              <DropDownButton Content="Default" />
-              <DropDownButton theme:Preview.State="Hover" Content="Hover" />
-              <DropDownButton theme:Preview.State="Pressed" Content="Pressed" />
-              <DropDownButton theme:Preview.State="Focused" Content="Focused" />
-              <DropDownButton Content="Disabled" IsEnabled="False" />
-            </StackPanel>
-            <!-- Hues ride on Focused: the focus ring is the only accent-colored surface in this theme -->
-            <StackPanel Orientation="Horizontal" Spacing="20">
-              <DropDownButton theme:Preview.State="Focused" theme:Accent.Kind="Warning" Content="Warn · Focus" />
-              <DropDownButton theme:Preview.State="Focused" theme:Accent.Kind="Success" Content="OK · Focus" />
-            </StackPanel>
-          </StackPanel>
-        </DataTemplate>
-      </default:LightDarkPreview>
+      <default:LightDarkPreview Title="DropDownButton" Orientation="Vertical" ContentTemplate="{StaticResource DropDownButtonPreview}" />
+
     </Border>
   </Design.PreviewWith>
 
@@ -44,7 +45,7 @@
     <Setter Property="BorderBrush" Value="{color:BorderDefault}" />
     <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
     <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
-    <Setter Property="Padding" Value="{size:Edges Horizontal={size:SpacingXl}, Vertical={size:SpacingLg}}" />
+    <Setter Property="Padding" Value="{size:Edges Horizontal={size:ContentPaddingWide}, Vertical={size:ContentPadding}}" />
     <Setter Property="MinHeight" Value="{size:ControlHeightSm}" />
     <Setter Property="MinWidth" Value="{size:ControlMinWidth}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />

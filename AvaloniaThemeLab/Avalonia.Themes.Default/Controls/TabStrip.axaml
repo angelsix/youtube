@@ -4,28 +4,28 @@
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
                     xmlns:color="using:AngelSix.ThemeEngine.Colors"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes">
+  <!-- Design preview: one strip mixing every state the theme paints. Declared before Design.PreviewWith uses it -->
+  <DataTemplate x:Key="TabStripPreview">
+    <TabStrip>
+      <!-- Baseline: DimTextDefault label, no pipe -->
+      <TabStripItem>Plain</TabStripItem>
+      <!-- :selected reveals the accent-colored pipe under the label -->
+      <TabStripItem IsSelected="True">Selected</TabStripItem>
+      <!-- :disabled recolors the label to the accent Light2 tint, like the hover/pressed branches -->
+      <TabStripItem IsEnabled="False">Disabled</TabStripItem>
+      <!-- Non-default hues: the pipe resolves {color:AccentPrimaryBrush} against each item's Accent.Kind -->
+      <TabStripItem IsSelected="True" theme:Accent.Kind="Warning">Warn</TabStripItem>
+      <TabStripItem IsSelected="True" theme:Accent.Kind="Success">Ok</TabStripItem>
+    </TabStrip>
+  </DataTemplate>
+
   <Design.PreviewWith>
     <Border>
       <Border.Styles>
         <default:DefaultThemeStyles />
       </Border.Styles>
 
-      <!-- One strip mixing every state the theme paints; written once as a template so each pane instantiates its own copy -->
-      <default:LightDarkPreview Title="Tab Strip States" Orientation="Vertical">
-        <DataTemplate>
-          <TabStrip>
-            <!-- Baseline: DimTextDefault label, no pipe -->
-            <TabStripItem>Plain</TabStripItem>
-            <!-- :selected reveals the accent-colored pipe under the label -->
-            <TabStripItem IsSelected="True">Selected</TabStripItem>
-            <!-- :disabled recolors the label to the accent Light2 tint, like the hover/pressed branches -->
-            <TabStripItem IsEnabled="False">Disabled</TabStripItem>
-            <!-- Non-default hues: the pipe resolves {color:AccentPrimaryBrush} against each item's Accent.Kind -->
-            <TabStripItem IsSelected="True" theme:Accent.Kind="Warning">Warn</TabStripItem>
-            <TabStripItem IsSelected="True" theme:Accent.Kind="Success">Ok</TabStripItem>
-          </TabStrip>
-        </DataTemplate>
-      </default:LightDarkPreview>
+      <default:LightDarkPreview Title="TabStrip" Orientation="Vertical" ContentTemplate="{StaticResource TabStripPreview}" />
 
     </Border>
   </Design.PreviewWith>

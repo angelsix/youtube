@@ -5,6 +5,28 @@
                     xmlns:color="using:AngelSix.ThemeEngine.Colors"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes"
                     >
+  <!-- Design preview: the splitter between two panes so the bar is visible. Declared before Design.PreviewWith uses it -->
+  <DataTemplate x:Key="GridSplitterPreview">
+    <StackPanel Spacing="{size:SpacingXl}" HorizontalAlignment="Left">
+      <Grid ColumnDefinitions="*, Auto, *">
+        <Border Grid.Column="0" Background="{color:BackgroundDefault}" Margin="{size:Edges All={size:SpacingSm}}" />
+        <GridSplitter Grid.Column="1" ResizeBehavior="PreviousAndNext" />
+        <Border Grid.Column="2" Background="{color:BackgroundDefault}" Margin="{size:Edges All={size:SpacingSm}}" />
+      </Grid>
+    </StackPanel>
+  </DataTemplate>
+
+  <Design.PreviewWith>
+    <Border>
+      <Border.Styles>
+        <default:DefaultThemeStyles />
+      </Border.Styles>
+
+      <default:LightDarkPreview Title="GridSplitter" ContentTemplate="{StaticResource GridSplitterPreview}" />
+
+    </Border>
+  </Design.PreviewWith>
+
     <ControlTheme x:Key="{x:Type GridSplitter}" TargetType="GridSplitter">
       <Setter Property="Focusable" Value="True" />
       <Setter Property="MinWidth" Value="6" />

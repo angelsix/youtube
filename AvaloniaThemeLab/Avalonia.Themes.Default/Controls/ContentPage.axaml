@@ -3,24 +3,25 @@
                     xmlns:default="clr-namespace:Avalonia.Themes.Default"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
                     xmlns:color="using:AngelSix.ThemeEngine.Colors">
+  <!-- Design preview: scaffold only — the theme defines no hover/press/state selectors, so the shared template shows
+       the page chrome once per pane. Declared before Design.PreviewWith uses it -->
+  <DataTemplate x:Key="ContentPagePreview">
+    <Border Width="340" Height="280">
+      <ContentPage Header="Sample Page">
+        <TextBlock Text="Content goes here"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center" />
+      </ContentPage>
+    </Border>
+  </DataTemplate>
+
   <Design.PreviewWith>
     <Border>
       <Border.Styles>
         <default:DefaultThemeStyles />
       </Border.Styles>
 
-      <!-- Scaffold only: the theme defines no hover/press/state selectors, so the shared template shows the page chrome once per pane. -->
-      <default:LightDarkPreview Title="ContentPage States" Orientation="Horizontal">
-        <DataTemplate>
-          <Border Width="340" Height="280">
-            <ContentPage Header="Sample Page">
-              <TextBlock Text="Content goes here"
-                         HorizontalAlignment="Center"
-                         VerticalAlignment="Center" />
-            </ContentPage>
-          </Border>
-        </DataTemplate>
-      </default:LightDarkPreview>
+      <default:LightDarkPreview Title="ContentPage" Orientation="Horizontal" ContentTemplate="{StaticResource ContentPagePreview}" />
     </Border>
   </Design.PreviewWith>
 

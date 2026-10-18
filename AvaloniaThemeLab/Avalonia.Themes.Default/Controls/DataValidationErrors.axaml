@@ -7,41 +7,42 @@
                     xmlns:color="using:AngelSix.ThemeEngine.Colors"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes"
                     xmlns:icons="using:AngelSix.ThemeEngine.Icons">
+  <!-- Design preview: one shared column — untouched passthrough beside real error chrome, proving the wrapper themes itself.
+       Declared before Design.PreviewWith uses it -->
+  <DataTemplate x:Key="DataValidationErrorsPreview">
+    <StackPanel Spacing="{size:SpacingXl}">
+      <!-- Clean value: the wrapper renders nothing extra around healthy content -->
+      <TextBox Text="Valid" Width="140" />
+      <!-- Single error: glyph + message in the error color beneath the field -->
+      <TextBox Text="Invalid" Width="140">
+        <DataValidationErrors.Error>
+          <sys:Exception>
+            <x:Arguments>
+              <x:String>Value is not valid</x:String>
+            </x:Arguments>
+          </sys:Exception>
+        </DataValidationErrors.Error>
+      </TextBox>
+      <!-- Long error: message wraps to two lines without stretching the field -->
+      <TextBox Text="Too long" Width="200">
+        <DataValidationErrors.Error>
+          <sys:Exception>
+            <x:Arguments>
+              <x:String>A much longer validation message that would otherwise stretch the control well beyond its natural width</x:String>
+            </x:Arguments>
+          </sys:Exception>
+        </DataValidationErrors.Error>
+      </TextBox>
+    </StackPanel>
+  </DataTemplate>
+
   <Design.PreviewWith>
     <Border>
       <Border.Styles>
         <default:DefaultThemeStyles />
       </Border.Styles>
 
-      <!-- One shared column templated per pane: untouched passthrough beside real error chrome, proving the wrapper themes itself -->
-      <default:LightDarkPreview Title="DataValidationErrors States" Orientation="Horizontal">
-        <DataTemplate>
-          <StackPanel Spacing="{size:SpacingXl}">
-            <!-- Clean value: the wrapper renders nothing extra around healthy content -->
-            <TextBox Text="Valid" Width="140" />
-            <!-- Single error: glyph + message in the error color beneath the field -->
-            <TextBox Text="Invalid" Width="140">
-              <DataValidationErrors.Error>
-                <sys:Exception>
-                  <x:Arguments>
-                    <x:String>Value is not valid</x:String>
-                  </x:Arguments>
-                </sys:Exception>
-              </DataValidationErrors.Error>
-            </TextBox>
-            <!-- Long error: message wraps to two lines without stretching the field -->
-            <TextBox Text="Too long" Width="200">
-              <DataValidationErrors.Error>
-                <sys:Exception>
-                  <x:Arguments>
-                    <x:String>A much longer validation message that would otherwise stretch the control well beyond its natural width</x:String>
-                  </x:Arguments>
-                </sys:Exception>
-              </DataValidationErrors.Error>
-            </TextBox>
-          </StackPanel>
-        </DataTemplate>
-      </default:LightDarkPreview>
+      <default:LightDarkPreview Title="DataValidationErrors" Orientation="Horizontal" ContentTemplate="{StaticResource DataValidationErrorsPreview}" />
     </Border>
   </Design.PreviewWith>
 

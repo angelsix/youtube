@@ -4,23 +4,27 @@
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
                     xmlns:color="using:AngelSix.ThemeEngine.Colors"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes">
+  <!-- Design preview: one bar mixing every top-level state the theme paints (:selected overlay, :disabled dimming, separator). The designer and the lab gallery both show this key,
+       so it is declared before Design.PreviewWith uses it. Hover/press need a live pointer -->
+  <DataTemplate x:Key="MenuPreview">
+    <StackPanel Spacing="{size:SpacingXl}" HorizontalAlignment="Left">
+      <Menu>
+        <MenuItem Header="_Standard" />
+        <MenuItem Header="_Selected" IsSelected="True" />
+        <Separator />
+        <MenuItem Header="_Disabled" IsEnabled="False" />
+      </Menu>
+    </StackPanel>
+  </DataTemplate>
+
   <Design.PreviewWith>
     <Border>
       <Border.Styles>
         <default:DefaultThemeStyles />
       </Border.Styles>
 
-      <!-- One bar mixes every top-level state the theme paints (:selected overlay, :disabled dimming, separator); hover/press need a live pointer -->
-      <default:LightDarkPreview Title="Menu States" Orientation="Horizontal">
-        <DataTemplate>
-          <Menu>
-            <MenuItem Header="_Standard" />
-            <MenuItem Header="_Selected" IsSelected="True" />
-            <Separator />
-            <MenuItem Header="_Disabled" IsEnabled="False" />
-          </Menu>
-        </DataTemplate>
-      </default:LightDarkPreview>
+      <default:LightDarkPreview Title="Menu" Orientation="Horizontal" ContentTemplate="{StaticResource MenuPreview}" />
+
     </Border>
   </Design.PreviewWith>
 

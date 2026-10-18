@@ -309,7 +309,7 @@ When you find any hard-coded color value, apply this test **before** deciding wh
 
 **Justification:** These properties fundamentally affect how a control integrates into an application's layout. If they are hard-coded inside the template, applications cannot achieve a consistent typographic and spacing rhythm across controls built from different themes. Exposing them as theme-bindable setters gives the themer full control over the app's visual harmony.
 
-**Note:** The current Button.axaml violates this rule — `FontFamily` is hard-coded to `"Courier New, $Default"` rather than using `{theme:FontFamily}`, and `Padding` is hard-coded as `"6, 4, 6, 4"` instead of `{theme:...}` values. These should be fixed.
+For `Padding` specifically, use the shared content-padding tokens rather than raw spacing steps: default content padding is `{size:ContentPadding}` (derived from the spacing ladder's default step), and button-like faces (Button, RepeatButton, ToggleButton, SplitButton, DropDownButton, HyperlinkButton) step their horizontal edges up with `{size:ContentPaddingWide}`, leaving vertical edges on `{size:ContentPadding}`.
 
 ---
 
@@ -710,6 +710,34 @@ A subclass turns it off with `public override bool WebRenderStyle => false;`, an
 - **A part that doesn't need its own fill** has none (TreeView's scroller), and a frame that must mask content clips on an inner panel, not on itself (DropDownButton).
 
 **Measured** with a supersampled corner check against Avalonia's stroke geometry, every crawler state, light and dark, at scale 1 and 2. OUT is pixels past the outer arc and RING is pixels of the stroke painted over; the second figure is scale 2. Before → after: ButtonSpinner RING 464/6154 → 0/0, ComboBox RING 2922/23938 → 0/0, CalendarView OUT 72/384 → 0/0, and the focus state of every focusable rounded control (e.g. Button RING 824/4256 → 0/0).
+
+---
+
+## Rule 20: Design Previews May Carry Literal Sample Data — Everything Else Stays Bound
+
+**Statement:** Inside a designer preview, sample *data* may be hard-coded. A preview is a design-time fixture with no view model behind it, so its job is to show the control's visual states at a glance — and binding sample data to a view model would obscure exactly the states being previewed. This relaxation applies **only** to content inside `<Design.PreviewWith>` blocks and inside `<DataTemplate x:Key="*Preview">` templates in `Controls/*.axaml`. Everywhere else — control templates, ControlTheme setters, the lab app, pages — the rules stand unchanged.
+
+**House pattern:** `Button.axaml` declares a keyed `<DataTemplate x:Key="ButtonPreview">` holding the content variants and the interactive states (via `theme:Preview.State`), then wraps `<default:LightDarkPreview>` in a `<Design.PreviewWith>` block that consumes it. Every other control adopts the same shape.
+
+**Relaxed inside previews — literal sample data is allowed:**
+
+| Kind | Example |
+|------|---------|
+| Strings | `Content="Save"`, `PlaceholderText="Default"` |
+| Numbers | `Width="200"` on a preview instance |
+| Collections | `ItemsSource` set to a generic list (`AutoCompleteBox.axaml`) |
+| Dates, URLs, enum values | any literal standing in for bound data |
+
+**Not relaxed, even inside previews — styling still flows from tokens:**
+
+| Still forbidden | Why |
+|-----------------|-----|
+| Literal hex colours or brushes | Same reason as everywhere else — a preview that ignores the theme hides what a theme swap does to the control |
+| Literal pixel dimensions where a token exists | Use `{size:...}` (spacing, radii, thicknesses) as the rest of the file does |
+| Hand-rolled control templates | A preview shows the ControlTheme's template; drawing one inline previews nothing real |
+| New resource keys that leak outside the preview | A key referenced beyond the preview escapes this rule's scope and pollutes the dictionary |
+
+**Review stance:** if a future rule feels like it needs relaxing for previews, relax it explicitly here with a one-line rationale rather than silently deviating. A deviation nobody wrote down is indistinguishable from a mistake.
 
 ---
 

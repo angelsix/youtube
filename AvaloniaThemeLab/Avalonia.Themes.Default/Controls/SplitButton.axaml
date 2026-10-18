@@ -6,37 +6,38 @@
         xmlns:color="using:AngelSix.ThemeEngine.Colors"
         xmlns:size="using:AngelSix.ThemeEngine.Sizes"
         xmlns:icons="using:AngelSix.ThemeEngine.Icons">
+  <!-- Design preview: plain faces, then the toggling variant; accent hues pair with IsChecked since they only show on the checked face. Declared before Design.PreviewWith uses it -->
+  <DataTemplate x:Key="SplitButtonPreview">
+    <StackPanel Spacing="{size:SpacingXxl}" HorizontalAlignment="Left">
+      <!-- Plain split button: neutral face versus disabled face -->
+      <StackPanel Orientation="Horizontal" Spacing="{size:SpacingXxl}">
+        <SplitButton Content="Default" />
+        <SplitButton Content="Disabled" IsEnabled="False" />
+      </StackPanel>
+
+      <!-- Toggling variant: unchecked, checked (accent fill), and checked while disabled -->
+      <StackPanel Orientation="Horizontal" Spacing="{size:SpacingXxl}">
+        <ToggleSplitButton Content="Unchecked" />
+        <ToggleSplitButton Content="Checked" IsChecked="True" />
+        <ToggleSplitButton Content="Checked Off" IsChecked="True" IsEnabled="False" />
+      </StackPanel>
+
+      <!-- Accent hue only shows on the checked face, so each pairs with IsChecked instead of standing alone -->
+      <StackPanel Orientation="Horizontal" Spacing="{size:SpacingXxl}">
+        <ToggleSplitButton Content="Warn" IsChecked="True" theme:Accent.Kind="Warning" />
+        <ToggleSplitButton Content="Success" IsChecked="True" theme:Accent.Kind="Success" />
+      </StackPanel>
+    </StackPanel>
+  </DataTemplate>
+
   <Design.PreviewWith>
     <Border>
       <Border.Styles>
         <default:DefaultThemeStyles />
       </Border.Styles>
 
-      <!-- Instantiated once per pane (light + dark); the theme paints no Preview.State hooks, so only natively-forceable states appear -->
-      <default:LightDarkPreview Title="SplitButton States" Orientation="Vertical">
-        <DataTemplate>
-          <StackPanel Spacing="20">
-            <!-- Plain split button: neutral face versus disabled face -->
-            <StackPanel Orientation="Horizontal" Spacing="20">
-              <SplitButton Content="Default" />
-              <SplitButton Content="Disabled" IsEnabled="False" />
-            </StackPanel>
+      <default:LightDarkPreview Title="SplitButton" Orientation="Vertical" ContentTemplate="{StaticResource SplitButtonPreview}" />
 
-            <!-- Toggling variant: unchecked, checked (accent fill), and checked while disabled -->
-            <StackPanel Orientation="Horizontal" Spacing="20">
-              <ToggleSplitButton Content="Unchecked" />
-              <ToggleSplitButton Content="Checked" IsChecked="True" />
-              <ToggleSplitButton Content="Checked Off" IsChecked="True" IsEnabled="False" />
-            </StackPanel>
-
-            <!-- Accent hue only shows on the checked face, so each pairs with IsChecked instead of standing alone -->
-            <StackPanel Orientation="Horizontal" Spacing="20">
-              <ToggleSplitButton Content="Warn" IsChecked="True" theme:Accent.Kind="Warning" />
-              <ToggleSplitButton Content="Success" IsChecked="True" theme:Accent.Kind="Success" />
-            </StackPanel>
-          </StackPanel>
-        </DataTemplate>
-      </default:LightDarkPreview>
     </Border>
   </Design.PreviewWith>
 
@@ -143,7 +144,7 @@
     <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
     <Setter Property="KeyboardNavigation.IsTabStop" Value="True" />
     <Setter Property="Focusable" Value="True" />
-    <Setter Property="Padding" Value="{size:Edges Horizontal={size:SpacingXl}, Vertical={size:SpacingLg}}" />
+    <Setter Property="Padding" Value="{size:Edges Horizontal={size:ContentPaddingWide}, Vertical={size:ContentPadding}}" />
     <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
     <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
     <Setter Property="Template">

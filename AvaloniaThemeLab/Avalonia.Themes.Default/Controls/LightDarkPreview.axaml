@@ -1,9 +1,27 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:p="clr-namespace:Avalonia.Themes.Default"
+                    xmlns:default="clr-namespace:Avalonia.Themes.Default"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
                     xmlns:color="using:AngelSix.ThemeEngine.Colors"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes">
+  <!-- Design preview: a representative use — a titled preview hosting a line of text in each pane.
+       Nesting a full LightDarkPreview inside its own preview would recurse, so the fixture stays minimal -->
+  <DataTemplate x:Key="LightDarkPreviewPreview">
+    <TextBlock Text="Hello, theme" />
+  </DataTemplate>
+
+  <Design.PreviewWith>
+    <Border>
+      <Border.Styles>
+        <default:DefaultThemeStyles />
+      </Border.Styles>
+
+      <p:LightDarkPreview Title="LightDarkPreview" PaneContentTemplate="{StaticResource LightDarkPreviewPreview}" />
+
+    </Border>
+  </Design.PreviewWith>
+
   <!-- One accent swatch: a dot in its own hue, ringed when it is the picked one. The item carries its
        hue as its own Accent.Kind, so a pick recolours the preview's content and never the swatches -->
   <ControlTheme x:Key="LightDarkPreviewSwatch" TargetType="ListBoxItem" x:DataType="theme:AccentKind">

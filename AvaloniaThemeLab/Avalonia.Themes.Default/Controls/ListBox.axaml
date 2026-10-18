@@ -4,39 +4,40 @@
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
                     xmlns:color="using:AngelSix.ThemeEngine.Colors"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes">
+  <!-- Design preview: vertical — three lists exceed half-pane width. The designer and the lab gallery both show this key,
+       so it is declared before Design.PreviewWith uses it. Item states ride item properties — the ListBoxItem theme has no Preview.State hooks -->
+  <DataTemplate x:Key="ListBoxPreview">
+    <StackPanel Orientation="Horizontal" Spacing="{size:SpacingXxl}">
+      <!-- Mixed-item list: every item state the ListBoxItem theme implements, forced via item properties.
+           Multiple, or single selection keeps only the last IsSelected item and clears "Selected" -->
+      <ListBox Width="180" SelectionMode="Multiple">
+        <ListBoxItem>Default</ListBoxItem>
+        <ListBoxItem IsSelected="True">Selected</ListBoxItem>
+        <ListBoxItem IsEnabled="False">Disabled</ListBoxItem>
+        <ListBoxItem IsSelected="True" IsEnabled="False">Selected · Disabled</ListBoxItem>
+      </ListBox>
+      <!-- Frame-only options compose onto one instance each: selection mode + inherited accent hue -->
+      <ListBox Width="180" SelectionMode="Multiple" theme:Accent.Kind="Warning">
+        <ListBoxItem IsSelected="True">A</ListBoxItem>
+        <ListBoxItem>B</ListBoxItem>
+        <ListBoxItem IsSelected="True">C</ListBoxItem>
+      </ListBox>
+      <!-- Toggle = ctrl-click multi-select: Avalonia 12's SelectionMode has no MultiExtended member -->
+      <ListBox Width="180" SelectionMode="Toggle" SelectedIndex="1" theme:Accent.Kind="Success">
+        <ListBoxItem>X</ListBoxItem>
+        <ListBoxItem>Y</ListBoxItem>
+        <ListBoxItem>Z</ListBoxItem>
+      </ListBox>
+    </StackPanel>
+  </DataTemplate>
+
   <Design.PreviewWith>
     <Border>
       <Border.Styles>
         <default:DefaultThemeStyles />
       </Border.Styles>
 
-      <!-- Vertical: three lists exceed half-pane width. Item states ride item properties — the ListBoxItem theme has no Preview.State hooks -->
-      <default:LightDarkPreview Title="ListBox States" Orientation="Vertical">
-        <DataTemplate>
-          <StackPanel Orientation="Horizontal" Spacing="20">
-            <!-- Mixed-item list: every item state the ListBoxItem theme implements, forced via item properties.
-                 Multiple, or single selection keeps only the last IsSelected item and clears "Selected" -->
-            <ListBox Width="180" SelectionMode="Multiple">
-              <ListBoxItem>Default</ListBoxItem>
-              <ListBoxItem IsSelected="True">Selected</ListBoxItem>
-              <ListBoxItem IsEnabled="False">Disabled</ListBoxItem>
-              <ListBoxItem IsSelected="True" IsEnabled="False">Selected · Disabled</ListBoxItem>
-            </ListBox>
-            <!-- Frame-only options compose onto one instance each: selection mode + inherited accent hue -->
-            <ListBox Width="180" SelectionMode="Multiple" theme:Accent.Kind="Warning">
-              <ListBoxItem IsSelected="True">A</ListBoxItem>
-              <ListBoxItem>B</ListBoxItem>
-              <ListBoxItem IsSelected="True">C</ListBoxItem>
-            </ListBox>
-            <!-- Toggle = ctrl-click multi-select: Avalonia 12's SelectionMode has no MultiExtended member -->
-            <ListBox Width="180" SelectionMode="Toggle" SelectedIndex="1" theme:Accent.Kind="Success">
-              <ListBoxItem>X</ListBoxItem>
-              <ListBoxItem>Y</ListBoxItem>
-              <ListBoxItem>Z</ListBoxItem>
-            </ListBox>
-          </StackPanel>
-        </DataTemplate>
-      </default:LightDarkPreview>
+      <default:LightDarkPreview Title="ListBox" Orientation="Vertical" ContentTemplate="{StaticResource ListBoxPreview}" />
 
     </Border>
   </Design.PreviewWith>

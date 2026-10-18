@@ -1,13 +1,24 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:size="using:AngelSix.ThemeEngine.Sizes"
         xmlns:default="using:Avalonia.Themes.Default"
         xmlns:vm="using:AvaloniaThemeLab.ViewModels"
         xmlns:views="using:AvaloniaThemeLab.Views"
+        mc:Ignorable="d"
         x:Class="AvaloniaThemeLab.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
         Title="AvaloniaThemeLab"
         Width="1200" Height="800">
+  <!-- Design-time data context: the previewer runtime-loads this file and binds the window's
+       DataContext to this element (Design.ApplyDesignModeProperties), so the gallery populates
+       without the desktop start-up that normally wires it. It is the real view model: its
+       parameterless design-time constructor reaches the booted app's catalogue, so the preview
+       shows the full control list exactly like the running app -->
+  <Design.DataContext>
+    <vm:MainWindowViewModel />
+  </Design.DataContext>
   <Window.Styles>
     <!-- The page's inset inside its viewer is the page's Margin: a viewer's Padding is left out of its scroll extent -->
     <Style Selector="ScrollViewer#PageHost > :is(ContentControl)">
@@ -20,14 +31,24 @@
     <TextBox Grid.Row="0" Grid.Column="0" Text="{Binding SearchText}" PlaceholderText="Search controls"
              HorizontalAlignment="Stretch" />
     <ListBox Grid.Row="1" Grid.Column="0" Width="{size:SurfaceWidthSm}"
-             ItemsSource="{Binding Catalogue.Entries}" SelectedItem="{Binding SelectedEntry}"
-             DisplayMemberBinding="{Binding Name, DataType=vm:GalleryEntryViewModel}" />
-    <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding SelectedEntry.Name}" />
+             ItemsSource="{Binding Catalogue.Entries}" SelectedItem="{Binding SelectedEntry}">
+      <!-- One template for every entry kind (both derive GalleryEntryViewModel.Name). A bare
+           {Binding DataType=} in DisplayMemberBinding is a template-shaped slot the compiled-binding
+           tooling cannot resolve; a real DataTemplate carries the type instead. x:DataType is the
+           compiled-binding scope (the DataType property is only the template's match key) -->
+      <ListBox.ItemTemplate>
+        <DataTemplate DataType="vm:GalleryEntryViewModel" x:DataType="vm:GalleryEntryViewModel">
+          <TextBlock Text="{Binding Name}" />
+        </DataTemplate>
+      </ListBox.ItemTemplate>
+    </ListBox>
+    <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding SelectedEntry?.Name}" />
     <ScrollViewer x:Name="PageHost" Grid.Row="1" Grid.Column="1" Content="{Binding SelectedEntry}">
       <ScrollViewer.DataTemplates>
         <!-- Control shown by its theme preview: light and dark halves side by side, each preview centred in its half,
-             with the accent picker in each half's header -->
-        <DataTemplate DataType="vm:ControlEntryViewModel">
+             with the accent picker in each half's header. DataType is the template's match key;
+             x:DataType is the compiled-binding scope for its bindings -->
+        <DataTemplate DataType="vm:ControlEntryViewModel" x:DataType="vm:ControlEntryViewModel">
           <default:LightDarkPreview Title="{Binding Name}" Orientation="Horizontal" HorizontalContentAlignment="Center" IsAccentPickerVisible="True"
                                     ContentTemplate="{Binding ControlType, Converter={StaticResource PreviewTemplateConverter}}" />
         </DataTemplate>

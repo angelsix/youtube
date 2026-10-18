@@ -5,27 +5,29 @@
     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
     xmlns:color="using:AngelSix.ThemeEngine.Colors"
     xmlns:size="using:AngelSix.ThemeEngine.Sizes">
+  <!-- Design preview: one shared row instantiated per pane; :pressed/:disabled render identically to
+       :pointerover so they fold into Hover. Declared before Design.PreviewWith uses it -->
+  <DataTemplate x:Key="TabItemPreview">
+    <StackPanel Orientation="Horizontal" Spacing="{size:SpacingXxl}">
+      <TabItem Header="Default" />
+      <TabItem Header="Hover" theme:Preview.State="Hover" />
+      <TabItem Header="Disabled" IsEnabled="False" />
+      <TabItem Header="Selected" IsSelected="True" />
+      <TabItem Header="Sel + Hover" IsSelected="True" theme:Preview.State="Hover" />
+      <TabItem Header="Warn" IsSelected="True" theme:Accent.Kind="Warning" />
+      <TabItem Header="OK" IsSelected="True" theme:Accent.Kind="Success" />
+      <!-- Placement variants live in the TabControl preview: TabStripPlacement's setter is not public on a bare item -->
+    </StackPanel>
+  </DataTemplate>
+
   <Design.PreviewWith>
     <Border>
       <Border.Styles>
         <default:DefaultThemeStyles />
       </Border.Styles>
 
-      <!-- One shared row instantiated per pane; :pressed/:disabled render identically to :pointerover so they fold into Hover -->
-      <default:LightDarkPreview Title="TabItem States" Orientation="Vertical">
-        <DataTemplate>
-          <StackPanel Orientation="Horizontal" Spacing="20">
-            <TabItem Header="Default" />
-            <TabItem Header="Hover" theme:Preview.State="Hover" />
-            <TabItem Header="Disabled" IsEnabled="False" />
-            <TabItem Header="Selected" IsSelected="True" />
-            <TabItem Header="Sel + Hover" IsSelected="True" theme:Preview.State="Hover" />
-            <TabItem Header="Warn" IsSelected="True" theme:Accent.Kind="Warning" />
-            <TabItem Header="OK" IsSelected="True" theme:Accent.Kind="Success" />
-            <!-- Placement variants live in the TabControl preview: TabStripPlacement's setter is not public on a bare item -->
-          </StackPanel>
-        </DataTemplate>
-      </default:LightDarkPreview>
+      <default:LightDarkPreview Title="TabItem" Orientation="Vertical" ContentTemplate="{StaticResource TabItemPreview}" />
+
     </Border>
   </Design.PreviewWith>
 

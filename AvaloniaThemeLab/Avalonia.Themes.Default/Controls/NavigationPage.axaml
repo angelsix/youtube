@@ -5,20 +5,23 @@
                     xmlns:color="using:AngelSix.ThemeEngine.Colors"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes"
                     xmlns:icons="using:AngelSix.ThemeEngine.Icons">
+  <!-- Design preview: the bare scaffold. The designer and the lab gallery both show this key,
+       so it is declared before Design.PreviewWith uses it -->
+  <DataTemplate x:Key="NavigationPagePreview">
+    <!-- Back button, header title and command bars bind to the live navigation stack, so a static preview shows the bare scaffold once per pane -->
+    <Border Width="340" Height="300">
+      <NavigationPage />
+    </Border>
+  </DataTemplate>
+
   <Design.PreviewWith>
     <Border>
       <Border.Styles>
         <default:DefaultThemeStyles />
       </Border.Styles>
 
-      <!-- Chrome demo: back button, header title and command bars bind to the live navigation stack, so a static preview shows the bare scaffold once per pane. -->
-      <default:LightDarkPreview Title="NavigationPage States" Orientation="Horizontal">
-        <DataTemplate>
-          <Border Width="340" Height="300">
-            <NavigationPage />
-          </Border>
-        </DataTemplate>
-      </default:LightDarkPreview>
+      <default:LightDarkPreview Title="NavigationPage" Orientation="Horizontal" ContentTemplate="{StaticResource NavigationPagePreview}" />
+
     </Border>
   </Design.PreviewWith>
 

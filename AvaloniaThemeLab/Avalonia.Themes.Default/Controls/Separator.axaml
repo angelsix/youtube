@@ -4,6 +4,24 @@
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
                     xmlns:color="using:AngelSix.ThemeEngine.Colors"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes">
+  <!-- Design preview: one horizontal separator. Declared before Design.PreviewWith uses it -->
+  <DataTemplate x:Key="SeparatorPreview">
+    <StackPanel Spacing="{size:SpacingXl}" HorizontalAlignment="Left">
+      <Separator />
+    </StackPanel>
+  </DataTemplate>
+
+  <Design.PreviewWith>
+    <Border>
+      <Border.Styles>
+        <default:DefaultThemeStyles />
+      </Border.Styles>
+
+      <default:LightDarkPreview Title="Separator" ContentTemplate="{StaticResource SeparatorPreview}" />
+
+    </Border>
+  </Design.PreviewWith>
+
   <ControlTheme x:Key="{x:Type Separator}" TargetType="Separator">
     <!-- Visual defaults -->
     <Setter Property="Background" Value="{color:AccentBrush Light6}" />

@@ -8,34 +8,36 @@
         xmlns:color="using:AngelSix.ThemeEngine.Colors"
         xmlns:size="using:AngelSix.ThemeEngine.Sizes"
         xmlns:icons="using:AngelSix.ThemeEngine.Icons">
+  <!-- Design preview: authored once; each pane (light + dark) instantiates its own independent copy. The designer and the lab gallery both show this key,
+       so it is declared before Design.PreviewWith uses it -->
+  <DataTemplate x:Key="ManagedFileChooserPreview">
+    <StackPanel Orientation="Vertical" Spacing="{size:SpacingXxl}">
+      <!-- Full picker surface; its ControlTheme applies implicitly by type -->
+      <dialogs:ManagedFileChooser MinHeight="240"/>
+
+      <!-- Row-selection theme, proven with one forced-selected entry -->
+      <ListBox Theme="{StaticResource DefaultManagedFileChooserQuickLinks}"
+               SelectedIndex="1" Focusable="False" MaxWidth="200" HorizontalAlignment="Left">
+        <ListBox.Items>
+          <TextBlock Text="Documents"/>
+          <TextBlock Text="Downloads"/>
+          <TextBlock Text="Pictures"/>
+        </ListBox.Items>
+      </ListBox>
+
+      <!-- Overwrite-prompt theme: generically-accented confirm button -->
+      <dialogs:ManagedFileChooserOverwritePrompt HorizontalAlignment="Left"/>
+    </StackPanel>
+  </DataTemplate>
+
   <Design.PreviewWith>
     <Border>
       <Border.Styles>
         <default:DefaultThemeStyles />
       </Border.Styles>
 
-      <!-- Authored once; each pane (light + dark) instantiates its own independent copy -->
-      <default:LightDarkPreview Title="Managed File Chooser States" Orientation="Vertical">
-        <DataTemplate>
-          <StackPanel Orientation="Vertical" Spacing="16">
-            <!-- Full picker surface; its ControlTheme applies implicitly by type -->
-            <dialogs:ManagedFileChooser MinHeight="240"/>
+      <default:LightDarkPreview Title="ManagedFileChooser" Orientation="Vertical" ContentTemplate="{StaticResource ManagedFileChooserPreview}" />
 
-            <!-- Row-selection theme, proven with one forced-selected entry -->
-            <ListBox Theme="{StaticResource DefaultManagedFileChooserQuickLinks}"
-                     SelectedIndex="1" Focusable="False" MaxWidth="200" HorizontalAlignment="Left">
-              <ListBox.Items>
-                <TextBlock Text="Documents"/>
-                <TextBlock Text="Downloads"/>
-                <TextBlock Text="Pictures"/>
-              </ListBox.Items>
-            </ListBox>
-
-            <!-- Overwrite-prompt theme: generically-accented confirm button -->
-            <dialogs:ManagedFileChooserOverwritePrompt HorizontalAlignment="Left"/>
-          </StackPanel>
-        </DataTemplate>
-      </default:LightDarkPreview>
     </Border>
   </Design.PreviewWith>
 

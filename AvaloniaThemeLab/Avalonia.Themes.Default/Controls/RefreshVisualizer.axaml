@@ -5,6 +5,24 @@
                     xmlns:color="using:AngelSix.ThemeEngine.Colors"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes"
                     xmlns:icons="using:AngelSix.ThemeEngine.Icons">
+  <!-- Design preview: the spinner standalone at a fixed small size. Declared before Design.PreviewWith uses it -->
+  <DataTemplate x:Key="RefreshVisualizerPreview">
+    <StackPanel Spacing="{size:SpacingXl}" HorizontalAlignment="Left">
+      <RefreshVisualizer Width="{size:IconSizeMd}" Height="{size:IconSizeMd}" />
+    </StackPanel>
+  </DataTemplate>
+
+  <Design.PreviewWith>
+    <Border>
+      <Border.Styles>
+        <default:DefaultThemeStyles />
+      </Border.Styles>
+
+      <default:LightDarkPreview Title="RefreshVisualizer" ContentTemplate="{StaticResource RefreshVisualizerPreview}" />
+
+    </Border>
+  </Design.PreviewWith>
+
   <ControlTheme x:Key="{x:Type RefreshVisualizer}"
                 TargetType="RefreshVisualizer">
     <!-- Visual defaults -->

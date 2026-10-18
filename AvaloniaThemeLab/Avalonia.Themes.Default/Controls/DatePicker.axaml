@@ -6,34 +6,36 @@
                     xmlns:color="using:AngelSix.ThemeEngine.Colors"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes"
                     xmlns:icons="using:AngelSix.ThemeEngine.Icons">
+  <!-- Design preview: dated and undated pickers, then the states the theme really paints. The designer and the lab gallery both show this key,
+       so it is declared before Design.PreviewWith uses it. One column per pane; the theme exposes no Preview.State hooks for hover/press/focus -->
+  <DataTemplate x:Key="DatePickerPreview">
+    <StackPanel Spacing="{size:SpacingXl}">
+      <DatePicker SelectedDate="2026-09-18" />
+      <DatePicker />
+      <DatePicker SelectedDate="2026-09-18" IsEnabled="False" />
+      <DatePicker SelectedDate="2026-09-18" theme:Accent.Kind="Warning" />
+      <DatePicker SelectedDate="2026-09-18" theme:Accent.Kind="Success" IsEnabled="False" />
+      <!-- Dated so only the error border differs from the default -->
+      <DatePicker SelectedDate="2026-09-18">
+        <DataValidationErrors.Error>
+          <sys:Exception>
+            <x:Arguments>
+              <x:String>Error</x:String>
+            </x:Arguments>
+          </sys:Exception>
+        </DataValidationErrors.Error>
+      </DatePicker>
+    </StackPanel>
+  </DataTemplate>
+
   <Design.PreviewWith>
     <Border>
       <Border.Styles>
         <default:DefaultThemeStyles />
       </Border.Styles>
 
-      <!-- One column per pane; the theme exposes no Preview.State hooks for hover/press/focus, so only the states it really paints are shown -->
-      <default:LightDarkPreview Title="DatePicker States" Orientation="Horizontal">
-        <DataTemplate>
-          <StackPanel Spacing="{size:SpacingXl}">
-            <DatePicker SelectedDate="2026-09-18" />
-            <DatePicker />
-            <DatePicker SelectedDate="2026-09-18" IsEnabled="False" />
-            <DatePicker SelectedDate="2026-09-18" theme:Accent.Kind="Warning" />
-            <DatePicker SelectedDate="2026-09-18" theme:Accent.Kind="Success" IsEnabled="False" />
-            <!-- Dated so only the error border differs from the default -->
-            <DatePicker SelectedDate="2026-09-18">
-              <DataValidationErrors.Error>
-                <sys:Exception>
-                  <x:Arguments>
-                    <x:String>Error</x:String>
-                  </x:Arguments>
-                </sys:Exception>
-              </DataValidationErrors.Error>
-            </DatePicker>
-          </StackPanel>
-        </DataTemplate>
-      </default:LightDarkPreview>
+      <default:LightDarkPreview Title="DatePicker" Orientation="Horizontal" ContentTemplate="{StaticResource DatePickerPreview}" />
+
     </Border>
   </Design.PreviewWith>
 

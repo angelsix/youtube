@@ -6,88 +6,88 @@
                     xmlns:color="using:AngelSix.ThemeEngine.Colors"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes"
                     xmlns:icons="using:AngelSix.ThemeEngine.Icons">
+  <!-- Design preview: the full state matrix authored once; each pane (light/dark) builds its own copy -->
+  <DataTemplate x:Key="ComboBoxPreview">
+    <StackPanel Spacing="{size:SpacingXl}">
+      <!-- Empty prompt beside a filled selection: the two resting faces -->
+      <ComboBox Width="180" PlaceholderText="Select…">
+        <ComboBoxItem>One</ComboBoxItem>
+        <ComboBoxItem>Two</ComboBoxItem>
+        <ComboBoxItem>Three</ComboBoxItem>
+      </ComboBox>
+      <ComboBox Width="180" SelectedIndex="1">
+        <ComboBoxItem>One</ComboBoxItem>
+        <ComboBoxItem>Two</ComboBoxItem>
+        <ComboBoxItem>Three</ComboBoxItem>
+      </ComboBox>
+      <!-- Opening the box exposes the popup frame and item list -->
+      <ComboBox Width="180" SelectedIndex="1" IsDropDownOpen="True">
+        <ComboBoxItem>One</ComboBoxItem>
+        <ComboBoxItem>Two</ComboBoxItem>
+        <ComboBoxItem>Three</ComboBoxItem>
+      </ComboBox>
+      <!-- Pointer and focus states, each holding a selection so the value stays readable -->
+      <ComboBox Width="180" SelectedIndex="1" theme:Preview.State="Hover">
+        <ComboBoxItem>One</ComboBoxItem>
+        <ComboBoxItem>Two</ComboBoxItem>
+        <ComboBoxItem>Three</ComboBoxItem>
+      </ComboBox>
+      <ComboBox Width="180" SelectedIndex="1" theme:Preview.State="Pressed">
+        <ComboBoxItem>One</ComboBoxItem>
+        <ComboBoxItem>Two</ComboBoxItem>
+        <ComboBoxItem>Three</ComboBoxItem>
+      </ComboBox>
+      <ComboBox Width="180" SelectedIndex="1" theme:Preview.State="Focused">
+        <ComboBoxItem>One</ComboBoxItem>
+        <ComboBoxItem>Two</ComboBoxItem>
+        <ComboBoxItem>Three</ComboBoxItem>
+      </ComboBox>
+      <!-- Repeat the focus wash in two hues to prove accents resolve generically -->
+      <ComboBox Width="180" SelectedIndex="1" theme:Preview.State="Focused" theme:Accent.Kind="Warning">
+        <ComboBoxItem>One</ComboBoxItem>
+        <ComboBoxItem>Two</ComboBoxItem>
+        <ComboBoxItem>Three</ComboBoxItem>
+      </ComboBox>
+      <ComboBox Width="180" SelectedIndex="1" theme:Preview.State="Focused" theme:Accent.Kind="Success">
+        <ComboBoxItem>One</ComboBoxItem>
+        <ComboBoxItem>Two</ComboBoxItem>
+        <ComboBoxItem>Three</ComboBoxItem>
+      </ComboBox>
+      <!-- Greyed-out, unusable input -->
+      <ComboBox Width="180" SelectedIndex="1" IsEnabled="False">
+        <ComboBoxItem>One</ComboBoxItem>
+        <ComboBoxItem>Two</ComboBoxItem>
+        <ComboBoxItem>Three</ComboBoxItem>
+      </ComboBox>
+      <!-- Failed validation lights the error border -->
+      <ComboBox Width="180" SelectedIndex="1">
+        <DataValidationErrors.Error>
+          <sys:Exception>
+            <x:Arguments>
+              <x:String>Error</x:String>
+            </x:Arguments>
+          </sys:Exception>
+        </DataValidationErrors.Error>
+        <ComboBoxItem>One</ComboBoxItem>
+        <ComboBoxItem>Two</ComboBoxItem>
+        <ComboBoxItem>Three</ComboBoxItem>
+      </ComboBox>
+      <!-- Free-text mode swaps the picker face for a TextBox -->
+      <ComboBox Width="180" SelectedIndex="1" IsEditable="True">
+        <ComboBoxItem>One</ComboBoxItem>
+        <ComboBoxItem>Two</ComboBoxItem>
+        <ComboBoxItem>Three</ComboBoxItem>
+      </ComboBox>
+    </StackPanel>
+  </DataTemplate>
+
   <Design.PreviewWith>
     <Border>
       <Border.Styles>
         <default:DefaultThemeStyles />
       </Border.Styles>
 
-      <!-- Authored once; each pane (light/dark) builds its own copy of the matrix -->
-      <default:LightDarkPreview Title="ComboBox States" Orientation="Horizontal">
-        <DataTemplate>
-          <StackPanel Spacing="{size:SpacingXl}">
-            <!-- Empty prompt beside a filled selection: the two resting faces -->
-            <ComboBox Width="180" PlaceholderText="Select…">
-              <ComboBoxItem>One</ComboBoxItem>
-              <ComboBoxItem>Two</ComboBoxItem>
-              <ComboBoxItem>Three</ComboBoxItem>
-            </ComboBox>
-            <ComboBox Width="180" SelectedIndex="1">
-              <ComboBoxItem>One</ComboBoxItem>
-              <ComboBoxItem>Two</ComboBoxItem>
-              <ComboBoxItem>Three</ComboBoxItem>
-            </ComboBox>
-            <!-- Opening the box exposes the popup frame and item list -->
-            <ComboBox Width="180" SelectedIndex="1" IsDropDownOpen="True">
-              <ComboBoxItem>One</ComboBoxItem>
-              <ComboBoxItem>Two</ComboBoxItem>
-              <ComboBoxItem>Three</ComboBoxItem>
-            </ComboBox>
-            <!-- Pointer and focus states, each holding a selection so the value stays readable -->
-            <ComboBox Width="180" SelectedIndex="1" theme:Preview.State="Hover">
-              <ComboBoxItem>One</ComboBoxItem>
-              <ComboBoxItem>Two</ComboBoxItem>
-              <ComboBoxItem>Three</ComboBoxItem>
-            </ComboBox>
-            <ComboBox Width="180" SelectedIndex="1" theme:Preview.State="Pressed">
-              <ComboBoxItem>One</ComboBoxItem>
-              <ComboBoxItem>Two</ComboBoxItem>
-              <ComboBoxItem>Three</ComboBoxItem>
-            </ComboBox>
-            <ComboBox Width="180" SelectedIndex="1" theme:Preview.State="Focused">
-              <ComboBoxItem>One</ComboBoxItem>
-              <ComboBoxItem>Two</ComboBoxItem>
-              <ComboBoxItem>Three</ComboBoxItem>
-            </ComboBox>
-            <!-- Repeat the focus wash in two hues to prove accents resolve generically -->
-            <ComboBox Width="180" SelectedIndex="1" theme:Preview.State="Focused" theme:Accent.Kind="Warning">
-              <ComboBoxItem>One</ComboBoxItem>
-              <ComboBoxItem>Two</ComboBoxItem>
-              <ComboBoxItem>Three</ComboBoxItem>
-            </ComboBox>
-            <ComboBox Width="180" SelectedIndex="1" theme:Preview.State="Focused" theme:Accent.Kind="Success">
-              <ComboBoxItem>One</ComboBoxItem>
-              <ComboBoxItem>Two</ComboBoxItem>
-              <ComboBoxItem>Three</ComboBoxItem>
-            </ComboBox>
-            <!-- Greyed-out, unusable input -->
-            <ComboBox Width="180" SelectedIndex="1" IsEnabled="False">
-              <ComboBoxItem>One</ComboBoxItem>
-              <ComboBoxItem>Two</ComboBoxItem>
-              <ComboBoxItem>Three</ComboBoxItem>
-            </ComboBox>
-            <!-- Failed validation lights the error border -->
-            <ComboBox Width="180" SelectedIndex="1">
-              <DataValidationErrors.Error>
-                <sys:Exception>
-                  <x:Arguments>
-                    <x:String>Error</x:String>
-                  </x:Arguments>
-                </sys:Exception>
-              </DataValidationErrors.Error>
-              <ComboBoxItem>One</ComboBoxItem>
-              <ComboBoxItem>Two</ComboBoxItem>
-              <ComboBoxItem>Three</ComboBoxItem>
-            </ComboBox>
-            <!-- Free-text mode swaps the picker face for a TextBox -->
-            <ComboBox Width="180" SelectedIndex="1" IsEditable="True">
-              <ComboBoxItem>One</ComboBoxItem>
-              <ComboBoxItem>Two</ComboBoxItem>
-              <ComboBoxItem>Three</ComboBoxItem>
-            </ComboBox>
-          </StackPanel>
-        </DataTemplate>
-      </default:LightDarkPreview>
+      <default:LightDarkPreview Title="ComboBox" Orientation="Horizontal" ContentTemplate="{StaticResource ComboBoxPreview}" />
     </Border>
   </Design.PreviewWith>
 

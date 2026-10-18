@@ -25,6 +25,24 @@ public sealed class GalleryCatalogue
         Entries = new ObservableCollection<GalleryEntryViewModel>(_allEntries);
     }
 
+    // Seeded entries only: the designer cannot run discovery (no service container, no running
+    // application), so a design-time view model builds its catalogue through this door instead.
+    private GalleryCatalogue(IReadOnlyList<GalleryEntryViewModel> entries)
+    {
+        _allEntries = entries;
+        Entries = new ObservableCollection<GalleryEntryViewModel>(entries);
+    }
+
+    /// <summary>A small fixed catalogue for design tools: enough variety to exercise both ways a
+    /// page renders (theme preview template and hand-written page) without discovering anything.</summary>
+    public static GalleryCatalogue CreateForDesign() => new([
+        new ControlEntryViewModel(typeof(Avalonia.Controls.Button)),
+        new ControlEntryViewModel(typeof(Avalonia.Controls.Carousel)),
+        new ControlEntryViewModel(typeof(Avalonia.Controls.TextBox)),
+        new PageEntryViewModel(typeof(Avalonia.Controls.Label), typeof(Pages.LabelPage)),
+        new PageEntryViewModel(typeof(Avalonia.Controls.Separator), typeof(Pages.SeparatorPage)),
+    ]);
+
     /// <summary>The catalogue entries currently shown by the main window.</summary>
     public ObservableCollection<GalleryEntryViewModel> Entries { get; }
 
@@ -47,16 +65,18 @@ public sealed class GalleryCatalogue
 
         foreach (var controlType in DiscoverThemedControlTypes(app).OrderBy(type => type.Name, StringComparer.Ordinal))
         {
-            var pageType = FindPageType(controlType);
-            if (pageType is not null)
+            // The theme's {Name}Preview template is the single source of truth for what a control
+            // looks like, so the gallery prefers it; a hand-written page exists only where the
+            // theme supplies no preview (or for the few pages that demo more than appearance).
+            if (HasPreviewTemplate(app, controlType))
+            {
+                entries.Add(new ControlEntryViewModel(controlType));
+            }
+            else if (FindPageType(controlType) is { } pageType)
             {
                 entries.Add(specializedPages.TryGetValue(pageType, out var page)
                     ? page
                     : new PageEntryViewModel(controlType, pageType));
-            }
-            else if (HasPreviewTemplate(app, controlType))
-            {
-                entries.Add(new ControlEntryViewModel(controlType));
             }
         }
 

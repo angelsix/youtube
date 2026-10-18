@@ -4,20 +4,20 @@
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
                     xmlns:color="using:AngelSix.ThemeEngine.Colors"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes">
+  <!-- Default grip only: the :caret/:start/:end variants are set internally by TextBox during a live drag -->
+  <DataTemplate x:Key="TextSelectionHandlePreview">
+    <StackPanel Orientation="Horizontal" Spacing="{size:SpacingXxl}" HorizontalAlignment="Left">
+      <TextSelectionHandle />
+    </StackPanel>
+  </DataTemplate>
+
   <Design.PreviewWith>
     <Border>
       <Border.Styles>
         <default:DefaultThemeStyles />
       </Border.Styles>
 
-      <!-- Default grip only: the :caret/:start/:end variants are set internally by TextBox during a live drag -->
-      <default:LightDarkPreview Title="TextSelectionHandle States" Orientation="Horizontal">
-        <DataTemplate>
-          <StackPanel Orientation="Horizontal" Spacing="16">
-            <TextSelectionHandle />
-          </StackPanel>
-        </DataTemplate>
-      </default:LightDarkPreview>
+      <default:LightDarkPreview Title="TextSelectionHandle" Orientation="Horizontal" ContentTemplate="{StaticResource TextSelectionHandlePreview}" />
     </Border>
   </Design.PreviewWith>
 

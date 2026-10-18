@@ -7,48 +7,49 @@
                     xmlns:icons="using:AngelSix.ThemeEngine.Icons"
                     xmlns:converters="using:Avalonia.Controls.Converters">
 
+  <!-- Design preview: one column per pane — expanders stack, as they do on a page. The designer and the lab gallery both show this key,
+       so it is declared before Design.PreviewWith uses it. Default direction carries every interaction state; the theme defines no :focus selector -->
+  <DataTemplate x:Key="ExpanderPreview">
+    <StackPanel Spacing="{size:SpacingXl}">
+      <Expander Header="Collapsed">
+        <TextBlock>Content</TextBlock>
+      </Expander>
+      <Expander Header="Expanded" IsExpanded="True">
+        <TextBlock>Content</TextBlock>
+      </Expander>
+      <Expander Header="Hover" theme:Preview.State="Hover">
+        <TextBlock>Content</TextBlock>
+      </Expander>
+      <Expander Header="Pressed" theme:Preview.State="Pressed">
+        <TextBlock>Content</TextBlock>
+      </Expander>
+      <Expander Header="Disabled" IsEnabled="False">
+        <TextBlock>Content</TextBlock>
+      </Expander>
+      <Expander Header="Success Expanded" IsExpanded="True" theme:Accent.Kind="Success">
+        <TextBlock>Content</TextBlock>
+      </Expander>
+      <!-- Remaining directions fold in the second hue and a state composition -->
+      <Expander ExpandDirection="Up" Header="Up Collapsed" theme:Accent.Kind="Warning">
+        <TextBlock>Content</TextBlock>
+      </Expander>
+      <Expander ExpandDirection="Left" Header="Left Expanded" IsExpanded="True">
+        <TextBlock>Content</TextBlock>
+      </Expander>
+      <Expander ExpandDirection="Right" Header="Right Hover" theme:Preview.State="Hover">
+        <TextBlock>Content</TextBlock>
+      </Expander>
+    </StackPanel>
+  </DataTemplate>
+
   <Design.PreviewWith>
     <Border>
       <Border.Styles>
         <default:DefaultThemeStyles />
       </Border.Styles>
 
-      <!-- One column per pane: expanders stack, as they do on a page -->
-      <default:LightDarkPreview Title="Expander States" Orientation="Horizontal">
-        <DataTemplate>
-          <StackPanel Spacing="{size:SpacingXl}">
-            <!-- Default direction carries every interaction state; the theme defines no :focus selector -->
-            <Expander Header="Collapsed">
-              <TextBlock>Content</TextBlock>
-            </Expander>
-            <Expander Header="Expanded" IsExpanded="True">
-              <TextBlock>Content</TextBlock>
-            </Expander>
-            <Expander Header="Hover" theme:Preview.State="Hover">
-              <TextBlock>Content</TextBlock>
-            </Expander>
-            <Expander Header="Pressed" theme:Preview.State="Pressed">
-              <TextBlock>Content</TextBlock>
-            </Expander>
-            <Expander Header="Disabled" IsEnabled="False">
-              <TextBlock>Content</TextBlock>
-            </Expander>
-            <Expander Header="Success Expanded" IsExpanded="True" theme:Accent.Kind="Success">
-              <TextBlock>Content</TextBlock>
-            </Expander>
-            <!-- Remaining directions fold in the second hue and a state composition -->
-            <Expander ExpandDirection="Up" Header="Up Collapsed" theme:Accent.Kind="Warning">
-              <TextBlock>Content</TextBlock>
-            </Expander>
-            <Expander ExpandDirection="Left" Header="Left Expanded" IsExpanded="True">
-              <TextBlock>Content</TextBlock>
-            </Expander>
-            <Expander ExpandDirection="Right" Header="Right Hover" theme:Preview.State="Hover">
-              <TextBlock>Content</TextBlock>
-            </Expander>
-          </StackPanel>
-        </DataTemplate>
-      </default:LightDarkPreview>
+      <default:LightDarkPreview Title="Expander" Orientation="Horizontal" ContentTemplate="{StaticResource ExpanderPreview}" />
+
     </Border>
   </Design.PreviewWith>
 

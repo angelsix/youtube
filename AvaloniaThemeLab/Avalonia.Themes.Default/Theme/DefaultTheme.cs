@@ -250,6 +250,22 @@ public partial class DefaultTheme
     /// </summary>
     public virtual double ControlMinWidth => 64 * BaseSize;
 
+    /// <summary>
+    /// The default content padding for interactive controls: the breathing room between a control's
+    /// border and its content. Derived from the spacing ladder's default step, so retuning spacing
+    /// retunes padding with it. Compose per-edge with {size:Edges}; button-like faces step the
+    /// horizontal edges up with <see cref="ContentPaddingWide"/>.
+    /// </summary>
+    public virtual double ContentPadding => SpacingLg;
+
+    /// <summary>
+    /// The horizontal content padding for button-like faces (Button, RepeatButton, ToggleButton,
+    /// SplitButton, DropDownButton, HyperlinkButton): one spacing-ladder step above
+    /// <see cref="ContentPadding"/>, because a wide face reads better with a wide label gap.
+    /// Vertical edges stay on <see cref="ContentPadding"/>.
+    /// </summary>
+    public virtual double ContentPaddingWide => SpacingXl;
+
     // Typeface. The weights are a named vocabulary rather than anything derived from the family,
     // but generating them keeps the names identical across themes, so a control style written
     // against {theme:FontWeightSemiBold} survives a theme swap. Medium sits between Regular and

@@ -4,31 +4,32 @@
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
                     xmlns:color="using:AngelSix.ThemeEngine.Colors"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes">
+  <!-- Design preview: narrow columns fit a half-width pane, so the two panes sit side by side. The designer and the lab gallery both show this key,
+       so it is declared before Design.PreviewWith uses it. Each pane instantiates its own list; states come from real DPs the ControlTheme's pseudo-class selectors consume -->
+  <DataTemplate x:Key="ListBoxItemPreview">
+    <!-- Multiple, or single selection keeps only the last IsSelected item and clears the others -->
+    <ListBox Width="220" SelectionMode="Multiple">
+      <!-- Baseline: transparent chrome, default text -->
+      <ListBoxItem>Default</ListBoxItem>
+      <!-- :selected -> the hue's Dark3 fill with Light10 text (same brush focused or not) -->
+      <ListBoxItem IsSelected="True">Selected</ListBoxItem>
+      <!-- Same rule under another accent kind: the fill takes that hue -->
+      <ListBoxItem IsSelected="True" theme:Accent.Kind="Success">Selected + Success</ListBoxItem>
+      <!-- :disabled -> dimmed foreground -->
+      <ListBoxItem IsEnabled="False">Disabled</ListBoxItem>
+      <!-- Composition: disabled beats selection, surfacing the flat-chrome treatment -->
+      <ListBoxItem IsEnabled="False" IsSelected="True">Disabled + Selected</ListBoxItem>
+    </ListBox>
+  </DataTemplate>
+
   <Design.PreviewWith>
     <Border>
       <Border.Styles>
         <default:DefaultThemeStyles />
       </Border.Styles>
 
-      <!-- Narrow columns fit a half-width pane, so the two panes sit side by side -->
-      <default:LightDarkPreview Title="ListBoxItem States" Orientation="Horizontal">
-        <DataTemplate>
-          <!-- Each pane instantiates its own list; states come from real DPs the ControlTheme's pseudo-class selectors consume.
-               Multiple, or single selection keeps only the last IsSelected item and clears the others -->
-          <ListBox Width="220" SelectionMode="Multiple">
-            <!-- Baseline: transparent chrome, default text -->
-            <ListBoxItem>Default</ListBoxItem>
-            <!-- :selected -> the hue's Dark3 fill with Light10 text (same brush focused or not) -->
-            <ListBoxItem IsSelected="True">Selected</ListBoxItem>
-            <!-- Same rule under another accent kind: the fill takes that hue -->
-            <ListBoxItem IsSelected="True" theme:Accent.Kind="Success">Selected + Success</ListBoxItem>
-            <!-- :disabled -> dimmed foreground -->
-            <ListBoxItem IsEnabled="False">Disabled</ListBoxItem>
-            <!-- Composition: disabled beats selection, surfacing the flat-chrome treatment -->
-            <ListBoxItem IsEnabled="False" IsSelected="True">Disabled + Selected</ListBoxItem>
-          </ListBox>
-        </DataTemplate>
-      </default:LightDarkPreview>
+      <default:LightDarkPreview Title="ListBoxItem" Orientation="Horizontal" ContentTemplate="{StaticResource ListBoxItemPreview}" />
+
     </Border>
   </Design.PreviewWith>
 

@@ -4,27 +4,29 @@
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
                     xmlns:color="using:AngelSix.ThemeEngine.Colors"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes">
+  <!-- One shared tree per pane: the TreeView theme is structural-only (frame + scroll + presenter), so states ride on TreeViewItem DPs -->
+  <DataTemplate x:Key="TreeViewPreview">
+    <StackPanel Spacing="{size:SpacingXl}" HorizontalAlignment="Left">
+      <TreeView>
+        <TreeViewItem Header="Branch A" IsExpanded="True">
+          <TreeViewItem Header="Leaf – Default" />
+          <TreeViewItem Header="Leaf – Selected" IsSelected="True" />
+          <TreeViewItem Header="Leaf – Disabled" IsEnabled="False" />
+          <TreeViewItem Header="Leaf – Disabled + Selected" IsEnabled="False" IsSelected="True" />
+          <TreeViewItem Header="Leaf – Warning Selected" theme:Accent.Kind="Warning" IsSelected="True" />
+        </TreeViewItem>
+        <TreeViewItem Header="Branch B" />
+      </TreeView>
+    </StackPanel>
+  </DataTemplate>
+
   <Design.PreviewWith>
     <Border>
       <Border.Styles>
         <default:DefaultThemeStyles />
       </Border.Styles>
 
-      <!-- One shared tree per pane: the TreeView theme is structural-only (frame + scroll + presenter), so states ride on TreeViewItem DPs -->
-      <default:LightDarkPreview Title="TreeView States" Orientation="Horizontal">
-        <DataTemplate>
-          <TreeView>
-            <TreeViewItem Header="Branch A" IsExpanded="True">
-              <TreeViewItem Header="Leaf – Default" />
-              <TreeViewItem Header="Leaf – Selected" IsSelected="True" />
-              <TreeViewItem Header="Leaf – Disabled" IsEnabled="False" />
-              <TreeViewItem Header="Leaf – Disabled + Selected" IsEnabled="False" IsSelected="True" />
-              <TreeViewItem Header="Leaf – Warning Selected" theme:Accent.Kind="Warning" IsSelected="True" />
-            </TreeViewItem>
-            <TreeViewItem Header="Branch B" />
-          </TreeView>
-        </DataTemplate>
-      </default:LightDarkPreview>
+      <default:LightDarkPreview Title="TreeView" Orientation="Horizontal" ContentTemplate="{StaticResource TreeViewPreview}" />
     </Border>
   </Design.PreviewWith>
 

@@ -123,12 +123,20 @@ public class LightDarkPreview : ContentControl
                 PaneContentTemplate = ContentTemplate as DataTemplate;
             }
         }
-        else if (change.Property == ContentTemplateProperty
-                 && change.OldValue is null
-                 && change.NewValue is DataTemplate explicitTemplate)
+        else if (change.Property == ContentTemplateProperty)
         {
-            // Explicit template: forward it to the panes.
-            PaneContentTemplate = explicitTemplate;
+            if (change.NewValue is DataTemplate explicitTemplate)
+            {
+                // Explicit template: forward it to the panes. Forwarded on EVERY change, not just
+                // the first: hosts that get recycled across data items (a gallery re-pointing one
+                // preview at successive controls) rely on the panes following the latest template.
+                PaneContentTemplate = explicitTemplate;
+            }
+            else if (change.OldValue is DataTemplate)
+            {
+                // Withdrawn: fall back to whatever Content holds, mirroring the inline-template path.
+                PaneContentTemplate = Content as DataTemplate;
+            }
         }
     }
 

@@ -5,56 +5,58 @@
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
                     xmlns:color="using:AngelSix.ThemeEngine.Colors"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes">
+  <!-- Design preview: every spinner location, content slot, alignment, placeholder and validation state. The designer
+       and the lab gallery both show this key, so it is declared before Design.PreviewWith uses it -->
+  <DataTemplate x:Key="NumericUpDownPreview">
+    <StackPanel Orientation="Vertical" Spacing="{size:SpacingXl}">
+      <NumericUpDown Minimum="0" Maximum="10" Increment="0.5" Value="5" />
+      <!-- Spinner moved left so both content slots can share the opposite side -->
+      <NumericUpDown Minimum="0" Maximum="10" Increment="0.5" Value="5"
+                     ButtonSpinnerLocation="Left">
+        <NumericUpDown.InnerLeftContent>
+          <TextBlock Text="m" TextAlignment="Center" VerticalAlignment="Center" />
+        </NumericUpDown.InnerLeftContent>
+        <NumericUpDown.InnerRightContent>
+          <Button Content="X" />
+        </NumericUpDown.InnerRightContent>
+      </NumericUpDown>
+      <!-- Centred alignment rides along here rather than taking its own instance -->
+      <NumericUpDown Minimum="0" Maximum="10" Increment="0.5" Value="5"
+                     ButtonSpinnerLocation="Right"
+                     HorizontalContentAlignment="Center"
+                     VerticalContentAlignment="Center">
+        <NumericUpDown.InnerLeftContent>
+          <Button Content="X" />
+        </NumericUpDown.InnerLeftContent>
+        <NumericUpDown.InnerRightContent>
+          <TextBlock Text="m" TextAlignment="Center" VerticalAlignment="Center" />
+        </NumericUpDown.InnerRightContent>
+      </NumericUpDown>
+      <!-- Disabled paired with an empty value doubles as the placeholder demo -->
+      <NumericUpDown Minimum="0" Maximum="10" Increment="0.5"
+                     PlaceholderText="Enter a value"
+                     IsEnabled="False" />
+      <!-- The template wraps the spinner in DataValidationErrors, so the error banner is fully wired -->
+      <NumericUpDown Minimum="0" Maximum="10" Increment="0.5" Value="5">
+        <DataValidationErrors.Error>
+          <sys:Exception>
+            <x:Arguments>
+              <x:String>Error</x:String>
+            </x:Arguments>
+          </sys:Exception>
+        </DataValidationErrors.Error>
+      </NumericUpDown>
+    </StackPanel>
+  </DataTemplate>
+
   <Design.PreviewWith>
     <Border>
       <Border.Styles>
         <default:DefaultThemeStyles />
       </Border.Styles>
 
-      <!-- Shared column written once as a template: each pane instantiates its own copy -->
-      <default:LightDarkPreview Title="NumericUpDown States" Orientation="Vertical">
-        <DataTemplate>
-          <StackPanel Orientation="Vertical" Spacing="12">
-            <NumericUpDown Minimum="0" Maximum="10" Increment="0.5" Value="5" />
-            <!-- Spinner moved left so both content slots can share the opposite side -->
-            <NumericUpDown Minimum="0" Maximum="10" Increment="0.5" Value="5"
-                           ButtonSpinnerLocation="Left">
-              <NumericUpDown.InnerLeftContent>
-                <TextBlock Text="m" TextAlignment="Center" VerticalAlignment="Center" />
-              </NumericUpDown.InnerLeftContent>
-              <NumericUpDown.InnerRightContent>
-                <Button Content="X" />
-              </NumericUpDown.InnerRightContent>
-            </NumericUpDown>
-            <!-- Centred alignment rides along here rather than taking its own instance -->
-            <NumericUpDown Minimum="0" Maximum="10" Increment="0.5" Value="5"
-                           ButtonSpinnerLocation="Right"
-                           HorizontalContentAlignment="Center"
-                           VerticalContentAlignment="Center">
-              <NumericUpDown.InnerLeftContent>
-                <Button Content="X" />
-              </NumericUpDown.InnerLeftContent>
-              <NumericUpDown.InnerRightContent>
-                <TextBlock Text="m" TextAlignment="Center" VerticalAlignment="Center" />
-              </NumericUpDown.InnerRightContent>
-            </NumericUpDown>
-            <!-- Disabled paired with an empty value doubles as the placeholder demo -->
-            <NumericUpDown Minimum="0" Maximum="10" Increment="0.5"
-                           PlaceholderText="Enter a value"
-                           IsEnabled="False" />
-            <!-- The template wraps the spinner in DataValidationErrors, so the error banner is fully wired -->
-            <NumericUpDown Minimum="0" Maximum="10" Increment="0.5" Value="5">
-              <DataValidationErrors.Error>
-                <sys:Exception>
-                  <x:Arguments>
-                    <x:String>Error</x:String>
-                  </x:Arguments>
-                </sys:Exception>
-              </DataValidationErrors.Error>
-            </NumericUpDown>
-          </StackPanel>
-        </DataTemplate>
-      </default:LightDarkPreview>
+      <default:LightDarkPreview Title="NumericUpDown" Orientation="Vertical" ContentTemplate="{StaticResource NumericUpDownPreview}" />
+
     </Border>
   </Design.PreviewWith>
 

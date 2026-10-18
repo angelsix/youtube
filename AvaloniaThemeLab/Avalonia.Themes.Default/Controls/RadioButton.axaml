@@ -4,30 +4,32 @@
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
                     xmlns:color="using:AngelSix.ThemeEngine.Colors"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes">
+  <!-- Design preview: every state, combined with the accent hues. The designer and the lab gallery both show this key,
+       so it is declared before Design.PreviewWith uses it -->
+  <DataTemplate x:Key="RadioButtonPreview">
+    <StackPanel Spacing="{size:SpacingXl}">
+      <!-- Selection is meaningful per group, so each column keeps a selected/unselected pair; the theme has no :error selector -->
+      <RadioButton Content="Unselected" />
+      <RadioButton theme:Preview.State="Hover" Content="Hover" />
+      <RadioButton IsChecked="True" Content="Selected" />
+      <RadioButton theme:Preview.State="Pressed" IsChecked="True" Content="Pressed" />
+      <RadioButton theme:Preview.State="Focused" IsChecked="True" Content="Focused" />
+      <RadioButton IsEnabled="False" Content="Disabled" />
+      <!-- Hues tint the AccentBrush-driven rings; combine them with states instead of repeating rows -->
+      <RadioButton theme:Accent.Kind="Warning" Content="Warning" />
+      <RadioButton theme:Accent.Kind="Success" theme:Preview.State="Focused" IsChecked="True" Content="Success + Focused" />
+      <RadioButton theme:Accent.Kind="Warning" IsChecked="True" IsEnabled="False" Content="Warning Disabled" />
+    </StackPanel>
+  </DataTemplate>
+
   <Design.PreviewWith>
     <Border>
       <Border.Styles>
         <default:DefaultThemeStyles />
       </Border.Styles>
 
-      <!-- Written once as a template: each pane instantiates its own copy -->
-      <default:LightDarkPreview Title="RadioButton States" Orientation="Horizontal">
-        <DataTemplate>
-          <StackPanel Spacing="{size:SpacingXl}">
-            <!-- Selection is meaningful per group, so each column keeps a selected/unselected pair; the theme has no :error selector -->
-            <RadioButton Content="Unselected" />
-            <RadioButton theme:Preview.State="Hover" Content="Hover" />
-            <RadioButton IsChecked="True" Content="Selected" />
-            <RadioButton theme:Preview.State="Pressed" IsChecked="True" Content="Pressed" />
-            <RadioButton theme:Preview.State="Focused" IsChecked="True" Content="Focused" />
-            <RadioButton IsEnabled="False" Content="Disabled" />
-            <!-- Hues tint the AccentBrush-driven rings; combine them with states instead of repeating rows -->
-            <RadioButton theme:Accent.Kind="Warning" Content="Warning" />
-            <RadioButton theme:Accent.Kind="Success" theme:Preview.State="Focused" IsChecked="True" Content="Success + Focused" />
-            <RadioButton theme:Accent.Kind="Warning" IsChecked="True" IsEnabled="False" Content="Warning Disabled" />
-          </StackPanel>
-        </DataTemplate>
-      </default:LightDarkPreview>
+      <default:LightDarkPreview Title="RadioButton" Orientation="Horizontal" ContentTemplate="{StaticResource RadioButtonPreview}" />
+
     </Border>
   </Design.PreviewWith>
 

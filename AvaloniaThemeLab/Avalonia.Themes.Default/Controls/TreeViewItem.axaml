@@ -7,39 +7,41 @@
         xmlns:size="using:AngelSix.ThemeEngine.Sizes"
         xmlns:icons="using:AngelSix.ThemeEngine.Icons">
 
+  <!-- Tree written once; each pane (light + dark) instantiates its own copy -->
+  <DataTemplate x:Key="TreeViewItemPreview">
+    <StackPanel Spacing="{size:SpacingXl}" HorizontalAlignment="Left">
+      <!-- Multiple lets the two selected samples coexist; narrow tree fits a half-width pane -->
+      <TreeView SelectionMode="Multiple" Width="260">
+        <!-- Open item: collapse chevron, and hosts the state samples beneath -->
+        <TreeViewItem Header="Open - expanded" IsExpanded="True">
+          <!-- Closed item with a child: expand chevron; its leaf child hits :empty (no chevron) -->
+          <TreeViewItem Header="Closed - has child">
+            <TreeViewItem Header="Leaf - empty" />
+          </TreeViewItem>
+          <!-- Plain selected: the hue's Dark3 fill with Light10 text -->
+          <TreeViewItem Header="Selected" IsSelected="True" />
+          <!-- Selected with a child: the chevron sits on the accent fill -->
+          <TreeViewItem Header="Selected - has child" IsSelected="True">
+            <TreeViewItem Header="Child" />
+          </TreeViewItem>
+          <!-- Forced hover: hover-background fill -->
+          <TreeViewItem Header="Hovered" theme:Preview.State="Hover" />
+          <!-- Disabled: flat chrome, dimmed text -->
+          <TreeViewItem Header="Disabled" IsEnabled="False" />
+          <!-- Disabled + selected together: no fill, dimmed text on the canvas -->
+          <TreeViewItem Header="Disabled + Selected" IsEnabled="False" IsSelected="True" />
+        </TreeViewItem>
+      </TreeView>
+    </StackPanel>
+  </DataTemplate>
+
   <Design.PreviewWith>
     <Border>
       <Border.Styles>
         <default:DefaultThemeStyles />
       </Border.Styles>
 
-      <!-- Tree written once; each pane (light + dark) instantiates its own copy -->
-      <default:LightDarkPreview Title="TreeViewItem States" Orientation="Horizontal">
-        <DataTemplate>
-          <!-- Multiple lets the two selected samples coexist; narrow tree fits a half-width pane -->
-          <TreeView SelectionMode="Multiple" Width="260">
-            <!-- Open item: collapse chevron, and hosts the state samples beneath -->
-            <TreeViewItem Header="Open - expanded" IsExpanded="True">
-              <!-- Closed item with a child: expand chevron; its leaf child hits :empty (no chevron) -->
-              <TreeViewItem Header="Closed - has child">
-                <TreeViewItem Header="Leaf - empty" />
-              </TreeViewItem>
-              <!-- Plain selected: the hue's Dark3 fill with Light10 text -->
-              <TreeViewItem Header="Selected" IsSelected="True" />
-              <!-- Selected with a child: the chevron sits on the accent fill -->
-              <TreeViewItem Header="Selected - has child" IsSelected="True">
-                <TreeViewItem Header="Child" />
-              </TreeViewItem>
-              <!-- Forced hover: hover-background fill -->
-              <TreeViewItem Header="Hovered" theme:Preview.State="Hover" />
-              <!-- Disabled: flat chrome, dimmed text -->
-              <TreeViewItem Header="Disabled" IsEnabled="False" />
-              <!-- Disabled + selected together: no fill, dimmed text on the canvas -->
-              <TreeViewItem Header="Disabled + Selected" IsEnabled="False" IsSelected="True" />
-            </TreeViewItem>
-          </TreeView>
-        </DataTemplate>
-      </default:LightDarkPreview>
+      <default:LightDarkPreview Title="TreeViewItem" Orientation="Horizontal" ContentTemplate="{StaticResource TreeViewItemPreview}" />
     </Border>
   </Design.PreviewWith>
 

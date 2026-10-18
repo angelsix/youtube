@@ -5,25 +5,27 @@
         xmlns:color="using:AngelSix.ThemeEngine.Colors"
         xmlns:size="using:AngelSix.ThemeEngine.Sizes"
         xmlns:icons="using:AngelSix.ThemeEngine.Icons">
+  <!-- Design preview: the picker-part themes, each shown once per pane. The designer and the lab gallery both show this key,
+       so it is declared before Design.PreviewWith uses it. States ride real item properties — these themes expose no Preview.State hooks -->
+  <DataTemplate x:Key="DateTimePickerSharedPreview">
+    <StackPanel Spacing="{size:SpacingXl}" Width="200">
+      <ListBoxItem Theme="{DynamicResource DefaultDateTimePickerItem}">Standard Item</ListBoxItem>
+      <ListBoxItem Theme="{DynamicResource DefaultDateTimePickerItem}" Classes="MonthItem">Month Item</ListBoxItem>
+      <ListBoxItem Theme="{DynamicResource DefaultDateTimePickerItem}" IsSelected="True">Selected Item</ListBoxItem>
+      <RepeatButton Theme="{DynamicResource DefaultDateTimePickerButton}" Content="Button"/>
+      <RepeatButton Theme="{DynamicResource DefaultDateTimePickerUpButton}" IsVisible="True"/>
+      <RepeatButton Theme="{DynamicResource DefaultDateTimePickerDownButton}" IsVisible="True"/>
+    </StackPanel>
+  </DataTemplate>
+
   <Design.PreviewWith>
     <Border>
       <Border.Styles>
         <default:DefaultThemeStyles />
       </Border.Styles>
 
-      <!-- Picker-part themes shown once per pane; states driven by real item props (these themes expose no Preview.State hooks) -->
-      <default:LightDarkPreview Title="DateTimePicker Parts" Orientation="Vertical">
-        <DataTemplate>
-          <StackPanel Spacing="10" Width="200">
-            <ListBoxItem Theme="{DynamicResource DefaultDateTimePickerItem}">Standard Item</ListBoxItem>
-            <ListBoxItem Theme="{DynamicResource DefaultDateTimePickerItem}" Classes="MonthItem">Month Item</ListBoxItem>
-            <ListBoxItem Theme="{DynamicResource DefaultDateTimePickerItem}" IsSelected="True">Selected Item</ListBoxItem>
-            <RepeatButton Theme="{DynamicResource DefaultDateTimePickerButton}" Content="Button"/>
-            <RepeatButton Theme="{DynamicResource DefaultDateTimePickerUpButton}" IsVisible="True"/>
-            <RepeatButton Theme="{DynamicResource DefaultDateTimePickerDownButton}" IsVisible="True"/>
-          </StackPanel>
-        </DataTemplate>
-      </default:LightDarkPreview>
+      <default:LightDarkPreview Title="DateTimePickerShared" Orientation="Vertical" ContentTemplate="{StaticResource DateTimePickerSharedPreview}" />
+
     </Border>
   </Design.PreviewWith>
 

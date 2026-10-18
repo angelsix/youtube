@@ -5,27 +5,29 @@
     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
     xmlns:color="using:AngelSix.ThemeEngine.Colors"
     xmlns:size="using:AngelSix.ThemeEngine.Sizes">
+  <!-- Design preview: shared state column written once; each pane instantiates its own copy.
+       Declared before Design.PreviewWith uses it -->
+  <DataTemplate x:Key="TabStripItemPreview">
+    <StackPanel Orientation="Vertical" Spacing="{size:SpacingXxl}">
+      <TabStripItem>Unselected</TabStripItem>
+      <TabStripItem IsSelected="True">Selected</TabStripItem>
+      <TabStripItem theme:Preview.State="Hover">Hover</TabStripItem>
+      <TabStripItem IsSelected="True" theme:Preview.State="Hover">Selected · Hover</TabStripItem>
+      <TabStripItem theme:Preview.State="Pressed">Pressed</TabStripItem>
+      <TabStripItem IsEnabled="False">Disabled</TabStripItem>
+      <TabStripItem theme:Accent.Kind="Warning">Warning</TabStripItem>
+      <TabStripItem IsSelected="True" theme:Accent.Kind="Success">Success · Selected</TabStripItem>
+    </StackPanel>
+  </DataTemplate>
+
   <Design.PreviewWith>
     <Border>
       <Border.Styles>
         <default:DefaultThemeStyles />
       </Border.Styles>
 
-      <!-- Shared state column written once as a template; each pane instantiates its own copy -->
-      <default:LightDarkPreview Title="TabStripItem States" Orientation="Vertical">
-        <DataTemplate>
-          <StackPanel Orientation="Vertical" Spacing="16">
-            <TabStripItem>Unselected</TabStripItem>
-            <TabStripItem IsSelected="True">Selected</TabStripItem>
-            <TabStripItem theme:Preview.State="Hover">Hover</TabStripItem>
-            <TabStripItem IsSelected="True" theme:Preview.State="Hover">Selected · Hover</TabStripItem>
-            <TabStripItem theme:Preview.State="Pressed">Pressed</TabStripItem>
-            <TabStripItem IsEnabled="False">Disabled</TabStripItem>
-            <TabStripItem theme:Accent.Kind="Warning">Warning</TabStripItem>
-            <TabStripItem IsSelected="True" theme:Accent.Kind="Success">Success · Selected</TabStripItem>
-          </StackPanel>
-        </DataTemplate>
-      </default:LightDarkPreview>
+      <default:LightDarkPreview Title="TabStripItem" Orientation="Vertical" ContentTemplate="{StaticResource TabStripItemPreview}" />
+
     </Border>
   </Design.PreviewWith>
 

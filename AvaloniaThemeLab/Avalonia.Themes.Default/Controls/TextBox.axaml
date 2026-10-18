@@ -6,39 +6,40 @@
                     xmlns:color="using:AngelSix.ThemeEngine.Colors"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes"
                     xmlns:icons="using:AngelSix.ThemeEngine.Icons">
+  <!-- Design preview: every input kind and state in one column. Declared before Design.PreviewWith uses it -->
+  <DataTemplate x:Key="TextBoxPreview">
+    <StackPanel Spacing="{size:SpacingLg}" HorizontalAlignment="Left">
+      <TextBox Text="Default" />
+      <TextBox theme:Preview.State="Hover" Text="Hover" />
+      <TextBox theme:Preview.State="Focused" Text="Focused" />
+      <!-- Hue inherits down, so one instance proves both accent and focus together -->
+      <TextBox theme:Accent.Kind="Warning" theme:Preview.State="Focused" Text="Accent focused" />
+      <TextBox Text="Error">
+        <DataValidationErrors.Error>
+          <sys:Exception><x:Arguments><x:String>Error</x:String></x:Arguments></sys:Exception>
+        </DataValidationErrors.Error>
+      </TextBox>
+      <TextBox IsEnabled="False" Text="Disabled" />
+      <TextBox IsReadOnly="True" Text="Read only" />
+      <TextBox AcceptsReturn="True" TextWrapping="Wrap" Text="Multiline&#x0a;second line" />
+      <TextBox TextAlignment="Center" Text="Center aligned" />
+      <TextBox PlaceholderText="Empty with placeholder" />
+      <TextBox PlaceholderText="Floating placeholder" UseFloatingPlaceholder="True" />
+      <TextBox PlaceholderText="Floating placeholder" UseFloatingPlaceholder="True" Text="Floated over content" />
+      <TextBox Classes="clearButton" Text="Clear button" />
+      <TextBox PasswordChar="*" Classes="revealPasswordButton" Text="Hidden password" />
+      <TextBox PasswordChar="*" Classes="revealPasswordButton" RevealPassword="True" Text="Revealed password" />
+    </StackPanel>
+  </DataTemplate>
+
   <Design.PreviewWith>
     <Border>
       <Border.Styles>
         <default:DefaultThemeStyles />
       </Border.Styles>
 
-      <!-- Shared state list, written once: each pane instantiates its own copy -->
-      <default:LightDarkPreview Title="TextBox States">
-        <DataTemplate>
-          <StackPanel Spacing="10">
-            <TextBox Text="Default" />
-            <TextBox theme:Preview.State="Hover" Text="Hover" />
-            <TextBox theme:Preview.State="Focused" Text="Focused" />
-            <!-- Hue inherits down, so one instance proves both accent and focus together -->
-            <TextBox theme:Accent.Kind="Warning" theme:Preview.State="Focused" Text="Accent focused" />
-            <TextBox Text="Error">
-              <DataValidationErrors.Error>
-                <sys:Exception><x:Arguments><x:String>Error</x:String></x:Arguments></sys:Exception>
-              </DataValidationErrors.Error>
-            </TextBox>
-            <TextBox IsEnabled="False" Text="Disabled" />
-            <TextBox IsReadOnly="True" Text="Read only" />
-            <TextBox AcceptsReturn="True" TextWrapping="Wrap" Text="Multiline&#x0a;second line" />
-            <TextBox TextAlignment="Center" Text="Center aligned" />
-            <TextBox PlaceholderText="Empty with placeholder" />
-            <TextBox PlaceholderText="Floating placeholder" UseFloatingPlaceholder="True" />
-            <TextBox PlaceholderText="Floating placeholder" UseFloatingPlaceholder="True" Text="Floated over content" />
-            <TextBox Classes="clearButton" Text="Clear button" />
-            <TextBox PasswordChar="*" Classes="revealPasswordButton" Text="Hidden password" />
-            <TextBox PasswordChar="*" Classes="revealPasswordButton" RevealPassword="True" Text="Revealed password" />
-          </StackPanel>
-        </DataTemplate>
-      </default:LightDarkPreview>
+      <default:LightDarkPreview Title="TextBox" ContentTemplate="{StaticResource TextBoxPreview}" />
+
     </Border>
   </Design.PreviewWith>
 
@@ -90,7 +91,7 @@
     <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
     <Setter Property="MinHeight" Value="{size:ControlHeightSm}" />
     <Setter Property="MinWidth" Value="{size:ControlMinWidth}" />
-    <Setter Property="Padding" Value="{size:Edges All={size:SpacingLg}}" />
+    <Setter Property="Padding" Value="{size:Edges All={size:ContentPadding}}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
     <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
     <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />

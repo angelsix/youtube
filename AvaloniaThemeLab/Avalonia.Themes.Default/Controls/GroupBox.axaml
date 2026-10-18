@@ -5,29 +5,31 @@
                     xmlns:color="using:AngelSix.ThemeEngine.Colors"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes"
                     >
+  <!-- Design preview: one row per pane. The designer and the lab gallery both show this key,
+       so it is declared before Design.PreviewWith uses it. The theme exposes no Preview.State or :error selectors, so its full surface is enabled/disabled plus inherited accent hue -->
+  <DataTemplate x:Key="GroupBoxPreview">
+    <StackPanel Orientation="Vertical" Spacing="{size:SpacingXxl}" Width="340">
+      <GroupBox Header="Default">
+        <TextBlock Text="Grouped content" />
+      </GroupBox>
+      <!-- Disabled rides the Warning hue so both axes show in one instance -->
+      <GroupBox Header="Warning · Disabled" theme:Accent.Kind="Warning" IsEnabled="False">
+        <TextBlock Text="Grouped content" />
+      </GroupBox>
+      <GroupBox Header="Success" theme:Accent.Kind="Success">
+        <TextBlock Text="Grouped content" />
+      </GroupBox>
+    </StackPanel>
+  </DataTemplate>
+
   <Design.PreviewWith>
     <Border>
       <Border.Styles>
         <default:DefaultThemeStyles />
       </Border.Styles>
 
-      <!-- One row per pane: the theme exposes no Preview.State or :error selectors, so its full surface is enabled/disabled plus inherited accent hue -->
-      <default:LightDarkPreview Title="GroupBox States" Orientation="Horizontal">
-        <DataTemplate>
-          <StackPanel Orientation="Vertical" Spacing="16" Width="340">
-            <GroupBox Header="Default">
-              <TextBlock Text="Grouped content" />
-            </GroupBox>
-            <!-- Disabled rides the Warning hue so both axes show in one instance -->
-            <GroupBox Header="Warning · Disabled" theme:Accent.Kind="Warning" IsEnabled="False">
-              <TextBlock Text="Grouped content" />
-            </GroupBox>
-            <GroupBox Header="Success" theme:Accent.Kind="Success">
-              <TextBlock Text="Grouped content" />
-            </GroupBox>
-          </StackPanel>
-        </DataTemplate>
-      </default:LightDarkPreview>
+      <default:LightDarkPreview Title="GroupBox" Orientation="Horizontal" ContentTemplate="{StaticResource GroupBoxPreview}" />
+
     </Border>
   </Design.PreviewWith>
 

@@ -4,34 +4,35 @@
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
                     xmlns:color="using:AngelSix.ThemeEngine.Colors"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes">
+  <!-- Design preview: presented directly (not via right-click) so the framed surface shows statically; one list mixes
+       icon, checkbox, separator and :disabled. Declared before Design.PreviewWith uses it -->
+  <DataTemplate x:Key="ContextMenuPreview">
+    <ContextMenu Width="240">
+      <MenuItem Header="Standard _Item" />
+      <MenuItem Header="With _Icon">
+        <MenuItem.Icon>
+          <TextBlock>😊</TextBlock>
+        </MenuItem.Icon>
+      </MenuItem>
+      <MenuItem Header="With _Checkbox">
+        <MenuItem.Icon>
+          <CheckBox BorderThickness="0"
+                    IsHitTestVisible="False"
+                    IsChecked="True" />
+        </MenuItem.Icon>
+      </MenuItem>
+      <Separator />
+      <MenuItem Header="_Disabled" IsEnabled="False" />
+    </ContextMenu>
+  </DataTemplate>
+
   <Design.PreviewWith>
     <Border>
       <Border.Styles>
         <default:DefaultThemeStyles />
       </Border.Styles>
 
-      <!-- Presented directly (not via right-click) so the framed surface shows statically; one list mixes icon, checkbox, separator and :disabled -->
-      <default:LightDarkPreview Title="ContextMenu States" Orientation="Horizontal">
-        <DataTemplate>
-          <ContextMenu Width="240">
-            <MenuItem Header="Standard _Item" />
-            <MenuItem Header="With _Icon">
-              <MenuItem.Icon>
-                <TextBlock>😊</TextBlock>
-              </MenuItem.Icon>
-            </MenuItem>
-            <MenuItem Header="With _Checkbox">
-              <MenuItem.Icon>
-                <CheckBox BorderThickness="0"
-                          IsHitTestVisible="False"
-                          IsChecked="True" />
-              </MenuItem.Icon>
-            </MenuItem>
-            <Separator />
-            <MenuItem Header="_Disabled" IsEnabled="False" />
-          </ContextMenu>
-        </DataTemplate>
-      </default:LightDarkPreview>
+      <default:LightDarkPreview Title="ContextMenu" Orientation="Horizontal" ContentTemplate="{StaticResource ContextMenuPreview}" />
     </Border>
   </Design.PreviewWith>
 

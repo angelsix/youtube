@@ -5,27 +5,28 @@
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
                     xmlns:color="using:AngelSix.ThemeEngine.Colors"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes">
+  <!-- Design preview: inline-rendered with Opacity pinned to 1 — the theme's lone state (^:open) flips Opacity 0 -> 1, which a static preview cannot trigger on a live popup. Declared before Design.PreviewWith uses it -->
+  <DataTemplate x:Key="ToolTipPreview">
+    <StackPanel Spacing="{size:SpacingXxl}" HorizontalAlignment="Left">
+      <ToolTip Opacity="1">Short plain-text tip</ToolTip>
+      <ToolTip Opacity="1">Longer copy that exceeds the themed MaxWidth, so the bubble widens up to its cap and the text wraps rather than clips.</ToolTip>
+      <ToolTip Opacity="1">
+        <StackPanel Spacing="{size:SpacingMd}">
+          <TextBlock FontWeight="Bold">Templated content</TextBlock>
+          <TextBlock>A second line proving arbitrary child layout sits cleanly inside the same styled bubble.</TextBlock>
+        </StackPanel>
+      </ToolTip>
+    </StackPanel>
+  </DataTemplate>
+
   <Design.PreviewWith>
     <Border>
       <Border.Styles>
         <default:DefaultThemeStyles />
       </Border.Styles>
 
-      <!-- Inline-rendered with Opacity pinned to 1: the theme's lone state (^:open) flips Opacity 0 -> 1, which a static preview cannot trigger on a live popup -->
-      <default:LightDarkPreview Title="ToolTip States" Orientation="Horizontal">
-        <DataTemplate>
-          <StackPanel Spacing="20">
-            <ToolTip Opacity="1">Short plain-text tip</ToolTip>
-            <ToolTip Opacity="1">Longer copy that exceeds the themed MaxWidth, so the bubble widens up to its cap and the text wraps rather than clips.</ToolTip>
-            <ToolTip Opacity="1">
-              <StackPanel Spacing="4">
-                <TextBlock FontWeight="Bold">Templated content</TextBlock>
-                <TextBlock>A second line proving arbitrary child layout sits cleanly inside the same styled bubble.</TextBlock>
-              </StackPanel>
-            </ToolTip>
-          </StackPanel>
-        </DataTemplate>
-      </default:LightDarkPreview>
+      <default:LightDarkPreview Title="ToolTip" Orientation="Horizontal" ContentTemplate="{StaticResource ToolTipPreview}" />
+
     </Border>
   </Design.PreviewWith>
 
@@ -47,7 +48,7 @@
     <Setter Property="CornerRadius" Value="{size:RadiusMd}" />
 
     <!-- Layout -->
-    <Setter Property="Padding" Value="{size:Edges Horizontal={size:SpacingXl}, Vertical={size:SpacingLg}}" />
+    <Setter Property="Padding" Value="{size:Edges Horizontal={size:ContentPaddingWide}, Vertical={size:ContentPadding}}" />
     <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
     <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
     <Setter Property="MaxWidth" Value="{size:SurfaceWidthMd}" />

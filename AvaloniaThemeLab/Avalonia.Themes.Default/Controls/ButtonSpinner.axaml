@@ -6,45 +6,46 @@
                     xmlns:color="using:AngelSix.ThemeEngine.Colors"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes"
                     xmlns:icons="using:AngelSix.ThemeEngine.Icons">
+  <!-- Design preview: location/hue folded onto the state instances so nothing repeats. Declared before Design.PreviewWith uses it -->
+  <DataTemplate x:Key="ButtonSpinnerPreview">
+    <StackPanel Spacing="{size:SpacingXl}" HorizontalAlignment="Left">
+      <ButtonSpinner Content="Default" />
+      <ButtonSpinner ButtonSpinnerLocation="Left"
+                     theme:Accent.Kind="Warning"
+                     Content="Left · Warning" />
+      <ButtonSpinner theme:Preview.State="Hover"
+                     theme:Accent.Kind="Success"
+                     Content="Hover · Success" />
+      <ButtonSpinner theme:Preview.State="Pressed"
+                     Content="Pressed" />
+      <ButtonSpinner ButtonSpinnerLocation="Left"
+                     theme:Accent.Kind="Warning"
+                     IsEnabled="False"
+                     Content="Disabled · Left" />
+      <ButtonSpinner theme:Accent.Kind="Destructive"
+                     Content="Error · Destructive">
+        <DataValidationErrors.Error>
+          <sys:Exception>
+            <x:Arguments>
+              <x:String>Error</x:String>
+            </x:Arguments>
+          </sys:Exception>
+        </DataValidationErrors.Error>
+      </ButtonSpinner>
+      <ButtonSpinner ShowButtonSpinner="False"
+                     theme:Accent.Kind="Subtle"
+                     Content="No spinner · Subtle" />
+    </StackPanel>
+  </DataTemplate>
+
   <Design.PreviewWith>
     <Border>
       <Border.Styles>
         <default:DefaultThemeStyles />
       </Border.Styles>
 
-      <!-- One shared column instantiated per pane; Location/Hue fold onto the state instances so nothing repeats -->
-      <default:LightDarkPreview Title="ButtonSpinner States" Orientation="Horizontal">
-        <DataTemplate>
-          <StackPanel Spacing="{size:SpacingXl}">
-            <ButtonSpinner Content="Default" />
-            <ButtonSpinner ButtonSpinnerLocation="Left"
-                           theme:Accent.Kind="Warning"
-                           Content="Left · Warning" />
-            <ButtonSpinner theme:Preview.State="Hover"
-                           theme:Accent.Kind="Success"
-                           Content="Hover · Success" />
-            <ButtonSpinner theme:Preview.State="Pressed"
-                           Content="Pressed" />
-            <ButtonSpinner ButtonSpinnerLocation="Left"
-                           theme:Accent.Kind="Warning"
-                           IsEnabled="False"
-                           Content="Disabled · Left" />
-            <ButtonSpinner theme:Accent.Kind="Destructive"
-                           Content="Error · Destructive">
-              <DataValidationErrors.Error>
-                <sys:Exception>
-                  <x:Arguments>
-                    <x:String>Error</x:String>
-                  </x:Arguments>
-                </sys:Exception>
-              </DataValidationErrors.Error>
-            </ButtonSpinner>
-            <ButtonSpinner ShowButtonSpinner="False"
-                           theme:Accent.Kind="Subtle"
-                           Content="No spinner · Subtle" />
-          </StackPanel>
-        </DataTemplate>
-      </default:LightDarkPreview>
+      <default:LightDarkPreview Title="ButtonSpinner" Orientation="Horizontal" ContentTemplate="{StaticResource ButtonSpinnerPreview}" />
+
     </Border>
   </Design.PreviewWith>
 
@@ -102,7 +103,7 @@
   <ControlTheme x:Key="{x:Type ButtonSpinner}" TargetType="ButtonSpinner">
 
     <!-- Visual defaults -->
-    <Setter Property="Padding" Value="{size:Edges Horizontal={size:SpacingXl}}" />
+    <Setter Property="Padding" Value="{size:Edges Horizontal={size:ContentPaddingWide}}" />
     <Setter Property="Background" Value="{color:BackgroundDefault}" />
     <Setter Property="Foreground" Value="{color:TextDefault}" />
     <Setter Property="BorderBrush" Value="{color:BorderDefault}" />

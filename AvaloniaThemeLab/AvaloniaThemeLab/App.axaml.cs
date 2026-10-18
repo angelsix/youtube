@@ -22,6 +22,11 @@ public partial class App : Application
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             desktop.MainWindow = new MainWindow { DataContext = Services.GetRequiredService<MainWindowViewModel>() };
 
+#if DEBUG
+        // Dev-only: re-parse edited theme previews into the running app; no-op outside a dev checkout
+        Development.PreviewHotReload.Start();
+#endif
+
         base.OnFrameworkInitializationCompleted();
     }
 

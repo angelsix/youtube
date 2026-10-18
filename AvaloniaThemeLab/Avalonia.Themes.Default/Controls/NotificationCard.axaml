@@ -4,24 +4,27 @@
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
                     xmlns:color="using:AngelSix.ThemeEngine.Colors"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes">
+  <!-- Design preview: one card per NotificationType severity. The designer and the lab gallery both show this key,
+       so it is declared before Design.PreviewWith uses it -->
+  <DataTemplate x:Key="NotificationCardPreview">
+    <!-- The DP defaults to Information, so a bare card adds nothing. No Preview.State/:disabled/:error selectors exist -->
+    <!-- Cards stack vertically: each carries the theme's wide shadow margin, so a shared row would overflow a half-width pane -->
+    <StackPanel Orientation="Vertical" Spacing="{size:SpacingXxl}">
+      <NotificationCard NotificationType="Information" Content="Information" />
+      <NotificationCard NotificationType="Success" Content="Success" />
+      <NotificationCard NotificationType="Warning" Content="Warning" />
+      <NotificationCard NotificationType="Error" Content="Error" />
+    </StackPanel>
+  </DataTemplate>
+
   <Design.PreviewWith>
     <Border>
       <Border.Styles>
         <default:DefaultThemeStyles />
       </Border.Styles>
 
-      <!-- Cards stack vertically: each carries the theme's wide shadow margin, so a shared row would overflow a half-width pane -->
-      <default:LightDarkPreview Title="NotificationCard States" Orientation="Vertical">
-        <DataTemplate>
-          <!-- One card per NotificationType severity; the DP defaults to Information, so a bare card adds nothing. No Preview.State/:disabled/:error selectors exist -->
-          <StackPanel Orientation="Vertical" Spacing="24">
-            <NotificationCard NotificationType="Information" Content="Information" />
-            <NotificationCard NotificationType="Success" Content="Success" />
-            <NotificationCard NotificationType="Warning" Content="Warning" />
-            <NotificationCard NotificationType="Error" Content="Error" />
-          </StackPanel>
-        </DataTemplate>
-      </default:LightDarkPreview>
+      <default:LightDarkPreview Title="NotificationCard" Orientation="Vertical" ContentTemplate="{StaticResource NotificationCardPreview}" />
+
     </Border>
   </Design.PreviewWith>
   <ControlTheme x:Key="{x:Type NotificationCard}" TargetType="NotificationCard">
