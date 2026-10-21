@@ -91,9 +91,11 @@
   </GeometryGroup>
   <ControlTheme x:Key="{x:Type TextSelectionHandle}"
                 TargetType="TextSelectionHandle">
-    <!-- The grip fill: the same hue stage as the TextBox selection (task 48), so handles and selection agree -->
+    <!-- The grip fill: the same solid accent face as the TextBox selection (task 48), so handles and selection agree.
+         The solid-fill role (Dark3) is the theme's single spelling for a solid accent face, and it
+         resolves against the same hue the TextBox's selection face does, so the two always agree. -->
     <Setter Property="Background"
-            Value="{color:AccentBrush Dark3}" />
+            Value="{color:SolidFillDefault}" />
     <Setter Property="HorizontalAlignment"
             Value="{theme:ControlHorizontalAlignment}" />
     <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />

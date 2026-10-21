@@ -83,7 +83,7 @@
         </Grid>
       </ScrollViewer>
       <!-- Caption naming the state shown -->
-      <TextBlock Text="Success hue" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
+      <TextBlock Text="Success hue" FontSize="{size:FontSizeSm}" theme:Accent.Kind="Success" Foreground="{color:AccentTextDefault}" />
       <!-- Success-accented frame. Corner box omitted: set_IsExpanded is non-public in Avalonia 12, so the [IsExpanded] branch cannot fire from markup -->
       <ScrollViewer Width="180" Height="90" HorizontalScrollBarVisibility="Auto" theme:Accent.Kind="Success">
         <!-- Same oversize sample as the resting example -->

@@ -31,7 +31,9 @@
         <TabStripItem IsSelected="True" theme:Preview.State="Hover">Open</TabStripItem>
       </TabStrip>
 
-      <!-- Accent-coloured selections: the selection bar follows the item's Accent.Kind -->
+      <!-- Accent-coloured selections: the selection bar follows the item's Accent.Kind.
+           This example shows TWO hues (Warning and Success), so the caption names no single hue and
+           stays neutral: it takes the neutral body role, which follows no hue. -->
       <Label Content="Accent selections" Foreground="{color:DimTextDefault}" FontSize="{size:FontSizeMd}" />
       <WrapPanel Orientation="Horizontal">
         <TabStrip Width="180" Margin="{size:Edges Right={size:SpacingLg}}">
@@ -44,8 +46,12 @@
         </TabStrip>
       </WrapPanel>
 
-      <!-- An accent hue at rest: the item carries the hue but is not selected, so no bar shows -->
-      <Label Content="Accent at rest" Foreground="{color:DimTextDefault}" FontSize="{size:FontSizeMd}" />
+      <!-- An accent hue at rest: the item carries the hue but is not selected, so no bar shows.
+           The caption names the hue the example carries, so it takes that hue itself: the kind on the
+           caption and a hue-aware Foreground (a caption's Foreground is inherited, and an inherited
+           value does not re-resolve when the hue changes under it). -->
+      <Label Content="Accent at rest" Foreground="{color:AccentTextDefault}" FontSize="{size:FontSizeMd}"
+             theme:Accent.Kind="Warning" />
       <TabStrip Width="180">
         <TabStripItem>Plain</TabStripItem>
         <TabStripItem theme:Accent.Kind="Warning">Warn</TabStripItem>

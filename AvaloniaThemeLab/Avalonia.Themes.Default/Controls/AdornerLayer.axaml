@@ -17,7 +17,7 @@
                 CornerRadius="{default:ConcentricCorners Radius={ReflectionBinding Path=(AdornerLayer.AdornedElement).CornerRadius, RelativeSource={RelativeSource Self}}, Thickness={ReflectionBinding Path=(AdornerLayer.AdornedElement).BorderThickness, RelativeSource={RelativeSource Self}}, Inset={ReflectionBinding Path=Margin, RelativeSource={RelativeSource Self}}, Stroke={ReflectionBinding Path=BorderThickness, RelativeSource={RelativeSource Self}}, All=True}">
           <!-- Light halo between the ring and the control -->
           <Border BorderThickness="{size:ThicknessSm}"
-                  BorderBrush="{color:AccentBrush Light10}"
+                  BorderBrush="{color:BackgroundDefault}"
                   CornerRadius="{default:ConcentricCorners Radius={Binding $parent[Border].CornerRadius}, Thickness={Binding $parent[Border].BorderThickness}, Stroke={ReflectionBinding Path=BorderThickness, RelativeSource={RelativeSource Self}}, All=True}" />
         </Border>
       </FocusAdornerTemplate>

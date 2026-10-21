@@ -87,7 +87,7 @@
          in and out; the selected row is excluded so the pop-up's centre frame is never painted over, and
          a row sliding under a stationary pointer no longer strobes over the centred value while scrolling -->
     <Style Selector="^:pointerover:not(:selected) /template/ Border#HoverTint">
-      <Setter Property="Background" Value="{color:AccentBrush Light9}" />
+      <Setter Property="Background" Value="{color:SurfaceBorderless}" />
     </Style>
 
     <!-- Rows crossing the centre band (the WheelSnap behaviour tracks this on every layout pass):
@@ -175,7 +175,7 @@
                clearing inward (mirroring the scrim), so the arrow reads accented on hover without washing out the
                row text beneath; revealed together with the chip by its fade-in -->
           <Border Name="PART_Glow" IsHitTestVisible="False"
-                  Background="{color:AccentBrush Light9}"
+                  Background="{color:SurfaceBorderless}"
                   CornerRadius="{TemplateBinding CornerRadius}">
             <Border.OpacityMask>
               <LinearGradientBrush StartPoint="0%,0%" EndPoint="0%,100%"><GradientStop Color="Black" Offset="0" /><GradientStop Color="Black" Offset="0.5" /><GradientStop Color="Transparent" Offset="1" /></LinearGradientBrush>

@@ -33,8 +33,9 @@
           <!-- Disabled beats selection, keeping the chosen fill under the dim -->
           <ListBoxItem IsEnabled="False" IsSelected="True">Disabled + Selected</ListBoxItem>
         </ListBox>
-        <!-- Caption naming the states shown -->
-        <TextBlock Grid.Row="2" Text="Selection follows the hue" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
+        <!-- Caption naming the states shown. It names the hue the example below carries, so it
+             takes that hue and the accent's text role -->
+        <TextBlock Grid.Row="2" Text="Selection follows the hue" FontSize="{size:FontSizeSm}" theme:Accent.Kind="Warning" Foreground="{color:AccentTextDefault}" />
         <!-- A chosen row takes the box's own hue -->
         <ListBox Grid.Row="3" Width="190" SelectionMode="Multiple" theme:Accent.Kind="Warning">
           <ListBoxItem IsSelected="True">First</ListBoxItem>

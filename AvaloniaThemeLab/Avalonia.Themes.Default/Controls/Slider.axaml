@@ -28,11 +28,11 @@
         <Slider Width="240" Value="50" theme:Preview.State="Focused" />
         <Label Content="Disabled" />
         <Slider Width="240" Value="50" IsEnabled="False" />
-        <Label Content="Warning" />
+        <Label Content="Warning" theme:Accent.Kind="Warning" Foreground="{color:AccentTextDefault}" />
         <Slider Width="240" Value="50" theme:Accent.Kind="Warning" />
-        <Label Content="Success" />
+        <Label Content="Success" theme:Accent.Kind="Success" Foreground="{color:AccentTextDefault}" />
         <Slider Width="240" Value="50" theme:Accent.Kind="Success" />
-        <Label Content="Error" />
+        <Label Content="Error" theme:Accent.Kind="Error" Foreground="{color:AccentTextDefault}" />
         <Slider Width="240" Value="50">
           <DataValidationErrors.Error>
             <sys:Exception><x:Arguments><x:String>Error</x:String></x:Arguments></sys:Exception>
@@ -153,9 +153,11 @@
        ============================================================ -->
   <ControlTheme x:Key="{x:Type Slider}" TargetType="Slider">
 
-    <!-- Visual defaults: the empty track recedes (light stage), the fill takes the control's hue (filled column) -->
-    <Setter Property="Background" Value="{color:AccentBrush Light6}" />
-    <Setter Property="Foreground" Value="{color:AccentBrush Dark3}" />
+    <!-- Visual defaults: the empty track is a track surface that recedes toward the canvas but stays
+         visible (the same stage ProgressBar's empty track takes), and the filled column takes the
+         control's hue through the solid-fill policy, exactly as ProgressBar's fill does -->
+    <Setter Property="Background" Value="{color:HoverBackgroundDefault}" />
+    <Setter Property="Foreground" Value="{default:SolidFill}" />
     <Setter Property="BorderThickness" Value="0" />
     <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
@@ -376,13 +378,13 @@
     <Style Selector="^ /template/ Thumb">
       <Setter Property="Width" Value="{size:IconSizeMd}" />
       <Setter Property="Height" Value="{size:IconSizeMd}" />
-      <Setter Property="Background" Value="{color:AccentBrush Dark3}" />
+      <Setter Property="Background" Value="{default:SolidFill}" />
       <Setter Property="CornerRadius" Value="{size:RadiusMd}" />
     </Style>
 
     <!-- Tick marks recede with the groove -->
     <Style Selector="^ /template/ TickBar">
-      <Setter Property="Fill" Value="{color:AccentBrush Light6}" />
+      <Setter Property="Fill" Value="{color:AccentDividerDefault}" />
     </Style>
 
     <Style Selector="^ /template/ TickBar#TopTickBar">
@@ -425,20 +427,20 @@
     <!-- Hover state: the thumb steps toward ink, the fill deepens one stage -->
     <Style Selector="^:pointerover, ^[(theme|Preview.State)=Hover]">
       <Style Selector="^ /template/ Thumb">
-        <Setter Property="Background" Value="{color:AccentBrush Dark4}" />
+        <Setter Property="Background" Value="{default:SolidFillHover}" />
       </Style>
       <Style Selector="^ /template/ RepeatButton#PART_DecreaseButton">
-        <Setter Property="Background" Value="{color:AccentBrush Dark4}" />
+        <Setter Property="Background" Value="{default:SolidFillHover}" />
       </Style>
     </Style>
 
     <!-- Pressed state: one stage deeper again -->
     <Style Selector="^:pressed, ^[(theme|Preview.State)=Pressed]">
       <Style Selector="^ /template/ Thumb">
-        <Setter Property="Background" Value="{color:AccentBrush Dark5}" />
+        <Setter Property="Background" Value="{default:SolidFillPressed}" />
       </Style>
       <Style Selector="^ /template/ RepeatButton#PART_DecreaseButton">
-        <Setter Property="Background" Value="{color:AccentBrush Dark5}" />
+        <Setter Property="Background" Value="{default:SolidFillPressed}" />
       </Style>
     </Style>
 

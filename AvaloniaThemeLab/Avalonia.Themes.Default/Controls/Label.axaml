@@ -48,7 +48,7 @@
          accent-text stage below (Dark3, as HyperlinkButton, ProgressBar and Slider carry their coloured text) -->
     <Setter Property="Foreground" Value="{color:TextDefault}" />
     <Style Selector="^[(theme|Accent.Kind)=Primary], ^[(theme|Accent.Kind)=Success], ^[(theme|Accent.Kind)=Warning], ^[(theme|Accent.Kind)=Info], ^[(theme|Accent.Kind)=Error], ^[(theme|Accent.Kind)=Destructive], ^[(theme|Accent.Kind)=Subtle]">
-      <Setter Property="Foreground" Value="{color:AccentBrush Dark3}" />
+      <Setter Property="Foreground" Value="{color:AccentTextDefault}" />
     </Style>
     <Setter Property="Padding" Value="{size:Edges All={size:ContentPadding}}" />
     <!-- Pairing detection: the Label names the field under it, and the theme pulls the two together.

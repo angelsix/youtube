@@ -59,7 +59,54 @@
   <!-- Small frameless icon button seated in the field's right edge: the field's frame is its frame, so it
        follows that frame's right-hand curve, carries no face of its own, and pads by the field's padding so
        the icon sits where the text would -->
-  <ControlTheme x:Key="DefaultTextBoxFieldIconButton" TargetType="Button">
+  <!-- ============================================================
+       Glyph motion: ONE definition, shared by every glyph that grows on hover and
+       shrinks on press (the field's clear and reveal buttons, the numeric field's
+       clear button, and the spinner's up and down arrows).
+
+       WHY A SHARED THEME: the motion must be the SAME mechanism everywhere — one
+       pivot, one pair of scale factors, one duration — so a fix to one glyph is a
+       fix to all of them, and a second definition can never drift from the first.
+
+       THE PIVOT: RenderTransformOrigin is a RelativePoint. The RELATIVE form
+       ("50%,50%") is the centre of the element; the ABSOLUTE form ("0.5,0.5") is a
+       point 0.5 PIXELS from the top-left corner, so a glyph scaled about it grows
+       down and right instead of outwards. This theme uses the relative form, so the
+       glyph grows about its own centre.
+
+       The motion rides the GLYPH, never the face: the face is the painted hit area
+       and must hold still, or a grown glyph would be clipped by the field's edge.
+       The part that carries it is named PART_Glyph, and it must be a template part
+       of the control that hosts the glyph — a theme's style reaches its own
+       template's parts, so the spinner's arrow reaches its arrow's own presenter
+       through this same theme, and no arrow re-declares the motion.
+       ============================================================ -->
+  <ControlTheme x:Key="DefaultGlyphMotion" TargetType="Control">
+    <!-- Resting glyph transform: identity, so the hover and press states below animate FROM here -->
+    <Style Selector="^ /template/ ContentPresenter#PART_Glyph">
+      <Setter Property="RenderTransformOrigin" Value="50%,50%" />
+      <Setter Property="RenderTransform" Value="none" />
+      <Setter Property="Transitions">
+        <Transitions>
+          <TransformOperationsTransition Property="RenderTransform" Duration="{theme:AnimationFastMs}" />
+        </Transitions>
+      </Setter>
+    </Style>
+    <!-- Hover: the glyph GROWS ~2px over its 16px rest size. TransformScale multiplies the token by
+         By (scale = Value x By), so 0.98 x 1.153 ~= 1.13: a visibly-slight grow that reads at icon
+         size where a whole-face scale was sub-pixel. The face holds still, so nothing clips. -->
+    <Style Selector="^:pointerover:not(:disabled) /template/ ContentPresenter#PART_Glyph">
+      <Setter Property="RenderTransform" Value="{theme:TransformScale Value={size:PressedScale}, By=1.153}" />
+    </Style>
+    <!-- Pressed: the glyph DIPS ~2.5px: 0.98 x 0.84 ~= 0.82. Deeper than the bare 0.94x sketch so
+         the shrink beats the 1.5px proof bar even through headless sub-pixel rounding (16 -> 13.1),
+         yet still reads as a quick settle, not a collapse. -->
+    <Style Selector="^:pressed:not(:disabled) /template/ ContentPresenter#PART_Glyph">
+      <Setter Property="RenderTransform" Value="{theme:TransformScale Value={size:PressedScale}, By=0.84}" />
+    </Style>
+  </ControlTheme>
+
+  <ControlTheme x:Key="DefaultTextBoxFieldIconButton" TargetType="Button" BasedOn="{StaticResource DefaultGlyphMotion}">
     <Setter Property="Background" Value="Transparent" />
     <Setter Property="Foreground" Value="{color:TextDefault}" />
     <Setter Property="BorderBrush" Value="Transparent" />
@@ -92,37 +139,18 @@
         </Border>
       </ControlTemplate>
     </Setter>
-    <!-- Resting glyph transform: identity, so the hover/press states below animate FROM here; the
-         in-and-out transition rides the glyph (not the face), which is the part that moves -->
-    <Style Selector="^ /template/ ContentPresenter#PART_Glyph">
-      <Setter Property="RenderTransformOrigin" Value="0.5,0.5" />
-      <Setter Property="RenderTransform" Value="none" />
-      <Setter Property="Transitions">
-        <Transitions>
-          <TransformOperationsTransition Property="RenderTransform" Duration="{theme:AnimationFastMs}" />
-        </Transitions>
-      </Setter>
-    </Style>
-    <!-- Hover: the field's hover fill on the face, and the glyph GROWS ~2px over its 16px rest size.
-         TransformScale multiplies the token by By (scale = Value x By), so 0.98 x 1.153 ~= 1.13:
-         a visibly-slight grow that reads at icon size where a whole-face scale was sub-pixel. The
-         face holds still, so nothing clips at the field's edge (the old whole-button grow died there). -->
+    <!-- The glyph's grow/shrink is NOT declared here: it comes from DefaultGlyphMotion, the one
+         definition every growing glyph in the theme shares (the spinner's arrows use the same one).
+         What this theme owns is the FACE's own states, which the field's frame draws around it. -->
+    <!-- Hover: the field's hover fill on the face -->
     <Style Selector="^:pointerover:not(:disabled)">
       <Setter Property="Background" Value="{color:HoverBackgroundDefault}" />
       <Setter Property="Foreground" Value="{color:HoverTextDefault}" />
       <Setter Property="ZIndex" Value="{size:HoverZIndex}" />
     </Style>
-    <Style Selector="^:pointerover:not(:disabled) /template/ ContentPresenter#PART_Glyph">
-      <Setter Property="RenderTransform" Value="{theme:TransformScale Value={size:PressedScale}, By=1.153}" />
-    </Style>
-    <!-- Pressed: the field's pressed fill on the face, and the glyph DIPS ~2.5px: 0.98 x 0.84 ~= 0.82.
-          Deeper than the bare 0.94x sketch so the shrink beats the 1.5px proof bar even through
-          headless sub-pixel rounding (16 -> 13.1), yet still reads as a quick settle, not a collapse. -->
+    <!-- Pressed: the field's pressed fill on the face -->
     <Style Selector="^:pressed:not(:disabled)">
       <Setter Property="Background" Value="{color:PressedBackgroundDefault}" />
-    </Style>
-    <Style Selector="^:pressed:not(:disabled) /template/ ContentPresenter#PART_Glyph">
-      <Setter Property="RenderTransform" Value="{theme:TransformScale Value={size:PressedScale}, By=0.84}" />
     </Style>
     <Style Selector="^:disabled">
       <Setter Property="Opacity" Value="{size:DisabledOpacity}" />
@@ -150,11 +178,13 @@
     <!-- Visual defaults -->
     <Setter Property="Background" Value="Transparent" />
     <Setter Property="Foreground" Value="{color:TextDefault}" />
-    <Setter Property="CaretBrush" Value="{color:AccentBrush Dark1}" />
+    <Setter Property="CaretBrush" Value="{color:AccentBorderDefault}" />
     <Setter Property="BorderBrush" Value="{color:BorderDefault}" />
-    <!-- Selected text: the filled column (Dark3 fill, Light10 ink), following the hue like every other state -->
-    <Setter Property="SelectionBrush" Value="{color:AccentBrush Dark3}" />
-    <Setter Property="SelectionForegroundBrush" Value="{color:AccentBrush Light10}" />
+    <!-- Selected text: the filled column (Dark3 fill, Light10 ink), following the hue like every other state.
+         The face and its ink come from the solid-fill policy ({default:SolidFill} / {default:OnSolidInk}), the
+         same pair SelectableTextBlock and the checked controls use, so a bright-seeded hue takes its bright face -->
+    <Setter Property="SelectionBrush" Value="{default:SolidFill}" />
+    <Setter Property="SelectionForegroundBrush" Value="{default:OnSolidInk}" />
     <Setter Property="PlaceholderForeground" Value="{color:DimTextDefault}" />
     <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
     <Setter Property="CornerRadius" Value="{size:RadiusSm}" />

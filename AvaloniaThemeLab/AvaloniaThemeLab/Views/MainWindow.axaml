@@ -58,12 +58,14 @@
                Theme="{StaticResource LightDarkPreviewSwatches}"
                ItemsSource="{x:Static default:LightDarkPreview.AccentChoices}"
                SelectedItem="{Binding SelectedAccent, Mode=TwoWay}">
-        <!-- Each header swatch paints its hue's solid-fill role, the same colour a checked control's face
-             (e.g. CommandBar's Favourite toggle) shows, so the picker always matches the theme's filled faces.
+        <!-- Each header swatch paints its hue's LIST-ROW PRESSED fill — the exact colour a ComboBoxItem
+             shows while pressed ({color:PressedBackgroundDefault}, Light6 of the item's own hue), read from
+             ComboBoxItem.axaml's :pressed state. Task 148: this replaces the old {color:SolidFillDefault}
+             (checked-face) swatch so the picker mirrors how the accent reads inside a drop-down row.
              Scoped to this picker only; the selection ring (BorderBrush) is left alone so it stays readable -->
         <ListBox.Styles>
           <Style Selector="ListBoxItem">
-            <Setter Property="Background" Value="{color:SolidFillDefault}" />
+            <Setter Property="Background" Value="{color:PressedBackgroundDefault}" />
           </Style>
         </ListBox.Styles>
       </ListBox>

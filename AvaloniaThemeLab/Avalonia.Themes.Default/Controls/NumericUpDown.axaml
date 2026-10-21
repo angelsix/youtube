@@ -44,7 +44,7 @@
                      PlaceholderText="Enter a value"
                      IsEnabled="False" />
       <!-- The template wraps the spinner in DataValidationErrors, so the error banner is fully wired -->
-      <TextBlock Text="Error" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
+      <TextBlock Text="Error" FontSize="{size:FontSizeSm}" theme:Accent.Kind="Error" Foreground="{color:AccentTextDefault}" />
       <NumericUpDown Width="240" Minimum="0" Maximum="10" Increment="0.5" Value="5">
         <DataValidationErrors.Error>
           <sys:Exception>

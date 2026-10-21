@@ -35,9 +35,10 @@
     <Setter Property="Foreground" Value="{color:TextDefault}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
     <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
-    <!-- Selection: the filled column (Dark3 fill, Light10 ink) so it follows Accent.Kind and reads on every hue -->
-    <Setter Property="SelectionBrush" Value="{color:AccentBrush Dark3}" />
-    <Setter Property="SelectionForegroundBrush" Value="{color:AccentBrush Light10}" />
+    <!-- Selection: the solid-fill column (the filled face and its on-fill ink), so it follows
+         Accent.Kind and reads on every hue -->
+    <Setter Property="SelectionBrush" Value="{default:SolidFill}" />
+    <Setter Property="SelectionForegroundBrush" Value="{default:OnSolidInk}" />
 
     <!-- Enabled state -->
     <Style Selector="^[IsEnabled=True]">

@@ -118,8 +118,9 @@
       <ControlTemplate>
         <!-- Validation error message for the whole control -->
         <DataValidationErrors>
-          <!-- Layout root for the picker button -->
-          <Grid Name="LayoutRoot">
+          <!-- Layout root for the picker button; carries the shared popup-alignment behaviour,
+               which wires the flyout below so its centre row lands exactly on the box -->
+          <Grid Name="LayoutRoot" default:PickerPopupAlignment.Apply="True">
             <!-- Opens the date picker when clicked; the label carries the control's padding -->
             <Button Name="PART_FlyoutButton"
                     Theme="{StaticResource DefaultDatePickerFlyoutButton}"
@@ -164,7 +165,9 @@
               </Grid>
             </Button>
 
-            <!-- The picker shown when choosing a date; sized to its own card, placed under the box -->
+            <!-- The picker shown when choosing a date; sized to its own card, placed under the box;
+                 the shared alignment behaviour (flagged on the layout root above) opens it centred
+                 on the box so the centre (selected) row lands exactly where the pointer already is -->
             <Popup Name="PART_Popup" WindowManagerAddShadowHint="False"
                    IsLightDismissEnabled="True" PlacementTarget="{TemplateBinding}"
                    Placement="Bottom">
@@ -182,7 +185,7 @@
 
     <!-- Dividers: a hairline with air on either side, so the segments never touch -->
     <Style Selector="^ /template/ Rectangle#PART_FirstSpacer, ^ /template/ Rectangle#PART_SecondSpacer">
-      <Setter Property="Fill" Value="{color:AccentBrush Light6}" />
+      <Setter Property="Fill" Value="{color:AccentDividerDefault}" />
       <Setter Property="Width" Value="{size:ThicknessSmDouble}" />
       <Setter Property="Margin" Value="{size:Edges Left={size:SpacingLg}, Right={size:SpacingLg}}" />
     </Style>
@@ -326,12 +329,13 @@
                        Grid.Row="1" />
             <!-- The dismiss and accept row: two equal faces divided by TWO tokens of air (SpacingLg),
                  inset TWO tokens (SpacingLg) from the frame's left/right/bottom borders — double the
-                 old SpacingMd — so the buttons' hover grow never reaches the flyout edge; the gap
-                 above the faces keeps the divider's breathing room -->
+                 old SpacingMd — so the buttons' hover grow never reaches the flyout edge; the SAME
+                 gap above is SpacingXl: the divider sits inside the frame's SpacingMd padding, so SpacingXl above
+                 matches the SpacingMd + SpacingLg air on the other three sides (task 143) -->
             <Grid Name="AcceptDismissGrid"
                   Grid.Row="2"
                   ColumnDefinitions="*,Auto,*"
-                  Margin="{size:Edges Left={size:SpacingLg}, Right={size:SpacingLg}, Bottom={size:SpacingLg}}">
+                  Margin="{size:Edges Left={size:SpacingLg}, Right={size:SpacingLg}, Top={size:SpacingXl}, Bottom={size:SpacingLg}}">
               <!-- Closes the picker without choosing; a stock theme Button with the Warning accent, filling the left half -->
               <Button Name="PART_DismissButton"
                       theme:Accent.Kind="Warning"
@@ -387,7 +391,7 @@
     <!-- Centre highlight: a very light rounded face with a hairline border, like a resting Button;
          one row tall so the centred value sits dead-middle inside it -->
     <Style Selector="^ /template/ Border#HighlightRect">
-      <Setter Property="Background" Value="{color:AccentBrush Light9}" />
+      <Setter Property="Background" Value="{color:SurfaceBorderless}" />
       <Setter Property="BorderBrush" Value="{color:BorderDefault}" />
       <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
       <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
@@ -396,7 +400,7 @@
 
     <!-- Column dividers: a hairline that blends into the selection band, so the band reads as one unbroken stripe -->
     <Style Selector="^ /template/ Rectangle#PART_FirstSpacer, ^ /template/ Rectangle#PART_SecondSpacer">
-      <Setter Property="Fill" Value="{color:AccentBrush Light6}" />
+      <Setter Property="Fill" Value="{color:AccentDividerDefault}" />
       <Setter Property="Width" Value="{size:ThicknessSmDouble}" />
       <Setter Property="Margin" Value="{size:Edges Left={size:SpacingLg}, Right={size:SpacingLg}}" />
     </Style>
@@ -404,7 +408,7 @@
     <!-- Hairline above the accept and dismiss row -->
     <Style Selector="^ /template/ Rectangle#PART_TopDivider">
       <Setter Property="Height" Value="{size:ThicknessSmDouble}" />
-      <Setter Property="Fill" Value="{color:AccentBrush Light6}" />
+      <Setter Property="Fill" Value="{color:AccentDividerDefault}" />
     </Style>
 
 

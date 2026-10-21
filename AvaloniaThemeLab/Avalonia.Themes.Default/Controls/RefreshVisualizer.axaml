@@ -17,10 +17,14 @@
     <Setter Property="IsHitTestVisible" Value="False"/>
     <Setter Property="Background"
             Value="Transparent"/>
-    <!-- Icon follows the control's accent hue (rest ink stage); never a pinned seed -->
+    <!-- Icon follows the control's accent hue; never a pinned seed. The arrow is a GLYPH (a mark,
+         not a text run), so it takes the accent's own glyph role: {color:AccentGlyphDefault} -->
     <Setter Property="Foreground"
-            Value="{color:AccentBrush Dark3}"/>
-    <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
+            Value="{color:AccentGlyphDefault}"/>
+    <!-- Theme Exception: the indicator is a lone glyph in the middle of its slot, so it is centred
+         there; the general control alignment would park it against the slot's left edge, where it
+         reads as a stray mark rather than a spinner (Luke, 21 Oct 2026) -->
+    <Setter Property="HorizontalAlignment" Value="Center" />
     <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
     <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
     <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
@@ -36,7 +40,16 @@
                     Width="{TemplateBinding Width}"
                     Height="{TemplateBinding Height}"
                     HorizontalAlignment="Stretch"
-                    VerticalAlignment="Stretch" />
+                    VerticalAlignment="Stretch">
+            <!-- The arrow's own rotation, about its centre. It sits at the identity here, so the
+                 control's behaviour is untouched: the real pull drives Avalonia's own composition
+                 animation, which turns the visualizer's CONTENT (this theme draws the glyph in the
+                 template instead). The transform is the axis the gallery's pull demonstration
+                 turns the very same arrow on (task 147), and every visualizer gets its own -->
+            <PathIcon.RenderTransform>
+              <RotateTransform />
+            </PathIcon.RenderTransform>
+          </PathIcon>
         </Grid>
       </ControlTemplate>
     </Setter>

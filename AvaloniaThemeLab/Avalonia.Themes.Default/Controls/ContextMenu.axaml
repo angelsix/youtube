@@ -16,18 +16,23 @@
       <!-- Caption naming the first surface -->
       <TextBlock Text="States: rest · hover · pressed · focused · disabled · selected · separator" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
       <!-- States only: no check or icon anywhere, so the shared leading column collapses to 0 and the plain-row
-           text inset stays tight; every pseudo-class is pinned on its own row -->
+           text inset stays tight; every pseudo-class is pinned on its own row. The separator sits ABOVE the
+           disabled row (task 142): it used to sit at the very bottom of the list, under the selected row,
+           which is a strange place for a divider — it now divides the interactive states from the
+           unavailable one, the way a menu's groups read. -->
       <ContextMenu Width="240">
         <MenuItem Header="Rest" />
         <MenuItem Header="Ho_ver" theme:Preview.State="Hover" />
         <MenuItem Header="Pres_sed" theme:Preview.State="Pressed" />
         <MenuItem Header="Fo_cused" theme:Preview.State="Focused" />
+        <Separator />
         <MenuItem Header="Dis_abled" IsEnabled="False" />
         <MenuItem Header="Sele_cted" IsSelected="True" />
-        <Separator />
       </ContextMenu>
-      <!-- Caption naming the second surface -->
-      <TextBlock Text="Decorations: icon · shortcut · submenu chevron · accent hue" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
+      <!-- Caption naming the second surface: it names the example's accent, so it takes the same hue
+           (task 150). The menu beneath carries ONE hue (the Warning row), so the caption is Warning
+           too, at the accent-text stage. -->
+      <TextBlock Text="Decorations: icon · shortcut · submenu chevron · accent hue" FontSize="{size:FontSizeSm}" theme:Accent.Kind="Warning" Foreground="{color:AccentTextDefault}" />
       <!-- Decorations: the icon row carries the steered centring (gap highlight-edge→ink == gap ink→label);
            the icon-less rows keep the same single icon-width column; the accent row pins a Warning hue -->
       <ContextMenu Width="240">
@@ -42,8 +47,10 @@
         <MenuItem Header="Plain _Row" />
         <MenuItem Header="Warn_ing Hue" theme:Accent.Kind="Warning" />
       </ContextMenu>
-      <!-- Caption naming the third surface -->
-      <TextBlock Text="Checks and submenu: check · radio · nested accent" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
+      <!-- Caption naming the third surface: it names the example's accent, so it takes the same hue
+           (task 150). The menu beneath carries ONE hue (the nested Report Bug row), so the caption is
+           Success too, at the accent-text stage. -->
+      <TextBlock Text="Checks and submenu: check · radio · nested accent" FontSize="{size:FontSizeSm}" theme:Accent.Kind="Success" Foreground="{color:AccentTextDefault}" />
       <!-- Checks and submenu: the tick and the icon share ONE leading column; the nested Report Bug pins a
            Success hue inside the sub-menu. The scroll viewer's overflow arrows are shown by the Menu entry's
            capped File drop-down (its list overflows the popup, so the down chevron draws) -->

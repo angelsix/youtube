@@ -5,14 +5,16 @@
                     xmlns:color="using:AngelSix.ThemeEngine.Colors"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes"
                     xmlns:icons="using:AngelSix.ThemeEngine.Icons">
-  <!-- Design preview: one card per NotificationType severity. The designer and the lab gallery both show this key,
-       so it is declared before Design.PreviewWith uses it -->
+  <!-- Design preview: the Normal card, then one card per NotificationType severity. The designer and the lab
+       gallery both show this key, so it is declared before Design.PreviewWith uses it -->
   <DataTemplate x:Key="NotificationCardPreview">
-    <!-- One card per notification type. Avalonia has no 'normal' type: a card with no NotificationType
-         IS an Information card (the property's default), which pins the Primary hue, so a separate bare
-         card would only repeat it. Success, Warning and Error pin their own hue. -->
+    <!-- The Normal card comes first: it has no severity of its own, so it takes the hue the pane's
+         accent picker selects. Avalonia has no 'normal' NotificationType - a card with no type IS an
+         Information card (the property's default) - so the Normal card is marked with the normal
+         class, and the theme's Information rule leaves a marked card alone. -->
     <!-- Cards stack vertically: each carries the theme's wide shadow margin, so a shared row would overflow a half-width pane -->
     <StackPanel Orientation="Vertical" Spacing="{size:SpacingXl}">
+      <NotificationCard Classes="normal" Content="Normal" />
       <NotificationCard NotificationType="Information" Content="Information" />
       <NotificationCard NotificationType="Success" Content="Success" />
       <NotificationCard NotificationType="Warning" Content="Warning" />
@@ -149,7 +151,7 @@
          Its top corners follow the frame's inner curve (concentric), so it does not paint past the rounded top once the card no longer clips -->
     <Style Selector="^ /template/ Border#PART_HeaderBar">
       <Setter Property="Height" Value="{size:ThicknessXxlDouble}" />
-      <Setter Property="Background" Value="{color:AccentBrush Light2}" />
+      <Setter Property="Background" Value="{color:AccentTintDefault}" />
       <Setter Property="CornerRadius" Value="{default:ConcentricCorners Radius={TemplateBinding CornerRadius}, Thickness={TemplateBinding BorderThickness}, Top=True}" />
     </Style>
 
@@ -172,10 +174,14 @@
     </Style>
 
     <!-- Hue overrides: Information, Success, Warning and Error each pin their hue, so the bar, border and
-         text follow from one block (Rule 16). Information is the Primary accent, so the card is coloured
-         whatever the ambient accent is. A bare card IS an Information card (the property's default), so
-         it takes the same hue. -->
-    <Style Selector="^:information">
+         text follow from one block (Rule 16). Information is the Primary accent.
+         The NORMAL card - the one with no severity of its own - pins no hue at all: it takes the
+         ambient accent the pane selected, like every other accent-following control in the gallery.
+         Avalonia has no 'normal' NotificationType (the property's default is Information), so every
+         card - the Normal one included - carries the :information pseudo-class. The Normal card is
+         therefore marked with the normal class, and the Information rule leaves a marked card
+         alone. Success, Warning and Error pin their own hue whatever the ambient accent is. -->
+    <Style Selector="^:information:not(.normal)">
       <Setter Property="theme:Accent.Kind" Value="Primary" />
     </Style>
     <Style Selector="^:success">

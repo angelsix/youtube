@@ -28,10 +28,14 @@
                       Padding="{size:Edges All={size:ContentPadding}}"
                       HorizontalContentAlignment="Center"
                       VerticalContentAlignment="Center">
-        <TextBlock Text="Framed · Warning" />
+        <TextBlock Text="Framed · Warning" Foreground="{color:AccentTextDefault}" />
       </ContentControl>
-      <!-- Empty sample: no Background set, so the host paints nothing -->
-      <ContentControl />
+      <!-- Empty sample: no Background set, so the host paints nothing. A non-breaking space gives the
+           content presenter a non-zero line height, and the pinned Height matches the siblings above, so
+           the empty row does not collapse to zero and change the preview's layout -->
+      <ContentControl Width="320" Height="120">
+        <TextBlock Text="&#160;" />
+      </ContentControl>
     </StackPanel>
   </DataTemplate>
 

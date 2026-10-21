@@ -71,21 +71,21 @@
     <!-- Selected state: the outlined column, not the filled one — a light fill stage with default-weight text,
          so a chosen row reads as picked without going dark (Decision, 18 Oct 2026) -->
     <Style Selector="^:selected /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="Background" Value="{color:AccentBrush Light6}" />
+      <Setter Property="Background" Value="{color:SelectedBackgroundDefault}" />
       <Setter Property="BorderBrush" Value="Transparent" />
     </Style>
 
     <!-- Selected hover state -->
     <Style Selector="^:selected:pointerover /template/ ContentPresenter#PART_ContentPresenter,
                      ^:selected[(theme|Preview.State)=Hover] /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="Background" Value="{color:AccentBrush Light5}" />
+      <Setter Property="Background" Value="{color:SelectedBackgroundHover}" />
       <Setter Property="BorderBrush" Value="Transparent" />
     </Style>
 
     <!-- Selected pressed state -->
     <Style Selector="^:selected:pressed /template/ ContentPresenter#PART_ContentPresenter,
                      ^:selected[(theme|Preview.State)=Pressed] /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="Background" Value="{color:AccentBrush Light4}" />
+      <Setter Property="Background" Value="{color:SelectedBackgroundPressed}" />
       <Setter Property="BorderBrush" Value="Transparent" />
     </Style>
 

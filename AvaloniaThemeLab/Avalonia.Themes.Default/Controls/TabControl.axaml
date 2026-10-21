@@ -15,15 +15,32 @@
       <Label Content="States" Foreground="{color:DimTextDefault}" FontSize="{size:FontSizeMd}" />
       <TabControl>
         <TabItem Header="Home" IsSelected="True">
-          <!-- The open page: a filled card standing off the canvas, sized to the caption pages below -->
-          <Border Background="{color:AccentBrush Light6}" CornerRadius="{size:RadiusSm}" Height="48">
+          <!-- The open page: a filled card standing off the canvas, sized to the caption pages below.
+               The card is a SURFACE, so it takes the rest fill ({color:BackgroundDefault}) and a
+               border ({color:BorderDefault}): ThemeRules.md says the rest fill only reads as a
+               surface when a border outlines it, and the page behind this card already wears the
+               very same rest fill, so an unbordered card in it would vanish into its own page. -->
+          <Border Background="{color:BackgroundDefault}"
+                  BorderBrush="{color:BorderDefault}"
+                  BorderThickness="{size:ThicknessSm}"
+                  CornerRadius="{size:RadiusSm}"
+                  Height="48">
             <TextBlock Text="Selected page content" Foreground="{color:TextDefault}"
                        FontSize="{size:FontSizeMd}" HorizontalAlignment="Center" VerticalAlignment="Center" />
           </Border>
         </TabItem>
-        <TabItem Header="Rest" />
-        <TabItem Header="Hover" theme:Preview.State="Hover" />
-        <TabItem Header="Pressed" theme:Preview.State="Pressed" />
+        <!-- The pages that show no caption still carry a page of the same height as the caption
+             page above, so selecting them does not resize the control. A non-breaking space keeps
+             the page from collapsing to nothing. -->
+        <TabItem Header="Rest">
+          <TextBlock Text="&#160;" Height="48" Foreground="{color:TextDefault}" />
+        </TabItem>
+        <TabItem Header="Hover" theme:Preview.State="Hover">
+          <TextBlock Text="&#160;" Height="48" Foreground="{color:TextDefault}" />
+        </TabItem>
+        <TabItem Header="Pressed" theme:Preview.State="Pressed">
+          <TextBlock Text="&#160;" Height="48" Foreground="{color:TextDefault}" />
+        </TabItem>
       </TabControl>
       <TabControl>
         <TabItem Header="Selected" IsSelected="True">
@@ -33,8 +50,12 @@
                        HorizontalAlignment="Center" VerticalAlignment="Center" />
           </Border>
         </TabItem>
-        <TabItem Header="Focused" theme:Preview.State="Focused" />
-        <TabItem Header="Off" IsEnabled="False" />
+        <TabItem Header="Focused" theme:Preview.State="Focused">
+          <TextBlock Text="&#160;" Height="48" Foreground="{color:TextDefault}" />
+        </TabItem>
+        <TabItem Header="Off" IsEnabled="False">
+          <TextBlock Text="&#160;" Height="48" Foreground="{color:TextDefault}" />
+        </TabItem>
       </TabControl>
 
       <!-- Selection variants: selected + hover, and the two accent-coloured selections; the bar follows Accent.Kind.
@@ -42,7 +63,9 @@
       <Label Content="Selection variants" Foreground="{color:DimTextDefault}" FontSize="{size:FontSizeMd}" />
       <WrapPanel Orientation="Horizontal">
         <TabControl Width="180" Margin="{size:Edges Right={size:SpacingLg}, Bottom={size:SpacingSm}}">
-          <TabItem Header="Closed" />
+          <TabItem Header="Closed">
+            <TextBlock Text="&#160;" Height="48" Foreground="{color:TextDefault}" />
+          </TabItem>
           <TabItem Header="Open" IsSelected="True" theme:Preview.State="Hover">
             <!-- Caption page at the same content height as the first example's card -->
             <Border Height="48">
@@ -52,7 +75,9 @@
           </TabItem>
         </TabControl>
         <TabControl Width="180" Margin="{size:Edges Bottom={size:SpacingSm}}">
-          <TabItem Header="Plain" />
+          <TabItem Header="Plain">
+            <TextBlock Text="&#160;" Height="48" Foreground="{color:TextDefault}" />
+          </TabItem>
           <TabItem Header="Warn" IsSelected="True" theme:Accent.Kind="Warning">
             <!-- Caption page at the same content height as the first example's card -->
             <Border Height="48">
@@ -62,11 +87,27 @@
           </TabItem>
         </TabControl>
         <TabControl Width="180">
-          <TabItem Header="Plain" />
+          <TabItem Header="Plain">
+            <TextBlock Text="&#160;" Height="48" Foreground="{color:TextDefault}" />
+          </TabItem>
           <TabItem Header="Ok" IsSelected="True" theme:Accent.Kind="Success">
             <!-- Caption page at the same content height as the first example's card -->
             <Border Height="48">
               <TextBlock Text="Ok is selected" Foreground="{color:TextDefault}"
+                         HorizontalAlignment="Center" VerticalAlignment="Center" />
+            </Border>
+          </TabItem>
+        </TabControl>
+        <!-- The strip along the bottom: the page sits above it, so the strip's leading edge has to
+             meet the page border flush just like the other three placements. -->
+        <TabControl Width="180" TabStripPlacement="Bottom">
+          <TabItem Header="Foot">
+            <TextBlock Text="&#160;" Height="48" Foreground="{color:TextDefault}" />
+          </TabItem>
+          <TabItem Header="Base" IsSelected="True">
+            <!-- Caption page at the same content height as the first example's card -->
+            <Border Height="48">
+              <TextBlock Text="Base is selected" Foreground="{color:TextDefault}"
                          HorizontalAlignment="Center" VerticalAlignment="Center" />
             </Border>
           </TabItem>
@@ -188,19 +229,22 @@
       <Setter Property="CornerRadius" Value="{size:Corners Radius={size:RadiusSm}, Left=True}" />
     </Style>
 
-    <!-- Strip inset: the strip keeps one spacing token on its outer edges, but meets the container flush on the
-         edge that faces it, so the selected tab and its line land on the container's edge -->
+    <!-- Strip inset: the strip keeps one spacing token on the edge that faces AWAY from the page
+         (top for a horizontal strip, left/right for a vertical one), but starts flush with the
+         page container on the strip's leading edge, so the first tab's outer edge and the content
+         border's edge are the same line. Every unset edge of {size:Edges} is zero, so the leading
+         edge carries no inset at all. -->
     <Style Selector="^ /template/ ItemsPresenter#PART_ItemsPresenter">
-      <Setter Property="Margin" Value="{size:Edges Left={size:SpacingSm}, Right={size:SpacingSm}, Top={size:SpacingSm}}" />
+      <Setter Property="Margin" Value="{size:Edges Top={size:SpacingSm}}" />
     </Style>
     <Style Selector="^[TabStripPlacement=Bottom] /template/ ItemsPresenter#PART_ItemsPresenter">
-      <Setter Property="Margin" Value="{size:Edges Left={size:SpacingSm}, Right={size:SpacingSm}, Bottom={size:SpacingSm}}" />
+      <Setter Property="Margin" Value="{size:Edges Bottom={size:SpacingSm}}" />
     </Style>
     <Style Selector="^[TabStripPlacement=Left] /template/ ItemsPresenter#PART_ItemsPresenter">
-      <Setter Property="Margin" Value="{size:Edges Top={size:SpacingSm}, Bottom={size:SpacingSm}, Left={size:SpacingSm}}" />
+      <Setter Property="Margin" Value="{size:Edges Left={size:SpacingSm}}" />
     </Style>
     <Style Selector="^[TabStripPlacement=Right] /template/ ItemsPresenter#PART_ItemsPresenter">
-      <Setter Property="Margin" Value="{size:Edges Top={size:SpacingSm}, Bottom={size:SpacingSm}, Right={size:SpacingSm}}" />
+      <Setter Property="Margin" Value="{size:Edges Right={size:SpacingSm}}" />
     </Style>
   </ControlTheme>
 </ResourceDictionary>

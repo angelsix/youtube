@@ -255,28 +255,28 @@
     </Style>
 
     <!-- ============================================================
-         Checked column (filled): the solid-fill face and its on-fill ink
+         Checked column (filled): the solid-fill face ({default:SolidFill}) and its on-fill
+         ink ({default:OnSolidInk}) — both chosen by the solid-fill policy
          ============================================================ -->
 
-    <!-- Checked default: the bright solid-fill face with the deep on-fill ink
-         (identical to the old Dark3 / Light10 pair in dark) -->
+    <!-- Checked default: the solid-fill face with the on-fill ink the policy picks for it -->
     <Style Selector="^:checked">
-      <Setter Property="Background" Value="{color:SolidFillDefault}" />
-      <Setter Property="Foreground" Value="{color:OnSolidFillInkDefault}" />
+      <Setter Property="Background" Value="{default:SolidFill}" />
+      <Setter Property="Foreground" Value="{default:OnSolidInk}" />
     </Style>
 
-    <!-- Checked hover: the solid face deepens one step (bright solid-fill hover role); the on-fill ink keeps
-         >= 3:1 on the deeper vivid face (identical to Dark4/Light10 in dark) -->
+    <!-- Checked hover: the solid face steps one stage deeper ({default:SolidFillHover}); the on-fill ink
+         is re-picked against that face, so it keeps >= 4.5:1 whichever column the hue wears -->
     <Style Selector="^:checked:pointerover:not(:disabled), ^:checked[(theme|Preview.State)=Hover]:not(:disabled)">
-      <Setter Property="Background" Value="{color:SolidFillHover}" />
-      <Setter Property="Foreground" Value="{color:OnSolidFillInkDefault}" />
+      <Setter Property="Background" Value="{default:SolidFillHover}" />
+      <Setter Property="Foreground" Value="{default:OnSolidInk}" />
     </Style>
 
-    <!-- Checked pressed: the solid face deepens two steps (bright solid-fill pressed role); the on-fill ink
-         keeps >= 3:1 on the deepest vivid face (identical to Dark5/Light10 in dark) -->
+    <!-- Checked pressed: the solid face steps two stages deeper ({default:SolidFillPressed}); the on-fill ink
+         is re-picked against that face, so it keeps >= 4.5:1 whichever column the hue wears -->
     <Style Selector="^:checked:pressed:not(:disabled), ^:checked[(theme|Preview.State)=Pressed]:not(:disabled)">
-      <Setter Property="Background" Value="{color:SolidFillPressed}" />
-      <Setter Property="Foreground" Value="{color:OnSolidFillInkDefault}" />
+      <Setter Property="Background" Value="{default:SolidFillPressed}" />
+      <Setter Property="Foreground" Value="{default:OnSolidInk}" />
     </Style>
 
     <!-- Checked and disabled: the filled column stays under the whole-control dim above,

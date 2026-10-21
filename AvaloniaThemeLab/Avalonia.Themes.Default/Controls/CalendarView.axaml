@@ -245,13 +245,13 @@
 
     <!-- Today state -->
     <Style Selector="^:today /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="Foreground" Value="{color:AccentBrush Dark2}" />
+      <Setter Property="Foreground" Value="{color:AccentTextDefault}" />
       <Setter Property="FontWeight" Value="{theme:FontWeightSemiBold}" />
     </Style>
 
     <!-- Preview band state -->
     <Style Selector="^:preview /template/ Border#Fill">
-      <Setter Property="Background" Value="{color:AccentBrush Light9}" />
+      <Setter Property="Background" Value="{color:SurfaceBorderless}" />
       <Setter Property="Margin" Value="{size:Edges Vertical={size:ThicknessSm}}" />
       <Setter Property="CornerRadius" Value="0" />
     </Style>
@@ -326,7 +326,7 @@
     <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
     <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
     <Setter Property="HeaderBackground" Value="{color:BackgroundDefault}" />
-    <Setter Property="MarkerBrush" Value="{color:AccentBrush Dark1}" />
+    <Setter Property="MarkerBrush" Value="{color:AccentBorderDefault}" />
     <Setter Property="Focusable" Value="True" />
     <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
 
@@ -517,7 +517,7 @@
     <Style Selector="^ /template/ TextBlock.weeknumber">
       <Setter Property="FontSize" Value="{size:FontSizeSm}" />
       <Setter Property="FontWeight" Value="{theme:FontWeightBold}" />
-      <Setter Property="Foreground" Value="{color:AccentBrush Dark4}" />
+      <Setter Property="Foreground" Value="{color:AccentTextDefault}" />
       <!-- Theme Exception: Centres the week number in its gutter column; the theme's horizontal content
            alignment is Left (text fields), which would hug the number to the column edge -->
       <Setter Property="HorizontalAlignment" Value="Center" />

@@ -59,7 +59,7 @@
 
     <!-- Selected pipe visuals: a 2px bar spanning the item's full cross-axis, hugging the edge that faces the content -->
     <Style Selector="^ /template/ Border#PART_SelectedPipe">
-      <Setter Property="Background" Value="{color:AccentBrush Dark3}" />
+      <Setter Property="Background" Value="{color:AccentIndicatorDefault}" />
       <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
       <Setter Property="Height" Value="{size:SpacingSm}" />
       <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
@@ -89,23 +89,26 @@
       <Setter Property="BorderThickness" Value="{default:FocusThickness}" />
     </Style>
 
-    <!-- Selected state -->
+    <!-- Selected state: the selected row's tint. The tab is a selected row, so it takes the
+         selected-row role (Light6) and not the outlined control's pressed fill (Light7): with the
+         pressed fill the resting selection would wear exactly the colour a pressed UNSELECTED tab
+         wears, and the two states would be indistinguishable. -->
     <Style Selector="^:selected">
-      <Setter Property="Background" Value="{color:PressedBackgroundDefault}" />
+      <Setter Property="Background" Value="{color:SelectedBackgroundDefault}" />
       <Setter Property="Foreground" Value="{color:TextDefault}" />
     </Style>
     <Style Selector="^:selected /template/ Border#PART_SelectedPipe">
       <Setter Property="IsVisible" Value="True" />
     </Style>
 
-    <!-- Selected hover state -->
+    <!-- Selected hover state: the selected row's tint, one stage deeper than the selection itself -->
     <Style Selector="^:selected:pointerover /template/ Border#PART_LayoutRoot, ^:selected[(theme|Preview.State)=Hover] /template/ Border#PART_LayoutRoot">
-      <Setter Property="Background" Value="{color:AccentBrush Light5}" />
+      <Setter Property="Background" Value="{color:SelectedBackgroundHover}" />
     </Style>
 
-    <!-- Selected pressed state -->
+    <!-- Selected pressed state: the selected row's tint, two stages deeper than the selection itself -->
     <Style Selector="^:selected:pressed /template/ Border#PART_LayoutRoot, ^:selected[(theme|Preview.State)=Pressed] /template/ Border#PART_LayoutRoot">
-      <Setter Property="Background" Value="{color:AccentBrush Light4}" />
+      <Setter Property="Background" Value="{color:SelectedBackgroundPressed}" />
     </Style>
 
     <!-- TabStripPlacement: Left — the pipe hugs the right edge (the edge facing the content), full height of the item; the curve faces away from it; the tab stretches across the strip so every side tab reads the same width -->

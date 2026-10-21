@@ -4,59 +4,31 @@
         xmlns:internal="using:Avalonia.Dialogs.Internal"
         xmlns:converters="clr-namespace:Avalonia.Controls.Converters;assembly=Avalonia.Controls"
         xmlns:default="clr-namespace:Avalonia.Themes.Default"
+        xmlns:design="clr-namespace:Avalonia.Themes.Default.Design"
         xmlns:theme="using:AngelSix.ThemeEngine.Generated"
         xmlns:color="using:AngelSix.ThemeEngine.Colors"
         xmlns:size="using:AngelSix.ThemeEngine.Sizes"
         xmlns:icons="using:AngelSix.ThemeEngine.Icons">
-  <!-- Design preview: authored once; each pane (light + dark) instantiates its own independent copy. The designer and the lab gallery both show this key,
-       so it is declared before Design.PreviewWith uses it. No DataContext: the view model walks the real file system,
-       so the samples show the dialog's empty state reading correctly — sized boxes, visible frames.
-       Its view model's constructors take picker-options arguments XAML cannot supply, so the
-       template itself holds the reference's structure when empty: a 200px places rail and a floored file list -->
-  <!-- Stacked panes (Rule 20): the real dialog needs ~880px of width for its four columns, so the
-     light and dark panes stack vertically and each gets the full page width -->
+  <!-- Design preview: the REAL chooser over a REAL folder. The view model is created in C#
+       (Design/ManagedFileChooserDesignData.cs) and browses a sample folder of dummy files, so the
+       preview shows the browsing UI a user meets - places rail, typed path, file list, Save/Cancel -
+       instead of an empty shell. Each pane instantiates its own copy of the template, and the
+       design data hands out a NEW view model per read, so the light and dark panes never share one.
+       Stacked panes (Rule 20): the chooser needs the room its four columns take, so the light and
+       dark panes stack vertically and each gets the full page width -->
   <Orientation x:Key="ManagedFileChooserPreviewOrientation">Vertical</Orientation>
 
   <DataTemplate x:Key="ManagedFileChooserPreview">
     <StackPanel Orientation="Vertical" Spacing="{size:SpacingXl}" HorizontalAlignment="Left">
-      <!-- The picker surface, empty, beside the overwrite prompt and the row-selection sample:
-           all three read at real size while the whole entry stays short enough that BOTH stacked
-           panes fit the 1200x800 page without the gallery scrolling. At Height 230 the centre
-           region seats the header row above a visibly floored file list with no data -->
-      <StackPanel Orientation="Horizontal" Spacing="{size:SpacingXl}">
-        <dialogs:ManagedFileChooser Width="560" Height="230"/>
+      <!-- The picker surface, browsable: the places rail on the left, the path box across the top,
+           the file list in the middle and the file-name row with the actions at the bottom -->
+      <dialogs:ManagedFileChooser Width="832" Height="600"
+                                   DataContext="{x:Static design:ManagedFileChooserDesignData.Sample}" />
 
-        <!-- The prompt and the row-selection sample share the column beside the picker -->
-        <StackPanel Orientation="Vertical" Spacing="{size:SpacingXl}">
-          <!-- Overwrite-prompt theme: Success Yes / Destructive No; pinned to its smallest surface
-               width so the picker keeps the width its four columns need -->
-          <dialogs:ManagedFileChooserOverwritePrompt FileName="report.pdf" HorizontalAlignment="Left"
-                                                     Width="{size:SurfaceWidthSm}"/>
-
-          <!-- Row-selection theme, proven with one forced-selected entry; the rail's own 200px width
-               is shown inside the picker, this sample shows the item states. Wide enough that the
-               labels clear the row's themed insets (margin 16 + padding 32 per side) without wrapping -->
-          <!-- Compact rows (tighter than the rail's rhythm) so all three entries sit inside the
-               band beside the prompt without a scrollbar; the rail inside the picker shows the
-               full-height row rhythm -->
-          <ListBox Theme="{StaticResource DefaultManagedFileChooserQuickLinks}"
-                   SelectedIndex="1" Focusable="False" HorizontalAlignment="Left"
-                   Width="{size:Scaled Value={size:IconSizeMd}, By=12.5}"
-                   Height="{size:Scaled Value={size:ControlHeightMd}, By=2.5}">
-            <ListBox.Styles>
-              <!-- Implicit: targets this list's rows only -->
-              <Style Selector="ListBoxItem">
-                <Setter Property="Padding" Value="{size:Edges Left={size:Scaled Value={size:IconSizeMd}, By=2}, Top={size:SpacingMd}, Right={size:Scaled Value={size:IconSizeMd}, By=2}, Bottom={size:SpacingMd}}" />
-              </Style>
-            </ListBox.Styles>
-            <ListBox.Items>
-              <TextBlock Text="Documents"/>
-              <TextBlock Text="Downloads"/>
-              <TextBlock Text="Pictures"/>
-            </ListBox.Items>
-          </ListBox>
-        </StackPanel>
-      </StackPanel>
+      <!-- The overwrite prompt: the platform convention puts the refusal first and the confirmation
+           second, the way the theme's own pickers put their dismiss face before their accept face -->
+      <dialogs:ManagedFileChooserOverwritePrompt FileName="report.pdf" HorizontalAlignment="Left"
+                                                 Width="{size:SurfaceWidthSm}" />
     </StackPanel>
   </DataTemplate>
 
@@ -103,10 +75,20 @@
     </Setter>
     <Setter Property="ItemContainerTheme">
       <ControlTheme TargetType="ListBoxItem">
-        <!-- Symmetric edges keep the label vertically centred; no fixed height so rows ride their content -->
-        <Setter Property="Padding" Value="{size:Edges Left={size:Scaled Value={size:IconSizeMd}, By=2}, Top={size:SpacingLg}, Right={size:Scaled Value={size:IconSizeMd}, By=2}, Bottom={size:SpacingLg}}"/>
+        <!-- The same inset the theme's own list rows use (ListBoxItem.axaml): one horizontal inset
+             and a symmetric vertical one, so the label rides centred and the icon starts at the
+             row's standard inset from the rail's edge. The rail's row must NOT add a second
+             inset of its own: the stock chooser's places start at the row's own padding. -->
+        <Setter Property="Padding" Value="{size:Edges Horizontal={size:SpacingXxl}, Vertical={size:ContentPadding}}" />
+        <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
         <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
         <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
+        <!-- The places are reached with the pointer, as in the stock: the rail itself declares
+             Focusable="False", and its rows follow it out of the tab order. A place press
+             NAVIGATES the chooser (the stock behaviour), which rebuilds the file list - so a
+             keyboard- or proof-driven press on a place would tear down the rows a measurement had
+             just taken. -->
+        <Setter Property="Focusable" Value="False" />
         <Setter Property="Template">
           <ControlTemplate>
             <!-- Outer frame around one quick link; the outline fill alone marks hover/selection -->
@@ -125,10 +107,14 @@
           </ControlTemplate>
         </Setter>
 
-        <!-- Themed defaults for inner template elements (Rule 2) -->
+        <!-- Themed defaults for inner template elements (Rule 2). The frame takes NO inset of its
+             own: the row's padding above already places the icon at the list's standard inset, and
+             a second margin here would push it twice as far in - which is what left the stock's
+             left-aligned places looking centred in a wide rail. The fill spans the whole row, as
+             it does in the theme's own list rows. -->
         <Style Selector="^ /template/ Border#LayoutRoot">
           <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
-          <Setter Property="Margin" Value="{size:Edges Left={size:SpacingXxl}, Right={size:SpacingXxl}}" />
+          <Setter Property="Margin" Value="{size:Edges}" />
         </Style>
 
         <!-- Selected rows are outlined, not filled (ThemeRules): light fill stage, TextDefault text -->
@@ -136,13 +122,17 @@
           <Setter Property="Background" Value="{color:HoverBackgroundDefault}"/>
         </Style>
         <Style Selector="^:selected /template/ Border#LayoutRoot">
-          <Setter Property="Background" Value="{color:AccentBrush Light6}"/>
+          <Setter Property="Background" Value="{color:SelectedBackgroundDefault}"/>
         </Style>
         <Style Selector="^:selected:pointerover /template/ Border#LayoutRoot">
-          <Setter Property="Background" Value="{color:AccentBrush Light5}"/>
+          <Setter Property="Background" Value="{color:SelectedBackgroundHover}"/>
         </Style>
         <Style Selector="^:selected:pressed /template/ Border#LayoutRoot">
-          <Setter Property="Background" Value="{color:AccentBrush Light4}"/>
+          <Setter Property="Background" Value="{color:SelectedBackgroundPressed}"/>
+        </Style>
+        <!-- Disabled state: the whole row fades, as in the theme's own ListBoxItem theme -->
+        <Style Selector="^:disabled">
+          <Setter Property="Opacity" Value="{size:DisabledOpacity}" />
         </Style>
       </ControlTheme>
     </Setter>
@@ -174,8 +164,8 @@
         </GradientStops>
         <DrawingGroup x:Key="LevelUp">
           <GeometryDrawing Brush="#00FFFFFF" Geometry="F1M16,16L0,16 0,0 16,0z" />
-          <GeometryDrawing Brush="#FFF6F6F6" Geometry="F1M14.5,0L6.39,0 5.39,2 2.504,2C1.677,2,1,2.673,1,3.5L1,10.582 1,10.586 1,15.414 3,13.414 3,16 7,16 7,13.414 9,15.414 9,13 14.5,13C15.327,13,16,12.327,16,11.5L16,1.5C16,0.673,15.327,0,14.5,0" />
-          <GeometryDrawing Brush="#FFDCB679" Geometry="F1M14,3L7.508,3 8.008,2 8.012,2 14,2z M14.5,1L7.008,1 6.008,3 2.504,3C2.227,3,2,3.224,2,3.5L2,9.582 4.998,6.586 9,10.586 9,12 14.5,12C14.775,12,15,11.776,15,11.5L15,1.5C15,1.224,14.775,1,14.5,1" />
+          <GeometryDrawing Brush="#FFF6F6F6" Geometry="F1M14.5,0L6.39,0 5.39,2 2.504,2C1.677,2 1,2.673 1,3.5L1,10.582 1,10.586 1,15.414 3,13.414 3,16 7,16 7,13.414 9,15.414 9,13 14.5,13C15.327,13 16,12.327 16,11.5L16,1.5C16,0.673 15.327,0 14.5,0" />
+          <GeometryDrawing Brush="#FFDCB679" Geometry="F1M14,3L7.508,3 8.008,2 8.012,2 14,2z M14.5,1L7.008,1 6.008,3 2.504,3C2.227,3 2,3.224 2,3.5L2,9.582 4.998,6.586 9,10.586 9,12 14.5,12C14.775,12 15,11.776 15,11.5L15,1.5C15,1.224 14.775,1 14.5,1" />
           <GeometryDrawing Brush="#FF00529C" Geometry="F1M8,11L5,8 2,11 2,13 4,11 4,15 6,15 6,11 8,13z" />
           <GeometryDrawing Brush="#FFF0EFF1" Geometry="F1M8.0001,1.9996L7.5001,3.0006 14.0001,3.0006 14.0001,1.9996z" />
         </DrawingGroup>
@@ -292,6 +282,7 @@
     <Setter Property="BorderBrush" Value="{color:BorderDefault}" />
     <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
     <Setter Property="CornerRadius" Value="{size:RadiusMd}" />
+    <Setter Property="Padding" Value="{size:Edges}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
     <Setter Property="VerticalAlignment" Value="{theme:ContainerVerticalAlignment}" />
     <Setter Property="Template"
@@ -306,41 +297,49 @@
                 Padding="{TemplateBinding Padding}">
           <!-- Layout root docking the panels around the file list -->
           <DockPanel>
-            <!-- Shortcuts to common folders, down the left; sized by their widest entry -->
+            <!-- Shortcuts to common folders, down the left; sized by their widest entry. The rows
+                 are NOT virtualised, for the same reason as the file list: the dark pane sits below
+                 the fold in the stacked gallery, and a virtualising list would realise only the
+                 first place of it. -->
             <ListBox x:Name="PART_QuickLinks" Theme="{StaticResource DefaultManagedFileChooserQuickLinks}" DockPanel.Dock="Left" ItemsSource="{Binding QuickLinks}" SelectedIndex="{Binding QuickLinksSelectedIndex}" Focusable="False">
+              <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                  <StackPanel />
+                </ItemsPanelTemplate>
+              </ListBox.ItemsPanel>
               <ListBox.ItemTemplate>
                 <DataTemplate>
                   <!-- One shortcut: its icon and name -->
-                  <StackPanel Orientation="Horizontal" Background="Transparent">
+                  <StackPanel Orientation="Horizontal" Background="Transparent" Spacing="{size:SpacingMd}">
                     <Image Width="{size:IconSizeMd}" Height="{size:IconSizeMd}" VerticalAlignment="Center">
                       <Image.Source>
                         <DrawingImage Drawing="{Binding IconKey, Converter={StaticResource Icons}}"/>
                       </Image.Source>
                     </Image>
-                    <TextBlock Text="{Binding DisplayName}" VerticalAlignment="Center" Margin="{size:Edges Left={size:SpacingMd}}"/>
+                    <TextBlock Text="{Binding DisplayName}" VerticalAlignment="Center"
+                               TextTrimming="CharacterEllipsis" MaxLines="1"/>
                   </StackPanel>
                 </DataTemplate>
               </ListBox.ItemTemplate>
             </ListBox>
             <!-- The address bar across the top -->
-            <DockPanel x:Name="NavBar" DockPanel.Dock="Top" VerticalAlignment="Center">
+            <DockPanel x:Name="NavBar" DockPanel.Dock="Top">
               <!-- Line below the address bar -->
               <Rectangle x:Name="NavBarSeparator" Height="{size:ThicknessSmDouble}" DockPanel.Dock="Bottom"/>
               <!-- Places the buttons either side of the path -->
               <DockPanel x:Name="NavBarInner">
                 <!-- Goes to the parent folder -->
                 <Button x:Name="GoUpButton" Command="{Binding GoUp}" DockPanel.Dock="Left">
-                  <Path Data="{icons:ArrowUp}" Width="{size:IconSizeMd}" Height="{size:IconSizeMd}" Stretch="Uniform" Fill="{CompiledBinding $parent[Button].Foreground}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                  <PathIcon Data="{icons:ArrowUp}" Width="{size:IconSizeMd}" Height="{size:IconSizeMd}"/>
                 </Button>
                 <!-- Reloads the current folder -->
                 <Button x:Name="RefreshButton" Command="{Binding Refresh}" DockPanel.Dock="Right">
-                  <Path Data="{icons:Refresh}" Width="{size:IconSizeMd}" Height="{size:IconSizeMd}" Stretch="Uniform"
-                        Fill="{CompiledBinding $parent[Button].Foreground}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                  <PathIcon Data="{icons:Refresh}" Width="{size:IconSizeMd}" Height="{size:IconSizeMd}"/>
                 </Button>
-                <!-- The current folder path, editable; the preview pins a sample path so the box reads correctly.
-                     The inner vertical scrollbar is hidden (not disabled) so the field reads as a clean text field
-                     rather than a boxed widget whose scrollbar arrows crowd the placeholder at its right edge;
-                     hiding keeps the content scrollable so the proof crawler can still exercise it -->
+                <!-- The current folder path, editable; the inner vertical scrollbar is hidden (not
+                     disabled) so the field reads as a clean text field rather than a boxed widget
+                     whose scrollbar arrows crowd the placeholder at its right edge; hiding keeps
+                     the content scrollable so the proof crawler can still exercise it -->
                 <TextBox x:Name="Location" Text="{Binding Location}" PlaceholderText="Folder path"
                          ScrollViewer.VerticalScrollBarVisibility="Hidden">
                   <TextBox.KeyBindings>
@@ -349,8 +348,10 @@
                 </TextBox>
               </DockPanel>
             </DockPanel>
-            <!-- The action bar across the bottom; the address bar's hairline is the only rule in the centre region -->
+            <!-- The action bar across the bottom -->
             <DockPanel x:Name="BottomBar" DockPanel.Dock="Bottom">
+              <!-- Line above the action bar -->
+              <Rectangle x:Name="BottomBarSeparator" Height="{size:ThicknessSmDouble}" DockPanel.Dock="Top"/>
               <!-- Stacks the file name row above the buttons -->
               <DockPanel x:Name="BottomBarInner">
                 <!-- The file name and filter row -->
@@ -361,14 +362,14 @@
                       ItemsSource="{Binding Filters}"
                       SelectedItem="{Binding SelectedFilter}" />
                   <!-- The file name being saved or opened -->
-                  <TextBox Text="{Binding FileName}" PlaceholderText="File name" IsVisible="{Binding !SelectingFolder}" />
+                  <TextBox x:Name="FileName" Text="{Binding FileName}" PlaceholderText="File name" IsVisible="{Binding !SelectingFolder}" />
                 </DockPanel>
                 <!-- Toggles hidden files in the list; its own row so the buttons keep their face -->
-                <CheckBox IsChecked="{Binding ShowHiddenFiles}" Content="Show hidden files" DockPanel.Dock="Top" Margin="{size:Edges Bottom={size:SpacingMd}}"/>
+                <CheckBox IsChecked="{Binding ShowHiddenFiles}" Content="Show hidden files" DockPanel.Dock="Left"/>
                 <!-- The confirm and cancel buttons -->
                 <UniformGrid x:Name="Finalize" HorizontalAlignment="Right" Rows="1">
-                  <Button Command="{Binding Ok}" Content="OK" />
-                  <Button Command="{Binding Cancel}" Content="Cancel" />
+                  <Button Command="{Binding Ok}" Content="Save" IsDefault="True"/>
+                  <Button Command="{Binding Cancel}" Content="Cancel" IsCancel="True"/>
                 </UniformGrid>
               </DockPanel>
             </DockPanel>
@@ -397,13 +398,20 @@
                 <Rectangle x:Name="HeaderSplitC" Grid.Column="6" VerticalAlignment="Stretch"/>
                 <TextBlock x:Name="HeaderSize" Grid.Column="7" Text="Size" />
               </Grid>
-              <!-- The files and folders in this folder -->
+              <!-- The files and folders in this folder. The rows are NOT virtualised: the gallery
+                   stacks the light and dark panes, so the dark pane sits below the fold and a
+                   virtualising list would realise only the first row of it - the pane would look
+                   empty. A plain panel realises every row, so both panes show the same list. -->
               <ListBox x:Name="PART_Files"
                   ItemsSource="{Binding Items}"
                   SelectionMode="{Binding SelectionMode}"
                   SelectedItems="{Binding SelectedItems}"
-                  Background="Transparent"
                   ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                <ListBox.ItemsPanel>
+                  <ItemsPanelTemplate>
+                    <StackPanel />
+                  </ItemsPanelTemplate>
+                </ListBox.ItemsPanel>
                 <ListBox.ItemTemplate>
                   <DataTemplate x:DataType="internal:ManagedFileChooserItemViewModel">
                     <!-- One row: icon, name, date, type and size; the splitter cells share the
@@ -424,19 +432,19 @@
                           <DrawingImage Drawing="{Binding IconKey, Converter={StaticResource Icons}}"/>
                         </Image.Source>
                       </Image>
-                      <TextBlock Grid.Column="1" Text="{Binding DisplayName}"/>
+                      <TextBlock Grid.Column="1" Text="{Binding DisplayName}" VerticalAlignment="Center"/>
                       <Rectangle x:Name="RowSplitA" Grid.Column="2" VerticalAlignment="Stretch"
-                                 Width="{size:ThicknessSmDouble}" Fill="{color:BorderDefault}"
+                                 Width="{size:ThicknessSmDouble}"
                                  Margin="{size:Edges Left={size:SpacingMd}, Right={size:SpacingMd}}"/>
-                      <TextBlock Grid.Column="3" Text="{Binding Modified}" />
+                      <TextBlock Grid.Column="3" Text="{Binding Modified}" VerticalAlignment="Center"/>
                       <Rectangle x:Name="RowSplitB" Grid.Column="4" VerticalAlignment="Stretch"
-                                 Width="{size:ThicknessSmDouble}" Fill="{color:BorderDefault}"
+                                 Width="{size:ThicknessSmDouble}"
                                  Margin="{size:Edges Left={size:SpacingMd}, Right={size:SpacingMd}}"/>
-                      <TextBlock Grid.Column="5" Text="{Binding Type}" />
+                      <TextBlock Grid.Column="5" Text="{Binding Type}" VerticalAlignment="Center"/>
                       <Rectangle x:Name="RowSplitC" Grid.Column="6" VerticalAlignment="Stretch"
-                                 Width="{size:ThicknessSmDouble}" Fill="{color:BorderDefault}"
+                                 Width="{size:ThicknessSmDouble}"
                                  Margin="{size:Edges Left={size:SpacingMd}, Right={size:SpacingMd}}"/>
-                      <TextBlock Grid.Column="7" HorizontalAlignment="Right">
+                      <TextBlock Grid.Column="7" HorizontalAlignment="Right" VerticalAlignment="Center">
                         <TextBlock.Text>
                           <Binding Path="Size">
                             <Binding.Converter>
@@ -476,6 +484,11 @@
     <Style Selector="^ /template/ DockPanel#BottomBar">
       <Setter Property="Margin" Value="{size:Edges Left={size:SpacingXl}, Right={size:SpacingXl}, Bottom={size:SpacingMd}}" />
     </Style>
+    <!-- Single hairline above the action bar (the same groove tone as the one under the path) -->
+    <Style Selector="^ /template/ Rectangle#BottomBarSeparator">
+      <Setter Property="Fill" Value="{color:BorderDefault}" />
+      <Setter Property="Margin" Value="{size:Edges Bottom={size:SpacingMd}}" />
+    </Style>
     <Style Selector="^ /template/ DockPanel#BottomBarInner">
       <Setter Property="Margin" Value="{size:Edges Left={size:SpacingMd}, Right={size:SpacingMd}}" />
     </Style>
@@ -483,7 +496,7 @@
       <Setter Property="Margin" Value="{size:Edges Bottom={size:SpacingMd}}" />
     </Style>
     <Style Selector="^ /template/ Grid#FileHeaders">
-      <Setter Property="Margin" Value="{size:Edges Left={size:SpacingXxl}, Top={size:SpacingMd}}" />
+      <Setter Property="Margin" Value="{size:Edges Left={size:SpacingXxl}, Top={size:SpacingMd}, Bottom={size:SpacingMd}}" />
     </Style>
     <!-- The thin 1px column splitters between the headings; the file rows mirror them via the shared size groups -->
     <Style Selector="^ /template/ Rectangle#HeaderSplitA, ^ /template/ Rectangle#HeaderSplitB, ^ /template/ Rectangle#HeaderSplitC">
@@ -491,37 +504,43 @@
       <Setter Property="Fill" Value="{color:BorderDefault}" />
       <Setter Property="Margin" Value="{size:Edges Left={size:SpacingMd}, Right={size:SpacingMd}}" />
     </Style>
-    <!-- Places rail keeps the reference's 200px width and the file list keeps a floor when the preview has no data -->
-    <Style Selector="^ /template/ ListBox#PART_QuickLinks">
-      <Setter Property="MinWidth" Value="{size:Scaled Value={size:ControlHeightMd}, By=5}" />
+    <!-- The same 1px rules between the rows' columns -->
+    <Style Selector="^ /template/ Rectangle#RowSplitA, ^ /template/ Rectangle#RowSplitB, ^ /template/ Rectangle#RowSplitC">
+      <Setter Property="Fill" Value="{color:BorderDefault}" />
     </Style>
-    <!-- The file list fills whatever is left BELOW the header row; no floor of its own, or at a
-         short dialog height it eats the header's space and its empty frame straddles the headings.
-         Frameless too: the reference lists files without a box, the nav hairline and the bottom
-         bar's rule are the only lines in the centre region -->
+    <!-- Places rail keeps the reference's 200px width: the names inside it are trimmed, so a long
+         one never widens the rail and squeezes the file list -->
+    <Style Selector="^ /template/ ListBox#PART_QuickLinks">
+      <Setter Property="Width" Value="{size:Scaled Value={size:ControlHeightMd}, By=5}" />
+    </Style>
+    <!-- The file list fills whatever is left BELOW the header row; frameless too: the reference lists
+         files without a box, the nav hairline and the bottom bar's rule are the only lines in the
+         centre region -->
     <Style Selector="^ /template/ ListBox#PART_Files">
-      <Setter Property="Margin" Value="{size:Edges}" />
+      <Setter Property="Background" Value="Transparent" />
       <Setter Property="BorderThickness" Value="0" />
+      <Setter Property="Padding" Value="{size:Edges}" />
+      <Setter Property="Margin" Value="{size:Edges}" />
     </Style>
     <!-- The path and file-name fields stretch across their rows, flanked by the toolbar buttons and the filter combo -->
-    <Style Selector="^ /template/ DockPanel#NavBarInner > TextBox">
+    <Style Selector="^ /template/ TextBox#Location">
       <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
     </Style>
-    <Style Selector="^ /template/ DockPanel#BottomBarTop > TextBox">
+    <Style Selector="^ /template/ TextBox#FileName">
       <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
     </Style>
 
     <Style Selector="^ /template/ DockPanel#NavBar Button, ^ /template/ DockPanel#NavBar TextBox">
-      <Setter Property="Height" Value="{size:ControlHeightSm}"/>
+      <Setter Property="Height" Value="{size:ControlHeightMd}"/>
     </Style>
     <!-- The stretched path and file-name fields take the taller control height so their 16.9px
          text lines clear the slot instead of being clipped at 14px -->
-    <Style Selector="^ /template/ TextBox#Location, ^ /template/ DockPanel#BottomBarTop > TextBox">
+    <Style Selector="^ /template/ TextBox#Location, ^ /template/ TextBox#FileName">
       <Setter Property="Height" Value="{size:ControlHeightMd}" />
     </Style>
     <Style Selector="^ /template/ DockPanel#NavBar Button">
       <Setter Property="VerticalAlignment" Value="{theme:ContainerVerticalAlignment}"/>
-      <Setter Property="Width" Value="{size:ControlHeightSm}"/>
+      <Setter Property="Width" Value="{size:ControlHeightMd}"/>
       <Setter Property="BorderThickness" Value="0"/>
     </Style>
     <Style Selector="^ /template/ DockPanel#NavBar Button:not(:pointerover):not(:pressed)">
@@ -531,6 +550,7 @@
     <Style Selector="^ /template/ UniformGrid#Finalize > Button">
       <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}"/>
       <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}"/>
+      <Setter Property="MinWidth" Value="{size:ControlMinWidth}"/>
       <Setter Property="Margin" Value="{size:Edges Left={size:SpacingMd}}"/>
     </Style>
 
@@ -572,16 +592,17 @@
             <!-- Warns that the file already exists -->
             <TextBlock TextWrapping="Wrap"
                        Text="{Binding FileName, RelativeSource={RelativeSource TemplatedParent}, StringFormat='{}{0} already exists. Do you want to replace it?'}" />
-            <!-- The confirm and cancel buttons -->
+            <!-- The confirm and cancel buttons: the refusal comes first and the confirmation second,
+                 the platform order the theme's own pickers use for their dismiss and accept faces -->
             <StackPanel x:Name="PART_OverwritePromptButtons"
                         HorizontalAlignment="Right"
                         Orientation="Horizontal">
-              <Button theme:Accent.Kind="Success" Content="Yes"
-                      IsDefault="True"
-                      Command="{Binding Confirm, RelativeSource={RelativeSource TemplatedParent}}" />
               <Button theme:Accent.Kind="Destructive" Content="No"
                       IsCancel="True"
                       Command="{Binding Cancel, RelativeSource={RelativeSource TemplatedParent}}"  />
+              <Button theme:Accent.Kind="Success" Content="Yes"
+                      IsDefault="True"
+                      Command="{Binding Confirm, RelativeSource={RelativeSource TemplatedParent}}" />
             </StackPanel>
           </StackPanel>
         </Border>

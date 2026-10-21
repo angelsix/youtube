@@ -11,9 +11,9 @@
   <DataTemplate x:Key="PathIconPreview">
     <StackPanel Orientation="Vertical" Spacing="{size:SpacingXl}">
       <!-- Sizes: the icon ladder Sm..Xl, each labelled, tops on one baseline so the scale reads as a scale.
-           The row carries the default accent ink ({color:AccentBrush Dark3}, no Accent.Kind) so a default
+           The row carries the default accent ink ({color:AccentTextDefault}, no Accent.Kind) so a default
            icon follows the gallery's default accent instead of staying the pane's black/grey (task 92) -->
-      <StackPanel Orientation="Horizontal" Spacing="{size:SpacingXxl}" TextElement.Foreground="{color:AccentBrush Dark3}">
+      <StackPanel Orientation="Horizontal" Spacing="{size:SpacingXxl}" TextElement.Foreground="{color:AccentTextDefault}">
         <StackPanel Orientation="Vertical" Spacing="{size:SpacingSm}">
           <TextBlock Text="Sm" HorizontalAlignment="Center" />
           <PathIcon Data="{icons:Star}" Width="{size:IconSizeSm}" Height="{size:IconSizeSm}" HorizontalAlignment="Center" />
@@ -32,24 +32,24 @@
         </StackPanel>
       </StackPanel>
       <!-- Default accent · Primary: an explicit Accent.Kind on the container proves a picked hue reaches the icon;
-           its ink is the accent-text stage {color:AccentBrush Dark3}, the same stage a neutral default reads as -->
+           its ink is the accent-text stage {color:AccentTextDefault}, the same stage a neutral default reads as -->
       <StackPanel Orientation="Horizontal" Spacing="{size:SpacingXxl}">
-        <StackPanel Orientation="Vertical" Spacing="{size:SpacingSm}" theme:Accent.Kind="Primary" TextElement.Foreground="{color:AccentBrush Dark3}">
+        <StackPanel Orientation="Vertical" Spacing="{size:SpacingSm}" theme:Accent.Kind="Primary" TextElement.Foreground="{color:AccentTextDefault}">
           <TextBlock Text="Default accent · Primary" HorizontalAlignment="Center" />
           <PathIcon Data="{icons:Star}" Width="{size:IconSizeMd}" Height="{size:IconSizeMd}" HorizontalAlignment="Center" />
         </StackPanel>
       </StackPanel>
       <!-- Accents: the icon sets no Foreground; its container carries the hue and the ink, so the glyph follows it -->
       <StackPanel Orientation="Horizontal" Spacing="{size:SpacingXxl}">
-        <StackPanel Orientation="Vertical" Spacing="{size:SpacingSm}" theme:Accent.Kind="Primary" TextElement.Foreground="{color:AccentBrush Dark3}">
+        <StackPanel Orientation="Vertical" Spacing="{size:SpacingSm}" theme:Accent.Kind="Primary" TextElement.Foreground="{color:AccentTextDefault}">
           <TextBlock Text="Primary" HorizontalAlignment="Center" />
           <PathIcon Data="{icons:Star}" Width="{size:IconSizeMd}" Height="{size:IconSizeMd}" HorizontalAlignment="Center" />
         </StackPanel>
-        <StackPanel Orientation="Vertical" Spacing="{size:SpacingSm}" theme:Accent.Kind="Warning" TextElement.Foreground="{color:AccentBrush Dark3}">
+        <StackPanel Orientation="Vertical" Spacing="{size:SpacingSm}" theme:Accent.Kind="Warning" TextElement.Foreground="{color:AccentTextDefault}">
           <TextBlock Text="Warning" HorizontalAlignment="Center" />
           <PathIcon Data="{icons:Star}" Width="{size:IconSizeMd}" Height="{size:IconSizeMd}" HorizontalAlignment="Center" />
         </StackPanel>
-        <StackPanel Orientation="Vertical" Spacing="{size:SpacingSm}" theme:Accent.Kind="Success" TextElement.Foreground="{color:AccentBrush Dark3}">
+        <StackPanel Orientation="Vertical" Spacing="{size:SpacingSm}" theme:Accent.Kind="Success" TextElement.Foreground="{color:AccentTextDefault}">
           <TextBlock Text="Success" HorizontalAlignment="Center" />
           <PathIcon Data="{icons:Star}" Width="{size:IconSizeMd}" Height="{size:IconSizeMd}" HorizontalAlignment="Center" />
         </StackPanel>

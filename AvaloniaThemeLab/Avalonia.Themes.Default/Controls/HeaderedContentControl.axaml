@@ -84,10 +84,11 @@
       <Setter Property="RecognizesAccessKey" Value="True" />
     </Style>
 
-    <!-- Hairline under the header: one spacing step of air on either side so it never touches the text -->
+    <!-- Hairline under the header: one spacing step of air on either side so it never touches the text.
+         The accent's own hairline role (task 149), one step paler than the selected-row tint -->
     <Style Selector="^ /template/ Rectangle#PART_HeaderDivider">
       <Setter Property="Height" Value="{size:ThicknessSmDouble}" />
-      <Setter Property="Fill" Value="{color:AccentBrush Light6}" />
+      <Setter Property="Fill" Value="{color:AccentDividerDefault}" />
       <Setter Property="Margin" Value="{size:Edges Top={size:SpacingMd}, Bottom={size:SpacingMd}}" />
     </Style>
 

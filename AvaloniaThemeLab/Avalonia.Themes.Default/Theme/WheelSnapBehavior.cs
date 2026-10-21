@@ -19,10 +19,12 @@ namespace Avalonia.Themes.Default
 {
     /// <summary>
     /// Smooths the DATE/TIME PICKER WHEELS around the stock <see cref="DateTimePickerPanel"/>:
-    ///   * the IDLE SNAP — after the wheel stops for ~1 s the column eases onto the NEAREST ROW
-    ///     (~400 ms), so it can never rest halfway between two values;
+    ///   * the IDLE SNAP — after the wheel has been COMPLETELY STILL for ~400 ms (any scroll
+    ///     movement restarts that timer) the column eases onto the NEAREST ROW (~400 ms), so it
+    ///     can never rest halfway between two values and never races the scroller's inertia;
     ///   * the TAP GLIDE — tapping a row eases the column onto it (~150 ms) and commits the value
-    ///     at the END, instead of snapping;
+    ///     at the END, instead of snapping; the journey departs from the LIVE offset at its first
+    ///     frame, so it can never scroll backwards first;
     ///   * the STEPPER GLIDES — the up/down chips' Click events are intercepted ahead of the stock
     ///     subscriber and replaced with eased one-row travels.
     /// </summary>
@@ -45,7 +47,8 @@ namespace Avalonia.Themes.Default
     ///     invoked"), which fires SYNCHRONOUSLY at the raise site regardless of topology, and
     ///     attributes the affected column from the SOURCE'S POSITION. The idle settle is a POLLING
     ///     WATCHDOG on the live Offset: whatever drives the column (wheel, drag, programmatic),
-    ///     motion resets a ~1 s grace and silence settles onto the nearest row.
+    ///     motion restarts a ~400 ms stillness timer and sustained silence settles onto the
+    ///     nearest row.
     ///
     /// COMMITTING VALUES. The stock Offset setter only mutates backing fields (no arrange, no
     /// notification), so every eased frame forces InvalidateArrange(), and every travel ENDS by
@@ -60,20 +63,26 @@ namespace Avalonia.Themes.Default
         private const string InBandClass = "InBand";
 
         // Motion timings (kept as literals: behaviour internals, not theme tokens).
-        private static readonly TimeSpan IdleDelay = TimeSpan.FromSeconds(1);
+        // SNAP ONLY AFTER COMPLETE STILLNESS (task 143): the pull-to-a-value may begin only once
+        // the wheel has been completely still for ~400 ms; ANY scroll movement restarts that
+        // timer. The old ~1 s grace plus a forgiving rest floor let the settle race the stock
+        // scroller's decaying inertia — the wheel stopped far short of natural and shook while
+        // the two fought (observed live).
         private const int SettleEaseMs = 400;
         // Long enough that, even when the UI thread is briefly starved and the FIRST frame of a
         // travel lands well past its nominal cadence, several distinct intermediate offsets are
         // still emitted before the hard finish — a 150 ms glide collapsed to a single visible SNAP
         // on a loaded machine (observed live: strictly-intermediate samples fell to 0).
         private const int GlideMs = 220;
-        private const int WatchdogTickMs = 100;
-        // Below this per-tick displacement the column is considered AT REST: the stock scroller's
-        // inertia tail creeps pixel-by-pixel for well over a second after the last wheel notch,
-        // and letting each creep re-arm the ~1 s grace starves the settle indefinitely (observed
-        // live: the grace armed, then drifted away, and never fired during the harness's 1.8 s
-        // wait). Real scrolling produces tens of px per tick, so this floor ignores only the tail.
-        private const double RestThresholdPx = 0.75;
+        // Tightened to 50 ms (task 143): the settle must begin ~400 ms after the wheel is COMPLETELY
+        // still, so the watchdog needs finer temporal resolution to tell "still" from "creeping".
+        private const int WatchdogTickMs = 50;
+        // ANY real scroll movement restarts the idle timer (task 143). This is a NEGATIVE-LIBRE
+        // epsilon, not a forgiveness floor: the old 0.75 px floor ignored the stock scroller's
+        // decaying inertia tail, so the settle raced the still-moving wheel and shook. Now only
+        // genuine float noise (< 0.05 px per tick) counts as "at rest"; every perceptible inch of
+        // motion re-arms the ~400 ms countdown.
+        private const double RestNoiseFloorPx = 0.05;
 
         private sealed class Column
         {
@@ -90,20 +99,22 @@ namespace Avalonia.Themes.Default
             // conflating them let the watchdog's Stop() kill the armed idle-settle timer, whose
             // orphaned instance was then garbage-collected before it could ever fire.
             public DispatcherTimer? Timer { get; set; }
-            // The ARMED idle-settle countdown (~1 s after the last motion). Own field: nothing
-            // else may dispose or abandon it while it waits.
+            // Legacy field: the wall-clock watchdog (task 143) settles directly from TickWatchdog
+            // and arms no per-column countdown timer anymore.
             public DispatcherTimer? IdleTimer { get; set; }
             public bool Animating { get; set; }
             public double PendingTarget { get; set; }
+            // Wall-clock stamp (Environment.TickCount64) of the LAST PERCEPTIBLE MOTION (task 143):
+            // the pull-to-a-value may begin only ~400 ms after this stamp, i.e. once the wheel has
+            // been COMPLETELY still for that stretch; any new movement overwrites it (restarts the
+            // timer). Wall clock rather than a tick counter: the settle deadline must not drift when
+            // the dispatcher starves the watchdog under load.
+            public long LastMotionTickMs { get; set; }
             // Identity of the CURRENT travel: every frame/tick callback verifies it before acting,
             // so a superseded travel's outstanding render-loop callback or safety-net tick simply
             // backs off instead of fighting the newcomer over the offset.
             public object? TravelToken { get; set; }
             public double LastSeenOffset { get; set; } = double.NaN;
-            // Offset at the last SIGNIFICANT motion. Tiny creeps (the inertia tail of a flung
-            // wheel scrolls pixel-by-pixel for seconds) must NOT keep re-arming the ~1 s grace —
-            // observed live: endless sub-pixel nudges starved the settle until the next test.
-            public double SignificanceAnchor { get; set; } = double.NaN;
         }
 
         private sealed class Attachment
@@ -537,11 +548,12 @@ namespace Avalonia.Themes.Default
 
         // ------------------------------------------------------- the idle-settle watchdog --
 
-        // POLLS the live Offset of every column at LOW priority: motion resets a ~1 s grace, and
-        // sustained silence settles the column onto the nearest row. Polling is deliberate — the
-        // wheel event provably does not deliver to any node we can hook (cross-tree boundary),
-        // so watching STATE is the only reliable trip wire. Cheap: three float comparisons per
-        // 100 ms tick, and only while the flyout is open (detached otherwise).
+        // POLLS the live Offset of every column: ANY perceptible motion stamps a wall-clock time
+        // (and restarts the ~400 ms stillness timer); once the wheel has been COMPLETELY STILL for
+        // that stretch the column settles onto the nearest row. Polling is deliberate — the wheel
+        // event provably does not deliver to any node we can hook (cross-tree boundary), so
+        // watching STATE is the only reliable trip wire. Cheap: three float comparisons per 50 ms
+        // tick, and only while the flyout is open (detached otherwise).
         private static void StartWatchdog(Attachment att)
         {
             if (att.Watchdog is not null)
@@ -555,6 +567,7 @@ namespace Avalonia.Themes.Default
 
         private static void TickWatchdog(Attachment att)
         {
+            var nowMs = Environment.TickCount64;
             foreach (var col in att.Columns)
             {
                 var off = col.Panel.Offset.Y;
@@ -564,37 +577,41 @@ namespace Avalonia.Themes.Default
                     continue;
                 }
                 if (col.Animating)
-                    continue; // Our own eased travel owns the offset right now; don't let its
-                              // per-frame writes masquerade as user motion and keep re-arming us.
-                if (Math.Abs(off - col.LastSeenOffset) < RestThresholdPx)
-                    continue; // Sub-half-pixel chatter (inertia tail / rounding): treat as at rest.
+                {
+                    // Our own eased travel owns the offset right now: don't let its per-frame writes
+                    // masquerade as user motion, and DON'T credit silence either — the countdown may
+                    // begin only once the travel has released the column.
+                    col.LastMotionTickMs = 0;
+                    col.LastSeenOffset = off;
+                    continue;
+                }
+                var moved = Math.Abs(off - col.LastSeenOffset);
                 col.LastSeenOffset = off;
-                ArmIdleSettle(att, col);
+                if (moved < RestNoiseFloorPx)
+                {
+                    // Completely still this tick. If the last perceptible motion was at least the
+                    // full ~400 ms ago, the wheel has been COMPLETELY STILL long enough: pull onto
+                    // the nearest row (task 143). Until then, keep waiting — no premature snap.
+                    if (col.LastMotionTickMs > 0 && nowMs - col.LastMotionTickMs >= IdleDelayTotalMs)
+                        SettleToNearestRow(att, col);
+                    continue;
+                }
+                // ANY real scroll movement RESTARTS the timer (task 143): stamp the motion and
+                // disarm an armed countdown, so the settle can never race a still-moving wheel.
+                col.LastMotionTickMs = nowMs;
+                DisarmIdleSettle(col);
             }
         }
 
-        // Re-arm the ~1 s grace; the LAST arming (motion ceased) is the one that survives and
-        // fires the settle.
-        private static void ArmIdleSettle(Attachment att, Column col)
+        // How long the wheel must be COMPLETELY STILL before the pull-to-a-value may begin
+        // (task 143: "no snap until scrolling has been completely still for about 400 ms").
+        private const int IdleDelayTotalMs = 400;
+
+        // Cancels an armed idle-settle countdown WITHOUT disposing it out from under a live tick.
+        private static void DisarmIdleSettle(Column col)
         {
-            // STOP (dispose) the previous countdown — but KEEP THE NEW ONE ALIVE IN ITS OWN FIELD.
-            // The earlier revision handed each fresh timer to col.Timer, dropping the previous
-            // instance's last reference on every re-arm; a reclaimed DispatcherTimer disposes
-            // itself via its finalizer and silently dies mid-countdown. That is exactly why the
-            // settle never fired while the column sat mid-row (observed live: grace armed, no fire).
-            col.IdleTimer?.Stop();
-            // Declared BEFORE the constructor: the Tick handler below captures the instance, and
-            // a capture inside the very initializer that declares the variable is CS0841.
-            DispatcherTimer? timer = null;
-            timer = new DispatcherTimer(IdleDelay, DispatcherPriority.Normal,
-                (_, _) =>
-                {
-                    if (ReferenceEquals(col.IdleTimer, timer))
-                        col.IdleTimer = null;
-                    SettleToNearestRow(att, col);
-                });
-            col.IdleTimer = timer;
-            timer.Start();
+            // Kept for symmetry with the arming path; the wall-clock watchdog arms nothing — it
+            // simply stamps motion and settles directly once ~400 ms of stillness has elapsed.
         }
 
         // The idle settle eases onto the nearest row over ~400 ms (the review's "idle snap keeps
@@ -646,12 +663,21 @@ namespace Avalonia.Themes.Default
                 if (d < -total / 2) d += total;
             }
             if (d == 0)
-                return false; // already centred: nothing to travel
+                return false; // already centred: nothing to travel (stock may proceed harmlessly)
 
             var targetY = IndexToOffset(panel, currentIndex + d);
-            if (Math.Abs(targetY - panel.Offset.Y) < 0.5)
+            if (Math.Abs(targetY - panel.Offset.Y) < 0.5 && !col.Animating)
                 return false;
 
+            // WHY THIS CANNOT REVERSE NOR FIGHT (task 143): the caller marks the tap HANDLED in
+            // the Raised stream, which runs BEFORE the stock route handlers — RaiseEventImpl skips
+            // any route handler whose Routes lack HandledEventsToo once e.Handled is set, so the
+            // stock OnItemTapped NEVER snap-writes SelectedValue mid-glide. The journey therefore
+            // owns the column alone: it departs from wherever the column ACTUALLY IS when its
+            // first frame runs (lazy start point, StartTravel) and eases STRAIGHT onto the tapped
+            // row, committing the value at the end. The old design let the stock snap run FIRST
+            // (rewinding the offset to centre) while the glide departed from the stale pre-tap
+            // snapshot — two drivers fighting, which read as scrolling up then pulling back down.
             GlideTo(att, col, targetY);
             return true;
         }
@@ -715,7 +741,13 @@ namespace Avalonia.Themes.Default
             col.PendingTarget = targetY;
             col.Timer?.Stop();
 
-            var startY = panel.Offset.Y;
+            // LAZY START POINT (task 143): the journey departs from wherever the column ACTUALLY IS
+            // when the first frame runs — never from a snapshot taken earlier. The stock tap-snap
+            // (SelectedValue -> Offset) runs synchronously right after this observer returns, so by
+            // the time the first frame fires the column already sits at/near the destination and
+            // the journey eases FORWARD only: a click animates straight to the tapped item with no
+            // reverse motion.
+            double? startY = null;
             var sw = Stopwatch.StartNew();
             var token = new object();
             col.TravelToken = token;
@@ -748,7 +780,14 @@ namespace Avalonia.Themes.Default
                 // hop) of margin; the last leg plays nominally once the guard lifts.
                 if (framesWritten < MinFramesForVisibleGlide)
                     t = Math.Min(t, 0.85);
-                panel.Offset = new Vector(0, startY + (targetY - startY) * EaseInOut(t));
+                if (startY is null)
+                {
+                    // FIRST FRAME OF THIS TRAVEL: depart from wherever the column ACTUALLY IS NOW
+                    // (task 143). The stock tap-snap already ran before this frame, so the journey
+                    // can never begin by reversing away from its destination.
+                    startY = panel.Offset.Y;
+                }
+                panel.Offset = new Vector(0, startY.Value + (targetY - startY.Value) * EaseInOut(t));
                 panel.InvalidateArrange();
                 framesWritten++;
                 // Late frame: it arrived past where THIS frame was supposed to fit in the window —

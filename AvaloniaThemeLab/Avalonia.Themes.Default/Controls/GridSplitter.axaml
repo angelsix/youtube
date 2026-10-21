@@ -57,8 +57,10 @@
     <Setter Property="Focusable" Value="True" />
     <Setter Property="MinWidth" Value="{size:ThicknessXxlDouble}" />
     <Setter Property="MinHeight" Value="{size:ThicknessXxlDouble}" />
-    <!-- Filled grip: a solid bar that stands out from the Light6 panes it divides -->
-    <Setter Property="Background" Value="{color:AccentBrush Dark3}" />
+    <!-- Filled grip: a solid bar that stands out from the panes it divides. The solid-fill policy
+         ({default:SolidFill}) picks the face from the control's own hue, so a light-seeded hue takes
+         the bright face instead of the deep ink column (task 149) -->
+    <Setter Property="Background" Value="{default:SolidFill}" />
     <Setter Property="Foreground" Value="{color:TextDefault}" />
     <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
 
@@ -76,12 +78,12 @@
 
     <!-- Hover state: the grip deepens so it reads as grabbable -->
     <Style Selector="^:pointerover:not(:disabled)">
-      <Setter Property="Background" Value="{color:AccentBrush Dark4}" />
+      <Setter Property="Background" Value="{default:SolidFillHover}" />
     </Style>
 
     <!-- Pressed state: deepest while the pointer holds it -->
     <Style Selector="^:pressed">
-      <Setter Property="Background" Value="{color:AccentBrush Dark5}" />
+      <Setter Property="Background" Value="{default:SolidFillPressed}" />
     </Style>
 
     <!-- Disabled state -->

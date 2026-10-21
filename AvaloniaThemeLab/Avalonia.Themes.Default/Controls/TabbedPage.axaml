@@ -37,8 +37,10 @@
   <ControlTheme x:Key="TabbedPageTabControlTheme" TargetType="TabControl">
     <Setter Property="Background" Value="{color:BackgroundDefault}" />
     <Setter Property="CornerRadius" Value="0" />
-    <Setter Property="BorderBrush" Value="{color:BorderDefault}" />
-    <Setter Property="BorderThickness" Value="{size:Edges Bottom={size:ThicknessSm}}" />
+    <!-- No frame of its own: the hosted page draws the ONE divider between the strip and the content,
+         exactly as TabControl's content container draws it. A second line here would double the
+         divider (the extra-thick rule Luke saw) and the page's own border would make a third. -->
+    <Setter Property="BorderThickness" Value="{size:Edges}" />
     <Setter Property="Padding" Value="{size:Edges}" />
     <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
     <Setter Property="Template">
@@ -49,8 +51,6 @@
           <Border Name="PART_TabStrip"
                   Background="{TemplateBinding Background}"
                   CornerRadius="{TemplateBinding CornerRadius}"
-                  BorderBrush="{TemplateBinding BorderBrush}"
-                  BorderThickness="{TemplateBinding BorderThickness}"
                   Margin="0"
                   Padding="{TemplateBinding Padding}"
                   DockPanel.Dock="{TemplateBinding TabStripPlacement}">
@@ -85,17 +85,6 @@
       <Setter Property="Rows" Value="0" />
       <Setter Property="Columns" Value="1" />
     </Style>
-
-    <!-- Divider on the strip's page side -->
-    <Style Selector="^[TabStripPlacement=Bottom]">
-      <Setter Property="BorderThickness" Value="{size:Edges Top={size:ThicknessSm}}" />
-    </Style>
-    <Style Selector="^[TabStripPlacement=Left]">
-      <Setter Property="BorderThickness" Value="{size:Edges Right={size:ThicknessSm}}" />
-    </Style>
-    <Style Selector="^[TabStripPlacement=Right]">
-      <Setter Property="BorderThickness" Value="{size:Edges Left={size:ThicknessSm}}" />
-    </Style>
   </ControlTheme>
 
   <!-- TabbedPage TabItem theme -->
@@ -114,8 +103,8 @@
     <Setter Property="FocusAdorner" Value="{x:Null}" />
     <Setter Property="IndicatorTemplate">
       <DataTemplate>
-        <!-- Underline filling the pipe slot: hue Dark3, the placement styles set its extent -->
-        <Border Background="{color:AccentBrush Dark3}"
+        <!-- Underline filling the pipe slot: the accent's selection indicator, the placement styles set its extent -->
+        <Border Background="{color:AccentIndicatorDefault}"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch" />
       </DataTemplate>
@@ -228,9 +217,12 @@
       <Setter Property="Opacity" Value="{size:DisabledOpacity}" />
     </Style>
 
-    <!-- Selected state: Light6 fill under the hue's underline -->
+    <!-- Selected state: the selected row's tint. The tab is a selected row, so it takes the
+         selected-row role (Light6) and not the outlined control's pressed fill (Light7): with the
+         pressed fill the resting selection would wear exactly the colour a pressed UNSELECTED tab
+         wears, and the two states would be indistinguishable. -->
     <Style Selector="^:selected">
-      <Setter Property="Background" Value="{color:PressedBackgroundDefault}" />
+      <Setter Property="Background" Value="{color:SelectedBackgroundDefault}" />
     </Style>
 
     <!-- Focus visible (Rule 21: the switch decides between the focus colour and the control's own hue) -->
@@ -260,7 +252,7 @@
     <Setter Property="TabPlacement" Value="Top" />
     <!-- Squares the hosted page's tab-side corners (Rule 19): no selector reaches the page from the
          theme, so the behaviour installs the corner rules where the page consults them -->
-    <Setter Property="(default:TabbedPageContentCorners.Apply)" Value="True" />
+    <Setter Property="(default:PageContentCorners.Apply)" Value="True" />
     <Setter Property="Template">
       <ControlTemplate>
         <!-- Layout root for the tabbed page -->

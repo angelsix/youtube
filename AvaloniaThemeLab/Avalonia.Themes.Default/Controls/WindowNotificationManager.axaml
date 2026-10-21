@@ -19,7 +19,7 @@
               <StackPanel
                   Margin="{size:Edges All={size:SpacingXxl}}"
                   Spacing="{size:SpacingXl}"
-                  TextElement.Foreground="{color:AccentBrush Dark2}">
+                  TextElement.Foreground="{color:AccentTextDefault}">
                 <!-- The notification's title -->
                 <TextBlock Text="{Binding Title}"
                            FontWeight="{theme:FontWeightSemiBold}" />
@@ -34,7 +34,7 @@
               <!-- A plain text notification -->
               <TextBlock Text="{Binding}"
                          Margin="{size:Edges All={size:SpacingXxl}}"
-                         Foreground="{color:AccentBrush Dark2}" />
+                         Foreground="{color:AccentTextDefault}" />
             </DataTemplate>
           </ReversibleStackPanel.DataTemplates>
         </ReversibleStackPanel>

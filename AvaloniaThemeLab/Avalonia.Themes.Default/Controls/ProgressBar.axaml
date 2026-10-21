@@ -47,7 +47,7 @@
           <ProgressBar Value="50" Maximum="100" Width="190" IsEnabled="False" />
         </StackPanel>
         <StackPanel Orientation="Horizontal" Spacing="{size:SpacingLg}" Width="300">
-          <TextBlock Text="Warning hue" Width="100" />
+          <TextBlock Text="Warning hue" Width="100" theme:Accent.Kind="Warning" Foreground="{color:AccentTextDefault}" />
           <ProgressBar Value="50" Maximum="100" Width="190" theme:Accent.Kind="Warning" />
         </StackPanel>
       </StackPanel>
@@ -81,8 +81,8 @@
   <ControlTheme x:Key="{x:Type ProgressBar}" TargetType="ProgressBar">
 
     <!-- Visual defaults -->
-    <Setter Property="Foreground" Value="{color:SolidFillDefault}" />
-    <Setter Property="Background" Value="{color:AccentBrush Light8}" />
+    <Setter Property="Foreground" Value="{default:SolidFill}" />
+    <Setter Property="Background" Value="{color:HoverBackgroundDefault}" />
     <Setter Property="BorderBrush" Value="Transparent" />
     <Setter Property="BorderThickness" Value="0" />
     <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
@@ -203,7 +203,7 @@
     </Style>
     <Style Selector="^ /template/ TextBlock#PART_FillText">
       <Setter Property="VerticalAlignment" Value="{theme:ContainerVerticalAlignment}" />
-      <Setter Property="Foreground" Value="{color:OnSolidFillInkDefault}" />
+      <Setter Property="Foreground" Value="{default:OnSolidInk}" />
       <!-- The same padding as the track copy, so the two coincide where they overlap -->
       <Setter Property="Padding" Value="{size:Edges All={size:SpacingLg}}" />
     </Style>
@@ -211,7 +211,7 @@
          mid-blue fill in the light pane and the lighter blue fill in the dark pane; over the pale
          track it still reads comfortably in both palettes. -->
     <Style Selector="^:vertical /template/ TextBlock#PART_CenterText">
-      <Setter Property="Foreground" Value="{color:OnSolidFillInkDefault}" />
+      <Setter Property="Foreground" Value="{default:OnSolidInk}" />
       <Setter Property="Padding" Value="{size:Edges All={size:SpacingSm}}" />
     </Style>
     <!-- The turned label's own centring: the layout transform places the rotated text's line box

@@ -15,13 +15,14 @@
       <TextBlock Text="Hello, theme" />
       <!-- Refusal case: explicit Foreground wins over the pane's inherited colour. The ink is the
            TRUE Warning hue at its accent-text stage: theme:Accent.Kind="Warning" puts this block on
-           the Warning ramp, and {color:AccentBrush Dark3} picks that ramp's most vibrant ink stage.
+           the Warning ramp, and {color:AccentTextDefault} picks that ramp's accent-ink stage (Dark3).
            The seed ({color:AccentWarningBrush}) is unreadable as text on the light canvas (1.84:1),
            and the ramp's higher-chroma stages (Dark1/Dark2) sit on the yellow of the Favourite hue.
-           Dark3 is the amber one: light #89661b (5.19:1 on the canvas), dark #c59d44 (6.27:1) -->
-      <TextBlock Text="Explicit warning ink" theme:Accent.Kind="Warning" Foreground="{color:AccentBrush Dark3}" />
-      <!-- The caption names the token, so the picture says which one it is -->
-      <TextBlock Text="Warning · AccentBrush Dark3" FontSize="{size:FontSizeSm}" theme:Accent.Kind="Warning" Foreground="{color:DimTextDefault}" />
+           Dark3 is the amber one: light #B05E1E (4.62:1 on the canvas), dark #DD902F (6.14:1) -->
+      <TextBlock Text="Explicit warning ink" theme:Accent.Kind="Warning" Foreground="{color:AccentTextDefault}" />
+      <!-- The caption names the token, so the picture says which one it is. It names the hue it
+           shows, so it carries that hue and takes the accent's text role -->
+      <TextBlock Text="Warning · AccentTextDefault" FontSize="{size:FontSizeSm}" theme:Accent.Kind="Warning" Foreground="{color:AccentTextDefault}" />
     </StackPanel>
   </DataTemplate>
 
@@ -37,11 +38,15 @@
   </Design.PreviewWith>
 
   <!-- One accent swatch: a dot in its own hue, ringed when it is the picked one. The item carries its
-       hue as its own Accent.Kind, so a pick recolours the preview's content and never the swatches -->
+       hue as its own Accent.Kind, so a pick recolours the preview's content and never the swatches.
+       Task 148: the dot paints the LIST-ROW PRESSED fill ({color:PressedBackgroundDefault}, the
+       outlined control's pressed stage of the item's own hue) — the exact colour a ComboBoxItem shows
+       while pressed, read from ComboBoxItem.axaml's :pressed state — replacing the old checked-face
+       {color:AccentBrush Dark3}. -->
   <ControlTheme x:Key="LightDarkPreviewSwatch" TargetType="ListBoxItem" x:DataType="theme:AccentKind">
     <!-- Visual defaults -->
     <Setter Property="theme:Accent.Kind" Value="{Binding}" />
-    <Setter Property="Background" Value="{color:AccentBrush Dark3}" />
+    <Setter Property="Background" Value="{color:PressedBackgroundDefault}" />
     <Setter Property="BorderBrush" Value="Transparent" />
     <Setter Property="BorderThickness" Value="{size:ThicknessMd}" />
     <Setter Property="Padding" Value="{size:Edges All={size:SpacingSm}}" />

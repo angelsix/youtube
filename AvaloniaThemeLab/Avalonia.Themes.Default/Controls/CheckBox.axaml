@@ -144,8 +144,8 @@
 
     <!-- Bold tick: filled outline stroked in the same hue-neutral ink; the checked state swaps it to the on-solid-fill ink -->
     <Style Selector="^ /template/ Path#CheckGlyph">
-      <Setter Property="Fill" Value="{color:AccentBrush Light10}" />
-      <Setter Property="Stroke" Value="{color:AccentBrush Light10}" />
+      <Setter Property="Fill" Value="{color:OnSolidFillInkDefault}" />
+      <Setter Property="Stroke" Value="{color:OnSolidFillInkDefault}" />
       <Setter Property="StrokeThickness" Value="{size:ThicknessSmDouble}" />
     </Style>
 
@@ -172,8 +172,9 @@
       <Setter Property="Background" Value="{color:PressedBackgroundDefault}" />
     </Style>
 
-    <!-- Disabled state -->
-    <Style Selector="^:disabled">
+    <!-- Disabled state. The pinned preview state paints the same dim, so a gallery row that shows the
+         disabled look is dimmed exactly as a real disabled control is -->
+    <Style Selector="^:disabled, ^[(theme|Preview.State)=Disabled]">
       <Setter Property="Opacity" Value="{size:DisabledOpacity}" />
     </Style>
 
@@ -184,63 +185,65 @@
       <Setter Property="BorderThickness" Value="{default:FocusThickness}" />
     </Style>
 
-    <!-- Checked state: a filled control (solid-fill face with the on-fill ink tick; identical to the old Dark3/Light10 pair in dark) -->
+    <!-- Checked state: a filled control (the solid-fill face from {default:SolidFill}, with the
+         on-fill ink tick from {default:OnSolidInk} — the policy picks both from the hue) -->
     <Style Selector="^:checked">
-      <Setter Property="Background" Value="{color:SolidFillDefault}" />
-      <Setter Property="BorderBrush" Value="{color:SolidFillDefault}" />
+      <Setter Property="Background" Value="{default:SolidFill}" />
+      <Setter Property="BorderBrush" Value="{default:SolidFill}" />
 
       <Style Selector="^ /template/ Path#CheckGlyph">
         <Setter Property="Opacity" Value="1" />
-        <!-- The tick rides the solid fill, so it takes the on-solid-fill ink (deep hue-tuned dark; identical to today's Light10 in dark) -->
-        <Setter Property="Fill" Value="{color:OnSolidFillInkDefault}" />
-        <Setter Property="Stroke" Value="{color:OnSolidFillInkDefault}" />
+        <!-- The tick rides the solid fill, so it takes the on-solid ink: whichever of white or the
+             near-black text role reads with the higher contrast on that face -->
+        <Setter Property="Fill" Value="{default:OnSolidInk}" />
+        <Setter Property="Stroke" Value="{default:OnSolidInk}" />
       </Style>
     </Style>
 
-    <!-- Checked and hovering: the solid face deepens one step (bright solid-fill hover role); the tick keeps
-         the on-solid-fill ink, which clears >= 3:1 on the deeper vivid face (identical to Dark4/Light10 in dark) -->
+    <!-- Checked and hovering: the solid face steps one stage deeper ({default:SolidFillHover}); the tick
+         keeps the on-solid ink, re-picked against that face and clearing >= 4.5:1 on it -->
     <Style Selector="^:checked:pointerover, ^:checked[(theme|Preview.State)=Hover]">
-      <Setter Property="Background" Value="{color:SolidFillHover}" />
-      <Setter Property="BorderBrush" Value="{color:SolidFillHover}" />
+      <Setter Property="Background" Value="{default:SolidFillHover}" />
+      <Setter Property="BorderBrush" Value="{default:SolidFillHover}" />
 
       <Style Selector="^ /template/ Path#CheckGlyph">
-        <Setter Property="Fill" Value="{color:OnSolidFillInkDefault}" />
-        <Setter Property="Stroke" Value="{color:OnSolidFillInkDefault}" />
+        <Setter Property="Fill" Value="{default:OnSolidInk}" />
+        <Setter Property="Stroke" Value="{default:OnSolidInk}" />
       </Style>
     </Style>
 
-    <!-- Checked and pressed: the solid face deepens two steps (bright solid-fill pressed role); the tick keeps
-         the on-solid-fill ink, which clears >= 3:1 on the deepest vivid face (identical to Dark5/Light10 in dark) -->
+    <!-- Checked and pressed: the solid face steps two stages deeper ({default:SolidFillPressed}); the tick
+         keeps the on-solid ink, re-picked against that face and clearing >= 4.5:1 on it -->
     <Style Selector="^:checked:pressed, ^:checked[(theme|Preview.State)=Pressed]">
-      <Setter Property="Background" Value="{color:SolidFillPressed}" />
-      <Setter Property="BorderBrush" Value="{color:SolidFillPressed}" />
+      <Setter Property="Background" Value="{default:SolidFillPressed}" />
+      <Setter Property="BorderBrush" Value="{default:SolidFillPressed}" />
 
       <Style Selector="^ /template/ Path#CheckGlyph">
-        <Setter Property="Fill" Value="{color:OnSolidFillInkDefault}" />
-        <Setter Property="Stroke" Value="{color:OnSolidFillInkDefault}" />
+        <Setter Property="Fill" Value="{default:OnSolidInk}" />
+        <Setter Property="Stroke" Value="{default:OnSolidInk}" />
       </Style>
     </Style>
 
-    <!-- Indeterminate state: the solid-fill face carries the dash (identical to the old Dark3 pair in dark) -->
+    <!-- Indeterminate state: the solid-fill face carries the dash -->
     <Style Selector="^:indeterminate">
-      <Setter Property="Background" Value="{color:SolidFillDefault}" />
-      <Setter Property="BorderBrush" Value="{color:SolidFillDefault}" />
+      <Setter Property="Background" Value="{default:SolidFill}" />
+      <Setter Property="BorderBrush" Value="{default:SolidFill}" />
 
       <Style Selector="^ /template/ Border#IndeterminateBox">
         <Setter Property="Opacity" Value="1" />
       </Style>
     </Style>
 
-    <!-- Indeterminate and hovering: the solid face deepens one step (bright solid-fill hover role; identical to Dark4 in dark) -->
+    <!-- Indeterminate and hovering: the solid face steps one stage deeper ({default:SolidFillHover}) -->
     <Style Selector="^:indeterminate:pointerover, ^:indeterminate[(theme|Preview.State)=Hover]">
-      <Setter Property="Background" Value="{color:SolidFillHover}" />
-      <Setter Property="BorderBrush" Value="{color:SolidFillHover}" />
+      <Setter Property="Background" Value="{default:SolidFillHover}" />
+      <Setter Property="BorderBrush" Value="{default:SolidFillHover}" />
     </Style>
 
-    <!-- Indeterminate and pressed: the solid face deepens two steps (bright solid-fill pressed role; identical to Dark5 in dark) -->
+    <!-- Indeterminate and pressed: the solid face steps two stages deeper ({default:SolidFillPressed}) -->
     <Style Selector="^:indeterminate:pressed, ^:indeterminate[(theme|Preview.State)=Pressed]">
-      <Setter Property="Background" Value="{color:SolidFillPressed}" />
-      <Setter Property="BorderBrush" Value="{color:SolidFillPressed}" />
+      <Setter Property="Background" Value="{default:SolidFillPressed}" />
+      <Setter Property="BorderBrush" Value="{default:SolidFillPressed}" />
     </Style>
 
   </ControlTheme>

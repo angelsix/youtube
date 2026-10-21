@@ -684,7 +684,16 @@
 
     <!-- The scrim dims the content while an overlaying pane is open -->
     <Style Selector="^:lightDismiss /template/ Rectangle#LightDismissLayer">
-      <Setter Property="Fill" Value="{color:OverlayMediumBrush}" />
+      <!-- The scrim carries the control's own hue, so the content underneath reads as the accent
+           dimmed rather than greyed. The theme's overlay brushes are built from a hue's Dark10
+           stage, which is the palette's ink in both palettes and therefore carries no hue at all,
+           so the wash is the hue's own ink stage (the accent-text role, Dark3) laid over the content
+           at the overlay's own translucency. -->
+      <Setter Property="Fill" Value="{color:AccentTextDefault}" />
+      <!-- Theme Exception: 0.16 is the theme's OverlayMedium level, the translucency the scrim had
+           before it followed the hue. The engine exposes no token for an overlay level and its
+           accent overlay brushes carry no hue, so the level cannot be reached by name here. -->
+      <Setter Property="Opacity" Value="0.16" />
     </Style>
     <Style Selector="^:overlay:open /template/ Rectangle#LightDismissLayer">
       <Setter Property="IsVisible" Value="True"/>

@@ -111,35 +111,43 @@
     </Style>
 
     <!-- ============================================================
-         Checked column (filled): the solid-fill face and its on-fill ink
+         Checked column (filled): the solid-fill face ({default:SolidFill}) and its on-fill
+         ink ({default:OnSolidInk}) — both chosen by the solid-fill policy
          ============================================================ -->
 
-    <!-- Checked default: the bright solid-fill face with the deep on-fill ink
-         (identical to the old Dark3 / Light10 pair in dark) -->
+    <!-- Checked default: the solid-fill face with the on-fill ink the policy picks for it -->
     <Style Selector="^:checked">
-      <Setter Property="Background" Value="{color:SolidFillDefault}" />
+      <Setter Property="Background" Value="{default:SolidFill}" />
       <Setter Property="BorderBrush" Value="Transparent" />
-      <Setter Property="Foreground" Value="{color:OnSolidFillInkDefault}" />
+      <Setter Property="Foreground" Value="{default:OnSolidInk}" />
     </Style>
 
-    <!-- Checked hover: the solid face deepens one step (bright solid-fill hover role); the on-fill ink keeps
-         >= 3:1 on the deeper vivid face (identical to Dark4/Light10 in dark) -->
+    <!-- Checked hover: the solid face steps one stage deeper ({default:SolidFillHover}); the on-fill ink
+         is re-picked against that face, so it keeps >= 4.5:1 whichever column the hue wears -->
     <Style Selector="^:checked:pointerover, ^:checked[(theme|Preview.State)=Hover]">
-      <Setter Property="Background" Value="{color:SolidFillHover}" />
+      <Setter Property="Background" Value="{default:SolidFillHover}" />
       <Setter Property="BorderBrush" Value="Transparent" />
-      <Setter Property="Foreground" Value="{color:OnSolidFillInkDefault}" />
+      <Setter Property="Foreground" Value="{default:OnSolidInk}" />
     </Style>
 
-    <!-- Checked pressed: the solid face deepens two steps (bright solid-fill pressed role); the on-fill ink
-         keeps >= 3:1 on the deepest vivid face (identical to Dark5/Light10 in dark) -->
+    <!-- Checked pressed: the solid face steps two stages deeper ({default:SolidFillPressed}); the on-fill ink
+         is re-picked against that face, so it keeps >= 4.5:1 whichever column the hue wears -->
     <Style Selector="^:checked:pressed, ^:checked[(theme|Preview.State)=Pressed]">
-      <Setter Property="Background" Value="{color:SolidFillPressed}" />
+      <Setter Property="Background" Value="{default:SolidFillPressed}" />
       <Setter Property="BorderBrush" Value="Transparent" />
-      <Setter Property="Foreground" Value="{color:OnSolidFillInkDefault}" />
+      <Setter Property="Foreground" Value="{default:OnSolidInk}" />
     </Style>
 
-    <!-- Checked disabled: keeps the filled column under Button's whole-face dimming (Opacity 0.3),
-         so it reads as a disabled dark toggle rather than a lit one -->
+    <!-- Checked disabled: unlike CheckBox (only its tick-box is filled), a ToggleButton's WHOLE face is the
+         solid fill, so the label rides on the vivid fill. The flat {size:DisabledOpacity} fades fill and
+         on-fill ink toward each other (converging on the light canvas), dropping the label to ~1.1:1. Holding
+         the face at a stronger-than-flat disabled opacity (the Scaled idiom TextBox and Slider use) restores
+         the fill's depth so the Light10 label clears the plain-disabled contrast floor in both panes, while
+         staying well below the enabled checked state so it still reads as disabled. Hue-independent: opacity
+         is pure alpha, so it holds when the hues shift. -->
+    <Style Selector="^:checked:disabled">
+      <Setter Property="Opacity" Value="{size:Scaled Value={size:DisabledOpacity}, By=2.5}" />
+    </Style>
 
     <!-- ============================================================
          Indeterminate column: the outlined ramp one stage deeper than rest

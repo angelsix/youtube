@@ -20,28 +20,46 @@
     <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
     <Setter Property="Template">
       <ControlTemplate>
-        <!-- The chevron: right when collapsed, down when expanded; pinned to the icon size inside the wider face -->
+        <!-- The chevron: a square arrow, pointing right when collapsed and down when expanded.
+             ONE square glyph is used and ROTATED between the two states, so the ink box is the
+             same size in both orientations and the arrow never changes the row's rhythm
+             (task 153: the ink bounding box is square in both states, drawn at three-quarters of IconSizeMd like ScrollBar's arrows so it sits within the text's cap height). The rotation is
+             set by the STYLES below, never here: a RenderTransform written in the template would
+             be a local value and would outrank the :checked style's angle -->
         <Border Background="Transparent"
-                Width="{size:IconSizeMd}"
-                Height="{size:IconSizeMd}"
+                Width="{size:Scaled Value={size:IconSizeMd}, By=0.75}"
+                Height="{size:Scaled Value={size:IconSizeMd}, By=0.75}"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center">
           <Path x:Name="ChevronPath"
                 Fill="{TemplateBinding Foreground}"
                 Stretch="Uniform"
+                RenderTransformOrigin="50%,50%"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center" />
         </Border>
       </ControlTemplate>
     </Setter>
 
-    <!-- Chevron glyph: a style, not a template value, so the expanded (checked) glyph can replace it -->
+    <!-- Chevron glyph: a style, not a template value, so the expanded (checked) arrow can turn.
+         The theme's dedicated expand/collapse arrow has a SQUARE ink box (24x24 on the icon grid),
+         so the arrow is the same size whether it points right or down, and turning it never
+         changes the row's size (task 153) -->
     <Style Selector="^ /template/ Path#ChevronPath">
-      <Setter Property="Data" Value="{icons:ChevronRight}" />
+      <Setter Property="Data" Value="{icons:ExpandChevronDown}" />
+      <!-- Collapsed: the arrow points right (the row's content is to the side) -->
+      <Setter Property="RenderTransform" Value="rotate(-90deg)" />
+      <!-- The turn is a transition, so the arrow spins in place instead of jumping -->
+      <Setter Property="Transitions">
+        <Transitions>
+          <TransformOperationsTransition Property="RenderTransform" Duration="{theme:AnimationFastMs}" />
+        </Transitions>
+      </Setter>
     </Style>
 
+    <!-- Expanded: the arrow points down (the row's content is below) -->
     <Style Selector="^:checked /template/ Path#ChevronPath">
-      <Setter Property="Data" Value="{icons:ChevronDown}" />
+      <Setter Property="RenderTransform" Value="rotate(0deg)" />
     </Style>
   </ControlTheme>
 
@@ -109,12 +127,13 @@
                                 Margin="{size:Edges Right={size:ContentPadding}}" />
             </Grid>
           </Border>
-          <!-- This item's child items: inset one full chevron cell (3px margin + 24px face = 27px) so
+          <!-- This item's child items: inset one full chevron cell (the leading column's own width) so
                each level reads deeper than its parent and siblings line up on the same grid
-               (task 129 redirect; the pitch tracks the cell's own footprint, task 140) -->
+               (task 129 redirect; the pitch tracks the cell's own footprint, task 140; widened with the
+               square arrow's leading column, task 153) -->
           <ItemsPresenter Name="PART_ItemsPresenter"
                           IsVisible="{TemplateBinding IsExpanded}"
-                          Margin="{size:Edges Left={size:Scaled Value={size:IconSizeMd}, By=1.6875}}"
+                          Margin="{size:Edges Left={size:Scaled Value={size:IconSizeMd}, By=2.375}}"
                           ItemsPanel="{TemplateBinding ItemsPanel}" />
         </StackPanel>
       </ControlTemplate>
@@ -140,35 +159,33 @@
     <!-- Selected state: the outlined column, not the filled one — a light fill stage of the row's own hue with default-weight text,
          so a chosen row reads as picked without going dark (Decision, 18 Oct 2026; copied from ComboBoxItem) -->
     <Style Selector="^:selected /template/ Border#PART_LayoutRoot">
-      <Setter Property="Background" Value="{color:AccentBrush Light6}" />
+      <Setter Property="Background" Value="{color:SelectedBackgroundDefault}" />
       <Setter Property="BorderBrush" Value="Transparent" />
     </Style>
 
     <!-- Selected hover state -->
     <Style Selector="^:selected /template/ Border#PART_LayoutRoot:pointerover, ^:selected[(theme|Preview.State)=Hover] /template/ Border#PART_LayoutRoot">
-      <Setter Property="Background" Value="{color:AccentBrush Light5}" />
+      <Setter Property="Background" Value="{color:SelectedBackgroundHover}" />
       <Setter Property="BorderBrush" Value="Transparent" />
     </Style>
 
     <!-- Selected pressed state -->
     <Style Selector="^:pressed:selected /template/ Border#PART_LayoutRoot:pointerover, ^:pressed:selected[(theme|Preview.State)=Pressed] /template/ Border#PART_LayoutRoot">
-      <Setter Property="Background" Value="{color:AccentBrush Light4}" />
+      <Setter Property="Background" Value="{color:SelectedBackgroundPressed}" />
       <Setter Property="BorderBrush" Value="Transparent" />
     </Style>
 
-    <!-- The chevron cell reserves the face's width; a leaf keeps it so its label lines up with its parents'.
-         The ROW'S OWN highlight edge is the left datum (Luke's fourth review), exactly as the menus'
-         leading column is (task 139). The 24px face centres the 16px glyph box 4px in, and the label
-         follows the cell with no left margin, so the ink->label gap is the face's remaining dead
-         space (about 11px including the text's own bearing). The cell's LEFT margin is the balancing
-         term: at 3px the highlight-edge->ink gap is 11px too — the two gaps agree and the chevron
-         reads centred between the highlight edge and the label (task 140 redirect: measured 11/11
-         on the selected and closed rows against their own highlight edges, both panes; the open
-         row's wider down-glyph splits the same run 8/7, within 1px; the nesting pitch below tracks
-         the cell's own footprint, so leaves still land on the same grid as their parents') -->
+    <!-- The chevron cell reserves the leading column; a leaf keeps it so its label lines up with its
+         parents'. The ROW'S OWN highlight edge is the left datum (Luke's fourth review), exactly as the
+         menus' leading column is (task 139). The cell now starts ON that edge (no left margin) and is
+         WIDER than the 24px face, so the SQUARE 16px arrow sits centred in the run between the edge and
+         the label: gap(highlight edge -> ink) = gap(ink -> label) = 11px, and the arrow keeps the same
+         centre whether it points right or down (task 153: measured 11/11 on the selected and closed rows
+         against their own highlight edges, both panes). The nesting pitch below tracks the cell's own
+         footprint, so leaves still land on the same grid as their parents') -->
     <Style Selector="^ /template/ Panel#PART_ExpandCollapseChevronContainer">
-      <Setter Property="Width" Value="{size:Scaled Value={size:IconSizeMd}, By=1.5}" />
-      <Setter Property="Margin" Value="{size:Edges Left={size:ThicknessLgDouble}}" />
+      <Setter Property="Width" Value="{size:Scaled Value={size:IconSizeMd}, By=2.375}" />
+      <Setter Property="Margin" Value="{size:Edges}" />
     </Style>
     <Style Selector="^:empty /template/ ToggleButton#PART_ExpandCollapseChevron">
       <Setter Property="IsVisible" Value="False" />

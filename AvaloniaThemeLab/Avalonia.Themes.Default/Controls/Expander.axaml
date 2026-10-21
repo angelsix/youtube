@@ -192,8 +192,9 @@
 
     <!-- Chevron glyph -->
     <Style Selector="^ /template/ PathIcon#ExpandCollapseChevron">
-      <Setter Property="Width" Value="{size:IconSizeMd}" />
-      <Setter Property="Height" Value="{size:IconSizeMd}" />
+      <!-- Three-quarters of IconSizeMd, like ScrollBar's arrows: the square chevron at full size stood taller than the header text -->
+      <Setter Property="Width" Value="{size:Scaled Value={size:IconSizeMd}, By=0.75}" />
+      <Setter Property="Height" Value="{size:Scaled Value={size:IconSizeMd}, By=0.75}" />
       <!-- Grow/shrink glide: the hover grow and pressed shrink unwind as well as play (Rule 7) -->
       <Setter Property="Transitions">
         <Transitions>
@@ -263,9 +264,10 @@
        Up arrow
        ============================================================ -->
   <ControlTheme x:Key="DefaultExpanderToggleButtonUpTheme" TargetType="ToggleButton" BasedOn="{StaticResource DefaultExpanderToggleButtonTheme}">
-    <!-- Chevron glyph -->
+    <!-- Chevron glyph: the theme's square expand/collapse arrow, so the icon is the same size in
+         every direction and swapping direction never changes the header's rhythm (task 153) -->
     <Style Selector="^ /template/ PathIcon#ExpandCollapseChevron">
-      <Setter Property="Data" Value="{icons:ChevronUp}" />
+      <Setter Property="Data" Value="{icons:ExpandChevronUp}" />
     </Style>
   </ControlTheme>
 
@@ -273,9 +275,9 @@
        Down arrow
        ============================================================ -->
   <ControlTheme x:Key="DefaultExpanderToggleButtonDownTheme" TargetType="ToggleButton" BasedOn="{StaticResource DefaultExpanderToggleButtonTheme}">
-    <!-- Chevron glyph -->
+    <!-- Chevron glyph: the theme's square expand/collapse arrow (task 153) -->
     <Style Selector="^ /template/ PathIcon#ExpandCollapseChevron">
-      <Setter Property="Data" Value="{icons:ChevronDown}" />
+      <Setter Property="Data" Value="{icons:ExpandChevronDown}" />
     </Style>
   </ControlTheme>
 
@@ -283,9 +285,9 @@
        Left arrow
        ============================================================ -->
   <ControlTheme x:Key="DefaultExpanderToggleButtonLeftTheme" TargetType="ToggleButton" BasedOn="{StaticResource DefaultExpanderToggleButtonTheme}">
-    <!-- Chevron glyph -->
+    <!-- Chevron glyph: the theme's square expand/collapse arrow (task 153) -->
     <Style Selector="^ /template/ PathIcon#ExpandCollapseChevron">
-      <Setter Property="Data" Value="{icons:ChevronLeft}" />
+      <Setter Property="Data" Value="{icons:ExpandChevronLeft}" />
     </Style>
   </ControlTheme>
 
@@ -293,9 +295,9 @@
        Right arrow
        ============================================================ -->
   <ControlTheme x:Key="DefaultExpanderToggleButtonRightTheme" TargetType="ToggleButton" BasedOn="{StaticResource DefaultExpanderToggleButtonTheme}">
-    <!-- Chevron glyph -->
+    <!-- Chevron glyph: the theme's square expand/collapse arrow (task 153) -->
     <Style Selector="^ /template/ PathIcon#ExpandCollapseChevron">
-      <Setter Property="Data" Value="{icons:ChevronRight}" />
+      <Setter Property="Data" Value="{icons:ExpandChevronRight}" />
     </Style>
   </ControlTheme>
 

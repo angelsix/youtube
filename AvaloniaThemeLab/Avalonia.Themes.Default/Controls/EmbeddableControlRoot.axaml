@@ -38,7 +38,8 @@
               BorderThickness="{size:ThicknessSm}"
               CornerRadius="{size:RadiusSm}"
               Padding="{size:Edges All={size:ContentPadding}}">
-        <TextBlock Text="Framed · Warning" Foreground="{color:TextDefault}"
+        <!-- The caption names its example's hue, so it takes that hue's accent-text ink -->
+        <TextBlock Text="Framed · Warning" theme:Accent.Kind="Warning" Foreground="{color:AccentTextDefault}"
                    HorizontalAlignment="Center" VerticalAlignment="Center" />
       </Border>
       <!-- Disabled: hosted content takes the disabled treatment - the control dims under the disabled opacity, the caption drops to the dim stage -->

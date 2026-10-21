@@ -48,7 +48,9 @@
         </TreeViewItem>
       </TreeView>
       <!-- Caption naming the states shown -->
-      <TextBlock Grid.Row="2" Text="Selection follows the hue" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
+      <!-- The caption names the hue the example below carries, so it takes that hue (task 150):
+           the accent kind supplies the hue and the hue-aware foreground supplies the ink -->
+      <TextBlock Grid.Row="2" Text="Selection follows the hue" FontSize="{size:FontSizeSm}" theme:Accent.Kind="Warning" Foreground="{color:AccentTextDefault}" />
       <!-- A chosen node takes the tree's own hue -->
       <TreeView Grid.Row="3" Width="240" SelectionMode="Multiple" theme:Accent.Kind="Warning">
         <TreeViewItem Header="First" IsSelected="True" />

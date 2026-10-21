@@ -13,9 +13,11 @@
       <StackPanel Spacing="{size:SpacingXl}" HorizontalAlignment="Left">
         <!-- Caption naming the states shown -->
         <TextBlock Text="Real use · pull to refresh" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
-        <!-- The pull is touch or pen only; the gallery can't start a live pull, so the indicator shows at rest -->
+        <!-- The pull is touch or pen only, so the gallery can never start one: the arrow would sit
+             there for ever, turning nothing. The arrow below runs its real cycle on its own instead
+             (the looping demonstration in the first container's styles) -->
         <TextBlock Width="190"
-                   Text="Pull is touch or pen only — the indicator is shown at rest."
+                   Text="Pull is touch or pen only — the arrow loops its real cycle."
                    FontSize="{size:FontSizeSm}"
                    Opacity="0.7"
                    TextWrapping="Wrap" />
@@ -46,6 +48,37 @@
             <Style Selector="PathIcon">
               <Setter Property="MaxWidth" Value="{size:IconSizeMd}" />
               <Setter Property="MaxHeight" Value="{size:IconSizeMd}" />
+            </Style>
+            <!-- The pull-to-refresh gesture answers to touch and pen only, so the gallery can never
+                 start one: without this the arrow sat there for ever, turning nothing (Luke, 21 Oct
+                 2026). This style runs the arrow through its real cycle on its own — the pull's
+                 rotation, the refreshing spin, and the return to rest — so a desktop user can see
+                 what a pull looks like. It lives in the PREVIEW example only: the control theme
+                 itself never animates the arrow, so the real control's behaviour is untouched -->
+            <Style Selector="PathIcon#PART_Icon">
+              <Style.Animations>
+                <!-- Theme Exception: the literal duration is the demo cycle's own three-beat clock
+                     (a pull, a refreshing spin, a return to rest), not one of the theme's generic
+                     animation beats; a token would make the three phases impossible to place -->
+                <Animation IterationCount="1000" Duration="0:0:3.2" FillMode="Both">
+                  <!-- Pull: the arrow turns with the pull, one full turn as the content comes down -->
+                  <KeyFrame Cue="0%">
+                    <Setter Property="RotateTransform.Angle" Value="0" />
+                  </KeyFrame>
+                  <KeyFrame Cue="30%">
+                    <Setter Property="RotateTransform.Angle" Value="360" />
+                  </KeyFrame>
+                  <!-- Refreshing: the arrow spins, as it does while the refresh runs -->
+                  <KeyFrame Cue="85%">
+                    <Setter Property="RotateTransform.Angle" Value="1080" />
+                  </KeyFrame>
+                  <!-- Return: the arrow settles back at rest (1080 degrees is three full turns, so
+                       the pose at the end is the resting pose again) -->
+                  <KeyFrame Cue="100%">
+                    <Setter Property="RotateTransform.Angle" Value="1080" />
+                  </KeyFrame>
+                </Animation>
+              </Style.Animations>
             </Style>
           </RefreshContainer.Styles>
           <ScrollViewer>
@@ -246,23 +279,32 @@
 
     <!-- Spinner slot: centred over the content, raised only while refreshing. The container anchors it
          Top (pull-down) or Bottom (pull-up) itself and drives the visualizer's idle lift, so this style
-         only sizes the slot and insets it from the top border — the top margin keeps the resting arrow
-         clear of the frame's top edge (Luke: the indicator must not touch the top of its container) -->
+         only sizes the slot and insets it from the border it rests against — the margin keeps the resting
+         arrow clear of the frame's edge on BOTH ends (Luke: the indicator must not touch the top of its
+         container, nor the bottom of it on a pull-up) -->
     <Style Selector="^ /template/ Grid#PART_RefreshVisualizerPresenter">
       <Setter Property="Width" Value="{size:ControlHeightLg}" />
       <Setter Property="Height" Value="{size:ControlHeightLg}" />
       <Setter Property="HorizontalAlignment" Value="Center" />
-      <Setter Property="Margin" Value="{size:Edges Top={size:SpacingLg}}" />
+      <Setter Property="Margin" Value="{size:Edges All={size:SpacingLg}}" />
     </Style>
 
     <!-- The container's own themed default visualizer self-sizes to the pull dimension (100px); capping
          it to the everyday glyph keeps the resting lift inside the frame. It is routed through the default
          (never a bespoke instance assigned before the template realizes) so the refresh deferral completes
          headlessly — a pre-template custom visualizer leaves the deferral over-counted and the crawl stalls
-         in the Refreshing state (AVLG009) -->
+         in the Refreshing state (AVLG009). The indicator is CENTRED in the slot: the slot is the container's
+         own spinner place, so the arrow belongs in the middle of the frame, not against its left edge. This
+         /template/ style DOES reach the indicator: the container adds the visualizer to the presenter it
+         finds in its own template, so the visualizer is a child of this template's part (Luke, 21 Oct 2026 —
+         the arrow used to float half a frame to the left, over the frame's edge) -->
     <Style Selector="^ /template/ Grid#PART_RefreshVisualizerPresenter RefreshVisualizer">
       <Setter Property="MaxWidth" Value="{size:IconSizeMd}" />
       <Setter Property="MaxHeight" Value="{size:IconSizeMd}" />
+      <!-- Theme Exception: the indicator is a lone glyph in the middle of its slot, so it is centred
+           there; the general control alignment would park it against the slot's left edge, where it
+           reads as a stray mark rather than a spinner -->
+      <Setter Property="HorizontalAlignment" Value="Center" />
     </Style>
 
   </ControlTheme>

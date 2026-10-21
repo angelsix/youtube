@@ -167,7 +167,11 @@
     <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
     <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
     <Setter Property="Foreground" Value="{color:TextDefault}" />
-    <Setter Property="DrawerBackground" Value="{color:AccentBrush Light6}" />
+    <!-- The nav pane's own surface. It draws no border of its own (only the pane's inner-edge
+         hairline), so it fills with the borderless-surface role, exactly as the SplitView it hosts
+         fills its own pane (SplitView.axaml:145). The brief's BackgroundDefault would paint the
+         pane the same colour as the page surface behind it, and the pane would vanish. -->
+    <Setter Property="DrawerBackground" Value="{color:SurfaceBorderless}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
     <Setter Property="VerticalAlignment" Value="{theme:ContainerVerticalAlignment}" />
     <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />

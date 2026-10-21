@@ -6,7 +6,9 @@
     xmlns:color="using:AngelSix.ThemeEngine.Colors"
     xmlns:size="using:AngelSix.ThemeEngine.Sizes">
   <!-- Design preview: the shared state row, declared before Design.PreviewWith uses it.
-       States and hues combine onto single switches (Pressed+On, Warning+On) to minimise the count -->
+       States and hues combine onto single switches (Pressed+On, Warning+On) to minimise the count.
+       The Favourite row shows the BRIGHT solid-fill column: the light face is a clear yellow and the
+       knob on it takes the near-black on-solid ink, which only that column exercises. -->
   <DataTemplate x:Key="ToggleSwitchPreview">
     <StackPanel Spacing="{size:SpacingXl}" HorizontalAlignment="Left">
       <ToggleSwitch Content="Labels" OffContent="Off" OnContent="On" />
@@ -17,6 +19,7 @@
       <ToggleSwitch Content="Focused" theme:Preview.State="Focused" />
       <ToggleSwitch Content="Disabled" IsEnabled="False" IsChecked="True" />
       <ToggleSwitch Content="Warning" theme:Accent.Kind="Warning" IsChecked="True" />
+      <ToggleSwitch Content="Favourite" theme:Accent.Kind="Favourite" IsChecked="True" />
       <ToggleSwitch Content="Success" theme:Accent.Kind="Success" />
     </StackPanel>
   </DataTemplate>
@@ -188,17 +191,20 @@
       <Setter Property="CornerRadius" Value="{default:ConcentricCorners Radius={size:RadiusMd}, Thickness={size:ThicknessSm}, Inset={ReflectionBinding Path=Margin, RelativeSource={RelativeSource Self}}, All=True}" />
     </Style>
 
+    <!-- The knob that rides the ON track sits ON the solid fill, so it takes the on-solid ink:
+         the policy picks whichever of white or the near-black text role reads on that face.
+         (On the deep ink column that is white, as before; on a bright face it is the near-black ink.) -->
     <Style Selector="^ /template/ Ellipse#SwitchKnobOn">
-      <Setter Property="Fill" Value="{color:AccentBrush Light10}" />
+      <Setter Property="Fill" Value="{default:OnSolidInk}" />
     </Style>
 
     <Style Selector="^ /template/ Ellipse#SwitchKnobOff">
-      <Setter Property="Fill" Value="{color:AccentBrush Dark1}" />
+      <Setter Property="Fill" Value="{color:AccentGlyphDefault}" />
     </Style>
 
     <!-- Hover state: the outline keeps Button's constant rest border; only the inner fill steps up -->
     <Style Selector="^:pointerover /template/ Ellipse#SwitchKnobOn, ^[(theme|Preview.State)=Hover] /template/ Ellipse#SwitchKnobOn">
-      <Setter Property="Fill" Value="{color:AccentBrush Light10}" />
+      <Setter Property="Fill" Value="{default:OnSolidInk}" />
     </Style>
 
     <!-- Off track steps to Button's hover fill; the checked face keeps its own hue ramp -->
@@ -212,7 +218,7 @@
     </Style>
 
     <Style Selector="^:pressed /template/ Ellipse#SwitchKnobOn, ^[(theme|Preview.State)=Pressed] /template/ Ellipse#SwitchKnobOn">
-      <Setter Property="Fill" Value="{color:AccentBrush Light10}" />
+      <Setter Property="Fill" Value="{default:OnSolidInk}" />
     </Style>
 
     <!-- Disabled state: the whole switch dims under one opacity, checked fill included -->
@@ -223,7 +229,7 @@
 
     <!-- Checked state: the track keeps its outline, recoloured to the solid fill so the filled face has no mismatched ring -->
     <Style Selector="^:checked /template/ Border#OuterBorder">
-      <Setter Property="BorderBrush" Value="{color:SolidFillDefault}" />
+      <Setter Property="BorderBrush" Value="{default:SolidFill}" />
     </Style>
 
     <Style Selector="^:checked /template/ Ellipse#SwitchKnobOff">
@@ -233,29 +239,29 @@
     <Style Selector="^:checked /template/ Border#SwitchKnobBounds">
       <Setter Property="Opacity" Value="1" />
       <!-- The checked face is a solid fill, brighter than the outlined rest column; inset by the outline so the border shows -->
-      <Setter Property="Background" Value="{color:SolidFillDefault}" />
+      <Setter Property="Background" Value="{default:SolidFill}" />
       <Setter Property="Margin" Value="{size:Edges All={size:ThicknessSmDouble}}" />
     </Style>
 
-    <!-- Checked (on) hover: the solid track deepens one step (bright solid-fill hover role; identical to Dark4 in dark).
+    <!-- Checked (on) hover: the solid track steps one stage deeper ({default:SolidFillHover}).
          Kept AFTER the base checked rule above so it wins the specificity tie when Preview.State pins the state -->
     <Style Selector="^:checked:pointerover /template/ Border#SwitchKnobBounds, ^:checked[(theme|Preview.State)=Hover] /template/ Border#SwitchKnobBounds">
-      <Setter Property="Background" Value="{color:SolidFillHover}" />
+      <Setter Property="Background" Value="{default:SolidFillHover}" />
     </Style>
 
     <!-- Checked (on) hover: the outline follows the deepened fill so the ring stays seamless -->
     <Style Selector="^:checked:pointerover /template/ Border#OuterBorder, ^:checked[(theme|Preview.State)=Hover] /template/ Border#OuterBorder">
-      <Setter Property="BorderBrush" Value="{color:SolidFillHover}" />
+      <Setter Property="BorderBrush" Value="{default:SolidFillHover}" />
     </Style>
 
-    <!-- Checked (on) pressed: the solid track deepens two steps (bright solid-fill pressed role; identical to Dark5 in dark) -->
+    <!-- Checked (on) pressed: the solid track steps two stages deeper ({default:SolidFillPressed}) -->
     <Style Selector="^:checked:pressed /template/ Border#SwitchKnobBounds, ^:checked[(theme|Preview.State)=Pressed] /template/ Border#SwitchKnobBounds">
-      <Setter Property="Background" Value="{color:SolidFillPressed}" />
+      <Setter Property="Background" Value="{default:SolidFillPressed}" />
     </Style>
 
     <!-- Checked (on) pressed: the outline follows the deepened fill so the ring stays seamless -->
     <Style Selector="^:checked:pressed /template/ Border#OuterBorder, ^:checked[(theme|Preview.State)=Pressed] /template/ Border#OuterBorder">
-      <Setter Property="BorderBrush" Value="{color:SolidFillPressed}" />
+      <Setter Property="BorderBrush" Value="{default:SolidFillPressed}" />
     </Style>
 
     <Style Selector="^:checked /template/ Ellipse#SwitchKnobOn">

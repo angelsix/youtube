@@ -1,0 +1,86 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:default="clr-namespace:Avalonia.Themes.Default"
+                    xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+                    xmlns:color="using:AngelSix.ThemeEngine.Colors"
+                    xmlns:size="using:AngelSix.ThemeEngine.Sizes">
+  <!-- One cell of the gallery: the glyph at the everyday icon size, its name beneath it -->
+  <DataTemplate x:Key="IconsCell" x:DataType="default:IconEntry">
+    <StackPanel Orientation="Vertical" Spacing="{size:SpacingSm}">
+      <!-- The glyph itself, centred in the cell -->
+      <PathIcon Data="{Binding Geometry}"
+                Width="{size:IconSizeMd}"
+                Height="{size:IconSizeMd}"
+                HorizontalAlignment="Center" />
+      <!-- The icon's name, so a cell can be looked up -->
+      <TextBlock Text="{Binding Name}"
+                 FontSize="{size:FontSizeSm}"
+                 Foreground="{color:DimTextDefault}"
+                 TextAlignment="Center" />
+    </StackPanel>
+  </DataTemplate>
+
+  <!-- Design preview: the whole set, one cell per icon the theme generates. The width is the
+       pane's own content width, so the cells wrap into three columns without clipping -->
+  <DataTemplate x:Key="IconsPreview">
+    <default:Icons Width="412" />
+  </DataTemplate>
+
+  <Design.PreviewWith>
+    <Border>
+      <Border.Styles>
+        <default:DefaultThemeStyles />
+      </Border.Styles>
+
+      <default:LightDarkPreview Title="Icons" ContentTemplate="{StaticResource IconsPreview}" />
+
+    </Border>
+  </Design.PreviewWith>
+
+  <!-- ============================================================
+       Template
+       ============================================================ -->
+  <ControlTheme x:Key="{x:Type default:Icons}" TargetType="default:Icons">
+
+    <!-- Visual defaults. The glyphs take the ink from here, so they follow the accent the pane
+         carries (the gallery's accent picker) rather than a pinned colour; the cell names use
+         the dimmed text role, so they read as captions -->
+    <Setter Property="Foreground" Value="{color:AccentTextDefault}" />
+    <Setter Property="Background" Value="{color:BackgroundDefault}" />
+    <Setter Property="BorderBrush" Value="{color:BorderDefault}" />
+    <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
+    <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
+    <Setter Property="Padding" Value="{size:Edges All={size:ContentPadding}}" />
+    <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
+    <Setter Property="VerticalAlignment" Value="{theme:ContainerVerticalAlignment}" />
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
+
+    <!-- One cell per icon: the cell template, and the wrapping grid the cells sit in -->
+    <Setter Property="ItemTemplate" Value="{StaticResource IconsCell}" />
+    <Setter Property="ItemsPanel">
+      <ItemsPanelTemplate>
+        <!-- Cells wrap onto a new row when the row is full; every cell is the same width, so
+             the glyphs line up in columns. The cell is wide enough for the longest icon name -->
+        <WrapPanel ItemSpacing="{size:SpacingMd}"
+                   LineSpacing="{size:SpacingLg}"
+                   ItemWidth="{size:Scaled Value={size:ControlMinWidth}, By=2}" />
+      </ItemsPanelTemplate>
+    </Setter>
+
+    <!-- Template -->
+    <Setter Property="Template">
+      <ControlTemplate>
+        <!-- The frame the icon cells sit in -->
+        <Border Background="{TemplateBinding Background}"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}"
+                CornerRadius="{TemplateBinding CornerRadius}"
+                Padding="{TemplateBinding Padding}">
+          <!-- The wrapping grid of icon cells -->
+          <ItemsPresenter Name="PART_ItemsPresenter" ItemsPanel="{TemplateBinding ItemsPanel}" />
+        </Border>
+      </ControlTemplate>
+    </Setter>
+
+  </ControlTheme>
+</ResourceDictionary>

@@ -49,7 +49,12 @@
     </Border>
   </Design.PreviewWith>
 
-  <ControlTheme x:Key="DefaultButtonSpinnerRepeatButton" TargetType="RepeatButton">
+  <!-- The spinner's arrow button. Its glyph GROWS on hover and SHRINKS on press through
+       DefaultGlyphMotion — the one definition the field's clear and reveal glyphs use too — so
+       the arrow and the clear button are the same mechanism, not two lookalike definitions.
+       For that, the arrow's chevron needs a presenter of its OWN: a theme's style reaches the
+       parts of its own template, and the chevron arrives as CONTENT, not as a template part. -->
+  <ControlTheme x:Key="DefaultButtonSpinnerRepeatButton" TargetType="RepeatButton" BasedOn="{StaticResource DefaultGlyphMotion}">
 
     <!-- Visual defaults -->
     <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
@@ -60,36 +65,34 @@
     <Setter Property="VerticalAlignment" Value="Stretch" />
     <Setter Property="Background" Value="Transparent" />
 
-    <!-- Press animation -->
-    <Setter Property="RenderTransform" Value="none" />
-    <Setter Property="Transitions">
-      <Transitions>
-        <TransformOperationsTransition Property="RenderTransform" Duration="{theme:AnimationFastMs}" />
-      </Transitions>
-    </Setter>
-
     <!-- Template: deliberately not BasedOn the RepeatButton theme -->
     <Setter Property="Template">
       <ControlTemplate>
-        <!-- The chevron icon -->
-        <ContentPresenter Name="PART_ContentPresenter"
-                          Background="{TemplateBinding Background}"
-                          BorderBrush="{TemplateBinding BorderBrush}"
-                          BorderThickness="{TemplateBinding BorderThickness}"
-                          CornerRadius="{TemplateBinding CornerRadius}"
-                          Content="{TemplateBinding Content}"
-                          ContentTemplate="{TemplateBinding ContentTemplate}"
-                          Foreground="{TemplateBinding Foreground}"
-                          Padding="{TemplateBinding Padding}"
-                          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                          VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+        <!-- The face: the painted, rounded hit area. It NEVER scales, so the grown chevron is
+             never clipped by the frame's edge. -->
+        <Border Name="PART_Face"
+                Background="{TemplateBinding Background}"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}"
+                CornerRadius="{TemplateBinding CornerRadius}"
+                Padding="{TemplateBinding Padding}">
+          <!-- The glyph: the chevron, the only part that grows and shrinks. It is given the
+               icon's own size so its box IS the icon's box, and the scale therefore pivots
+               exactly on the chevron's centre. It keeps the button's own alignment tokens, so
+               the chevron sits where the old whole-presenter put it. -->
+          <ContentPresenter Name="PART_Glyph"
+                            Width="{size:IconSizeMd}"
+                            Height="{size:IconSizeMd}"
+                            HorizontalAlignment="{theme:ControlHorizontalAlignment}"
+                            VerticalAlignment="{theme:ControlVerticalAlignment}"
+                            Content="{TemplateBinding Content}"
+                            ContentTemplate="{TemplateBinding ContentTemplate}"
+                            Foreground="{TemplateBinding Foreground}"
+                            HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+        </Border>
       </ControlTemplate>
     </Setter>
-
-    <!-- Pressed state: colors set by the ButtonSpinner theme -->
-    <Style Selector="^:pressed">
-      <Setter Property="RenderTransform" Value="{theme:TransformScale Value={size:PressedScale}}" />
-    </Style>
 
     <!-- Disabled state -->
     <Style Selector="^:disabled">

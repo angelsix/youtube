@@ -49,14 +49,14 @@
                       IsHitTestVisible="False"
                       IsVisible="False" />
               <Border x:Name="PART_WindowBorder"
-                      Background="{color:AccentBrush Light10}"
+                      Background="{color:BackgroundDefault}"
                       BorderThickness="{TemplateBinding FrameThickness}"
                       BorderBrush="{color:AccentBrush Light6}"
                       IsHitTestVisible="False" />
               <!-- Titlebar: background, title text, and drag area live in underlay -->
               <Panel x:Name="PART_TitleBar" VerticalAlignment="Top"
                      Height="{TemplateBinding TitleBarHeight}"
-                     Background="{color:AccentBrush Light10}"
+                     Background="{color:BackgroundDefault}"
                      IsVisible="{TemplateBinding HasTitleBar}"
                      WindowDecorationProperties.ElementRole="TitleBar" />
 
@@ -90,7 +90,7 @@
                   <Viewbox Width="{size:IconSizeMd}" Margin="{size:Edges All={size:SpacingSm}}">
                     <Path Name="FullScreenButtonPath"
                           Stretch="UniformToFill"
-                          Fill="{color:AccentBrush Dark1}"
+                          Fill="{color:AccentGlyphDefault}"
                           Data="{icons:FullScreenEnter}" />
                   </Viewbox>
                 </Button>
@@ -99,7 +99,7 @@
                         WindowDecorationProperties.ElementRole="MinimizeButton">
                   <Viewbox Width="{size:IconSizeMd}" Margin="{size:Edges All={size:SpacingSm}}">
                     <Path Stretch="UniformToFill"
-                          Fill="{color:AccentBrush Dark1}"
+                          Fill="{color:AccentGlyphDefault}"
                           Data="{icons:Minus}" />
                   </Viewbox>
                 </Button>
@@ -112,18 +112,18 @@
                     </Viewbox.RenderTransform>
                     <Path Name="RestoreButtonPath"
                           Stretch="UniformToFill"
-                          Fill="{color:AccentBrush Dark1}"
+                          Fill="{color:AccentGlyphDefault}"
                           Data="{icons:WindowMaximize}"/>
                   </Viewbox>
                 </Button>
                 <Button x:Name="PART_CloseButton"
                         Background="{color:AccentDestructiveBrush}"
-                        BorderBrush="{color:AccentBrush Light1}"
+                        BorderBrush="{color:BorderDefault}"
                         Theme="{StaticResource DefaultDrawnCaptionButton}"
                         WindowDecorationProperties.ElementRole="CloseButton">
                   <Viewbox Width="{size:IconSizeMd}" Margin="{size:Edges All={size:SpacingSm}}">
                     <Path Stretch="UniformToFill"
-                          Fill="{color:AccentBrush Dark1}"
+                          Fill="{color:AccentGlyphDefault}"
                           Data="{icons:Close}" />
                   </Viewbox>
                 </Button>
@@ -134,7 +134,7 @@
           <WindowDrawnDecorationsContent.FullscreenPopover>
             <Panel Height="{TemplateBinding DefaultTitleBarHeight}"
                    VerticalAlignment="Top"
-                   Background="{color:AccentBrush Light10}"
+                   Background="{color:BackgroundDefault}"
                    WindowDecorationProperties.ElementRole="TitleBar">
               <TextBlock Text="{TemplateBinding Title}"
                          VerticalAlignment="Center"
@@ -149,18 +149,18 @@
                         WindowDecorationProperties.ElementRole="FullScreenButton">
                   <Viewbox Width="{size:IconSizeMd}" Margin="{size:Edges All={size:SpacingSm}}">
                     <Path Stretch="UniformToFill"
-                          Fill="{color:AccentBrush Dark1}"
+                          Fill="{color:AccentGlyphDefault}"
                           Data="{icons:WindowRestore}" />
                   </Viewbox>
                 </Button>
                 <Button x:Name="PART_PopoverCloseButton"
                         Background="{color:AccentDestructiveBrush}"
-                        BorderBrush="{color:AccentBrush Light1}"
+                        BorderBrush="{color:BorderDefault}"
                         Theme="{StaticResource DefaultDrawnCaptionButton}"
                         WindowDecorationProperties.ElementRole="CloseButton">
                   <Viewbox Width="{size:IconSizeMd}" Margin="{size:Edges All={size:SpacingSm}}">
                     <Path Stretch="UniformToFill"
-                          Fill="{color:AccentBrush Dark1}"
+                          Fill="{color:AccentGlyphDefault}"
                           Data="{icons:Close}" />
                   </Viewbox>
                 </Button>

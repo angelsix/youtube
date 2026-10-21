@@ -55,7 +55,7 @@
           <ComboBoxItem>Third</ComboBoxItem>
         </ComboBox>
         <!-- Caption naming the state shown -->
-        <TextBlock Text="Focused · Warning hue" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
+        <TextBlock Text="Focused · Warning hue" FontSize="{size:FontSizeSm}" theme:Accent.Kind="Warning" Foreground="{color:AccentTextDefault}" />
         <!-- An accented box keeps its own hue for the focus ring while FocusColorOnAccents is off (Rule 21) -->
         <ComboBox Width="180" SelectedIndex="1" theme:Preview.State="Focused" theme:Accent.Kind="Warning">
           <ComboBoxItem>First</ComboBoxItem>

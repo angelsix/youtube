@@ -16,6 +16,13 @@
     <!-- Visual defaults -->
     <Setter Property="Background" Value="Transparent" />
     <Setter Property="Foreground" Value="{color:TextDefault}" />
+    <!-- An accented row takes the accent TEXT stage, not the body stage (task 150). TextDefault sits at
+         Dark9, where every hue collapses to near-black ink, so a Warning row's label read as plain
+         body text with a faint hue cast instead of as accent-coloured text. AccentTextDefault is the
+         same stage the accented Label, ProgressBar and Slider captions use. -->
+    <Style Selector="^[(theme|Accent.Kind)=Primary], ^[(theme|Accent.Kind)=Success], ^[(theme|Accent.Kind)=Warning], ^[(theme|Accent.Kind)=Info], ^[(theme|Accent.Kind)=Error], ^[(theme|Accent.Kind)=Destructive], ^[(theme|Accent.Kind)=Subtle]">
+      <Setter Property="Foreground" Value="{color:AccentTextDefault}" />
+    </Style>
     <Setter Property="BorderBrush" Value="Transparent" />
     <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
     <!-- Concentric with the menu container (Rule 19): the container's RadiusMd minus its border and padding,
@@ -122,18 +129,25 @@
          the 16px ink fills the slot, so the gap from the row's highlight edge to the ink equals the gap from
          the ink to the label within 1px (both are the row's ContentPadding; the 1px concentric border shifts
          only the left side by 1). Column = 16 + 8 = 24px, so the shared size-group still collapses to 0 when
-         no item carries a check or an icon. The height is IconSizeMd + 12.5% (18), clearing the glyph's
-         natural line box so the DownOnly Viewbox never squashes it flatter than life (a 16px-tall slot drew
-         the face flat). Both presenters share the SAME cell, so the column is one slot wide. Task 129 copies
-         these tokens into TreeView. -->
+         no item carries a check or an icon. Both presenters share the SAME cell, so the column is one slot
+         wide. Task 129 copies these tokens into TreeView.
+
+         The slot is EXACTLY the icon size (task 142). It used to be IconSizeMd + 12.5% (18px tall), on the
+         reasoning that the DownOnly Viewbox needed room for the glyph's natural line box. It does not: the
+         Viewbox scales its content DOWN into the cell's WIDTH, and the width has always been 16, so the ink
+         is already scaled to fit. The extra 2px of height bought nothing and cost a pixel of row height:
+         a Grid's row is as tall as its tallest child, so a row carrying a check or an icon measured 36px
+         while a plain row measured 35px — checking the item changed its height. At the icon size the slot
+         (16) is shorter than the label's line box (17), so every row in a menu is exactly as tall as every
+         other one, checked or not, with or without an icon. -->
     <Style Selector="^ /template/ ContentControl#PART_ToggleIconPresenter">
       <Setter Property="Width" Value="{size:IconSizeMd}" />
-      <Setter Property="Height" Value="{size:Scaled Value={size:IconSizeMd}, By=1.125}" />
+      <Setter Property="Height" Value="{size:IconSizeMd}" />
       <Setter Property="Margin" Value="{size:Edges Right={size:ContentPadding}}" />
     </Style>
     <Style Selector="^ /template/ ContentControl#PART_IconPresenter">
       <Setter Property="Width" Value="{size:IconSizeMd}" />
-      <Setter Property="Height" Value="{size:Scaled Value={size:IconSizeMd}, By=1.125}" />
+      <Setter Property="Height" Value="{size:IconSizeMd}" />
       <Setter Property="Margin" Value="{size:Edges Right={size:ContentPadding}}" />
     </Style>
     <Style Selector="^ /template/ TextBlock#PART_InputGestureText">
@@ -167,19 +181,19 @@
          so a chosen row reads as picked without going dark (Decision, 18 Oct 2026; ComboBoxItem is the reference) -->
     <!-- Selected: driven by the real :selected pseudo-class (IsSelected=True); no Preview.State needed -->
     <Style Selector="^:selected /template/ Border#PART_LayoutRoot">
-      <Setter Property="Background" Value="{color:AccentBrush Light6}" />
+      <Setter Property="Background" Value="{color:SelectedBackgroundDefault}" />
       <Setter Property="BorderBrush" Value="Transparent" />
     </Style>
     <Style Selector="^:selected:pointerover /template/ Border#PART_LayoutRoot,
                      ^:selected[(theme|Preview.State)=Hover] /template/ Border#PART_LayoutRoot">
-      <Setter Property="Background" Value="{color:AccentBrush Light5}" />
+      <Setter Property="Background" Value="{color:SelectedBackgroundHover}" />
     </Style>
     <Style Selector="^:selected:pressed /template/ Border#PART_LayoutRoot,
                      ^:selected[(theme|Preview.State)=Pressed] /template/ Border#PART_LayoutRoot">
-      <Setter Property="Background" Value="{color:AccentBrush Light4}" />
+      <Setter Property="Background" Value="{color:SelectedBackgroundPressed}" />
     </Style>
     <Style Selector="^:selected /template/ Path#PART_ChevronPath">
-      <Setter Property="Fill" Value="{color:AccentBrush Dark1}" />
+      <Setter Property="Fill" Value="{color:AccentGlyphDefault}" />
     </Style>
     <!-- The shortcut is secondary text; on an elevated selected row it reads at full weight so it stays legible on the fill -->
     <Style Selector="^:selected /template/ TextBlock#PART_InputGestureText">
@@ -194,7 +208,7 @@
     </Style>
     <Style Selector="^:pointerover /template/ Path#PART_ChevronPath,
                      ^[(theme|Preview.State)=Hover] /template/ Path#PART_ChevronPath">
-      <Setter Property="Fill" Value="{color:AccentBrush Dark1}" />
+      <Setter Property="Fill" Value="{color:AccentGlyphDefault}" />
     </Style>
 
     <!-- Pressed -->
@@ -205,7 +219,7 @@
     </Style>
     <Style Selector="^:pressed /template/ Path#PART_ChevronPath,
                      ^[(theme|Preview.State)=Pressed] /template/ Path#PART_ChevronPath">
-      <Setter Property="Fill" Value="{color:AccentBrush Dark1}" />
+      <Setter Property="Fill" Value="{color:AccentGlyphDefault}" />
     </Style>
 
     <!-- Disabled: the whole row fades, selected or not, so a chosen-but-unavailable item still reads as chosen -->
@@ -221,7 +235,7 @@
     </Style>
 
     <Style Selector="^:open /template/ Path#PART_ChevronPath">
-      <Setter Property="Fill" Value="{color:AccentBrush Dark1}" />
+      <Setter Property="Fill" Value="{color:AccentGlyphDefault}" />
     </Style>
 
     <Style Selector="^:empty /template/ Path#PART_ChevronPath">

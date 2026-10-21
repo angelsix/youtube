@@ -176,14 +176,14 @@
     <Style Selector="^:pointerover /template/ Ellipse#Pip">
       <Setter Property="Width" Value="{size:SpacingLg}" />
       <Setter Property="Height" Value="{size:SpacingLg}" />
-      <Setter Property="Fill" Value="{color:AccentBrush Dark1}" />
+      <Setter Property="Fill" Value="{color:AccentGlyphDefault}" />
     </Style>
 
     <!-- Pressed state -->
     <Style Selector="^:pressed /template/ Ellipse#Pip">
       <Setter Property="Width" Value="{size:SpacingMd}" />
       <Setter Property="Height" Value="{size:SpacingMd}" />
-      <Setter Property="Fill" Value="{color:AccentBrush Dark1}" />
+      <Setter Property="Fill" Value="{color:AccentGlyphDefault}" />
     </Style>
 
     <!-- Disabled state -->
@@ -195,14 +195,14 @@
     <Style Selector="^:selected /template/ Ellipse#Pip">
       <Setter Property="Width" Value="{size:SpacingLg}" />
       <Setter Property="Height" Value="{size:SpacingLg}" />
-      <Setter Property="Fill" Value="{color:AccentBrush Dark1}" />
+      <Setter Property="Fill" Value="{color:AccentGlyphDefault}" />
     </Style>
 
     <!-- Selected hover state -->
     <Style Selector="^:selected:pointerover /template/ Ellipse#Pip">
       <Setter Property="Width" Value="{size:SpacingLg}" />
       <Setter Property="Height" Value="{size:SpacingLg}" />
-      <Setter Property="Fill" Value="{color:AccentBrush Dark1}" />
+      <Setter Property="Fill" Value="{color:AccentGlyphDefault}" />
     </Style>
   </ControlTheme>
 
@@ -211,7 +211,7 @@
        ============================================================ -->
   <ControlTheme x:Key="{x:Type PipsPager}" TargetType="PipsPager">
     <!-- Visual defaults -->
-    <Setter Property="Background" Value="{color:AccentBrush Light9}" />
+    <Setter Property="Background" Value="{color:SurfaceBorderless}" />
     <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
     <!-- Breathing room around the whole control, and an even gap between the arrows and the dots -->
     <Setter Property="Padding" Value="{size:Edges All={size:ContentPadding}}" />
@@ -312,6 +312,41 @@
     </Style>
     <Style Selector="^:vertical /template/ Button#PART_NextButton PathIcon#NextButtonIcon">
       <Setter Property="Data" Value="{icons:ChevronDown}" />
+    </Style>
+
+    <!-- The strip's own extent, so it is big enough for its pips from the VERY FIRST layout.
+         Avalonia's PipsPager sizes the strip from the pip cells it can already see; on the first
+         layout there are none yet, so it falls back to a hard-coded 12px cell and sets the strip
+         to pages × 12. This theme's pip cells are 24px, so the strip was first arranged at half
+         the extent its pips need and the arrow at that end landed on top of the first and last
+         pips — the overlap Luke saw on the first load into the Carousel page, which vanished a
+         layout pass later. The floors below state the same extent the strip ends up with, so the
+         first pass is already the right one. They are a MinWidth/MinHeight, not a Width/Height:
+         the control owns the extent, and only this floor is the theme's to state. The horizontal
+         pager's floor is a WIDTH and the vertical pager's is a HEIGHT — a strip that is as wide as
+         it is tall would put the pips in a band instead of a line. -->
+
+    <!-- The vertical pager stacks its pips, so its strip is sized by HEIGHT, not width. -->
+    <Style Selector="^:vertical /template/ ListBox#PART_PipsPagerList">
+      <Setter Property="MinHeight">
+        <MultiBinding Converter="{x:Static default:PipsPagerStripExtentConverter.Instance}">
+          <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="NumberOfPages" />
+          <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="MaxVisiblePips" />
+          <size:Scaled Value="{size:IconSizeMd}" By="1.5" />
+        </MultiBinding>
+      </Setter>
+    </Style>
+
+    <!-- The horizontal pager's strip is sized by WIDTH, and the same floor keeps the pips from
+         being arranged in a band narrower than they need on the very first layout. -->
+    <Style Selector="^:horizontal /template/ ListBox#PART_PipsPagerList">
+      <Setter Property="MinWidth">
+        <MultiBinding Converter="{x:Static default:PipsPagerStripExtentConverter.Instance}">
+          <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="NumberOfPages" />
+          <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="MaxVisiblePips" />
+          <size:Scaled Value="{size:IconSizeMd}" By="1.5" />
+        </MultiBinding>
+      </Setter>
     </Style>
 
     <!-- Disabled state -->

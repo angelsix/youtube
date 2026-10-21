@@ -79,6 +79,11 @@
     <!-- Visual defaults -->
     <Setter Property="Background" Value="Transparent" />
     <Setter Property="Foreground" Value="{color:TextDefault}" />
+    <!-- An accented top-level item takes the accent TEXT stage, as the drop-down's items do
+         (task 150): TextDefault sits at Dark9, where every hue collapses to near-black ink. -->
+    <Style Selector="^[(theme|Accent.Kind)=Primary], ^[(theme|Accent.Kind)=Success], ^[(theme|Accent.Kind)=Warning], ^[(theme|Accent.Kind)=Info], ^[(theme|Accent.Kind)=Error], ^[(theme|Accent.Kind)=Destructive], ^[(theme|Accent.Kind)=Subtle]">
+      <Setter Property="Foreground" Value="{color:AccentTextDefault}" />
+    </Style>
     <Setter Property="BorderBrush" Value="Transparent" />
     <Setter Property="BorderThickness" Value="0" />
     <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
@@ -154,15 +159,15 @@
     <!-- Selected: the outlined column, not an overlay scrim — a light fill stage of the item's own hue,
          deepening on hover and press (task 17's ramp) -->
     <Style Selector="^:selected /template/ Border#PART_LayoutRoot">
-      <Setter Property="Background" Value="{color:AccentBrush Light6}" />
+      <Setter Property="Background" Value="{color:SelectedBackgroundDefault}" />
     </Style>
     <Style Selector="^:selected:pointerover /template/ Border#PART_LayoutRoot,
                      ^:selected[(theme|Preview.State)=Hover] /template/ Border#PART_LayoutRoot">
-      <Setter Property="Background" Value="{color:AccentBrush Light5}" />
+      <Setter Property="Background" Value="{color:SelectedBackgroundHover}" />
     </Style>
     <Style Selector="^:selected:pressed /template/ Border#PART_LayoutRoot,
                      ^:selected[(theme|Preview.State)=Pressed] /template/ Border#PART_LayoutRoot">
-      <Setter Property="Background" Value="{color:AccentBrush Light4}" />
+      <Setter Property="Background" Value="{color:SelectedBackgroundPressed}" />
     </Style>
 
     <!-- Hover: an opaque ramp stage, not an overlay — translucency would erase the fill -->
