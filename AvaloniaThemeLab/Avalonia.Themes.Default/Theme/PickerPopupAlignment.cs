@@ -304,7 +304,17 @@ namespace Avalonia.Themes.Default
                 {
                     var ok = AlignOnce(popup, att);
                     if (!ok && popup.IsOpen && attempt < 10)
+                    {
+                        // A popup hosted OUTSIDE the window's own tree can never be aligned by
+                        // window-client offsets, so do not keep retrying it: the stock placement is
+                        // the best we can offer for such a popup.
+                        if (!popup.IsUsingOverlayLayer)
+                        {
+                            LogDbg("[PPA] giving up on this popup: it is not hosted in the window's overlay layer");
+                            return;
+                        }
                         ScheduleAlign(popup, att, attempt + 1);
+                    }
                     else if (ok && popup.IsOpen)
                         // Measurement-driven correction: the managed positioner folds in shifts we
                         // cannot predict (SlideY/host chrome), so nudge against where the popup
@@ -331,6 +341,23 @@ namespace Avalonia.Themes.Default
                 var tl = att.LastTopLevel ?? TopLevel.GetTopLevel(popup);
                 if (child == null || tl == null || !popup.IsOpen)
                     return;
+
+                // THE CONTENT MUST LIVE IN THE SAME TOP LEVEL AS THE BOX. The offsets this
+                // behaviour writes are in WINDOW-CLIENT units, so they only mean anything when the
+                // popup is hosted INSIDE the window's own visual tree (the overlay host). In a
+                // SEPARATE NATIVE POPUP WINDOW the content's top level is a different object, the
+                // live walk below cannot reach it and returns (0,0) — a BOGUS "actual" position.
+                // The loop then adds the whole desired position to the offset, over and over
+                // (measured live on macOS: 818 -> 4148 -> 8180), walking the popup thousands of
+                // pixels off-screen: the picker appeared to do nothing at all. Refuse to calibrate
+                // across a host boundary rather than chase a position that does not exist.
+                var childTopLevel = TopLevel.GetTopLevel(child);
+                if (childTopLevel is not null && !ReferenceEquals(childTopLevel, tl))
+                {
+                    LogDbg($"[PPA] calibrate skipped: the popup content lives in another top level ({childTopLevel.GetType().Name}), not the window's");
+                    return;
+                }
+
                 var actual = WalkRenderOffset(child, tl);
                 var rx = att.LastDesired.X - actual.X;
                 var ry = att.LastDesired.Y - actual.Y;
@@ -368,6 +395,19 @@ namespace Avalonia.Themes.Default
                 if (target == null || ps.Width <= 0 || ps.Height <= 0)
                 {
                     LogDbg($"[PPA] bail: target={(target?.GetType().Name)} size={ps}");
+                    return false;
+                }
+
+                // THE OFFSETS BELOW ARE IN WINDOW-CLIENT UNITS, so they only apply when the popup
+                // is hosted INSIDE the window's own visual tree (the overlay host). A popup in a
+                // SEPARATE NATIVE WINDOW interprets the same numbers in screen space, which walks
+                // it thousands of pixels off-screen — measured live on macOS: the picker opened
+                // ~8000px away and the user saw nothing. Leave such a popup on the stock
+                // placement rather than misplacing it; the theme's own templates ask for the
+                // overlay host, so this only guards a hand-written template.
+                if (!popup.IsUsingOverlayLayer)
+                {
+                    LogDbg("[PPA] align skipped: the popup is not hosted in the window's overlay layer, so window-client offsets do not apply to it");
                     return false;
                 }
 

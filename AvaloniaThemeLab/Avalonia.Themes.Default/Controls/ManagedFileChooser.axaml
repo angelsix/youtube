@@ -60,8 +60,17 @@
           <!-- Inset shadow for depth (themed — replaces hardcoded BoxShadow) -->
           <Border x:Name="PART_ShadowBorder"
                   IsHitTestVisible="False"/>
-          <!-- Outer frame around the quick links list -->
-          <Border Name="border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+          <!-- Outer frame around the quick links list. Its LEFT corners follow the chooser's own
+               rounded frame (ConcentricCorners), so the rail's fill never paints a square corner
+               over the frame's curve: all four outer corners of the dialog show the frame's
+               radius. The rail is clipped to those corners, so the scroller's square corners
+               cannot show either. -->
+          <Border Name="border"
+                  Background="{TemplateBinding Background}"
+                  BorderBrush="{TemplateBinding BorderBrush}"
+                  BorderThickness="{TemplateBinding BorderThickness}"
+                  ClipToBounds="{TemplateBinding ClipToBounds}"
+                  CornerRadius="{default:ConcentricCorners Radius={size:RadiusMd}, Thickness={size:ThicknessSm}, Left=True}">
             <!-- Scrolls the quick links when they overflow -->
             <ScrollViewer Name="PART_ScrollViewer" HorizontalScrollBarVisibility="{TemplateBinding (ScrollViewer.HorizontalScrollBarVisibility)}" VerticalScrollBarVisibility="{TemplateBinding (ScrollViewer.VerticalScrollBarVisibility)}">
               <!-- The quick link entries -->
@@ -79,8 +88,14 @@
              and a symmetric vertical one, so the label rides centred and the icon starts at the
              row's standard inset from the rail's edge. The rail's row must NOT add a second
              inset of its own: the stock chooser's places start at the row's own padding. -->
+        <!-- The rail's row takes the theme's own list-row inset: one horizontal inset and a
+             symmetric vertical one, so the label rides centred and the icon starts at the row's
+             standard inset from the rail's edge. The rail's row must NOT add a second inset of
+             its own: the stock chooser's places start at the row's own padding. The row's
+             CONTENT fills the row, so the row's grid lays out exactly as the file list's rows
+             do - which is what makes the two lists' icon-to-text gaps the same. -->
         <Setter Property="Padding" Value="{size:Edges Horizontal={size:SpacingXxl}, Vertical={size:ContentPadding}}" />
-        <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
+        <Setter Property="HorizontalContentAlignment" Value="{theme:ContainerHorizontalAlignment}" />
         <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
         <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
         <!-- The places are reached with the pointer, as in the stock: the rail itself declares
@@ -103,6 +118,8 @@
                           Padding="{TemplateBinding Padding}"
                           VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
                           HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"/>
+            <!-- The row's content fills the row, so the row's grid lays out across the whole
+                 rail and its columns round exactly as the file list's rows' do -->
             </Border>
           </ControlTemplate>
         </Setter>
@@ -147,6 +164,110 @@
     <Style Selector="^ /template/ ScrollViewer#PART_ScrollViewer">
       <Setter Property="Background" Value="Transparent" />
       <Setter Property="BorderThickness" Value="0" />
+    </Style>
+  </ControlTheme>
+
+  <!-- The column splitter in the file list's header: the hairline between two columns, which is
+       also the drag handle that widens the column beside it (the stock chooser lays its columns
+       out this way). It is NOT the theme's own GridSplitter theme: that one paints a solid grip
+       bar, which would read as a coloured column in a header of hairlines. Here the splitter is
+       the hairline itself, so the header still reads as a row of headings. -->
+  <ControlTheme x:Key="DefaultManagedFileChooserColumnSplitter" TargetType="GridSplitter">
+    <!-- Visual defaults -->
+    <Setter Property="Background" Value="{color:BorderDefault}" />
+    <Setter Property="Foreground" Value="{color:TextDefault}" />
+    <Setter Property="BorderThickness" Value="0" />
+    <Setter Property="CornerRadius" Value="0" />
+    <!-- The grab strip is wider than the hairline it draws, so the pointer has something to
+         catch, but not so wide that it steals the click from the column beside it -->
+    <Setter Property="MinWidth" Value="{size:SpacingXl}" />
+    <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
+    <Setter Property="VerticalAlignment" Value="{theme:ContainerVerticalAlignment}" />
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
+
+    <!-- Template -->
+    <Setter Property="Template">
+      <ControlTemplate>
+        <!-- The grab strip: transparent so it still catches the pointer, but only the rule inside
+             it paints (painting the strip itself drew a solid block, not a hairline) -->
+        <Border Background="Transparent"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}"
+                CornerRadius="{TemplateBinding CornerRadius}">
+          <!-- The visible rule, one pixel wide, centred in the grab strip -->
+          <Rectangle Width="{size:ThicknessSmDouble}" HorizontalAlignment="Center"
+                     Fill="{TemplateBinding Background}" />
+        </Border>
+      </ControlTemplate>
+    </Setter>
+
+    <!-- Hover state: the hairline deepens so it reads as grabbable -->
+    <Style Selector="^:pointerover:not(:disabled)">
+      <Setter Property="Background" Value="{color:AccentBorderDefault}" />
+    </Style>
+
+    <!-- Disabled state -->
+    <Style Selector="^:disabled">
+      <Setter Property="Opacity" Value="{size:DisabledOpacity}" />
+    </Style>
+  </ControlTheme>
+
+  <!-- The file list's rows: the theme's own list-row theme would put its standard inset on the
+       row, and the header row's own margin is a different one, so the header's columns and the
+       rows' columns would NOT line up. This row theme gives the row the SAME left inset as the
+       header row, so the two share one geometry - which is what makes the shared size groups
+       line the columns up across the header and every row. -->
+  <ControlTheme x:Key="DefaultManagedFileChooserFileRow" TargetType="ListBoxItem">
+    <!-- The same left inset the header row takes, and a vertical one that keeps the row's icon
+         clear of its neighbours -->
+    <Setter Property="Padding" Value="{size:Edges Left={size:SpacingXxl}, Top={size:ContentPadding}, Right={size:Edges}, Bottom={size:ContentPadding}}" />
+    <Setter Property="HorizontalContentAlignment" Value="{theme:ContainerHorizontalAlignment}" />
+    <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
+    <!-- Focus is the row's own inset border, as in the theme's own ListBoxItem theme -->
+    <Setter Property="FocusAdorner" Value="{x:Null}" />
+    <Setter Property="Template">
+      <ControlTemplate>
+        <!-- The row's label; the selected row's tint spans the whole row -->
+        <ContentPresenter x:Name="PART_ContentPresenter"
+                          Background="{TemplateBinding Background}"
+                          BorderBrush="{TemplateBinding BorderBrush}"
+                          BorderThickness="{TemplateBinding BorderThickness}"
+                          CornerRadius="{TemplateBinding CornerRadius}"
+                          Content="{TemplateBinding Content}"
+                          ContentTemplate="{TemplateBinding ContentTemplate}"
+                          Padding="{TemplateBinding Padding}"
+                          VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" />
+      </ControlTemplate>
+    </Setter>
+
+    <!-- Hover state -->
+    <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="{color:HoverBackgroundDefault}" />
+    </Style>
+    <!-- Pressed state -->
+    <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="{color:PressedBackgroundDefault}" />
+    </Style>
+    <!-- Selected state: the outlined column, not the filled one (ThemeRules) -->
+    <Style Selector="^:selected /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="{color:SelectedBackgroundDefault}" />
+    </Style>
+    <Style Selector="^:selected:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="{color:SelectedBackgroundHover}" />
+    </Style>
+    <Style Selector="^:selected:pressed /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="{color:SelectedBackgroundPressed}" />
+    </Style>
+    <!-- Disabled state: the whole row fades, as in the theme's own ListBoxItem theme -->
+    <Style Selector="^:disabled">
+      <Setter Property="Opacity" Value="{size:DisabledOpacity}" />
+    </Style>
+    <!-- Focus state (Rule 21) -->
+    <Style Selector="^:focus-visible">
+      <Setter Property="BorderBrush" Value="{default:FocusBrush}" />
+      <Setter Property="BorderThickness" Value="{default:FocusThickness}" />
     </Style>
   </ControlTheme>
 
@@ -309,16 +430,37 @@
               </ListBox.ItemsPanel>
               <ListBox.ItemTemplate>
                 <DataTemplate>
-                  <!-- One shortcut: its icon and name -->
-                  <StackPanel Orientation="Horizontal" Background="Transparent" Spacing="{size:SpacingMd}">
-                    <Image Width="{size:IconSizeMd}" Height="{size:IconSizeMd}" VerticalAlignment="Center">
+                  <!-- One shortcut: its icon and name. The gap between the icon and the name is
+                       the theme's own content inset (ContentPadding), the same gap the file
+                       list's icons use, so the two lists read as one system -->
+                  <Grid Background="Transparent" HorizontalAlignment="Stretch">
+                    <!-- The SAME column structure the file list's rows use - the icon column, the
+                         name column, then the date, type and size columns - so the two grids
+                         lay out identically: the same fixed widths, the same rounding and the
+                         same star at the end. The rail's row has nothing to put in the columns
+                         after the name, but the GRID is the same grid, so the icon's column is
+                         the same width in both and the two lists' gaps are the same. -->
+                    <Grid.ColumnDefinitions>
+                      <ColumnDefinition Width="{size:GridPixels Value={size:Scaled Value={size:IconSizeMd}, By=1.5}}" />
+                      <ColumnDefinition Width="*" />
+                      <ColumnDefinition Width="Auto" />
+                      <ColumnDefinition Width="Auto" />
+                      <ColumnDefinition Width="Auto" />
+                      <ColumnDefinition Width="Auto" />
+                      <ColumnDefinition Width="Auto" />
+                      <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Image Grid.Column="0" Width="{size:IconSizeMd}" Height="{size:IconSizeMd}"
+                           VerticalAlignment="Center"
+                           Margin="{size:Edges Right={size:ContentPadding}}"
+                           HorizontalAlignment="Left">
                       <Image.Source>
                         <DrawingImage Drawing="{Binding IconKey, Converter={StaticResource Icons}}"/>
                       </Image.Source>
                     </Image>
-                    <TextBlock Text="{Binding DisplayName}" VerticalAlignment="Center"
+                    <TextBlock Grid.Column="1" Text="{Binding DisplayName}" VerticalAlignment="Center"
                                TextTrimming="CharacterEllipsis" MaxLines="1"/>
-                  </StackPanel>
+                  </Grid>
                 </DataTemplate>
               </ListBox.ItemTemplate>
             </ListBox>
@@ -353,7 +495,7 @@
               <!-- Line above the action bar -->
               <Rectangle x:Name="BottomBarSeparator" Height="{size:ThicknessSmDouble}" DockPanel.Dock="Top"/>
               <!-- Stacks the file name row above the buttons -->
-              <DockPanel x:Name="BottomBarInner">
+              <DockPanel x:Name="BottomBarInner" DockPanel.Dock="Top">
                 <!-- The file name and filter row -->
                 <DockPanel x:Name="BottomBarTop" DockPanel.Dock="Top">
                   <!-- Limits the list to matching file types -->
@@ -364,39 +506,83 @@
                   <!-- The file name being saved or opened -->
                   <TextBox x:Name="FileName" Text="{Binding FileName}" PlaceholderText="File name" IsVisible="{Binding !SelectingFolder}" />
                 </DockPanel>
-                <!-- Toggles hidden files in the list; its own row so the buttons keep their face -->
-                <CheckBox IsChecked="{Binding ShowHiddenFiles}" Content="Show hidden files" DockPanel.Dock="Left"/>
-                <!-- The confirm and cancel buttons -->
-                <UniformGrid x:Name="Finalize" HorizontalAlignment="Right" Rows="1">
-                  <Button Command="{Binding Ok}" Content="Save" IsDefault="True"/>
-                  <Button Command="{Binding Cancel}" Content="Cancel" IsCancel="True"/>
-                </UniformGrid>
+                <!-- Toggles hidden files in the list; its own row, so the buttons keep their face -->
+                <CheckBox IsChecked="{Binding ShowHiddenFiles}" Content="Show hidden files" DockPanel.Dock="Top"/>
+                <!-- The cancel and save buttons, on a row of their own across the WHOLE width of
+                     the dialog, so the row can be centred in it. The refusal comes FIRST and the
+                     confirmation second, the order the platform puts a dialog's buttons in and the
+                     order this theme's own pickers use (DatePicker puts its dismiss face before its
+                     accept face). Save wears the Success accent and Cancel the Destructive one -
+                     the theme's existing negative-dialog hue, the same one the overwrite prompt's
+                     "No" button wears. The two faces are the SAME width (two equal columns), with
+                     the gap between them from the grid's own column spacing, so the row is
+                     symmetric about the middle of the dialog. -->
+                <!-- Theme Exception: Centre is required - Luke asked for the button row centred in
+                     the dialog, which the theme's left alignment would put against the frame's edge -->
+                <Grid x:Name="Finalize" HorizontalAlignment="Center" ColumnSpacing="{size:SpacingMd}">
+                  <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="{size:GridPixels Value={size:Scaled Value={size:ControlMinWidth}, By=1.2}}" />
+                    <ColumnDefinition Width="{size:GridPixels Value={size:Scaled Value={size:ControlMinWidth}, By=1.2}}" />
+                  </Grid.ColumnDefinitions>
+                  <Button Grid.Column="0" Command="{Binding Cancel}" Content="Cancel" IsCancel="True"
+                          theme:Accent.Kind="Destructive" />
+                  <Button Grid.Column="1" Command="{Binding Ok}" Content="Save" IsDefault="True"
+                          theme:Accent.Kind="Success" />
+                </Grid>
               </DockPanel>
             </DockPanel>
 
             <!-- Layout root docking the headers above the files -->
             <DockPanel Grid.IsSharedSizeScope="True">
-              <!-- Column headings for the file list; the name column takes the slack. Thin 1px
-                   splitters sit between the columns (their own Auto cells, shared with the rows) -->
-              <Grid x:Name="FileHeaders" DockPanel.Dock="Top" HorizontalAlignment="Stretch">
+              <!-- Column headings for the file list. The columns are FIXED pixel widths SHARED with
+                   the rows below (SharedSizeGroup), and the LAST column takes the slack, so a
+                   column dragged in the header is dragged in every row too and the two stay in
+                   step. The hairline between two columns is a GridSplitter: the stock chooser
+                   lays its columns out the same way (a GridSplitter in the header grid, the
+                   widths shared with the rows), and it is what lets a column be dragged wider,
+                   as it can on macOS and Windows. -->
+              <Grid x:Name="FileHeaders" DockPanel.Dock="Top" HorizontalAlignment="Left">
                 <Grid.ColumnDefinitions>
-                  <ColumnDefinition Width="{size:Scaled Value={size:IconSizeMd}, By=1.25}" SharedSizeGroup="Icon" />
-                  <ColumnDefinition Width="*" SharedSizeGroup="Name" />
-                  <ColumnDefinition Width="Auto" SharedSizeGroup="SplitA" />
-                  <ColumnDefinition Width="Auto" SharedSizeGroup="Modified" />
-                  <ColumnDefinition Width="Auto" SharedSizeGroup="SplitB" />
-                  <ColumnDefinition Width="Auto" SharedSizeGroup="Type" />
-                  <ColumnDefinition Width="Auto" SharedSizeGroup="SplitC" />
-                  <ColumnDefinition Width="Auto" SharedSizeGroup="Size" />
+                  <!-- The icon's column: the rows' icons sit in it, and the header's own "Name"
+                       heading is indented by the label's inset so the two line up. The column is
+                       exactly the icon's size, so the label's own margin can never grow it. -->
+                  <!-- The icon's own column: the icon and the gap beside it, the SAME fixed
+                       width the file rows use, so the header's columns and the rows' columns
+                       line up exactly and both round the same way. -->
+                  <ColumnDefinition Width="{size:GridPixels Value={size:Scaled Value={size:IconSizeMd}, By=1.5}}" />
+                  <ColumnDefinition Width="Auto" SharedSizeGroup="Name" />
+                  <!-- The name column's width is SHARED with the rows, so a drag in the header
+                       resizes the column in every row too. It is the column to the LEFT of the
+                       first splitter, and the splitter is what the user grabs. -->
+                  <ColumnDefinition Width="{size:GridPixels Value={size:SpacingXl}}" SharedSizeGroup="SplitA" />
+                  <ColumnDefinition Width="{size:GridPixels Value={size:Scaled Value={size:SpacingXxl}, By=10}}" SharedSizeGroup="Modified" />
+                  <ColumnDefinition Width="{size:GridPixels Value={size:SpacingXl}}" SharedSizeGroup="SplitB" />
+                  <ColumnDefinition Width="{size:GridPixels Value={size:Scaled Value={size:SpacingXxl}, By=5}}" SharedSizeGroup="Type" />
+                  <ColumnDefinition Width="{size:GridPixels Value={size:SpacingXl}}" SharedSizeGroup="SplitC" />
+                  <ColumnDefinition Width="*" SharedSizeGroup="Size" />
                 </Grid.ColumnDefinitions>
 
-                <TextBlock x:Name="HeaderName" Grid.Column="1" Text="Name" />
-                <Rectangle x:Name="HeaderSplitA" Grid.Column="2" VerticalAlignment="Stretch"/>
-                <TextBlock x:Name="HeaderModified" Grid.Column="3" Text="Date Modified" />
-                <Rectangle x:Name="HeaderSplitB" Grid.Column="4" VerticalAlignment="Stretch"/>
-                <TextBlock x:Name="HeaderType" Grid.Column="5" Text="Type" />
-                <Rectangle x:Name="HeaderSplitC" Grid.Column="6" VerticalAlignment="Stretch"/>
-                <TextBlock x:Name="HeaderSize" Grid.Column="7" Text="Size" />
+                <!-- The icon column's spacer: the header carries no icon, but its column must
+                     be as wide as the rows' icon column (the icon and the gap beside it), or
+                     the heading below would sit a whole column to the left of the rows' names -->
+                <Border Grid.Column="0" HorizontalAlignment="Left" />
+                <!-- The name column's heading; it starts where the rows' names start, so the
+                     two line up -->
+                <TextBlock x:Name="HeaderName" Grid.Column="1" Text="Name"
+                           VerticalAlignment="Center"/>
+                <!-- The hairline between the name and the date; dragging it widens the date column -->
+                <GridSplitter x:Name="HeaderSplitA" Grid.Column="2"
+                              Theme="{StaticResource DefaultManagedFileChooserColumnSplitter}" />
+                <TextBlock x:Name="HeaderModified" Grid.Column="3" Text="Date Modified" VerticalAlignment="Center"/>
+                <!-- The hairline between the date and the type; dragging it widens the date column -->
+                <GridSplitter x:Name="HeaderSplitB" Grid.Column="4"
+                              Theme="{StaticResource DefaultManagedFileChooserColumnSplitter}" />
+                <TextBlock x:Name="HeaderType" Grid.Column="5" Text="Type" VerticalAlignment="Center"/>
+                <!-- The hairline between the type and the size; dragging it widens the type column -->
+                <GridSplitter x:Name="HeaderSplitC" Grid.Column="6"
+                              Theme="{StaticResource DefaultManagedFileChooserColumnSplitter}" />
+                <TextBlock x:Name="HeaderSize" Grid.Column="7" Text="Size"
+                           HorizontalAlignment="Right" VerticalAlignment="Center"/>
               </Grid>
               <!-- The files and folders in this folder. The rows are NOT virtualised: the gallery
                    stacks the light and dark panes, so the dark pane sits below the fold and a
@@ -404,6 +590,7 @@
                    empty. A plain panel realises every row, so both panes show the same list. -->
               <ListBox x:Name="PART_Files"
                   ItemsSource="{Binding Items}"
+                  ItemContainerTheme="{StaticResource DefaultManagedFileChooserFileRow}"
                   SelectionMode="{Binding SelectionMode}"
                   SelectedItems="{Binding SelectedItems}"
                   ScrollViewer.HorizontalScrollBarVisibility="Disabled">
@@ -414,20 +601,40 @@
                 </ListBox.ItemsPanel>
                 <ListBox.ItemTemplate>
                   <DataTemplate x:DataType="internal:ManagedFileChooserItemViewModel">
-                    <!-- One row: icon, name, date, type and size; the splitter cells share the
-                         header's groups so the 1px rules line up across every row -->
-                    <Grid Background="Transparent">
+                    <!-- One row: icon, name, date, type and size. The columns are the SAME shared
+                         size groups as the header's, so a column dragged in the header is dragged
+                         in every row too, and the hairlines between the columns line up across the
+                         header and every row. -->
+                    <Grid Background="Transparent" HorizontalAlignment="Left">
                       <Grid.ColumnDefinitions>
-                        <ColumnDefinition SharedSizeGroup="Icon" />
-                        <ColumnDefinition SharedSizeGroup="Name" />
-                        <ColumnDefinition SharedSizeGroup="SplitA" />
-                        <ColumnDefinition SharedSizeGroup="Modified" />
-                        <ColumnDefinition SharedSizeGroup="SplitB" />
-                        <ColumnDefinition SharedSizeGroup="Type" />
-                        <ColumnDefinition SharedSizeGroup="SplitC" />
-                        <ColumnDefinition SharedSizeGroup="Size" />
+                        <!-- The icon's own column: the icon and the gap beside it, the theme's
+                             own content inset - the SAME column the places rail uses, so the
+                             two lists space their labels from their icons by exactly the same
+                             gap. It takes no shared group: a shared group's width is
+                             negotiated between its members, and the rounding of that
+                             negotiation would land on this column. The name column's group
+                             carries the drag. -->
+                        <ColumnDefinition Width="{size:GridPixels Value={size:Scaled Value={size:IconSizeMd}, By=1.5}}" />
+                        <!-- The name column's width is SHARED with the rows, so a drag in the
+                             header resizes the column in every row too. It is the column to the
+                             LEFT of the first splitter, and the splitter is what the user grabs. -->
+                        <ColumnDefinition Width="Auto" SharedSizeGroup="Name" />
+                        <ColumnDefinition Width="{size:GridPixels Value={size:SpacingXl}}" SharedSizeGroup="SplitA" />
+                        <ColumnDefinition Width="{size:GridPixels Value={size:Scaled Value={size:SpacingXxl}, By=10}}" SharedSizeGroup="Modified" />
+                        <ColumnDefinition Width="{size:GridPixels Value={size:SpacingXl}}" SharedSizeGroup="SplitB" />
+                        <ColumnDefinition Width="{size:GridPixels Value={size:Scaled Value={size:SpacingXxl}, By=5}}" SharedSizeGroup="Type" />
+                        <ColumnDefinition Width="{size:GridPixels Value={size:SpacingXl}}" SharedSizeGroup="SplitC" />
+                        <ColumnDefinition Width="Auto" SharedSizeGroup="Size" />
+                        <!-- The rows' grid is CONTENT-SIZED: its columns are the shared widths
+                             and the last one takes what is left, so the fixed columns are
+                             measured exactly and the icon's column is the icon's size. The
+                             header's grid is the one that fills the width. -->
                       </Grid.ColumnDefinitions>
-                      <Image Width="{size:IconSizeMd}" Height="{size:IconSizeMd}" VerticalAlignment="Center">
+                      <!-- The row's icon, at the same size and with the same gap to the name as
+                           the places rail's icons (the theme's content inset) -->
+                      <Image Width="{size:IconSizeMd}" Height="{size:IconSizeMd}" VerticalAlignment="Center"
+                             Margin="{size:Edges Right={size:ContentPadding}}"
+                             HorizontalAlignment="Left">
                         <Image.Source>
                           <DrawingImage Drawing="{Binding IconKey, Converter={StaticResource Icons}}"/>
                         </Image.Source>
@@ -495,14 +702,16 @@
     <Style Selector="^ /template/ DockPanel#BottomBarTop">
       <Setter Property="Margin" Value="{size:Edges Bottom={size:SpacingMd}}" />
     </Style>
+    <!-- The header row's left inset is the SAME one the file rows take (their ListBoxItem
+         theme's padding), so the header's columns and the rows' columns line up exactly -->
     <Style Selector="^ /template/ Grid#FileHeaders">
       <Setter Property="Margin" Value="{size:Edges Left={size:SpacingXxl}, Top={size:SpacingMd}, Bottom={size:SpacingMd}}" />
     </Style>
-    <!-- The thin 1px column splitters between the headings; the file rows mirror them via the shared size groups -->
-    <Style Selector="^ /template/ Rectangle#HeaderSplitA, ^ /template/ Rectangle#HeaderSplitB, ^ /template/ Rectangle#HeaderSplitC">
-      <Setter Property="Width" Value="{size:ThicknessSmDouble}" />
-      <Setter Property="Fill" Value="{color:BorderDefault}" />
-      <Setter Property="Margin" Value="{size:Edges Left={size:SpacingMd}, Right={size:SpacingMd}}" />
+    <!-- The column splitters between the headings. They are GridSplitters, so they are the drag
+         handles that widen the column beside them; the hairline they draw is the same rule the
+         file rows draw, so the header and the rows stay in step -->
+    <Style Selector="^ /template/ GridSplitter#HeaderSplitA, ^ /template/ GridSplitter#HeaderSplitB, ^ /template/ GridSplitter#HeaderSplitC">
+      <Setter Property="Background" Value="{color:BorderDefault}" />
     </Style>
     <!-- The same 1px rules between the rows' columns -->
     <Style Selector="^ /template/ Rectangle#RowSplitA, ^ /template/ Rectangle#RowSplitB, ^ /template/ Rectangle#RowSplitC">
@@ -515,7 +724,9 @@
     </Style>
     <!-- The file list fills whatever is left BELOW the header row; frameless too: the reference lists
          files without a box, the nav hairline and the bottom bar's rule are the only lines in the
-         centre region -->
+         centre region. The list itself carries NO padding: the rows' own grid takes the same
+         left inset as the header row, so the header's columns and the rows' columns line up
+         exactly (the stock chooser's header and its rows share one grid geometry) -->
     <Style Selector="^ /template/ ListBox#PART_Files">
       <Setter Property="Background" Value="Transparent" />
       <Setter Property="BorderThickness" Value="0" />
@@ -547,11 +758,16 @@
       <Setter Property="Background" Value="Transparent"/>
     </Style>
 
-    <Style Selector="^ /template/ UniformGrid#Finalize > Button">
-      <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}"/>
+    <!-- The action buttons. Save wears the Success accent and Cancel the Destructive one - the
+         theme's negative-dialog hue, the same one the overwrite prompt's "No" button wears. The
+         accent tints the button's own face (the theme's roles follow the control's hue), so the
+         two actions read apart without a per-control colour. The row is CENTRED: Luke asked for
+         the dialog's actions centred, which is a deliberate exception to the theme's left
+         alignment. -->
+    <Style Selector="^ /template/ Grid#Finalize > Button">
+      <Setter Property="HorizontalContentAlignment" Value="{theme:ButtonHorizontalContentAlignment}"/>
       <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}"/>
       <Setter Property="MinWidth" Value="{size:ControlMinWidth}"/>
-      <Setter Property="Margin" Value="{size:Edges Left={size:SpacingMd}}"/>
     </Style>
 
     <!-- Focus state (Rule 21): the frame carries the focus ring -->

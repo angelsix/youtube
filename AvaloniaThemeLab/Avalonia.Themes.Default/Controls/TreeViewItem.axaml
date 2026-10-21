@@ -20,36 +20,41 @@
     <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
     <Setter Property="Template">
       <ControlTemplate>
-        <!-- The chevron: a square arrow, pointing right when collapsed and down when expanded.
-             ONE square glyph is used and ROTATED between the two states, so the ink box is the
-             same size in both orientations and the arrow never changes the row's rhythm
-             (task 153: the ink bounding box is square in both states, drawn at three-quarters of IconSizeMd like ScrollBar's arrows so it sits within the text's cap height). The rotation is
-             set by the STYLES below, never here: a RenderTransform written in the template would
-             be a local value and would outrank the :checked style's angle -->
-        <Border Background="Transparent"
+        <!-- The chevron: a rounded 90-degree arrow, pointing right when collapsed and down when
+             expanded. ONE glyph is used and TURNED between the two states, so the arrow keeps
+             the same ink in both orientations and the row's rhythm never changes. The TURN rides
+             the wrapper's own rotate transform, while the glyph itself carries only the artwork
+             — so the arrow's direction depends ONLY on the expanded state and no hover or press
+             style can turn it (task 158) -->
+        <Border x:Name="ChevronRotator"
+                Background="Transparent"
                 Width="{size:Scaled Value={size:IconSizeMd}, By=0.75}"
                 Height="{size:Scaled Value={size:IconSizeMd}, By=0.75}"
                 HorizontalAlignment="Center"
-                VerticalAlignment="Center">
+                VerticalAlignment="Center"
+                RenderTransformOrigin="50%,50%">
           <Path x:Name="ChevronPath"
                 Fill="{TemplateBinding Foreground}"
                 Stretch="Uniform"
-                RenderTransformOrigin="50%,50%"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center" />
         </Border>
       </ControlTemplate>
     </Setter>
 
-    <!-- Chevron glyph: a style, not a template value, so the expanded (checked) arrow can turn.
-         The theme's dedicated expand/collapse arrow has a SQUARE ink box (24x24 on the icon grid),
-         so the arrow is the same size whether it points right or down, and turning it never
-         changes the row's size (task 153) -->
+    <!-- Chevron glyph: the theme's rounded expand/collapse arrow, drawn at three-quarters of
+         IconSizeMd like ScrollBar's arrows, so it sits within the row's text cap height. The
+         glyph carries the artwork only; the turn lives on the wrapper (above) -->
     <Style Selector="^ /template/ Path#ChevronPath">
       <Setter Property="Data" Value="{icons:ExpandChevronDown}" />
-      <!-- Collapsed: the arrow points right (the row's content is to the side) -->
-      <Setter Property="RenderTransform" Value="rotate(-90deg)" />
-      <!-- The turn is a transition, so the arrow spins in place instead of jumping -->
+    </Style>
+
+    <!-- Collapsed: the arrow points right (the row's content is to the side). The turn is a
+         transition, so the arrow spins in place instead of jumping -->
+    <Style Selector="^ /template/ Border#ChevronRotator">
+      <Setter Property="RenderTransform">
+        <RotateTransform Angle="-90" />
+      </Setter>
       <Setter Property="Transitions">
         <Transitions>
           <TransformOperationsTransition Property="RenderTransform" Duration="{theme:AnimationFastMs}" />
@@ -58,8 +63,10 @@
     </Style>
 
     <!-- Expanded: the arrow points down (the row's content is below) -->
-    <Style Selector="^:checked /template/ Path#ChevronPath">
-      <Setter Property="RenderTransform" Value="rotate(0deg)" />
+    <Style Selector="^:checked /template/ Border#ChevronRotator">
+      <Setter Property="RenderTransform">
+        <RotateTransform Angle="0" />
+      </Setter>
     </Style>
   </ControlTheme>
 

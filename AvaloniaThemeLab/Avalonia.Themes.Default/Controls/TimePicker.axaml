@@ -203,8 +203,17 @@
 
             <!-- The picker shown when choosing a time; sized to its own card, placed under the box;
                  the shared alignment behaviour (flagged on the layout root above) opens it centred
-                 on the box so the centre (selected) row lands exactly where the pointer already is -->
+                 on the box so the centre (selected) row lands exactly where the pointer already is.
+
+                 ShouldUseOverlayLayer="True" KEEPS THE POPUP INSIDE THE WINDOW'S OWN VISUAL TREE
+                 on every platform. Without it the live macOS app puts the popup in a SEPARATE
+                 NATIVE WINDOW, and the alignment behaviour's window-client offsets then mean
+                 nothing: measured live, the popup landed ~8000px off-screen and the user saw
+                 nothing at all (the picker looked broken). With the overlay host the popup lives
+                 in the window tree, the behaviour's offsets apply as proved, and the popup opens
+                 where the pointer already is. -->
             <Popup Name="PART_Popup" WindowManagerAddShadowHint="False"
+                   ShouldUseOverlayLayer="True"
                    IsLightDismissEnabled="True" PlacementTarget="{TemplateBinding}"
                    Placement="Bottom">
               <!-- Forwards the box's hue into the detached pop-up so the picker resolves its own accent -->

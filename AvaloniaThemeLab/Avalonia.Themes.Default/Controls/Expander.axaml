@@ -163,16 +163,21 @@
                               Margin="{TemplateBinding Padding}" />
             <!-- Chevron button (glyph and states set via ^ /template/ styles) -->
             <Border x:Name="ExpandCollapseChevronBorder"
-                    Grid.Column="1">
-              <!-- The chevron pointing at the expanded direction -->
+                    Grid.Column="1"
+                    RenderTransformOrigin="50%,50%">
+              <!-- The chevron pointing at the expanded direction. The TURN lives on this
+                   border's own rotate transform and the hover/press GROW lives on the
+                   glyph's own scale transform, so neither can clobber the other: the
+                   arrow's direction depends ONLY on the expanded state, never on the
+                   pointer (task 158). Both pivot on the glyph's own centre, because the
+                   glyph is centred in this border -->
+              <Border.RenderTransform>
+                <RotateTransform />
+              </Border.RenderTransform>
               <PathIcon x:Name="ExpandCollapseChevron"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
-                        RenderTransformOrigin="50%,50%">
-                <PathIcon.RenderTransform>
-                  <RotateTransform />
-                </PathIcon.RenderTransform>
-              </PathIcon>
+                        RenderTransformOrigin="50%,50%" />
             </Border>
           </Grid>
         </Border>
@@ -203,8 +208,11 @@
       </Setter>
     </Style>
 
-    <!-- Chevron spin, expanding: rotates 0 -> 180 over the fast beat -->
-    <Style Selector="^[Tag=expanded] /template/ PathIcon#ExpandCollapseChevron">
+    <!-- Chevron spin, expanding: rotates 0 -> 180 over the fast beat. The angle rides the
+         BORDER's own rotate transform, so the glyph's hover/press scale — which is a
+         different transform on a different element — can never overwrite the direction
+         (task 158: the arrow used to be forced to point DOWN on hover) -->
+    <Style Selector="^[Tag=expanded] /template/ Border#ExpandCollapseChevronBorder">
       <Style.Animations>
         <Animation FillMode="Both" Duration="{theme:AnimationFastMs}">
           <KeyFrame Cue="0%">
@@ -218,7 +226,7 @@
     </Style>
 
     <!-- Chevron spin, collapsing: the mirror rotation 180 -> 0, so both ways animate the same -->
-    <Style Selector="^[Tag=collapsed] /template/ PathIcon#ExpandCollapseChevron">
+    <Style Selector="^[Tag=collapsed] /template/ Border#ExpandCollapseChevronBorder">
       <Style.Animations>
         <Animation FillMode="Both" Duration="{theme:AnimationFastMs}">
           <KeyFrame Cue="0%">
@@ -231,12 +239,15 @@
       </Style.Animations>
     </Style>
 
-    <!-- Chevron hover: grows like Button's face (live pointerover AND the pinned Hover example) -->
+    <!-- Chevron hover: grows like Button's face (live pointerover AND the pinned Hover example).
+         The grow is a SCALE on the glyph, so the arrow's DIRECTION is untouched: it may grow
+         and shrink, but it never turns (task 158) -->
     <Style Selector="^:pointerover /template/ PathIcon#ExpandCollapseChevron, ^[(theme|Preview.State)=Hover] /template/ PathIcon#ExpandCollapseChevron">
       <Setter Property="RenderTransform" Value="{theme:TransformScale Value={size:PressedScale}, By=1.07}" />
     </Style>
 
-    <!-- Chevron pressed: shrinks like Button's face (live pressed AND the pinned Pressed example) -->
+    <!-- Chevron pressed: shrinks like Button's face (live pressed AND the pinned Pressed example).
+         A SCALE as well, so pressing never turns the arrow either (task 158) -->
     <Style Selector="^:pressed /template/ PathIcon#ExpandCollapseChevron, ^[(theme|Preview.State)=Pressed] /template/ PathIcon#ExpandCollapseChevron">
       <Setter Property="RenderTransform" Value="{theme:TransformScale Value={size:PressedScale}}" />
     </Style>

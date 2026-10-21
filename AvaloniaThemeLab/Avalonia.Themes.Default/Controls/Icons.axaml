@@ -4,9 +4,11 @@
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
                     xmlns:color="using:AngelSix.ThemeEngine.Colors"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes">
-  <!-- One cell of the gallery: the glyph at the everyday icon size, its name beneath it -->
+  <!-- One cell of the gallery: the glyph at the everyday icon size, its name beneath it.
+       The name sits a comfortable step below the glyph, so a caption reads as belonging to
+       the icon above it -->
   <DataTemplate x:Key="IconsCell" x:DataType="default:IconEntry">
-    <StackPanel Orientation="Vertical" Spacing="{size:SpacingSm}">
+    <StackPanel Orientation="Vertical" Spacing="{size:SpacingMd}">
       <!-- The glyph itself, centred in the cell -->
       <PathIcon Data="{Binding Geometry}"
                 Width="{size:IconSizeMd}"
@@ -60,9 +62,12 @@
     <Setter Property="ItemsPanel">
       <ItemsPanelTemplate>
         <!-- Cells wrap onto a new row when the row is full; every cell is the same width, so
-             the glyphs line up in columns. The cell is wide enough for the longest icon name -->
+             the glyphs line up in columns. The cell is wide enough for the longest icon name.
+             The rows are set far apart (an Xxl step and a half) so a caption reads as
+             belonging to the glyph above it, not to the row below; the columns stay on a
+             modest step so three cells still fit the pane's width -->
         <WrapPanel ItemSpacing="{size:SpacingMd}"
-                   LineSpacing="{size:SpacingLg}"
+                   LineSpacing="{size:Scaled Value={size:SpacingXxl}, By=1.5}"
                    ItemWidth="{size:Scaled Value={size:ControlMinWidth}, By=2}" />
       </ItemsPanelTemplate>
     </Setter>

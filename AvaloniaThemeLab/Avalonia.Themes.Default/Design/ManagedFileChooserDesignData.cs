@@ -17,9 +17,11 @@ namespace Avalonia.Themes.Default.Design;
 // at a real folder, so the preview shows the same browsing UI a user meets: a places rail, a typed
 // path, a folder of files and the Save/Cancel actions.
 //
-// The folder is created (if missing) under the user's temp directory, with the same shape as the
-// reference sample: three folders and four files. Nothing here is public API - every type is
-// internal.
+// The folder is created (if missing) under the user's LOCAL APPLICATION DATA, with the same shape
+// as the reference sample: three folders and four files. It deliberately does NOT live under the
+// temporary directory: the stock up arrow enumerates the parent folder synchronously, and the
+// temporary directory holds tens of thousands of entries on this machine - see SampleRoot.
+// Nothing here is public API - every type is internal.
 //
 //
 // Each pane gets its OWN view model: the provider property below returns a NEW model every time it
@@ -29,11 +31,40 @@ namespace Avalonia.Themes.Default.Design;
 /// <summary>Provides the design-time models the ManagedFileChooser preview binds against.</summary>
 internal static class ManagedFileChooserDesignData
 {
-    /// <summary>The name of the sample folder under the user's temp directory.</summary>
+    /// <summary>The name of the container the sample tree lives in.</summary>
     public const string SampleFolderName = "ThemeLabFileChooserSample";
 
-    /// <summary>The sample folder's full path; it is created on first use.</summary>
-    public static string SampleFolder => Path.Combine(Path.GetTempPath(), SampleFolderName);
+    /// <summary>
+    /// The container the sample tree lives in: the browsed sample folder and the places' own
+    /// folders, side by side.
+    /// </summary>
+    /// <remarks>
+    /// <para>
+    /// The container sits under the user's LOCAL APPLICATION DATA, NOT under the temporary
+    /// directory, and that is the whole point of it.
+    /// </para>
+    /// <para>
+    /// The stock view model's UP ARROW calls <c>Navigate(parent)</c>, which enumerates the parent
+    /// directory SYNCHRONOUSLY on the UI thread and then hands every entry to a list that is not
+    /// virtualised. On this machine the temporary directory holds tens of thousands of entries
+    /// (37,844 when this was measured), so one click on the up arrow enumerated all of them and
+    /// then realised tens of thousands of list rows - the gallery froze for minutes. That was
+    /// Luke's "clicking the up arrow hangs the app".
+    /// </para>
+    /// <para>
+    /// The sample therefore sits in a container of its own, whose parent holds a handful of
+    /// entries: one click on the up arrow lands in the container, reads two names and returns
+    /// immediately. The container's own ancestors are small too (the per-user application data
+    /// directory holds about 190 entries, the home folder about 110), so no number of further up
+    /// clicks ever reaches a directory large enough to stall the list.
+    /// </para>
+    /// </remarks>
+    public static string SampleRoot => Path.Combine(
+        Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+        SampleFolderName);
+
+    /// <summary>The browsed sample folder's full path; it is created on first use.</summary>
+    public static string SampleFolder => Path.Combine(SampleRoot, "sample");
 
     /// <summary>
     /// A fresh view model browsing the sample folder in Save mode, with "report.pdf" proposed as
@@ -93,14 +124,14 @@ internal static class ManagedFileChooserDesignData
         }
         catch (Exception)
         {
-            // A read-only or full temp directory must not take the whole preview down: the place
-            // then points at a folder that does not exist, and the stock chooser falls back to its
-            // root.
+            // A read-only or full application-data directory must not take the whole preview down:
+            // the place then points at a folder that does not exist, and the stock chooser falls
+            // back to its root.
         }
     }
 
     /// <summary>The folder the sample's places live in, beside the sample folder itself.</summary>
-    public static string PlacesRoot => SampleFolder + " Places";
+    public static string PlacesRoot => Path.Combine(SampleRoot, "places");
     /// <summary>
     /// Points the places rail at the sample's own three places (Documents, Downloads, Pictures),
     /// each of which opens the sample folder.
@@ -198,8 +229,8 @@ internal static class ManagedFileChooserDesignData
         }
         catch (Exception)
         {
-            // A read-only or full temp directory must not take the whole preview down: the chooser
-            // then browses whatever folder it can reach.
+            // A read-only or full application-data directory must not take the whole preview down:
+            // the chooser then browses whatever folder it can reach.
         }
     }
 

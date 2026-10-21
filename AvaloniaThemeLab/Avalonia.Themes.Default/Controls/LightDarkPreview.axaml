@@ -126,34 +126,63 @@
         <UniformGrid x:Name="PART_Panes">
           <!-- Light -->
           <Border Name="PART_LightPane" Padding="{size:Edges All={size:SpacingXxl}}" Background="{color:SurfaceDefaultBrush}">
-            <StackPanel Spacing="{size:SpacingXl}">
-              <!-- The pane's caption -->
-              <Label Content="{Binding Title, RelativeSource={RelativeSource FindAncestor, AncestorType=p:LightDarkPreview}, StringFormat='{}{0} - Light'}"
-                     HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" />
-              <!-- The pane's accent picker, below the caption -->
-              <ListBox Theme="{StaticResource LightDarkPreviewSwatches}" IsVisible="{TemplateBinding IsAccentPickerVisible}"
-                       SelectedItem="{TemplateBinding SelectedAccent, Mode=TwoWay}" ItemsSource="{x:Static p:LightDarkPreview.AccentChoices}"
+            <!-- A Grid, not a StackPanel: the pane's content is a scrolling viewport, and a StackPanel
+                 measures its children with an infinite height, so a viewer inside one never scrolls.
+                 Theme Exception: the grid is Top-aligned, not stretched. A stretched grid hands its
+                 leftover pixels to a row, which moved the preview content down by 1px; the rows are
+                 content-sized, so the grid takes exactly the height its rows need.
+                 The content row is a STAR row, so it takes whatever height the pane has left over
+                 after the header. That is what makes the viewport BOUNDED: when the pane is given
+                 a fixed height (a page that wants a fixed-height preview), the viewer takes the
+                 remaining height and CLIPS and SCROLLS the too-tall content instead of letting it
+                 spill out of the pane. When the pane is free to grow, the star row is measured
+                 with an infinite height and takes the content's own height, so nothing changes. -->
+            <Grid ColumnDefinitions="*" RowDefinitions="Auto,*" RowSpacing="{size:SpacingXl}" VerticalAlignment="Top">
+              <!-- The pane's header: its caption and, below it, the accent picker -->
+              <StackPanel Grid.Row="0" Spacing="{size:SpacingXl}">
+                <!-- The pane's caption -->
+                <Label Content="{Binding Title, RelativeSource={RelativeSource FindAncestor, AncestorType=p:LightDarkPreview}, StringFormat='{}{0} - Light'}"
                        HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" />
-              <!-- The preview content -->
-              <ContentControl HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" theme:Accent.Kind="{TemplateBinding SelectedAccent}"
-                              ContentTemplate="{Binding PaneContentTemplate, RelativeSource={RelativeSource FindAncestor, AncestorType=p:LightDarkPreview}}" />
-            </StackPanel>
+                <!-- The pane's accent picker, below the caption -->
+                <ListBox Theme="{StaticResource LightDarkPreviewSwatches}" IsVisible="{TemplateBinding IsAccentPickerVisible}"
+                         SelectedItem="{TemplateBinding SelectedAccent, Mode=TwoWay}" ItemsSource="{x:Static p:LightDarkPreview.AccentChoices}"
+                         HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" />
+              </StackPanel>
+              <!-- The preview content, in the theme's own auto-hide scrolling viewport: the pane keeps
+                   what it can show and the bars fade out at rest, so nothing ever spills out of the pane.
+                   The viewer takes the height the pane has left (a bounded pane scrolls; a pane free to
+                   grow takes the content's own height), and the horizontal axis is squeezed to the
+                   pane's width rather than spilled: every preview's content measures to a fixed width
+                   that fits, so nothing is ever clipped sideways -->
+              <ScrollViewer Grid.Row="1" Background="Transparent" BorderThickness="{size:Edges}" AllowAutoHide="True"
+                            HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+                <ContentControl HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" theme:Accent.Kind="{TemplateBinding SelectedAccent}"
+                                ContentTemplate="{Binding PaneContentTemplate, RelativeSource={RelativeSource FindAncestor, AncestorType=p:LightDarkPreview}}" />
+              </ScrollViewer>
+            </Grid>
           </Border>
 
           <!-- Dark -->
           <Border Name="PART_DarkPane" Padding="{size:Edges All={size:SpacingXxl}}" theme:ThemeRegion.IsDark="True" Background="{color:SurfaceDefaultBrush}">
-            <StackPanel Spacing="{size:SpacingXl}">
-              <!-- The pane's caption -->
-              <Label Content="{Binding Title, RelativeSource={RelativeSource FindAncestor, AncestorType=p:LightDarkPreview}, StringFormat='{}{0} - Dark'}"
-                     HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" />
-              <!-- The pane's accent picker, below the caption -->
-              <ListBox Theme="{StaticResource LightDarkPreviewSwatches}" IsVisible="{TemplateBinding IsAccentPickerVisible}"
-                       SelectedItem="{TemplateBinding SelectedAccent, Mode=TwoWay}" ItemsSource="{x:Static p:LightDarkPreview.AccentChoices}"
+            <!-- The dark pane lays out exactly like the light one -->
+            <Grid ColumnDefinitions="*" RowDefinitions="Auto,*" RowSpacing="{size:SpacingXl}" VerticalAlignment="Top">
+              <!-- The pane's header: its caption and, below it, the accent picker -->
+              <StackPanel Grid.Row="0" Spacing="{size:SpacingXl}">
+                <!-- The pane's caption -->
+                <Label Content="{Binding Title, RelativeSource={RelativeSource FindAncestor, AncestorType=p:LightDarkPreview}, StringFormat='{}{0} - Dark'}"
                        HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" />
-              <!-- The preview content -->
-              <ContentControl HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" theme:Accent.Kind="{TemplateBinding SelectedAccent}"
-                              ContentTemplate="{Binding PaneContentTemplate, RelativeSource={RelativeSource FindAncestor, AncestorType=p:LightDarkPreview}}" />
-            </StackPanel>
+                <!-- The pane's accent picker, below the caption -->
+                <ListBox Theme="{StaticResource LightDarkPreviewSwatches}" IsVisible="{TemplateBinding IsAccentPickerVisible}"
+                         SelectedItem="{TemplateBinding SelectedAccent, Mode=TwoWay}" ItemsSource="{x:Static p:LightDarkPreview.AccentChoices}"
+                         HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" />
+              </StackPanel>
+              <!-- The preview content, in the theme's own auto-hide scrolling viewport -->
+              <ScrollViewer Grid.Row="1" Background="Transparent" BorderThickness="{size:Edges}" AllowAutoHide="True"
+                            HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+                <ContentControl HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" theme:Accent.Kind="{TemplateBinding SelectedAccent}"
+                                ContentTemplate="{Binding PaneContentTemplate, RelativeSource={RelativeSource FindAncestor, AncestorType=p:LightDarkPreview}}" />
+              </ScrollViewer>
+            </Grid>
           </Border>
         </UniformGrid>
       </ControlTemplate>
@@ -172,6 +201,17 @@
          Foreground on the control would propagate down (Rule 13) -->
     <Style x:SetterTargetType="Border" Selector="^ /template/ Border#PART_LightPane, ^ /template/ Border#PART_DarkPane">
       <Setter Property="TextElement.Foreground" Value="{color:AccentBrush Dark8}" />
+    </Style>
+
+    <!-- The scrolling viewport carries the theme's own Foreground (TextDefault), and a control's
+         Foreground beats an inherited one: without this the viewer's TextDefault would shadow the
+         pane's per-region ink and every preview's plain text would change colour (the light pane's
+         "Hello, theme" went from the pane's AccentBrush Dark8 #080808 to TextDefault #010101, the
+         dark pane's from #E1E1E1 to #EEEEEE). The viewer takes the SAME token the pane's border
+         takes, resolved in the pane's OWN region, so each pane's content keeps the ink the pane
+         gives it and the dark pane still gets the dark palette's ink (Rule 13) -->
+    <Style Selector="^ /template/ ScrollViewer">
+      <Setter Property="Foreground" Value="{color:AccentBrush Dark8}" />
     </Style>
 
     <!-- Side by side: one row of two equal columns -->
