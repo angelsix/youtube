@@ -5,12 +5,19 @@
                     xmlns:color="using:AngelSix.ThemeEngine.Colors"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes"
                     xmlns:icons="using:AngelSix.ThemeEngine.Icons">
-  <!-- Design preview: the bare scaffold. The designer and the lab gallery both show this key,
-       so it is declared before Design.PreviewWith uses it -->
+  <!-- Design preview: a root page so the bar, its title and the content render. The designer and the lab
+       gallery both show this key, so it is declared before Design.PreviewWith uses it -->
   <DataTemplate x:Key="NavigationPagePreview">
-    <!-- Back button, header title and command bars bind to the live navigation stack, so a static preview shows the bare scaffold once per pane -->
+    <!-- A single root page: Content takes exactly one child, so the bar, its title and the page content
+         render. BarHeight gives the bar a measured height; HasShadow paints the strip beneath it -->
     <Border Width="340" Height="300">
-      <NavigationPage />
+      <NavigationPage BarHeight="{size:ControlHeightLg}" HasShadow="True">
+        <ContentPage Header="Home">
+          <TextBlock Text="Welcome to the home page"
+                     HorizontalAlignment="Center"
+                     VerticalAlignment="Center" />
+        </ContentPage>
+      </NavigationPage>
     </Border>
   </DataTemplate>
 
@@ -24,9 +31,6 @@
 
     </Border>
   </Design.PreviewWith>
-
-  <SolidColorBrush x:Key="NavigationBarBackground" Color="{color:NeutralLight10}" />
-  <SolidColorBrush x:Key="NavigationBarForeground" Color="{color:NeutralDark9}" />
 
   <!-- Nav bar button: PART_Border sits inside the button's own template, so a dedicated
        Button theme reaches it where the NavigationPage theme could not (two /template/ hops) -->
@@ -133,15 +137,14 @@
                       Theme="{StaticResource DefaultNavigationBarButton}"
                       Grid.Column="0"
                       Background="Transparent"
-                      Foreground="{DynamicResource NavigationBarForeground}"
                       IsVisible="{TemplateBinding IsBackButtonEffectivelyVisible}"
                       ToolTip.Tip="{x:Null}">
                 <!-- Overlaps the default arrow and a custom icon -->
                 <Panel Background="Transparent">
                   <!-- Default back arrow -->
-                  <Path Data="{DynamicResource NavigationPageBackIcon}"
+                  <Path Data="{icons:ChevronLeft}"
                         x:Name="PART_BackButtonDefaultIcon"
-                        Fill="{DynamicResource NavigationBarForeground}"
+                        Fill="{color:TextDefault}"
                         Stretch="Uniform" />
                   <!-- Custom back icon, when one is supplied -->
                   <ContentPresenter
@@ -152,14 +155,12 @@
               <!-- The page title -->
               <ContentPresenter Name="PART_Header"
                                 Grid.Column="1"
-                                Foreground="{DynamicResource NavigationBarForeground}"
                                 Content="{Binding CurrentPage?.Header, RelativeSource={RelativeSource TemplatedParent}, FallbackValue={x:Null}}"
                                 ContentTemplate="{Binding CurrentPage?.HeaderTemplate, RelativeSource={RelativeSource TemplatedParent}, FallbackValue={x:Null}}" />
 
               <!-- The command bar across the top -->
               <ContentPresenter Name="PART_TopCommandBar"
                                 Grid.Column="2"
-                                Foreground="{DynamicResource NavigationBarForeground}"
                                 Content="{Binding CurrentPage?.(NavigationPage.TopCommandBar), RelativeSource={RelativeSource TemplatedParent}, FallbackValue={x:Null}}" />
             </Grid>
           </Border>
@@ -185,9 +186,12 @@
       </ControlTemplate>
     </Setter>
 
-    <!-- Default nav bar background, overridable via a more-specific style selector -->
+    <!-- Default nav bar background, overridable via a more-specific style selector.
+         No border of its own, so the borderless-surface role (task 79); the top corners
+         round to the same radius as the page content beneath, meeting it squarely -->
     <Style Selector="^ /template/ Border#PART_NavigationBar">
-      <Setter Property="Background" Value="{DynamicResource NavigationBarBackground}" />
+      <Setter Property="Background" Value="{color:SurfaceBorderless}" />
+      <Setter Property="CornerRadius" Value="{size:Corners Radius={size:RadiusSm}, Top=True}" />
     </Style>
 
     <!-- Nav bar grid margin -->
@@ -207,17 +211,19 @@
       <Setter Property="Height" Value="{size:IconSizeMd}" />
     </Style>
 
-    <!-- Header font size, margin, and alignment -->
+    <!-- Header font size, margin, ink and alignment -->
     <Style Selector="^ /template/ ContentPresenter#PART_Header">
       <Setter Property="FontSize" Value="{size:FontSizeXl}" />
       <Setter Property="Margin" Value="{size:Edges Right={size:SpacingXxl}}" />
+      <Setter Property="Foreground" Value="{color:TextDefault}" />
       <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalContentAlignment}" />
       <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
       <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
     </Style>
 
-    <!-- Top command bar alignment -->
+    <!-- Top command bar ink and alignment -->
     <Style Selector="^ /template/ ContentPresenter#PART_TopCommandBar">
+      <Setter Property="Foreground" Value="{color:TextDefault}" />
       <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
       <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
     </Style>
@@ -238,10 +244,11 @@
       <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalContentAlignment}" />
     </Style>
 
-    <!-- Nav bar shadow height and background -->
+    <!-- Strip beneath the bar: a solid role-token edge, not an overlay scrim.
+         A hairline, not a band: half the old thickness, from the Thickness ladder -->
     <Style Selector="^ /template/ Border#PART_NavBarShadow">
-      <Setter Property="Height" Value="{size:ThicknessXxl}" />
-      <Setter Property="Background" Value="{color:OverlayWeakBrush}" />
+      <Setter Property="Height" Value="{size:ThicknessLgDouble}" />
+      <Setter Property="Background" Value="{color:BorderDefault}" />
     </Style>
 
     <!-- :nav-bar-inset: spacer reserves nav-bar height so content is pushed below -->

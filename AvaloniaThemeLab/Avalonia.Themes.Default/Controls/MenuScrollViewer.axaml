@@ -7,36 +7,6 @@
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes"
                     xmlns:icons="using:AngelSix.ThemeEngine.Icons">
 
-  <!-- Design preview: overflowing content forces both repeat-button chevrons visible. The designer and the lab
-       gallery both show this key, so it is declared before Design.PreviewWith uses it -->
-  <DataTemplate x:Key="MenuScrollViewerPreview">
-    <!-- Their hover tint needs a live pointer -->
-    <ScrollViewer Theme="{StaticResource DefaultMenuScrollViewer}" Width="160" Height="120">
-      <StackPanel Spacing="{size:SpacingXxl}">
-        <TextBlock>Item 1</TextBlock>
-        <TextBlock>Item 2</TextBlock>
-        <TextBlock>Item 3</TextBlock>
-        <TextBlock>Item 4</TextBlock>
-        <TextBlock>Item 5</TextBlock>
-        <TextBlock>Item 6</TextBlock>
-        <TextBlock>Item 7</TextBlock>
-        <TextBlock>Item 8</TextBlock>
-        <TextBlock>Item 9</TextBlock>
-      </StackPanel>
-    </ScrollViewer>
-  </DataTemplate>
-
-  <Design.PreviewWith>
-    <Border>
-      <Border.Styles>
-        <default:DefaultThemeStyles />
-      </Border.Styles>
-
-      <default:LightDarkPreview Title="MenuScrollViewer" Orientation="Horizontal" ContentTemplate="{StaticResource MenuScrollViewerPreview}" />
-
-    </Border>
-  </Design.PreviewWith>
-
   <ControlTheme x:Key="DefaultMenuScrollViewer" TargetType="ScrollViewer">
     <!-- Visual defaults -->
     <Setter Property="Background" Value="Transparent" />
@@ -52,8 +22,6 @@
           <RepeatButton x:Name="PART_UpButton" DockPanel.Dock="Top"
                         BorderThickness="0"
                         Background="Transparent"
-                        HorizontalAlignment="Stretch"
-                        HorizontalContentAlignment="Center"
                         RenderTransform="{x:Null}"
                         Command="{Binding LineUp, RelativeSource={RelativeSource TemplatedParent}}">
             <RepeatButton.IsVisible>
@@ -65,21 +33,15 @@
                 <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="Viewport.Height" />
               </MultiBinding>
             </RepeatButton.IsVisible>
-            <!-- Scales the up arrow -->
-            <Viewbox x:Name="PART_UpViewbox">
-              <!-- The up arrow -->
-              <Path x:Name="PART_UpPath"
-                    VerticalAlignment="Center"
-                    HorizontalAlignment="Center"
-                    Data="{icons:ChevronUp}" />
-            </Viewbox>
+            <!-- The up arrow -->
+            <PathIcon x:Name="PART_UpPath"
+                      IsHitTestVisible="False"
+                      UseLayoutRounding="False" />
           </RepeatButton>
           <!-- Scrolls the menu down while held -->
           <RepeatButton x:Name="PART_DownButton" DockPanel.Dock="Bottom"
                         BorderThickness="0"
                         Background="Transparent"
-                        HorizontalAlignment="Stretch"
-                        HorizontalContentAlignment="Center"
                         RenderTransform="{x:Null}"
                         Command="{Binding LineDown, RelativeSource={RelativeSource TemplatedParent}}">
             <RepeatButton.IsVisible>
@@ -91,14 +53,10 @@
                 <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="Viewport.Height" />
               </MultiBinding>
             </RepeatButton.IsVisible>
-            <!-- Scales the down arrow -->
-            <Viewbox x:Name="PART_DownViewbox">
-              <!-- The down arrow -->
-              <Path x:Name="PART_DownPath"
-                    VerticalAlignment="Center"
-                    HorizontalAlignment="Center"
-                    Data="{icons:ChevronDown}" />
-            </Viewbox>
+            <!-- The down arrow -->
+            <PathIcon x:Name="PART_DownPath"
+                      IsHitTestVisible="False"
+                      UseLayoutRounding="False" />
           </RepeatButton>
           <!-- The scrolling menu entries -->
           <ScrollContentPresenter Name="PART_ContentPresenter">
@@ -112,45 +70,44 @@
     </Setter>
 
     <!-- Themed defaults for inner template elements (Rule 2) -->
-    <Style Selector="^ /template/ Viewbox#PART_UpViewbox">
+    <!-- Up chevron glyph -->
+    <Style Selector="^ /template/ PathIcon#PART_UpPath">
+      <Setter Property="Data" Value="{icons:ChevronUp}" />
       <Setter Property="Width" Value="{size:IconSizeMd}" />
       <Setter Property="Height" Value="{size:IconSizeMd}" />
+      <Setter Property="Foreground" Value="{color:TextDefault}" />
+      <!-- Centre the chevron across the strip's full width -->
+      <Setter Property="HorizontalAlignment" Value="{theme:ButtonHorizontalContentAlignment}" />
+      <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalContentAlignment}" />
     </Style>
-    <Style Selector="^ /template/ Path#PART_UpPath">
-      <Setter Property="Fill" Value="{color:AccentBrush Dark1}" />
+    <!-- Down chevron glyph -->
+    <Style Selector="^ /template/ PathIcon#PART_DownPath">
+      <Setter Property="Data" Value="{icons:ChevronDown}" />
       <Setter Property="Width" Value="{size:IconSizeMd}" />
       <Setter Property="Height" Value="{size:IconSizeMd}" />
-    </Style>
-    <Style Selector="^ /template/ Viewbox#PART_DownViewbox">
-      <Setter Property="Width" Value="{size:IconSizeMd}" />
-      <Setter Property="Height" Value="{size:IconSizeMd}" />
-    </Style>
-    <Style Selector="^ /template/ Path#PART_DownPath">
-      <Setter Property="Fill" Value="{color:AccentBrush Dark1}" />
-      <Setter Property="Width" Value="{size:IconSizeMd}" />
-      <Setter Property="Height" Value="{size:IconSizeMd}" />
+      <Setter Property="Foreground" Value="{color:TextDefault}" />
+      <!-- Centre the chevron across the strip's full width -->
+      <Setter Property="HorizontalAlignment" Value="{theme:ButtonHorizontalContentAlignment}" />
+      <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalContentAlignment}" />
     </Style>
 
-    <Style Selector="^ /template/ RepeatButton:pointerover > Viewbox > Path">
-      <Setter Property="Fill" Value="{color:AccentBrush Dark1}" />
+    <!-- Chevron brightens with the hovered row's ink -->
+    <Style Selector="^ /template/ RepeatButton:pointerover > PathIcon">
+      <Setter Property="Foreground" Value="{color:HoverTextDefault}" />
     </Style>
 
-    <!-- Inner element alignment theming (Rule 12) -->
+    <!-- Strips span the popup's full width; the chevron centres across that width -->
     <Style Selector="^ /template/ RepeatButton#PART_UpButton">
       <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
-      <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
+      <Setter Property="Height" Value="{size:ControlHeightSm}" />
+      <Setter Property="HorizontalContentAlignment" Value="{theme:ButtonHorizontalContentAlignment}" />
+      <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
     </Style>
     <Style Selector="^ /template/ RepeatButton#PART_DownButton">
       <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
-      <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
-    </Style>
-    <Style Selector="^ /template/ Path#PART_UpPath">
-      <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
-      <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalContentAlignment}" />
-    </Style>
-    <Style Selector="^ /template/ Path#PART_DownPath">
-      <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
-      <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalContentAlignment}" />
+      <Setter Property="Height" Value="{size:ControlHeightSm}" />
+      <Setter Property="HorizontalContentAlignment" Value="{theme:ButtonHorizontalContentAlignment}" />
+      <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
     </Style>
   </ControlTheme>
 </ResourceDictionary>

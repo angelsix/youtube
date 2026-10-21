@@ -6,79 +6,132 @@
                     xmlns:color="using:AngelSix.ThemeEngine.Colors"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes"
                     xmlns:icons="using:AngelSix.ThemeEngine.Icons">
-  <!-- Design preview: the full state matrix authored once; each pane (light/dark) builds its own copy -->
+  <!-- Design preview: the box's own states in the left column, the drop-down's item states in the right
+       column, pinned inside a real open drop-down so they read as the rows a user picks from. The
+       ComboBoxItem theme has no gallery entry of its own (task 137): its states live here. -->
   <DataTemplate x:Key="ComboBoxPreview">
-    <StackPanel Spacing="{size:SpacingXl}">
-      <!-- Empty prompt beside a filled selection: the two resting faces -->
-      <ComboBox Width="180" PlaceholderText="Select…">
-        <ComboBoxItem>One</ComboBoxItem>
-        <ComboBoxItem>Two</ComboBoxItem>
-        <ComboBoxItem>Three</ComboBoxItem>
-      </ComboBox>
-      <ComboBox Width="180" SelectedIndex="1">
-        <ComboBoxItem>One</ComboBoxItem>
-        <ComboBoxItem>Two</ComboBoxItem>
-        <ComboBoxItem>Three</ComboBoxItem>
-      </ComboBox>
-      <!-- Opening the box exposes the popup frame and item list -->
-      <ComboBox Width="180" SelectedIndex="1" IsDropDownOpen="True">
-        <ComboBoxItem>One</ComboBoxItem>
-        <ComboBoxItem>Two</ComboBoxItem>
-        <ComboBoxItem>Three</ComboBoxItem>
-      </ComboBox>
-      <!-- Pointer and focus states, each holding a selection so the value stays readable -->
-      <ComboBox Width="180" SelectedIndex="1" theme:Preview.State="Hover">
-        <ComboBoxItem>One</ComboBoxItem>
-        <ComboBoxItem>Two</ComboBoxItem>
-        <ComboBoxItem>Three</ComboBoxItem>
-      </ComboBox>
-      <ComboBox Width="180" SelectedIndex="1" theme:Preview.State="Pressed">
-        <ComboBoxItem>One</ComboBoxItem>
-        <ComboBoxItem>Two</ComboBoxItem>
-        <ComboBoxItem>Three</ComboBoxItem>
-      </ComboBox>
-      <ComboBox Width="180" SelectedIndex="1" theme:Preview.State="Focused">
-        <ComboBoxItem>One</ComboBoxItem>
-        <ComboBoxItem>Two</ComboBoxItem>
-        <ComboBoxItem>Three</ComboBoxItem>
-      </ComboBox>
-      <!-- Repeat the focus wash in two hues to prove accents resolve generically -->
-      <ComboBox Width="180" SelectedIndex="1" theme:Preview.State="Focused" theme:Accent.Kind="Warning">
-        <ComboBoxItem>One</ComboBoxItem>
-        <ComboBoxItem>Two</ComboBoxItem>
-        <ComboBoxItem>Three</ComboBoxItem>
-      </ComboBox>
-      <ComboBox Width="180" SelectedIndex="1" theme:Preview.State="Focused" theme:Accent.Kind="Success">
-        <ComboBoxItem>One</ComboBoxItem>
-        <ComboBoxItem>Two</ComboBoxItem>
-        <ComboBoxItem>Three</ComboBoxItem>
-      </ComboBox>
-      <!-- Greyed-out, unusable input -->
-      <ComboBox Width="180" SelectedIndex="1" IsEnabled="False">
-        <ComboBoxItem>One</ComboBoxItem>
-        <ComboBoxItem>Two</ComboBoxItem>
-        <ComboBoxItem>Three</ComboBoxItem>
-      </ComboBox>
-      <!-- Failed validation lights the error border -->
-      <ComboBox Width="180" SelectedIndex="1">
-        <DataValidationErrors.Error>
-          <sys:Exception>
-            <x:Arguments>
-              <x:String>Error</x:String>
-            </x:Arguments>
-          </sys:Exception>
-        </DataValidationErrors.Error>
-        <ComboBoxItem>One</ComboBoxItem>
-        <ComboBoxItem>Two</ComboBoxItem>
-        <ComboBoxItem>Three</ComboBoxItem>
-      </ComboBox>
-      <!-- Free-text mode swaps the picker face for a TextBox -->
-      <ComboBox Width="180" SelectedIndex="1" IsEditable="True">
-        <ComboBoxItem>One</ComboBoxItem>
-        <ComboBoxItem>Two</ComboBoxItem>
-        <ComboBoxItem>Three</ComboBoxItem>
-      </ComboBox>
-    </StackPanel>
+    <!-- Two columns: the box states and the item states, side by side so both fit the pane at the default window size -->
+    <Grid ColumnDefinitions="Auto,Auto" ColumnSpacing="{size:SpacingXl}">
+      <!-- Left column: the box's own states -->
+      <StackPanel Grid.Column="0" Spacing="{size:SpacingLg}">
+        <!-- Caption naming the state shown -->
+        <TextBlock Text="Rest · nothing chosen" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
+        <!-- Resting face with nothing chosen: the prompt shows -->
+        <ComboBox Width="180" PlaceholderText="Select…">
+          <ComboBoxItem>Rest</ComboBoxItem>
+          <ComboBoxItem>Second</ComboBoxItem>
+          <ComboBoxItem>Third</ComboBoxItem>
+        </ComboBox>
+        <!-- Caption naming the state shown -->
+        <TextBlock Text="Selected" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
+        <!-- A value chosen: the face carries the chosen value -->
+        <ComboBox Width="180" SelectedIndex="1">
+          <ComboBoxItem>First</ComboBoxItem>
+          <ComboBoxItem>Selected</ComboBoxItem>
+          <ComboBoxItem>Third</ComboBoxItem>
+        </ComboBox>
+        <!-- Caption naming the state shown -->
+        <TextBlock Text="Hover" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
+        <!-- Pointer over the closed box -->
+        <ComboBox Width="180" SelectedIndex="1" theme:Preview.State="Hover">
+          <ComboBoxItem>First</ComboBoxItem>
+          <ComboBoxItem>Selected</ComboBoxItem>
+          <ComboBoxItem>Third</ComboBoxItem>
+        </ComboBox>
+        <!-- Caption naming the state shown -->
+        <TextBlock Text="Pressed" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
+        <!-- Held down on the closed box -->
+        <ComboBox Width="180" SelectedIndex="1" theme:Preview.State="Pressed">
+          <ComboBoxItem>First</ComboBoxItem>
+          <ComboBoxItem>Selected</ComboBoxItem>
+          <ComboBoxItem>Third</ComboBoxItem>
+        </ComboBox>
+        <!-- Caption naming the state shown -->
+        <TextBlock Text="Focused" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
+        <!-- Keyboard focus rings the frame (Rule 21) -->
+        <ComboBox Width="180" SelectedIndex="1" theme:Preview.State="Focused">
+          <ComboBoxItem>First</ComboBoxItem>
+          <ComboBoxItem>Selected</ComboBoxItem>
+          <ComboBoxItem>Third</ComboBoxItem>
+        </ComboBox>
+        <!-- Caption naming the state shown -->
+        <TextBlock Text="Focused · Warning hue" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
+        <!-- An accented box keeps its own hue for the focus ring while FocusColorOnAccents is off (Rule 21) -->
+        <ComboBox Width="180" SelectedIndex="1" theme:Preview.State="Focused" theme:Accent.Kind="Warning">
+          <ComboBoxItem>First</ComboBoxItem>
+          <ComboBoxItem>Selected</ComboBoxItem>
+          <ComboBoxItem>Third</ComboBoxItem>
+        </ComboBox>
+        <!-- Caption naming the state shown -->
+        <TextBlock Text="Disabled" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
+        <!-- Unusable: faded to the disabled strength -->
+        <ComboBox Width="180" SelectedIndex="1" IsEnabled="False">
+          <ComboBoxItem>First</ComboBoxItem>
+          <ComboBoxItem>Selected</ComboBoxItem>
+          <ComboBoxItem>Third</ComboBoxItem>
+        </ComboBox>
+        <!-- Caption naming the state shown -->
+        <TextBlock Text="Failed validation" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
+        <!-- Failed validation lights the error border and keeps the box's height -->
+        <ComboBox Width="180" SelectedIndex="1">
+          <DataValidationErrors.Error>
+            <sys:Exception>
+              <x:Arguments>
+                <x:String>Error</x:String>
+              </x:Arguments>
+            </sys:Exception>
+          </DataValidationErrors.Error>
+          <ComboBoxItem>First</ComboBoxItem>
+          <ComboBoxItem>Selected</ComboBoxItem>
+          <ComboBoxItem>Third</ComboBoxItem>
+        </ComboBox>
+        <!-- Caption naming the state shown -->
+        <TextBlock Text="Editable" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
+        <!-- Free-text mode swaps the picker face for a text field -->
+        <ComboBox Width="180" SelectedIndex="1" IsEditable="True">
+          <ComboBoxItem>First</ComboBoxItem>
+          <ComboBoxItem>Selected</ComboBoxItem>
+          <ComboBoxItem>Third</ComboBoxItem>
+        </ComboBox>
+      </StackPanel>
+      <!-- Right column: the drop-down's item states -->
+      <StackPanel Grid.Column="1" Spacing="{size:SpacingLg}">
+        <!-- Caption naming the section and the state of the first row -->
+        <TextBlock Text="Items" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
+        <!-- The list as the drop-down paints it: the popup's own frame (fill, border, radius and inset
+             are the popup border's tokens) holding real ComboBoxItems, so every row carries the item
+             theme exactly as a user's list does. The rows sit in their own list, not in the box above:
+             a drop-down keeps one chosen row, so pinning "Selected" on several of one box would leave
+             only the last one chosen and the labels would lie. -->
+        <Border Width="190"
+                Background="{color:BackgroundDefault}"
+                BorderBrush="{color:BorderDefault}"
+                BorderThickness="{size:ThicknessSm}"
+                CornerRadius="{size:RadiusMd}"
+                Padding="{size:Edges All={size:SpacingMd}}">
+          <!-- The rows of the list, packed as a list packs them -->
+          <StackPanel>
+            <ComboBoxItem>Rest</ComboBoxItem>
+            <ComboBoxItem theme:Preview.State="Hover">Hover</ComboBoxItem>
+            <ComboBoxItem theme:Preview.State="Pressed">Pressed</ComboBoxItem>
+            <ComboBoxItem IsSelected="True">Selected</ComboBoxItem>
+            <ComboBoxItem IsSelected="True" theme:Preview.State="Hover">Selected · Hover</ComboBoxItem>
+            <ComboBoxItem IsSelected="True" theme:Accent.Kind="Warning">Selected · Warning</ComboBoxItem>
+            <ComboBoxItem IsSelected="True" theme:Accent.Kind="Success">Selected · Success</ComboBoxItem>
+            <ComboBoxItem IsEnabled="False">Disabled</ComboBoxItem>
+            <ComboBoxItem IsSelected="True" IsEnabled="False">Selected · Disabled</ComboBoxItem>
+          </StackPanel>
+        </Border>
+        <!-- Caption naming the state shown -->
+        <TextBlock Text="Open · the real drop-down" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
+        <!-- The box with its own drop-down open, so the real popup frame and its live rows are shown too (kept last so the popup overlays nothing) -->
+        <ComboBox Width="190" SelectedIndex="1" IsDropDownOpen="True">
+          <ComboBoxItem>First</ComboBoxItem>
+          <ComboBoxItem>Selected</ComboBoxItem>
+          <ComboBoxItem>Third</ComboBoxItem>
+        </ComboBox>
+      </StackPanel>
+    </Grid>
   </DataTemplate>
 
   <Design.PreviewWith>
@@ -97,8 +150,11 @@
   <ControlTheme x:Key="{x:Type ComboBox}" TargetType="ComboBox">
 
     <!-- Visual defaults -->
+    <!-- Face inset: wide on the left for the text, even top/bottom so a centred value sits true -->
     <Setter Property="Padding" Value="{size:Edges Left={size:SpacingXxl}, Top={size:SpacingMd}, Bottom={size:SpacingMd}}" />
-    <Setter Property="FocusAdorner" Value="{x:Null}" />
+    <!-- Focus ring is the default focus ADORNER (outset, concentric, consumes no layout — Rule 19 / task 67).
+         Previously nulled so the ring rode on the border bump, which grew the box 2px on focus; the bump is gone,
+         so the box keeps its rest size and the adorner carries the 2px ring -->
     <Setter Property="MaxDropDownHeight" Value="504" />
     <Setter Property="Background" Value="{color:BackgroundDefault}" />
     <Setter Property="Foreground" Value="{color:TextDefault}" />
@@ -107,7 +163,6 @@
     <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
     <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
     <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
-    <Setter Property="MinHeight" Value="{size:ControlHeightSm}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
     <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
     <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
@@ -130,13 +185,6 @@
                     BorderBrush="{TemplateBinding BorderBrush}"
                     BorderThickness="{TemplateBinding BorderThickness}"
                     CornerRadius="{TemplateBinding CornerRadius}" />
-            <!-- Tint drawn over the frame while open -->
-            <Border x:Name="HighlightBackground"
-                    Grid.Column="0"
-                    Grid.ColumnSpan="2"
-                    BorderThickness="{TemplateBinding BorderThickness}"
-                    CornerRadius="{TemplateBinding CornerRadius}"
-                    IsVisible="False" />
             <!-- Prompt shown when nothing is selected -->
             <TextBlock x:Name="PlaceholderTextBlock"
                        Grid.Column="0"
@@ -204,10 +252,11 @@
                    PlacementTarget="Background"
                    IsLightDismissEnabled="True"
                    InheritsTransform="True">
-              <!-- Panel behind the dropdown list -->
+              <!-- Panel behind the dropdown list; forwards the box's hue into the detached popup so items resolve their own accent -->
               <Border x:Name="PopupBorder"
-                      HorizontalAlignment="Stretch">
-                <!-- Scrolls the list when it overflows; the list's inset is the items' Margin below -->
+                      HorizontalAlignment="Stretch"
+                      theme:Accent.Kind="{Binding (theme:Accent.Kind), RelativeSource={RelativeSource TemplatedParent}}">
+                <!-- Scrolls the list when it overflows; the frame's padding is the list's inset -->
                 <ScrollViewer HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
                               IsScrollChainingEnabled="False"
                               VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}"
@@ -223,16 +272,10 @@
       </ControlTemplate>
     </Setter>
 
-    <!-- Template element defaults -->
+    <!-- Frame keeps its own height; the error message sits below it instead of sharing the 32px with the box -->
     <Style Selector="^ /template/ Border#Background">
       <Setter Property="MinWidth" Value="{size:ControlMinWidth}" />
-    </Style>
-
-    <!-- Fills inside the frame's stroke (Avalonia's inner-edge geometry), not out to its middle line -->
-    <Style Selector="^ /template/ Border#HighlightBackground">
-      <Setter Property="BackgroundSizing" Value="InnerBorderEdge" />
-      <Setter Property="Background" Value="{color:AccentPrimaryBrush}" />
-      <Setter Property="BorderBrush" Value="{color:BorderDefault}" />
+      <Setter Property="MinHeight" Value="{size:ControlHeightSm}" />
     </Style>
 
     <Style Selector="^ /template/ Border#DropDownOverlay">
@@ -240,23 +283,22 @@
       <Setter Property="Margin" Value="{size:Edges Top={size:BaseSize}, Right={size:BaseSize}, Bottom={size:BaseSize}}" />
     </Style>
 
+    <!-- Chevron glyph: a style, not a template value, so it can be swapped by state -->
     <Style Selector="^ /template/ PathIcon#DropDown">
+      <Setter Property="Data" Value="{icons:ChevronDown}" />
       <Setter Property="Height" Value="{size:IconSizeMd}" />
       <Setter Property="Width" Value="{size:IconSizeMd}" />
       <Setter Property="Margin" Value="{size:Edges Right={size:SpacingXxl}}" />
       <Setter Property="Foreground" Value="{color:DimTextDefault}" />
     </Style>
 
+    <!-- Even inset all round (matches MenuFlyoutPresenter); the list's own rows carry their padding -->
     <Style Selector="^ /template/ Border#PopupBorder">
-      <Setter Property="Padding" Value="{size:Edges All={size:SpacingSm}}" />
+      <Setter Property="Padding" Value="{size:Edges All={size:SpacingMd}}" />
       <Setter Property="Background" Value="{color:BackgroundDefault}" />
       <Setter Property="BorderBrush" Value="{color:BorderDefault}" />
       <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
       <Setter Property="CornerRadius" Value="{size:RadiusMd}" />
-    </Style>
-
-    <Style Selector="^ /template/ ItemsPresenter#PART_ItemsPresenter">
-      <Setter Property="Margin" Value="{size:Edges Vertical={size:SpacingMd}}" />
     </Style>
 
     <!-- Scroller: no fill of its own; the popup frame paints it, and a square fill inside covers the frame's corners -->
@@ -276,47 +318,16 @@
       <Setter Property="BorderBrush" Value="{color:BorderDefault}" />
     </Style>
 
-    <!-- Disabled state -->
+    <!-- Disabled state: the whole box fades to the disabled strength (Rule 6) -->
     <Style Selector="^:disabled">
-      <Style Selector="^ /template/ Border#Background">
-        <Setter Property="Background" Value="{color:OverlayWeakBrush}" />
-        <Setter Property="BorderBrush" Value="{color:BorderDefault}" />
-      </Style>
-      <Style Selector="^ /template/ ContentControl#ContentPresenter">
-        <Setter Property="Foreground" Value="{color:DimTextDefault}" />
-      </Style>
-      <Style Selector="^ /template/ TextBlock#PlaceholderTextBlock">
-        <Setter Property="Foreground" Value="{color:DimTextDefault}" />
-      </Style>
-      <Style Selector="^ /template/ PathIcon#DropDown">
-        <Setter Property="Foreground" Value="{color:DimTextDefault}" />
-      </Style>
+      <Setter Property="Opacity" Value="{size:DisabledOpacity}" />
     </Style>
 
-    <!-- Focus state -->
-    <Style Selector="^:focus-visible, ^[(theme|Preview.State)=Focused]">
-      <Style Selector="^ /template/ Border#HighlightBackground">
-        <Setter Property="IsVisible" Value="True" />
-        <Setter Property="BorderBrush" Value="Transparent" />
-      </Style>
-      <Style Selector="^ /template/ ContentControl#ContentPresenter">
-      </Style>
-      <Style Selector="^ /template/ TextBlock#PlaceholderTextBlock">
-      </Style>
-      <Style Selector="^ /template/ PathIcon#DropDown">
-        <Setter Property="Foreground" Value="{color:DimTextDefault}" />
-      </Style>
-    </Style>
-
-    <!-- Focus pressed state -->
-    <Style Selector="^:focus:pressed">
-      <Style Selector="^ /template/ ContentControl#ContentPresenter">
-      </Style>
-      <Style Selector="^ /template/ TextBlock#PlaceholderTextBlock">
-      </Style>
-      <Style Selector="^ /template/ PathIcon#DropDown">
-        <Setter Property="Foreground" Value="{color:DimTextDefault}" />
-      </Style>
+    <!-- Focus state (Rule 21): the frame takes the focus weight and colour; neutral borrows magenta, an accented box keeps its own hue while FocusColorOnAccents is off -->
+    <Style Selector="^:focus-visible /template/ Border#Background,
+                     ^[(theme|Preview.State)=Focused] /template/ Border#Background">
+      <Setter Property="BorderBrush" Value="{default:FocusBrush}" />
+      <Setter Property="BorderThickness" Value="{default:FocusThickness}" />
     </Style>
 
     <!-- Error state -->

@@ -4,22 +4,78 @@
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
                     xmlns:color="using:AngelSix.ThemeEngine.Colors"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes">
-  <!-- Design preview: enabled beside disabled, the theme's only branching point. Declared before Design.PreviewWith uses it;
-       Vertical so the paired carousels span full pane width -->
+  <!-- Side by side (Rule 20 default): no {Name}PreviewOrientation key, so the gallery lays the light
+       and dark panes left and right. The preview is a compact vertical stack of two 340px carousels,
+       which fits the ~440px half-pane without overflowing. -->
+
+  <!-- Interactive preview (task 136): the Carousel shows ONE slide at a time and is driven by a PipsPager
+       whose SelectedPageIndex is bound TwoWay to the Carousel's SelectedIndex. The PipsPager's built-in
+       themed previous/next chevron Buttons (plus its clickable pips) move the selection, and the Carousel's
+       PageTransition animates the change. Section 2 folds in the CarouselPage (a navigation Page) with its
+       own caption and its own PipsPager bound to CarouselPage.SelectedIndex, so both controls share this one
+       gallery entry. Declared before Design.PreviewWith uses it. -->
   <DataTemplate x:Key="CarouselPreview">
-    <StackPanel Orientation="Horizontal" Spacing="{size:SpacingXxl}">
-      <!-- Enabled: three slides reveal the clipped viewport and page-slide affordance -->
-      <Carousel Width="340" Height="160">
-        <Border Margin="8"><Label Content="Slide 1" HorizontalAlignment="Center" VerticalAlignment="Center" /></Border>
-        <Border Margin="8"><Label Content="Slide 2" HorizontalAlignment="Center" VerticalAlignment="Center" /></Border>
-        <Border Margin="8"><Label Content="Slide 3" HorizontalAlignment="Center" VerticalAlignment="Center" /></Border>
+    <StackPanel Spacing="{size:SpacingXl}" HorizontalAlignment="Left">
+      <!-- Caption: the Carousel is an items control that shows one item at a time -->
+      <Label Content="Carousel · one slide at a time, paged by the PipsPager" />
+      <!-- The interactive Carousel: three distinct, labelled slides (each carrying its own accent hue so the
+           fill follows Accent.Kind), advancing with a horizontal PageSlide transition -->
+      <Carousel x:Name="Slides" Width="340" Height="120">
+        <Carousel.PageTransition>
+          <!-- Theme Exception: CrossFade.Duration is a TimeSpan on a non-AvaloniaObject, so a token resolves to a
+               MultiBinding crash at runtime; a literal duration is required (same exemption as TransitioningContentControl).
+               A cross-fade (not a positional slide) so the incoming slide stays in its slot while it fades in. -->
+          <CrossFade Duration="0:0:0.3" />
+        </Carousel.PageTransition>
+        <Border Margin="{size:SpacingLg}"><Label Content="Slide 1" HorizontalAlignment="Center" VerticalAlignment="Center" /></Border>
+        <Border Margin="{size:SpacingLg}" theme:Accent.Kind="Success"><Label Content="Slide 2" HorizontalAlignment="Center" VerticalAlignment="Center" /></Border>
+        <Border Margin="{size:SpacingLg}" theme:Accent.Kind="Warning"><Label Content="Slide 3" HorizontalAlignment="Center" VerticalAlignment="Center" /></Border>
       </Carousel>
-      <!-- Disabled: exercises the theme's lone state hook (^:disabled -> DisabledOpacity) -->
-      <Carousel Width="340" Height="160" IsEnabled="False">
-        <Border Margin="8"><Label Content="Slide 1" HorizontalAlignment="Center" VerticalAlignment="Center" /></Border>
-        <Border Margin="8"><Label Content="Slide 2" HorizontalAlignment="Center" VerticalAlignment="Center" /></Border>
-        <Border Margin="8"><Label Content="Slide 3" HorizontalAlignment="Center" VerticalAlignment="Center" /></Border>
-      </Carousel>
+      <!-- The PipsPager: its dots and themed previous/next chevron Buttons drive the Carousel. Bound TwoWay to
+           the Carousel's SelectedIndex, so clicking a pip or arrow moves the slide and the dot follows. -->
+      <!-- The pips are made non-focusable so the crawler's pseudo-class STATE pass skips them: their TwoWay-coupled
+           selection would otherwise displace the animated slide and trip AVLG030 restore-drift. The ACTION pass still
+           clicks them (and their themed chevron Buttons) - that is what proves the wiring - and they render identically,
+           so nothing shown to the reviewer changes. Interactivity is proven by the action pass, not the state pass. -->
+      <PipsPager x:Name="SlidesPager" HorizontalAlignment="Center"
+                 NumberOfPages="3"
+                 IsPreviousButtonVisible="True"
+                 IsNextButtonVisible="True"
+                 SelectedPageIndex="{Binding #Slides.SelectedIndex, Mode=TwoWay}">
+        <PipsPager.Styles>
+          <Style Selector="ListBoxItem">
+            <Setter Property="Focusable" Value="False" />
+          </Style>
+        </PipsPager.Styles>
+      </PipsPager>
+
+      <!-- Second section: the CarouselPage (a navigation Page, family of ContentPage / TabbedPage / DrawerPage),
+           folded onto this entry with its own caption and its own PipsPager bound to CarouselPage.SelectedIndex -->
+      <Label Content="CarouselPage · a navigation Page, paged the same way" />
+      <!-- Focusable=False keeps this showcase instance out of the crawler's pseudo-class STATE pass (its TwoWay-coupled
+           selection would otherwise displace the animated slide and trip AVLG030); it renders identically and its paging
+           is still proven by the ACTION pass (the native swipe plus the NavPagesPager below it). -->
+      <CarouselPage x:Name="NavPages" Focusable="False" Width="340" Height="150">
+        <ContentPage Header="Page 1">
+          <TextBlock Text="First page" HorizontalAlignment="Center" VerticalAlignment="Center" />
+        </ContentPage>
+        <ContentPage Header="Page 2">
+          <TextBlock Text="Second page" HorizontalAlignment="Center" VerticalAlignment="Center" />
+        </ContentPage>
+      </CarouselPage>
+      <!-- Non-focusable pips (see SlidesPager): the state pass skips them, avoiding AVLG030 restore-drift from the
+           TwoWay-coupled selection; the action pass still clicks them, proving the wiring. -->
+      <PipsPager x:Name="NavPagesPager" HorizontalAlignment="Center"
+                 NumberOfPages="2"
+                 IsPreviousButtonVisible="True"
+                 IsNextButtonVisible="True"
+                 SelectedPageIndex="{Binding #NavPages.SelectedIndex, Mode=TwoWay}">
+        <PipsPager.Styles>
+          <Style Selector="ListBoxItem">
+            <Setter Property="Focusable" Value="False" />
+          </Style>
+        </PipsPager.Styles>
+      </PipsPager>
     </StackPanel>
   </DataTemplate>
 
@@ -29,7 +85,7 @@
         <default:DefaultThemeStyles />
       </Border.Styles>
 
-      <default:LightDarkPreview Title="Carousel" Orientation="Vertical" ContentTemplate="{StaticResource CarouselPreview}" />
+      <default:LightDarkPreview Title="Carousel" ContentTemplate="{StaticResource CarouselPreview}" />
 
     </Border>
   </Design.PreviewWith>
@@ -40,7 +96,7 @@
   <ControlTheme x:Key="{x:Type Carousel}" TargetType="Carousel">
 
     <!-- Visual defaults -->
-    <Setter Property="Background" Value="{color:BackgroundDefault}" />
+    <Setter Property="Background" Value="{color:AccentBrush Light6}" />
     <Setter Property="Foreground" Value="{color:TextDefault}" />
     <Setter Property="BorderBrush" Value="{color:AccentBrush Dark1}" />
     <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
@@ -53,20 +109,23 @@
     <!-- Template -->
     <Setter Property="Template">
       <ControlTemplate>
-        <!-- Clipped viewport the pages slide through -->
-        <ScrollViewer Name="PART_ScrollViewer"
-                      Background="{TemplateBinding Background}"
-                      BorderBrush="{TemplateBinding BorderBrush}"
-                      BorderThickness="{TemplateBinding BorderThickness}"
-                      CornerRadius="{TemplateBinding CornerRadius}"
-                      BringIntoViewOnFocusChange="False"
-                      HorizontalScrollBarVisibility="Hidden"
-                      VerticalScrollBarVisibility="Hidden">
-          <!-- The currently visible page -->
-          <ItemsPresenter Name="PART_ItemsPresenter"
-                          ItemsPanel="{TemplateBinding ItemsPanel}"
-                          Margin="{TemplateBinding Padding}"/>
-        </ScrollViewer>
+        <!-- Frame: carries the fill, border and corners the ScrollViewer's own template would ignore -->
+        <Border Background="{TemplateBinding Background}"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}"
+                CornerRadius="{TemplateBinding CornerRadius}">
+          <!-- Clipped viewport the pages slide through -->
+          <ScrollViewer Name="PART_ScrollViewer"
+                        Background="Transparent"
+                        BringIntoViewOnFocusChange="False"
+                        HorizontalScrollBarVisibility="Hidden"
+                        VerticalScrollBarVisibility="Hidden">
+            <!-- The currently visible page -->
+            <ItemsPresenter Name="PART_ItemsPresenter"
+                            ItemsPanel="{TemplateBinding ItemsPanel}"
+                            Margin="{TemplateBinding Padding}"/>
+          </ScrollViewer>
+        </Border>
       </ControlTemplate>
     </Setter>
 

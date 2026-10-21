@@ -13,7 +13,7 @@
         <!-- Outset by its own width plus the halo's; the radius reads the focused control (AdornedElement) -->
         <Border Margin="{size:Edges All={size:Scaled Value={size:Thickness}, By=-3}}"
                 BorderThickness="{size:ThicknessMd}"
-                BorderBrush="{color:AccentBrush Dark1}"
+                BorderBrush="{color:AccentFocusBrush}"
                 CornerRadius="{default:ConcentricCorners Radius={ReflectionBinding Path=(AdornerLayer.AdornedElement).CornerRadius, RelativeSource={RelativeSource Self}}, Thickness={ReflectionBinding Path=(AdornerLayer.AdornedElement).BorderThickness, RelativeSource={RelativeSource Self}}, Inset={ReflectionBinding Path=Margin, RelativeSource={RelativeSource Self}}, Stroke={ReflectionBinding Path=BorderThickness, RelativeSource={RelativeSource Self}}, All=True}">
           <!-- Light halo between the ring and the control -->
           <Border BorderThickness="{size:ThicknessSm}"

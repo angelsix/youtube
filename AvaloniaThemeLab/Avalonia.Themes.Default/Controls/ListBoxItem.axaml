@@ -4,34 +4,9 @@
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
                     xmlns:color="using:AngelSix.ThemeEngine.Colors"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes">
-  <!-- Design preview: narrow columns fit a half-width pane, so the two panes sit side by side. The designer and the lab gallery both show this key,
-       so it is declared before Design.PreviewWith uses it. Each pane instantiates its own list; states come from real DPs the ControlTheme's pseudo-class selectors consume -->
-  <DataTemplate x:Key="ListBoxItemPreview">
-    <!-- Multiple, or single selection keeps only the last IsSelected item and clears the others -->
-    <ListBox Width="220" SelectionMode="Multiple">
-      <!-- Baseline: transparent chrome, default text -->
-      <ListBoxItem>Default</ListBoxItem>
-      <!-- :selected -> the hue's Dark3 fill with Light10 text (same brush focused or not) -->
-      <ListBoxItem IsSelected="True">Selected</ListBoxItem>
-      <!-- Same rule under another accent kind: the fill takes that hue -->
-      <ListBoxItem IsSelected="True" theme:Accent.Kind="Success">Selected + Success</ListBoxItem>
-      <!-- :disabled -> dimmed foreground -->
-      <ListBoxItem IsEnabled="False">Disabled</ListBoxItem>
-      <!-- Composition: disabled beats selection, surfacing the flat-chrome treatment -->
-      <ListBoxItem IsEnabled="False" IsSelected="True">Disabled + Selected</ListBoxItem>
-    </ListBox>
-  </DataTemplate>
-
-  <Design.PreviewWith>
-    <Border>
-      <Border.Styles>
-        <default:DefaultThemeStyles />
-      </Border.Styles>
-
-      <default:LightDarkPreview Title="ListBoxItem" Orientation="Horizontal" ContentTemplate="{StaticResource ListBoxItemPreview}" />
-
-    </Border>
-  </Design.PreviewWith>
+  <!-- The ListBoxItem theme lives on; its gallery entry does not (task 140: a row is met inside the
+       list that holds it, so the standalone ListBoxItem preview is retired and every row state now
+       rides inside the ListBox preview). The ControlTheme below is unchanged -->
 
   <!-- ============================================================
        Template
@@ -46,7 +21,7 @@
     <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
     <Setter Property="MinHeight" Value="{size:ControlHeightSm}" />
     <Setter Property="MinWidth" Value="{size:ControlMinWidth}" />
-    <Setter Property="Padding" Value="{size:Edges Left={size:SpacingXxl}, Top={size:SpacingXl}, Right={size:SpacingXxl}, Bottom={size:SpacingXl}}" />
+    <Setter Property="Padding" Value="{size:Edges Horizontal={size:SpacingXxl}, Vertical={size:ContentPadding}}" />
     <!-- A row fills its list, and so does its content: a row's highlight and hit area are the list's width, not its label's -->
     <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
     <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
@@ -74,53 +49,44 @@
     </Setter>
 
     <!-- Hover state -->
-    <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+    <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter,
+                     ^[(theme|Preview.State)=Hover] /template/ ContentPresenter#PART_ContentPresenter">
       <Setter Property="Background" Value="{color:HoverBackgroundDefault}" />
     </Style>
 
     <!-- Pressed state -->
-    <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter">
+    <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter,
+                     ^[(theme|Preview.State)=Pressed] /template/ ContentPresenter#PART_ContentPresenter">
       <Setter Property="Background" Value="{color:PressedBackgroundDefault}" />
     </Style>
 
-    <!-- Disabled state -->
-    <Style Selector="^:disabled /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="Foreground" Value="{color:DimTextDefault}" />
+    <!-- Disabled state: the whole row fades, selected or not, so a chosen-but-unavailable item still reads as chosen -->
+    <Style Selector="^:disabled">
+      <Setter Property="Opacity" Value="{size:DisabledOpacity}" />
     </Style>
 
-    <!-- Focus state -->
+    <!-- Focus state (Rule 21: the switch decides between the focus colour and the control's own hue) -->
     <Style Selector="^:focus-visible">
-      <Setter Property="BorderBrush" Value="{color:AccentFocusBrush}" />
-      <Setter Property="BorderThickness" Value="{size:ThicknessMd}" />
+      <Setter Property="BorderBrush" Value="{default:FocusBrush}" />
+      <Setter Property="BorderThickness" Value="{default:FocusThickness}" />
     </Style>
 
-    <!-- Selected state -->
-    <Style Selector="^:selected">
-      <Setter Property="Foreground" Value="{color:AccentBrush Light10}" />
+    <!-- Selected state: the outlined column, not the filled one — a light fill stage with default-weight text,
+         so a chosen row reads as picked without going dark (Decision, 18 Oct 2026) -->
+    <Style Selector="^:selected /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="{color:AccentBrush Light6}" />
+    </Style>
 
-      <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
-        <Setter Property="Background" Value="{color:AccentBrush Dark3}" />
-      </Style>
+    <!-- Selected hover state -->
+    <Style Selector="^:selected:pointerover /template/ ContentPresenter#PART_ContentPresenter,
+                     ^:selected[(theme|Preview.State)=Hover] /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="{color:AccentBrush Light5}" />
+    </Style>
 
-      <!-- Selected unfocused state -->
-      <Style Selector="^:not(:focus) /template/ ContentPresenter#PART_ContentPresenter">
-        <Setter Property="Background" Value="{color:AccentBrush Dark3}" />
-      </Style>
-
-      <!-- Selected hover state -->
-      <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
-        <Setter Property="Background" Value="{color:AccentBrush Dark4}" />
-      </Style>
-
-      <!-- Selected pressed state -->
-      <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter">
-        <Setter Property="Background" Value="{color:AccentBrush Dark5}" />
-      </Style>
-
-      <!-- Selected disabled state: no fill, so the dimmed text sits on the canvas (as ComboBoxItem) -->
-      <Style Selector="^:disabled /template/ ContentPresenter#PART_ContentPresenter">
-        <Setter Property="Background" Value="Transparent" />
-      </Style>
+    <!-- Selected pressed state -->
+    <Style Selector="^:selected:pressed /template/ ContentPresenter#PART_ContentPresenter,
+                     ^:selected[(theme|Preview.State)=Pressed] /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="{color:AccentBrush Light4}" />
     </Style>
 
   </ControlTheme>

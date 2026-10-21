@@ -3,16 +3,62 @@
                     xmlns:default="clr-namespace:Avalonia.Themes.Default"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
                     xmlns:color="using:AngelSix.ThemeEngine.Colors"
-                    xmlns:size="using:AngelSix.ThemeEngine.Sizes">
-  <!-- Design preview: one bar mixing every top-level state the theme paints (:selected overlay, :disabled dimming, separator). The designer and the lab gallery both show this key,
-       so it is declared before Design.PreviewWith uses it. Hover/press need a live pointer -->
+                    xmlns:size="using:AngelSix.ThemeEngine.Sizes"
+                    xmlns:icons="using:AngelSix.ThemeEngine.Icons">
+  <!-- Design preview: one bar mixing every top-level state the theme paints (:selected fill, :disabled dimming, separator),
+       plus two items with children so a click really opens a sub-menu. The File drop-down doubles as the hosted-flyout
+       surface (task 139): its framed panel carries an icon row, a shortcut row and a checked row, so the flyout
+       presenter's look and the scroll viewer's arrows (visible when the list overflows) read here. The full item
+       state matrix lives in the ContextMenu preview, whose rows use the same item theme. Declared before
+       Design.PreviewWith uses it -->
   <DataTemplate x:Key="MenuPreview">
     <StackPanel Spacing="{size:SpacingXl}" HorizontalAlignment="Left">
-      <Menu>
-        <MenuItem Header="_Standard" />
-        <MenuItem Header="_Selected" IsSelected="True" />
+      <!-- Caption naming what the bar shows -->
+      <TextBlock Text="Top-level bar: rest · open · selected · disabled · separator" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
+      <!-- Sized to its items (fixed 360 ran the last item past the frame); one bar, left in the pane -->
+      <Menu HorizontalAlignment="Left">
+        <!-- The File drop-down opens in FULL (no cap): an icon row, a separator, a checked row, a shortcut
+             row, a disabled row and a submenu all sit in the shared leading column, so the icon/tick/arrow
+             rhythm reads here. Its framed panel doubles as the hosted-flyout surface (task 139) -->
+        <MenuItem Header="_File">
+          <MenuItem Header="New">
+            <MenuItem.Icon>
+              <PathIcon Data="{icons:Star}" />
+            </MenuItem.Icon>
+          </MenuItem>
+          <MenuItem Header="Open…" />
+          <Separator />
+          <MenuItem Header="Pin Window" ToggleType="CheckBox" IsChecked="True" />
+          <MenuItem Header="Save As…" InputGesture="Ctrl+S" />
+          <MenuItem Header="Export" IsEnabled="False" />
+          <MenuItem Header="More…">
+            <MenuItem Header="Recent Files" />
+            <MenuItem Header="Clear History" />
+          </MenuItem>
+        </MenuItem>
+        <MenuItem Header="_Edit">
+          <MenuItem Header="Copy" InputGesture="Ctrl+C" />
+          <MenuItem Header="Paste" InputGesture="Ctrl+V" />
+        </MenuItem>
         <Separator />
+        <MenuItem Header="_Selected" IsSelected="True" />
         <MenuItem Header="_Disabled" IsEnabled="False" />
+        <!-- Caps its drop-down (the top-level theme travels MaxHeight onto the popup), so the list overflows
+             and the scroll viewer's overflow arrow draws: the former MenuScrollViewer preview's state -->
+        <MenuItem Header="_Long" MaxHeight="180">
+          <MenuItem Header="Import from CSV…" InputGesture="Ctrl+I" />
+          <MenuItem Header="Export to PDF…" InputGesture="Ctrl+E" />
+          <MenuItem Header="Sync with Server" />
+          <MenuItem Header="Compress Archive" />
+          <MenuItem Header="Rotate Metadata" />
+          <MenuItem Header="Validate Schema" />
+          <MenuItem Header="Repair Index" />
+          <MenuItem Header="Compact Storage" />
+          <MenuItem Header="Audit Permissions" />
+          <MenuItem Header="Archive Old Jobs" />
+          <MenuItem Header="Purge Cache" />
+          <MenuItem Header="Reset Workspace" />
+        </MenuItem>
       </Menu>
     </StackPanel>
   </DataTemplate>
@@ -32,14 +78,17 @@
   <ControlTheme x:Key="DefaultTopLevelMenuItem" TargetType="MenuItem">
     <!-- Visual defaults -->
     <Setter Property="Background" Value="Transparent" />
+    <Setter Property="Foreground" Value="{color:TextDefault}" />
     <Setter Property="BorderBrush" Value="Transparent" />
     <Setter Property="BorderThickness" Value="0" />
     <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
     <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
-    <!-- Narrow padding for mouse; widen for touch input later -->
-    <Setter Property="Padding" Value="{size:Edges Horizontal={size:SpacingXxl}}" />
+    <!-- Even edges so the label sits true centre; the bar sizes from its items (was horizontal-only) -->
+    <Setter Property="Padding" Value="{size:Edges All={size:ContentPadding}}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
     <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
+    <!-- Focus is the item's own inset border (Rule 21); the outset adorner ring would float off the bar -->
+    <Setter Property="FocusAdorner" Value="{x:Null}" />
     <Setter Property="Template">
       <ControlTemplate>
         <!-- Outer frame around the top-level menu item -->
@@ -63,9 +112,12 @@
                    IsOpen="{TemplateBinding IsSubMenuOpen, Mode=TwoWay}"
                    Placement="BottomEdgeAlignedLeft"
                    OverlayInputPassThroughElement="{Binding $parent[Menu]}">
-              <!-- Panel behind the submenu -->
+              <!-- Panel behind the submenu; its even inset comes from the style below (one shared source) -->
+              <!-- The item may cap its drop-down's surface (a preview data point), so a long list scrolls and
+                   the scroll viewer's overflow arrows show -->
               <Border x:Name="PART_PopupBorder"
                       MaxWidth="456"
+                      MaxHeight="{Binding $parent[MenuItem].MaxHeight}"
                       HorizontalAlignment="{TemplateBinding HorizontalAlignment}">
                 <!-- Scrolls the submenu when it overflows -->
                 <ScrollViewer Theme="{StaticResource DefaultMenuScrollViewer}">
@@ -87,48 +139,71 @@
       <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
     </Style>
 
-    <!-- Popup border and items presenter theming -->
+    <!-- Popup border and items presenter theming. The inset is the ONE shared menu-surface source
+         ({size:SpacingMd} on every side, as ContextMenu and MenuFlyoutPresenter carry): no extra white
+         space above the first or below the last item beyond that padding -->
     <Style Selector="^ /template/ Border#PART_PopupBorder">
       <Setter Property="Background" Value="{color:BackgroundDefault}" />
       <Setter Property="BorderBrush" Value="{color:BorderDefault}" />
       <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
-      <Setter Property="Padding" Value="0" />
+      <Setter Property="Padding" Value="{size:Edges All={size:SpacingMd}}" />
       <Setter Property="MinHeight" Value="{size:ControlHeightSm}" />
       <Setter Property="CornerRadius" Value="{size:RadiusMd}" />
     </Style>
-    <Style Selector="^ /template/ ItemsPresenter#PART_PopupItemsPresenter">
-      <Setter Property="Margin" Value="{size:Edges Vertical={size:SpacingMd}}" />
+
+    <!-- Selected: the outlined column, not an overlay scrim — a light fill stage of the item's own hue,
+         deepening on hover and press (task 17's ramp) -->
+    <Style Selector="^:selected /template/ Border#PART_LayoutRoot">
+      <Setter Property="Background" Value="{color:AccentBrush Light6}" />
+    </Style>
+    <Style Selector="^:selected:pointerover /template/ Border#PART_LayoutRoot,
+                     ^:selected[(theme|Preview.State)=Hover] /template/ Border#PART_LayoutRoot">
+      <Setter Property="Background" Value="{color:AccentBrush Light5}" />
+    </Style>
+    <Style Selector="^:selected:pressed /template/ Border#PART_LayoutRoot,
+                     ^:selected[(theme|Preview.State)=Pressed] /template/ Border#PART_LayoutRoot">
+      <Setter Property="Background" Value="{color:AccentBrush Light4}" />
     </Style>
 
-    <Style Selector="^:selected">
-      <Style Selector="^ /template/ Border#PART_LayoutRoot">
-        <Setter Property="Background" Value="{color:OverlayWeakBrush}" />
-      </Style>
-      <Style Selector="^ /template/ ContentPresenter#PART_HeaderPresenter">
-      </Style>
-    </Style>
-
-    <!-- Uses PART_LayoutRoot:pointerover so subitem presses do not trigger it -->
-    <Style Selector="^:pressed /template/ Border#PART_LayoutRoot:pointerover">
+    <!-- Hover: an opaque ramp stage, not an overlay — translucency would erase the fill -->
+    <Style Selector="^:pointerover /template/ Border#PART_LayoutRoot,
+                     ^[(theme|Preview.State)=Hover] /template/ Border#PART_LayoutRoot">
       <Setter Property="Background" Value="{color:HoverBackgroundDefault}" />
-      <Style Selector="^ ContentPresenter#PART_HeaderPresenter">
-      </Style>
     </Style>
 
+    <!-- Pressed: the deepest outline stage while the finger is down -->
+    <Style Selector="^:pressed /template/ Border#PART_LayoutRoot,
+                     ^[(theme|Preview.State)=Pressed] /template/ Border#PART_LayoutRoot">
+      <Setter Property="Background" Value="{color:PressedBackgroundDefault}" />
+    </Style>
+
+    <!-- Open: the sub-menu hangs below, so the owning item keeps its pressed face until dismissed -->
+    <Style Selector="^:open /template/ Border#PART_LayoutRoot">
+      <Setter Property="Background" Value="{color:PressedBackgroundDefault}" />
+    </Style>
+
+    <!-- Disabled: the whole item fades, selected or not, so a chosen-but-unavailable item still reads as chosen -->
     <Style Selector="^:disabled">
-      <Style Selector="^ /template/ Border#PART_LayoutRoot">
-        <Setter Property="Background" Value="Transparent" />
-      </Style>
-      <Style Selector="^ /template/ ContentPresenter#PART_HeaderPresenter">
-        <Setter Property="Foreground" Value="{color:DimTextDefault}" />
-      </Style>
+      <Setter Property="Opacity" Value="{size:DisabledOpacity}" />
+    </Style>
+
+    <!-- Focus: the item's own inset border (Rule 21); neutral borrows the focus colour, an accented item keeps its own hue -->
+    <Style Selector="^:focus-visible /template/ Border#PART_LayoutRoot,
+                     ^[(theme|Preview.State)=Focused] /template/ Border#PART_LayoutRoot">
+      <Setter Property="BorderBrush" Value="{default:FocusBrush}" />
+      <Setter Property="BorderThickness" Value="{default:FocusThickness}" />
     </Style>
   </ControlTheme>
 
   <ControlTheme x:Key="{x:Type Menu}" TargetType="Menu">
     <!-- Visual defaults -->
-    <Setter Property="Background" Value="Transparent" />
-    <Setter Property="Height" Value="{size:ControlHeightSm}" />
+    <Setter Property="Background" Value="{color:BackgroundDefault}" />
+    <Setter Property="Foreground" Value="{color:TextDefault}" />
+    <Setter Property="BorderBrush" Value="{color:BorderDefault}" />
+    <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
+    <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
+    <!-- The bar sizes from its items' padding; the floor keeps an empty bar readable -->
+    <Setter Property="MinHeight" Value="{size:ControlHeightSm}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
     <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
     <Setter Property="ItemContainerTheme" Value="{StaticResource DefaultTopLevelMenuItem}" />
@@ -145,7 +220,6 @@
           <!-- The top-level menu items -->
           <ItemsPresenter Name="PART_ItemsPresenter"
                           ItemsPanel="{TemplateBinding ItemsPanel}"
-                          VerticalAlignment="{TemplateBinding VerticalAlignment}"
                           KeyboardNavigation.TabNavigation="Continue" />
         </Border>
       </ControlTemplate>

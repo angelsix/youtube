@@ -9,24 +9,54 @@
         xmlns:size="using:AngelSix.ThemeEngine.Sizes"
         xmlns:icons="using:AngelSix.ThemeEngine.Icons">
   <!-- Design preview: authored once; each pane (light + dark) instantiates its own independent copy. The designer and the lab gallery both show this key,
-       so it is declared before Design.PreviewWith uses it -->
+       so it is declared before Design.PreviewWith uses it. No DataContext: the view model walks the real file system,
+       so the samples show the dialog's empty state reading correctly — sized boxes, visible frames.
+       Its view model's constructors take picker-options arguments XAML cannot supply, so the
+       template itself holds the reference's structure when empty: a 200px places rail and a floored file list -->
+  <!-- Stacked panes (Rule 20): the real dialog needs ~880px of width for its four columns, so the
+     light and dark panes stack vertically and each gets the full page width -->
+  <Orientation x:Key="ManagedFileChooserPreviewOrientation">Vertical</Orientation>
+
   <DataTemplate x:Key="ManagedFileChooserPreview">
-    <StackPanel Orientation="Vertical" Spacing="{size:SpacingXxl}">
-      <!-- Full picker surface; its ControlTheme applies implicitly by type -->
-      <dialogs:ManagedFileChooser MinHeight="240"/>
+    <StackPanel Orientation="Vertical" Spacing="{size:SpacingXl}" HorizontalAlignment="Left">
+      <!-- The picker surface, empty, beside the overwrite prompt and the row-selection sample:
+           all three read at real size while the whole entry stays short enough that BOTH stacked
+           panes fit the 1200x800 page without the gallery scrolling. At Height 230 the centre
+           region seats the header row above a visibly floored file list with no data -->
+      <StackPanel Orientation="Horizontal" Spacing="{size:SpacingXl}">
+        <dialogs:ManagedFileChooser Width="560" Height="230"/>
 
-      <!-- Row-selection theme, proven with one forced-selected entry -->
-      <ListBox Theme="{StaticResource DefaultManagedFileChooserQuickLinks}"
-               SelectedIndex="1" Focusable="False" MaxWidth="200" HorizontalAlignment="Left">
-        <ListBox.Items>
-          <TextBlock Text="Documents"/>
-          <TextBlock Text="Downloads"/>
-          <TextBlock Text="Pictures"/>
-        </ListBox.Items>
-      </ListBox>
+        <!-- The prompt and the row-selection sample share the column beside the picker -->
+        <StackPanel Orientation="Vertical" Spacing="{size:SpacingXl}">
+          <!-- Overwrite-prompt theme: Success Yes / Destructive No; pinned to its smallest surface
+               width so the picker keeps the width its four columns need -->
+          <dialogs:ManagedFileChooserOverwritePrompt FileName="report.pdf" HorizontalAlignment="Left"
+                                                     Width="{size:SurfaceWidthSm}"/>
 
-      <!-- Overwrite-prompt theme: generically-accented confirm button -->
-      <dialogs:ManagedFileChooserOverwritePrompt HorizontalAlignment="Left"/>
+          <!-- Row-selection theme, proven with one forced-selected entry; the rail's own 200px width
+               is shown inside the picker, this sample shows the item states. Wide enough that the
+               labels clear the row's themed insets (margin 16 + padding 32 per side) without wrapping -->
+          <!-- Compact rows (tighter than the rail's rhythm) so all three entries sit inside the
+               band beside the prompt without a scrollbar; the rail inside the picker shows the
+               full-height row rhythm -->
+          <ListBox Theme="{StaticResource DefaultManagedFileChooserQuickLinks}"
+                   SelectedIndex="1" Focusable="False" HorizontalAlignment="Left"
+                   Width="{size:Scaled Value={size:IconSizeMd}, By=12.5}"
+                   Height="{size:Scaled Value={size:ControlHeightMd}, By=2.5}">
+            <ListBox.Styles>
+              <!-- Implicit: targets this list's rows only -->
+              <Style Selector="ListBoxItem">
+                <Setter Property="Padding" Value="{size:Edges Left={size:Scaled Value={size:IconSizeMd}, By=2}, Top={size:SpacingMd}, Right={size:Scaled Value={size:IconSizeMd}, By=2}, Bottom={size:SpacingMd}}" />
+              </Style>
+            </ListBox.Styles>
+            <ListBox.Items>
+              <TextBlock Text="Documents"/>
+              <TextBlock Text="Downloads"/>
+              <TextBlock Text="Pictures"/>
+            </ListBox.Items>
+          </ListBox>
+        </StackPanel>
+      </StackPanel>
     </StackPanel>
   </DataTemplate>
 
@@ -45,10 +75,11 @@
        ListBox theme reaches it where the ManagedFileChooser theme could not (two /template/ hops) -->
   <ControlTheme x:Key="DefaultManagedFileChooserQuickLinks" TargetType="ListBox">
     <Setter Property="Margin" Value="0"/>
-    <Setter Property="Background" Value="{color:AccentBrush Light8}"/>
+    <!-- Borderless surface: no border of its own, so it fills with SurfaceBorderless (ThemeRules) -->
+    <Setter Property="Background" Value="{color:SurfaceBorderless}"/>
     <Setter Property="BorderThickness" Value="0"/>
-    <Setter Property="Width" Value="{size:SurfaceWidthSm}"/>
-    <Setter Property="Padding" Value="{size:Edges Top={size:SpacingXxl}, Bottom={size:SpacingXxl}}"/>
+    <!-- Like the reference rail, the entries start at the top of the surface: no top/bottom inset -->
+    <Setter Property="Padding" Value="{size:Edges}"/>
     <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
     <Setter Property="Template">
       <ControlTemplate>
@@ -56,7 +87,6 @@
         <Panel>
           <!-- Inset shadow for depth (themed — replaces hardcoded BoxShadow) -->
           <Border x:Name="PART_ShadowBorder"
-                  Margin="0,0,-6,0"
                   IsHitTestVisible="False"/>
           <!-- Outer frame around the quick links list -->
           <Border Name="border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
@@ -73,28 +103,24 @@
     </Setter>
     <Setter Property="ItemContainerTheme">
       <ControlTheme TargetType="ListBoxItem">
-        <Setter Property="Height" Value="{size:ControlHeightSm}"/>
-        <Setter Property="Padding" Value="{size:Edges Left={size:Scaled Value={size:IconSizeMd}, By=2}, Top={size:SpacingMd}, Right={size:Scaled Value={size:IconSizeMd}, By=2}, Bottom={size:SpacingMd}}"/>
+        <!-- Symmetric edges keep the label vertically centred; no fixed height so rows ride their content -->
+        <Setter Property="Padding" Value="{size:Edges Left={size:Scaled Value={size:IconSizeMd}, By=2}, Top={size:SpacingLg}, Right={size:Scaled Value={size:IconSizeMd}, By=2}, Bottom={size:SpacingLg}}"/>
+        <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
         <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
         <Setter Property="Template">
           <ControlTemplate>
-            <!-- Outer frame around one quick link -->
+            <!-- Outer frame around one quick link; the outline fill alone marks hover/selection -->
             <Border x:Name="LayoutRoot">
-              <!-- Layout root stacking the marker behind the label -->
-              <Panel>
-                <!-- Bar marking the selected quick link -->
-                <Border x:Name="SelectedLine" IsVisible="{TemplateBinding IsSelected}"/>
-                <!-- The quick link's icon and name -->
-                <ContentPresenter Name="PART_ContentPresenter"
-                            Background="Transparent"
-                            BorderBrush="Transparent"
-                            BorderThickness="0"
-                            ContentTemplate="{TemplateBinding ContentTemplate}"
-                            Content="{TemplateBinding Content}"
-                            Padding="{TemplateBinding Padding}"
-                            VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                            HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"/>
-              </Panel>
+              <!-- The quick link's icon and name -->
+              <ContentPresenter Name="PART_ContentPresenter"
+                          Background="Transparent"
+                          BorderBrush="Transparent"
+                          BorderThickness="0"
+                          ContentTemplate="{TemplateBinding ContentTemplate}"
+                          Content="{TemplateBinding Content}"
+                          Padding="{TemplateBinding Padding}"
+                          VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"/>
             </Border>
           </ControlTemplate>
         </Setter>
@@ -105,20 +131,18 @@
           <Setter Property="Margin" Value="{size:Edges Left={size:SpacingXxl}, Right={size:SpacingXxl}}" />
         </Style>
 
-        <!-- SelectedLine theming (Rule 2: no {theme:...} inside ControlTemplate) -->
-        <Style Selector="^ /template/ Border#SelectedLine">
-          <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
-          <Setter Property="Margin" Value="{size:Edges Horizontal={size:SpacingSm}, Vertical={size:SpacingLg}}" />
-          <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
-          <Setter Property="Width" Value="{size:ThicknessLg}" />
-          <Setter Property="Background" Value="{color:AccentPrimaryBrush}" />
-        </Style>
-
+        <!-- Selected rows are outlined, not filled (ThemeRules): light fill stage, TextDefault text -->
         <Style Selector="^:pointerover /template/ Border#LayoutRoot">
           <Setter Property="Background" Value="{color:HoverBackgroundDefault}"/>
         </Style>
         <Style Selector="^:selected /template/ Border#LayoutRoot">
           <Setter Property="Background" Value="{color:AccentBrush Light6}"/>
+        </Style>
+        <Style Selector="^:selected:pointerover /template/ Border#LayoutRoot">
+          <Setter Property="Background" Value="{color:AccentBrush Light5}"/>
+        </Style>
+        <Style Selector="^:selected:pressed /template/ Border#LayoutRoot">
+          <Setter Property="Background" Value="{color:AccentBrush Light4}"/>
         </Style>
       </ControlTheme>
     </Setter>
@@ -126,6 +150,13 @@
     <!-- Inset shadow for depth (Rule 2: no {theme:...} inside ControlTemplate) -->
     <Style Selector="^ /template/ Border#PART_ShadowBorder">
       <Setter Property="Background" Value="{color:OverlayWeakBrush}" />
+      <Setter Property="Margin" Value="{size:Edges Right={size:ThicknessXxlDouble}}" />
+    </Style>
+    <!-- The scroller is transparent so the rail's own surface fill shows through; its frame would
+         otherwise paint the rest-fill over the whole rail and outline it like a boxed control -->
+    <Style Selector="^ /template/ ScrollViewer#PART_ScrollViewer">
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="BorderThickness" Value="0" />
     </Style>
   </ControlTheme>
 
@@ -267,26 +298,26 @@
             x:DataType="internal:ManagedFileChooserViewModel">
       <ControlTemplate>
         <!-- Outer frame around the whole dialog -->
-        <Border Background="{TemplateBinding Background}"
+        <Border x:Name="PART_FrameBorder"
+                Background="{TemplateBinding Background}"
                 BorderBrush="{TemplateBinding BorderBrush}"
                 BorderThickness="{TemplateBinding BorderThickness}"
                 CornerRadius="{TemplateBinding CornerRadius}"
                 Padding="{TemplateBinding Padding}">
           <!-- Layout root docking the panels around the file list -->
           <DockPanel>
-            <!-- Shortcuts to common folders, down the left -->
-            <ListBox x:Name="PART_QuickLinks" Theme="{StaticResource DefaultManagedFileChooserQuickLinks}" DockPanel.Dock="Left" ItemsSource="{Binding QuickLinks}" SelectedIndex="{Binding QuickLinksSelectedIndex}" Focusable="False"
-                     MaxWidth="200">
+            <!-- Shortcuts to common folders, down the left; sized by their widest entry -->
+            <ListBox x:Name="PART_QuickLinks" Theme="{StaticResource DefaultManagedFileChooserQuickLinks}" DockPanel.Dock="Left" ItemsSource="{Binding QuickLinks}" SelectedIndex="{Binding QuickLinksSelectedIndex}" Focusable="False">
               <ListBox.ItemTemplate>
                 <DataTemplate>
                   <!-- One shortcut: its icon and name -->
                   <StackPanel Orientation="Horizontal" Background="Transparent">
-                    <Image Width="16" Height="16">
+                    <Image Width="{size:IconSizeMd}" Height="{size:IconSizeMd}" VerticalAlignment="Center">
                       <Image.Source>
                         <DrawingImage Drawing="{Binding IconKey, Converter={StaticResource Icons}}"/>
                       </Image.Source>
                     </Image>
-                    <TextBlock Text="{Binding DisplayName}"/>
+                    <TextBlock Text="{Binding DisplayName}" VerticalAlignment="Center" Margin="{size:Edges Left={size:SpacingMd}}"/>
                   </StackPanel>
                 </DataTemplate>
               </ListBox.ItemTemplate>
@@ -294,30 +325,32 @@
             <!-- The address bar across the top -->
             <DockPanel x:Name="NavBar" DockPanel.Dock="Top" VerticalAlignment="Center">
               <!-- Line below the address bar -->
-              <Rectangle x:Name="NavBarSeparator" Height="1" DockPanel.Dock="Bottom"/>
+              <Rectangle x:Name="NavBarSeparator" Height="{size:ThicknessSmDouble}" DockPanel.Dock="Bottom"/>
               <!-- Places the buttons either side of the path -->
               <DockPanel x:Name="NavBarInner">
                 <!-- Goes to the parent folder -->
                 <Button x:Name="GoUpButton" Command="{Binding GoUp}" DockPanel.Dock="Left">
-                  <Path Data="{icons:ArrowUp}" Width="14" Height="16" Stretch="Uniform" Fill="{CompiledBinding $parent[Button].Foreground}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,1,0,-1"/>
+                  <Path Data="{icons:ArrowUp}" Width="{size:IconSizeMd}" Height="{size:IconSizeMd}" Stretch="Uniform" Fill="{CompiledBinding $parent[Button].Foreground}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </Button>
                 <!-- Reloads the current folder -->
                 <Button x:Name="RefreshButton" Command="{Binding Refresh}" DockPanel.Dock="Right">
-                  <Path Data="{icons:Refresh}"
-                        Fill="{CompiledBinding $parent[Button].Foreground}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="-2,-4,0,0"/>
+                  <Path Data="{icons:Refresh}" Width="{size:IconSizeMd}" Height="{size:IconSizeMd}" Stretch="Uniform"
+                        Fill="{CompiledBinding $parent[Button].Foreground}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </Button>
-                <!-- The current folder path, editable -->
-                <TextBox x:Name="Location" Text="{Binding Location}">
+                <!-- The current folder path, editable; the preview pins a sample path so the box reads correctly.
+                     The inner vertical scrollbar is hidden (not disabled) so the field reads as a clean text field
+                     rather than a boxed widget whose scrollbar arrows crowd the placeholder at its right edge;
+                     hiding keeps the content scrollable so the proof crawler can still exercise it -->
+                <TextBox x:Name="Location" Text="{Binding Location}" PlaceholderText="Folder path"
+                         ScrollViewer.VerticalScrollBarVisibility="Hidden">
                   <TextBox.KeyBindings>
                     <KeyBinding Command="{Binding EnterPressed}" Gesture="Enter"/>
                   </TextBox.KeyBindings>
                 </TextBox>
               </DockPanel>
             </DockPanel>
-            <!-- The action bar across the bottom -->
+            <!-- The action bar across the bottom; the address bar's hairline is the only rule in the centre region -->
             <DockPanel x:Name="BottomBar" DockPanel.Dock="Bottom">
-              <!-- Line above the action bar -->
-              <Rectangle x:Name="BottomBarSeparator" Height="1" DockPanel.Dock="Top"/>
               <!-- Stacks the file name row above the buttons -->
               <DockPanel x:Name="BottomBarInner">
                 <!-- The file name and filter row -->
@@ -330,8 +363,8 @@
                   <!-- The file name being saved or opened -->
                   <TextBox Text="{Binding FileName}" PlaceholderText="File name" IsVisible="{Binding !SelectingFolder}" />
                 </DockPanel>
-                <!-- Toggles hidden files in the list -->
-                <CheckBox IsChecked="{Binding ShowHiddenFiles}" Content="Show hidden files" DockPanel.Dock="Left"/>
+                <!-- Toggles hidden files in the list; its own row so the buttons keep their face -->
+                <CheckBox IsChecked="{Binding ShowHiddenFiles}" Content="Show hidden files" DockPanel.Dock="Top" Margin="{size:Edges Bottom={size:SpacingMd}}"/>
                 <!-- The confirm and cancel buttons -->
                 <UniformGrid x:Name="Finalize" HorizontalAlignment="Right" Rows="1">
                   <Button Command="{Binding Ok}" Content="OK" />
@@ -342,60 +375,67 @@
 
             <!-- Layout root docking the headers above the files -->
             <DockPanel Grid.IsSharedSizeScope="True">
-              <!-- Column headings for the file list -->
+              <!-- Column headings for the file list; the name column takes the slack. Thin 1px
+                   splitters sit between the columns (their own Auto cells, shared with the rows) -->
               <Grid x:Name="FileHeaders" DockPanel.Dock="Top" HorizontalAlignment="Stretch">
                 <Grid.ColumnDefinitions>
-                  <ColumnDefinition Width="20" SharedSizeGroup="Icon" />
-                  <ColumnDefinition Width="275" SharedSizeGroup="Name" />
-                  <ColumnDefinition Width="16" SharedSizeGroup="Splitter" />
-                  <ColumnDefinition Width="200" SharedSizeGroup="Modified" />
-                  <ColumnDefinition Width="16" SharedSizeGroup="Splitter" />
-                  <ColumnDefinition Width="150" SharedSizeGroup="Type" />
-                  <ColumnDefinition Width="16" SharedSizeGroup="Splitter" />
-                  <ColumnDefinition Width="200" SharedSizeGroup="Size" />
-                  <ColumnDefinition Width="16" SharedSizeGroup="Splitter" />
+                  <ColumnDefinition Width="{size:Scaled Value={size:IconSizeMd}, By=1.25}" SharedSizeGroup="Icon" />
+                  <ColumnDefinition Width="*" SharedSizeGroup="Name" />
+                  <ColumnDefinition Width="Auto" SharedSizeGroup="SplitA" />
+                  <ColumnDefinition Width="Auto" SharedSizeGroup="Modified" />
+                  <ColumnDefinition Width="Auto" SharedSizeGroup="SplitB" />
+                  <ColumnDefinition Width="Auto" SharedSizeGroup="Type" />
+                  <ColumnDefinition Width="Auto" SharedSizeGroup="SplitC" />
+                  <ColumnDefinition Width="Auto" SharedSizeGroup="Size" />
                 </Grid.ColumnDefinitions>
 
-                <TextBlock Grid.Column="1" Text="Name" />
-                <GridSplitter Grid.Column="2" />
-                <TextBlock Grid.Column="3" Text="Date Modified" />
-                <GridSplitter Grid.Column="4" />
-                <TextBlock Grid.Column="5" Text="Type" />
-                <GridSplitter Grid.Column="6" />
-                <TextBlock Grid.Column="7" Text="Size" />
-                <GridSplitter Grid.Column="8" />
+                <TextBlock x:Name="HeaderName" Grid.Column="1" Text="Name" />
+                <Rectangle x:Name="HeaderSplitA" Grid.Column="2" VerticalAlignment="Stretch"/>
+                <TextBlock x:Name="HeaderModified" Grid.Column="3" Text="Date Modified" />
+                <Rectangle x:Name="HeaderSplitB" Grid.Column="4" VerticalAlignment="Stretch"/>
+                <TextBlock x:Name="HeaderType" Grid.Column="5" Text="Type" />
+                <Rectangle x:Name="HeaderSplitC" Grid.Column="6" VerticalAlignment="Stretch"/>
+                <TextBlock x:Name="HeaderSize" Grid.Column="7" Text="Size" />
               </Grid>
               <!-- The files and folders in this folder -->
               <ListBox x:Name="PART_Files"
                   ItemsSource="{Binding Items}"
-                  Margin="0"
                   SelectionMode="{Binding SelectionMode}"
                   SelectedItems="{Binding SelectedItems}"
                   Background="Transparent"
                   ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                 <ListBox.ItemTemplate>
                   <DataTemplate x:DataType="internal:ManagedFileChooserItemViewModel">
-                    <!-- One row: icon, name, date, type and size -->
+                    <!-- One row: icon, name, date, type and size; the splitter cells share the
+                         header's groups so the 1px rules line up across every row -->
                     <Grid Background="Transparent">
                       <Grid.ColumnDefinitions>
                         <ColumnDefinition SharedSizeGroup="Icon" />
                         <ColumnDefinition SharedSizeGroup="Name" />
-                        <ColumnDefinition SharedSizeGroup="Splitter" />
+                        <ColumnDefinition SharedSizeGroup="SplitA" />
                         <ColumnDefinition SharedSizeGroup="Modified" />
-                        <ColumnDefinition SharedSizeGroup="Splitter" />
+                        <ColumnDefinition SharedSizeGroup="SplitB" />
                         <ColumnDefinition SharedSizeGroup="Type" />
-                        <ColumnDefinition SharedSizeGroup="Splitter" />
+                        <ColumnDefinition SharedSizeGroup="SplitC" />
                         <ColumnDefinition SharedSizeGroup="Size" />
-                        <ColumnDefinition SharedSizeGroup="Splitter" />
                       </Grid.ColumnDefinitions>
-                      <Image Width="16" Height="16">
+                      <Image Width="{size:IconSizeMd}" Height="{size:IconSizeMd}" VerticalAlignment="Center">
                         <Image.Source>
                           <DrawingImage Drawing="{Binding IconKey, Converter={StaticResource Icons}}"/>
                         </Image.Source>
                       </Image>
                       <TextBlock Grid.Column="1" Text="{Binding DisplayName}"/>
+                      <Rectangle x:Name="RowSplitA" Grid.Column="2" VerticalAlignment="Stretch"
+                                 Width="{size:ThicknessSmDouble}" Fill="{color:BorderDefault}"
+                                 Margin="{size:Edges Left={size:SpacingMd}, Right={size:SpacingMd}}"/>
                       <TextBlock Grid.Column="3" Text="{Binding Modified}" />
+                      <Rectangle x:Name="RowSplitB" Grid.Column="4" VerticalAlignment="Stretch"
+                                 Width="{size:ThicknessSmDouble}" Fill="{color:BorderDefault}"
+                                 Margin="{size:Edges Left={size:SpacingMd}, Right={size:SpacingMd}}"/>
                       <TextBlock Grid.Column="5" Text="{Binding Type}" />
+                      <Rectangle x:Name="RowSplitC" Grid.Column="6" VerticalAlignment="Stretch"
+                                 Width="{size:ThicknessSmDouble}" Fill="{color:BorderDefault}"
+                                 Margin="{size:Edges Left={size:SpacingMd}, Right={size:SpacingMd}}"/>
                       <TextBlock Grid.Column="7" HorizontalAlignment="Right">
                         <TextBlock.Text>
                           <Binding Path="Size">
@@ -417,11 +457,12 @@
 
     <!-- Themed defaults for inner template elements (Rule 2) -->
     <Style Selector="^ /template/ DockPanel#NavBar">
-      <Setter Property="Margin" Value="{size:Edges Left={size:SpacingXl}, Top={size:SpacingLg}, Right={size:SpacingXl}}" />
+      <Setter Property="Margin" Value="{size:Edges Left={size:SpacingXl}, Top={size:SpacingMd}, Right={size:SpacingXl}}" />
     </Style>
+    <!-- Single hairline under the address bar (neutral groove tone) -->
     <Style Selector="^ /template/ Rectangle#NavBarSeparator">
-      <Setter Property="Fill" Value="{color:AccentBrush Light6}" />
-      <Setter Property="Margin" Value="{size:Edges Top={size:SpacingLg}}" />
+      <Setter Property="Fill" Value="{color:BorderDefault}" />
+      <Setter Property="Margin" Value="{size:Edges Top={size:SpacingMd}}" />
     </Style>
     <Style Selector="^ /template/ DockPanel#NavBarInner">
       <Setter Property="Margin" Value="{size:Edges Left={size:SpacingMd}, Right={size:SpacingMd}}" />
@@ -433,11 +474,7 @@
       <Setter Property="Margin" Value="{size:Edges Left={size:SpacingXl}}" />
     </Style>
     <Style Selector="^ /template/ DockPanel#BottomBar">
-      <Setter Property="Margin" Value="{size:Edges Left={size:SpacingXl}, Right={size:SpacingXl}, Bottom={size:SpacingLg}}" />
-    </Style>
-    <Style Selector="^ /template/ Rectangle#BottomBarSeparator">
-      <Setter Property="Fill" Value="{color:AccentBrush Light6}" />
-      <Setter Property="Margin" Value="{size:Edges Bottom={size:SpacingLg}}" />
+      <Setter Property="Margin" Value="{size:Edges Left={size:SpacingXl}, Right={size:SpacingXl}, Bottom={size:SpacingMd}}" />
     </Style>
     <Style Selector="^ /template/ DockPanel#BottomBarInner">
       <Setter Property="Margin" Value="{size:Edges Left={size:SpacingMd}, Right={size:SpacingMd}}" />
@@ -446,14 +483,41 @@
       <Setter Property="Margin" Value="{size:Edges Bottom={size:SpacingMd}}" />
     </Style>
     <Style Selector="^ /template/ Grid#FileHeaders">
-      <Setter Property="Margin" Value="{size:Edges Left={size:SpacingXxl}, Top={size:SpacingLg}}" />
+      <Setter Property="Margin" Value="{size:Edges Left={size:SpacingXxl}, Top={size:SpacingMd}}" />
     </Style>
+    <!-- The thin 1px column splitters between the headings; the file rows mirror them via the shared size groups -->
+    <Style Selector="^ /template/ Rectangle#HeaderSplitA, ^ /template/ Rectangle#HeaderSplitB, ^ /template/ Rectangle#HeaderSplitC">
+      <Setter Property="Width" Value="{size:ThicknessSmDouble}" />
+      <Setter Property="Fill" Value="{color:BorderDefault}" />
+      <Setter Property="Margin" Value="{size:Edges Left={size:SpacingMd}, Right={size:SpacingMd}}" />
+    </Style>
+    <!-- Places rail keeps the reference's 200px width and the file list keeps a floor when the preview has no data -->
+    <Style Selector="^ /template/ ListBox#PART_QuickLinks">
+      <Setter Property="MinWidth" Value="{size:Scaled Value={size:ControlHeightMd}, By=5}" />
+    </Style>
+    <!-- The file list fills whatever is left BELOW the header row; no floor of its own, or at a
+         short dialog height it eats the header's space and its empty frame straddles the headings.
+         Frameless too: the reference lists files without a box, the nav hairline and the bottom
+         bar's rule are the only lines in the centre region -->
     <Style Selector="^ /template/ ListBox#PART_Files">
-      <Setter Property="Margin" Value="{size:Edges Top={size:SpacingLg}, Bottom={size:SpacingLg}}" />
+      <Setter Property="Margin" Value="{size:Edges}" />
+      <Setter Property="BorderThickness" Value="0" />
+    </Style>
+    <!-- The path and file-name fields stretch across their rows, flanked by the toolbar buttons and the filter combo -->
+    <Style Selector="^ /template/ DockPanel#NavBarInner > TextBox">
+      <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
+    </Style>
+    <Style Selector="^ /template/ DockPanel#BottomBarTop > TextBox">
+      <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
     </Style>
 
     <Style Selector="^ /template/ DockPanel#NavBar Button, ^ /template/ DockPanel#NavBar TextBox">
       <Setter Property="Height" Value="{size:ControlHeightSm}"/>
+    </Style>
+    <!-- The stretched path and file-name fields take the taller control height so their 16.9px
+         text lines clear the slot instead of being clipped at 14px -->
+    <Style Selector="^ /template/ TextBox#Location, ^ /template/ DockPanel#BottomBarTop > TextBox">
+      <Setter Property="Height" Value="{size:ControlHeightMd}" />
     </Style>
     <Style Selector="^ /template/ DockPanel#NavBar Button">
       <Setter Property="VerticalAlignment" Value="{theme:ContainerVerticalAlignment}"/>
@@ -467,12 +531,24 @@
     <Style Selector="^ /template/ UniformGrid#Finalize > Button">
       <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}"/>
       <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}"/>
-      <Setter Property="Margin" Value="4,0,0,0"/>
+      <Setter Property="Margin" Value="{size:Edges Left={size:SpacingMd}}"/>
+    </Style>
+
+    <!-- Focus state (Rule 21): the frame carries the focus ring -->
+    <Style Selector="^:focus-visible /template/ Border#PART_FrameBorder">
+      <Setter Property="BorderBrush" Value="{default:FocusBrush}" />
+      <Setter Property="BorderThickness" Value="{default:FocusThickness}" />
     </Style>
   </ControlTheme>
 
   <ControlTheme x:Key="{x:Type dialogs:ManagedFileChooserOverwritePrompt}" TargetType="dialogs:ManagedFileChooserOverwritePrompt">
     <!-- Visual defaults -->
+    <Setter Property="Background" Value="{color:BackgroundDefault}" />
+    <Setter Property="Foreground" Value="{color:TextDefault}" />
+    <Setter Property="BorderBrush" Value="{color:BorderDefault}" />
+    <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
+    <Setter Property="CornerRadius" Value="{size:RadiusMd}" />
+    <Setter Property="Padding" Value="{size:Edges All={size:ContentPaddingWide}}" />
     <Setter Property="MinWidth" Value="{size:SurfaceWidthSm}" />
     <Setter Property="MaxWidth" Value="{size:SurfaceWidthLg}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
@@ -486,8 +562,13 @@
                 BorderThickness="{TemplateBinding BorderThickness}"
                 CornerRadius="{TemplateBinding CornerRadius}"
                 Padding="{TemplateBinding Padding}">
-          <!-- Stacks the warning above its buttons -->
+          <!-- Stacks the heading, the warning and its buttons -->
           <StackPanel x:Name="PART_OverwritePromptRoot">
+            <!-- Heading for the prompt -->
+            <TextBlock x:Name="PART_OverwritePromptHeading"
+                       FontWeight="{theme:FontWeightSemiBold}"
+                       FontSize="{size:FontSizeLg}"
+                       Text="Replace file?" />
             <!-- Warns that the file already exists -->
             <TextBlock TextWrapping="Wrap"
                        Text="{Binding FileName, RelativeSource={RelativeSource TemplatedParent}, StringFormat='{}{0} already exists. Do you want to replace it?'}" />
@@ -495,10 +576,10 @@
             <StackPanel x:Name="PART_OverwritePromptButtons"
                         HorizontalAlignment="Right"
                         Orientation="Horizontal">
-              <Button theme:Accent.Kind="Primary" Content="Yes"
+              <Button theme:Accent.Kind="Success" Content="Yes"
                       IsDefault="True"
                       Command="{Binding Confirm, RelativeSource={RelativeSource TemplatedParent}}" />
-              <Button Content="No"
+              <Button theme:Accent.Kind="Destructive" Content="No"
                       IsCancel="True"
                       Command="{Binding Cancel, RelativeSource={RelativeSource TemplatedParent}}"  />
             </StackPanel>
@@ -512,8 +593,9 @@
       <Setter Property="MinWidth" Value="{size:ControlMinWidth}" />
     </Style>
 
+    <!-- Tighter rhythm inside the prompt: heading, warning and buttons sit close together -->
     <Style Selector="^ /template/ StackPanel#PART_OverwritePromptRoot">
-      <Setter Property="Spacing" Value="{size:SpacingXxl}" />
+      <Setter Property="Spacing" Value="{size:SpacingLg}" />
     </Style>
     <Style Selector="^ /template/ StackPanel#PART_OverwritePromptButtons">
       <Setter Property="Spacing" Value="{size:SpacingXxl}" />

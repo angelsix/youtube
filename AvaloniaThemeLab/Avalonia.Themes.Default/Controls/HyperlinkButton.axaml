@@ -4,21 +4,21 @@
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
                     xmlns:color="using:AngelSix.ThemeEngine.Colors"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes">
-  <!-- Design preview: core states, then accents paired with states to save instances. Declared before Design.PreviewWith uses it -->
+  <!-- Design preview: one link per line, every instance the same width. Declared before Design.PreviewWith uses it -->
   <DataTemplate x:Key="HyperlinkButtonPreview">
     <StackPanel Spacing="{size:SpacingXl}" HorizontalAlignment="Left">
-      <!-- Core states: the theme forces only Hover/Pressed/Focused via Preview.State -->
-      <StackPanel Orientation="Horizontal" Spacing="{size:SpacingXxl}">
-        <HyperlinkButton Content="Default" />
-        <HyperlinkButton theme:Preview.State="Hover" Content="Hover" />
-        <HyperlinkButton theme:Preview.State="Pressed" Content="Pressed" />
-        <HyperlinkButton theme:Preview.State="Focused" Content="Focused" />
-        <HyperlinkButton Content="Disabled" IsEnabled="False" />
-      </StackPanel>
-      <!-- Accents resolve generically through the accent brushes, paired with states to save instances -->
-      <StackPanel Orientation="Horizontal" Spacing="{size:SpacingXxl}">
-        <HyperlinkButton theme:Accent.Kind="Warning" theme:Preview.State="Hover" Content="Warning · Hover" />
-        <HyperlinkButton theme:Accent.Kind="Success" theme:Preview.State="Focused" Content="Success · Focused" />
+      <HyperlinkButton Width="240" Content="Default" />
+      <HyperlinkButton Width="240" theme:Preview.State="Hover" Content="Hover" />
+      <HyperlinkButton Width="240" theme:Preview.State="Pressed" Content="Pressed" />
+      <HyperlinkButton Width="240" theme:Preview.State="Focused" Content="Focused" />
+      <HyperlinkButton Width="240" Content="Disabled" IsEnabled="False" />
+      <!-- Accents recolour the text through the hue-aware ramp -->
+      <HyperlinkButton Width="240" theme:Accent.Kind="Warning" theme:Preview.State="Hover" Content="Warning · Hover" />
+      <HyperlinkButton Width="240" theme:Accent.Kind="Success" theme:Preview.State="Focused" Content="Success · Focused" />
+      <!-- Size parity with a Button (task 83): same padding, so both measure identically tall -->
+      <StackPanel Orientation="Horizontal" Spacing="{size:SpacingLg}" HorizontalAlignment="Left">
+        <Button Width="120" Content="Button" />
+        <HyperlinkButton Width="120" Content="Link" />
       </StackPanel>
     </StackPanel>
   </DataTemplate>
@@ -39,22 +39,21 @@
        ============================================================ -->
   <ControlTheme x:Key="{x:Type HyperlinkButton}" TargetType="HyperlinkButton">
 
-    <!-- Visual defaults -->
+    <!-- Visual defaults: plain text, no fill, border or underline; the focus ring is the only frame (Rule 21) -->
     <Setter Property="Cursor" Value="Hand" />
+    <Setter Property="theme:Accent.Kind" Value="Primary" />
     <Setter Property="Background" Value="Transparent" />
     <Setter Property="BackgroundSizing" Value="OuterBorderEdge" />
-    <Setter Property="Foreground" Value="{color:AccentPrimaryBrush}" />
+    <Setter Property="Foreground" Value="{color:AccentBrush Dark3}" />
     <Setter Property="BorderBrush" Value="Transparent" />
     <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
     <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
+    <!-- Same outer size as a Button (task 83): Button's padding, no fill or border -->
     <Setter Property="Padding" Value="{size:Edges Horizontal={size:ContentPaddingWide}, Vertical={size:ContentPadding}}" />
-    <Setter Property="MinHeight" Value="{size:ControlHeightSm}" />
-    <Setter Property="MinWidth" Value="{size:ControlMinWidth}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
     <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
     <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
     <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
-    <Setter Property="TextBlock.TextDecorations" Value="Underline" />
     <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
 
     <!-- Press animation -->
@@ -88,24 +87,16 @@
       <Setter Property="RecognizesAccessKey" Value="True" />
     </Style>
 
-    <!-- Hover state -->
+    <!-- Hover state: the ink stays at the accent text stage (Dark3) like every other accent text;
+         feedback is the half-strength grow (task 111), no invented colour or underline -->
     <Style Selector="^:pointerover, ^[(theme|Preview.State)=Hover]">
-      <Setter Property="RenderTransform" Value="{theme:TransformScale Value={size:PressedScale}, By=1.07}" />
+      <Setter Property="RenderTransform" Value="{theme:TransformScale Value={size:PressedScale}, By=1.045}" />
+      <Setter Property="ZIndex" Value="{size:HoverZIndex}" />
     </Style>
 
-    <Style Selector="^:pointerover, ^[(theme|Preview.State)=Hover]">
-      <Setter Property="Background" Value="{color:HoverBackgroundDefault}" />
-      <Setter Property="Foreground" Value="{color:AccentPrimaryBrush}" />
-    </Style>
-
-    <!-- Pressed state -->
+    <!-- Pressed state: the ink stays at Dark3; feedback is the half-strength shrink (task 111) -->
     <Style Selector="^:pressed, ^[(theme|Preview.State)=Pressed]">
-      <Setter Property="RenderTransform" Value="{theme:TransformScale Value={size:PressedScale}}" />
-    </Style>
-
-    <Style Selector="^:pressed, ^[(theme|Preview.State)=Pressed]">
-      <Setter Property="Background" Value="{color:PressedBackgroundDefault}" />
-      <Setter Property="Foreground" Value="{color:TextDefault}" />
+      <Setter Property="RenderTransform" Value="{theme:TransformScale Value={size:PressedScale}, By=1.01}" />
     </Style>
 
     <!-- Disabled state -->
@@ -113,25 +104,17 @@
       <Setter Property="Opacity" Value="{size:DisabledOpacity}" />
     </Style>
 
-    <!-- Focus state -->
+    <!-- Focus state (Rule 21: the switch decides between the focus colour and the control's own hue) -->
     <Style Selector="^:focus-visible, ^[(theme|Preview.State)=Focused]">
-      <Setter Property="BorderBrush" Value="{color:AccentFocusBrush}" />
-      <Setter Property="BorderThickness" Value="{size:ThicknessMd}" />
+      <Setter Property="BorderBrush" Value="{default:FocusBrush}" />
+      <Setter Property="BorderThickness" Value="{default:FocusThickness}" />
     </Style>
 
-    <!-- Visited state -->
+    <!-- Visited state: stays at the accent text stage (Dark3). The former Dark2 was lighter than
+         Dark3 but fell under 4.5:1 on the light canvas for some hues (measured: Warning 2.49:1),
+         so it cannot stay distinct; the ink is uniform in every state -->
     <Style Selector="^:visited">
-      <Style Selector="^ /template/ ContentPresenter">
-        <Setter Property="Foreground" Value="{color:TextDefault}" />
-      </Style>
-
-      <Style Selector="^:pointerover /template/ ContentPresenter">
-        <Setter Property="Foreground" Value="{color:TextDefault}" />
-      </Style>
-
-      <Style Selector="^:pressed /template/ ContentPresenter">
-        <Setter Property="Foreground" Value="{color:TextDefault}" />
-      </Style>
+      <Setter Property="Foreground" Value="{color:AccentBrush Dark3}" />
     </Style>
 
   </ControlTheme>

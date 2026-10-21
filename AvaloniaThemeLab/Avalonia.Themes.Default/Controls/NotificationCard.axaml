@@ -3,13 +3,16 @@
                     xmlns:default="clr-namespace:Avalonia.Themes.Default"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
                     xmlns:color="using:AngelSix.ThemeEngine.Colors"
-                    xmlns:size="using:AngelSix.ThemeEngine.Sizes">
+                    xmlns:size="using:AngelSix.ThemeEngine.Sizes"
+                    xmlns:icons="using:AngelSix.ThemeEngine.Icons">
   <!-- Design preview: one card per NotificationType severity. The designer and the lab gallery both show this key,
        so it is declared before Design.PreviewWith uses it -->
   <DataTemplate x:Key="NotificationCardPreview">
-    <!-- The DP defaults to Information, so a bare card adds nothing. No Preview.State/:disabled/:error selectors exist -->
+    <!-- One card per notification type. Avalonia has no 'normal' type: a card with no NotificationType
+         IS an Information card (the property's default), which pins the Primary hue, so a separate bare
+         card would only repeat it. Success, Warning and Error pin their own hue. -->
     <!-- Cards stack vertically: each carries the theme's wide shadow margin, so a shared row would overflow a half-width pane -->
-    <StackPanel Orientation="Vertical" Spacing="{size:SpacingXxl}">
+    <StackPanel Orientation="Vertical" Spacing="{size:SpacingXl}">
       <NotificationCard NotificationType="Information" Content="Information" />
       <NotificationCard NotificationType="Success" Content="Success" />
       <NotificationCard NotificationType="Warning" Content="Warning" />
@@ -32,7 +35,8 @@
     <Setter Property="UseLayoutRounding" Value="True"/>
     <Setter Property="Width" Value="{size:SurfaceWidthMd}"/>
     <Setter Property="RenderTransformOrigin" Value="50%,75%"/>
-    <Setter Property="BorderThickness" Value="0" />
+    <Setter Property="BorderBrush" Value="{color:BorderDefault}" />
+    <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
     <Setter Property="Background" Value="{color:BackgroundDefault}" />
     <Setter Property="Foreground" Value="{color:TextDefault}" />
     <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
@@ -43,7 +47,7 @@
     <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
     <Setter Property="Template">
       <ControlTemplate>
-        <!-- Scales and slides the card as it appears -->
+        <!-- Carries the dismiss transform while the card is closing -->
         <LayoutTransformControl Name="PART_LayoutTransformControl" UseRenderTransform="True">
           <!-- Layout root stacking the shadow behind the card -->
           <Panel>
@@ -54,19 +58,23 @@
             <!-- Outer frame around the card -->
             <Border x:Name="PART_OuterBorder"
                     CornerRadius="{TemplateBinding CornerRadius}">
-              <!-- The card surface -->
+              <!-- The card surface: no local clip, so the theme's web-style ControlClipToBounds governs and a child growing past the edge is not cut -->
               <Border Background="{TemplateBinding Background}"
                       BorderBrush="{TemplateBinding BorderBrush}"
                       BorderThickness="{TemplateBinding BorderThickness}"
-                      CornerRadius="{TemplateBinding CornerRadius}"
-                      ClipToBounds="True">
-                <!-- Docks the colored bar beside the message -->
-                <DockPanel>
-                  <!-- Color bar marking the notification type -->
-                  <Panel x:Name="PART_HeaderBar" DockPanel.Dock="Top" />
+                      CornerRadius="{TemplateBinding CornerRadius}">
+                <!-- Bar on top, then the message beside a dismiss control in its corner -->
+                <Grid RowDefinitions="Auto,*" ColumnDefinitions="*,Auto">
+                  <!-- Color bar marking the notification type; a Border so its top corners can follow the frame's curve -->
+                  <Border x:Name="PART_HeaderBar" Grid.Row="0" Grid.ColumnSpan="2" />
                   <!-- The notification's message -->
-                  <ContentPresenter Name="PART_ContentPresenter" Content="{TemplateBinding Content}" />
-                </DockPanel>
+                  <ContentPresenter Name="PART_ContentPresenter" Grid.Row="1" Grid.Column="0" Content="{TemplateBinding Content}" />
+                  <!-- Dismisses the card when clicked; sits in the body's top-right corner, inset from the frame by a spacing token -->
+                  <Button Name="PART_CloseButton" Grid.Row="1" Grid.Column="1"
+                          NotificationCard.CloseOnClick="True">
+                    <PathIcon Data="{icons:Close}" />
+                  </Button>
+                </Grid>
               </Border>
             </Border>
           </Panel>
@@ -74,6 +82,7 @@
       </ControlTemplate>
     </Setter>
 
+    <!-- Entrance: fades the card in while it rises and settles onto its resting scale -->
     <ControlTheme.Animations>
       <Animation Duration="0:0:0.45" Easing="QuadraticEaseIn" FillMode="Forward">
         <KeyFrame Cue="0%">
@@ -94,6 +103,7 @@
       </Animation>
     </ControlTheme.Animations>
 
+    <!-- Closing: scales and slides the card out as it is dismissed -->
     <Style Selector="^[IsClosing=true] /template/ LayoutTransformControl#PART_LayoutTransformControl">
       <Setter Property="RenderTransformOrigin" Value="50%,0%"/>
       <Style.Animations>
@@ -124,19 +134,6 @@
       </Style.Animations>
     </Style>
 
-    <Style Selector="^:information /template/ Panel#PART_HeaderBar">
-      <Setter Property="Background" Value="{color:AccentInfoBrush}"/>
-    </Style>
-    <Style Selector="^:success /template/ Panel#PART_HeaderBar">
-      <Setter Property="Background" Value="{color:AccentSuccessBrush}"/>
-    </Style>
-    <Style Selector="^:warning /template/ Panel#PART_HeaderBar">
-      <Setter Property="Background" Value="{color:AccentWarningBrush}"/>
-    </Style>
-    <Style Selector="^:error /template/ Panel#PART_HeaderBar">
-      <Setter Property="Background" Value="{color:AccentErrorBrush}"/>
-    </Style>
-
     <!-- Shadow border (elevation behind card) -->
     <Style Selector="^ /template/ Border#PART_ShadowBorder">
       <Setter Property="Background" Value="{color:OverlayMediumBrush}" />
@@ -148,15 +145,47 @@
       <Setter Property="Margin" Value="{size:Edges Left={size:SpacingLg}, Top={size:SpacingLg}, Right={size:SpacingLg}, Bottom={size:SpacingXxl}}" />
     </Style>
 
-    <!-- Header bar default (height and neutral background) -->
-    <Style Selector="^ /template/ Panel#PART_HeaderBar">
-      <Setter Property="Height" Value="{size:ThicknessXxl}" />
+    <!-- Header bar: the coloured band marking the notification type, tinted by the card's hue.
+         Its top corners follow the frame's inner curve (concentric), so it does not paint past the rounded top once the card no longer clips -->
+    <Style Selector="^ /template/ Border#PART_HeaderBar">
+      <Setter Property="Height" Value="{size:ThicknessXxlDouble}" />
       <Setter Property="Background" Value="{color:AccentBrush Light2}" />
+      <Setter Property="CornerRadius" Value="{default:ConcentricCorners Radius={TemplateBinding CornerRadius}, Thickness={TemplateBinding BorderThickness}, Top=True}" />
     </Style>
 
-    <!-- Content presenter minimum height -->
+    <!-- Message: padded a step further in than the default content padding, so the text sits inside the
+         card rather than on its edge. The body takes its height from the close button beside it, so the
+         card is no taller than the button. The text is centred in the body, so the space above and below
+         it is the same and its middle lines up with the close button beside it. -->
     <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="MinHeight" Value="{size:Scaled Value={size:ControlHeightMd}, By=2}" />
+      <Setter Property="Padding" Value="{size:Edges All={size:ContentPaddingWide}}" />
+      <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
+    </Style>
+
+    <!-- Close button: pinned in the top-right corner and inset from the card's edge by the same content
+         padding the message uses, so the gap to the right of the button and the gap below it are the same
+         and the text's inset matches the button's -->
+    <Style Selector="^ /template/ Button#PART_CloseButton">
+      <!-- Theme Exception: Top pins the button to the top-right corner; an edge-hugging alignment has no theme token -->
+      <Setter Property="VerticalAlignment" Value="Top" />
+      <Setter Property="Margin" Value="{size:Edges All={size:ContentPaddingWide}}" />
+    </Style>
+
+    <!-- Hue overrides: Information, Success, Warning and Error each pin their hue, so the bar, border and
+         text follow from one block (Rule 16). Information is the Primary accent, so the card is coloured
+         whatever the ambient accent is. A bare card IS an Information card (the property's default), so
+         it takes the same hue. -->
+    <Style Selector="^:information">
+      <Setter Property="theme:Accent.Kind" Value="Primary" />
+    </Style>
+    <Style Selector="^:success">
+      <Setter Property="theme:Accent.Kind" Value="Success" />
+    </Style>
+    <Style Selector="^:warning">
+      <Setter Property="theme:Accent.Kind" Value="Warning" />
+    </Style>
+    <Style Selector="^:error">
+      <Setter Property="theme:Accent.Kind" Value="Error" />
     </Style>
   </ControlTheme>
 </ResourceDictionary>

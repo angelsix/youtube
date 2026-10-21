@@ -9,20 +9,20 @@
   <!-- Design preview: location/hue folded onto the state instances so nothing repeats. Declared before Design.PreviewWith uses it -->
   <DataTemplate x:Key="ButtonSpinnerPreview">
     <StackPanel Spacing="{size:SpacingXl}" HorizontalAlignment="Left">
-      <ButtonSpinner Content="Default" />
-      <ButtonSpinner ButtonSpinnerLocation="Left"
+      <ButtonSpinner Width="240" Content="Default" />
+      <ButtonSpinner Width="240" ButtonSpinnerLocation="Left"
                      theme:Accent.Kind="Warning"
                      Content="Left · Warning" />
-      <ButtonSpinner theme:Preview.State="Hover"
+      <ButtonSpinner Width="240" theme:Preview.State="Hover"
                      theme:Accent.Kind="Success"
                      Content="Hover · Success" />
-      <ButtonSpinner theme:Preview.State="Pressed"
+      <ButtonSpinner Width="240" theme:Preview.State="Pressed"
                      Content="Pressed" />
-      <ButtonSpinner ButtonSpinnerLocation="Left"
+      <ButtonSpinner Width="240" ButtonSpinnerLocation="Left"
                      theme:Accent.Kind="Warning"
                      IsEnabled="False"
                      Content="Disabled · Left" />
-      <ButtonSpinner theme:Accent.Kind="Destructive"
+      <ButtonSpinner Width="240" theme:Accent.Kind="Destructive"
                      Content="Error · Destructive">
         <DataValidationErrors.Error>
           <sys:Exception>
@@ -32,7 +32,7 @@
           </sys:Exception>
         </DataValidationErrors.Error>
       </ButtonSpinner>
-      <ButtonSpinner ShowButtonSpinner="False"
+      <ButtonSpinner Width="240" ShowButtonSpinner="False"
                      theme:Accent.Kind="Subtle"
                      Content="No spinner · Subtle" />
     </StackPanel>
@@ -224,10 +224,10 @@
       <Setter Property="Opacity" Value="{size:DisabledOpacity}" />
     </Style>
 
-    <!-- Focus state -->
+    <!-- Focus state (Rule 21: the switch decides between the focus colour and the control's own hue) -->
     <Style Selector="^:focus-visible /template/ Border">
-      <Setter Property="BorderBrush" Value="{color:AccentFocusBrush}" />
-      <Setter Property="BorderThickness" Value="{size:ThicknessMd}" />
+      <Setter Property="BorderBrush" Value="{default:FocusBrush}" />
+      <Setter Property="BorderThickness" Value="{default:FocusThickness}" />
     </Style>
 
     <!-- Error state -->

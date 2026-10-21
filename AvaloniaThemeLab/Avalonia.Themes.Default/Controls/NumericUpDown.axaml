@@ -4,40 +4,48 @@
                     xmlns:default="clr-namespace:Avalonia.Themes.Default"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
                     xmlns:color="using:AngelSix.ThemeEngine.Colors"
-                    xmlns:size="using:AngelSix.ThemeEngine.Sizes">
+                    xmlns:size="using:AngelSix.ThemeEngine.Sizes"
+                    xmlns:icons="using:AngelSix.ThemeEngine.Icons">
   <!-- Design preview: every spinner location, content slot, alignment, placeholder and validation state. The designer
        and the lab gallery both show this key, so it is declared before Design.PreviewWith uses it -->
   <DataTemplate x:Key="NumericUpDownPreview">
-    <StackPanel Orientation="Vertical" Spacing="{size:SpacingXl}">
-      <NumericUpDown Minimum="0" Maximum="10" Increment="0.5" Value="5" />
-      <!-- Spinner moved left so both content slots can share the opposite side -->
-      <NumericUpDown Minimum="0" Maximum="10" Increment="0.5" Value="5"
-                     ButtonSpinnerLocation="Left">
+    <StackPanel Orientation="Vertical" Spacing="{size:SpacingLg}">
+      <!-- Caption naming the state shown -->
+      <TextBlock Text="Default" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
+      <NumericUpDown Width="240" Minimum="0" Maximum="10" Increment="0.5" Value="5" />
+      <!-- Prefix demo: the unit sits before the number in the leading slot; the clear button stays pinned
+           beside the spinner, so it never drifts as the number grows -->
+      <TextBlock Text="Prefix · M" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
+      <NumericUpDown Width="240" Minimum="0" Maximum="10" Increment="0.5" Value="5">
         <NumericUpDown.InnerLeftContent>
-          <TextBlock Text="m" TextAlignment="Center" VerticalAlignment="Center" />
+          <TextBlock Text="M" Foreground="{color:DimTextDefault}"
+                     VerticalAlignment="Center" Margin="{size:Edges Right={size:SpacingLg}}" />
         </NumericUpDown.InnerLeftContent>
-        <NumericUpDown.InnerRightContent>
-          <Button Content="X" />
-        </NumericUpDown.InnerRightContent>
       </NumericUpDown>
-      <!-- Centred alignment rides along here rather than taking its own instance -->
-      <NumericUpDown Minimum="0" Maximum="10" Increment="0.5" Value="5"
-                     ButtonSpinnerLocation="Right"
-                     HorizontalContentAlignment="Center"
-                     VerticalContentAlignment="Center">
+      <!-- Same prefix demo with a wider value: the value stays left-aligned, so the prefix never jumps -->
+      <TextBlock Text="Prefix · M, wide value" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
+      <NumericUpDown Width="240" Minimum="0" Maximum="10" Increment="0.5" Value="10">
         <NumericUpDown.InnerLeftContent>
-          <Button Content="X" />
+          <TextBlock Text="M" Foreground="{color:DimTextDefault}"
+                     VerticalAlignment="Center" Margin="{size:Edges Right={size:SpacingLg}}" />
         </NumericUpDown.InnerLeftContent>
+      </NumericUpDown>
+      <!-- Suffix demo: the unit follows the number in the trailing slot, one spacing token behind it -->
+      <TextBlock Text="Suffix · m" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
+      <NumericUpDown Width="240" Minimum="0" Maximum="10" Increment="0.5" Value="5">
         <NumericUpDown.InnerRightContent>
-          <TextBlock Text="m" TextAlignment="Center" VerticalAlignment="Center" />
+          <TextBlock Text="m" Foreground="{color:DimTextDefault}"
+                     VerticalAlignment="Center" Margin="{size:Edges Left={size:SpacingLg}}" />
         </NumericUpDown.InnerRightContent>
       </NumericUpDown>
       <!-- Disabled paired with an empty value doubles as the placeholder demo -->
-      <NumericUpDown Minimum="0" Maximum="10" Increment="0.5"
+      <TextBlock Text="Disabled · placeholder" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
+      <NumericUpDown Width="240" Minimum="0" Maximum="10" Increment="0.5"
                      PlaceholderText="Enter a value"
                      IsEnabled="False" />
       <!-- The template wraps the spinner in DataValidationErrors, so the error banner is fully wired -->
-      <NumericUpDown Minimum="0" Maximum="10" Increment="0.5" Value="5">
+      <TextBlock Text="Error" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
+      <NumericUpDown Width="240" Minimum="0" Maximum="10" Increment="0.5" Value="5">
         <DataValidationErrors.Error>
           <sys:Exception>
             <x:Arguments>
@@ -60,6 +68,98 @@
     </Border>
   </Design.PreviewWith>
 
+  <!-- Flat spinner: the NumericUpDown's own frame draws every state around it, so this theme keeps only the
+       stacked arrow buttons and paints nothing of its own -->
+  <ControlTheme x:Key="DefaultFlatButtonSpinner" TargetType="ButtonSpinner">
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="Foreground" Value="{color:TextDefault}" />
+    <Setter Property="BorderBrush" Value="Transparent" />
+    <Setter Property="BorderThickness" Value="0" />
+    <Setter Property="CornerRadius" Value="0" />
+    <Setter Property="Padding" Value="{size:Edges}" />
+    <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
+    <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
+    <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
+    <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
+    <Setter Property="Template">
+      <ControlTemplate>
+        <!-- The stacked up and down buttons -->
+        <StackPanel Name="PART_SpinnerPanel"
+                    TabIndex="2"
+                    Orientation="Horizontal"
+                    IsVisible="{TemplateBinding ShowButtonSpinner}">
+          <!-- Steps the value up, repeating while held -->
+          <RepeatButton Name="PART_IncreaseButton"
+                        IsTabStop="{TemplateBinding IsTabStop}"
+                        Theme="{StaticResource DefaultButtonSpinnerRepeatButton}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        Foreground="{TemplateBinding Foreground}">
+            <PathIcon Data="{icons:ChevronUp}" />
+          </RepeatButton>
+          <!-- Steps the value down, repeating while held -->
+          <RepeatButton Name="PART_DecreaseButton"
+                        IsTabStop="{TemplateBinding IsTabStop}"
+                        Theme="{StaticResource DefaultButtonSpinnerRepeatButton}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        Foreground="{TemplateBinding Foreground}">
+            <PathIcon Data="{icons:ChevronDown}" />
+          </RepeatButton>
+        </StackPanel>
+      </ControlTemplate>
+    </Setter>
+
+    <!-- Arrow terms: the same inset the clear button carries, so all three faces match -->
+    <Style Selector="^ /template/ RepeatButton">
+      <Setter Property="Padding" Value="{size:Edges Horizontal={size:SpacingXl}, Vertical={size:SpacingLg}}" />
+      <Setter Property="BorderThickness" Value="{size:Edges Left={TemplateBinding BorderThickness}}" />
+    </Style>
+
+    <!-- Spinner icon size -->
+    <Style Selector="^ /template/ RepeatButton > PathIcon">
+      <Setter Property="Height" Value="{size:IconSizeMd}" />
+      <Setter Property="Width" Value="{size:IconSizeMd}" />
+    </Style>
+
+    <!-- Corner radius: the button touching the frame follows its inner curve (ThemeRules: concentric corners) -->
+    <Style Selector="^ /template/ RepeatButton#PART_DecreaseButton">
+      <Setter Property="CornerRadius" Value="{default:ConcentricCorners Radius={TemplateBinding CornerRadius}, Thickness={TemplateBinding BorderThickness}, Right=True}" />
+    </Style>
+
+    <!-- Hover state: on the arrow buttons, not the frame (IsPointerOver quirk) -->
+    <Style Selector="^ /template/ RepeatButton:pointerover:not(:disabled)">
+      <Setter Property="Background" Value="{color:HoverBackgroundDefault}" />
+      <Setter Property="Foreground" Value="{color:HoverTextDefault}" />
+    </Style>
+
+    <!-- Pressed state -->
+    <Style Selector="^ /template/ RepeatButton:pressed:not(:disabled)">
+      <Setter Property="Background" Value="{color:PressedBackgroundDefault}" />
+    </Style>
+
+    <!-- Mirrored: the spinner sits on the field's left edge, so the inner hairline flips and the outer
+         corner moves to whichever button now touches the frame's left curve -->
+    <Style Selector="^:left">
+      <Style Selector="^ /template/ RepeatButton">
+        <Setter Property="BorderThickness" Value="{size:Edges Right={TemplateBinding BorderThickness}}" />
+      </Style>
+      <Style Selector="^ /template/ RepeatButton#PART_DecreaseButton">
+        <Setter Property="CornerRadius" Value="0" />
+      </Style>
+      <Style Selector="^ /template/ RepeatButton#PART_IncreaseButton">
+        <Setter Property="CornerRadius" Value="{default:ConcentricCorners Radius={TemplateBinding CornerRadius}, Thickness={TemplateBinding BorderThickness}, Left=True}" />
+      </Style>
+    </Style>
+  </ControlTheme>
+
+  <!-- Clear button seated beside the spinner: the field-icon-button terms (frameless face, the field's frame draws
+       every state around it) padded exactly like the arrow buttons, so its face matches theirs -->
+  <ControlTheme x:Key="DefaultNumericUpDownClearButton" TargetType="Button" BasedOn="{StaticResource DefaultTextBoxFieldIconButton}">
+    <!-- Arrow-matched padding: SpacingXl horizontally, the same inset the spinner buttons carry; SpacingLg
+         vertically keeps the face square at the field's ControlHeightSm without growing the control -->
+    <Setter Property="Padding" Value="{size:Edges Horizontal={size:SpacingXl}, Vertical={size:SpacingLg}}" />
+  </ControlTheme>
+
   <ControlTheme x:Key="{x:Type NumericUpDown}" TargetType="NumericUpDown">
     <!-- Visual defaults -->
     <Setter Property="Background" Value="{color:BackgroundDefault}" />
@@ -69,7 +169,8 @@
     <Setter Property="BorderBrush" Value="{color:BorderDefault}" />
     <Setter Property="MinHeight" Value="{size:ControlHeightSm}" />
     <Setter Property="MinWidth" Value="{size:ControlMinWidth}" />
-    <Setter Property="Padding" Value="{size:Edges Left={size:SpacingXxl}, Top={size:SpacingLg}, Right={size:SpacingLg}, Bottom={size:SpacingMd}}" />
+    <!-- Face inset matches TextBox's content padding, so the value hugs the frame like a plain field -->
+    <Setter Property="Padding" Value="{size:Edges Horizontal={size:ContentPadding}}" />
     <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
     <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
@@ -80,46 +181,123 @@
       <ControlTemplate>
         <!-- Validation error message for the whole control -->
         <DataValidationErrors>
-          <!-- The up and down buttons around the value -->
-          <ButtonSpinner Name="PART_Spinner"
-                         Background="{TemplateBinding Background}"
-                         BorderThickness="{TemplateBinding BorderThickness}"
-                         BorderBrush="{TemplateBinding BorderBrush}"
-                         CornerRadius="{TemplateBinding CornerRadius}"
-                         IsTabStop="False"
-                         Padding="0"
-                         MinWidth="0"
-                         HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                         VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                         AllowSpin="{TemplateBinding AllowSpin}"
-                         ShowButtonSpinner="{TemplateBinding ShowButtonSpinner}"
-                         ButtonSpinnerLocation="{TemplateBinding ButtonSpinnerLocation}">
-            <!-- The number, typed or stepped -->
-            <TextBox Name="PART_TextBox"
-                     Background="Transparent"
-                     BorderBrush="Transparent"
-                     Padding="{TemplateBinding Padding}"
-                     MinWidth="0"
-                     Foreground="{TemplateBinding Foreground}"
-                     PlaceholderText="{TemplateBinding PlaceholderText}"
-                     PlaceholderForeground="{TemplateBinding PlaceholderForeground}"
-                     IsReadOnly="{TemplateBinding IsReadOnly}"
-                     VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                     HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                     Text="{TemplateBinding Text}"
-                     TextAlignment="{TemplateBinding TextAlignment}"
-                     AcceptsReturn="False"
-                     TextWrapping="NoWrap"
-                     InnerLeftContent="{Binding InnerLeftContent, RelativeSource={RelativeSource TemplatedParent}}"
-                     InnerRightContent="{Binding InnerRightContent, RelativeSource={RelativeSource TemplatedParent}}"/>
-          </ButtonSpinner>
+          <!-- The field frame; one layout for every instance: [prefix] [value] [suffix] .... [X] [arrows],
+               mirrored when the spinner sits left -->
+          <Border Name="PART_FieldFrame"
+                  Background="{TemplateBinding Background}"
+                  BorderBrush="{TemplateBinding BorderBrush}"
+                  BorderThickness="{TemplateBinding BorderThickness}"
+                  CornerRadius="{TemplateBinding CornerRadius}"
+                  MinHeight="{TemplateBinding MinHeight}"
+                  MinWidth="{TemplateBinding MinWidth}">
+            <!-- Layout root docking the buttons beside the value -->
+            <DockPanel>
+              <!-- The stacked up and down buttons, hugging the frame's edge -->
+              <ButtonSpinner Name="PART_Spinner"
+                             DockPanel.Dock="Right"
+                             Theme="{StaticResource DefaultFlatButtonSpinner}"
+                             Background="Transparent"
+                             BorderThickness="0"
+                             CornerRadius="0"
+                             IsTabStop="False"
+                             AllowSpin="{TemplateBinding AllowSpin}"
+                             ShowButtonSpinner="{TemplateBinding ShowButtonSpinner}"
+                             ButtonSpinnerLocation="{TemplateBinding ButtonSpinnerLocation}" />
+
+              <!-- Clears the value; one spacing token from the arrows, same height and padding as them -->
+              <Button Name="PART_ClearButton"
+                      DockPanel.Dock="Right"
+                      Theme="{StaticResource DefaultNumericUpDownClearButton}"
+                      Command="{Binding #PART_TextBox.Clear}"
+                      ClipToBounds="True">
+                <PathIcon Data="{icons:Close}" Height="{size:IconSizeMd}" Width="{size:IconSizeMd}" />
+              </Button>
+
+              <!-- The field's content inset: the same padding TextBox carries, so the value lands at the
+                   field's standard text inset (border + 1px + 8px = 9px) -->
+              <Border Padding="{size:Edges Horizontal={size:ContentPadding}}">
+                <!-- Layout root docking the leading slot beside the value -->
+                <DockPanel>
+                  <!-- Leading content pinned to the field's left edge -->
+                  <ContentPresenter Name="PART_LeftSlot"
+                                    DockPanel.Dock="Left"
+                                    Content="{TemplateBinding InnerLeftContent}"
+                                    VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+
+                  <!-- The value and its trailing unit, packed left so the unit follows the number -->
+                  <StackPanel Orientation="Horizontal">
+                    <!-- The number, typed or stepped; frameless, so the field's frame draws every state. It
+                         starts at the field's standard text inset, the same left padding TextBox carries -->
+                    <TextBox Name="PART_TextBox"
+                             Theme="{StaticResource DefaultFramelessTextBox}"
+                             Padding="{size:Edges}"
+                             MinWidth="0"
+                             MinHeight="0"
+                             Foreground="{TemplateBinding Foreground}"
+                             PlaceholderText="{TemplateBinding PlaceholderText}"
+                             PlaceholderForeground="{TemplateBinding PlaceholderForeground}"
+                             IsReadOnly="{TemplateBinding IsReadOnly}"
+                             VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                             HorizontalContentAlignment="{theme:ControlHorizontalContentAlignment}"
+                             Text="{TemplateBinding Text}"
+                             TextAlignment="{TemplateBinding TextAlignment}"
+                             AcceptsReturn="False"
+                             TextWrapping="NoWrap" />
+
+                    <!-- Trailing content following the value, one spacing token behind it -->
+                    <ContentPresenter Name="PART_RightSlot"
+                                      Margin="{size:Edges Left={size:SpacingLg}}"
+                                      Content="{TemplateBinding InnerRightContent}"
+                                      VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+                  </StackPanel>
+                </DockPanel>
+              </Border>
+            </DockPanel>
+          </Border>
         </DataValidationErrors>
       </ControlTemplate>
     </Setter>
 
-    <!-- TextBox margin (negative margin to offset ButtonSpinner padding) -->
-    <Style Selector="^ /template/ TextBox#PART_TextBox">
-      <Setter Property="Margin" Value="{size:Edges All={size:Scaled Value={size:BaseSize}, By=-1}}" />
+    <!-- Clear button: full field height; its face abuts the arrows' face, so the glyphs sit one spacing
+         token apart (each carries the SpacingXl inset) -->
+    <Style Selector="^ /template/ Button#PART_ClearButton">
+      <Setter Property="VerticalAlignment" Value="Stretch" />
     </Style>
+
+    <!-- Hover state: the house outlined-field fill across the whole frame -->
+    <Style Selector="^:pointerover, ^[(theme|Preview.State)=Hover]">
+      <Style Selector="^ /template/ Border#PART_FieldFrame">
+        <Setter Property="Background" Value="{color:HoverBackgroundDefault}" />
+      </Style>
+    </Style>
+
+    <!-- Disabled state -->
+    <Style Selector="^:disabled">
+      <Setter Property="Opacity" Value="{size:DisabledOpacity}" />
+    </Style>
+
+    <!-- Focus state (Rule 21: the switch decides between the focus colour and the control's own hue) -->
+    <Style Selector="^:focus-visible /template/ Border#PART_FieldFrame">
+      <Setter Property="BorderBrush" Value="{default:FocusBrush}" />
+      <Setter Property="BorderThickness" Value="{default:FocusThickness}" />
+    </Style>
+
+    <!-- Error state -->
+    <Style Selector="^:error /template/ Border#PART_FieldFrame">
+      <Setter Property="BorderBrush" Value="{color:AccentErrorBrush}" />
+    </Style>
+
+    <!-- Mirrored layout: the spinner and the clear button dock left, so the row reads
+         [arrows] [X] [prefix] [value] [suffix]; the spinner's own :left theme handles its interior -->
+    <Style Selector="^[ButtonSpinnerLocation=Left]">
+      <Style Selector="^ /template/ ButtonSpinner#PART_Spinner">
+        <Setter Property="DockPanel.Dock" Value="Left" />
+      </Style>
+      <Style Selector="^ /template/ Button#PART_ClearButton">
+        <Setter Property="DockPanel.Dock" Value="Left" />
+        <Setter Property="Margin" Value="{size:Edges Right={size:SpacingLg}}" />
+      </Style>
+    </Style>
+
   </ControlTheme>
 </ResourceDictionary>

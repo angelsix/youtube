@@ -95,7 +95,7 @@ Only the following categories are exempt from theming. **No other exemptions exi
 
 Every color is a **hue** with a ramp: the hue itself, plus ten evenly-spaced stages either side, the outermost at 97% so no two hues end on the same color. `Light1..10` recede towards the canvas and `Dark1..10` advance towards the ink. In the light palette that is white and black. In the dark palette the Light stages travel towards the canvas (the `Surface` hue's `DarkSeed`, `#222222`), keeping the colorfulness of their light twin, and the Dark stages travel towards white.
 
-**Stage N is one lightness in every hue.** Neutral and the seven chromatic hues carry `[ColorRamp(HueAware = true)]`: each stage sits at a fixed OKLCH lightness, stepping from L 0.60 towards white, black or the canvas, and the seed gives only hue and chroma (chroma is reduced where sRGB cannot show it). So `Dark3` is 7.7-8.6:1 on the light canvas and 6.0-6.6:1 on the dark one whatever `Accent.Kind` says, and a role pinned to a stage means the same thing in every hue. The seed itself (`Accent{Hue}`) is unchanged. `Surface` stays off: its stages are the canvas's own tints. A downstream theme overriding a seed must repeat `HueAware = true`, or that hue's stages drift back to per-seed lightness.
+**Stage N is one lightness in every hue.** Neutral and the eight chromatic hues (Primary, Success, Warning, Error, Info, Destructive, Subtle, and Favourite, the vibrant yellow added in task 101) carry `[ColorRamp(HueAware = true)]`: each stage sits at a fixed OKLCH lightness, stepping from L 0.60 towards white, black or the canvas, and the seed gives only hue and chroma (chroma is reduced where sRGB cannot show it). So `Dark3` is 5.19-8.16:1 on the light canvas and 6.0-6.6:1 on the dark one whatever `Accent.Kind` says, and a role pinned to a stage means the same thing in every hue. The light palette's hued ink stages (Dark3-Dark7 for the eight chromatic hues) are declared in `DefaultTheme.cs` (the "Light Palette Ink Stages" region, task 93): each keeps its OKLCH hue, gains a little lightness (+0.03 at Dark3 tapering to +0.005 at Dark7) and takes full gamut chroma, so light-theme accents read vibrant instead of near-black (Luke, 19 Oct 2026). Task 101 (20 Oct 2026) lifted light Success and Warning further, to 5.2:1 (`#3A7848`, `#89661B`), because `Dark3` is both the checked fill and accent text ink, so 4.5:1 against the canvas is its floor; Favourite's light `Dark3` is `#856600` (5.30:1). Solid (checked, filled, selected) faces use four roles pinned to real ramp stages, the same in both palettes: `SolidFillDefault` = `Dark3`, `SolidFillHover` = `Dark4`, `SolidFillPressed` = `Dark5`, with `OnSolidFillInkDefault` = `Light10` for the glyph or text on them (Luke, 20 Oct 2026: derive from the ramps, never hand-placed per-control colours; an earlier light-only hex split on borrowed slots was removed). `Dark3` is the most vivid stage that still carries `Light10` text at 4.5:1 in every hue (worst 5.11:1 light, 5.84:1 dark); stepping hover and pressed lighter instead fails 4.5:1 in dark. The dark palette still comes from the engine untouched, and Neutral is unchanged. A downstream theme overriding those stages must keep the `IsDark` delegation to the engine ramp, or it changes the dark palette too. The seed itself (`Accent{Hue}`) is unchanged. `Surface` stays off: its stages are the canvas's own tints. A downstream theme overriding a seed must repeat `HueAware = true`, or that hue's stages drift back to per-seed lightness.
 
 Control themes never name a hue. They use the hue-agnostic extension, and `Accent.Kind` decides which hue answers:
 
@@ -122,7 +122,11 @@ One block serves a plain control, `Accent.Kind="Warning"` and `Accent.Kind="Bran
 | Hover text | `Dark7` | — |
 | Dim text | `Dark3` | — |
 
-Both columns are measured on the live build across all eight hue-aware hues. Filled: the fill is 6.0:1 or more against the canvas and its `Light10` text 5.84:1 or more (worst Error, dark; hover 6.72, pressed 7.72). Outlined: text 13.6:1 or more, dim text 6.0:1 or more, the `Light1` border 3.16:1 or more (Success, light), the non-text minimum. Before the ramps were hue-aware the same stages ranged from 1.39:1 to 18:1 across hues, which is why the fill used to sit at `Dark6`. A fill must be a stage, never the seed (`{color:AccentPrimaryBrush}`): the seed does not move with the palette while the text on it does, so text on a seed fill drops to 2.0-2.65:1 in dark. ToggleButton, SplitButton, ListBoxItem, ComboBoxItem and TreeViewItem apply it: a selected or checked item fills with its own `Accent.Kind` hue, so a Warning item selects in Warning, never in Primary. Icons on the fill take the same `Light10`, because a PathIcon inherits its container's Foreground (Rule 13). A selected or checked control that is also disabled drops the fill and shows `DimTextDefault` on the canvas at full opacity, in all five controls, so it reads at the dim-text contrast rather than below it. Glyphs on a checked `Dark1` fill (check marks, radio dots) are non-text: `Light10` on `Dark1` is 4.32:1 at worst (Error, dark), above the 3:1 they need. Do not put text on `Dark1`; it is 4.46:1 on the dark canvas in Error.
+Both columns are measured on the live build across all nine hue-aware hues. Filled: the fill is 6.0:1 or more against the canvas and its `Light10` text 5.84:1 or more (worst Error, dark; hover 6.72, pressed 7.72). Outlined: text 13.6:1 or more, dim text 6.0:1 or more, the `Light1` border 3.16:1 or more (Success, light), the non-text minimum. Before the ramps were hue-aware the same stages ranged from 1.39:1 to 18:1 across hues, which is why the fill used to sit at `Dark6`. A fill must be a stage, never the seed (`{color:AccentPrimaryBrush}`): the seed does not move with the palette while the text on it does, so text on a seed fill drops to 2.0-2.65:1 in dark. ToggleButton and SplitButton (and CommandBar's checked toggles) apply it: a checked item fills with its own `Accent.Kind` hue, so a Warning toggle checks in Warning, never in Primary. Icons on the fill take the same `Light10`, because a PathIcon inherits its container's Foreground (Rule 13). A checked toggle that is also disabled keeps its filled face under the whole-control `{size:DisabledOpacity}` dim, like every other disabled control (ToggleButton, task 14): a disabled control left at full opacity is refused by the AVLG045 gate, so the earlier "drop the fill and show `DimTextDefault` at full opacity" form is retired. Glyphs on a checked `Dark1` fill (check marks, radio dots) are non-text: `Light10` on `Dark1` is 4.32:1 at worst (Error, dark), above the 3:1 they need. Do not put text on `Dark1`; it is 4.46:1 on the dark canvas in Error.
+
+**A surface with no border uses `{color:SurfaceBorderless}`** (decided by Luke, 19 Oct 2026; role added by task 79). The rest fill `{color:BackgroundDefault}` (Light10) reads as a surface only when a border outlines it; without one it nearly vanishes into the canvas. So a borderless surface (a panel, card or host that draws no border of its own) fills with `SurfaceBorderless` (Light9): one stage deeper than the rest fill and one lighter than the hover fill (`HoverBackgroundDefault`, Light8), so it never competes with an interaction state. It follows the control's own hue like every role. A bordered surface keeps `BackgroundDefault`. Never copy the stage by hand: one role means changing it once changes every borderless surface. `EmbeddableControlRoot` is the first user.
+
+**Selected list rows are outlined, not filled** (decided by Luke, 18 Oct 2026). ComboBoxItem, ListBoxItem and TreeViewItem show selection the way ButtonSpinner shows state: a light fill stage of the row's own hue with `{color:TextDefault}` text. Selected `{color:AccentBrush Light6}`, selected and hovered `Light5`, selected and pressed `Light4`, no border (the row's focus uses its own inset border, Rule 21). A disabled row, selected or not, takes the whole-row `{size:DisabledOpacity}` like any other control. `ComboBoxItem.axaml` is the reference; the other two copy its selected styles. The filled column above stays for toggles.
 
 **Those two conventions are inverses and must not be mixed.** A filled control that takes the outlined assignments becomes near-white text on a near-white fill — invisible, with nothing to see in a diff.
 
@@ -157,6 +161,8 @@ Where the same stage recurs as a *semantic* assignment (outlined text ink, rest 
 
 | You mean | Use | Raw equivalent |
 |---|---|---|
+| solid (checked/filled) face fill | `{color:SolidFillDefault}` (hover `SolidFillHover`, pressed `SolidFillPressed`) | `{color:AccentBrush Dark3}` (`Dark4`, `Dark5`) |
+| glyph, icon or text on a solid face | `{color:OnSolidFillInkDefault}` | `{color:AccentBrush Light10}` |
 | outlined-control text ink | `{color:TextDefault}` | `{color:AccentBrush Dark9}` |
 | outlined-control border, and a container outline (ListBox, TreeView, ItemsControl, ScrollViewer) | `{color:BorderDefault}` | `{color:AccentBrush Light1}` |
 | outlined-control rest fill | `{color:BackgroundDefault}` | `{color:AccentBrush Light10}` |
@@ -309,7 +315,7 @@ When you find any hard-coded color value, apply this test **before** deciding wh
 
 **Justification:** These properties fundamentally affect how a control integrates into an application's layout. If they are hard-coded inside the template, applications cannot achieve a consistent typographic and spacing rhythm across controls built from different themes. Exposing them as theme-bindable setters gives the themer full control over the app's visual harmony.
 
-For `Padding` specifically, use the shared content-padding tokens rather than raw spacing steps: default content padding is `{size:ContentPadding}` (derived from the spacing ladder's default step), and button-like faces (Button, RepeatButton, ToggleButton, SplitButton, DropDownButton, HyperlinkButton) step their horizontal edges up with `{size:ContentPaddingWide}`, leaving vertical edges on `{size:ContentPadding}`.
+For `Padding` specifically, use the shared content-padding tokens rather than raw spacing steps: default content padding is `{size:ContentPadding}` (derived from the spacing ladder's default step), and button-like faces (Button, RepeatButton, ToggleButton, SplitButton, DropDownButton, HyperlinkButton) step their horizontal edges up with `{size:ContentPaddingWide}`, leaving vertical edges on `{size:ContentPadding}`. HyperlinkButton takes Button's padding too (Luke, 2026-10-19: a HyperlinkButton is the same size as a Button, so the two line up in a row; it still has no fill or border, and its focus ring is its only frame; task 83 reverses task 30's no-padding exception).
 
 ---
 
@@ -455,7 +461,7 @@ This order ensures that more specific styles (accent) come after the defaults th
 
 ## Rule 13: Inherited Properties Are Declared Once at the Root and Only Re-Declared Where They Differ
 
-**Statement:** `Foreground`, `FontFamily`, `FontSize`, `FontWeight`, `FontStyle` and `FlowDirection` are **inherited** properties — a value set on a control flows down to every descendant automatically. The theme establishes these once, at the roots (`Window`, `PopupRoot`, `EmbeddableControlRoot`, `OverlayPopupHost`, `ThemeVariantScope`, and `LightDarkPreview`, which is the root of a design preview because a preview has no themed window above it). A ControlTheme should then set an inherited property **only when its value differs from what the control would inherit**. If the value would be the same, leave it unset and let it flow.
+**Statement:** `Foreground`, `FontFamily`, `FontSize`, `FontWeight`, `FontStyle` and `FlowDirection` are **inherited** properties — a value set on a control flows down to every descendant automatically. The theme establishes these once, at the roots (`Window`, `PopupRoot`, `EmbeddableControlRoot`, `OverlayPopupHost`, and `LightDarkPreview`, which is the root of a design preview because a preview has no themed window above it). `ThemeVariantScope` is not a root: this theme has no theme for it (task 60 deleted it as inert, because dark regions come from the engine's `theme:ThemeRegion.IsDark`, which never reads `ActualThemeVariant`). A ControlTheme should then set an inherited property **only when its value differs from what the control would inherit**. If the value would be the same, leave it unset and let it flow.
 
 This is the one deliberate carve-out from Rule 4. Rule 4 exists so nothing is hard-coded and everything is themeable; for inherited properties that goal is already met at the root, and re-declaring the same value at every control actively breaks the theme.
 
@@ -472,8 +478,8 @@ Note the shape of the trap: the wrong fix (push the color down from each contain
 | Case | Example |
 |------|---------|
 | The control is a root/scope establishing the baseline | `Window`, `PopupRoot`, `EmbeddableControlRoot` set `Foreground`, `FontFamily`, `FontSize`, `FontWeight` |
-| The value genuinely differs from the ambient one | `ToolTip` → `{size:FontSizeSm}`, `TabItem` → `{size:FontSizeXxl}`, `GroupBox` → `{size:FontSizeLg}` |
-| The control's identity carries a color | `HyperlinkButton` → `{color:AccentPrimaryBrush}`, `ProgressBar` → `{color:AccentPrimaryBrush}` |
+| The value genuinely differs from the ambient one | `ToolTip` → `{size:FontSizeSm}`, `TabItem` → `{size:FontSizeLg}` (task 53: was FontSizeXxl, 24; Luke said the tabs were out of scale with the theme), `GroupBox` → `{size:FontSizeLg}` |
+| The control's identity carries a color | `ProgressBar` → `{color:AccentBrush Dark3}` fill over a `{color:AccentBrush Light8}` track, its text drawn twice (`{color:AccentBrush Light10}` clipped to the fill, `{color:TextDefault}` over the track) so it reads on both (task 41: the bar follows the hue like every filled control, never a pinned seed); `HyperlinkButton` → `theme:Accent.Kind="Primary"` + `{color:AccentBrush Dark3}` (Luke: link text follows the accent and reads like every other accent text, so it stays at `Dark3` in every state, rest, hover, pressed and visited, never a pinned seed; hover and press feedback is the half-strength grow and shrink, 20 Oct 2026. `Dark5`/`Dark7` read muddy next to Label, and `Dark2` falls under 4.5:1 for Warning) |
 | The control must contrast with its own background | A selected item on an accent fill → `{color:AccentBrush Light10}` |
 | A **state or class** style changes it | `^:disabled` → `{color:DimTextDefault}`, `^:pointerover` → `{color:AccentBrush Dark1}` |
 
@@ -581,7 +587,7 @@ The nine-word cap applies to the **anatomy label** only. A Rule 8 workaround com
 
 ## Rule 16: Accent Styles Bind to the Hue, Never to a Named Accent
 
-**Statement:** Bind colors with `{color:AccentBrush Stage}`, never with a specific hue like `{color:AccentPrimaryBrush}`. One block then serves every hue instead of being copy-pasted per color. Pin a hue only where the meaning demands it — a focus ring is always `{color:AccentFocusBrush}`.
+**Statement:** Bind colors with `{color:AccentBrush Stage}`, never with a specific hue like `{color:AccentPrimaryBrush}`. One block then serves every hue instead of being copy-pasted per color. Pin a hue only where the meaning demands it — a focus ring is always `{default:FocusBrush}`, which resolves to `{color:AccentFocusBrush}` on neutral controls and, while `FocusColorOnAccents` is off, to the control's own hue (Rule 21).
 
 **Why:** `{color:AccentBrush}` resolves `Accent{Hue}{Shade}Brush` at runtime, against whichever hue the *target control* is carrying. Naming `AccentPrimaryBrush` pins the block to one accent, so supporting warning, success and the rest means duplicating thirty lines apiece — the exact problem the extension exists to remove.
 
@@ -707,6 +713,7 @@ A subclass turns it off with `public override bool WebRenderStyle => false;`, an
 - **ToggleSwitch**: the checked track covers the outline exactly, so it takes the outline's drawn outer edge (inset 0).
 - **A fill that should sit inside a sibling frame** uses Avalonia's own inner-edge geometry, `BackgroundSizing="InnerBorderEdge"` (ComboBox's focus highlight).
 - **A field inside another control's frame** uses the `DefaultFramelessTextBox` sub-theme from TextBox.axaml (Rule 7; no border, no fill in any state): the editable ComboBox and the CalendarView picker. It replaces CalendarView's private `DefaultCalendarViewTextBox`, which covered focus and disabled but not hover.
+- **Items inside a popup or list container** (ComboBoxItem in the drop-down, MenuItem in ContextMenu, MenuFlyoutPresenter and every submenu) are concentric with the container even though they don't touch its corners: the item radius is the container's radius minus its padding and border, `ConcentricCorners` with `Inset` = the container's padding plus thickness, so the item's curve runs parallel to the container's. Luke (2026-10-19): an item at `{size:RadiusSm}` inside a `{size:RadiusMd}` container reads about half the container's curve and doesn't blend; this is the standard throughout the theme (tasks 73, 75).
 - **A part that doesn't need its own fill** has none (TreeView's scroller), and a frame that must mask content clips on an inner panel, not on itself (DropDownButton).
 
 **Measured** with a supersampled corner check against Avalonia's stroke geometry, every crawler state, light and dark, at scale 1 and 2. OUT is pixels past the outer arc and RING is pixels of the stroke painted over; the second figure is scale 2. Before → after: ButtonSpinner RING 464/6154 → 0/0, ComboBox RING 2922/23938 → 0/0, CalendarView OUT 72/384 → 0/0, and the focus state of every focusable rounded control (e.g. Button RING 824/4256 → 0/0).
@@ -737,7 +744,58 @@ A subclass turns it off with `public override bool WebRenderStyle => false;`, an
 | Hand-rolled control templates | A preview shows the ControlTheme's template; drawing one inline previews nothing real |
 | New resource keys that leak outside the preview | A key referenced beyond the preview escapes this rule's scope and pollutes the dictionary |
 
+**Stacked panes per control — the `{Name}PreviewOrientation` key.** The gallery (`MainWindow.axaml`) wraps every control's preview in a `LightDarkPreview` and used to hard-code `Orientation="Horizontal"` for all of them; a control file's `Design.PreviewWith` never reaches the gallery, so a control had no way to ask for its panes stacked vertically. That changed: beside its `<DataTemplate x:Key="{Name}Preview">`, a control file may now declare
+
+```xml
+<Orientation x:Key="{Name}PreviewOrientation">Vertical</Orientation>
+```
+
+and the gallery looks it up by name (the same convention as the `{Name}Preview` template, via `PreviewOrientationConverter`). Present and `Vertical` → the two panes stack top over bottom; absent (or any other value) → the default `Horizontal`. Declare the key in the control's own theme file, next to its preview template, exactly like the template itself. First user: Carousel (task 8).
+
 **Review stance:** if a future rule feels like it needs relaxing for previews, relax it explicitly here with a one-line rationale rather than silently deviating. A deviation nobody wrote down is indistinguishable from a mistake.
+
+---
+
+## Rule 21: The Focus Ring Is Magenta Only on Neutral Controls — Accented Controls Keep Their Own Hue
+
+**Focus never changes a control's size** (task 67, 19 Oct 2026). `{default:FocusThickness}` returns the owning control's RESTING border thickness, so a focused control's border box keeps exactly its rest size (thickening it to `ThicknessMd` grew auto-sized controls by 2px, shifted layout and broke the state-pass restore, AVLG030). The focus weight is carried by the default focus adorner (`AdornerLayer.axaml`): a 2px `{color:AccentFocusBrush}` ring with a thin light halo, drawn concentrically OUTSIDE the control (Rule 19), so it consumes no layout. The control's own border still takes the focus colour below. A control must not null its `FocusAdorner` unless it draws an equivalent outset ring itself. A pinned `Preview.State="Focused"` example shows only the focus-colour border, because the outset ring belongs to real keyboard focus.
+
+**Statement:** A focused control announces itself at the focus weight (`{size:ThicknessMd}`) in a colour decided by the theme's `FocusColorOnAccents` switch (default **false**) and the control's effective hue:
+
+| Target | Switch off (default) | Switch on |
+|--------|----------------------|-----------|
+| Neutral (no chromatic hue above it) | `{color:AccentFocusBrush}` (magenta) | `{color:AccentFocusBrush}` (magenta) |
+| Non-neutral (Warning, Success, …) | **its own hue** at the focus-border stage (`Accent{Hue}{AccentFocusBorder}Brush`, currently Dark3, the accent-text stage; it was Dark2, which in light sat darker than Dark3) | `{color:AccentFocusBrush}` (magenta) |
+
+So with the default, a Warn or Success control that gains keyboard focus keeps its own amber/green border — just heavier (Dark3 vs the Light1 rest border) — instead of turning magenta; only neutral controls borrow the dedicated focus colour. Flipping `FocusColorOnAccents` to `true` restores today's behaviour (everything magenta).
+
+**The mechanism — use the tokens, never the toggle.** A control theme writes the focus state exactly as it always did, but pointed at the two decision extensions instead of the raw role token:
+
+```xml
+<!-- Focus state -->
+<Style Selector="^:focus-visible, ^[(theme|Preview.State)=Focused]">
+  <Setter Property="BorderBrush" Value="{default:FocusBrush}" />
+  <Setter Property="BorderThickness" Value="{default:FocusThickness}" />
+</Style>
+```
+
+(`xmlns:default="clr-namespace:Avalonia.Themes.Default"` is already on every control file.) `{default:FocusBrush}` resolves, against the element that receives the setter, to `AccentFocusBrush` when the target is neutral **or** the switch is on, and to the target's own `Accent{Hue}{Stage}Brush` otherwise — where `{Stage}` is the value of the `AccentFocusBorder` role **read off the resolved theme instance at render time** (currently `Dark2`, so `AccentWarningDark2Brush`), never hard-coded; `{default:FocusThickness}` is always `ThicknessMd`. Both read the switch and the stage off the *resolved* theme instance (honouring a scoped region and its dark twin, exactly like the engine's own converters), so a downstream theme flips every focused accented control at once by overriding one property:
+
+```csharp
+public override bool FocusColorOnAccents => true;   // back to all-magenta focus
+protected override RampStage AccentFocusBorder => RampStage.Dark5;  // or move the stage
+```
+
+Do **not** branch on the hue yourself in a control file, and do **not** special-case the focus colour per accent — that is what this rule centralises. The decision lives in `Theme/FocusBrush.cs`; the stage lives in `DefaultTheme.AccentFocusBorder` (currently `RampStage.Dark2`, one step darker than the Light1 rest border so focus reads as the same hue, heavier ink). To change the accented-focus stage, move `AccentFocusBorder`; to change the policy, flip `FocusColorOnAccents`. Moving the role measurably moves the ring: with `AccentFocusBorder = Dark5` a focused Warning box draws `#FF3F2D00` light / `#FFDEB65E` dark instead of `#FF785900` / `#FFB89137`, while a focused neutral box stays `#FFBF4AF9` in both panes.
+
+**Why a converter and not a selector:** the choice depends on two things at once — the theme boolean and the control's inherited `theme:Accent.Kind` — and the latter does not reliably reach a template part as an inheritable value in this host. `FocusBrush` therefore resolves the OWNING CONTROL first (a template part walks `TemplatedParent` up to the outermost templated control the focus style attaches to) and then climbs the visual ancestry from there, stopping at the first element whose effective hue is set — which is also how the engine's own `{color:AccentBrush}` behaves. Measured agreement: a focused Warning box's border equals the engine-native `{color:AccentBrush Dark2}` on a sibling in the same pane, light and dark (light `#FF785900`, dark `#FFB89137`); a focused neutral box is `#FFBF4AF9` (AccentFocus) in both panes.
+
+**Known limits.** Two behaviours are measured, not assumed:
+
+1. **Liveness:** the binding re-evaluates each time the focus state applies, so a hue change while a control stays focused shows on the next focus.
+2. **Explicit Neutral inside a tinted region:** the engine erases an explicit `Accent.Kind="Neutral"` assigned on an element inside a coloured region — assigning the default stores no local value, so at runtime `GetHue` reports the REGION'S hue and `IsSet(HueProperty)` is false (measured: a focused box pinned `Neutral` inside a `Warning` StackPanel reads `Name=="Warning"`, `IsSet==false`; the identical box at top level reads `Name=="Neutral"`). A deliberately-neutral control inside a tinted region therefore takes the region's hue for its focus border until the engine preserves such assignments; the escape hatch is to wrap the control in its own untinted container.
+
+**Accessibility floor:** a focused accented control must still differ visibly from its resting state — hence the thicker Dark2 border, never a focus state identical to rest.
 
 ---
 
@@ -752,7 +810,7 @@ The Button control has been fully converted and serves as the reference implemen
 - Comments label sections only — no implementation descriptions (Rule 8)
 - Press animation: `{theme:TransformScale Value={size:PressedScale}, By=1}`
 - Disabled opacity: `{size:DisabledOpacity}` (accent disabled: `{size:Scaled Value={size:DisabledOpacity}, By=1.4}`)
-- Focus state: `BorderBrush="{color:AccentFocusBrush}"`, `BorderThickness="{size:ThicknessMd}"`
+- Focus state: `BorderBrush="{default:FocusBrush}"`, `BorderThickness="{default:FocusThickness}"` (Rule 21 — magenta on neutral, own hue on accented while `FocusColorOnAccents` is off)
 - Designer preview includes: Default, Hover, Pressed, Focused, Disabled — plus all accent variants
 - Icons are template parts, not content: `<Button Icon.Data="{icons:Save}" Content="Save" />`, with `Icon.Placement` `Left` (default), `Top`, `Right` or `Bottom`. `Icon` (Theme/Icon.cs) is a pair of attached properties on `Control`, so another button-like control opts in by reading them in its own template; the theme assembly maps its namespace into Avalonia's, so no prefix is written
 - The template's face is `PART_Border` (fill, border, padding); a theme that restyles the face of a button targets `^ /template/ Border#PART_Border`, not the `ContentPresenter`, which now carries only the label
@@ -772,6 +830,16 @@ After reviewing the calendar controls against the existing `DefaultTheme`, the c
 - `AnimationFastMs` (75ms), `AnimationNormalMs` (150ms), `AnimationSlowMs` (300ms) — animation timing
 - `PressedScale` (0.98) — uniform press animation factor
 - `RadiusSmDouble` / `RadiusMdDouble` — `double` versions for `Shape.RadiusX/Y`
+- `ThicknessSmDouble` … `ThicknessXxlDouble` — `double` twins of the thickness ladder, for plain-number slots (`Width`, `Height`, `StrokeThickness`)
+
+**The wrong-type token trap:** a size token seats itself in a slot of the *wrong CLR type* without any error — Avalonia converts what it cannot convert to **0**, so the part simply does not render. Two ladders carry a twin for each reason:
+
+| Slot | Wrong spelling (renders 0) | Right spelling |
+|------|---------------------------|----------------|
+| `Shape.RadiusX` / `RadiusY` (a `double`) | `{size:RadiusSm}` (a `CornerRadius`) | `{size:RadiusSmDouble}` |
+| `Width`, `Height`, `StrokeThickness`, any other `double` slot fed by the thickness ladder | `{size:ThicknessSm}` (a `Thickness`) | `{size:ThicknessSmDouble}` |
+
+A `Thickness` token stays right wherever the property takes a `Thickness` (`BorderThickness`, `Margin`, `Padding`, `Edges`, `ConcentricCorners`'s `Thickness=`); only when the value feeds a plain number does the `…Double` twin take over. A green build proves nothing here — the failure is visual, caught only by measuring the rendered bounds.
 
 **If a value is genuinely needed across 3+ unrelated controls, consider:**
 - `FocusBorderBrush` — already covered by `AccentFocusBrush`
@@ -786,18 +854,18 @@ After reviewing the calendar controls against the existing `DefaultTheme`, the c
 | Category | Tokens |
 |----------|--------|
 | **Theme identity** | `ThemeName`, `BaseSize`, **`IsDark`** |
-| **Render style** | `WebRenderStyle` (true), and from it `ControlClipToBounds` (false / true; a setter in every templated control theme) and `HoverZIndex` (1 / 0) — see Rule 18 |
+| **Render style** | `WebRenderStyle` (true), and from it `ControlClipToBounds` (false / true; a setter in every templated control theme) and `HoverZIndex` (1 / 0) — see Rule 18. Plus `FocusColorOnAccents` (false): the focus-ring policy switch consumed by `{default:FocusBrush}` / `{default:FocusThickness}` — see Rule 21 |
 | **Color ramps** | One hue per `[AccentHue] Color Accent{Hue}`, each with `Light1..10` / `Dark1..10` from `ColorRamp`; every hue but Surface is `HueAware`, so stage N is one OKLCH lightness in all of them. Reached as `{color:AccentBrush Dark2}`; the stage properties have no extension of their own |
 | **Accent colors (10)** | Nine hues: `AccentPrimary`, `AccentSuccess`, `AccentWarning`, `AccentError`, `AccentInfo`, `AccentDestructive`, `AccentSubtle`, `AccentNeutral` (dark seed `#D1D1D1`), **`AccentSurface`** (surface/background hue, the canvas: seed is the fill, not the ink; dark seed `#222222`). Plus **`AccentFocus`**, which is not a hue. Effective seeds `NeutralSeed` and `SurfaceSeed` give the seed of whichever palette is active |
 | **Surfaces** | `SurfaceDefault` — application background/canvas: the effective seed — paper seed when light, the `DarkSeed` value when dark; consumed as `{color:SurfaceDefaultBrush}` with no IsDark awareness |
-| **Accent roles** | `[AccentRole(name, RampStage)]` on the theme class generates one extension per role into the color namespace: `TextDefault` (Dark9), `BorderDefault` (Light1), `BackgroundDefault` (Light10), `HoverBackgroundDefault` (Light8), `HoverTextDefault` (Dark7), `PressedBackgroundDefault` (Light6), `DimTextDefault` (Dark3). Consumed as `{color:TextDefault}` etc. — see below |
+| **Accent roles** | `[AccentRole(name, RampStage)]` on the theme class generates one extension per role into the color namespace: `TextDefault` (Dark9), `BorderDefault` (Light1), `BackgroundDefault` (Light10), `HoverBackgroundDefault` (Light8), `HoverTextDefault` (Dark7), `PressedBackgroundDefault` (Light6), `DimTextDefault` (Dark3), `AccentFocusBorder` (Dark2; the stage a focused accented control draws its border at while `FocusColorOnAccents` is off, Rule 21). Consumed as `{color:TextDefault}` etc. — see below |
 | **Spacing (5)** | `SpacingSm` (2), `SpacingMd` (4), `SpacingLg` (8), `SpacingXl` (12), `SpacingXxl` (16) |
 | **Type scale** | `FontSizeSm` (12), `FontSizeMd` (14), `FontSizeLg` (16), `FontSizeXl` (20), `FontSizeXxl` (24) |
 | **Typeface** | `FontFamily`, `FontWeightRegular`, `FontWeightMedium`, `FontWeightSemiBold`, `FontWeightBold` |
 | **Control height** | `ControlHeightSm` (32), `ControlHeightMd` (40), `ControlHeightLg` (48) |
 | **Control metrics** | `ControlMinWidth` (64), `IconSize` (16) |
-| **Shape** | `RadiusSm` (6), `RadiusMd` (12), `RadiusSmDouble` (6), `RadiusMdDouble` (12) |
-| **Thickness (5)** | `ThicknessSm` (1), `ThicknessMd` (2), `ThicknessLg` (3), `ThicknessXl` (4), `ThicknessXxl` (6) |
+| **Shape** | `RadiusSm` (6), `RadiusMd` (12), `RadiusSmDouble` (6), `RadiusMdDouble` (12) — the `…Double` twins serve `Shape.RadiusX/Y`, which takes a `double`, never a `CornerRadius` |
+| **Thickness (5)** | `ThicknessSm` (1), `ThicknessMd` (2), `ThicknessLg` (3), `ThicknessXl` (4), `ThicknessXxl` (6) — each with a `double` twin (`ThicknessSmDouble` … `ThicknessXxlDouble`) for plain-number slots: a track's `Height`, a dot's `Width`, a glyph's `StrokeThickness`. A `Thickness` token in one of those slots silently renders 0; see the wrong-type token trap above |
 | **Alignment** | `ControlHorizontalAlignment` (Left), `ControlVerticalAlignment` (Center), `ControlHorizontalContentAlignment` (Left), `ControlVerticalContentAlignment` (Center), `ButtonHorizontalContentAlignment` (Center; button-like controls only, see Rule 12), `ContainerHorizontalAlignment` (Stretch), `ContainerVerticalAlignment` (Stretch) |
 | **State** | `DisabledOpacity` (0.3), `PressedScale` (0.98) |
 | **Animation** | `AnimationFastMs` (75), `AnimationNormalMs` (150), `AnimationSlowMs` (300) |

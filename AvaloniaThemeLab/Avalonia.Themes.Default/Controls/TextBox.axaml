@@ -9,26 +9,27 @@
   <!-- Design preview: every input kind and state in one column. Declared before Design.PreviewWith uses it -->
   <DataTemplate x:Key="TextBoxPreview">
     <StackPanel Spacing="{size:SpacingLg}" HorizontalAlignment="Left">
-      <TextBox Text="Default" />
-      <TextBox theme:Preview.State="Hover" Text="Hover" />
-      <TextBox theme:Preview.State="Focused" Text="Focused" />
+      <TextBox Width="256" Text="Default" />
+      <TextBox Width="256" theme:Preview.State="Hover" Text="Hover" />
+      <TextBox Width="256" theme:Preview.State="Focused" Text="Focused" />
       <!-- Hue inherits down, so one instance proves both accent and focus together -->
-      <TextBox theme:Accent.Kind="Warning" theme:Preview.State="Focused" Text="Accent focused" />
-      <TextBox Text="Error">
+      <TextBox Width="256" theme:Accent.Kind="Warning" theme:Preview.State="Focused" Text="Warning · Focused" />
+      <TextBox Width="256" Text="Error">
         <DataValidationErrors.Error>
           <sys:Exception><x:Arguments><x:String>Error</x:String></x:Arguments></sys:Exception>
         </DataValidationErrors.Error>
       </TextBox>
-      <TextBox IsEnabled="False" Text="Disabled" />
-      <TextBox IsReadOnly="True" Text="Read only" />
-      <TextBox AcceptsReturn="True" TextWrapping="Wrap" Text="Multiline&#x0a;second line" />
-      <TextBox TextAlignment="Center" Text="Center aligned" />
-      <TextBox PlaceholderText="Empty with placeholder" />
-      <TextBox PlaceholderText="Floating placeholder" UseFloatingPlaceholder="True" />
-      <TextBox PlaceholderText="Floating placeholder" UseFloatingPlaceholder="True" Text="Floated over content" />
-      <TextBox Classes="clearButton" Text="Clear button" />
-      <TextBox PasswordChar="*" Classes="revealPasswordButton" Text="Hidden password" />
-      <TextBox PasswordChar="*" Classes="revealPasswordButton" RevealPassword="True" Text="Revealed password" />
+      <TextBox Width="256" IsEnabled="False" Text="Disabled" />
+      <TextBox Width="256" IsReadOnly="True" Text="Read only" />
+      <TextBox Width="256" AcceptsReturn="True" TextWrapping="Wrap" Text="Multiline&#x0a;second line" />
+      <TextBox Width="256" TextAlignment="Center" Text="Center aligned" />
+      <TextBox Width="256" PlaceholderText="Empty with placeholder" />
+      <TextBox Width="256" PlaceholderText="Floating placeholder" UseFloatingPlaceholder="True" />
+      <TextBox Width="256" PlaceholderText="Floating placeholder" UseFloatingPlaceholder="True" Text="Floated over content" />
+      <TextBox Width="256" Classes="clearButton" Text="Clear button" />
+      <!-- Both passwords rest masked; the reveal affordance is proved by the crawler flipping the toggle (mask to plaintext, eye to eye-off) -->
+      <TextBox Width="256" PasswordChar="*" Classes="revealPasswordButton" Text="Hidden password" />
+      <TextBox Width="256" PasswordChar="*" Classes="revealPasswordButton" Text="Reveal password" />
     </StackPanel>
   </DataTemplate>
 
@@ -55,24 +56,90 @@
     <MenuItem Header="Paste" Command="{Binding $parent[TextBox].Paste}" IsEnabled="{Binding $parent[TextBox].CanPaste}" />
   </MenuFlyout>
 
-  <!-- Clear button inside the field: the field's frame is its frame, so it follows that frame's right-hand curve,
-       does not grow past it on hover, and shows focus as its own inset border rather than a ring over the frame -->
-  <ControlTheme x:Key="DefaultTextBoxClearButton" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+  <!-- Small frameless icon button seated in the field's right edge: the field's frame is its frame, so it
+       follows that frame's right-hand curve, carries no face of its own, and pads by the field's padding so
+       the icon sits where the text would -->
+  <ControlTheme x:Key="DefaultTextBoxFieldIconButton" TargetType="Button">
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="Foreground" Value="{color:TextDefault}" />
+    <Setter Property="BorderBrush" Value="Transparent" />
     <Setter Property="BorderThickness" Value="0" />
-    <Setter Property="CornerRadius" Value="{default:ConcentricCorners Radius={Binding $parent[TextBox].CornerRadius}, Thickness={Binding $parent[TextBox].BorderThickness}, Right=True}" />
+    <Setter Property="Padding" Value="{size:Edges All={size:ContentPadding}}" />
+    <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
+    <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
+    <Setter Property="HorizontalContentAlignment" Value="{theme:ButtonHorizontalContentAlignment}" />
+    <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
     <Setter Property="FocusAdorner" Value="{x:Null}" />
-    <Style Selector="^:pointerover">
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
+    <Setter Property="Template">
+      <ControlTemplate>
+        <!-- The face: the painted, rounded hit area; it never scales, so a grown glyph is never clipped
+             by the field's edge (the whole-button grow used to die under the field's clip) -->
+        <Border Name="PART_Face"
+                Background="{TemplateBinding Background}"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}"
+                CornerRadius="{TemplateBinding CornerRadius}"
+                Padding="{TemplateBinding Padding}">
+          <!-- The glyph: the only part that grows on hover and shrinks on press, so the motion reads
+               clearly at icon size where a whole-face scale was sub-pixel -->
+          <ContentPresenter Name="PART_Glyph"
+                            Content="{TemplateBinding Content}"
+                            ContentTemplate="{TemplateBinding ContentTemplate}"
+                            Foreground="{TemplateBinding Foreground}"
+                            HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+        </Border>
+      </ControlTemplate>
+    </Setter>
+    <!-- Resting glyph transform: identity, so the hover/press states below animate FROM here; the
+         in-and-out transition rides the glyph (not the face), which is the part that moves -->
+    <Style Selector="^ /template/ ContentPresenter#PART_Glyph">
+      <Setter Property="RenderTransformOrigin" Value="0.5,0.5" />
       <Setter Property="RenderTransform" Value="none" />
+      <Setter Property="Transitions">
+        <Transitions>
+          <TransformOperationsTransition Property="RenderTransform" Duration="{theme:AnimationFastMs}" />
+        </Transitions>
+      </Setter>
+    </Style>
+    <!-- Hover: the field's hover fill on the face, and the glyph GROWS ~2px over its 16px rest size.
+         TransformScale multiplies the token by By (scale = Value x By), so 0.98 x 1.153 ~= 1.13:
+         a visibly-slight grow that reads at icon size where a whole-face scale was sub-pixel. The
+         face holds still, so nothing clips at the field's edge (the old whole-button grow died there). -->
+    <Style Selector="^:pointerover:not(:disabled)">
+      <Setter Property="Background" Value="{color:HoverBackgroundDefault}" />
+      <Setter Property="Foreground" Value="{color:HoverTextDefault}" />
+      <Setter Property="ZIndex" Value="{size:HoverZIndex}" />
+    </Style>
+    <Style Selector="^:pointerover:not(:disabled) /template/ ContentPresenter#PART_Glyph">
+      <Setter Property="RenderTransform" Value="{theme:TransformScale Value={size:PressedScale}, By=1.153}" />
+    </Style>
+    <!-- Pressed: the field's pressed fill on the face, and the glyph DIPS ~2.5px: 0.98 x 0.84 ~= 0.82.
+          Deeper than the bare 0.94x sketch so the shrink beats the 1.5px proof bar even through
+          headless sub-pixel rounding (16 -> 13.1), yet still reads as a quick settle, not a collapse. -->
+    <Style Selector="^:pressed:not(:disabled)">
+      <Setter Property="Background" Value="{color:PressedBackgroundDefault}" />
+    </Style>
+    <Style Selector="^:pressed:not(:disabled) /template/ ContentPresenter#PART_Glyph">
+      <Setter Property="RenderTransform" Value="{theme:TransformScale Value={size:PressedScale}, By=0.84}" />
+    </Style>
+    <Style Selector="^:disabled">
+      <Setter Property="Opacity" Value="{size:DisabledOpacity}" />
     </Style>
   </ControlTheme>
 
-  <!-- Reveal-password toggle inside the field, on the same terms as the clear button -->
-  <ControlTheme x:Key="DefaultTextBoxRevealButton" TargetType="ToggleButton" BasedOn="{StaticResource {x:Type ToggleButton}}">
-    <Setter Property="BorderThickness" Value="0" />
+  <!-- Clear button inside the field, on the field-icon-button terms above -->
+  <ControlTheme x:Key="DefaultTextBoxClearButton" TargetType="Button" BasedOn="{StaticResource DefaultTextBoxFieldIconButton}">
     <Setter Property="CornerRadius" Value="{default:ConcentricCorners Radius={Binding $parent[TextBox].CornerRadius}, Thickness={Binding $parent[TextBox].BorderThickness}, Right=True}" />
-    <Setter Property="FocusAdorner" Value="{x:Null}" />
-    <Style Selector="^:pointerover">
-      <Setter Property="RenderTransform" Value="none" />
+  </ControlTheme>
+
+  <!-- Reveal-password toggle inside the field: the same frameless face, and revealing keeps it frameless —
+       the eye icon alone says the state, never a filled button face -->
+  <ControlTheme x:Key="DefaultTextBoxRevealButton" TargetType="ToggleButton" BasedOn="{StaticResource DefaultTextBoxFieldIconButton}">
+    <Setter Property="CornerRadius" Value="{default:ConcentricCorners Radius={Binding $parent[TextBox].CornerRadius}, Thickness={Binding $parent[TextBox].BorderThickness}, Right=True}" />
+    <Style Selector="^:checked">
+      <Setter Property="Background" Value="Transparent" />
     </Style>
   </ControlTheme>
 
@@ -85,7 +152,9 @@
     <Setter Property="Foreground" Value="{color:TextDefault}" />
     <Setter Property="CaretBrush" Value="{color:AccentBrush Dark1}" />
     <Setter Property="BorderBrush" Value="{color:BorderDefault}" />
-    <Setter Property="SelectionBrush" Value="{color:AccentPrimaryBrush}" />
+    <!-- Selected text: the filled column (Dark3 fill, Light10 ink), following the hue like every other state -->
+    <Setter Property="SelectionBrush" Value="{color:AccentBrush Dark3}" />
+    <Setter Property="SelectionForegroundBrush" Value="{color:AccentBrush Light10}" />
     <Setter Property="PlaceholderForeground" Value="{color:DimTextDefault}" />
     <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
     <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
@@ -108,7 +177,8 @@
         <DataValidationErrors>
           <!-- Rows: optional floating label, then the framed field -->
           <Grid RowDefinitions="Auto,*">
-            <!-- Label that floats above the field (own row, so it never crowds the text) -->
+            <!-- Label that floats above the field (own row, so it never crowds the text); hidden unless the
+                 field floats, so a plain field keeps its former size and position -->
             <TextBlock Grid.Row="0"
                        Name="PART_FloatingPlaceholder"
                        Foreground="{TemplateBinding PlaceholderForeground}"
@@ -145,13 +215,13 @@
                               BringIntoViewOnFocusChange="{TemplateBinding (ScrollViewer.BringIntoViewOnFocusChange)}">
                   <!-- Layout root stacking the prompt behind the text -->
                   <Panel>
-                    <!-- Prompt shown while the field is empty -->
+                    <!-- Prompt shown while the field is empty; it stretches to the slot so TextAlignment operates over the whole field -->
                     <TextBlock Name="PART_Placeholder"
                                Foreground="{TemplateBinding PlaceholderForeground}"
                                Text="{TemplateBinding PlaceholderText}"
                                TextAlignment="{TemplateBinding TextAlignment}"
                                TextWrapping="{TemplateBinding TextWrapping}"
-                               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                               HorizontalAlignment="Stretch"
                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
                       <TextBlock.IsVisible>
                         <MultiBinding Converter="{x:Static BoolConverters.And}">
@@ -177,7 +247,7 @@
                                    SelectionBrush="{TemplateBinding SelectionBrush}"
                                    SelectionForegroundBrush="{TemplateBinding SelectionForegroundBrush}"
                                    CaretBrush="{TemplateBinding CaretBrush}"
-                                   HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                   HorizontalAlignment="Stretch"
                                    VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                   </Panel>
                   <ScrollViewer.Styles>
@@ -203,6 +273,15 @@
       <Setter Property="Cursor" Value="IBeam"/>
     </Style>
 
+    <!-- Floating placeholder row reserved: a floating field keeps the label laid out (transparent while
+         empty) so filling the field never changes its height; a plain field leaves it collapsed, so it
+         keeps its former size and position -->
+    <Style Selector="^[UseFloatingPlaceholder=true] /template/ TextBlock#PART_FloatingPlaceholder">
+      <Setter Property="IsVisible" Value="True" />
+      <Setter Property="Opacity" Value="0" />
+      <Setter Property="IsHitTestVisible" Value="False" />
+    </Style>
+
     <!-- Placeholder opacity -->
     <Style Selector="^ /template/ TextBlock#PART_Placeholder">
       <Setter Property="Opacity" Value="{size:Scaled Value={size:DisabledOpacity}, By=1.667}" />
@@ -217,6 +296,7 @@
 
     <!-- Disabled state -->
     <Style Selector="^:disabled">
+      <Setter Property="Opacity" Value="{size:DisabledOpacity}" />
       <Setter Property="Foreground" Value="{color:DimTextDefault}" />
 
       <Style Selector="^ /template/ Border#PART_BorderElement">
@@ -225,10 +305,10 @@
       </Style>
     </Style>
 
-    <!-- Focus state: accent outline at constant thickness — no fill repaint, no growth -->
+    <!-- Focus state (Rule 21: the switch decides between the focus colour and the control's own hue) -->
     <Style Selector="^:focus, ^[(theme|Preview.State)=Focused]">
       <Style Selector="^ /template/ Border#PART_BorderElement">
-        <Setter Property="BorderBrush" Value="{color:AccentFocusBrush}" />
+        <Setter Property="BorderBrush" Value="{default:FocusBrush}" />
       </Style>
     </Style>
 
@@ -242,9 +322,11 @@
       <Setter Property="ContextFlyout" Value="{StaticResource HorizontalTextBoxContextFlyout}" />
     </Style>
 
-    <!-- Floating placeholder visibility -->
+    <!-- Floating placeholder shown: fade in over the reserved row (opacity, never visibility), so the
+         field's height is identical empty and filled -->
     <Style Selector="^[UseFloatingPlaceholder=true]:not(:empty) /template/ TextBlock#PART_FloatingPlaceholder">
-      <Setter Property="IsVisible" Value="True" />
+      <Setter Property="Opacity" Value="1" />
+      <Setter Property="IsHitTestVisible" Value="True" />
     </Style>
 
     <!-- Reveal password button class -->

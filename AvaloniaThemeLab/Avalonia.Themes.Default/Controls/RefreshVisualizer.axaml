@@ -5,23 +5,10 @@
                     xmlns:color="using:AngelSix.ThemeEngine.Colors"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes"
                     xmlns:icons="using:AngelSix.ThemeEngine.Icons">
-  <!-- Design preview: the spinner standalone at a fixed small size. Declared before Design.PreviewWith uses it -->
-  <DataTemplate x:Key="RefreshVisualizerPreview">
-    <StackPanel Spacing="{size:SpacingXl}" HorizontalAlignment="Left">
-      <RefreshVisualizer Width="{size:IconSizeMd}" Height="{size:IconSizeMd}" />
-    </StackPanel>
-  </DataTemplate>
-
-  <Design.PreviewWith>
-    <Border>
-      <Border.Styles>
-        <default:DefaultThemeStyles />
-      </Border.Styles>
-
-      <default:LightDarkPreview Title="RefreshVisualizer" ContentTemplate="{StaticResource RefreshVisualizerPreview}" />
-
-    </Border>
-  </Design.PreviewWith>
+  <!-- The RefreshVisualizer theme lives on; its gallery entry does not (task 140: the pull indicator
+       is met inside the RefreshContainer that hosts it, so the standalone RefreshVisualizer preview is
+       retired and every indicator state now rides inside the RefreshContainer preview). The
+       ControlTheme below is unchanged -->
 
   <ControlTheme x:Key="{x:Type RefreshVisualizer}"
                 TargetType="RefreshVisualizer">
@@ -30,24 +17,28 @@
     <Setter Property="IsHitTestVisible" Value="False"/>
     <Setter Property="Background"
             Value="Transparent"/>
+    <!-- Icon follows the control's accent hue (rest ink stage); never a pinned seed -->
     <Setter Property="Foreground"
-            Value="{color:TextDefault}"/>
+            Value="{color:AccentBrush Dark3}"/>
+    <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
+    <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
+    <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
+    <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
     <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
-    <Setter Property="Content">
-      <Template>
-        <PathIcon Name="PART_Icon"
-                  Data="{icons:Refresh}"
-                  Width="{size:IconSizeMd}"
-                  Height="{size:IconSizeMd}"
-        />
-      </Template>
-    </Setter>
     <Setter Property="Template">
       <ControlTemplate>
-        <!-- Layout root for the refresh spinner -->
+        <!-- Frame the refresh arrow slides through -->
         <Grid Name="PART_Root"
-              Background="{TemplateBinding Background}"/>
-    </ControlTemplate>
+              Background="{TemplateBinding Background}">
+          <!-- The circular-arrow refresh glyph, centred and sized with the control -->
+          <PathIcon Name="PART_Icon"
+                    Data="{icons:Refresh}"
+                    Width="{TemplateBinding Width}"
+                    Height="{TemplateBinding Height}"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch" />
+        </Grid>
+      </ControlTemplate>
     </Setter>
   </ControlTheme>
 </ResourceDictionary>

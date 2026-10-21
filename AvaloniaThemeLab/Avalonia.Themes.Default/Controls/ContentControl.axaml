@@ -4,11 +4,33 @@
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
                     xmlns:color="using:AngelSix.ThemeEngine.Colors"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes">
+  <!-- Design preview: the frame is the ContentControl's own area (its Background/Border*), so the samples set those with tokens; centring rides the host's content alignment -->
   <DataTemplate x:Key="ContentControlPreview">
     <StackPanel Spacing="{size:SpacingXl}" HorizontalAlignment="Left">
-      <ContentControl>
+      <!-- Framed sample: the frame is the host's own 320x120 area, painted by its Background/Border*; plain text centred both ways -->
+      <ContentControl Width="320" Height="120"
+                      Background="{color:BackgroundDefault}"
+                      BorderBrush="{color:BorderDefault}"
+                      BorderThickness="{size:ThicknessSm}"
+                      CornerRadius="{size:RadiusSm}"
+                      Padding="{size:Edges All={size:ContentPadding}}"
+                      HorizontalContentAlignment="Center"
+                      VerticalContentAlignment="Center">
         <TextBlock Text="With content" />
       </ContentControl>
+      <!-- Framed sample on a hue: the frame's role tokens answer in the host's accent -->
+      <ContentControl Width="320" Height="120"
+                      theme:Accent.Kind="Warning"
+                      Background="{color:BackgroundDefault}"
+                      BorderBrush="{color:BorderDefault}"
+                      BorderThickness="{size:ThicknessSm}"
+                      CornerRadius="{size:RadiusSm}"
+                      Padding="{size:Edges All={size:ContentPadding}}"
+                      HorizontalContentAlignment="Center"
+                      VerticalContentAlignment="Center">
+        <TextBlock Text="Framed · Warning" />
+      </ContentControl>
+      <!-- Empty sample: no Background set, so the host paints nothing -->
       <ContentControl />
     </StackPanel>
   </DataTemplate>
@@ -23,11 +45,31 @@
     </Border>
   </Design.PreviewWith>
 
-  <!-- Exists only to carry the render-style clip (Rule 18): ContentControl keeps the template Avalonia gives it in code -->
+  <!-- Carries the render-style clip (Rule 18) and a frame-forwarding template: the stock template is a bare presenter that paints nothing, so the control's own Background/Border* reach a Border here. Unset values stay transparent, so a bare ContentControl still paints nothing. -->
   <ControlTheme x:Key="{x:Type ContentControl}" TargetType="ContentControl">
 
     <!-- Visual defaults -->
     <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
+
+    <!-- Template: the frame is the control's own area -->
+    <Setter Property="Template">
+      <ControlTemplate>
+        <!-- The frame: painted only when an instance sets Background/Border* -->
+        <Border Background="{TemplateBinding Background}"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}"
+                CornerRadius="{TemplateBinding CornerRadius}"
+                Padding="{TemplateBinding Padding}">
+          <!-- The hosted content, aligned by the host's content alignment -->
+          <ContentPresenter Name="PART_ContentPresenter"
+                            Content="{TemplateBinding Content}"
+                            ContentTemplate="{TemplateBinding ContentTemplate}"
+                            Foreground="{TemplateBinding Foreground}"
+                            HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+        </Border>
+      </ControlTemplate>
+    </Setter>
 
   </ControlTheme>
 </ResourceDictionary>

@@ -4,9 +4,15 @@
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
                     xmlns:color="using:AngelSix.ThemeEngine.Colors"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes">
+  <!-- Design preview: one row per state. The designer and the lab gallery both show this key,
+       so it is declared before Design.PreviewWith uses it. The theme exposes no Preview.State or :error selectors, so its full surface is enabled/disabled plus inherited accent hue -->
   <DataTemplate x:Key="HeaderedContentControlPreview">
     <StackPanel Spacing="{size:SpacingXl}" HorizontalAlignment="Left">
-      <HeaderedContentControl Header="Section header" Content="Body content" />
+      <HeaderedContentControl Width="280" Header="Section header" Content="Body content" />
+      <HeaderedContentControl Width="280" theme:Accent.Kind="Warning"
+                              Header="Warning · Section header" Content="Body content" />
+      <HeaderedContentControl Width="280" IsEnabled="False"
+                              Header="Disabled · Section header" Content="Body content" />
     </StackPanel>
   </DataTemplate>
 
@@ -29,10 +35,10 @@
     <!-- Visual defaults -->
     <Setter Property="Background" Value="{color:BackgroundDefault}" />
     <Setter Property="Foreground" Value="{color:TextDefault}" />
-    <Setter Property="BorderBrush" Value="{color:AccentBrush Dark1}" />
+    <Setter Property="BorderBrush" Value="{color:BorderDefault}" />
     <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
     <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
-    <Setter Property="Padding" Value="{size:SpacingMd}" />
+    <Setter Property="Padding" Value="{size:Edges All={size:ContentPadding}}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
     <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
     <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
@@ -48,8 +54,8 @@
                 CornerRadius="{TemplateBinding CornerRadius}"
                 Background="{TemplateBinding Background}"
                 Padding="{TemplateBinding Padding}">
-          <!-- Stacks the header above the content -->
-          <Grid RowDefinitions="auto *">
+          <!-- Stacks the header, its divider and the content -->
+          <Grid RowDefinitions="Auto, Auto, *">
             <!-- The header -->
             <ContentPresenter Name="PART_HeaderPresenter"
                               Content="{TemplateBinding Header}"
@@ -57,24 +63,41 @@
                               HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                               VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
                               Grid.Row="0" />
+            <!-- Hairline separating the header from the body -->
+            <Rectangle Name="PART_HeaderDivider"
+                       Grid.Row="1" />
             <!-- The content below the header -->
             <ContentPresenter Name="PART_ContentPresenter"
                               ContentTemplate="{TemplateBinding ContentTemplate}"
                               Content="{TemplateBinding Content}"
                               VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
                               HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                              Grid.Row="1" />
+                              Grid.Row="2" />
           </Grid>
         </Border>
       </ControlTemplate>
     </Setter>
 
-    <!-- Access key support -->
-    <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
+    <!-- The header reads as a heading: semi-bold ink at the body size -->
+    <Style Selector="^ /template/ ContentPresenter#PART_HeaderPresenter">
+      <Setter Property="FontWeight" Value="{theme:FontWeightSemiBold}" />
       <Setter Property="RecognizesAccessKey" Value="True" />
     </Style>
 
-    <Style Selector="^ /template/ ContentPresenter#PART_HeaderPresenter">
+    <!-- Hairline under the header: one spacing step of air on either side so it never touches the text -->
+    <Style Selector="^ /template/ Rectangle#PART_HeaderDivider">
+      <Setter Property="Height" Value="{size:ThicknessSmDouble}" />
+      <Setter Property="Fill" Value="{color:AccentBrush Light6}" />
+      <Setter Property="Margin" Value="{size:Edges Top={size:SpacingMd}, Bottom={size:SpacingMd}}" />
+    </Style>
+
+    <!-- Disabled state: whole-control dimming, like every other control -->
+    <Style Selector="^:disabled">
+      <Setter Property="Opacity" Value="{size:DisabledOpacity}" />
+    </Style>
+
+    <!-- Access key support -->
+    <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
       <Setter Property="RecognizesAccessKey" Value="True" />
     </Style>
 

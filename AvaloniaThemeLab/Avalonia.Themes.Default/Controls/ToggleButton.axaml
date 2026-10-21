@@ -4,30 +4,23 @@
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
                     xmlns:color="using:AngelSix.ThemeEngine.Colors"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes">
-  <!-- Design preview: interaction states demoed on the unchecked row; checked and indeterminate rows carry the non-default hues. Declared before Design.PreviewWith uses it -->
+  <!-- Design preview: one vertical column, one fixed width wide enough for the longest label. States are pinned on
+       UNPINNED-HUE instances wherever possible, so the crawler's state pass proves them live; the pinned Checked and
+       Checked·Warning·Hover rows stay untouched by the crawler and hold the filled column in the resting frame.
+       Declared before Design.PreviewWith uses it -->
   <DataTemplate x:Key="ToggleButtonPreview">
-    <StackPanel Spacing="{size:SpacingXxl}" HorizontalAlignment="Left">
-      <!-- Interaction states behave identically across all three logical states, so only the unchecked row demos them -->
-      <StackPanel Orientation="Horizontal" Spacing="{size:SpacingXxl}">
-        <ToggleButton Content="Default" />
-        <ToggleButton theme:Preview.State="Hover" Content="Hover" />
-        <ToggleButton theme:Preview.State="Pressed" Content="Pressed" />
-        <ToggleButton theme:Preview.State="Focused" Content="Focused" />
-        <ToggleButton Content="Disabled" IsEnabled="False" />
-      </StackPanel>
-      <!-- Non-default hues ride along with a stateful instance instead of owning a row -->
-      <StackPanel Orientation="Horizontal" Spacing="{size:SpacingXxl}">
-        <ToggleButton Content="Checked" IsChecked="True" />
-        <ToggleButton theme:Accent.Kind="Warning" theme:Preview.State="Hover" Content="Checked + Hover" IsChecked="True" />
-        <ToggleButton theme:Preview.State="Pressed" Content="Checked + Pressed" IsChecked="True" />
-        <ToggleButton Content="Checked + Disabled" IsChecked="True" IsEnabled="False" />
-      </StackPanel>
-      <StackPanel Orientation="Horizontal" Spacing="{size:SpacingXxl}">
-        <ToggleButton Content="Indeterminate" IsThreeState="True" IsChecked="{x:Null}" />
-        <ToggleButton theme:Accent.Kind="Success" theme:Preview.State="Hover" Content="Indet + Hover" IsThreeState="True" IsChecked="{x:Null}" />
-        <ToggleButton theme:Preview.State="Pressed" Content="Indet + Pressed" IsThreeState="True" IsChecked="{x:Null}" />
-        <ToggleButton Content="Indet + Disabled" IsThreeState="True" IsChecked="{x:Null}" IsEnabled="False" />
-      </StackPanel>
+    <StackPanel Spacing="{size:SpacingXl}" HorizontalAlignment="Left">
+      <ToggleButton Width="240" Content="Unchecked" />
+      <ToggleButton Width="240" theme:Preview.State="Hover" Content="Hover" />
+      <ToggleButton Width="240" theme:Preview.State="Pressed" Content="Pressed" />
+      <ToggleButton Width="240" theme:Preview.State="Focused" Content="Focused" />
+      <ToggleButton Width="240" IsEnabled="False" Content="Disabled" />
+      <ToggleButton Width="240" IsChecked="True" Content="Checked" />
+      <ToggleButton Width="240" theme:Accent.Kind="Warning" theme:Preview.State="Hover" IsChecked="True" Content="Checked · Warning · Hover" />
+      <ToggleButton Width="240" IsChecked="True" IsEnabled="False" Content="Checked · Disabled" />
+      <ToggleButton Width="240" IsThreeState="True" IsChecked="{x:Null}" Content="Indeterminate" />
+      <ToggleButton Width="240" theme:Accent.Kind="Success" IsThreeState="True" IsChecked="{x:Null}" Content="Indeterminate · Success" />
+      <ToggleButton Width="240" IsThreeState="True" IsChecked="{x:Null}" IsEnabled="False" Content="Indeterminate · Disabled" />
     </StackPanel>
   </DataTemplate>
 
@@ -47,10 +40,10 @@
        ============================================================ -->
   <ControlTheme x:Key="{x:Type ToggleButton}" TargetType="ToggleButton">
 
-    <!-- Visual defaults -->
+    <!-- Visual defaults: identical to Button (outlined column) -->
     <Setter Property="Background" Value="{color:BackgroundDefault}" />
     <Setter Property="Foreground" Value="{color:TextDefault}" />
-    <Setter Property="BorderBrush" Value="Transparent" />
+    <Setter Property="BorderBrush" Value="{color:BorderDefault}" />
     <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
     <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
     <Setter Property="Padding" Value="{size:Edges Horizontal={size:ContentPaddingWide}, Vertical={size:ContentPadding}}" />
@@ -58,7 +51,7 @@
     <Setter Property="MinWidth" Value="{size:ControlMinWidth}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
     <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
-    <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
+    <Setter Property="HorizontalContentAlignment" Value="{theme:ButtonHorizontalContentAlignment}" />
     <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
     <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
 
@@ -92,108 +85,80 @@
       <Setter Property="RecognizesAccessKey" Value="True" />
     </Style>
 
-    <!-- Hover state -->
-    <Style Selector="^:pointerover, ^[(theme|Preview.State)=Hover]">
-      <Setter Property="RenderTransform" Value="{theme:TransformScale Value={size:PressedScale}, By=1.07}" />
-    </Style>
-
+    <!-- Hover state: identical to Button -->
     <Style Selector="^:pointerover, ^[(theme|Preview.State)=Hover]">
       <Setter Property="Background" Value="{color:HoverBackgroundDefault}" />
-      <Setter Property="BorderBrush" Value="Transparent" />
+      <Setter Property="Foreground" Value="{color:HoverTextDefault}" />
+      <Setter Property="RenderTransform" Value="{theme:TransformScale Value={size:PressedScale}, By=1.07}" />
+      <Setter Property="ZIndex" Value="{size:HoverZIndex}" />
     </Style>
 
-    <!-- Pressed state -->
+    <!-- Pressed state: identical to Button -->
     <Style Selector="^:pressed, ^[(theme|Preview.State)=Pressed]">
       <Setter Property="RenderTransform" Value="{theme:TransformScale Value={size:PressedScale}}" />
-    </Style>
-
-    <Style Selector="^:pressed, ^[(theme|Preview.State)=Pressed]">
       <Setter Property="Background" Value="{color:PressedBackgroundDefault}" />
-      <Setter Property="BorderBrush" Value="Transparent" />
     </Style>
 
-    <!-- Disabled state -->
+    <!-- Disabled state: identical to Button (whole-face dimming, no recoloured fill) -->
     <Style Selector="^:disabled">
       <Setter Property="Opacity" Value="{size:DisabledOpacity}" />
     </Style>
 
-    <Style Selector="^:disabled">
-      <Setter Property="Background" Value="{color:PressedBackgroundDefault}" />
-      <Setter Property="BorderBrush" Value="Transparent" />
-      <Setter Property="Foreground" Value="{color:DimTextDefault}" />
-    </Style>
-
-    <!-- Focus state -->
+    <!-- Focus state (Rule 21: the switch decides between the focus colour and the control's own hue) -->
     <Style Selector="^:focus-visible, ^[(theme|Preview.State)=Focused]">
-      <Setter Property="BorderBrush" Value="{color:AccentFocusBrush}" />
-      <Setter Property="BorderThickness" Value="{size:ThicknessMd}" />
+      <Setter Property="BorderBrush" Value="{default:FocusBrush}" />
+      <Setter Property="BorderThickness" Value="{default:FocusThickness}" />
     </Style>
 
     <!-- ============================================================
-         Template
+         Checked column (filled): the solid-fill face and its on-fill ink
          ============================================================ -->
 
-    <!-- Checked default -->
+    <!-- Checked default: the bright solid-fill face with the deep on-fill ink
+         (identical to the old Dark3 / Light10 pair in dark) -->
     <Style Selector="^:checked">
-      <Setter Property="Background" Value="{color:AccentBrush Dark3}" />
+      <Setter Property="Background" Value="{color:SolidFillDefault}" />
       <Setter Property="BorderBrush" Value="Transparent" />
-      <Setter Property="Foreground" Value="{color:AccentBrush Light10}" />
+      <Setter Property="Foreground" Value="{color:OnSolidFillInkDefault}" />
     </Style>
 
-    <!-- Checked hover -->
+    <!-- Checked hover: the solid face deepens one step (bright solid-fill hover role); the on-fill ink keeps
+         >= 3:1 on the deeper vivid face (identical to Dark4/Light10 in dark) -->
     <Style Selector="^:checked:pointerover, ^:checked[(theme|Preview.State)=Hover]">
-      <Setter Property="RenderTransform" Value="{theme:TransformScale Value={size:PressedScale}, By=1.07}" />
-      <Setter Property="Background" Value="{color:AccentBrush Dark4}" />
+      <Setter Property="Background" Value="{color:SolidFillHover}" />
       <Setter Property="BorderBrush" Value="Transparent" />
-      <Setter Property="Foreground" Value="{color:AccentBrush Light10}" />
+      <Setter Property="Foreground" Value="{color:OnSolidFillInkDefault}" />
     </Style>
 
-    <!-- Checked pressed -->
+    <!-- Checked pressed: the solid face deepens two steps (bright solid-fill pressed role); the on-fill ink
+         keeps >= 3:1 on the deepest vivid face (identical to Dark5/Light10 in dark) -->
     <Style Selector="^:checked:pressed, ^:checked[(theme|Preview.State)=Pressed]">
-      <Setter Property="RenderTransform" Value="{theme:TransformScale Value={size:PressedScale}}" />
-      <Setter Property="Background" Value="{color:AccentBrush Dark5}" />
+      <Setter Property="Background" Value="{color:SolidFillPressed}" />
       <Setter Property="BorderBrush" Value="Transparent" />
-      <Setter Property="Foreground" Value="{color:AccentBrush Light10}" />
+      <Setter Property="Foreground" Value="{color:OnSolidFillInkDefault}" />
     </Style>
 
-    <!-- Checked disabled: no fill and full opacity, so the dimmed text sits on the canvas at the dim-text contrast -->
-    <Style Selector="^:checked:disabled">
-      <Setter Property="Opacity" Value="1" />
-      <Setter Property="Background" Value="Transparent" />
-      <Setter Property="BorderBrush" Value="Transparent" />
-      <Setter Property="Foreground" Value="{color:DimTextDefault}" />
-    </Style>
+    <!-- Checked disabled: keeps the filled column under Button's whole-face dimming (Opacity 0.3),
+         so it reads as a disabled dark toggle rather than a lit one -->
 
     <!-- ============================================================
-         Template
+         Indeterminate column: the outlined ramp one stage deeper than rest
          ============================================================ -->
 
     <!-- Indeterminate default -->
     <Style Selector="^:indeterminate">
       <Setter Property="Background" Value="{color:HoverBackgroundDefault}" />
-      <Setter Property="BorderBrush" Value="Transparent" />
     </Style>
 
     <!-- Indeterminate hover -->
     <Style Selector="^:indeterminate:pointerover, ^:indeterminate[(theme|Preview.State)=Hover]">
-      <Setter Property="RenderTransform" Value="{theme:TransformScale Value={size:PressedScale}, By=1.07}" />
-      <Setter Property="Background" Value="{color:AccentBrush Light8}" />
-      <Setter Property="BorderBrush" Value="{color:BorderDefault}" />
+      <Setter Property="Background" Value="{color:PressedBackgroundDefault}" />
+      <Setter Property="Foreground" Value="{color:HoverTextDefault}" />
     </Style>
 
     <!-- Indeterminate pressed -->
     <Style Selector="^:indeterminate:pressed, ^:indeterminate[(theme|Preview.State)=Pressed]">
-      <Setter Property="RenderTransform" Value="{theme:TransformScale Value={size:PressedScale}}" />
-      <Setter Property="Background" Value="{color:AccentBrush Light6}" />
-      <Setter Property="BorderBrush" Value="Transparent" />
-    </Style>
-
-    <!-- Indeterminate disabled -->
-    <Style Selector="^:indeterminate:disabled">
-      <Setter Property="Opacity" Value="{size:DisabledOpacity}" />
-      <Setter Property="Background" Value="{color:AccentBrush Light6}" />
-      <Setter Property="BorderBrush" Value="Transparent" />
-      <Setter Property="Foreground" Value="{color:DimTextDefault}" />
+      <Setter Property="Background" Value="{color:PressedBackgroundDefault}" />
     </Style>
 
   </ControlTheme>

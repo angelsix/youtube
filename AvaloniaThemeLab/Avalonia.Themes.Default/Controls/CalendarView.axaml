@@ -15,12 +15,16 @@
        (:selected/:in-range/:today) derive from the engine's own selection model, not Preview.State —
        so each calendar packs its public options densely instead of multiplying instances -->
   <DataTemplate x:Key="CalendarViewPreview">
-    <StackPanel Spacing="{size:SpacingXxl}" HorizontalAlignment="Left">
+    <!-- Standard stacked-preview spacing (the SpacingXl every other stacked preview uses) -->
+    <StackPanel Spacing="{size:SpacingXl}" HorizontalAlignment="Left">
       <!-- Default -->
       <controls:CalendarView HorizontalAlignment="Stretch" />
 
       <!-- One calendar carries every dense option at once: week-number gutter, event dots,
-           a selected range (painting :in-range days), and the Success hue tinting nav + selection -->
+           a selected range (painting :in-range days), and the Primary hue tinting nav + selection.
+           Left-aligned on purpose: the theme now keeps the card's desired width constant across
+           display modes (the gutter placeholder holds the week-number column's width while the
+           engine hides its labels), so clicking into year view must not narrow this example -->
       <controls:CalendarView x:DataType="design:CalendarViewDesignModel"
                              theme:Accent.Kind="Primary"
                              IsWeekNumberVisible="True"
@@ -29,8 +33,13 @@
                              RangeEnd="2026-09-25"
                              DataContext="{x:Static design:CalendarViewDesignData.Sample}"
                              Events="{Binding Events}" />
-      <!-- Picker chrome is a distinct surface (inline root, hover/focus rings), shown alone -->
-      <controls:CalendarView DisplayAsPicker="True" theme:Accent.Kind="Subtle" HorizontalAlignment="Stretch" />
+      <!-- Picker chrome is a distinct surface (inline root, hover/focus rings). Fixed sample date so the
+           typed value, its left padding and its centring are visible; fixed width matching the calendars above -->
+      <controls:CalendarView DisplayAsPicker="True" theme:Accent.Kind="Subtle"
+                             SelectedDate="2026-09-18" Width="268" />
+      <!-- Same picker pinned focused: the concentric focus ring on the frame, centred on its stroke -->
+      <controls:CalendarView DisplayAsPicker="True" theme:Accent.Kind="Subtle"
+                             SelectedDate="2026-09-18" Width="268" theme:Preview.State="Focused" />
     </StackPanel>
   </DataTemplate>
 
@@ -63,6 +72,14 @@
     <Setter Property="HorizontalContentAlignment" Value="Center" />
     <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
 
+    <!-- Press animation: rest transform none, tweened over the fast duration (same tokens as Button) -->
+    <Setter Property="RenderTransform" Value="none" />
+    <Setter Property="Transitions">
+      <Transitions>
+        <TransformOperationsTransition Property="RenderTransform" Duration="{theme:AnimationFastMs}" />
+      </Transitions>
+    </Setter>
+
     <!-- Template -->
     <Setter Property="Template">
       <ControlTemplate>
@@ -76,7 +93,19 @@
       </ControlTemplate>
     </Setter>
 
-    <!-- Pressed state -->
+    <!-- Chevron arrows only (the .navarrow class): the header label and the picker arrow keep their
+         rest size. Hover grows the chevron slightly, painting over its neighbours (Button's hover) -->
+    <Style Selector="^.navarrow:pointerover">
+      <Setter Property="RenderTransform" Value="{theme:TransformScale Value={size:PressedScale}, By=1.07}" />
+      <Setter Property="ZIndex" Value="{size:HoverZIndex}" />
+    </Style>
+
+    <!-- Pressed state: the chevron shrinks (Button's press) -->
+    <Style Selector="^.navarrow:pressed">
+      <Setter Property="RenderTransform" Value="{theme:TransformScale Value={size:PressedScale}}" />
+    </Style>
+
+    <!-- Pressed ink dims while held -->
     <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter">
       <Setter Property="Foreground" Value="{color:DimTextDefault}" />
     </Style>
@@ -325,6 +354,7 @@
                         Content="{TemplateBinding HeaderText}" />
                 <!-- Goes to the previous month, year or decade -->
                 <Button Name="PART_PreviousButton"
+                        Classes="navarrow"
                         Grid.Column="1"
                         Theme="{StaticResource DefaultCalendarViewNavButton}"
                         Foreground="{TemplateBinding Foreground}">
@@ -335,6 +365,7 @@
                 </Button>
                 <!-- Goes to the next month, year or decade -->
                 <Button Name="PART_NextButton"
+                        Classes="navarrow"
                         Grid.Column="2"
                         Theme="{StaticResource DefaultCalendarViewNavButton}"
                         Foreground="{TemplateBinding Foreground}">
@@ -351,6 +382,13 @@
                 <Grid Name="PART_MonthBody"
                       ColumnDefinitions="Auto,*,*,*,*,*,*,*"
                       RowDefinitions="Auto,*,*,*,*,*,*">
+                  <!-- Holds the week-number gutter's width while the engine hides its labels outside
+                       month view: an always-measured spacer spanning the six day rows of column 0, so
+                       the card's desired width never drops when clicked into year or decade view -->
+                  <Border Name="GutterSpacer"
+                          Grid.RowSpan="6" Grid.Row="1" Grid.Column="0"
+                          IsHitTestVisible="False"
+                          Background="Transparent" />
                   <TextBlock Classes="weeknumber" Grid.Row="1" Grid.Column="0" Focusable="False" />
                   <TextBlock Classes="weeknumber" Grid.Row="2" Grid.Column="0" Focusable="False" />
                   <TextBlock Classes="weeknumber" Grid.Row="3" Grid.Column="0" Focusable="False" />
@@ -406,15 +444,15 @@
                   BorderThickness="{size:ThicknessMd}"
                   Margin="{size:ThicknessSm}"
                   CornerRadius="{default:ConcentricCorners Radius={TemplateBinding CornerRadius}, Stroke={size:ThicknessMd}, All=True}" />
-          <!-- Focus outline for the picker frame, revealed on :picker:focus-within; same constant footprint -->
+          <!-- Focus outline for the picker frame, revealed on :picker:focus-within; centred on the frame's
+               stroke (no inset margin) so no grey frame pixel shows outside the ring -->
           <Border Name="PickerFocusRing"
                   IsVisible="False"
                   IsHitTestVisible="False"
                   Background="Transparent"
                   BorderBrush="{color:AccentFocusBrush}"
                   BorderThickness="{size:ThicknessMd}"
-                  Margin="{size:ThicknessSm}"
-                  CornerRadius="{default:ConcentricCorners Radius={TemplateBinding CornerRadius}, Stroke={size:ThicknessMd}, All=True}" />
+                  CornerRadius="{default:ConcentricCorners Radius={TemplateBinding CornerRadius}, Thickness={TemplateBinding BorderThickness}, Inset={ReflectionBinding Path=Margin, RelativeSource={RelativeSource Self}}, Stroke={size:ThicknessMd}, All=True}" />
 
           <!-- The calendar shown when picking from the text box -->
           <Popup Name="PART_Popup"
@@ -447,10 +485,10 @@
       <Setter Property="FontWeight" Value="{theme:FontWeightSemiBold}" />
     </Style>
 
-    <!-- Picker text box: MinWidth sized off the date typeface -->
+    <!-- Picker text box: MinWidth sized off the date typeface; content padding matches every other field -->
     <Style Selector="^ /template/ TextBox#PART_TextBox">
-      <Setter Property="Padding" Value="{size:Edges Horizontal={size:SpacingMd}, Vertical={size:SpacingMd}}" />
-      <Setter Property="HorizontalAlignment" Value="Stretch"></Setter>
+      <Setter Property="Padding" Value="{size:Edges Horizontal={size:ContentPadding}, Vertical={size:SpacingMd}}" />
+      <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
       <Setter Property="MinWidth" Value="{size:Scaled Value={size:FontSizeMd}, By=8}" />
     </Style>
 
@@ -478,16 +516,28 @@
          to Helvetica (measured 25 September 2026: 13px lines instead of 16px once a calendar had opened). -->
     <Style Selector="^ /template/ TextBlock.weeknumber">
       <Setter Property="FontSize" Value="{size:FontSizeSm}" />
-      <Setter Property="FontWeight" Value="Bold" />
+      <Setter Property="FontWeight" Value="{theme:FontWeightBold}" />
       <Setter Property="Foreground" Value="{color:AccentBrush Dark4}" />
+      <!-- Theme Exception: Centres the week number in its gutter column; the theme's horizontal content
+           alignment is Left (text fields), which would hug the number to the column edge -->
       <Setter Property="HorizontalAlignment" Value="Center" />
-      <Setter Property="VerticalAlignment" Value="Center" />
+      <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
       <Setter Property="Margin" Value="{size:Edges Left={size:SpacingSm}}" />
     </Style>
 
     <!-- Gutter width once week numbers switch on -->
     <Style Selector="^:hasweeknumbers /template/ TextBlock.weeknumber">
       <Setter Property="MinWidth" Value="{size:Scaled Value={size:FontSizeSm}, By=2}" />
+    </Style>
+
+    <!-- Gutter spacer: the engine hides the week-number LABELS outside month view (IsVisible=False),
+         which would empty the Auto gutter column and drop the card's desired width. The spacer keeps
+         measuring the same slot in every display mode, so a Left-aligned calendar holds its month-view
+         width through year and decade alike. Sized off the SAME tokens as the labels above (their
+         MinWidth plus their left Margin), so the gutter it holds is exactly the labels' own width. -->
+    <Style Selector="^:hasweeknumbers /template/ Border#GutterSpacer">
+      <Setter Property="MinWidth" Value="{size:Scaled Value={size:FontSizeSm}, By=2}" />
+      <Setter Property="Margin" Value="{size:Edges Left={size:SpacingSm}}" />
     </Style>
 
     <!-- Picker presentation -->
@@ -516,8 +566,9 @@
       <Setter Property="IsVisible" Value="True" />
     </Style>
 
-    <!-- Picker focus state: reveal the picker frame's concentric outline; the frame keeps its rest thickness -->
-    <Style Selector="^:picker:focus-within /template/ Border#PickerFocusRing">
+    <!-- Picker focus state: reveal the picker frame's concentric outline; the frame keeps its rest thickness.
+         Paired with the Preview.State hook so a pinned Focused preview paints the same ring (house pattern) -->
+    <Style Selector="^:picker:focus-within /template/ Border#PickerFocusRing, ^[(theme|Preview.State)=Focused] /template/ Border#PickerFocusRing">
       <Setter Property="IsVisible" Value="True" />
     </Style>
   </ControlTheme>

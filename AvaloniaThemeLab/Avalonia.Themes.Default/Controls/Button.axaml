@@ -79,42 +79,45 @@
     <!-- Template -->
     <Setter Property="Template">
       <ControlTemplate>
-        <!-- The button face -->
-        <Border x:Name="PART_Border"
-                Background="{TemplateBinding Background}"
-                BorderBrush="{TemplateBinding BorderBrush}"
-                BorderThickness="{TemplateBinding BorderThickness}"
-                CornerRadius="{TemplateBinding CornerRadius}"
-                Padding="{TemplateBinding Padding}">
-          <!-- Content area, overlaying the strut and the icon layout -->
-          <Panel>
-            <!-- Strut: one empty text line, at least a text button's height -->
-            <TextBlock x:Name="PART_Strut" />
+        <!-- Validation error message under the face while the value is invalid -->
+        <DataValidationErrors>
+          <!-- The button face -->
+          <Border x:Name="PART_Border"
+                  Background="{TemplateBinding Background}"
+                  BorderBrush="{TemplateBinding BorderBrush}"
+                  BorderThickness="{TemplateBinding BorderThickness}"
+                  CornerRadius="{TemplateBinding CornerRadius}"
+                  Padding="{TemplateBinding Padding}">
+            <!-- Content area, overlaying the strut and the icon layout -->
+            <Panel>
+              <!-- Strut: one empty text line, at least a text button's height -->
+              <TextBlock x:Name="PART_Strut" />
 
-            <!-- Docks the icon beside the label -->
-            <!-- Fills only with a label: without one, DockPanel drops the icon's trailing gap -->
-            <DockPanel x:Name="PART_IconLayout"
-                       LastChildFill="{TemplateBinding Content, Converter={x:Static ObjectConverters.IsNotNull}}"
-                       HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                       VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
-              <!-- The button's icon -->
-              <PathIcon x:Name="PART_Icon"
-                        DockPanel.Dock="{TemplateBinding Icon.Placement}"
-                        Data="{TemplateBinding Icon.Data}"
-                        IsVisible="{TemplateBinding Icon.Data, Converter={x:Static ObjectConverters.IsNotNull}}"
-                        HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                        VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+              <!-- Docks the icon beside the label -->
+              <!-- Fills only with a label: without one, DockPanel drops the icon's trailing gap -->
+              <DockPanel x:Name="PART_IconLayout"
+                         LastChildFill="{TemplateBinding Content, Converter={x:Static ObjectConverters.IsNotNull}}"
+                         HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                         VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
+                <!-- The button's icon -->
+                <PathIcon x:Name="PART_Icon"
+                          DockPanel.Dock="{TemplateBinding Icon.Placement}"
+                          Data="{TemplateBinding Icon.Data}"
+                          IsVisible="{TemplateBinding Icon.Data, Converter={x:Static ObjectConverters.IsNotNull}}"
+                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
 
-              <!-- The button's label -->
-              <ContentPresenter x:Name="PART_ContentPresenter"
-                                IsVisible="{TemplateBinding Content, Converter={x:Static ObjectConverters.IsNotNull}}"
-                                Content="{TemplateBinding Content}"
-                                ContentTemplate="{TemplateBinding ContentTemplate}"
-                                HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
-            </DockPanel>
-          </Panel>
-        </Border>
+                <!-- The button's label -->
+                <ContentPresenter x:Name="PART_ContentPresenter"
+                                  IsVisible="{TemplateBinding Content, Converter={x:Static ObjectConverters.IsNotNull}}"
+                                  Content="{TemplateBinding Content}"
+                                  ContentTemplate="{TemplateBinding ContentTemplate}"
+                                  HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                  VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+              </DockPanel>
+            </Panel>
+          </Border>
+        </DataValidationErrors>
       </ControlTemplate>
     </Setter>
 
@@ -154,11 +157,18 @@
       <Setter Property="Opacity" Value="{size:DisabledOpacity}" />
     </Style>
 
-    <!-- Focus state -->
-    <Style Selector="^:focus-visible, ^[(theme|Preview.State)=Focused]">
-      <Setter Property="BorderBrush" Value="{color:AccentFocusBrush}" />
-      <Setter Property="BorderThickness" Value="{size:ThicknessMd}" />
+    <!-- Focus state (Rule 21: the switch decides between the focus colour and the control's own hue).
+         Painted on the face part, as ButtonSpinner does: the control's own border metrics stay put,
+         so nothing relays the ring into the validation host's width tracking -->
+    <Style Selector="^:focus-visible /template/ Border#PART_Border, ^[(theme|Preview.State)=Focused] /template/ Border#PART_Border">
+      <Setter Property="BorderBrush" Value="{default:FocusBrush}" />
+      <Setter Property="BorderThickness" Value="{default:FocusThickness}" />
     </Style>
-    
+
+    <!-- Error state: an error is always the Error hue, so a pinned seed is right here -->
+    <Style Selector="^:error">
+      <Setter Property="BorderBrush" Value="{color:AccentErrorBrush}" />
+    </Style>
+
   </ControlTheme>
 </ResourceDictionary>

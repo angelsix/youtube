@@ -89,7 +89,7 @@ public class LightDarkPreview : ContentControl
     public static IReadOnlyList<AccentKind> AccentChoices { get; } =
     [
         AccentKind.Neutral, AccentKind.Primary, AccentKind.Success, AccentKind.Warning,
-        AccentKind.Error, AccentKind.Info, AccentKind.Destructive, AccentKind.Subtle,
+        AccentKind.Favourite, AccentKind.Error, AccentKind.Info, AccentKind.Destructive, AccentKind.Subtle,
     ];
 
     /// <summary>The template both panes present. Kept in sync by <see cref="OnPropertyChanged"/>

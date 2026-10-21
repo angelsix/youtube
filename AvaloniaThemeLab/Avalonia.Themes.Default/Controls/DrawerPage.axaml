@@ -10,43 +10,59 @@
   <DataTemplate x:Key="DrawerPagePreview">
     <StackPanel Orientation="Vertical" Spacing="{size:SpacingXl}">
       <StackPanel Orientation="Vertical" Spacing="{size:SpacingMd}">
-        <TextBlock Text="Default · Open" FontSize="{size:FontSizeSm}" Opacity="0.7" />
-        <Border Width="360" Height="150">
-          <DrawerPage Header="Menu" DrawerLength="150" IsOpen="True">
-            <DrawerPage.Drawer>
-              <TextBlock Text="NAV" Margin="{size:SpacingXl}" />
-            </DrawerPage.Drawer>
-            <DrawerPage.Content>
-              <TextBlock Text="Main content" HorizontalAlignment="Center" VerticalAlignment="Center" />
-            </DrawerPage.Content>
-          </DrawerPage>
-        </Border>
+        <TextBlock Text="Overlay · Open" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
+        <!-- One rounded unit: the DrawerPage draws the frame itself (thickness/radius/border colour)
+             and masks its contents to that frame's inner curve, so the menu bar, the nav pane and
+             the content read together and nothing paints over the border -->
+        <DrawerPage Width="362" Height="152" Header="Menu" DrawerLength="150" IsOpen="True">
+          <DrawerPage.Drawer>
+            <!-- Centred so the nav breathes equally on all four sides of the pane -->
+            <TextBlock Text="NAV" HorizontalAlignment="Center" VerticalAlignment="Center" />
+          </DrawerPage.Drawer>
+          <DrawerPage.Content>
+            <ContentPage BorderThickness="0" Background="Transparent" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+              <!-- In Overlay the content slot runs under the floating pane, so a column reserved at the pane's own
+                   width (fixed 150, matching this example's DrawerLength) keeps the text centred in the visible page area -->
+              <Grid ColumnDefinitions="150,*">
+                <TextBlock Grid.Column="1" Text="Main content" HorizontalAlignment="Center" VerticalAlignment="Center" />
+              </Grid>
+            </ContentPage>
+          </DrawerPage.Content>
+        </DrawerPage>
       </StackPanel>
       <StackPanel Orientation="Vertical" Spacing="{size:SpacingMd}">
-        <TextBlock Text="CompactOverlay · Open" FontSize="{size:FontSizeSm}" Opacity="0.7" />
-        <Border Width="360" Height="150">
-          <DrawerPage Header="Menu" DrawerLength="150" DisplayMode="CompactOverlay" IsOpen="True">
-            <DrawerPage.Drawer>
-              <TextBlock Text="NAV" Margin="{size:SpacingXl}" />
-            </DrawerPage.Drawer>
-            <DrawerPage.Content>
+        <TextBlock Text="CompactOverlay · Open · Scrim" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
+        <!-- One rounded unit: the DrawerPage draws the frame itself and masks its contents to
+             that frame's inner curve -->
+        <!-- CompactDrawerLength 64 = the 40-wide toggle face plus the 8px inset on both sides -->
+        <DrawerPage Width="362" Height="152" Header="Menu" DisplayMode="CompactOverlay" DrawerLayoutBehavior="CompactOverlay" DrawerLength="150" CompactDrawerLength="64" IsOpen="True">
+          <DrawerPage.Drawer>
+            <!-- Centred so the nav breathes equally on all four sides of the pane -->
+            <TextBlock Text="NAV" HorizontalAlignment="Center" VerticalAlignment="Center" />
+          </DrawerPage.Drawer>
+          <DrawerPage.Content>
+            <ContentPage BorderThickness="0" Background="Transparent" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
               <TextBlock Text="Main content" HorizontalAlignment="Center" VerticalAlignment="Center" />
-            </DrawerPage.Content>
-          </DrawerPage>
-        </Border>
+            </ContentPage>
+          </DrawerPage.Content>
+        </DrawerPage>
       </StackPanel>
       <StackPanel Orientation="Vertical" Spacing="{size:SpacingMd}">
-        <TextBlock Text="Default · Closed" FontSize="{size:FontSizeSm}" Opacity="0.7" />
-        <Border Width="360" Height="150">
-          <DrawerPage Header="Menu" DrawerLength="150" IsOpen="False">
-            <DrawerPage.Drawer>
-              <TextBlock Text="NAV" Margin="{size:SpacingXl}" />
-            </DrawerPage.Drawer>
-            <DrawerPage.Content>
+        <TextBlock Text="CompactInline · Open" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
+        <!-- One rounded unit: the DrawerPage draws the frame itself and masks its contents to
+             that frame's inner curve -->
+        <!-- CompactDrawerLength 64 = the 40-wide toggle face plus the 8px inset on both sides -->
+        <DrawerPage Width="362" Height="152" Header="Menu" DisplayMode="CompactInline" DrawerLayoutBehavior="CompactInline" DrawerLength="150" CompactDrawerLength="64" IsOpen="True">
+          <DrawerPage.Drawer>
+            <!-- Centred so the nav breathes equally on all four sides of the pane -->
+            <TextBlock Text="NAV" HorizontalAlignment="Center" VerticalAlignment="Center" />
+          </DrawerPage.Drawer>
+          <DrawerPage.Content>
+            <ContentPage BorderThickness="0" Background="Transparent" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
               <TextBlock Text="Main content" HorizontalAlignment="Center" VerticalAlignment="Center" />
-            </DrawerPage.Content>
-          </DrawerPage>
-        </Border>
+            </ContentPage>
+          </DrawerPage.Content>
+        </DrawerPage>
       </StackPanel>
     </StackPanel>
   </DataTemplate>
@@ -62,7 +78,81 @@
     </Border>
   </Design.PreviewWith>
 
-  <SolidColorBrush x:Key="NavigationControlNavBarBackground" Color="{color:NeutralLight10}" />
+  <!-- ============================================================
+       Nav toggle
+       ============================================================ -->
+  <ControlTheme x:Key="DefaultDrawerPageNavToggle" TargetType="ToggleButton">
+
+    <!-- Visual defaults: outlined face, matching the ButtonSpinner reference look -->
+    <Setter Property="Background" Value="{color:BackgroundDefault}" />
+    <Setter Property="Foreground" Value="{color:TextDefault}" />
+    <Setter Property="BorderBrush" Value="{color:BorderDefault}" />
+    <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
+    <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
+    <!-- Uniform face padding on all four sides (task 77, bullet 2): the icon's left gap (SpacingXl) carried onto
+         every side from a theme token, so the glyph sits dead-centre with an even gap instead of leaning left/top -->
+    <Setter Property="Padding" Value="{size:Edges All={size:SpacingXl}}" />
+    <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
+    <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
+
+    <!-- Press animation -->
+    <Setter Property="RenderTransform" Value="none" />
+    <Setter Property="Transitions">
+      <Transitions>
+        <TransformOperationsTransition Property="RenderTransform" Duration="{theme:AnimationFastMs}" />
+      </Transitions>
+    </Setter>
+
+    <!-- Template -->
+    <Setter Property="Template">
+      <ControlTemplate>
+        <!-- The button's face -->
+        <Border Background="{TemplateBinding Background}"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}"
+                CornerRadius="{TemplateBinding CornerRadius}"
+                Padding="{TemplateBinding Padding}">
+          <!-- Carries the icon into the face -->
+          <ContentPresenter Name="PART_ContentPresenter"
+                            Content="{TemplateBinding Content}"
+                            Foreground="{TemplateBinding Foreground}"
+                            HorizontalContentAlignment="{theme:ButtonHorizontalContentAlignment}"
+                            VerticalContentAlignment="{theme:ControlVerticalContentAlignment}" />
+        </Border>
+      </ControlTemplate>
+    </Setter>
+
+    <!-- Hover state -->
+    <Style Selector="^:pointerover:not(:disabled)">
+      <Setter Property="Background" Value="{color:HoverBackgroundDefault}" />
+      <Setter Property="Foreground" Value="{color:HoverTextDefault}" />
+    </Style>
+
+    <!-- Pressed state -->
+    <Style Selector="^:pressed:not(:disabled)">
+      <Setter Property="Background" Value="{color:PressedBackgroundDefault}" />
+      <Setter Property="RenderTransform" Value="{theme:TransformScale Value={size:PressedScale}, By=1}" />
+    </Style>
+
+    <!-- The hamburger's look does NOT depend on the drawer state (Luke, third review).
+         The toggle is bound to the pane's IsPaneOpen, so a :checked style would make the button
+         a filled dark face whenever the drawer is open and a plain outlined face when it is
+         closed: the same control would look like two different controls. A hamburger is one
+         control with one look; the open drawer's own pane and scrim say which state it is in.
+         So there is deliberately no :checked block here. -->
+
+    <!-- Disabled state -->
+    <Style Selector="^:disabled">
+      <Setter Property="Opacity" Value="{size:DisabledOpacity}" />
+    </Style>
+
+    <!-- Focus state (Rule 21: the switch decides between the focus colour and the control's own hue) -->
+    <Style Selector="^:focus-visible /template/ Border">
+      <Setter Property="BorderBrush" Value="{default:FocusBrush}" />
+      <Setter Property="BorderThickness" Value="{default:FocusThickness}" />
+    </Style>
+  </ControlTheme>
 
   <!-- ============================================================
        Template
@@ -71,213 +161,242 @@
 
     <!-- Visual defaults -->
     <Setter Property="Background" Value="{color:BackgroundDefault}" />
+    <!-- The page's own frame: the one rounded outline every other boxed control draws.
+         The fills inside it are masked to this frame's inner curve (Rule 19) -->
+    <Setter Property="BorderBrush" Value="{color:BorderDefault}" />
+    <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
+    <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
     <Setter Property="Foreground" Value="{color:TextDefault}" />
+    <Setter Property="DrawerBackground" Value="{color:AccentBrush Light6}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
     <Setter Property="VerticalAlignment" Value="{theme:ContainerVerticalAlignment}" />
     <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
-    <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
+    <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalAlignment}" />
     <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
 
     <!-- Template -->
     <Setter Property="Template">
       <ControlTemplate>
-        <!-- Slides the drawer in beside the page content -->
-        <SplitView Name="PART_SplitView"
-                   DisplayMode="{TemplateBinding DisplayMode}"
-                   OpenPaneLength="{TemplateBinding DrawerLength}"
-                   CompactPaneLength="{TemplateBinding CompactDrawerLength}"
-                   PaneBackground="{Binding DrawerBackground, RelativeSource={RelativeSource TemplatedParent}}"
-                   IsPaneOpen="{Binding IsOpen, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}">
-          <SplitView.Pane>
-            <!-- Layout root for the drawer's own contents -->
-            <DockPanel Background="{TemplateBinding DrawerBackground}">
-              <!-- Compact-mode toggle: visible only in CompactOverlay/CompactInline. -->
-              <ToggleButton Name="PART_CompactPaneToggle"
-                            DockPanel.Dock="Top"
-                            IsChecked="{Binding #PART_SplitView.IsPaneOpen, Mode=TwoWay}"
-                            Background="Transparent"
-                            IsVisible="False"
-                            HorizontalAlignment="Left"
-                            Width="{TemplateBinding CompactDrawerLength}"
-                            Height="{TemplateBinding CompactDrawerLength}"
-                            AutomationProperties.Name="Toggle navigation drawer"
-                            ToolTip.Tip="Toggle navigation drawer">
-                <!-- Overlaps the default icon and a custom one -->
-                <Panel>
-                  <!-- Default hamburger icon -->
-                  <PathIcon
-                    IsVisible="{Binding DrawerIcon, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static ObjectConverters.IsNull}}"
-                    Data="{DynamicResource DrawerPaneButtonIcon}"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"/>
-                  <!-- Custom drawer icon, when one is supplied -->
-                  <ContentPresenter
-                    Name="PART_CompactPaneIconPresenter"
-                    Content="{TemplateBinding DrawerIcon}"
-                    ContentTemplate="{TemplateBinding DrawerIconTemplate}"
-                    IsVisible="{Binding DrawerIcon, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static ObjectConverters.IsNotNull}}"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"/>
-                </Panel>
-              </ToggleButton>
-              <!-- Content pinned to the top of the drawer -->
-              <ContentPresenter Name="PART_DrawerHeader"
-                                DockPanel.Dock="Top"
-                                Content="{TemplateBinding DrawerHeader}"
-                                ContentTemplate="{TemplateBinding DrawerHeaderTemplate}"
-                                Background="{TemplateBinding DrawerHeaderBackground}"
-                                IsVisible="{TemplateBinding DrawerHeader, Converter={x:Static ObjectConverters.IsNotNull}}" />
-              <!-- Content pinned to the bottom of the drawer -->
-              <ContentPresenter Name="PART_DrawerFooter"
-                                DockPanel.Dock="Bottom"
-                                Content="{TemplateBinding DrawerFooter}"
-                                ContentTemplate="{TemplateBinding DrawerFooterTemplate}"
-                                Background="{TemplateBinding DrawerFooterBackground}"
-                                IsVisible="{TemplateBinding DrawerFooter, Converter={x:Static ObjectConverters.IsNotNull}}" />
-              <!-- The drawer's main content, usually navigation -->
-              <ContentPresenter Name="PART_DrawerPresenter"
-                                HorizontalContentAlignment="Stretch"
-                                VerticalContentAlignment="Stretch"
-                                Content="{TemplateBinding Drawer}"
-                                ContentTemplate="{TemplateBinding DrawerTemplate}" />
-            </DockPanel>
-          </SplitView.Pane>
-          <!-- Layout root stacking the backdrop over the page -->
-          <Grid HorizontalAlignment="Stretch"
-                VerticalAlignment="Stretch">
-            <!-- Docks the top and bottom bars around the page -->
-            <DockPanel Name="PART_ContentDock">
+        <!-- The page's own frame: the one rounded outline every other boxed control draws.
+             The frame's own fill follows its own curve, so the border arc reads unbroken -->
+        <Border Name="PART_Frame"
+                Background="{TemplateBinding Background}"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}"
+                CornerRadius="{TemplateBinding CornerRadius}">
+          <!-- Masks the page's contents to the frame's INNER curve, so no fill paints past the
+               rounded border and the border arc stays unbroken (Rule 19). The radius is the
+               frame's own curve pulled in by its border thickness, from the theme's
+               ConcentricCorners helper. The mask sits on this inner panel, never on the frame
+               itself, so the frame's own stroke is not shaved (the DropDownButton pattern):
+               the frame's inner edge is at radius r - t/2, and the mask's own radius is
+               exactly that, so the fills meet the border and never cover it -->
+          <Border Name="PART_Clip"
+                  ClipToBounds="True"
+                  CornerRadius="{default:ConcentricCorners Radius={TemplateBinding CornerRadius}, Thickness={TemplateBinding BorderThickness}, All=True}">
+            <!-- Docks the bars above and below the page; the bars stay clear of the sliding pane -->
+            <DockPanel Name="PART_RootDock">
               <!-- The bar across the top of the page -->
-              <Border
-                Name="PART_TopBar"
-                Background="{DynamicResource NavigationControlNavBarBackground}"
-                DockPanel.Dock="Top">
+              <Border Name="PART_TopBar" DockPanel.Dock="Top">
                 <!-- Places the drawer button left of the title -->
-                <DockPanel HorizontalAlignment="Stretch">
-                  <DockPanel.Styles>
-                    <Styles>
-                      <Style Selector="Button:disabled /template/ Border#PART_Border">
-                        <Setter Property="Background"
-                                Value="Transparent" />
-                      </Style>
-                    </Styles>
-                  </DockPanel.Styles>
+                <DockPanel HorizontalAlignment="{theme:ContainerHorizontalAlignment}">
                   <!-- Opens and closes the drawer -->
                   <ToggleButton x:Name="PART_PaneButton"
+                                Theme="{StaticResource DefaultDrawerPageNavToggle}"
                                 IsChecked="{Binding #PART_SplitView.IsPaneOpen, Mode=TwoWay}"
-                                Background="Transparent"
                                 DockPanel.Dock="Left"
                                 AutomationProperties.Name="Toggle navigation drawer"
                                 ToolTip.Tip="Toggle navigation drawer">
                     <!-- Overlaps the default icon and a custom one -->
-                    <Panel>
+                    <Grid>
                       <!-- Default hamburger icon -->
                       <PathIcon
+                        Data="{icons:Menu}"
                         IsVisible="{Binding DrawerIcon, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static ObjectConverters.IsNull}}"
-                        Data="{DynamicResource DrawerPaneButtonIcon}"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"/>
+                        HorizontalAlignment="{theme:ControlHorizontalAlignment}"
+                        VerticalAlignment="{theme:ControlVerticalAlignment}" />
                       <!-- Custom drawer icon, when one is supplied -->
                       <ContentPresenter
                         Name="PART_PaneIconPresenter"
                         Content="{TemplateBinding DrawerIcon}"
                         ContentTemplate="{TemplateBinding DrawerIconTemplate}"
                         IsVisible="{Binding DrawerIcon, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static ObjectConverters.IsNotNull}}"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"/>
-                    </Panel>
+                        HorizontalAlignment="{theme:ControlHorizontalAlignment}"
+                        VerticalAlignment="{theme:ControlVerticalAlignment}" />
+                    </Grid>
                   </ToggleButton>
                   <!-- The page title -->
                   <ContentControl x:Name="PART_TitlePresenter"
                                   Content="{TemplateBinding Header}"
-                                  VerticalAlignment="Center"
-                                  VerticalContentAlignment="Center"
+                                  VerticalAlignment="{theme:ControlVerticalAlignment}"
+                                  VerticalContentAlignment="{theme:ControlVerticalContentAlignment}"
                                   IsVisible="{TemplateBinding Header, Converter={x:Static ObjectConverters.IsNotNull}}" />
                 </DockPanel>
               </Border>
               <!-- The bar across the bottom of the page -->
-              <Border
-                Name="PART_BottomBar"
-                Background="{DynamicResource NavigationControlNavBarBackground}"
-                DockPanel.Dock="Bottom"
-                IsVisible="False">
+              <Border Name="PART_BottomBar"
+                      DockPanel.Dock="Bottom"
+                      IsVisible="False">
                 <!-- Places the drawer button left of the title -->
-                <DockPanel HorizontalAlignment="Stretch">
-                  <DockPanel.Styles>
-                    <Styles>
-                      <Style Selector="Button:disabled /template/ Border#PART_Border">
-                        <Setter Property="Background"
-                                Value="Transparent" />
-                      </Style>
-                    </Styles>
-                  </DockPanel.Styles>
+                <DockPanel HorizontalAlignment="{theme:ContainerHorizontalAlignment}">
                   <!-- Opens and closes the drawer -->
                   <ToggleButton x:Name="PART_BottomPaneButton"
+                                Theme="{StaticResource DefaultDrawerPageNavToggle}"
                                 IsChecked="{Binding #PART_SplitView.IsPaneOpen, Mode=TwoWay}"
-                                Background="Transparent"
                                 DockPanel.Dock="Left"
                                 AutomationProperties.Name="Toggle navigation drawer"
                                 ToolTip.Tip="Toggle navigation drawer">
                     <!-- Overlaps the default icon and a custom one -->
-                    <Panel>
+                    <Grid>
                       <!-- Default hamburger icon -->
                       <PathIcon
+                        Data="{icons:Menu}"
                         IsVisible="{Binding DrawerIcon, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static ObjectConverters.IsNull}}"
-                        Data="{DynamicResource DrawerPaneButtonIcon}"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"/>
+                        HorizontalAlignment="{theme:ControlHorizontalAlignment}"
+                        VerticalAlignment="{theme:ControlVerticalAlignment}" />
                       <!-- Custom drawer icon, when one is supplied -->
                       <ContentPresenter
                         Name="PART_BottomPaneIconPresenter"
                         Content="{TemplateBinding DrawerIcon}"
                         ContentTemplate="{TemplateBinding DrawerIconTemplate}"
                         IsVisible="{Binding DrawerIcon, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static ObjectConverters.IsNotNull}}"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"/>
-                    </Panel>
+                        HorizontalAlignment="{theme:ControlHorizontalAlignment}"
+                        VerticalAlignment="{theme:ControlVerticalAlignment}" />
+                    </Grid>
                   </ToggleButton>
                   <!-- The page title -->
                   <ContentControl x:Name="PART_BottomTitlePresenter"
                                   Content="{TemplateBinding Header}"
-                                  VerticalAlignment="Center"
-                                  VerticalContentAlignment="Center"
+                                  VerticalAlignment="{theme:ControlVerticalAlignment}"
+                                  VerticalContentAlignment="{theme:ControlVerticalContentAlignment}"
                                   IsVisible="{TemplateBinding Header, Converter={x:Static ObjectConverters.IsNotNull}}" />
                 </DockPanel>
               </Border>
-              <!-- The page's content -->
-              <ContentPresenter Name="PART_ContentPresenter"
-                                HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                                Background="{TemplateBinding Background}"
-                                BorderBrush="{TemplateBinding BorderBrush}"
-                                BorderThickness="{TemplateBinding BorderThickness}"
-                                Content="{TemplateBinding Content}"
-                                ContentTemplate="{TemplateBinding ContentTemplate}"
-                                CornerRadius="{TemplateBinding CornerRadius}" />
+              <!-- Slides the drawer in beside the page content; unframed here: the page owns the one
+                   rounded outline, so the SplitView contributes no second border and no corners of
+                   its own. Its own frame stays square and the page's mask rounds the outer corners -->
+              <SplitView Name="PART_SplitView"
+                         BorderThickness="{size:Edges}"
+                         CornerRadius="{default:ConcentricCorners Radius={TemplateBinding CornerRadius}, Thickness={TemplateBinding BorderThickness}, All=True}"
+                         DisplayMode="{TemplateBinding DisplayMode}"
+                         OpenPaneLength="{TemplateBinding DrawerLength}"
+                         CompactPaneLength="{TemplateBinding CompactDrawerLength}"
+                         PaneBackground="{TemplateBinding DrawerBackground}"
+                         IsPaneOpen="{Binding IsOpen, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}">
+                <SplitView.Pane>
+                  <!-- The nav pane's own fill. Its right edge carries the pane divider, so the
+                       pane's inner edge stays square and only the page's outer corners round -->
+                  <Grid Name="PART_PaneRoot" Background="{TemplateBinding DrawerBackground}">
+                    <!-- The drawer's own column: header at the top, footer at the bottom and the
+                         navigation in between, so the navigation centres in the whole pane -->
+                    <DockPanel>
+                      <!-- Content pinned to the top of the drawer -->
+                      <ContentPresenter Name="PART_DrawerHeader"
+                                        DockPanel.Dock="Top"
+                                        Content="{TemplateBinding DrawerHeader}"
+                                        ContentTemplate="{TemplateBinding DrawerHeaderTemplate}"
+                                        Background="{TemplateBinding DrawerHeaderBackground}"
+                                        IsVisible="{TemplateBinding DrawerHeader, Converter={x:Static ObjectConverters.IsNotNull}}" />
+                      <!-- Content pinned to the bottom of the drawer -->
+                      <ContentPresenter Name="PART_DrawerFooter"
+                                        DockPanel.Dock="Bottom"
+                                        Content="{TemplateBinding DrawerFooter}"
+                                        ContentTemplate="{TemplateBinding DrawerFooterTemplate}"
+                                        Background="{TemplateBinding DrawerFooterBackground}"
+                                        IsVisible="{TemplateBinding DrawerFooter, Converter={x:Static ObjectConverters.IsNotNull}}" />
+                      <!-- The drawer's main content, usually navigation. Wrapped so the inset survives:
+                           the stock control re-applies its safe-area padding to PART_DrawerPresenter itself -->
+                      <Border Padding="{size:Edges All={size:ContentPadding}}">
+                        <ContentPresenter Name="PART_DrawerPresenter"
+                                          HorizontalContentAlignment="{theme:ContainerHorizontalAlignment}"
+                                          VerticalContentAlignment="{theme:ContainerVerticalAlignment}"
+                                          Content="{TemplateBinding Drawer}"
+                                          ContentTemplate="{TemplateBinding DrawerTemplate}" />
+                      </Border>
+                    </DockPanel>
+                    <!-- The compact-mode toggle floats over the pane's top-left corner, so it takes
+                         no layout space and never pushes the navigation off the pane's centre.
+                         It paints no fill of its own, so the pane's own surface shows through it -->
+                    <Border Name="PART_CompactPaneBand"
+                            VerticalAlignment="Top"
+                            Padding="{size:Edges All={size:SpacingLg}}"
+                            IsVisible="False">
+                      <!-- Compact-mode toggle: visible only in CompactOverlay/CompactInline. -->
+                      <ToggleButton Name="PART_CompactPaneToggle"
+                                    Theme="{StaticResource DefaultDrawerPageNavToggle}"
+                                    IsChecked="{Binding #PART_SplitView.IsPaneOpen, Mode=TwoWay}"
+                                    IsVisible="False"
+                                    HorizontalAlignment="{theme:ControlHorizontalAlignment}"
+                                    AutomationProperties.Name="Toggle navigation drawer"
+                                    ToolTip.Tip="Toggle navigation drawer">
+                        <!-- Overlaps the default icon and a custom one -->
+                        <Grid>
+                          <!-- Default hamburger icon -->
+                          <PathIcon
+                            Data="{icons:Menu}"
+                            IsVisible="{Binding DrawerIcon, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static ObjectConverters.IsNull}}"
+                            HorizontalAlignment="{theme:ControlHorizontalAlignment}"
+                            VerticalAlignment="{theme:ControlVerticalAlignment}" />
+                          <!-- Custom drawer icon, when one is supplied -->
+                          <ContentPresenter
+                            Name="PART_CompactPaneIconPresenter"
+                            Content="{TemplateBinding DrawerIcon}"
+                            ContentTemplate="{TemplateBinding DrawerIconTemplate}"
+                            IsVisible="{Binding DrawerIcon, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static ObjectConverters.IsNotNull}}"
+                            HorizontalAlignment="{theme:ControlHorizontalAlignment}"
+                            VerticalAlignment="{theme:ControlVerticalAlignment}" />
+                        </Grid>
+                      </ToggleButton>
+                    </Border>
+                  </Grid>
+                </SplitView.Pane>
+                <!-- Layout root stacking the backdrop over the page -->
+                <Grid HorizontalAlignment="{theme:ContainerHorizontalAlignment}"
+                      VerticalAlignment="{theme:ContainerVerticalAlignment}">
+                  <!-- The page's content: stretched to the page slot so a hosted page fills the area beside the pane;
+                       the page's own content alignment then centres its text in the visible area.
+                       Its fill is square: the page's mask rounds the outer corners of the whole page -->
+                  <ContentPresenter Name="PART_ContentPresenter"
+                                    HorizontalContentAlignment="{theme:ContainerHorizontalAlignment}"
+                                    VerticalContentAlignment="{theme:ContainerVerticalAlignment}"
+                                    Background="{TemplateBinding Background}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{size:Edges}"
+                                    Content="{TemplateBinding Content}"
+                                    ContentTemplate="{TemplateBinding ContentTemplate}"
+                                    CornerRadius="{default:ConcentricCorners Radius={TemplateBinding CornerRadius}, Thickness={TemplateBinding BorderThickness}, All=True}" />
+                  <!-- Dims the page while the drawer is open -->
+                  <Border Name="PART_Backdrop"
+                          Background="{TemplateBinding BackdropBrush}"
+                          IsVisible="False"
+                          IsHitTestVisible="False" />
+                </Grid>
+              </SplitView>
             </DockPanel>
-            <!-- Dims the page while the drawer is open -->
-            <Border Name="PART_Backdrop"
-                    Background="{TemplateBinding BackdropBrush}"
-                    IsVisible="False"
-                    IsHitTestVisible="False" />
-          </Grid>
-        </SplitView>
+          </Border>
+        </Border>
       </ControlTemplate>
     </Setter>
 
-    <!-- Themed defaults for inner template elements (Rule 2) -->
+    <!-- Bar metrics: the bar stands off the page surface so the title and toggle read in both panes.
+         No fixed height: the face plus the even SpacingLg inset defines it, so the toggle keeps the
+         same gap on all four sides of the bar (task 77, bullet 2). Its only outline is the hairline
+         along the bottom edge; the page's own frame supplies every other border and corner -->
     <Style Selector="^ /template/ Border#PART_TopBar">
+      <Setter Property="Background" Value="{color:PressedBackgroundDefault}" />
       <Setter Property="Padding" Value="{size:Edges All={size:SpacingLg}}" />
-      <Setter Property="Height" Value="{size:ControlHeightLg}" />
+      <Setter Property="BorderBrush" Value="{color:BorderDefault}" />
+      <Setter Property="BorderThickness" Value="{size:Edges Bottom={size:ThicknessSm}}" />
     </Style>
     <Style Selector="^ /template/ ContentControl#PART_TitlePresenter">
       <Setter Property="FontSize" Value="{size:FontSizeLg}" />
       <Setter Property="FontWeight" Value="{theme:FontWeightSemiBold}" />
       <Setter Property="Margin" Value="{size:Edges Left={size:SpacingXl}}" />
     </Style>
+    <!-- Same even-inset sizing as the top bar -->
     <Style Selector="^ /template/ Border#PART_BottomBar">
+      <Setter Property="Background" Value="{color:PressedBackgroundDefault}" />
       <Setter Property="Padding" Value="{size:Edges All={size:SpacingLg}}" />
-      <Setter Property="Height" Value="{size:ControlHeightLg}" />
     </Style>
     <Style Selector="^ /template/ ContentControl#PART_BottomTitlePresenter">
       <Setter Property="FontSize" Value="{size:FontSizeLg}" />
@@ -285,6 +404,30 @@
       <Setter Property="Margin" Value="{size:Edges Left={size:SpacingXl}}" />
     </Style>
 
+    <!-- Nav toggle metrics -->
+    <Style Selector="^ /template/ ToggleButton">
+      <Setter Property="Width" Value="{size:ControlHeightMd}" />
+      <Setter Property="Height" Value="{size:ControlHeightMd}" />
+      <Setter Property="MinWidth" Value="{size:ControlHeightMd}" />
+      <Setter Property="MinHeight" Value="{size:ControlHeightMd}" />
+    </Style>
+    <Style Selector="^ /template/ ToggleButton PathIcon">
+      <Setter Property="Width" Value="{size:IconSizeMd}" />
+      <Setter Property="Height" Value="{size:IconSizeMd}" />
+    </Style>
+
+    <!-- The compact toggle's band hugs the pane's outer edge, so it never covers the
+         navigation the pane centres -->
+    <Style Selector="^ /template/ Border#PART_CompactPaneBand">
+      <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
+    </Style>
+    <!-- Theme Exception: Right pins the compact toggle to the pane's outer edge; an edge-hugging
+         alignment has no theme token (the NotificationCard precedent) -->
+    <Style Selector="^:placement-right /template/ Border#PART_CompactPaneBand">
+      <Setter Property="HorizontalAlignment" Value="Right" />
+    </Style>
+
+    <!-- Placement: right-docked pane moves the toggle to the right edge -->
     <Style Selector="^:placement-right /template/ ToggleButton#PART_PaneButton">
       <Setter Property="DockPanel.Dock" Value="Right" />
     </Style>
@@ -305,14 +448,6 @@
       <Setter Property="IsVisible" Value="False" />
     </Style>
 
-    <!-- Horizontal panes: toggle docks left so content fills the rest -->
-    <Style Selector="^:placement-bottom /template/ ToggleButton#PART_CompactPaneToggle">
-      <Setter Property="DockPanel.Dock" Value="Left" />
-    </Style>
-    <Style Selector="^:placement-top /template/ ToggleButton#PART_CompactPaneToggle">
-      <Setter Property="DockPanel.Dock" Value="Left" />
-    </Style>
-
     <Style Selector="^[DrawerBehavior=Locked] /template/ Border#PART_TopBar">
       <Setter Property="IsVisible" Value="False" />
     </Style>
@@ -329,7 +464,11 @@
       <Setter Property="IsVisible" Value="False" />
     </Style>
 
+    <!-- The compact toggle and its band appear in the compact modes only -->
     <Style Selector="^[DisplayMode=CompactOverlay] /template/ ToggleButton#PART_CompactPaneToggle">
+      <Setter Property="IsVisible" Value="True" />
+    </Style>
+    <Style Selector="^[DisplayMode=CompactOverlay] /template/ Border#PART_CompactPaneBand">
       <Setter Property="IsVisible" Value="True" />
     </Style>
 
@@ -340,6 +479,9 @@
     <Style Selector="^[DisplayMode=CompactInline] /template/ ToggleButton#PART_CompactPaneToggle">
       <Setter Property="IsVisible" Value="True" />
     </Style>
+    <Style Selector="^[DisplayMode=CompactInline] /template/ Border#PART_CompactPaneBand">
+      <Setter Property="IsVisible" Value="True" />
+    </Style>
 
     <Style Selector="^[IsInNavigationPage=True] /template/ Border#PART_TopBar">
       <Setter Property="IsVisible" Value="False" />
@@ -347,6 +489,9 @@
 
     <!-- NavigationPage already hosts a hamburger toggle — suppress the compact pane toggle. -->
     <Style Selector="^:detail-is-navpage /template/ ToggleButton#PART_CompactPaneToggle">
+      <Setter Property="IsVisible" Value="False" />
+    </Style>
+    <Style Selector="^:detail-is-navpage /template/ Border#PART_CompactPaneBand">
       <Setter Property="IsVisible" Value="False" />
     </Style>
 

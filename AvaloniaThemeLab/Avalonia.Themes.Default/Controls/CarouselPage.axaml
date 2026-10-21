@@ -3,30 +3,12 @@
                     xmlns:default="clr-namespace:Avalonia.Themes.Default"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
                     xmlns:color="using:AngelSix.ThemeEngine.Colors"
-                    xmlns:size="using:AngelSix.ThemeEngine.Sizes">
-  <!-- Design preview: two swipable pages. Declared before Design.PreviewWith uses it; the theme defines no state hooks,
-       so a single default instance is the fullest honest view -->
-  <DataTemplate x:Key="CarouselPagePreview">
-    <CarouselPage Width="360" Height="200">
-      <ContentPage Header="Page 1">
-        <TextBlock Text="First page" HorizontalAlignment="Center" VerticalAlignment="Center" />
-      </ContentPage>
-      <ContentPage Header="Page 2">
-        <TextBlock Text="Second page" HorizontalAlignment="Center" VerticalAlignment="Center" />
-      </ContentPage>
-    </CarouselPage>
-  </DataTemplate>
-
-  <Design.PreviewWith>
-    <Border>
-      <Border.Styles>
-        <default:DefaultThemeStyles />
-      </Border.Styles>
-
-      <default:LightDarkPreview Title="CarouselPage" Orientation="Vertical" ContentTemplate="{StaticResource CarouselPagePreview}" />
-
-    </Border>
-  </Design.PreviewWith>
+                    xmlns:size="using:AngelSix.ThemeEngine.Sizes"
+                    xmlns:icons="using:AngelSix.ThemeEngine.Icons">
+  <!-- Task 136: the CarouselPage gallery entry was folded onto the Carousel entry (both controls are shown on
+       one captioned preview there), so its {Name}Preview template and design preview were removed. Only the
+       shipped ControlTheme remains; the gallery no longer lists CarouselPage because neither a Preview template
+       nor a Pages.CarouselPagePage fallback exists anymore. -->
 
   <!-- ============================================================
        Template
@@ -34,12 +16,17 @@
   <ControlTheme x:Key="{x:Type CarouselPage}" TargetType="CarouselPage">
 
     <!-- Visual defaults -->
-    <Setter Property="Background" Value="{color:BackgroundDefault}" />
+    <!-- Stage: the same fill Carousel rests on (task 8) so the frame lifts off the canvas and follows the accent hue -->
+    <Setter Property="Background" Value="{color:AccentBrush Light6}" />
     <Setter Property="Foreground" Value="{color:TextDefault}" />
-    <Setter Property="BorderBrush" Value="{color:AccentBrush Dark1}" />
-    <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
-    <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
-    <Setter Property="Padding" Value="{size:Edges Horizontal={size:SpacingLg}, Vertical={size:SpacingMd}}" />
+    <!-- No outline of its own: each page carries the frame (Rule 19), so a second stroke would read as a double border.
+         Zero thickness removes the phantom band too, leaving the page's single border as the only line -->
+    <Setter Property="BorderBrush" Value="Transparent" />
+    <Setter Property="BorderThickness" Value="{size:Edges}" />
+    <!-- Container radius: the largest step on the ladder, so the inner page's RadiusSm runs concentric with it -->
+    <Setter Property="CornerRadius" Value="{size:RadiusMd}" />
+    <!-- One token, every side: the shared content padding keeps the inset even all round (a bare double would be 0 in a Thickness slot) -->
+    <Setter Property="Padding" Value="{size:Edges All={size:ContentPadding}}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
     <Setter Property="VerticalAlignment" Value="{theme:ContainerVerticalAlignment}" />
     <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
@@ -47,18 +34,20 @@
     <!-- Template -->
     <Setter Property="Template">
       <ControlTemplate>
-        <!-- The swipeable pages -->
+        <!-- The swipeable pages. The frame's single ContentPadding is carried as the Carousel's margin so the page sits
+             evenly inside on all four sides; the Carousel's own padding is zeroed so it adds nothing on top -->
         <Carousel Name="PART_Carousel"
+                  Margin="{TemplateBinding Padding}"
                   Background="{TemplateBinding Background}"
                   BorderBrush="{TemplateBinding BorderBrush}"
                   BorderThickness="{TemplateBinding BorderThickness}"
                   CornerRadius="{TemplateBinding CornerRadius}"
-                  Padding="{TemplateBinding Padding}"
+                  Padding="{size:Edges}"
                   ItemTemplate="{TemplateBinding PageTemplate}"
                   PageTransition="{TemplateBinding PageTransition}"
                   ItemsPanel="{TemplateBinding ItemsPanel}"
-                  HorizontalAlignment="Stretch"
-                  VerticalAlignment="Stretch" />
+                  HorizontalAlignment="{theme:ContainerHorizontalAlignment}"
+                  VerticalAlignment="{theme:ContainerVerticalAlignment}" />
       </ControlTemplate>
     </Setter>
 

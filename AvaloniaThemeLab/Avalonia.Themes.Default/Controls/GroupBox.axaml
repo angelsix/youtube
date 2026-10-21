@@ -42,9 +42,8 @@
     <!-- Visual defaults -->
     <Setter Property="Background" Value="Transparent" />
     <Setter Property="Foreground" Value="{color:TextDefault}" />
-    <Setter Property="BorderBrush" Value="{color:AccentBrush Dark1}" />
+    <Setter Property="BorderBrush" Value="{color:BorderDefault}" />
     <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
-    <Setter Property="FontSize" Value="{size:FontSizeLg}" />
     <Setter Property="Padding" Value="{size:Edges All={size:SpacingMd}}" />
     <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
@@ -96,13 +95,12 @@
                   Grid.RowSpan="2"
                   Grid.Column="1">
             <!-- The group's title -->
+            <!-- No Foreground here: the header label takes its ink from the part style below (the hue at the hover-text stage), not the control's body Foreground -->
             <ContentPresenter Name="PART_HeaderPresenter"
                               Content="{TemplateBinding Header}"
                               ContentTemplate="{TemplateBinding HeaderTemplate}"
                               FontFamily="{TemplateBinding FontFamily}"
-                              FontSize="{TemplateBinding FontSize}"
                               FontWeight="{TemplateBinding FontWeight}"
-                              Foreground="{TemplateBinding Foreground}"
                               HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                               VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
                               UseLayoutRounding="{TemplateBinding UseLayoutRounding}" />
@@ -127,6 +125,17 @@
     <Style Selector="^ /template/ Border#Header">
       <Setter Property="Padding" Value="{size:Edges Horizontal={size:SpacingMd}}" />
       <Setter Property="Margin" Value="{size:Edges Left={size:RadiusSmDouble}}" />
+    </Style>
+
+    <!-- The header label takes the hue at the hover-text stage, so an accented group box reads as accented while the body stays TextDefault -->
+    <Style Selector="^ /template/ ContentPresenter#PART_HeaderPresenter">
+      <Setter Property="Foreground" Value="{color:HoverTextDefault}" />
+      <Setter Property="FontSize" Value="{size:FontSizeLg}" />
+    </Style>
+
+    <!-- Disabled state: whole-control dimming, like every other control -->
+    <Style Selector="^:disabled">
+      <Setter Property="Opacity" Value="{size:DisabledOpacity}" />
     </Style>
 
     <!-- Access key support -->

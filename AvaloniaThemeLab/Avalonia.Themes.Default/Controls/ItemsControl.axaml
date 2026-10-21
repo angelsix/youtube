@@ -1,14 +1,31 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:generic="using:System.Collections.Generic"
                     xmlns:default="clr-namespace:Avalonia.Themes.Default"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
                     xmlns:color="using:AngelSix.ThemeEngine.Colors"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes">
   <DataTemplate x:Key="ItemsControlPreview">
     <StackPanel Spacing="{size:SpacingXl}" HorizontalAlignment="Left">
-      <ItemsControl>
-        <TextBlock Text="First item" />
-        <TextBlock Text="Second item" />
+      <!-- A short list: framed and padded, each row templated and spaced so it reads as a list, not loose text -->
+      <ItemsControl Width="240">
+        <ItemsControl.ItemsPanel>
+          <ItemsPanelTemplate>
+            <StackPanel Orientation="Vertical" Spacing="{size:SpacingLg}" />
+          </ItemsPanelTemplate>
+        </ItemsControl.ItemsPanel>
+        <ItemsControl.ItemTemplate>
+          <DataTemplate>
+            <TextBlock Text="{Binding}" />
+          </DataTemplate>
+        </ItemsControl.ItemTemplate>
+        <ItemsControl.ItemsSource>
+          <generic:List x:TypeArguments="x:String">
+            <x:String>First item</x:String>
+            <x:String>Second item</x:String>
+            <x:String>Third item</x:String>
+          </generic:List>
+        </ItemsControl.ItemsSource>
       </ItemsControl>
     </StackPanel>
   </DataTemplate>
@@ -34,7 +51,7 @@
     <Setter Property="BorderBrush" Value="{color:BorderDefault}" />
     <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
     <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
-    <Setter Property="Padding" Value="{size:Edges Horizontal={size:SpacingMd}, Vertical={size:SpacingMd}}" />
+    <Setter Property="Padding" Value="{size:Edges All={size:ContentPadding}}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
     <Setter Property="VerticalAlignment" Value="{theme:ContainerVerticalAlignment}" />
     <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />

@@ -6,52 +6,29 @@
                     xmlns:color="using:AngelSix.ThemeEngine.Colors"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes"
                     xmlns:icons="using:AngelSix.ThemeEngine.Icons">
-  <!-- Design preview: one list mixing every paintable state. The designer and the lab gallery both show this key,
-       so it is declared before Design.PreviewWith uses it -->
-  <DataTemplate x:Key="MenuItemPreview">
-    <!-- Icon slot, input-gesture hint, :selected overlay, :disabled dimming, separator swap and the submenu chevron -->
-    <StackPanel Spacing="{size:SpacingMd}" HorizontalAlignment="Left">
-      <MenuItem Header="_Standard" />
-      <MenuItem Header="With _Icon">
-        <MenuItem.Icon>
-          <TextBlock>😊</TextBlock>
-        </MenuItem.Icon>
-      </MenuItem>
-      <MenuItem Header="Input _Gesture" InputGesture="Ctrl+G" />
-      <MenuItem Header="_Selected" IsSelected="True" />
-      <MenuItem Header="_Disabled" IsEnabled="False" />
-      <MenuItem Header="-" />
-      <MenuItem Header="_Submenu">
-        <MenuItem Header="Child" />
-      </MenuItem>
-    </StackPanel>
-  </DataTemplate>
-
-  <Design.PreviewWith>
-    <Border>
-      <Border.Styles>
-        <default:DefaultThemeStyles />
-      </Border.Styles>
-
-      <default:LightDarkPreview Title="MenuItem" Orientation="Vertical" ContentTemplate="{StaticResource MenuItemPreview}" />
-
-    </Border>
-  </Design.PreviewWith>
-
   <conv:PlatformKeyGestureConverter x:Key="KeyGestureConverter" />
+
+  <!-- The tick drawn beside a checked item; local so the :checked:toggle style always resolves it.
+       An open polyline, painted as a stroke (filling an unclosed path would draw nothing) -->
+  <PathGeometry x:Key="CheckedTickPathData" Figures="M 0,5 L 4,9 L 11,1" />
 
   <ControlTheme x:Key="{x:Type MenuItem}" TargetType="MenuItem">
     <!-- Visual defaults -->
     <Setter Property="Background" Value="Transparent" />
     <Setter Property="Foreground" Value="{color:TextDefault}" />
     <Setter Property="BorderBrush" Value="Transparent" />
-    <Setter Property="BorderThickness" Value="0" />
-    <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
+    <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
+    <!-- Concentric with the menu container (Rule 19): the container's RadiusMd minus its border and padding,
+         so the row's curve runs parallel to the frame's -->
+    <Setter Property="CornerRadius" Value="{default:ConcentricCorners Radius={size:RadiusMd}, Thickness={size:ThicknessSm}, Inset={size:Edges All={size:Scaled Value={size:SpacingMd}, By=1.25}}, All=True}" />
     <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
-    <!-- Narrow padding for mouse; widen for touch input later -->
-    <Setter Property="Padding" Value="{size:Edges Left={size:SpacingXxl}, Top={size:SpacingMd}, Right={size:SpacingXxl}, Bottom={size:SpacingLg}}" />
-    <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
+    <!-- Even vertical edges so the label sits true centre (was Top 4 / Bottom 8) -->
+    <Setter Property="Padding" Value="{size:Edges All={size:ContentPadding}}" />
+    <!-- A menu row is a container: it fills the list's width, and so does its highlight and hit area -->
+    <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
     <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
+    <!-- Focus is the row's own inset border (below): an outset ring is cut by the menu's scroller and crosses its frame -->
+    <Setter Property="FocusAdorner" Value="{x:Null}" />
     <Setter Property="Template">
       <ControlTemplate>
         <!-- Layout root stacking the item and its submenu -->
@@ -63,13 +40,14 @@
                   BorderBrush="{TemplateBinding BorderBrush}"
                   BorderThickness="{TemplateBinding BorderThickness}"
                   CornerRadius="{TemplateBinding CornerRadius}">
-            <!-- Columns: icon, label, shortcut and chevron -->
+            <!-- Columns: one shared leading check-or-icon column, label, shortcut and chevron.
+                 The check and the icon share the SAME cell: an item shows its check if it is a
+                 toggle, otherwise its icon, never both, and the column (SharedSizeGroup on the
+                 IsSharedSizeScope presenter) collapses to 0 when no item in the menu carries one -->
             <Grid>
               <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"
-                                  SharedSizeGroup="ToggleIcon" />
-                <ColumnDefinition Width="Auto"
-                                  SharedSizeGroup="MenuItemIcon" />
+                                  SharedSizeGroup="MenuItemLeading" />
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto"
                                   SharedSizeGroup="MenuItemIGT" />
@@ -77,14 +55,14 @@
                                   SharedSizeGroup="MenuItemChevron" />
               </Grid.ColumnDefinitions>
 
-              <!-- The item's icon -->
+              <!-- The tick shown when the item is checked -->
               <ContentControl Grid.Column="0"
                               x:Name="PART_ToggleIconPresenter"
                               IsVisible="False"
                               Theme="{StaticResource DefaultMenuItemIconTheme}" />
 
-              <!-- The tick shown when the item is checked -->
-              <ContentControl Grid.Column="1"
+              <!-- The item's icon, in the same leading cell as the tick (a toggle's check wins) -->
+              <ContentControl Grid.Column="0"
                               x:Name="PART_IconPresenter"
                               IsVisible="False"
                               Theme="{StaticResource DefaultMenuItemIconTheme}"
@@ -94,19 +72,16 @@
               <ContentPresenter Name="PART_HeaderPresenter"
                                 Content="{TemplateBinding Header}"
                                 ContentTemplate="{TemplateBinding HeaderTemplate}"
-                                Grid.Column="2"/>
+                                Grid.Column="1"/>
               <!-- The keyboard shortcut, shown on the right -->
               <TextBlock x:Name="PART_InputGestureText"
-                         Grid.Column="3"
-                         Text="{TemplateBinding InputGesture, Converter={StaticResource KeyGestureConverter}}"
-                         HorizontalAlignment="Right"
-                         VerticalAlignment="Center"/>
+                         Grid.Column="2"
+                         Text="{TemplateBinding InputGesture, Converter={StaticResource KeyGestureConverter}}"/>
               <!-- Chevron marking an item with a submenu -->
               <Path Name="PART_ChevronPath"
                     Stretch="Uniform"
                     Data="{icons:ChevronRight}"
-                    VerticalAlignment="Center"
-                    Grid.Column="4" />
+                    Grid.Column="3" />
             </Grid>
           </Border>
           <!-- The submenu shown when opened -->
@@ -115,10 +90,11 @@
                  Placement="RightEdgeAlignedTop"
                  IsLightDismissEnabled="False"
                  IsOpen="{TemplateBinding IsSubMenuOpen, Mode=TwoWay}">
-            <!-- Panel behind the submenu -->
+            <!-- Panel behind the submenu: the same even inset as every other menu surface (one source),
+                 so hover fills stop short of the parent's border instead of cutting into it -->
             <Border x:Name="PART_PopupBorder"
-                    Padding="0"
-                    MaxWidth="456"
+                    Padding="{size:Edges All={size:SpacingMd}}"
+                    MaxWidth="{size:Scaled Value={size:BaseSize}, By=456}"
                     HorizontalAlignment="Stretch">
               <!-- Scrolls the submenu when it overflows -->
               <ScrollViewer Theme="{StaticResource DefaultMenuScrollViewer}">
@@ -140,11 +116,25 @@
     </Style>
 
     <!-- Themed defaults for inner template elements (Rule 2) -->
+    <!-- Leading-cell size: centred against the ROW'S OWN highlight edge (fourth-review steer, 20 Oct 2026),
+         not the menu's outer border. The slot is IconSizeMd (16) wide with NO left margin of its own (the
+         row's own {size:ContentPadding} supplies the left inset) and a right margin of {size:ContentPadding}:
+         the 16px ink fills the slot, so the gap from the row's highlight edge to the ink equals the gap from
+         the ink to the label within 1px (both are the row's ContentPadding; the 1px concentric border shifts
+         only the left side by 1). Column = 16 + 8 = 24px, so the shared size-group still collapses to 0 when
+         no item carries a check or an icon. The height is IconSizeMd + 12.5% (18), clearing the glyph's
+         natural line box so the DownOnly Viewbox never squashes it flatter than life (a 16px-tall slot drew
+         the face flat). Both presenters share the SAME cell, so the column is one slot wide. Task 129 copies
+         these tokens into TreeView. -->
     <Style Selector="^ /template/ ContentControl#PART_ToggleIconPresenter">
-      <Setter Property="Margin" Value="{size:Edges Right={size:SpacingXxl}}" />
+      <Setter Property="Width" Value="{size:IconSizeMd}" />
+      <Setter Property="Height" Value="{size:Scaled Value={size:IconSizeMd}, By=1.125}" />
+      <Setter Property="Margin" Value="{size:Edges Right={size:ContentPadding}}" />
     </Style>
     <Style Selector="^ /template/ ContentControl#PART_IconPresenter">
-      <Setter Property="Margin" Value="{size:Edges Right={size:SpacingXxl}}" />
+      <Setter Property="Width" Value="{size:IconSizeMd}" />
+      <Setter Property="Height" Value="{size:Scaled Value={size:IconSizeMd}, By=1.125}" />
+      <Setter Property="Margin" Value="{size:Edges Right={size:ContentPadding}}" />
     </Style>
     <Style Selector="^ /template/ TextBlock#PART_InputGestureText">
       <Setter Property="Margin" Value="{size:Edges Left={size:SpacingXxl}}" />
@@ -152,11 +142,11 @@
       <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
       <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalContentAlignment}" />
     </Style>
+    <!-- No extra left margin: the item's own right padding spaces the chevron from the label -->
     <Style Selector="^ /template/ Path#PART_ChevronPath">
       <Setter Property="Width" Value="{size:IconSizeMd}" />
       <Setter Property="Height" Value="{size:IconSizeMd}" />
       <Setter Property="Fill" Value="{color:AccentBrush Light1}" />
-      <Setter Property="Margin" Value="{size:Edges Left={size:SpacingXxl}}" />
       <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalContentAlignment}" />
     </Style>
     <Style Selector="^ /template/ Popup#PART_Popup">
@@ -169,53 +159,65 @@
       <Setter Property="MinHeight" Value="{size:ControlHeightSm}" />
       <Setter Property="CornerRadius" Value="{size:RadiusMd}" />
     </Style>
-    <Style Selector="^ /template/ ItemsPresenter#PART_PopupItemsPresenter">
-      <Setter Property="Margin" Value="{size:Edges Vertical={size:SpacingMd}}" />
-    </Style>
-
     <Style Selector="^:icon /template/ ContentControl#PART_IconPresenter">
       <Setter Property="IsVisible" Value="True" />
     </Style>
-    <Style Selector="^:selected">
-      <Style Selector="^ /template/ Border#PART_LayoutRoot">
-        <Setter Property="Background" Value="{color:OverlayWeakBrush}" />
-      </Style>
-      <Style Selector="^ /template/ ContentPresenter#PART_HeaderPresenter">
-      </Style>
-      <Style Selector="^ /template/ TextBlock#PART_InputGestureText">
-        <Setter Property="Foreground" Value="{color:DimTextDefault}" />
-      </Style>
-      <Style Selector="^ /template/ Path#PART_ChevronPath">
-        <Setter Property="Fill" Value="{color:AccentBrush Dark1}" />
-      </Style>
+
+    <!-- Selected: the outlined column, not the filled one — a light fill stage of the row's own hue,
+         so a chosen row reads as picked without going dark (Decision, 18 Oct 2026; ComboBoxItem is the reference) -->
+    <!-- Selected: driven by the real :selected pseudo-class (IsSelected=True); no Preview.State needed -->
+    <Style Selector="^:selected /template/ Border#PART_LayoutRoot">
+      <Setter Property="Background" Value="{color:AccentBrush Light6}" />
+      <Setter Property="BorderBrush" Value="Transparent" />
+    </Style>
+    <Style Selector="^:selected:pointerover /template/ Border#PART_LayoutRoot,
+                     ^:selected[(theme|Preview.State)=Hover] /template/ Border#PART_LayoutRoot">
+      <Setter Property="Background" Value="{color:AccentBrush Light5}" />
+    </Style>
+    <Style Selector="^:selected:pressed /template/ Border#PART_LayoutRoot,
+                     ^:selected[(theme|Preview.State)=Pressed] /template/ Border#PART_LayoutRoot">
+      <Setter Property="Background" Value="{color:AccentBrush Light4}" />
+    </Style>
+    <Style Selector="^:selected /template/ Path#PART_ChevronPath">
+      <Setter Property="Fill" Value="{color:AccentBrush Dark1}" />
+    </Style>
+    <!-- The shortcut is secondary text; on an elevated selected row it reads at full weight so it stays legible on the fill -->
+    <Style Selector="^:selected /template/ TextBlock#PART_InputGestureText">
+      <Setter Property="Foreground" Value="{color:TextDefault}" />
     </Style>
 
-    <!-- Uses PART_LayoutRoot:pointerover so subitem presses do not trigger it -->
-    <Style Selector="^:pressed /template/ Border#PART_LayoutRoot:pointerover">
+    <!-- Hover: an opaque ramp stage, not an overlay — translucency would erase the fill -->
+    <Style Selector="^:pointerover /template/ Border#PART_LayoutRoot,
+                     ^[(theme|Preview.State)=Hover] /template/ Border#PART_LayoutRoot">
       <Setter Property="Background" Value="{color:HoverBackgroundDefault}" />
-      <Style Selector="^ ContentPresenter#PART_HeaderPresenter">
-      </Style>
-      <Style Selector="^ TextBlock#PART_InputGestureText">
-        <Setter Property="Foreground" Value="{color:DimTextDefault}" />
-      </Style>
-      <Style Selector="^ Path#PART_ChevronPath">
-        <Setter Property="Fill" Value="{color:AccentBrush Dark1}" />
-      </Style>
+      <Setter Property="BorderBrush" Value="Transparent" />
+    </Style>
+    <Style Selector="^:pointerover /template/ Path#PART_ChevronPath,
+                     ^[(theme|Preview.State)=Hover] /template/ Path#PART_ChevronPath">
+      <Setter Property="Fill" Value="{color:AccentBrush Dark1}" />
     </Style>
 
+    <!-- Pressed -->
+    <Style Selector="^:pressed /template/ Border#PART_LayoutRoot,
+                     ^[(theme|Preview.State)=Pressed] /template/ Border#PART_LayoutRoot">
+      <Setter Property="Background" Value="{color:PressedBackgroundDefault}" />
+      <Setter Property="BorderBrush" Value="Transparent" />
+    </Style>
+    <Style Selector="^:pressed /template/ Path#PART_ChevronPath,
+                     ^[(theme|Preview.State)=Pressed] /template/ Path#PART_ChevronPath">
+      <Setter Property="Fill" Value="{color:AccentBrush Dark1}" />
+    </Style>
+
+    <!-- Disabled: the whole row fades, selected or not, so a chosen-but-unavailable item still reads as chosen -->
     <Style Selector="^:disabled">
-      <Style Selector="^ /template/ Border#PART_LayoutRoot">
-        <Setter Property="Background" Value="Transparent" />
-      </Style>
-      <Style Selector="^ /template/ ContentPresenter#PART_HeaderPresenter">
-        <Setter Property="Foreground" Value="{color:DimTextDefault}" />
-      </Style>
-      <Style Selector="^ /template/ TextBlock#PART_InputGestureText">
-        <Setter Property="Foreground" Value="{color:DimTextDefault}" />
-      </Style>
-      <Style Selector="^ /template/ Path#PART_ChevronPath">
-        <Setter Property="Fill" Value="{color:AccentBrush Light1}" />
-      </Style>
+      <Setter Property="Opacity" Value="{size:DisabledOpacity}" />
+    </Style>
+
+    <!-- Focus: the row's own inset border (Rule 21); neutral borrows the focus colour, an accented row keeps its own hue -->
+    <Style Selector="^:focus-visible /template/ Border#PART_LayoutRoot,
+                     ^[(theme|Preview.State)=Focused] /template/ Border#PART_LayoutRoot">
+      <Setter Property="BorderBrush" Value="{default:FocusBrush}" />
+      <Setter Property="BorderThickness" Value="{default:FocusThickness}" />
     </Style>
 
     <Style Selector="^:open /template/ Path#PART_ChevronPath">
@@ -234,7 +236,7 @@
         </ControlTemplate>
       </Setter>
     </Style>
-    
+
     <Style Selector="^ /template/ Image#PART_ToggleIconImage">
       <Setter Property="IsVisible" Value="True" />
     </Style>
@@ -243,9 +245,12 @@
       <Setter Property="IsVisible" Value="True" />
       <Setter Property="Content">
         <Template>
-          <Path Fill="{Binding $parent[MenuItem].Foreground}"
-                Width="{size:IconSizeMd}"
-                Data="{StaticResource CheckMarkPathData}" />
+          <!-- Stroked, not filled: the tick is an open polyline -->
+          <Path Stroke="{Binding $parent[MenuItem].Foreground}"
+                StrokeThickness="{size:ThicknessSmDouble}"
+                Stretch="Uniform"
+                Width="{size:IconSizeMd}" Height="{size:IconSizeMd}"
+                Data="{StaticResource CheckedTickPathData}" />
         </Template>
       </Setter>
     </Style>
@@ -273,7 +278,9 @@
             Value="{size:IconSizeMd}" />
     <Setter Property="Height"
             Value="{size:IconSizeMd}" />
-    <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
+    <!-- Centres the glyph in its shared leading cell (task 105): the Viewbox below binds this, so the
+         check/icon ink sits equidistant from the cell's edges instead of hugging the left -->
+    <Setter Property="HorizontalAlignment" Value="{theme:ButtonHorizontalContentAlignment}" />
     <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
     <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
     <Setter Property="Template">

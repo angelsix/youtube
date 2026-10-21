@@ -5,42 +5,20 @@
     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
     xmlns:color="using:AngelSix.ThemeEngine.Colors"
     xmlns:size="using:AngelSix.ThemeEngine.Sizes">
-  <!-- Design preview: shared state column written once; each pane instantiates its own copy.
-       Declared before Design.PreviewWith uses it -->
-  <DataTemplate x:Key="TabStripItemPreview">
-    <StackPanel Orientation="Vertical" Spacing="{size:SpacingXxl}">
-      <TabStripItem>Unselected</TabStripItem>
-      <TabStripItem IsSelected="True">Selected</TabStripItem>
-      <TabStripItem theme:Preview.State="Hover">Hover</TabStripItem>
-      <TabStripItem IsSelected="True" theme:Preview.State="Hover">Selected · Hover</TabStripItem>
-      <TabStripItem theme:Preview.State="Pressed">Pressed</TabStripItem>
-      <TabStripItem IsEnabled="False">Disabled</TabStripItem>
-      <TabStripItem theme:Accent.Kind="Warning">Warning</TabStripItem>
-      <TabStripItem IsSelected="True" theme:Accent.Kind="Success">Success · Selected</TabStripItem>
-    </StackPanel>
-  </DataTemplate>
-
-  <Design.PreviewWith>
-    <Border>
-      <Border.Styles>
-        <default:DefaultThemeStyles />
-      </Border.Styles>
-
-      <default:LightDarkPreview Title="TabStripItem" Orientation="Vertical" ContentTemplate="{StaticResource TabStripItemPreview}" />
-
-    </Border>
-  </Design.PreviewWith>
-
-
+  <!-- The gallery entry lives on the TabStrip preview, which pins every TabStripItem state inside a real TabStrip;
+       this file keeps only the control theme. -->
   <ControlTheme x:Key="{x:Type TabStripItem}" TargetType="TabStripItem">
-    <Setter Property="FontSize" Value="{size:FontSizeXxl}" />
-    <Setter Property="Background" Value="Transparent" />
-    <Setter Property="Foreground" Value="{color:DimTextDefault}" />
-    <Setter Property="BorderBrush" Value="{color:AccentBrush Dark1}" />
-    <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
-    <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
+
+    <!-- Visual defaults -->
+    <Setter Property="Background" Value="{color:BackgroundDefault}" />
+    <Setter Property="Foreground" Value="{color:TextDefault}" />
+    <Setter Property="BorderBrush" Value="Transparent" />
+    <Setter Property="BorderThickness" Value="{size:Edges}" />
+    <!-- Rounded on the two corners away from the selection line, which hugs the bottom edge -->
+    <Setter Property="CornerRadius" Value="{size:Corners Radius={size:RadiusSm}, Top=True}" />
+    <Setter Property="FontSize" Value="{size:FontSizeLg}" />
     <Setter Property="Padding" Value="{size:Edges Horizontal={size:SpacingXxl}}" />
-    <Setter Property="Margin" Value="0" />
+    <Setter Property="Margin" Value="{size:Edges}" />
     <Setter Property="MinHeight" Value="{size:ControlHeightLg}" />
     <Setter Property="MinWidth" Value="{size:ControlMinWidth}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
@@ -48,77 +26,87 @@
     <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
     <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
     <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
+
+    <!-- Template -->
     <Setter Property="Template">
       <ControlTemplate>
-        <!-- Outer frame around the tab -->
-        <Border
-            Name="PART_LayoutRoot"
-            Background="{TemplateBinding Background}"
-            BorderBrush="{TemplateBinding BorderBrush}"
-            BorderThickness="{TemplateBinding BorderThickness}"
-            CornerRadius="{TemplateBinding CornerRadius}"
-            Padding="{TemplateBinding Padding}">
+        <!-- Outer frame around the tab; the item's padding rides on the label so the pipe can span the whole face -->
+        <Border Name="PART_LayoutRoot"
+                Background="{TemplateBinding Background}"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}"
+                CornerRadius="{TemplateBinding CornerRadius}">
           <!-- Layout root stacking the pipe over the label -->
           <Panel>
             <!-- The tab's label -->
-            <ContentPresenter
-                Name="PART_ContentPresenter"
-                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                Content="{TemplateBinding Content}"
-                ContentTemplate="{TemplateBinding ContentTemplate}" />
+            <ContentPresenter Name="PART_ContentPresenter"
+                              Padding="{TemplateBinding Padding}"
+                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                              Content="{TemplateBinding Content}"
+                              ContentTemplate="{TemplateBinding ContentTemplate}" />
             <!-- Bar marking the selected tab -->
             <Border Name="PART_SelectedPipe"
-                    IsVisible="False"
-                    VerticalAlignment="Bottom"/>
+                    IsVisible="False" />
           </Panel>
         </Border>
       </ControlTemplate>
     </Setter>
 
-    <!--  Selected state  -->
-    <!-- Leaves PART_LayoutRoot unselected so TabStripItem.Background can override it -->
-    <Style Selector="^:selected">
-      <Setter Property="Background" Value="Transparent" />
+    <!-- Access key support -->
+    <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="RecognizesAccessKey" Value="True" />
     </Style>
+
+    <!-- Selected pipe visuals: a 2px bar spanning the item's full width, hugging the edge that faces the selection line -->
     <Style Selector="^ /template/ Border#PART_SelectedPipe">
-      <Setter Property="Background" Value="{color:AccentPrimaryBrush}" />
+      <Setter Property="Background" Value="{color:AccentBrush Dark3}" />
       <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
       <Setter Property="Height" Value="{size:SpacingSm}" />
-      <Setter Property="Margin" Value="{size:Edges Bottom={size:SpacingSm}}" />
+      <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
+      <!-- Theme Exception: the pipe hugs the bottom edge by default (Top-placement indicator); an edge-hugging alignment is intrinsic to the indicator, no token expresses it -->
+      <Setter Property="VerticalAlignment" Value="Bottom" />
+    </Style>
+
+    <!-- Hover state -->
+    <Style Selector="^:pointerover /template/ Border#PART_LayoutRoot, ^[(theme|Preview.State)=Hover] /template/ Border#PART_LayoutRoot">
+      <Setter Property="Background" Value="{color:HoverBackgroundDefault}" />
+      <Setter Property="TextElement.Foreground" Value="{color:HoverTextDefault}" />
+    </Style>
+
+    <!-- Pressed state -->
+    <Style Selector="^:pressed /template/ Border#PART_LayoutRoot, ^[(theme|Preview.State)=Pressed] /template/ Border#PART_LayoutRoot">
+      <Setter Property="Background" Value="{color:PressedBackgroundDefault}" />
+    </Style>
+
+    <!-- Disabled state -->
+    <Style Selector="^:disabled">
+      <Setter Property="Opacity" Value="{size:DisabledOpacity}" />
+    </Style>
+
+    <!-- Focus state -->
+    <Style Selector="^:focus-visible /template/ Border#PART_LayoutRoot, ^[(theme|Preview.State)=Focused] /template/ Border#PART_LayoutRoot">
+      <Setter Property="BorderBrush" Value="{default:FocusBrush}" />
+      <Setter Property="BorderThickness" Value="{default:FocusThickness}" />
+    </Style>
+
+    <!-- Selected state -->
+    <Style Selector="^:selected">
+      <Setter Property="Background" Value="{color:PressedBackgroundDefault}" />
+      <Setter Property="Foreground" Value="{color:TextDefault}" />
     </Style>
     <Style Selector="^:selected /template/ Border#PART_SelectedPipe">
       <Setter Property="IsVisible" Value="True" />
     </Style>
 
-    <!--  PointerOver state  -->
-    <Style Selector="^:pointerover /template/ Border#PART_LayoutRoot, ^[(theme|Preview.State)=Hover] /template/ Border#PART_LayoutRoot">
-      <Setter Property="Background" Value="Transparent" />
-      <Setter Property="TextElement.Foreground" Value="{color:DimTextDefault}" />
-    </Style>
-
-    <!--  Selected PointerOver state  -->
+    <!-- Selected hover state -->
     <Style Selector="^:selected:pointerover /template/ Border#PART_LayoutRoot, ^:selected[(theme|Preview.State)=Hover] /template/ Border#PART_LayoutRoot">
-      <Setter Property="Background" Value="Transparent" />
-      <Setter Property="TextElement.Foreground" Value="{color:DimTextDefault}" />
+      <Setter Property="Background" Value="{color:AccentBrush Light5}" />
     </Style>
 
-    <!--  Pressed state  -->
-    <Style Selector="^:pressed /template/ Border#PART_LayoutRoot, ^[(theme|Preview.State)=Pressed] /template/ Border#PART_LayoutRoot">
-      <Setter Property="Background" Value="Transparent" />
-      <Setter Property="TextElement.Foreground" Value="{color:DimTextDefault}" />
-    </Style>
-
-    <!--  Selected Pressed state  -->
+    <!-- Selected pressed state -->
     <Style Selector="^:selected:pressed /template/ Border#PART_LayoutRoot, ^:selected[(theme|Preview.State)=Pressed] /template/ Border#PART_LayoutRoot">
-      <Setter Property="Background" Value="Transparent" />
-      <Setter Property="TextElement.Foreground" Value="{color:DimTextDefault}" />
-    </Style>
-
-    <!--  Disabled state  -->
-    <Style Selector="^:disabled /template/ Border#PART_LayoutRoot">
-      <Setter Property="Background" Value="Transparent" />
-      <Setter Property="TextElement.Foreground" Value="{color:DimTextDefault}" />
+      <Setter Property="Background" Value="{color:AccentBrush Light4}" />
     </Style>
   </ControlTheme>
 </ResourceDictionary>

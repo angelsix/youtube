@@ -4,10 +4,27 @@
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
                     xmlns:color="using:AngelSix.ThemeEngine.Colors"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes">
+  <!-- Design preview: the states Button shows, plus what makes it a Label — an access key and a Target pointing at a field -->
   <DataTemplate x:Key="LabelPreview">
     <StackPanel Spacing="{size:SpacingXl}" HorizontalAlignment="Left">
-      <Label Content="_File" />
-      <Label Content="Plain text" />
+      <Label Width="200" Content="_File" />
+      <!-- The paired example: the Label names the field through Target, and the theme pulls the two together -->
+      <StackPanel Spacing="{size:SpacingMd}" HorizontalAlignment="Left">
+        <Label Width="200" Content="Paired with a field" Target="FieldInput" />
+        <TextBox Width="200" x:Name="FieldInput" PlaceholderText="Type here" />
+      </StackPanel>
+      <!-- The same pairing with no Target at all: the theme finds the field under the Label on its own,
+           so a plain caption over a field reads as one unit without the page doing anything -->
+      <StackPanel Spacing="{size:SpacingMd}" HorizontalAlignment="Left">
+        <Label Width="200" Content="Detected without a Target" />
+        <TextBox Width="200" PlaceholderText="Type here" />
+      </StackPanel>
+      <Label Width="200" theme:Accent.Kind="Success" Content="Success" />
+      <Label Width="200" theme:Accent.Kind="Warning" Content="Warning" />
+      <Label Width="200" theme:Accent.Kind="Info" Content="Info" />
+      <Label Width="200" theme:Accent.Kind="Destructive" Content="Destructive" />
+      <Label Width="200" theme:Accent.Kind="Subtle" Content="Subtle" />
+      <Label Width="200" Content="Disabled" IsEnabled="False" />
     </StackPanel>
   </DataTemplate>
 
@@ -26,9 +43,18 @@
        ============================================================ -->
   <ControlTheme x:Key="{x:Type Label}" TargetType="Label">
 
-    <!-- Visual defaults -->
+    <!-- Visual defaults: a neutral Label is body text (TextDefault, like every control's text). TextDefault sits at
+         Dark9, where every hue collapses to near-black ink, so a Label given an accent kind switches to the
+         accent-text stage below (Dark3, as HyperlinkButton, ProgressBar and Slider carry their coloured text) -->
     <Setter Property="Foreground" Value="{color:TextDefault}" />
-    <Setter Property="Padding" Value="{size:SpacingMd}" />
+    <Style Selector="^[(theme|Accent.Kind)=Primary], ^[(theme|Accent.Kind)=Success], ^[(theme|Accent.Kind)=Warning], ^[(theme|Accent.Kind)=Info], ^[(theme|Accent.Kind)=Error], ^[(theme|Accent.Kind)=Destructive], ^[(theme|Accent.Kind)=Subtle]">
+      <Setter Property="Foreground" Value="{color:AccentBrush Dark3}" />
+    </Style>
+    <Setter Property="Padding" Value="{size:Edges All={size:ContentPadding}}" />
+    <!-- Pairing detection: the Label names the field under it, and the theme pulls the two together.
+         Applied here, on every Label, so the behaviour is a property of the control rather than
+         something a page has to opt into. -->
+    <Setter Property="(default:LabelPairing.Apply)" Value="True" />
     <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
     <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
     <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
@@ -55,6 +81,21 @@
     <!-- Access key support -->
     <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
       <Setter Property="RecognizesAccessKey" Value="True" />
+    </Style>
+
+    <!-- Paired with a field: the Label names the text box directly under it, so the two read as
+         one unit. The Label's own bottom padding is dropped (the field's own padding is the gap
+         that shows), which pulls the text down onto the field instead of leaving a band of empty
+         canvas between them. The Bottom edge is left unset, which is 0: the theme's zero padding
+         is an unset edge, never a literal. The pseudo-class is set by the LabelPairing behaviour,
+         which is the only way to see "the Label names a field" — see Theme/LabelPairingBehavior.cs. -->
+    <Style Selector="^:paired">
+      <Setter Property="Padding" Value="{size:Edges Top={size:ContentPadding}, Left={size:ContentPadding}, Right={size:ContentPadding}}" />
+    </Style>
+
+    <!-- Shows the disabled state -->
+    <Style Selector="^:disabled">
+      <Setter Property="Opacity" Value="{size:DisabledOpacity}" />
     </Style>
   </ControlTheme>
 </ResourceDictionary>

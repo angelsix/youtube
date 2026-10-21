@@ -5,16 +5,32 @@
         xmlns:color="using:AngelSix.ThemeEngine.Colors"
         xmlns:size="using:AngelSix.ThemeEngine.Sizes"
         xmlns:icons="using:AngelSix.ThemeEngine.Icons">
+  <!-- TEMPORARY SHIM (tasks 106/107): ScrollBar.axaml currently REFERENCES these thumb-scale
+       transforms without DEFINING them (a concurrent worker's mid-edit), which crashes every
+       headless boot at Window.Show. Defined HERE so the wheel-proof harness and the after-shots
+       can run; REMOVE THESE TWO RESOURCES once ScrollBar.axaml defines them again. -->
+  <TransformOperations x:Key="VerticalSmallScrollThumbScaleTransform">scaleX(0.25) translateX(-2px)</TransformOperations>
+  <TransformOperations x:Key="HorizontalSmallScrollThumbScaleTransform">scaleY(0.25) translateY(-2px)</TransformOperations>
   <!-- Design preview: the picker-part themes, each shown once per pane. The designer and the lab gallery both show this key,
        so it is declared before Design.PreviewWith uses it. States ride real item properties — these themes expose no Preview.State hooks -->
   <DataTemplate x:Key="DateTimePickerSharedPreview">
     <StackPanel Spacing="{size:SpacingXl}" Width="200">
-      <ListBoxItem Theme="{DynamicResource DefaultDateTimePickerItem}">Standard Item</ListBoxItem>
-      <ListBoxItem Theme="{DynamicResource DefaultDateTimePickerItem}" Classes="MonthItem">Month Item</ListBoxItem>
-      <ListBoxItem Theme="{DynamicResource DefaultDateTimePickerItem}" IsSelected="True">Selected Item</ListBoxItem>
-      <RepeatButton Theme="{DynamicResource DefaultDateTimePickerButton}" Content="Button"/>
-      <RepeatButton Theme="{DynamicResource DefaultDateTimePickerUpButton}" IsVisible="True"/>
-      <RepeatButton Theme="{DynamicResource DefaultDateTimePickerDownButton}" IsVisible="True"/>
+      <!-- Spin-item: a plain day, month or year row -->
+      <ListBoxItem Theme="{DynamicResource DefaultDateTimePickerItem}">Spin item · standard</ListBoxItem>
+      <!-- Spin-item: the month column left-aligns its rows -->
+      <ListBoxItem Theme="{DynamicResource DefaultDateTimePickerItem}" Classes="MonthItem">Spin item · month</ListBoxItem>
+      <!-- Spin-item: the centred row; the pop-up's band paints behind it, the text keeps its ink -->
+      <ListBoxItem Theme="{DynamicResource DefaultDateTimePickerItem}" IsSelected="True">Spin item · selected</ListBoxItem>
+      <!-- Action button: closes the picker without choosing; the Warning-accented face on the left -->
+      <Button theme:Accent.Kind="Warning" Content="Action · dismiss"/>
+      <!-- Action button: confirms the chosen time; the Success-accented face on the right -->
+      <Button theme:Accent.Kind="Success" Content="Action · accept"/>
+      <!-- Stepper: scrolls a column up; rests faded out, fading in on hover inside the pop-up,
+           its scrim grading away from the outer edge so the rows beneath stay legible -->
+      <RepeatButton Theme="{DynamicResource DefaultDateTimePickerUpButton}" />
+      <!-- Stepper: scrolls a column down; rests faded out, fading in on hover inside the pop-up,
+           its scrim grading away from the outer edge so the rows beneath stay legible -->
+      <RepeatButton Theme="{DynamicResource DefaultDateTimePickerDownButton}" />
     </StackPanel>
   </DataTemplate>
 
@@ -29,109 +45,262 @@
     </Border>
   </Design.PreviewWith>
 
-  <!-- DateTimePicker item theme -->
-  <ControlTheme x:Key="DefaultDateTimePickerItem" TargetType="ListBoxItem" BasedOn="{StaticResource {x:Type ListBoxItem}}">
-    <Setter Property="Padding" Value="{size:Edges Top={size:SpacingMd}, Bottom={size:SpacingLg}}"/>
-    <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
-    <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
-
-    <!-- Selected state -->
-    <Style Selector="^:selected">
-      <Setter Property="IsHitTestVisible" Value="False"/>
-      <Style Selector="^/template/ Rectangle#PressedBackground">
-        <Setter Property="Fill" Value="Transparent"/>
-      </Style>
-      <Style Selector="^/template/ ContentPresenter">
-        <Setter Property="Background" Value="Transparent" />
-        <Setter Property="Foreground" Value="{color:TextDefault}"/>
-      </Style>
-    </Style>
-
-    <!-- Month item: left-aligned -->
-    <Style Selector="^.MonthItem">
-      <Setter Property="Padding" Value="{size:Edges Left={size:SpacingXl}, Top={size:SpacingMd}, Bottom={size:SpacingLg}}"/>
-      <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
-    </Style>
-  </ControlTheme>
-
-  <!-- DateTimePicker button theme -->
-  <ControlTheme x:Key="DefaultDateTimePickerButton" TargetType="Button">
+  <!-- DateTimePicker item theme: its own template, deliberately NOT BasedOn the ListBoxItem theme,
+       so the list-row restyle cannot repaint the centred value on hover -->
+  <ControlTheme x:Key="DefaultDateTimePickerItem" TargetType="ListBoxItem">
+    <!-- Transparent (not null): the row must be HIT-TESTABLE ACROSS ITS WIDTH, otherwise the
+         hover only lights where the short value text sits and the empty halves of the row are
+         dead space -->
     <Setter Property="Background" Value="Transparent" />
-    <Setter Property="Height" Value="{size:ControlHeightSm}" />
-    <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}"/>
-    <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}"/>
+    <Setter Property="Foreground" Value="{color:TextDefault}" />
+    <Setter Property="Padding" Value="{size:Edges All={size:SpacingMd}}" />
+    <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
+    <!-- Values CENTRE in their column (equal token padding on both sides); a left-aligned day/year
+         read as glued to the edge and the month looked half-scrolled at rest -->
+    <Setter Property="HorizontalContentAlignment" Value="{theme:ButtonHorizontalContentAlignment}" />
     <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
+
+    <!-- Template -->
     <Setter Property="Template">
       <ControlTemplate>
-        <!-- Outer frame around the picker item -->
-        <Border Background="{TemplateBinding Background}">
-          <!-- The item's label -->
-          <ContentPresenter x:Name="PART_ContentPresenter"
-                  Background="{TemplateBinding Background}"
-                  BorderBrush="Transparent"
-                  Content="{TemplateBinding Content}"
-                  ContentTemplate="{TemplateBinding ContentTemplate}"
-                  Padding="{TemplateBinding Padding}"
-                  HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                  VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                  CornerRadius="{TemplateBinding CornerRadius}"/>
-        </Border>
+        <!-- The row's FACE: a Panel PAINTS its Background, which is what makes the whole row
+             hit-testable (a null/unpainted root leaves only the short value text clickable).
+             The pop-up's centre highlight overlays the centred row, so the hover tint lives on
+             its own inset layer beneath the text and never runs into the frame's border -->
+        <Panel Background="{TemplateBinding Background}">
+          <!-- The hover tint: a lighter rounded fill, borderless, inset to the frame's edges -->
+          <Border Name="HoverTint" IsHitTestVisible="False"
+                  Background="Transparent" CornerRadius="{size:RadiusSm}"
+                  Margin="{size:Edges Left={size:SpacingMd}, Right={size:SpacingMd}}" />
+          <!-- The day, month or year -->
+          <ContentPresenter Name="PART_ContentPresenter"
+                            Content="{TemplateBinding Content}"
+                            Foreground="{TemplateBinding Foreground}"
+                            Padding="{TemplateBinding Padding}"
+                            HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+        </Panel>
       </ControlTemplate>
     </Setter>
 
-    <!-- Template element defaults -->
-    <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
+    <!-- Hover state: the tint fades in lightly like a Button's hover, rounded and borderless, and eases
+         in and out; the selected row is excluded so the pop-up's centre frame is never painted over, and
+         a row sliding under a stationary pointer no longer strobes over the centred value while scrolling -->
+    <Style Selector="^:pointerover:not(:selected) /template/ Border#HoverTint">
+      <Setter Property="Background" Value="{color:AccentBrush Light9}" />
     </Style>
 
-    <!-- Hover state -->
-    <Style Selector="^:pointerover /template/ ContentPresenter">
-      <Setter Property="Background" Value="{color:HoverBackgroundDefault}"/>
-      <Setter Property="BorderBrush" Value="Transparent"/>
-      <Setter Property="Foreground" Value="{color:TextDefault}"/>
+    <!-- Rows crossing the centre band (the WheelSnap behaviour tracks this on every layout pass):
+         the hover tint stays off them too, so a row PARTLY overlapping the band no longer flashes
+         its hover over the centred value — :selected alone excludes only the fully-centred row -->
+    <Style Selector="^.InBand:pointerover /template/ Border#HoverTint">
+      <Setter Property="Background" Value="Transparent" />
     </Style>
 
     <!-- Pressed state -->
-    <Style Selector="^:pressed /template/ ContentPresenter">
-      <Setter Property="Background" Value="{color:PressedBackgroundDefault}"/>
-      <Setter Property="BorderBrush" Value="Transparent"/>
-      <Setter Property="Foreground" Value="{color:TextDefault}"/>
+    <Style Selector="^:pressed /template/ Border#HoverTint">
+      <Setter Property="Background" Value="{color:PressedBackgroundDefault}" />
+    </Style>
+
+    <!-- Selected state: the pop-up's band carries the fill, so the row stays clear and the value never vanishes -->
+    <Style Selector="^:selected">
+      <Setter Property="IsHitTestVisible" Value="False" />
+    </Style>
+
+    <!-- Disabled state -->
+    <Style Selector="^:disabled">
+      <Setter Property="Opacity" Value="{size:DisabledOpacity}" />
+    </Style>
+
+    <!-- The month column CENTRES its values exactly like day and year (equal token padding on
+         both sides); an earlier left-alignment with extra left padding made it read as
+         half-scrolled at rest. The class is kept so the preview example still names the state. -->
+    <Style Selector="^.MonthItem">
+      <Setter Property="HorizontalContentAlignment" Value="{theme:ButtonHorizontalContentAlignment}" />
     </Style>
   </ControlTheme>
 
-  <!-- DateTimePicker up button theme -->
-  <ControlTheme x:Key="DefaultDateTimePickerUpButton" TargetType="RepeatButton" BasedOn="{StaticResource DefaultDateTimePickerButton}">
-    <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}"/>
-    <Setter Property="Height" Value="{size:ControlHeightSm}" />
-    <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
+
+<!-- DateTimePicker up button theme: a chevron chip pinned to the column's top edge.
+       Rests at zero opacity (the rows stay put); fading in on hover reveals a scrim that grades from
+       the pop-up's own background colour at the outer edge to clear at the inner edge, so the row text
+       beneath dissolves away instead of being covered by a flat plate -->
+  <ControlTheme x:Key="DefaultDateTimePickerUpButton" TargetType="RepeatButton">
+    <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
+    <!-- Stretches across the column so the scrim reaches the whole row it sits over; the glyph stays centred -->
+    <Setter Property="HorizontalAlignment" Value="Stretch" />
+    <!-- One row tall (matches the panel's ItemHeight) so the opaque-to-clear grade spans the row's text band,
+         hiding the value at the outer edge and letting it dissolve toward the middle instead of floating clear -->
+    <Setter Property="Height" Value="{size:ControlHeightMd}" />
     <Setter Property="Focusable" Value="False" />
+    <!-- Invisible at rest must also stop catching the wheel and clicks aimed at the rows beneath -->
+    <Setter Property="IsHitTestVisible" Value="False" />
+    <!-- The scrim: the pop-up's background colour, opaque at the outer edge, grading to clear inward -->
+    <!-- The scrim colour: a solid theme brush (it resolves per pane on the visual), faded by the template's
+         OpacityMask. A {color:} token inside a GradientStop does NOT resolve: the stop sits outside the visual
+         tree, so it falls back to transparent and the scrim paints nothing -->
     <Setter Property="Background" Value="{color:BackgroundDefault}" />
     <Setter Property="Foreground" Value="{color:TextDefault}" />
-    <Setter Property="IsVisible" Value="False"/>
+    <Setter Property="BorderBrush" Value="Transparent" />
+    <Setter Property="BorderThickness" Value="{size:Edges}" />
+    <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
+    <Setter Property="Padding" Value="{size:Edges All={size:SpacingMd}}" />
+    <Setter Property="HorizontalContentAlignment" Value="{theme:ButtonHorizontalContentAlignment}" />
+    <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
+    <!-- Fades the chip in AND out (the transition rides the base state, so leaving the column eases
+         the scrim away instead of cutting it); the rows behind it never move -->
+    <Setter Property="Opacity" Value="0" />
+    <Setter Property="Transitions">
+      <Transitions>
+        <DoubleTransition Property="Opacity" Duration="{theme:AnimationFastMs}" />
+        <TransformOperationsTransition Property="RenderTransform" Duration="{theme:AnimationFastMs}" />
+      </Transitions>
+    </Setter>
+    <!-- The chevron's resting transform: grown on hover, pushed on press, like a Button's face -->
+    <Setter Property="RenderTransform" Value="none" />
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Panel>
+          <!-- The scrim: the pop-up's background colour, opaque over the outer half (the top edge to the row's middle) and fading to clear inward
+               through a fixed black-to-clear OpacityMask, so the row text beneath dissolves under the chevron -->
+          <Border Name="PART_Scrim"
+                  Background="{TemplateBinding Background}"
+                  CornerRadius="{TemplateBinding CornerRadius}">
+            <Border.OpacityMask>
+              <LinearGradientBrush StartPoint="0%,0%" EndPoint="0%,100%"><GradientStop Color="Black" Offset="0" /><GradientStop Color="Black" Offset="0.5" /><GradientStop Color="Transparent" Offset="1" /></LinearGradientBrush>
+            </Border.OpacityMask>
+          </Border>
+          <!-- The accent glow: a very light wash of the control's own hue graded strongest at the OUTER EDGE and
+               clearing inward (mirroring the scrim), so the arrow reads accented on hover without washing out the
+               row text beneath; revealed together with the chip by its fade-in -->
+          <Border Name="PART_Glow" IsHitTestVisible="False"
+                  Background="{color:AccentBrush Light9}"
+                  CornerRadius="{TemplateBinding CornerRadius}">
+            <Border.OpacityMask>
+              <LinearGradientBrush StartPoint="0%,0%" EndPoint="0%,100%"><GradientStop Color="Black" Offset="0" /><GradientStop Color="Black" Offset="0.5" /><GradientStop Color="Transparent" Offset="1" /></LinearGradientBrush>
+            </Border.OpacityMask>
+          </Border>
+          <!-- The chevron, unmasked on top of the scrim; carries the grow/press transform -->
+          <ContentPresenter Name="PART_ContentPresenter"
+                          Background="Transparent"
+                          BorderBrush="{TemplateBinding BorderBrush}"
+                          BorderThickness="{TemplateBinding BorderThickness}"
+                          CornerRadius="{TemplateBinding CornerRadius}"
+                          Content="{TemplateBinding Content}"
+                          Foreground="{TemplateBinding Foreground}"
+                          Padding="{TemplateBinding Padding}"
+                          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                          VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+        </Panel>
+      </ControlTemplate>
+    </Setter>
+    <!-- The upward chevron glyph, an icon-library path taking the button's text colour -->
     <Setter Property="Content">
       <Template>
-        <Viewbox Height="{size:IconSizeMd}" Width="{size:IconSizeMd}" HorizontalAlignment="Center" VerticalAlignment="Center">
-          <Path Stroke="{Binding $parent[RepeatButton].Foreground}" StrokeThickness="{size:ThicknessSm}" Data="{icons:ChevronUp}"/>
-        </Viewbox>
+        <PathIcon Data="{icons:ChevronUp}" Width="{size:IconSizeMd}" Height="{size:IconSizeMd}" />
       </Template>
     </Setter>
+    <!-- Hover: the scrim fades in over the row, the ink brightens one stage, and the chevron grows
+         like a Button's face -->
+    <Style Selector="^:pointerover">
+      <Setter Property="Opacity" Value="1" />
+      <Setter Property="Foreground" Value="{color:HoverTextDefault}" />
+      <Setter Property="RenderTransform" Value="{theme:TransformScale Value={size:PressedScale}, By=1.07}" />
+    </Style>
+    <!-- Pressed: the scrim holds and the chevron pushes down like a Button's face -->
+    <Style Selector="^:pressed">
+      <Setter Property="Opacity" Value="1" />
+      <Setter Property="RenderTransform" Value="{theme:TransformScale Value={size:PressedScale}}" />
+    </Style>
+    <!-- Disabled -->
+    <Style Selector="^:disabled">
+      <Setter Property="Opacity" Value="{size:DisabledOpacity}" />
+    </Style>
   </ControlTheme>
 
-  <!-- DateTimePicker down button theme -->
-  <ControlTheme x:Key="DefaultDateTimePickerDownButton" TargetType="RepeatButton" BasedOn="{StaticResource DefaultDateTimePickerButton}">
-    <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}"/>
-    <Setter Property="Height" Value="{size:ControlHeightSm}" />
-    <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
+  <!-- DateTimePicker down button theme: the downward twin of the up chip, pinned to the column's bottom edge;
+       its scrim grades from clear inward to the pop-up's background colour at the lower edge -->
+  <ControlTheme x:Key="DefaultDateTimePickerDownButton" TargetType="RepeatButton">
+    <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
+    <!-- Stretches across the column so the scrim reaches the whole row it sits over; the glyph stays centred -->
+    <Setter Property="HorizontalAlignment" Value="Stretch" />
+    <!-- One row tall (matches the panel's ItemHeight) so the clear-to-opaque grade spans the row's text band,
+         hiding the value at the lower edge and letting it dissolve upward instead of floating clear -->
+    <Setter Property="Height" Value="{size:ControlHeightMd}" />
     <Setter Property="Focusable" Value="False" />
+    <!-- Invisible at rest must also stop catching the wheel and clicks aimed at the rows beneath -->
+    <Setter Property="IsHitTestVisible" Value="False" />
+    <!-- The scrim: clear at the inner edge, grading to the pop-up's background colour at the outer edge -->
+    <!-- The scrim colour: a solid theme brush (it resolves per pane on the visual), faded by the template's
+         OpacityMask. A {color:} token inside a GradientStop does NOT resolve: the stop sits outside the visual
+         tree, so it falls back to transparent and the scrim paints nothing -->
     <Setter Property="Background" Value="{color:BackgroundDefault}" />
     <Setter Property="Foreground" Value="{color:TextDefault}" />
-    <Setter Property="IsVisible" Value="False"/>
+    <Setter Property="BorderBrush" Value="Transparent" />
+    <Setter Property="BorderThickness" Value="{size:Edges}" />
+    <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
+    <Setter Property="Padding" Value="{size:Edges All={size:SpacingMd}}" />
+    <Setter Property="HorizontalContentAlignment" Value="{theme:ButtonHorizontalContentAlignment}" />
+    <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
+    <!-- Fades the chip in AND out (the transition rides the base state, so leaving the column eases
+         the scrim away instead of cutting it); the rows behind it never move -->
+    <Setter Property="Opacity" Value="0" />
+    <Setter Property="Transitions">
+      <Transitions>
+        <DoubleTransition Property="Opacity" Duration="{theme:AnimationFastMs}" />
+        <TransformOperationsTransition Property="RenderTransform" Duration="{theme:AnimationFastMs}" />
+      </Transitions>
+    </Setter>
+    <!-- The chevron's resting transform: grown on hover, pushed on press, like a Button's face -->
+    <Setter Property="RenderTransform" Value="none" />
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Panel>
+          <!-- The scrim: the pop-up's background colour, opaque over the outer half (the bottom edge to the row's middle) and fading to clear inward
+               through a fixed black-to-clear OpacityMask, so the row text beneath dissolves under the chevron -->
+          <Border Name="PART_Scrim"
+                  Background="{TemplateBinding Background}"
+                  CornerRadius="{TemplateBinding CornerRadius}">
+            <Border.OpacityMask>
+              <LinearGradientBrush StartPoint="0%,0%" EndPoint="0%,100%"><GradientStop Color="Transparent" Offset="0" /><GradientStop Color="Black" Offset="0.5" /><GradientStop Color="Black" Offset="1" /></LinearGradientBrush>
+            </Border.OpacityMask>
+          </Border>
+          <!-- The chevron, unmasked on top of the scrim -->
+          <ContentPresenter Name="PART_ContentPresenter"
+                          Background="Transparent"
+                          BorderBrush="{TemplateBinding BorderBrush}"
+                          BorderThickness="{TemplateBinding BorderThickness}"
+                          CornerRadius="{TemplateBinding CornerRadius}"
+                          Content="{TemplateBinding Content}"
+                          Foreground="{TemplateBinding Foreground}"
+                          Padding="{TemplateBinding Padding}"
+                          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                          VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+        </Panel>
+      </ControlTemplate>
+    </Setter>
+    <!-- The downward chevron glyph, an icon-library path taking the button's text colour -->
     <Setter Property="Content">
       <Template>
-        <Viewbox Height="{size:IconSizeMd}" Width="{size:IconSizeMd}" HorizontalAlignment="Center" VerticalAlignment="Center">
-          <Path Stroke="{Binding $parent[RepeatButton].Foreground}" StrokeThickness="{size:ThicknessSm}" Data="{icons:ChevronDown}"/>
-        </Viewbox>
+        <PathIcon Data="{icons:ChevronDown}" Width="{size:IconSizeMd}" Height="{size:IconSizeMd}" />
       </Template>
     </Setter>
+    <!-- Hover: the scrim fades in, the ink brightens one stage, and the chevron grows like a Button's face -->
+    <Style Selector="^:pointerover">
+      <Setter Property="Opacity" Value="1" />
+      <Setter Property="Foreground" Value="{color:HoverTextDefault}" />
+      <Setter Property="RenderTransform" Value="{theme:TransformScale Value={size:PressedScale}, By=1.07}" />
+    </Style>
+    <!-- Pressed: the scrim holds and the chevron pushes down like a Button's face -->
+    <Style Selector="^:pressed">
+      <Setter Property="Opacity" Value="1" />
+      <Setter Property="RenderTransform" Value="{theme:TransformScale Value={size:PressedScale}}" />
+    </Style>
+    <!-- Disabled -->
+    <Style Selector="^:disabled">
+      <Setter Property="Opacity" Value="{size:DisabledOpacity}" />
+    </Style>
   </ControlTheme>
 </ResourceDictionary>

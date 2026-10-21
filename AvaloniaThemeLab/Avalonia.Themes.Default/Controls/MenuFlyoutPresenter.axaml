@@ -4,42 +4,31 @@
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
                     xmlns:color="using:AngelSix.ThemeEngine.Colors"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes">
-  <!-- Design preview: the presenter panel holding a couple of menu items. Declared before Design.PreviewWith uses it -->
-  <DataTemplate x:Key="MenuFlyoutPresenterPreview">
-    <StackPanel Spacing="{size:SpacingXl}" HorizontalAlignment="Left">
-      <MenuFlyoutPresenter>
-        <MenuItem Header="Open" />
-        <MenuItem Header="Duplicate" />
-      </MenuFlyoutPresenter>
-    </StackPanel>
-  </DataTemplate>
-
-  <Design.PreviewWith>
-    <Border>
-      <Border.Styles>
-        <default:DefaultThemeStyles />
-      </Border.Styles>
-
-      <default:LightDarkPreview Title="MenuFlyoutPresenter" ContentTemplate="{StaticResource MenuFlyoutPresenterPreview}" />
-
-    </Border>
-  </Design.PreviewWith>
-
   <ControlTheme x:Key="{x:Type MenuFlyoutPresenter}" TargetType="MenuFlyoutPresenter">
     <!-- Visual defaults -->
     <Setter Property="Background" Value="{color:BackgroundDefault}" />
     <Setter Property="Foreground" Value="{color:TextDefault}" />
     <Setter Property="BorderBrush" Value="{color:BorderDefault}" />
     <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
-    <Setter Property="Padding" Value="0" />
-    <Setter Property="MaxWidth" Value="456" />
+    <!-- Even inset all round (matches ComboBox's popup); the list's own rows carry their padding -->
+    <Setter Property="Padding" Value="{size:Edges All={size:SpacingMd}}" />
+    <Setter Property="MaxWidth" Value="{size:Scaled Value={size:BaseSize}, By=456}" />
     <Setter Property="MinHeight" Value="{size:ControlHeightSm}" />
-    <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
+    <!-- Disable horizontal scrolling so the scroller hands the list a finite width and every row stretches to it (as ComboBox's popup does) -->
+    <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
     <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
     <Setter Property="CornerRadius" Value="{size:RadiusMd}" />
-    <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
+    <!-- A flyout surface fills its allotted width (as ComboBox's popup does); that finite width is what lets every row stretch -->
+    <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
     <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
     <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
+    <!-- A button's drop-down opens at the button's own width, not at its content's width (task 109).
+         The presenter is created in code by the flyout and lives in the popup's host, so the button
+         cannot size it from its own template; the presenter reaches the button through the popup
+         that hosts it (its logical parent) and that popup's placement target. Only a button's
+         flyout is sized this way: a text field's context menu keeps the width its content asks for. -->
+    <Setter Property="MinWidth"
+            Value="{Binding $parent[Popup].PlacementTarget, Converter={x:Static default:FlyoutPlacementTargetWidthConverter.Instance}}" />
     <Setter Property="Template">
       <ControlTemplate>
         <!-- Panel behind the menu -->
@@ -47,7 +36,7 @@
                 Background="{TemplateBinding Background}"
                 BorderBrush="{TemplateBinding BorderBrush}"
                 BorderThickness="{TemplateBinding BorderThickness}"
-                Padding="0"
+                Padding="{TemplateBinding Padding}"
                 CornerRadius="{TemplateBinding CornerRadius}">
           <!-- Scrolls the menu when it overflows -->
           <ScrollViewer HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
@@ -63,8 +52,9 @@
       </ControlTemplate>
     </Setter>
 
-    <Style Selector="^ /template/ ItemsPresenter#PART_ItemsPresenter">
-      <Setter Property="Margin" Value="{size:Edges Vertical={size:SpacingMd}}" />
+    <!-- The menu scroller fills the frame (its own theme left-aligns it); that finite width is what lets every row stretch -->
+    <Style Selector="^ /template/ ScrollViewer">
+      <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
     </Style>
   </ControlTheme>
   <ControlTheme x:Key="HorizontalMenuFlyoutPresenter" TargetType="MenuFlyoutPresenter"  BasedOn="{StaticResource {x:Type MenuFlyoutPresenter}}">

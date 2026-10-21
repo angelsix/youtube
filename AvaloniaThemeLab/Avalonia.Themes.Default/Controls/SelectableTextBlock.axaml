@@ -4,10 +4,13 @@
                     xmlns:color="using:AngelSix.ThemeEngine.Colors"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes"
                     xmlns:default="clr-namespace:Avalonia.Themes.Default">
-  <!-- Design preview: one block of selectable text. Declared before Design.PreviewWith uses it -->
+  <!-- Design preview: default, a markup-pinned selection and a Warning-hued pinned selection. Declared before Design.PreviewWith uses it -->
   <DataTemplate x:Key="SelectableTextBlockPreview">
     <StackPanel Spacing="{size:SpacingXl}" HorizontalAlignment="Left">
-      <SelectableTextBlock>Select me — this paragraph is fully selectable.</SelectableTextBlock>
+      <SelectableTextBlock Width="240">Select me — this line is selectable.</SelectableTextBlock>
+      <SelectableTextBlock Width="240" SelectionStart="0" SelectionEnd="10">Select me — this line is selectable.</SelectableTextBlock>
+      <SelectableTextBlock Width="240" theme:Accent.Kind="Warning"
+                           SelectionStart="0" SelectionEnd="10">Select me — this line is selectable.</SelectableTextBlock>
     </StackPanel>
   </DataTemplate>
 
@@ -27,18 +30,24 @@
        ============================================================ -->
   <ControlTheme x:Key="{x:Type SelectableTextBlock}" TargetType="SelectableTextBlock">
 
-    <!-- Visual defaults -->
-    <Setter Property="Background" Value="{color:BackgroundDefault}" />
+    <!-- Visual defaults: bare text like TextBlock — no fill, no padding; ink from the theme -->
+    <Setter Property="Background" Value="Transparent" />
     <Setter Property="Foreground" Value="{color:TextDefault}" />
-    <Setter Property="Padding" Value="{size:SpacingMd}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
     <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
-    <Setter Property="SelectionBrush" Value="{color:AccentPrimaryBrush}" />
+    <!-- Selection: the filled column (Dark3 fill, Light10 ink) so it follows Accent.Kind and reads on every hue -->
+    <Setter Property="SelectionBrush" Value="{color:AccentBrush Dark3}" />
+    <Setter Property="SelectionForegroundBrush" Value="{color:AccentBrush Light10}" />
 
     <!-- Enabled state -->
     <Style Selector="^[IsEnabled=True]">
       <Setter Property="Cursor" Value="IBeam" />
       <Setter Property="ContextFlyout" Value="{StaticResource SelectableTextBlockContextFlyout}" />
+    </Style>
+
+    <!-- Disabled state -->
+    <Style Selector="^:disabled">
+      <Setter Property="Opacity" Value="{size:DisabledOpacity}" />
     </Style>
   </ControlTheme>
 

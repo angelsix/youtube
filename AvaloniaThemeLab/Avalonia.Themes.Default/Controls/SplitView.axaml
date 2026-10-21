@@ -13,10 +13,14 @@
 
       <!-- Canonical left drawer: reserved column, open width pushing content aside -->
       <StackPanel Orientation="Vertical" Spacing="{size:SpacingMd}">
-        <TextBlock Text="Left · Inline · Open" FontSize="{size:FontSizeSm}" Opacity="0.7" />
-        <SplitView Height="96" PanePlacement="Left" DisplayMode="Inline" IsPaneOpen="True">
+        <TextBlock Text="Left · Inline · Open" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
+        <SplitView Height="96" Width="360" PanePlacement="Left" DisplayMode="Inline" IsPaneOpen="True"
+                   OpenPaneLength="{size:Scaled Value={size:ControlHeightLg}, By=2}" CompactPaneLength="{size:ControlHeightMd}">
           <SplitView.Pane>
-            <TextBlock Text="NAV" FontWeight="Bold" FontSize="{size:FontSizeSm}" Margin="10,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
+            <!-- Nav entries start at the top of the strip, inset by the standard content padding -->
+            <TextBlock Text="NAV" FontWeight="{theme:FontWeightSemiBold}" FontSize="{size:FontSizeSm}"
+                       Margin="{size:Edges All={size:ContentPadding}}"
+                       HorizontalAlignment="Left" VerticalAlignment="Top" />
           </SplitView.Pane>
           <SplitView.Content>
             <TextBlock Text="Main content" FontSize="{size:FontSizeMd}" HorizontalAlignment="Center" VerticalAlignment="Center" />
@@ -26,10 +30,15 @@
 
       <!-- Overlay floats the pane over full-width content; pairing it with light-dismiss exercises the scrim branch in one instance -->
       <StackPanel Orientation="Vertical" Spacing="{size:SpacingMd}">
-        <TextBlock Text="Left · Overlay · Open · LightDismiss" FontSize="{size:FontSizeSm}" Opacity="0.7" />
-        <SplitView Height="96" PanePlacement="Left" DisplayMode="Overlay" IsPaneOpen="True" UseLightDismissOverlayMode="True">
+        <TextBlock Text="Left · Overlay · Open · LightDismiss" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
+        <SplitView Height="96" Width="360" PanePlacement="Left" DisplayMode="Overlay" IsPaneOpen="True"
+                   UseLightDismissOverlayMode="True"
+                   OpenPaneLength="{size:Scaled Value={size:ControlHeightLg}, By=2}" CompactPaneLength="{size:ControlHeightMd}">
           <SplitView.Pane>
-            <TextBlock Text="NAV" FontWeight="Bold" FontSize="{size:FontSizeSm}" Margin="10,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
+            <!-- Nav entries start at the top of the strip, inset by the standard content padding -->
+            <TextBlock Text="NAV" FontWeight="{theme:FontWeightSemiBold}" FontSize="{size:FontSizeSm}"
+                       Margin="{size:Edges All={size:ContentPadding}}"
+                       HorizontalAlignment="Left" VerticalAlignment="Top" />
           </SplitView.Pane>
           <SplitView.Content>
             <TextBlock Text="Main content" FontSize="{size:FontSizeMd}" HorizontalAlignment="Center" VerticalAlignment="Center" />
@@ -37,12 +46,16 @@
         </SplitView>
       </StackPanel>
 
-      <!-- Collapsed strip: closed width, content reclaiming the freed column -->
+      <!-- Compact strip: the compact width holds while the content reclaims the rest of the column -->
       <StackPanel Orientation="Vertical" Spacing="{size:SpacingMd}">
-        <TextBlock Text="Left · Closed" FontSize="{size:FontSizeSm}" Opacity="0.7" />
-        <SplitView Height="96" PanePlacement="Left" DisplayMode="Inline" IsPaneOpen="False">
+        <TextBlock Text="Left · CompactInline · Open" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
+        <SplitView Height="96" Width="360" PanePlacement="Left" DisplayMode="CompactInline" IsPaneOpen="True"
+                   OpenPaneLength="{size:Scaled Value={size:ControlHeightLg}, By=2}" CompactPaneLength="{size:ControlHeightMd}">
           <SplitView.Pane>
-            <TextBlock Text="NAV" FontWeight="Bold" FontSize="{size:FontSizeSm}" Margin="10,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
+            <!-- Nav entries start at the top of the strip, inset by the standard content padding -->
+            <TextBlock Text="NAV" FontWeight="{theme:FontWeightSemiBold}" FontSize="{size:FontSizeSm}"
+                       Margin="{size:Edges All={size:ContentPadding}}"
+                       HorizontalAlignment="Left" VerticalAlignment="Top" />
           </SplitView.Pane>
           <SplitView.Content>
             <TextBlock Text="Main content" FontSize="{size:FontSizeMd}" HorizontalAlignment="Center" VerticalAlignment="Center" />
@@ -52,10 +65,14 @@
 
       <!-- Mirrored right-edge template -->
       <StackPanel Orientation="Vertical" Spacing="{size:SpacingMd}">
-        <TextBlock Text="Right · Inline · Open" FontSize="{size:FontSizeSm}" Opacity="0.7" />
-        <SplitView Height="96" PanePlacement="Right" DisplayMode="Inline" IsPaneOpen="True">
+        <TextBlock Text="Right · Inline · Open" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
+        <SplitView Height="96" Width="360" PanePlacement="Right" DisplayMode="Inline" IsPaneOpen="True"
+                   OpenPaneLength="{size:Scaled Value={size:ControlHeightLg}, By=2}" CompactPaneLength="{size:ControlHeightMd}">
           <SplitView.Pane>
-            <TextBlock Text="NAV" FontWeight="Bold" FontSize="{size:FontSizeSm}" Margin="0,10,10,0" HorizontalAlignment="Right" VerticalAlignment="Top" />
+            <!-- Nav entries start at the top of the strip, inset by the standard content padding -->
+            <TextBlock Text="NAV" FontWeight="{theme:FontWeightSemiBold}" FontSize="{size:FontSizeSm}"
+                       Margin="{size:Edges All={size:ContentPadding}}"
+                       HorizontalAlignment="Right" VerticalAlignment="Top" />
           </SplitView.Pane>
           <SplitView.Content>
             <TextBlock Text="Main content" FontSize="{size:FontSizeMd}" HorizontalAlignment="Center" VerticalAlignment="Center" />
@@ -65,10 +82,14 @@
 
       <!-- Top-edge template: horizontal bar reserving a row above content -->
       <StackPanel Orientation="Vertical" Spacing="{size:SpacingMd}">
-        <TextBlock Text="Top · Inline · Open" FontSize="{size:FontSizeSm}" Opacity="0.7" />
-        <SplitView Height="96" PanePlacement="Top" DisplayMode="Inline" IsPaneOpen="True">
+        <TextBlock Text="Top · Inline · Open" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
+        <SplitView Height="96" Width="360" PanePlacement="Top" DisplayMode="Inline" IsPaneOpen="True"
+                   OpenPaneLength="{size:ControlHeightLg}" CompactPaneLength="{size:ControlHeightMd}">
           <SplitView.Pane>
-            <TextBlock Text="NAV BAR" FontWeight="Bold" FontSize="{size:FontSizeSm}" Margin="10,6,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
+            <!-- Nav entries start at the left of the bar, inset by the standard content padding -->
+            <TextBlock Text="NAV BAR" FontWeight="{theme:FontWeightSemiBold}" FontSize="{size:FontSizeSm}"
+                       Margin="{size:Edges All={size:ContentPadding}}"
+                       HorizontalAlignment="Left" VerticalAlignment="Center" />
           </SplitView.Pane>
           <SplitView.Content>
             <TextBlock Text="Main content" FontSize="{size:FontSizeMd}" HorizontalAlignment="Center" VerticalAlignment="Center" />
@@ -78,10 +99,14 @@
 
       <!-- Bottom-edge template: horizontal bar reserving a row below content -->
       <StackPanel Orientation="Vertical" Spacing="{size:SpacingMd}">
-        <TextBlock Text="Bottom · Inline · Open" FontSize="{size:FontSizeSm}" Opacity="0.7" />
-        <SplitView Height="96" PanePlacement="Bottom" DisplayMode="Inline" IsPaneOpen="True">
+        <TextBlock Text="Bottom · Inline · Open" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
+        <SplitView Height="96" Width="360" PanePlacement="Bottom" DisplayMode="Inline" IsPaneOpen="True"
+                   OpenPaneLength="{size:ControlHeightLg}" CompactPaneLength="{size:ControlHeightMd}">
           <SplitView.Pane>
-            <TextBlock Text="NAV BAR" FontWeight="Bold" FontSize="{size:FontSizeSm}" Margin="10,0,0,6" HorizontalAlignment="Left" VerticalAlignment="Bottom" />
+            <!-- Nav entries start at the left of the bar, inset by the standard content padding -->
+            <TextBlock Text="NAV BAR" FontWeight="{theme:FontWeightSemiBold}" FontSize="{size:FontSizeSm}"
+                       Margin="{size:Edges All={size:ContentPadding}}"
+                       HorizontalAlignment="Left" VerticalAlignment="Center" />
           </SplitView.Pane>
           <SplitView.Content>
             <TextBlock Text="Main content" FontSize="{size:FontSizeMd}" HorizontalAlignment="Center" VerticalAlignment="Center" />
@@ -110,49 +135,75 @@
   <ControlTheme x:Key="{x:Type SplitView}" TargetType="SplitView">
     <Setter Property="OpenPaneLength" Value="{size:SurfaceWidthMd}" />
     <Setter Property="CompactPaneLength" Value="{size:ControlHeightLg}" />
-    <Setter Property="PaneBackground" Value="{color:BackgroundDefault}" />
+    <!-- Bordered container: the frame reads like every other boxed control -->
+    <Setter Property="Background" Value="{color:BackgroundDefault}" />
+    <Setter Property="BorderBrush" Value="{color:BorderDefault}" />
+    <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
+    <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
+    <Setter Property="Padding" Value="{size:Edges All={size:ContentPadding}}" />
+    <!-- Borderless-surface role: the pane draws no border of its own, so it fills one stage deeper than the rest fill -->
+    <Setter Property="PaneBackground" Value="{color:SurfaceBorderless}" />
+    <Setter Property="Foreground" Value="{color:TextDefault}" />
     <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
 
     <Style Selector="^:left">
       <Setter Property="Template">
         <ControlTemplate>
-          <!-- Layout root: pane left, content right -->
-          <Grid Name="Container" Background="{TemplateBinding Background}">
-            <Grid.ColumnDefinitions>
-              <ColumnDefinition Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.PaneColumnGridLength}" />
-              <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
+          <!-- Framed container: the rounded outline every other boxed control draws -->
+          <Border Name="Frame"
+                  Background="{TemplateBinding Background}"
+                  BorderBrush="{TemplateBinding BorderBrush}"
+                  BorderThickness="{TemplateBinding BorderThickness}"
+                  CornerRadius="{TemplateBinding CornerRadius}">
+            <!-- Layout root: pane left, content right -->
+            <Grid Name="Container">
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.PaneColumnGridLength}" />
+                <ColumnDefinition Width="*" />
+              </Grid.ColumnDefinitions>
 
-            <!-- The sliding pane down the left edge -->
-            <Panel Name="PART_PaneRoot"
-                   Background="{TemplateBinding PaneBackground}"
-                   ClipToBounds="True"
-                   HorizontalAlignment="Left"
-                   ZIndex="100">
-              <!-- The pane's content, usually navigation -->
-              <ContentPresenter x:Name="PART_PanePresenter"
-                                Content="{TemplateBinding Pane}"
-                                ContentTemplate="{TemplateBinding PaneTemplate}" />
-              <!-- Edge line, visible only in high contrast -->
-              <Rectangle Name="HCPaneBorder"
-                         Fill="Transparent"
-                         Width="1"
-                         HorizontalAlignment="Right"  />
-            </Panel>
+              <!-- The sliding pane down the left edge; its surface follows the frame's curve -->
+              <Panel Name="PART_PaneRoot"
+                     ClipToBounds="True"
+                     HorizontalAlignment="Left"
+                     ZIndex="100">
+                <!-- The pane's raised surface, concentric with the frame's corners -->
+                <Border Name="PaneSurface"
+                        Background="{TemplateBinding PaneBackground}">
+                  <!-- The pane's content, usually navigation -->
+                  <ContentPresenter x:Name="PART_PanePresenter"
+                                    Content="{TemplateBinding Pane}"
+                                    ContentTemplate="{TemplateBinding PaneTemplate}" />
+                </Border>
+                <!-- Hairline divider along the pane's inner edge -->
+                <Rectangle Name="InnerEdgeDivider"
+                           Fill="{color:BorderDefault}"
+                           Width="{size:ThicknessSmDouble}"
+                           HorizontalAlignment="Right" />
+                <!-- Edge line, visible only in high contrast -->
+                <Rectangle Name="HCPaneBorder"
+                           Fill="Transparent"
+                           Width="{size:ThicknessSmDouble}"
+                           HorizontalAlignment="Right"  />
+              </Panel>
 
-            <!-- Layout root stacking the dismiss layer over content -->
-            <Panel Name="ContentRoot" Grid.Column="1">
-              <!-- The main content beside the pane -->
-              <ContentPresenter x:Name="PART_ContentPresenter"
-                                Content="{TemplateBinding Content}"
-                                ContentTemplate="{TemplateBinding ContentTemplate}" />
-              <!-- Catches clicks to close an overlaying pane -->
-              <Rectangle Name="LightDismissLayer"
-                         Fill="Transparent"
-                         IsVisible="False"/>
-            </Panel>
+              <!-- Layout root stacking the dismiss layer over content -->
+              <Panel Name="ContentRoot" Grid.Column="1">
+                <!-- The main content beside the pane, inset by the standard content padding -->
+                <Border Name="ContentPaddingHost"
+                        Padding="{TemplateBinding Padding}">
+                  <ContentPresenter x:Name="PART_ContentPresenter"
+                                    Content="{TemplateBinding Content}"
+                                    ContentTemplate="{TemplateBinding ContentTemplate}" />
+                </Border>
+                <!-- Catches clicks to close an overlaying pane -->
+                <Rectangle Name="LightDismissLayer"
+                           Fill="Transparent"
+                           IsVisible="False"/>
+              </Panel>
 
-          </Grid>
+            </Grid>
+          </Border>
         </ControlTemplate>
       </Setter>
 
@@ -202,45 +253,69 @@
           <Setter Property="Grid.Column" Value="1"/>
           <Setter Property="Grid.ColumnSpan" Value="1"/>
         </Style>
+      </Style>
+
+      <!-- The pane's surface rounds only the two corners it touches -->
+      <Style Selector="^ /template/ Border#PaneSurface">
+        <Setter Property="CornerRadius" Value="{default:ConcentricCorners Radius={TemplateBinding CornerRadius}, Thickness={TemplateBinding BorderThickness}, Left=True}" />
       </Style>
     </Style>
 
     <Style Selector="^:right">
       <Setter Property="Template">
         <ControlTemplate>
-          <!-- Layout root: content left, pane right -->
-          <Grid Name="Container" Background="{TemplateBinding Background}">
-            <Grid.ColumnDefinitions>
-              <ColumnDefinition Width="*" />
-              <ColumnDefinition Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.PaneColumnGridLength}" />
-            </Grid.ColumnDefinitions>
+          <!-- Framed container: the rounded outline every other boxed control draws -->
+          <Border Name="Frame"
+                  Background="{TemplateBinding Background}"
+                  BorderBrush="{TemplateBinding BorderBrush}"
+                  BorderThickness="{TemplateBinding BorderThickness}"
+                  CornerRadius="{TemplateBinding CornerRadius}">
+            <!-- Layout root: content left, pane right -->
+            <Grid Name="Container">
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.PaneColumnGridLength}" />
+              </Grid.ColumnDefinitions>
 
-            <!-- The sliding pane down the right edge -->
-            <Panel Name="PART_PaneRoot" Background="{TemplateBinding PaneBackground}"
-                   ClipToBounds="True"
-                   HorizontalAlignment="Right"
-                   ZIndex="100">
-              <!-- The pane's content, usually navigation -->
-              <ContentPresenter x:Name="PART_PanePresenter"
-                                Content="{TemplateBinding Pane}"
-                                ContentTemplate="{TemplateBinding PaneTemplate}"/>
-              <!-- Edge line, visible only in high contrast -->
-              <Rectangle Name="HCPaneBorder"
-                         Fill="Transparent"
-                         Width="1" HorizontalAlignment="Left"  />
-            </Panel>
+              <!-- The sliding pane down the right edge; its surface follows the frame's curve -->
+              <Panel Name="PART_PaneRoot"
+                     ClipToBounds="True"
+                     HorizontalAlignment="Right"
+                     ZIndex="100">
+                <!-- The pane's raised surface, concentric with the frame's corners -->
+                <Border Name="PaneSurface"
+                        Background="{TemplateBinding PaneBackground}">
+                  <!-- The pane's content, usually navigation -->
+                  <ContentPresenter x:Name="PART_PanePresenter"
+                                    Content="{TemplateBinding Pane}"
+                                    ContentTemplate="{TemplateBinding PaneTemplate}"/>
+                </Border>
+                <!-- Hairline divider along the pane's inner edge -->
+                <Rectangle Name="InnerEdgeDivider"
+                           Fill="{color:BorderDefault}"
+                           Width="{size:ThicknessSmDouble}"
+                           HorizontalAlignment="Left" />
+                <!-- Edge line, visible only in high contrast -->
+                <Rectangle Name="HCPaneBorder"
+                           Fill="Transparent"
+                           Width="{size:ThicknessSmDouble}" HorizontalAlignment="Left"  />
+              </Panel>
 
-            <!-- Layout root stacking the dismiss layer over content -->
-            <Panel Name="ContentRoot" Grid.Column="0">
-              <!-- The main content beside the pane -->
-              <ContentPresenter x:Name="PART_ContentPresenter"
-                                Content="{TemplateBinding Content}"
-                                ContentTemplate="{TemplateBinding ContentTemplate}" />
-              <!-- Catches clicks to close an overlaying pane -->
-              <Rectangle Name="LightDismissLayer" Fill="Transparent" IsVisible="False"/>
-            </Panel>
+              <!-- Layout root stacking the dismiss layer over content -->
+              <Panel Name="ContentRoot" Grid.Column="0">
+                <!-- The main content beside the pane, inset by the standard content padding -->
+                <Border Name="ContentPaddingHost"
+                        Padding="{TemplateBinding Padding}">
+                  <ContentPresenter x:Name="PART_ContentPresenter"
+                                    Content="{TemplateBinding Content}"
+                                    ContentTemplate="{TemplateBinding ContentTemplate}" />
+                </Border>
+                <!-- Catches clicks to close an overlaying pane -->
+                <Rectangle Name="LightDismissLayer" Fill="Transparent" IsVisible="False"/>
+              </Panel>
 
-          </Grid>
+            </Grid>
+          </Border>
         </ControlTemplate>
       </Setter>
 
@@ -290,6 +365,11 @@
           <Setter Property="Grid.Column" Value="0"/>
           <Setter Property="Grid.ColumnSpan" Value="1"/>
         </Style>
+      </Style>
+
+      <!-- The pane's surface rounds only the two corners it touches -->
+      <Style Selector="^ /template/ Border#PaneSurface">
+        <Setter Property="CornerRadius" Value="{default:ConcentricCorners Radius={TemplateBinding CornerRadius}, Thickness={TemplateBinding BorderThickness}, Right=True}" />
       </Style>
     </Style>
 
@@ -297,43 +377,61 @@
     <Style Selector="^:top">
       <Setter Property="Template">
         <ControlTemplate>
-          <!-- Layout root: pane above, content below -->
-          <Grid Name="Container" Background="{TemplateBinding Background}">
-            <Grid.RowDefinitions>
-              <RowDefinition Height="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.PaneRowGridLength}" />
-              <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
+          <!-- Framed container: the rounded outline every other boxed control draws -->
+          <Border Name="Frame"
+                  Background="{TemplateBinding Background}"
+                  BorderBrush="{TemplateBinding BorderBrush}"
+                  BorderThickness="{TemplateBinding BorderThickness}"
+                  CornerRadius="{TemplateBinding CornerRadius}">
+            <!-- Layout root: pane above, content below -->
+            <Grid Name="Container">
+              <Grid.RowDefinitions>
+                <RowDefinition Height="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.PaneRowGridLength}" />
+                <RowDefinition Height="*" />
+              </Grid.RowDefinitions>
 
-            <!-- The sliding pane along the top edge -->
-            <Panel Name="PART_PaneRoot"
-                   Background="{TemplateBinding PaneBackground}"
-                   ClipToBounds="True"
-                   VerticalAlignment="Top"
-                   ZIndex="100">
-              <!-- The pane's content, usually navigation -->
-              <ContentPresenter x:Name="PART_PanePresenter"
-                                Content="{TemplateBinding Pane}"
-                                ContentTemplate="{TemplateBinding PaneTemplate}" />
-              <!-- Edge line, visible only in high contrast -->
-              <Rectangle Name="HCPaneBorder"
-                         Fill="Transparent"
-                         Height="1"
-                         VerticalAlignment="Bottom"  />
-            </Panel>
+              <!-- The sliding pane along the top edge; its surface follows the frame's curve -->
+              <Panel Name="PART_PaneRoot"
+                     ClipToBounds="True"
+                     VerticalAlignment="Top"
+                     ZIndex="100">
+                <!-- The pane's raised surface, concentric with the frame's corners -->
+                <Border Name="PaneSurface"
+                        Background="{TemplateBinding PaneBackground}">
+                  <!-- The pane's content, usually navigation -->
+                  <ContentPresenter x:Name="PART_PanePresenter"
+                                    Content="{TemplateBinding Pane}"
+                                    ContentTemplate="{TemplateBinding PaneTemplate}" />
+                </Border>
+                <!-- Hairline divider along the pane's inner edge -->
+                <Rectangle Name="InnerEdgeDivider"
+                           Fill="{color:BorderDefault}"
+                           Height="{size:ThicknessSmDouble}"
+                           VerticalAlignment="Bottom" />
+                <!-- Edge line, visible only in high contrast -->
+                <Rectangle Name="HCPaneBorder"
+                           Fill="Transparent"
+                           Height="{size:ThicknessSmDouble}"
+                           VerticalAlignment="Bottom"  />
+              </Panel>
 
-            <!-- Layout root stacking the dismiss layer over content -->
-            <Panel Name="ContentRoot" Grid.Row="1">
-              <!-- The main content below the pane -->
-              <ContentPresenter x:Name="PART_ContentPresenter"
-                                Content="{TemplateBinding Content}"
-                                ContentTemplate="{TemplateBinding ContentTemplate}" />
-              <!-- Catches clicks to close an overlaying pane -->
-              <Rectangle Name="LightDismissLayer"
-                         Fill="Transparent"
-                         IsVisible="False"/>
-            </Panel>
+              <!-- Layout root stacking the dismiss layer over content -->
+              <Panel Name="ContentRoot" Grid.Row="1">
+                <!-- The main content below the pane, inset by the standard content padding -->
+                <Border Name="ContentPaddingHost"
+                        Padding="{TemplateBinding Padding}">
+                  <ContentPresenter x:Name="PART_ContentPresenter"
+                                    Content="{TemplateBinding Content}"
+                                    ContentTemplate="{TemplateBinding ContentTemplate}" />
+                </Border>
+                <!-- Catches clicks to close an overlaying pane -->
+                <Rectangle Name="LightDismissLayer"
+                           Fill="Transparent"
+                           IsVisible="False"/>
+              </Panel>
 
-          </Grid>
+            </Grid>
+          </Border>
         </ControlTemplate>
       </Setter>
 
@@ -383,6 +481,11 @@
           <Setter Property="Grid.Row" Value="1"/>
           <Setter Property="Grid.RowSpan" Value="1"/>
         </Style>
+      </Style>
+
+      <!-- The pane's surface rounds only the two corners it touches -->
+      <Style Selector="^ /template/ Border#PaneSurface">
+        <Setter Property="CornerRadius" Value="{default:ConcentricCorners Radius={TemplateBinding CornerRadius}, Thickness={TemplateBinding BorderThickness}, Top=True}" />
       </Style>
     </Style>
 
@@ -390,39 +493,58 @@
     <Style Selector="^:bottom">
       <Setter Property="Template">
         <ControlTemplate>
-          <!-- Layout root: content above, pane below -->
-          <Grid Name="Container" Background="{TemplateBinding Background}">
-            <Grid.RowDefinitions>
-              <RowDefinition Height="*" />
-              <RowDefinition Height="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.PaneRowGridLength}" />
-            </Grid.RowDefinitions>
+          <!-- Framed container: the rounded outline every other boxed control draws -->
+          <Border Name="Frame"
+                  Background="{TemplateBinding Background}"
+                  BorderBrush="{TemplateBinding BorderBrush}"
+                  BorderThickness="{TemplateBinding BorderThickness}"
+                  CornerRadius="{TemplateBinding CornerRadius}">
+            <!-- Layout root: content above, pane below -->
+            <Grid Name="Container">
+              <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.PaneRowGridLength}" />
+              </Grid.RowDefinitions>
 
-            <!-- The sliding pane along the bottom edge -->
-            <Panel Name="PART_PaneRoot" Background="{TemplateBinding PaneBackground}"
-                   ClipToBounds="True"
-                   VerticalAlignment="Bottom"
-                   ZIndex="100">
-              <!-- The pane's content, usually navigation -->
-              <ContentPresenter x:Name="PART_PanePresenter"
-                                Content="{TemplateBinding Pane}"
-                                ContentTemplate="{TemplateBinding PaneTemplate}"/>
-              <!-- Edge line, visible only in high contrast -->
-              <Rectangle Name="HCPaneBorder"
-                         Fill="Transparent"
-                         Height="1" VerticalAlignment="Top"  />
-            </Panel>
+              <!-- The sliding pane along the bottom edge; its surface follows the frame's curve -->
+              <Panel Name="PART_PaneRoot"
+                     ClipToBounds="True"
+                     VerticalAlignment="Bottom"
+                     ZIndex="100">
+                <!-- The pane's raised surface, concentric with the frame's corners -->
+                <Border Name="PaneSurface"
+                        Background="{TemplateBinding PaneBackground}">
+                  <!-- The pane's content, usually navigation -->
+                  <ContentPresenter x:Name="PART_PanePresenter"
+                                    Content="{TemplateBinding Pane}"
+                                    ContentTemplate="{TemplateBinding PaneTemplate}"/>
+                </Border>
+                <!-- Hairline divider along the pane's inner edge -->
+                <Rectangle Name="InnerEdgeDivider"
+                           Fill="{color:BorderDefault}"
+                           Height="{size:ThicknessSmDouble}"
+                           VerticalAlignment="Top" />
+                <!-- Edge line, visible only in high contrast -->
+                <Rectangle Name="HCPaneBorder"
+                           Fill="Transparent"
+                           Height="{size:ThicknessSmDouble}" VerticalAlignment="Top"  />
+              </Panel>
 
-            <!-- Layout root stacking the dismiss layer over content -->
-            <Panel Name="ContentRoot" Grid.Row="0">
-              <!-- The main content above the pane -->
-              <ContentPresenter x:Name="PART_ContentPresenter"
-                                Content="{TemplateBinding Content}"
-                                ContentTemplate="{TemplateBinding ContentTemplate}" />
-              <!-- Catches clicks to close an overlaying pane -->
-              <Rectangle Name="LightDismissLayer" Fill="Transparent" IsVisible="False"/>
-            </Panel>
+              <!-- Layout root stacking the dismiss layer over content -->
+              <Panel Name="ContentRoot" Grid.Row="0">
+                <!-- The main content above the pane, inset by the standard content padding -->
+                <Border Name="ContentPaddingHost"
+                        Padding="{TemplateBinding Padding}">
+                  <ContentPresenter x:Name="PART_ContentPresenter"
+                                    Content="{TemplateBinding Content}"
+                                    ContentTemplate="{TemplateBinding ContentTemplate}" />
+                </Border>
+                <!-- Catches clicks to close an overlaying pane -->
+                <Rectangle Name="LightDismissLayer" Fill="Transparent" IsVisible="False"/>
+              </Panel>
 
-          </Grid>
+            </Grid>
+          </Border>
         </ControlTemplate>
       </Setter>
 
@@ -472,6 +594,11 @@
           <Setter Property="Grid.Row" Value="0"/>
           <Setter Property="Grid.RowSpan" Value="1"/>
         </Style>
+      </Style>
+
+      <!-- The pane's surface rounds only the two corners it touches -->
+      <Style Selector="^ /template/ Border#PaneSurface">
+        <Setter Property="CornerRadius" Value="{default:ConcentricCorners Radius={TemplateBinding CornerRadius}, Thickness={TemplateBinding BorderThickness}, Bottom=True}" />
       </Style>
     </Style>
 
@@ -555,8 +682,9 @@
       <Setter Property="Height" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.ClosedPaneHeight}" />
     </Style>
 
+    <!-- The scrim dims the content while an overlaying pane is open -->
     <Style Selector="^:lightDismiss /template/ Rectangle#LightDismissLayer">
-      <Setter Property="Fill" Value="{color:OverlayStrongBrush}" />
+      <Setter Property="Fill" Value="{color:OverlayMediumBrush}" />
     </Style>
     <Style Selector="^:overlay:open /template/ Rectangle#LightDismissLayer">
       <Setter Property="IsVisible" Value="True"/>

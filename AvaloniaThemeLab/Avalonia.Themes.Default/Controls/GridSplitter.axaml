@@ -5,14 +5,39 @@
                     xmlns:color="using:AngelSix.ThemeEngine.Colors"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes"
                     >
-  <!-- Design preview: the splitter between two panes so the bar is visible. Declared before Design.PreviewWith uses it -->
+  <!-- Design preview: two labelled panes with a working splitter between them, wrapped in a rounded
+       container that reads like a button face holding a splitter. Sized so the star columns do not collapse -->
   <DataTemplate x:Key="GridSplitterPreview">
     <StackPanel Spacing="{size:SpacingXl}" HorizontalAlignment="Left">
-      <Grid ColumnDefinitions="*, Auto, *">
-        <Border Grid.Column="0" Background="{color:BackgroundDefault}" Margin="{size:Edges All={size:SpacingSm}}" />
-        <GridSplitter Grid.Column="1" ResizeBehavior="PreviousAndNext" />
-        <Border Grid.Column="2" Background="{color:BackgroundDefault}" Margin="{size:Edges All={size:SpacingSm}}" />
-      </Grid>
+      <!-- Overall container: Button's frame radius, outline and surface -->
+      <Border Width="360" Height="160"
+              Background="{color:BackgroundDefault}"
+              BorderBrush="{color:BorderDefault}"
+              BorderThickness="{size:ThicknessSm}"
+              CornerRadius="{size:RadiusSm}">
+        <Grid ColumnDefinitions="*, Auto, *">
+          <!-- Left pane: Button's rest surface, no outline of its own (the container's single outline frames both panes); outer corners concentric with the container (Rule 19) -->
+          <Border Grid.Column="0"
+                  Background="{color:BackgroundDefault}"
+                  CornerRadius="{default:ConcentricCorners Radius={size:RadiusSm}, Thickness={size:ThicknessSm}, Left=True}">
+            <TextBlock Text="Left pane"
+                       Foreground="{color:TextDefault}"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center" />
+          </Border>
+          <!-- The draggable bar between the panes -->
+          <GridSplitter Grid.Column="1" ResizeBehavior="PreviousAndNext" />
+          <!-- Right pane: Button's rest surface, no outline of its own; outer corners concentric with the container (Rule 19) -->
+          <Border Grid.Column="2"
+                  Background="{color:BackgroundDefault}"
+                  CornerRadius="{default:ConcentricCorners Radius={size:RadiusSm}, Thickness={size:ThicknessSm}, Right=True}">
+            <TextBlock Text="Right pane"
+                       Foreground="{color:TextDefault}"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center" />
+          </Border>
+        </Grid>
+      </Border>
     </StackPanel>
   </DataTemplate>
 
@@ -27,26 +52,47 @@
     </Border>
   </Design.PreviewWith>
 
-    <ControlTheme x:Key="{x:Type GridSplitter}" TargetType="GridSplitter">
-      <Setter Property="Focusable" Value="True" />
-      <Setter Property="MinWidth" Value="6" />
-      <Setter Property="MinHeight" Value="6" />
-      <Setter Property="Background" Value="{color:AccentBrush Light6}" />
-      <Setter Property="Foreground" Value="{color:TextDefault}" />
-      <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
-      <Setter Property="PreviewContent">
-        <Template>
-          <Rectangle Fill="{color:AccentPrimaryBrush}" />
-        </Template>
-      </Setter>
-      <Setter Property="Template">
-        <ControlTemplate>
-          <!-- The draggable bar between two panes -->
-          <Border BorderBrush="{TemplateBinding BorderBrush}"
-                  BorderThickness="{TemplateBinding BorderThickness}"
-                  CornerRadius="{TemplateBinding CornerRadius}"
-                  Background="{TemplateBinding Background}" />
-        </ControlTemplate>
-      </Setter>
-    </ControlTheme>
+  <ControlTheme x:Key="{x:Type GridSplitter}" TargetType="GridSplitter">
+    <!-- Visual defaults -->
+    <Setter Property="Focusable" Value="True" />
+    <Setter Property="MinWidth" Value="{size:ThicknessXxlDouble}" />
+    <Setter Property="MinHeight" Value="{size:ThicknessXxlDouble}" />
+    <!-- Filled grip: a solid bar that stands out from the Light6 panes it divides -->
+    <Setter Property="Background" Value="{color:AccentBrush Dark3}" />
+    <Setter Property="Foreground" Value="{color:TextDefault}" />
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
+
+    <!-- Template: the bar the user grabs to resize the neighbouring panes -->
+    <Setter Property="Template">
+      <ControlTemplate>
+        <!-- The draggable bar between two panes -->
+        <Border Name="PART_Grip"
+                Background="{TemplateBinding Background}"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}"
+                CornerRadius="{TemplateBinding CornerRadius}" />
+      </ControlTemplate>
+    </Setter>
+
+    <!-- Hover state: the grip deepens so it reads as grabbable -->
+    <Style Selector="^:pointerover:not(:disabled)">
+      <Setter Property="Background" Value="{color:AccentBrush Dark4}" />
+    </Style>
+
+    <!-- Pressed state: deepest while the pointer holds it -->
+    <Style Selector="^:pressed">
+      <Setter Property="Background" Value="{color:AccentBrush Dark5}" />
+    </Style>
+
+    <!-- Disabled state -->
+    <Style Selector="^:disabled">
+      <Setter Property="Opacity" Value="{size:DisabledOpacity}" />
+    </Style>
+
+    <!-- Focus state (Rule 21: the switch decides between the focus colour and the control's own hue) -->
+    <Style Selector="^:focus-visible">
+      <Setter Property="BorderBrush" Value="{default:FocusBrush}" />
+      <Setter Property="BorderThickness" Value="{default:FocusThickness}" />
+    </Style>
+  </ControlTheme>
 </ResourceDictionary>

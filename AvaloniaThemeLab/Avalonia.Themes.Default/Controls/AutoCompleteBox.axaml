@@ -29,8 +29,9 @@
           </generic:List>
         </AutoCompleteBox.ItemsSource>
       </AutoCompleteBox>
-      <!-- Non-default accent hues ride on the focused boxes so each extra instance also demos a state -->
-      <AutoCompleteBox Width="200" theme:Accent.Kind="Warning" PlaceholderText="Warn">
+      <!-- Non-default accent hues ride on the focused boxes so each extra instance also demos a state;
+           pinned Focused so the focus ring (and the FocusColorOnAccents decision, Rule 21) is always shown -->
+      <AutoCompleteBox Width="200" theme:Accent.Kind="Warning" theme:Preview.State="Focused" PlaceholderText="Warn">
         <AutoCompleteBox.ItemsSource>
           <generic:List x:TypeArguments="x:String">
             <x:String>Apple</x:String>
@@ -40,7 +41,7 @@
           </generic:List>
         </AutoCompleteBox.ItemsSource>
       </AutoCompleteBox>
-      <AutoCompleteBox Width="200" theme:Accent.Kind="Success" PlaceholderText="Success">
+      <AutoCompleteBox Width="200" theme:Accent.Kind="Success" theme:Preview.State="Focused" PlaceholderText="Success">
         <AutoCompleteBox.ItemsSource>
           <generic:List x:TypeArguments="x:String">
             <x:String>Apple</x:String>
@@ -179,10 +180,10 @@
       <Setter Property="Opacity" Value="{size:DisabledOpacity}" />
     </Style>
 
-    <!-- Focus state -->
+    <!-- Focus state (Rule 21: the switch decides between the focus colour and the control's own hue) -->
     <Style Selector="^:focus-visible /template/ TextBox#PART_TextBox, ^[(theme|Preview.State)=Focused] /template/ TextBox#PART_TextBox">
-      <Setter Property="BorderBrush" Value="{color:AccentFocusBrush}" />
-      <Setter Property="BorderThickness" Value="{size:ThicknessMd}" />
+      <Setter Property="BorderBrush" Value="{default:FocusBrush}" />
+      <Setter Property="BorderThickness" Value="{default:FocusThickness}" />
     </Style>
 
   </ControlTheme>

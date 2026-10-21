@@ -4,30 +4,8 @@
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
                     xmlns:color="using:AngelSix.ThemeEngine.Colors"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes">
-  <!-- Design preview: the shared state column, declared before Design.PreviewWith uses it. Item states come from item
-       properties only: the theme exposes no Preview.State hooks, so hover/pressed/focus need live interaction -->
-  <DataTemplate x:Key="ComboBoxItemPreview">
-    <StackPanel Orientation="Vertical" Spacing="{size:SpacingLg}">
-      <ComboBoxItem>Default</ComboBoxItem>
-      <ComboBoxItem IsSelected="True">Selected</ComboBoxItem>
-      <ComboBoxItem IsEnabled="False">Disabled</ComboBoxItem>
-      <ComboBoxItem IsSelected="True" IsEnabled="False">Selected · Disabled</ComboBoxItem>
-      <!-- Other accent hues: the selected fill takes the item's own hue -->
-      <ComboBoxItem IsSelected="True" theme:Accent.Kind="Warning">Warn</ComboBoxItem>
-      <ComboBoxItem IsSelected="True" theme:Accent.Kind="Success">Success</ComboBoxItem>
-    </StackPanel>
-  </DataTemplate>
-
-  <Design.PreviewWith>
-    <Border>
-      <Border.Styles>
-        <default:DefaultThemeStyles />
-      </Border.Styles>
-
-      <default:LightDarkPreview Title="ComboBoxItem" Orientation="Vertical" ContentTemplate="{StaticResource ComboBoxItemPreview}" />
-
-    </Border>
-  </Design.PreviewWith>
+  <!-- The item theme has no gallery entry of its own (task 137): the drop-down's rows are shown
+       inside the ComboBox preview, where a user actually meets them. -->
 
   <!-- ============================================================
        Template
@@ -39,19 +17,24 @@
     <Setter Property="Foreground" Value="{color:TextDefault}" />
     <Setter Property="BorderBrush" Value="Transparent" />
     <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
-    <Setter Property="CornerRadius" Value="{size:RadiusMd}" />
+    <!-- Parallel to the drop-down's curved frame (Rule 19): the container's radius pulled in by its own padding and border.
+         Inset = the 5px gap from the popup frame's bounds to the item (its 1px border + 4px padding); the frame's radius and border are the container's own tokens -->
+    <Setter Property="CornerRadius" Value="{default:ConcentricCorners Radius={size:RadiusMd}, Thickness={size:ThicknessSm}, Inset={size:Edges All={size:Scaled Value={size:SpacingMd}, By=1.25}}, All=True}" />
     <Setter Property="MinHeight" Value="{size:ControlHeightSm}" />
     <Setter Property="Padding" Value="{size:Edges Horizontal={size:SpacingXxl}, Vertical={size:SpacingLg}}" />
-    <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
+    <!-- A row in a drop-down fills the list's width, and so does its content: the highlight and hit area span the row, not the label -->
+    <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
     <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
     <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
     <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
+    <!-- Focus is the item's own inset border (below): an outset ring is cut by the popup's scroller and crosses its frame -->
+    <Setter Property="FocusAdorner" Value="{x:Null}" />
     <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
 
     <!-- Template -->
     <Setter Property="Template">
       <ControlTemplate>
-        <!-- The item's label -->
+        <!-- The item's label; its corners are the item's own concentric radius, carried straight through -->
         <ContentPresenter Name="PART_ContentPresenter"
                           Background="{TemplateBinding Background}"
                           BorderBrush="{TemplateBinding BorderBrush}"
@@ -66,59 +49,54 @@
       </ControlTemplate>
     </Setter>
 
-    <!-- PointerOver state -->
-    <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+    <!-- Hover state -->
+    <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter,
+                     ^[(theme|Preview.State)=Hover] /template/ ContentPresenter#PART_ContentPresenter">
       <Setter Property="Background" Value="{color:HoverBackgroundDefault}" />
       <Setter Property="BorderBrush" Value="Transparent" />
     </Style>
 
     <!-- Pressed state -->
-    <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter">
+    <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter,
+                     ^[(theme|Preview.State)=Pressed] /template/ ContentPresenter#PART_ContentPresenter">
       <Setter Property="Background" Value="{color:PressedBackgroundDefault}" />
       <Setter Property="BorderBrush" Value="Transparent" />
     </Style>
 
-    <!-- Disabled state -->
-    <Style Selector="^:disabled /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="Background" Value="Transparent" />
+    <!-- Disabled state: the whole row fades, selected or not, so a chosen-but-unavailable item still reads as chosen -->
+    <Style Selector="^:disabled">
+      <Setter Property="Opacity" Value="{size:DisabledOpacity}" />
+    </Style>
+
+    <!-- Selected state: the outlined column, not the filled one — a light fill stage with default-weight text,
+         so a chosen row reads as picked without going dark (Decision, 18 Oct 2026) -->
+    <Style Selector="^:selected /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="{color:AccentBrush Light6}" />
       <Setter Property="BorderBrush" Value="Transparent" />
-      <Setter Property="Foreground" Value="{color:DimTextDefault}" />
     </Style>
 
-    <!-- Focus state -->
-    <Style Selector="^:focus-visible /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="BorderBrush" Value="{color:AccentFocusBrush}" />
-      <Setter Property="BorderThickness" Value="{size:ThicknessMd}" />
+    <!-- Selected hover state -->
+    <Style Selector="^:selected:pointerover /template/ ContentPresenter#PART_ContentPresenter,
+                     ^:selected[(theme|Preview.State)=Hover] /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="{color:AccentBrush Light5}" />
+      <Setter Property="BorderBrush" Value="Transparent" />
     </Style>
 
-    <!-- Selected state -->
-    <Style Selector="^:selected">
-      <Setter Property="Foreground" Value="{color:AccentBrush Light10}" />
+    <!-- Selected pressed state -->
+    <Style Selector="^:selected:pressed /template/ ContentPresenter#PART_ContentPresenter,
+                     ^:selected[(theme|Preview.State)=Pressed] /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="{color:AccentBrush Light4}" />
+      <Setter Property="BorderBrush" Value="Transparent" />
+    </Style>
 
-      <!-- Selected default -->
-      <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
-        <Setter Property="Background" Value="{color:AccentBrush Dark3}" />
-        <Setter Property="BorderBrush" Value="Transparent" />
-      </Style>
-
-      <!-- Selected PointerOver state -->
-      <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
-        <Setter Property="Background" Value="{color:AccentBrush Dark4}" />
-        <Setter Property="BorderBrush" Value="Transparent" />
-      </Style>
-
-      <!-- Selected Pressed state -->
-      <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter">
-        <Setter Property="Background" Value="{color:AccentBrush Dark5}" />
-        <Setter Property="BorderBrush" Value="Transparent" />
-      </Style>
-
-      <!-- Selected Disabled state -->
-      <Style Selector="^:disabled /template/ ContentPresenter#PART_ContentPresenter">
-        <Setter Property="Background" Value="Transparent" />
-        <Setter Property="BorderBrush" Value="Transparent" />
-        <Setter Property="Foreground" Value="{color:DimTextDefault}" />
-      </Style>
+    <!-- Focus state (Rule 21: the switch decides between the focus colour and the control's own hue).
+         It comes AFTER the selected styles, and repeats the selected combination, so a chosen row keeps
+         its focus ring: the selected styles set BorderBrush to Transparent, and a rule that lands earlier
+         is beaten by them, which left a selected row's keyboard focus invisible (AVLG031/AVLG033). -->
+    <Style Selector="^:focus-visible /template/ ContentPresenter#PART_ContentPresenter,
+                     ^:selected:focus-visible /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="BorderBrush" Value="{default:FocusBrush}" />
+      <Setter Property="BorderThickness" Value="{default:FocusThickness}" />
     </Style>
 
   </ControlTheme>

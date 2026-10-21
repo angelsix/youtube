@@ -4,31 +4,70 @@
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
                     xmlns:color="using:AngelSix.ThemeEngine.Colors"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes">
-  <!-- Design preview: vertical — three lists exceed half-pane width. The designer and the lab gallery both show this key,
-       so it is declared before Design.PreviewWith uses it. Item states ride item properties — the ListBoxItem theme has no Preview.State hooks -->
+  <!-- Design preview: the item states live INSIDE the list, the way a user meets them (task 140: the
+       standalone ListBoxItem gallery entry is retired; its control theme stays). TWO columns, each
+       list sized to its CONTENT: the half-pane is ~412px wide and the page must not scroll at
+       1200x800, and a list given a MaxHeight would draw an inner scrollbar over its rows. The
+       designer and the lab gallery both show this key, so it is declared before Design.PreviewWith
+       uses it -->
   <DataTemplate x:Key="ListBoxPreview">
-    <StackPanel Orientation="Horizontal" Spacing="{size:SpacingXxl}">
-      <!-- Mixed-item list: every item state the ListBoxItem theme implements, forced via item properties.
-           Multiple, or single selection keeps only the last IsSelected item and clears "Selected" -->
-      <ListBox Width="180" SelectionMode="Multiple">
-        <ListBoxItem>Default</ListBoxItem>
-        <ListBoxItem IsSelected="True">Selected</ListBoxItem>
-        <ListBoxItem IsEnabled="False">Disabled</ListBoxItem>
-        <ListBoxItem IsSelected="True" IsEnabled="False">Selected · Disabled</ListBoxItem>
-      </ListBox>
-      <!-- Frame-only options compose onto one instance each: selection mode + inherited accent hue -->
-      <ListBox Width="180" SelectionMode="Multiple" theme:Accent.Kind="Warning">
-        <ListBoxItem IsSelected="True">A</ListBoxItem>
-        <ListBoxItem>B</ListBoxItem>
-        <ListBoxItem IsSelected="True">C</ListBoxItem>
-      </ListBox>
-      <!-- Toggle = ctrl-click multi-select: Avalonia 12's SelectionMode has no MultiExtended member -->
-      <ListBox Width="180" SelectionMode="Toggle" SelectedIndex="1" theme:Accent.Kind="Success">
-        <ListBoxItem>X</ListBoxItem>
-        <ListBoxItem>Y</ListBoxItem>
-        <ListBoxItem>Z</ListBoxItem>
-      </ListBox>
-    </StackPanel>
+    <UniformGrid Columns="2" ColumnSpacing="{size:SpacingXl}">
+      <Grid RowDefinitions="Auto,Auto,Auto,Auto" RowSpacing="{size:SpacingXl}" HorizontalAlignment="Left">
+        <!-- Caption naming the states shown -->
+        <TextBlock Grid.Row="0" Text="Row states" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
+        <!-- Every state a row can be in, pinned inside one real list. Multiple selection keeps all
+             three pinned "Selected" rows chosen: a single-selection list keeps only the last one -->
+        <ListBox Grid.Row="1" Width="190" SelectionMode="Multiple">
+          <!-- Rest: the row's plain state -->
+          <ListBoxItem>Default</ListBoxItem>
+          <!-- Hover: the row's hover fill, pinned -->
+          <ListBoxItem theme:Preview.State="Hover">Hover</ListBoxItem>
+          <!-- Pressed: the row's pressed fill, pinned -->
+          <ListBoxItem theme:Preview.State="Pressed">Pressed</ListBoxItem>
+          <!-- Selected: the outlined column, a light fill stage of the row's own hue -->
+          <ListBoxItem IsSelected="True">Selected</ListBoxItem>
+          <!-- The same rule under another accent kind: the fill takes that hue -->
+          <ListBoxItem IsSelected="True" theme:Accent.Kind="Success">Selected · Success</ListBoxItem>
+          <!-- Disabled: the whole row dims -->
+          <ListBoxItem IsEnabled="False">Disabled</ListBoxItem>
+          <!-- Disabled beats selection, keeping the chosen fill under the dim -->
+          <ListBoxItem IsEnabled="False" IsSelected="True">Disabled + Selected</ListBoxItem>
+        </ListBox>
+        <!-- Caption naming the states shown -->
+        <TextBlock Grid.Row="2" Text="Selection follows the hue" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
+        <!-- A chosen row takes the box's own hue -->
+        <ListBox Grid.Row="3" Width="190" SelectionMode="Multiple" theme:Accent.Kind="Warning">
+          <ListBoxItem IsSelected="True">First</ListBoxItem>
+          <ListBoxItem>Second</ListBoxItem>
+          <ListBoxItem IsSelected="True">Third</ListBoxItem>
+        </ListBox>
+      </Grid>
+      <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto" RowSpacing="{size:SpacingXl}" HorizontalAlignment="Left">
+        <!-- Caption naming the states shown -->
+        <TextBlock Grid.Row="0" Text="Single selection" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
+        <!-- One chosen row: a click elsewhere swaps the choice -->
+        <ListBox Grid.Row="1" Width="190" SelectedIndex="1">
+          <ListBoxItem>First</ListBoxItem>
+          <ListBoxItem>Selected</ListBoxItem>
+          <ListBoxItem>Third</ListBoxItem>
+        </ListBox>
+        <!-- Caption naming the states shown -->
+        <TextBlock Grid.Row="2" Text="Toggle multi-select" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
+        <!-- Toggle mode: click adds or removes a row instead of swapping the choice -->
+        <ListBox Grid.Row="3" Width="190" SelectionMode="Toggle" SelectedIndex="1" theme:Accent.Kind="Success">
+          <ListBoxItem>Alpha</ListBoxItem>
+          <ListBoxItem>Beta</ListBoxItem>
+          <ListBoxItem>Gamma</ListBoxItem>
+        </ListBox>
+        <!-- Caption naming the states shown -->
+        <TextBlock Grid.Row="4" Text="Clickable rows" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
+        <!-- The rest and disabled rows the user or the crawler actually clicks -->
+        <ListBox Grid.Row="5" Width="190">
+          <ListBoxItem>Default</ListBoxItem>
+          <ListBoxItem IsEnabled="False">Disabled</ListBoxItem>
+        </ListBox>
+      </Grid>
+    </UniformGrid>
   </DataTemplate>
 
   <Design.PreviewWith>
@@ -67,7 +106,8 @@
     <!-- Template -->
     <Setter Property="Template">
       <ControlTemplate>
-        <!-- Outer frame around the list -->
+        <!-- Outer frame around the list. Its Padding insets the scroller off the rounded
+             edge so the scroller's square corners never paint over the frame's corner arcs -->
         <Border Name="border"
                 ClipToBounds="{TemplateBinding ClipToBounds}"
                 Background="{TemplateBinding Background}"
@@ -85,19 +125,14 @@
                         IsScrollInertiaEnabled="{TemplateBinding (ScrollViewer.IsScrollInertiaEnabled)}"
                         IsDeferredScrollingEnabled="{TemplateBinding (ScrollViewer.IsDeferredScrollingEnabled)}"
                         BringIntoViewOnFocusChange="{TemplateBinding (ScrollViewer.BringIntoViewOnFocusChange)}">
-            <!-- The list items -->
+            <!-- The list items. The frame's Padding supplies the single 4px gutter; no
+                 second margin here, or the gutter doubles to 8px -->
             <ItemsPresenter Name="PART_ItemsPresenter"
                             ItemsPanel="{TemplateBinding ItemsPanel}"/>
           </ScrollViewer>
         </Border>
       </ControlTemplate>
     </Setter>
-
-    <!-- The rows' scrolling inset is the items' Margin, which the presenter does count in its extent (the viewer itself
-         has no Padding: see the ScrollViewer theme) -->
-    <Style Selector="^ /template/ ItemsPresenter#PART_ItemsPresenter">
-      <Setter Property="Margin" Value="{size:Edges Horizontal={size:SpacingMd}, Vertical={size:SpacingMd}}" />
-    </Style>
 
   </ControlTheme>
 </ResourceDictionary>

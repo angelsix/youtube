@@ -5,27 +5,30 @@
                     xmlns:color="using:AngelSix.ThemeEngine.Colors"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes"
                     xmlns:icons="using:AngelSix.ThemeEngine.Icons">
-  <!-- Design preview: three bars covering the label positions and a compact checked face, declared before Design.PreviewWith uses it.
-       Hover/press/focus need live input (the themes lack Preview.State hooks); overflow dot omitted because
-       IsOverflowButtonVisible's setter is non-public in Avalonia 12, so it cannot be forced from markup -->
+  <!-- Design preview: five bars covering the three label positions, the Favourite accent and the favourite toggle's
+       states, declared before Design.PreviewWith uses it. States are pinned with theme:Preview.State (hover/pressed)
+       wherever possible so the crawler's state pass proves them live; the checked rows hold the filled column in the
+       resting frame. Overflow dot omitted because IsOverflowButtonVisible's setter is non-public in Avalonia 12, so it
+       cannot be forced from markup -->
   <DataTemplate x:Key="CommandBarPreview">
     <StackPanel Orientation="Vertical" Spacing="{size:SpacingXl}">
-      <!-- Standard bar: faces spread across few commands + separator -->
+      <!-- Standard bar: rest, hover, separator, checked (default accent), disabled -->
       <CommandBar>
         <CommandBarButton Label="Rest">
           <CommandBarButton.Icon>
             <PathIcon Data="{icons:Plus}" />
           </CommandBarButton.Icon>
         </CommandBarButton>
-        <CommandBarButton Label="Press">
+        <CommandBarButton Label="Hover" theme:Preview.State="Hover">
           <CommandBarButton.Icon>
             <PathIcon Data="{icons:Save}" />
           </CommandBarButton.Icon>
         </CommandBarButton>
         <CommandBarSeparator />
-        <CommandBarToggleButton Label="Focus">
+        <!-- Narrow 64px faces: short state words here; the full spellings sit in the auto-width bars below -->
+        <CommandBarToggleButton Label="On" IsChecked="True">
           <CommandBarToggleButton.Icon>
-            <PathIcon Data="{icons:Star}" />
+            <PathIcon Data="{icons:Checkmark}" />
           </CommandBarToggleButton.Icon>
         </CommandBarToggleButton>
         <CommandBarButton Label="Off" IsEnabled="False">
@@ -34,14 +37,14 @@
           </CommandBarButton.Icon>
         </CommandBarButton>
       </CommandBar>
-      <!-- LabelPosition=Right: icon beside label, auto-width items -->
+      <!-- LabelPosition=Right: icon beside label, auto-width items; pressed and a neutral checked face -->
       <CommandBar DefaultLabelPosition="Right">
         <CommandBarButton Label="Undo">
           <CommandBarButton.Icon>
             <PathIcon Data="{icons:ArrowLeft}" />
           </CommandBarButton.Icon>
         </CommandBarButton>
-        <CommandBarButton Label="Redo">
+        <CommandBarButton Label="Pressed" theme:Preview.State="Pressed">
           <CommandBarButton.Icon>
             <PathIcon Data="{icons:ArrowRight}" />
           </CommandBarButton.Icon>
@@ -53,7 +56,20 @@
           </CommandBarToggleButton.Icon>
         </CommandBarToggleButton>
       </CommandBar>
-      <!-- Compact hides labels; checked face proves generic accent resolution incl. non-default hue -->
+      <!-- Favourite example: the star carries the new Favourite hue and its label says so -->
+      <CommandBar DefaultLabelPosition="Right">
+        <CommandBarToggleButton Label="Favourite" theme:Accent.Kind="Favourite" IsChecked="True">
+          <CommandBarToggleButton.Icon>
+            <PathIcon Data="{icons:Star}" />
+          </CommandBarToggleButton.Icon>
+        </CommandBarToggleButton>
+        <CommandBarToggleButton Label="Not Favourite" theme:Accent.Kind="Favourite">
+          <CommandBarToggleButton.Icon>
+            <PathIcon Data="{icons:Star}" />
+          </CommandBarToggleButton.Icon>
+        </CommandBarToggleButton>
+      </CommandBar>
+      <!-- Compact hides labels; the reload icon and a checked face prove generic accent resolution incl. non-default hue -->
       <CommandBar DefaultLabelPosition="Collapsed">
         <CommandBarButton>
           <CommandBarButton.Icon>
@@ -66,7 +82,33 @@
           </CommandBarButton.Icon>
         </CommandBarButton>
         <CommandBarSeparator />
-        <CommandBarToggleButton theme:Accent.Kind="Warning" IsChecked="True">
+        <CommandBarToggleButton theme:Accent.Kind="Success" IsChecked="True">
+          <CommandBarToggleButton.Icon>
+            <PathIcon Data="{icons:Checkmark}" />
+          </CommandBarToggleButton.Icon>
+        </CommandBarToggleButton>
+      </CommandBar>
+      <!-- Favourite toggle states: the outlined ramp (unchecked) and the filled column (checked) -->
+      <CommandBar DefaultLabelPosition="Right">
+        <CommandBarToggleButton Label="Unfavoured" theme:Accent.Kind="Favourite">
+          <CommandBarToggleButton.Icon>
+            <PathIcon Data="{icons:Star}" />
+          </CommandBarToggleButton.Icon>
+        </CommandBarToggleButton>
+        <CommandBarToggleButton Label="Favoured" theme:Accent.Kind="Favourite" IsChecked="True">
+          <CommandBarToggleButton.Icon>
+            <PathIcon Data="{icons:Star}" />
+          </CommandBarToggleButton.Icon>
+        </CommandBarToggleButton>
+      </CommandBar>
+      <!-- Favourite toggle states: the hover ramp and the checked disabled face -->
+      <CommandBar DefaultLabelPosition="Right">
+        <CommandBarToggleButton Label="Favouring" theme:Accent.Kind="Favourite" theme:Preview.State="Hover">
+          <CommandBarToggleButton.Icon>
+            <PathIcon Data="{icons:Star}" />
+          </CommandBarToggleButton.Icon>
+        </CommandBarToggleButton>
+        <CommandBarToggleButton Label="Locked" theme:Accent.Kind="Favourite" IsChecked="True" IsEnabled="False">
           <CommandBarToggleButton.Icon>
             <PathIcon Data="{icons:Star}" />
           </CommandBarToggleButton.Icon>
@@ -88,14 +130,22 @@
   <!-- CommandBarButton ControlTheme -->
   <ControlTheme x:Key="{x:Type CommandBarButton}" TargetType="CommandBarButton">
     <Setter Property="Background" Value="Transparent" />
+    <Setter Property="Foreground" Value="{color:TextDefault}" />
     <Setter Property="BorderBrush" Value="Transparent" />
     <Setter Property="BorderThickness" Value="0" />
+    <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
     <Setter Property="Padding" Value="{size:Edges Horizontal={size:SpacingLg}, Vertical={size:SpacingMd}}" />
     <Setter Property="Width" Value="{size:Scaled Value={size:ControlHeightSm}, By=2}" />
     <Setter Property="MinHeight" Value="{size:ControlHeightMd}" />
-    <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
+    <Setter Property="HorizontalContentAlignment" Value="{theme:ButtonHorizontalContentAlignment}" />
     <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
     <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
+    <Setter Property="RenderTransform" Value="none" />
+    <Setter Property="Transitions">
+      <Transitions>
+        <TransformOperationsTransition Property="RenderTransform" Duration="{theme:AnimationFastMs}" />
+      </Transitions>
+    </Setter>
     <Setter Property="Template">
       <ControlTemplate>
         <!-- Outer frame around the command button -->
@@ -134,13 +184,26 @@
     </Style>
 
     <!-- Hover -->
-    <Style Selector="^:pointerover /template/ Border#PART_Border">
+    <Style Selector="^:pointerover, ^[(theme|Preview.State)=Hover]">
       <Setter Property="Background" Value="{color:HoverBackgroundDefault}" />
+      <Setter Property="Foreground" Value="{color:HoverTextDefault}" />
     </Style>
 
     <!-- Pressed -->
-    <Style Selector="^:pressed /template/ Border#PART_Border">
+    <Style Selector="^:pressed, ^[(theme|Preview.State)=Pressed]">
+      <Setter Property="RenderTransform" Value="{theme:TransformScale Value={size:PressedScale}}" />
       <Setter Property="Background" Value="{color:PressedBackgroundDefault}" />
+    </Style>
+
+    <!-- Disabled -->
+    <Style Selector="^:disabled">
+      <Setter Property="Opacity" Value="{size:DisabledOpacity}" />
+    </Style>
+
+    <!-- Focus -->
+    <Style Selector="^:focus-visible, ^[(theme|Preview.State)=Focused]">
+      <Setter Property="BorderBrush" Value="{default:FocusBrush}" />
+      <Setter Property="BorderThickness" Value="{default:FocusThickness}" />
     </Style>
 
     <!-- Compact: hide label, reduce width -->
@@ -181,14 +244,22 @@
   <!-- CommandBarToggleButton ControlTheme -->
   <ControlTheme x:Key="{x:Type CommandBarToggleButton}" TargetType="CommandBarToggleButton">
     <Setter Property="Background" Value="Transparent" />
+    <Setter Property="Foreground" Value="{color:TextDefault}" />
     <Setter Property="BorderBrush" Value="Transparent" />
     <Setter Property="BorderThickness" Value="0" />
+    <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
     <Setter Property="Padding" Value="{size:Edges Horizontal={size:SpacingLg}, Vertical={size:SpacingMd}}" />
     <Setter Property="Width" Value="{size:Scaled Value={size:ControlHeightSm}, By=2}" />
     <Setter Property="MinHeight" Value="{size:ControlHeightMd}" />
-    <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
+    <Setter Property="HorizontalContentAlignment" Value="{theme:ButtonHorizontalContentAlignment}" />
     <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
     <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
+    <Setter Property="RenderTransform" Value="none" />
+    <Setter Property="Transitions">
+      <Transitions>
+        <TransformOperationsTransition Property="RenderTransform" Duration="{theme:AnimationFastMs}" />
+      </Transitions>
+    </Setter>
     <Setter Property="Template">
       <ControlTemplate>
         <!-- Outer frame around the toggle command -->
@@ -226,20 +297,60 @@
       <Setter Property="FontSize" Value="{size:FontSizeSm}" />
     </Style>
 
-    <!-- Hover -->
-    <Style Selector="^:pointerover /template/ Border#PART_Border">
+    <!-- Hover: the outlined ramp one stage deeper than rest, never a hue -->
+    <Style Selector="^:pointerover, ^[(theme|Preview.State)=Hover]">
       <Setter Property="Background" Value="{color:HoverBackgroundDefault}" />
+      <Setter Property="Foreground" Value="{color:HoverTextDefault}" />
     </Style>
 
     <!-- Pressed -->
-    <Style Selector="^:pressed /template/ Border#PART_Border">
+    <Style Selector="^:pressed, ^[(theme|Preview.State)=Pressed]">
+      <Setter Property="RenderTransform" Value="{theme:TransformScale Value={size:PressedScale}}" />
       <Setter Property="Background" Value="{color:PressedBackgroundDefault}" />
     </Style>
 
-    <!-- Checked -->
-    <Style Selector="^:checked /template/ Border#PART_Border">
-      <Setter Property="Background" Value="{color:AccentPrimaryBrush}" />
+    <!-- Disabled: whole-face dimming, no recoloured fill -->
+    <Style Selector="^:disabled">
+      <Setter Property="Opacity" Value="{size:DisabledOpacity}" />
     </Style>
+
+    <!-- Focus (Rule 21: the switch decides between the focus colour and the control's own hue) -->
+    <Style Selector="^:focus-visible, ^[(theme|Preview.State)=Focused]">
+      <Setter Property="BorderBrush" Value="{default:FocusBrush}" />
+      <Setter Property="BorderThickness" Value="{default:FocusThickness}" />
+    </Style>
+
+    <!-- ============================================================
+         Checked column (filled): the item's own hue. The resting fill takes the
+         solid-fill role and the glyph/text on it the on-solid-fill ink (task 131:
+         a vivid fill with a deep glyph in light; byte-identical to Dark3/Light10 in dark)
+         ============================================================ -->
+
+    <!-- Checked default -->
+    <Style Selector="^:checked">
+      <Setter Property="Background" Value="{color:SolidFillDefault}" />
+      <Setter Property="BorderBrush" Value="Transparent" />
+      <Setter Property="Foreground" Value="{color:OnSolidFillInkDefault}" />
+    </Style>
+
+    <!-- Checked hover: the solid face deepens one step (bright solid-fill hover role); the on-fill ink keeps
+         >= 3:1 on the deeper vivid face (identical to Dark4/Light10 in dark) -->
+    <Style Selector="^:checked:pointerover, ^:checked[(theme|Preview.State)=Hover]">
+      <Setter Property="Background" Value="{color:SolidFillHover}" />
+      <Setter Property="BorderBrush" Value="Transparent" />
+      <Setter Property="Foreground" Value="{color:OnSolidFillInkDefault}" />
+    </Style>
+
+    <!-- Checked pressed: the solid face deepens two steps (bright solid-fill pressed role); the on-fill ink
+         keeps >= 3:1 on the deepest vivid face (identical to Dark5/Light10 in dark) -->
+    <Style Selector="^:checked:pressed, ^:checked[(theme|Preview.State)=Pressed]">
+      <Setter Property="Background" Value="{color:SolidFillPressed}" />
+      <Setter Property="BorderBrush" Value="Transparent" />
+      <Setter Property="Foreground" Value="{color:OnSolidFillInkDefault}" />
+    </Style>
+
+    <!-- Checked disabled: keeps the filled face under the whole-control {size:DisabledOpacity} dim above,
+         so it reads as a disabled dark favourite rather than a lit one -->
 
     <!-- Compact: hide label, reduce width -->
     <Style Selector="^[IsCompact=True]">
@@ -278,9 +389,11 @@
 
   <!-- CommandBarSeparator ControlTheme -->
   <ControlTheme x:Key="{x:Type CommandBarSeparator}" TargetType="CommandBarSeparator">
-    <Setter Property="Width" Value="{size:ThicknessSm}" />
+    <Setter Property="Width" Value="{size:ThicknessSmDouble}" />
     <Setter Property="MinHeight" Value="{size:ControlHeightSm}" />
-    <Setter Property="Margin" Value="{size:Edges Horizontal={size:SpacingLg}, Vertical={size:SpacingMd}}" />
+    <!-- The separator carries no horizontal margin of its own: the items panel's spacing token
+         already separates it from its neighbours, so every gap in the bar is the same -->
+    <Setter Property="Margin" Value="{size:Edges Vertical={size:SpacingMd}}" />
     <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
     <Setter Property="Template">
       <ControlTemplate>
@@ -301,7 +414,7 @@
     <Style Selector="^[IsInOverflow=True]">
       <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
       <Setter Property="Width" Value="NaN" />
-      <Setter Property="Height" Value="{size:ThicknessSm}" />
+      <Setter Property="Height" Value="{size:ThicknessSmDouble}" />
       <Setter Property="MinHeight" Value="0" />
       <Setter Property="Margin" Value="{size:Edges All={size:SpacingMd}}" />
     </Style>
@@ -329,10 +442,14 @@
 
   <ControlTheme x:Key="{x:Type CommandBar}" TargetType="CommandBar">
     <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
+    <!-- Frame: the fill and the border are the same box, so nothing paints beside the frame -->
     <Setter Property="Background" Value="{color:BackgroundDefault}" />
+    <Setter Property="BorderBrush" Value="{color:BorderDefault}" />
+    <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
+    <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
     <Setter Property="Foreground" Value="{color:TextDefault}" />
     <Setter Property="MinHeight" Value="{size:ControlHeightLg}" />
-    <Setter Property="Padding" Value="{size:Edges Left={size:SpacingMd}, Right={size:SpacingMd}}" />
+    <Setter Property="Padding" Value="{size:Edges All={size:SpacingMd}}" />
     <Setter Property="ItemWidthBottom" Value="{size:Scaled Value={size:ControlHeightMd}, By=2}" />
     <Setter Property="ItemWidthRight" Value="{size:Scaled Value={size:ControlHeightMd}, By=2.5}" />
     <Setter Property="ItemWidthCollapsed" Value="{size:ControlHeightMd}" />
@@ -366,16 +483,23 @@
                                 DockPanel.Dock="Left"
                                 VerticalAlignment="Center" />
 
-              <!-- Primary commands (fills remaining space, right-aligned) -->
+              <!-- Primary commands (fills remaining space, right-aligned). Paint suppressed: the bar's
+                   outer Border is the single frame, so the command host carries no border or fill of its own -->
               <ItemsControl x:Name="PART_PrimaryCommands"
                             ItemsSource="{Binding VisiblePrimaryCommands, RelativeSource={RelativeSource TemplatedParent}}"
                             HorizontalAlignment="Right"
                             VerticalAlignment="Stretch"
-                            ClipToBounds="True">
+                            ClipToBounds="True"
+                            Background="Transparent"
+                            BorderBrush="Transparent"
+                            BorderThickness="0"
+                            CornerRadius="0">
                 <ItemsControl.ItemsPanel>
                   <ItemsPanelTemplate>
-                    <!-- Lays the visible commands out in a row -->
-                    <StackPanel x:Name="PART_PrimaryPanel" Orientation="Horizontal" />
+                    <!-- Lays the visible commands out in a row; the generated panel keeps no x:Name,
+                         so the rest spacing sits here rather than in a #named style. One standard
+                         spacing token between every item, so the gap is the same all along the bar -->
+                    <StackPanel x:Name="PART_PrimaryPanel" Orientation="Horizontal" Spacing="{size:SpacingLg}" />
                   </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
               </ItemsControl>
@@ -395,8 +519,9 @@
                               ItemsSource="{Binding OverflowItems, RelativeSource={RelativeSource TemplatedParent}}">
                   <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
-                      <!-- Stacks the overflow commands vertically -->
-                      <StackPanel x:Name="PART_OverflowPanel" />
+                      <!-- Stacks the overflow commands vertically; the generated panel keeps no x:Name,
+                           so the rest spacing sits here rather than in a #named style -->
+                      <StackPanel x:Name="PART_OverflowPanel" Spacing="{size:SpacingSm}" />
                     </ItemsPanelTemplate>
                   </ItemsControl.ItemsPanel>
                 </ItemsControl>
@@ -431,12 +556,5 @@
       <Setter Property="MinWidth" Value="160" />
     </Style>
 
-    <Style Selector="^ /template/ StackPanel#PART_PrimaryPanel">
-      <Setter Property="Spacing" Value="{size:SpacingSm}" />
-    </Style>
-
-    <Style Selector="^ /template/ StackPanel#PART_OverflowPanel">
-      <Setter Property="Spacing" Value="{size:SpacingSm}" />
-    </Style>
   </ControlTheme>
 </ResourceDictionary>

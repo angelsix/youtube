@@ -5,21 +5,67 @@
                     xmlns:color="using:AngelSix.ThemeEngine.Colors"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes"
                     xmlns:icons="using:AngelSix.ThemeEngine.Icons">
-  <!-- Design preview: core states, then hues riding on Focused (the focus ring is the only accent-colored surface). Declared before Design.PreviewWith uses it -->
+  <!-- Design preview: one column, every button the same fixed width, each carrying a flyout so a click drops something. Declared before Design.PreviewWith uses it -->
   <DataTemplate x:Key="DropDownButtonPreview">
-    <StackPanel Spacing="{size:SpacingXxl}" HorizontalAlignment="Left">
-      <StackPanel Orientation="Horizontal" Spacing="{size:SpacingXxl}">
-        <DropDownButton Content="Default" />
-        <DropDownButton theme:Preview.State="Hover" Content="Hover" />
-        <DropDownButton theme:Preview.State="Pressed" Content="Pressed" />
-        <DropDownButton theme:Preview.State="Focused" Content="Focused" />
-        <DropDownButton Content="Disabled" IsEnabled="False" />
-      </StackPanel>
-      <!-- Hues ride on Focused: the focus ring is the only accent-colored surface in this theme -->
-      <StackPanel Orientation="Horizontal" Spacing="{size:SpacingXxl}">
-        <DropDownButton theme:Preview.State="Focused" theme:Accent.Kind="Warning" Content="Warn · Focus" />
-        <DropDownButton theme:Preview.State="Focused" theme:Accent.Kind="Success" Content="OK · Focus" />
-      </StackPanel>
+    <!-- Every example carries a flyout so a click drops something. Each flyout opens BELOW the button,
+         left-aligned (task 78): Placement is set on the flyout so the list hangs off the lower-left edge
+         instead of centred over the face. -->
+    <StackPanel Spacing="{size:SpacingXl}" HorizontalAlignment="Left">
+      <DropDownButton Width="240" Content="Default">
+        <DropDownButton.Flyout>
+          <MenuFlyout Placement="BottomEdgeAlignedLeft">
+            <MenuItem Header="First" />
+            <MenuItem Header="Second" />
+            <MenuItem Header="Third" />
+          </MenuFlyout>
+        </DropDownButton.Flyout>
+      </DropDownButton>
+      <DropDownButton Width="240" theme:Preview.State="Hover" Content="Hover">
+        <DropDownButton.Flyout>
+          <MenuFlyout Placement="BottomEdgeAlignedLeft">
+            <MenuItem Header="First" />
+            <MenuItem Header="Second" />
+            <MenuItem Header="Third" />
+          </MenuFlyout>
+        </DropDownButton.Flyout>
+      </DropDownButton>
+      <DropDownButton Width="240" theme:Preview.State="Pressed" Content="Pressed">
+        <DropDownButton.Flyout>
+          <MenuFlyout Placement="BottomEdgeAlignedLeft">
+            <MenuItem Header="First" />
+            <MenuItem Header="Second" />
+            <MenuItem Header="Third" />
+          </MenuFlyout>
+        </DropDownButton.Flyout>
+      </DropDownButton>
+      <DropDownButton Width="240" theme:Preview.State="Focused" Content="Focused">
+        <DropDownButton.Flyout>
+          <MenuFlyout Placement="BottomEdgeAlignedLeft">
+            <MenuItem Header="First" />
+            <MenuItem Header="Second" />
+            <MenuItem Header="Third" />
+          </MenuFlyout>
+        </DropDownButton.Flyout>
+      </DropDownButton>
+      <DropDownButton Width="240" IsEnabled="False" Content="Disabled" />
+      <DropDownButton Width="240" theme:Accent.Kind="Warning" Content="Warn">
+        <DropDownButton.Flyout>
+          <MenuFlyout Placement="BottomEdgeAlignedLeft">
+            <MenuItem Header="First" />
+            <MenuItem Header="Second" />
+            <MenuItem Header="Third" />
+          </MenuFlyout>
+        </DropDownButton.Flyout>
+      </DropDownButton>
+      <DropDownButton Width="240" theme:Accent.Kind="Success" Content="OK">
+        <DropDownButton.Flyout>
+          <MenuFlyout Placement="BottomEdgeAlignedLeft">
+            <MenuItem Header="First" />
+            <MenuItem Header="Second" />
+            <MenuItem Header="Third" />
+          </MenuFlyout>
+        </DropDownButton.Flyout>
+      </DropDownButton>
     </StackPanel>
   </DataTemplate>
 
@@ -54,13 +100,9 @@
     <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
     <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
 
-    <!-- Press animation -->
-    <Setter Property="RenderTransform" Value="none" />
-    <Setter Property="Transitions">
-      <Transitions>
-        <TransformOperationsTransition Property="RenderTransform" Duration="{theme:AnimationFastMs}" />
-      </Transitions>
-    </Setter>
+    <!-- No grow/push transforms: behaves like ComboBox (fill-stage changes only). A hover scale on a
+         control whose flyout opens over it feeds the pointer-over state back into the transition and
+         flickers on release (task 78). -->
 
     <!-- Template -->
     <Setter Property="Template">
@@ -103,27 +145,23 @@
       <Setter Property="RecognizesAccessKey" Value="True" />
     </Style>
 
-    <!-- Drop-down glyph -->
+    <!-- Drop-down glyph: the right margin equals the face's horizontal padding, so the arrow sits off the frame -->
     <Style Selector="^ /template/ PathIcon#DropDown">
       <Setter Property="Foreground" Value="{color:DimTextDefault}" />
       <Setter Property="Height" Value="{size:IconSizeMd}" />
       <Setter Property="Width" Value="{size:IconSizeMd}" />
+      <Setter Property="Margin" Value="{size:Edges Right={size:ContentPaddingWide}}" />
     </Style>
 
-    <!-- Hover state -->
+    <!-- Hover state: fill-stage change only (like ComboBox) — no grow/push transform, so the open flyout cannot feed the pointer-over state back into a transition -->
     <Style Selector="^:pointerover, ^[(theme|Preview.State)=Hover]">
       <Setter Property="Background" Value="{color:HoverBackgroundDefault}" />
-      <Setter Property="RenderTransform" Value="{theme:TransformScale Value={size:PressedScale}, By=1.07}" />
-    </Style>
-    <Style Selector="^:pointerover /template/ PathIcon#DropDown, ^[(theme|Preview.State)=Hover] /template/ PathIcon#DropDown">
+      <Setter Property="Foreground" Value="{color:HoverTextDefault}" />
     </Style>
 
-    <!-- Pressed state -->
+    <!-- Pressed state: fill-stage change only -->
     <Style Selector="^:pressed, ^[(theme|Preview.State)=Pressed]">
-      <Setter Property="RenderTransform" Value="{theme:TransformScale Value={size:PressedScale}}" />
       <Setter Property="Background" Value="{color:PressedBackgroundDefault}" />
-    </Style>
-    <Style Selector="^:pressed /template/ PathIcon#DropDown, ^[(theme|Preview.State)=Pressed] /template/ PathIcon#DropDown">
     </Style>
 
     <!-- Disabled state -->
@@ -131,10 +169,12 @@
       <Setter Property="Opacity" Value="{size:DisabledOpacity}" />
     </Style>
 
-    <!-- Focus state -->
-    <Style Selector="^:focus-visible, ^[(theme|Preview.State)=Focused]">
-      <Setter Property="BorderBrush" Value="{color:AccentFocusBrush}" />
-      <Setter Property="BorderThickness" Value="{size:ThicknessMd}" />
+    <!-- Focus state (Rule 21: the switch decides between the focus colour and the control's own hue).
+         Painted on the frame part, as Button does: the control's own border metrics stay put,
+         so nothing relays the ring into the neighbour rows' layout -->
+    <Style Selector="^:focus-visible /template/ Border#RootBorder, ^[(theme|Preview.State)=Focused] /template/ Border#RootBorder">
+      <Setter Property="BorderBrush" Value="{default:FocusBrush}" />
+      <Setter Property="BorderThickness" Value="{default:FocusThickness}" />
     </Style>
 
   </ControlTheme>

@@ -67,6 +67,23 @@ public partial class DefaultTheme
     /// </summary>
     public virtual int HoverZIndex => WebRenderStyle ? 1 : 0;
 
+    /// <summary>
+    /// Whether a focused ACCENTED control takes the dedicated focus colour (<c>AccentFocus</c>) for its
+    /// border. Off (the default) the focus colour is reserved for NEUTRAL controls: a Warn, Success or
+    /// other accented control keeps its own hue when focused, drawn at the focus thickness, so focus is
+    /// still announced without borrowing the focus role's color. On restores today's behaviour: every
+    /// focused control, whatever its hue, takes <c>{color:AccentFocusBrush}</c>.
+    /// </summary>
+    /// <remarks>
+    /// Consumed by the {default:FocusBrush} and {default:FocusThickness} extensions
+    /// (Theme/FocusBrush.cs), which a control's focus state uses instead of the raw focus tokens.
+    /// Those extensions read this switch off the ACTIVE THEME INSTANCE and combine it with the
+    /// TARGET ELEMENT'S EFFECTIVE hue, so one override here flips every focused accented control at
+    /// once. Documented as Rule 21 in ThemeRules.md. A downstream theme flips it by overriding this
+    /// property to return true.
+    /// </remarks>
+    public virtual bool FocusColorOnAccents => false;
+
     #endregion Render Style
 
     #region Seed Colors
@@ -97,6 +114,12 @@ public partial class DefaultTheme
     [AccentHue, ColorRamp(HueAware = true)] public virtual Color AccentPrimary => Color.Parse("#5BA3C9");
     [AccentHue, ColorRamp(HueAware = true)] public virtual Color AccentSuccess => Color.Parse("#6DB87E");
     [AccentHue, ColorRamp(HueAware = true)] public virtual Color AccentWarning => Color.Parse("#E0B860");
+    // Favourite (task 101): a vibrant golden-yellow that sits between Warning (a muted gold) and the
+    // oranges (Info). Declared like every other hue, so the source generator derives its full ramp,
+    // its AccentKind member and its {color:Favourite…} extensions — Accent.Kind="Favourite" therefore
+    // works everywhere with no other wiring. Its light ink stages are hand-placed below (task 93's
+    // pattern) so the new hue ships vibrant in the light palette rather than settling near-black.
+    [AccentHue, ColorRamp(HueAware = true)] public virtual Color AccentFavourite => Color.Parse("#FFC400");
     [AccentHue, ColorRamp(HueAware = true)] public virtual Color AccentError => Color.Parse("#D47A7A");
     [AccentHue, ColorRamp(HueAware = true)] public virtual Color AccentInfo => Color.Parse("#E89F4A");
     [AccentHue, ColorRamp(HueAware = true)] public virtual Color AccentDestructive => Color.Parse("#C17070");
@@ -121,6 +144,129 @@ public partial class DefaultTheme
     public virtual Color AccentFocus => Color.Parse("#bf4aF9");
 
     #endregion Seed Colors
+
+    #region Light Palette Ink Stages (task 93)
+
+    // The hue-aware ramp parks every stage at one shared OKLCH lightness, and its chroma is capped
+    // at whatever the gamut carries there — so on the light palette the deep ink stages of the hued
+    // accents settle near-black (Primary Dark3 #005677, Error Dark5 #5C0A16), while the dark
+    // palette's mirrored versions read vibrant. Luke's second review: the LIGHT theme's dark accent
+    // stages must be more saturated and less near-black; the dark theme is correct and stays
+    // byte-identical.
+    //
+    // The engine exposes no light-side lever for this (HueAwareCentre and ExtremeAmount are fixed
+    // constants; the seeds feed BOTH palettes, so retuning a seed would move the dark theme too).
+    // These declarations therefore re-place the light palette's deep ink stages individually: each
+    // keeps its stage's OKLCH hue, gains a little lightness (+0.03 .. +0.005, shallowest first) and
+    // wears the full chroma the gamut allows at the new lightness. Declaring a stage here makes the
+    // source generator withhold its own emission of that member (verified: the generated partial
+    // simply omits it while keeping the Brush companion), so the body below IS the token — the
+    // {color:...} extensions bind straight to it. In dark mode every body delegates to the same
+    // ramp the generator would have used ({Hue}Ramp.Dark(N)), so the dark palette computes exactly
+    // what it always did.
+    //
+    // Contrast floors held in every hue: the stage on the light canvas >= 4.5:1 (worst now 5.19,
+    // Warning Dark3 after task 101 lifted Success and Warning out of the near-black mud; was 6.75
+    // Success Dark3 under task 93, originally 7.7-8.6) and Light10 text on the stage >= 4.5:1.
+    // Ordering within a ramp is preserved (each stage stays darker than the one above it). Neutral
+    // is deliberately left alone: its grey ink is not "near-black" and its dim-text role reads
+    // correctly as-is.
+
+    public virtual Color AccentPrimaryDark3 => IsDark ? PrimaryRamp.Dark(3) : Color.Parse("#005F83");
+    public virtual Color AccentPrimaryDark4 => IsDark ? PrimaryRamp.Dark(4) : Color.Parse("#004B69");
+    public virtual Color AccentPrimaryDark5 => IsDark ? PrimaryRamp.Dark(5) : Color.Parse("#003950");
+    public virtual Color AccentPrimaryDark6 => IsDark ? PrimaryRamp.Dark(6) : Color.Parse("#00283A");
+    public virtual Color AccentPrimaryDark7 => IsDark ? PrimaryRamp.Dark(7) : Color.Parse("#001825");
+
+    // Task 101: the light Success and Warning fills read too dark and muddy (most visible on a
+    // checked CheckBox's fill). Lifted at the source so every control that draws those stages follows.
+    // Dark3 doubles as the accent-text ink, so its binding floor is 4.5:1 against the light canvas
+    // (stricter than the 3:1 a check glyph needs); each stage below keeps its hue and sits ~5.2:1 on
+    // the canvas — clearly less muddy than the old 6.75/7.19 while holding both floors. The dark
+    // palette still delegates to the engine ramp, so it stays byte-identical.
+    public virtual Color AccentSuccessDark3 => IsDark ? SuccessRamp.Dark(3) : Color.Parse("#3A7848");
+    public virtual Color AccentSuccessDark4 => IsDark ? SuccessRamp.Dark(4) : Color.Parse("#2E5E39");
+    public virtual Color AccentSuccessDark5 => IsDark ? SuccessRamp.Dark(5) : Color.Parse("#214529");
+    public virtual Color AccentSuccessDark6 => IsDark ? SuccessRamp.Dark(6) : Color.Parse("#152B1A");
+    public virtual Color AccentSuccessDark7 => IsDark ? SuccessRamp.Dark(7) : Color.Parse("#08110A");
+
+    public virtual Color AccentWarningDark3 => IsDark ? WarningRamp.Dark(3) : Color.Parse("#89661B");
+    public virtual Color AccentWarningDark4 => IsDark ? WarningRamp.Dark(4) : Color.Parse("#694E14");
+    public virtual Color AccentWarningDark5 => IsDark ? WarningRamp.Dark(5) : Color.Parse("#49360E");
+    public virtual Color AccentWarningDark6 => IsDark ? WarningRamp.Dark(6) : Color.Parse("#291E08");
+    public virtual Color AccentWarningDark7 => IsDark ? WarningRamp.Dark(7) : Color.Parse("#090602");
+
+    public virtual Color AccentErrorDark3 => IsDark ? ErrorRamp.Dark(3) : Color.Parse("#A50025");
+    public virtual Color AccentErrorDark4 => IsDark ? ErrorRamp.Dark(4) : Color.Parse("#83001D");
+    public virtual Color AccentErrorDark5 => IsDark ? ErrorRamp.Dark(5) : Color.Parse("#660015");
+    public virtual Color AccentErrorDark6 => IsDark ? ErrorRamp.Dark(6) : Color.Parse("#4B000C");
+    public virtual Color AccentErrorDark7 => IsDark ? ErrorRamp.Dark(7) : Color.Parse("#310005");
+
+    public virtual Color AccentInfoDark3 => IsDark ? InfoRamp.Dark(3) : Color.Parse("#7B4A00");
+    public virtual Color AccentInfoDark4 => IsDark ? InfoRamp.Dark(4) : Color.Parse("#623A00");
+    public virtual Color AccentInfoDark5 => IsDark ? InfoRamp.Dark(5) : Color.Parse("#4B2B00");
+    public virtual Color AccentInfoDark6 => IsDark ? InfoRamp.Dark(6) : Color.Parse("#361E00");
+    public virtual Color AccentInfoDark7 => IsDark ? InfoRamp.Dark(7) : Color.Parse("#231100");
+
+    public virtual Color AccentDestructiveDark3 => IsDark ? DestructiveRamp.Dark(3) : Color.Parse("#A40028");
+    public virtual Color AccentDestructiveDark4 => IsDark ? DestructiveRamp.Dark(4) : Color.Parse("#84001D");
+    public virtual Color AccentDestructiveDark5 => IsDark ? DestructiveRamp.Dark(5) : Color.Parse("#660015");
+    public virtual Color AccentDestructiveDark6 => IsDark ? DestructiveRamp.Dark(6) : Color.Parse("#4B000C");
+    public virtual Color AccentDestructiveDark7 => IsDark ? DestructiveRamp.Dark(7) : Color.Parse("#310005");
+
+    public virtual Color AccentSubtleDark3 => IsDark ? SubtleRamp.Dark(3) : Color.Parse("#8000AE");
+    public virtual Color AccentSubtleDark4 => IsDark ? SubtleRamp.Dark(4) : Color.Parse("#66008C");
+    public virtual Color AccentSubtleDark5 => IsDark ? SubtleRamp.Dark(5) : Color.Parse("#4E006D");
+    public virtual Color AccentSubtleDark6 => IsDark ? SubtleRamp.Dark(6) : Color.Parse("#390050");
+    public virtual Color AccentSubtleDark7 => IsDark ? SubtleRamp.Dark(7) : Color.Parse("#240034");
+
+    // Favourite (task 101): a brand-new hue, so without these its light DeepInk would settle near-black
+    // like every hued accent did before task 93 — reintroducing exactly the mudiness Luke rejected. Placed
+    // with the same method as Success and Warning above: keep the seed's golden-yellow hue, land Dark3 at
+    // ~5.3:1 on the light canvas (holds the 4.5:1 text floor and the 3:1 glyph floor), step down monotonically.
+    // The dark palette delegates to the engine ramp, so it is computed by the standard HueAware path.
+    public virtual Color AccentFavouriteDark3 => IsDark ? FavouriteRamp.Dark(3) : Color.Parse("#856600");
+    public virtual Color AccentFavouriteDark4 => IsDark ? FavouriteRamp.Dark(4) : Color.Parse("#5E4900");
+    public virtual Color AccentFavouriteDark5 => IsDark ? FavouriteRamp.Dark(5) : Color.Parse("#382B00");
+    public virtual Color AccentFavouriteDark6 => IsDark ? FavouriteRamp.Dark(6) : Color.Parse("#120E00");
+    public virtual Color AccentFavouriteDark7 => IsDark ? FavouriteRamp.Dark(7) : Color.Parse("#000000");
+
+    #endregion Light Palette Ink Stages (task 93)
+
+    #region Bright Solid-Fill Stages (task 131)
+
+    // The four solid-fill roles name the FILLED-COLUMN stages of ThemeRules.md (Fill=Dark3, Hover=Dark4,
+    // Pressed=Dark5, Text=Light10) — the exact stages the existing filled controls already draw. They are
+    // pinned to real engine stages with NO hand-placed hex and NO IsDark branching, so every slot resolves
+    // to the engine's own stage in BOTH palettes and the two palettes can never disagree. In light the
+    // fills pick up the task-101 lifted ink stages (Dark3..Dark7); in dark they take the engine's mirrored
+    // ramp. Measured across all nine hues, the Light10 glyph/text clears >= 4.5:1 on every rest/hover/
+    // pressed fill in both palettes (worst: Warning light rest 5.11, Error dark rest 5.84), so ticks, dots,
+    // icons and on-fill labels stay legible as the face deepens. Coloured TEXT is untouched: it keeps the
+    // 4.5:1 ink stage from task 101 (Dark3).
+    //
+    // History: tasks 131/134 first tried to make the light fills "vivid" by hijacking spare ramp slots
+    // (Light3/Dark10/Light11/Light12) and hand-placing light-only hexes there. That made the two palettes
+    // disagree (near-black light ticks, washed dark checks) and invented checkbox-specific values, so those
+    // overrides were deleted and the roles re-pointed at the genuine filled-column stages above.
+
+    /// <summary>Solid-filled face (checked/toggled/starred): the filled-column REST stage, Dark3 — the same stage the existing filled controls draw today, taken from the engine's own ramp (no hand-placed hex, no IsDark branching).</summary>
+    [AccentRole]
+    internal virtual RampStage SolidFillDefault => RampStage.Dark3;
+
+    /// <summary>Ink drawn ON a solid fill (tick, dot, icon, on-fill text): the filled-column TEXT stage, Light10 — the stage the theme already uses for text on filled faces.</summary>
+    [AccentRole]
+    internal virtual RampStage OnSolidFillInkDefault => RampStage.Light10;
+
+    /// <summary>Solid-filled face under the pointer (checked:hover): the filled-column HOVER stage, Dark4 — one stage deeper than the rest, as Button's outlined hover steps through its stages.</summary>
+    [AccentRole]
+    internal virtual RampStage SolidFillHover => RampStage.Dark4;
+
+    /// <summary>Solid-filled face while pressed (checked:pressed): the filled-column PRESSED stage, Dark5 — two stages deeper than the rest.</summary>
+    [AccentRole]
+    internal virtual RampStage SolidFillPressed => RampStage.Dark5;
+
+    #endregion Bright Solid-Fill Stages (tasks 131, 134)
 
     #region Theme-Specific Defaults
 
@@ -167,6 +313,16 @@ public partial class DefaultTheme
     [AccentRole]
     internal virtual RampStage BackgroundDefault => RampStage.Light10;
 
+    /// <summary>Borderless-surface fill: the rest tint one shade deeper (Light9) for a surface that draws no border of its own.</summary>
+    /// <remarks>
+    /// A rest fill (BackgroundDefault, Light10) reads as a distinct surface only when a border outlines it; on a borderless
+    /// surface it is nearly indistinguishable from the canvas. This role sits one stage darker than the rest fill and one lighter
+    /// than the hover fill (HoverBackgroundDefault, Light8), so a borderless surface announces itself without competing with any
+    /// interaction state. Like every role it follows the control's own hue. Distinct from SurfaceDefault, which is the canvas.
+    /// </remarks>
+    [AccentRole]
+    internal virtual RampStage SurfaceBorderless => RampStage.Light9;
+
     /// <summary>Outlined-control hover fill.</summary>
     [AccentRole]
     internal virtual RampStage HoverBackgroundDefault => RampStage.Light8;
@@ -187,6 +343,19 @@ public partial class DefaultTheme
     /// </remarks>
     [AccentRole]
     internal virtual RampStage DimTextDefault => RampStage.Dark3;
+
+    /// <summary>The stage a focused ACCENTED control draws its border at while <see cref="FocusColorOnAccents"/> is off.</summary>
+    /// <remarks>
+    /// The hue's accent-text stage (Dark3, the same ink Label and HyperlinkButton use): the same hue as the
+    /// resting border, heavier, so focus is announced in the control's own colour rather than the focus
+    /// role's, and it reads as the same colour as that hue's text everywhere. It was Dark2 until 20 Oct
+    /// 2026: the light palette's hand-lifted ink band starts at Dark3, so light Dark2 sat DARKER than Dark3
+    /// (Warning #785900 vs #89661B) and focused accented controls looked muddy. Clears the non-text floor
+    /// in every hue (Dark3 is >= 4.5:1). Consumed by {default:FocusBrush} (Theme/FocusBrush.cs) as
+    /// Accent{Hue}{this stage}Brush — see ThemeRules.md, Rule 21.
+    /// </remarks>
+    [AccentRole]
+    internal virtual RampStage AccentFocusBorder => RampStage.Dark3;
 
     #endregion Theme-Specific Defaults
 
@@ -220,8 +389,16 @@ public partial class DefaultTheme
                TypeSuffixes = ["", "Double"])]
     public virtual double Radius => BaseSize;
 
-    /// <summary>Uniform border/outline thicknesses: ThicknessSm through ThicknessXxl.</summary>
-    [SizeScale(Multipliers = [1, 2, 3, 4, 6], Types = new[] { typeof(Thickness) })]
+    /// <summary>
+    /// Uniform border/outline thicknesses, emitted twice over: as <c>Thickness</c> for
+    /// <c>Border.BorderThickness</c> and friends, and as a bare <c>double</c> for the slots that take
+    /// a plain number — a track's <c>Height</c>, a dot's <c>Width</c>, a glyph's <c>StrokeThickness</c>.
+    /// A Thickness token in one of those slots silently resolves to 0 (the wrong-type trap), so a
+    /// plain-number slot must read the <c>…Double</c> twin, exactly as <see cref="Radius"/> does.
+    /// </summary>
+    [SizeScale(Multipliers = [1, 2, 3, 4, 6],
+               Types = [typeof(Thickness), typeof(double)],
+               TypeSuffixes = ["", "Double"])]
     public virtual double Thickness => BaseSize;
 
     /// <summary>Icon ladder: IconSizeSm through IconSizeXl. Md is the everyday glyph size.</summary>

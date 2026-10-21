@@ -7,38 +7,94 @@
                     xmlns:icons="using:AngelSix.ThemeEngine.Icons"
                     xmlns:converters="using:Avalonia.Controls.Converters">
 
-  <!-- Design preview: one column per pane — expanders stack, as they do on a page. The designer and the lab gallery both show this key,
-       so it is declared before Design.PreviewWith uses it. Default direction carries every interaction state; the theme defines no :focus selector -->
+  <!-- Design preview: ONE column per pane. The longest header ("Success Expanded", 142px of text) needs a
+       ~240px-wide Expander once the header's left inset and chevron zone are counted, so two such columns
+       cannot both fit the ~412px pane interior — hence a single column, one fixed width for every example.
+       Every example sits in its own FIXED-HEIGHT frame, so opening or closing any example never grows its
+       row or nudges a neighbour. Each frame is exactly the height ITS example occupies when OPEN: a row
+       that can reveal a downward/upward body is header 48 + body 34 (17px text + 2 x ContentPadding + the
+       card's own border) = 82px ({size:Scaled Value={size:ControlHeightLg}, By=1.7083}); a row that never
+       gets taller (the genuinely-disabled one, and the sideways Left/Right ones whose body sits BESIDE the
+       header) is header-height 48px. Because every frame already holds its maximum, the column is evenly
+       pitched (frame + SpacingXl, uniformly) and nothing jumps. Six 82px frames plus three 48px frames plus
+       the eight 12px gaps measure 732px, which exceeds the pane's 648px interior, so THIS page scrolls
+       vertically rather than squash the bodies to fit the window (scrolling was accepted over squeezing the
+       body padding). The
+       designer and the lab gallery both show this key, so it is declared before Design.PreviewWith uses it. -->
   <DataTemplate x:Key="ExpanderPreview">
-    <StackPanel Spacing="{size:SpacingXl}">
-      <Expander Header="Collapsed">
-        <TextBlock>Content</TextBlock>
-      </Expander>
-      <Expander Header="Expanded" IsExpanded="True">
-        <TextBlock>Content</TextBlock>
-      </Expander>
-      <Expander Header="Hover" theme:Preview.State="Hover">
-        <TextBlock>Content</TextBlock>
-      </Expander>
-      <Expander Header="Pressed" theme:Preview.State="Pressed">
-        <TextBlock>Content</TextBlock>
-      </Expander>
-      <Expander Header="Disabled" IsEnabled="False">
-        <TextBlock>Content</TextBlock>
-      </Expander>
-      <Expander Header="Success Expanded" IsExpanded="True" theme:Accent.Kind="Success">
-        <TextBlock>Content</TextBlock>
-      </Expander>
-      <!-- Remaining directions fold in the second hue and a state composition -->
-      <Expander ExpandDirection="Up" Header="Up Collapsed" theme:Accent.Kind="Warning">
-        <TextBlock>Content</TextBlock>
-      </Expander>
-      <Expander ExpandDirection="Left" Header="Left Expanded" IsExpanded="True">
-        <TextBlock>Content</TextBlock>
-      </Expander>
-      <Expander ExpandDirection="Right" Header="Right Hover" theme:Preview.State="Hover">
-        <TextBlock>Content</TextBlock>
-      </Expander>
+    <!-- Gallery-standard stacked-preview spacing (SpacingXl): the same rhythm every other control's preview uses -->
+    <StackPanel Spacing="{size:SpacingXl}" HorizontalAlignment="Stretch">
+      <!-- Resting states: header-only at rest (48px, MinHeight=ControlHeightLg), each in a frame tall
+           enough to hold the OPEN body (header 48 + body 35 = 83), so expanding one fills space that is
+           already reserved and never grows its row or nudges a neighbour. The body takes the theme's NORMAL
+           content padding (vertical {size:ContentPadding}), so its text breathes instead of jamming the
+           divider; the left inset is pinned to the header's (SpacingXxl) so header and body text align -->
+      <Border Height="{size:Scaled Value={size:ControlHeightLg}, By=1.7083}">
+        <Expander Width="240" HorizontalAlignment="Left" VerticalAlignment="Top" Header="Collapsed"
+                  Padding="{size:Edges Left={size:SpacingXxl}, Top={size:ContentPadding}, Right={size:ContentPadding}, Bottom={size:ContentPadding}}">
+          <TextBlock>Content</TextBlock>
+        </Expander>
+      </Border>
+      <Border Height="{size:Scaled Value={size:ControlHeightLg}, By=1.7083}">
+        <Expander Width="240" HorizontalAlignment="Left" VerticalAlignment="Top" Header="Hover" theme:Preview.State="Hover"
+                  Padding="{size:Edges Left={size:SpacingXxl}, Top={size:ContentPadding}, Right={size:ContentPadding}, Bottom={size:ContentPadding}}">
+          <TextBlock>Content</TextBlock>
+        </Expander>
+      </Border>
+      <Border Height="{size:Scaled Value={size:ControlHeightLg}, By=1.7083}">
+        <Expander Width="240" HorizontalAlignment="Left" VerticalAlignment="Top" Header="Pressed" theme:Preview.State="Pressed"
+                  Padding="{size:Edges Left={size:SpacingXxl}, Top={size:ContentPadding}, Right={size:ContentPadding}, Bottom={size:ContentPadding}}">
+          <TextBlock>Content</TextBlock>
+        </Expander>
+      </Border>
+      <!-- Genuinely disabled: IsEnabled=False flows to the header ToggleButton, so a click must not toggle.
+           Its frame is header-height: a disabled example never opens, so it reserves nothing more -->
+      <Border Height="{size:ControlHeightLg}">
+        <Expander Width="240" HorizontalAlignment="Left" VerticalAlignment="Top" IsEnabled="False" Header="Disabled"
+                  Padding="{size:Edges Left={size:SpacingXxl}, Top={size:ContentPadding}, Right={size:ContentPadding}, Bottom={size:ContentPadding}}">
+          <TextBlock>Content</TextBlock>
+        </Expander>
+      </Border>
+      <!-- Open examples: frames sized to the EXACT open height (header 48 + body 34 = 82; By=1.7083 x 48
+           = 82.0) so there is NO dead space between the Expander's bottom and the frame's bottom — the row
+           pitch equals frame + panel-spacing uniformly. They start OPEN: the crawler toggles each header and
+           restores it, so the final frame shows the open form (proved live by the expand-*.json captures).
+           The body's left inset is pinned to the header's (SpacingXxl) so header text and content text line
+           up on the same x-position; the vertical inset is the theme's normal {size:ContentPadding} -->
+      <Border Height="{size:Scaled Value={size:ControlHeightLg}, By=1.7083}">
+        <Expander Width="240" HorizontalAlignment="Left" VerticalAlignment="Top" Header="Success Expanded" IsExpanded="True" theme:Accent.Kind="Success"
+                  Padding="{size:Edges Left={size:SpacingXxl}, Top={size:ContentPadding}, Right={size:ContentPadding}, Bottom={size:ContentPadding}}">
+          <TextBlock>Content</TextBlock>
+        </Expander>
+      </Border>
+      <Border Height="{size:Scaled Value={size:ControlHeightLg}, By=1.7083}">
+        <Expander Width="240" HorizontalAlignment="Left" VerticalAlignment="Top" Header="Expanded" IsExpanded="True"
+                  Padding="{size:Edges Left={size:SpacingXxl}, Top={size:ContentPadding}, Right={size:ContentPadding}, Bottom={size:ContentPadding}}">
+          <TextBlock>Content</TextBlock>
+        </Expander>
+      </Border>
+      <!-- Up reveals its body ABOVE the header, so the Bottom alignment parks the header at the frame's foot -->
+      <Border Height="{size:Scaled Value={size:ControlHeightLg}, By=1.7083}">
+        <Expander Width="240" HorizontalAlignment="Left" VerticalAlignment="Bottom" ExpandDirection="Up" Header="Up · Warning" IsExpanded="True" theme:Accent.Kind="Warning"
+                  Padding="{size:Edges Left={size:SpacingXxl}, Top={size:ContentPadding}, Right={size:ContentPadding}, Bottom={size:ContentPadding}}">
+          <TextBlock>Content</TextBlock>
+        </Expander>
+      </Border>
+      <!-- Left unfolds sideways beside its header; the frame is header-height so it stays 48px tall open and
+           closed. Richer sample text gives the body enough width to read comfortably rather than squeeze -->
+      <Border Height="{size:ControlHeightLg}">
+        <Expander Width="240" HorizontalAlignment="Left" VerticalAlignment="Top" ExpandDirection="Left" Header="Left" IsExpanded="True"
+                  Padding="{size:Edges Left={size:SpacingXxl}, Top={size:ContentPadding}, Right={size:ContentPadding}, Bottom={size:ContentPadding}}">
+          <TextBlock>More content</TextBlock>
+        </Expander>
+      </Border>
+      <!-- Right completes the directions; it reads as a resting header, consistent with the rows above -->
+      <Border Height="{size:ControlHeightLg}">
+        <Expander Width="240" HorizontalAlignment="Left" VerticalAlignment="Top" ExpandDirection="Right" Header="Right"
+                  Padding="{size:Edges Left={size:SpacingXxl}, Top={size:ContentPadding}, Right={size:ContentPadding}, Bottom={size:ContentPadding}}">
+          <TextBlock>More content</TextBlock>
+        </Expander>
+      </Border>
     </StackPanel>
   </DataTemplate>
 
@@ -68,13 +124,22 @@
 
     <!-- Visual defaults -->
     <Setter Property="Background" Value="{color:BackgroundDefault}" />
-    <Setter Property="BorderBrush" Value="{color:OverlayWeakBrush}" />
+    <Setter Property="BorderBrush" Value="{color:BorderDefault}" />
     <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
     <Setter Property="Padding" Value="{size:Edges Left={size:SpacingXxl}}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
     <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
     <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
     <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
+
+    <!-- Press/hover transform glide: the chevron's grow and shrink ride a transition, so the pointer-over
+         and pressed effects play forwards AND backwards — hovering out and releasing the press unwind the
+         same way they played in -->
+    <Setter Property="Transitions">
+      <Transitions>
+        <TransformOperationsTransition Property="RenderTransform" Duration="{theme:AnimationFastMs}" />
+      </Transitions>
+    </Setter>
 
     <!-- Template -->
     <Setter Property="Template">
@@ -96,19 +161,18 @@
                               VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
                               Foreground="{TemplateBinding Foreground}"
                               Margin="{TemplateBinding Padding}" />
-            <!-- Chevron button (visuals set via ^ /template/ styles) -->
+            <!-- Chevron button (glyph and states set via ^ /template/ styles) -->
             <Border x:Name="ExpandCollapseChevronBorder"
                     Grid.Column="1">
               <!-- The chevron pointing at the expanded direction -->
-              <Path x:Name="ExpandCollapseChevron"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    RenderTransformOrigin="50%,50%"
-                    Stretch="None">
-                <Path.RenderTransform>
+              <PathIcon x:Name="ExpandCollapseChevron"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        RenderTransformOrigin="50%,50%">
+                <PathIcon.RenderTransform>
                   <RotateTransform />
-                </Path.RenderTransform>
-              </Path>
+                </PathIcon.RenderTransform>
+              </PathIcon>
             </Border>
           </Grid>
         </Border>
@@ -126,16 +190,25 @@
       <Setter Property="Background" Value="Transparent" />
     </Style>
 
-    <!-- Chevron path default -->
-    <Style Selector="^ /template/ Path#ExpandCollapseChevron">
-      <Setter Property="Stroke" Value="{color:AccentBrush Dark1}" />
-      <Setter Property="StrokeThickness" Value="{size:ThicknessSm}" />
+    <!-- Chevron glyph -->
+    <Style Selector="^ /template/ PathIcon#ExpandCollapseChevron">
+      <Setter Property="Width" Value="{size:IconSizeMd}" />
+      <Setter Property="Height" Value="{size:IconSizeMd}" />
+      <!-- Grow/shrink glide: the hover grow and pressed shrink unwind as well as play (Rule 7) -->
+      <Setter Property="Transitions">
+        <Transitions>
+          <TransformOperationsTransition Property="RenderTransform" Duration="{theme:AnimationFastMs}" />
+        </Transitions>
+      </Setter>
     </Style>
 
-    <!-- Chevron expanded animation -->
-    <Style Selector="^[Tag=expanded] /template/ Path#ExpandCollapseChevron">
+    <!-- Chevron spin, expanding: rotates 0 -> 180 over the fast beat -->
+    <Style Selector="^[Tag=expanded] /template/ PathIcon#ExpandCollapseChevron">
       <Style.Animations>
-        <Animation FillMode="Both" Duration="0:0:0.0625">
+        <Animation FillMode="Both" Duration="{theme:AnimationFastMs}">
+          <KeyFrame Cue="0%">
+            <Setter Property="RotateTransform.Angle" Value="0" />
+          </KeyFrame>
           <KeyFrame Cue="100%">
             <Setter Property="RotateTransform.Angle" Value="180" />
           </KeyFrame>
@@ -143,10 +216,10 @@
       </Style.Animations>
     </Style>
 
-    <!-- Chevron collapsed animation -->
-    <Style Selector="^[Tag=collapsed] /template/ Path#ExpandCollapseChevron">
+    <!-- Chevron spin, collapsing: the mirror rotation 180 -> 0, so both ways animate the same -->
+    <Style Selector="^[Tag=collapsed] /template/ PathIcon#ExpandCollapseChevron">
       <Style.Animations>
-        <Animation FillMode="Both" Duration="0:0:0.0625">
+        <Animation FillMode="Both" Duration="{theme:AnimationFastMs}">
           <KeyFrame Cue="0%">
             <Setter Property="RotateTransform.Angle" Value="180" />
           </KeyFrame>
@@ -157,50 +230,31 @@
       </Style.Animations>
     </Style>
 
+    <!-- Chevron hover: grows like Button's face (live pointerover AND the pinned Hover example) -->
+    <Style Selector="^:pointerover /template/ PathIcon#ExpandCollapseChevron, ^[(theme|Preview.State)=Hover] /template/ PathIcon#ExpandCollapseChevron">
+      <Setter Property="RenderTransform" Value="{theme:TransformScale Value={size:PressedScale}, By=1.07}" />
+    </Style>
+
+    <!-- Chevron pressed: shrinks like Button's face (live pressed AND the pinned Pressed example) -->
+    <Style Selector="^:pressed /template/ PathIcon#ExpandCollapseChevron, ^[(theme|Preview.State)=Pressed] /template/ PathIcon#ExpandCollapseChevron">
+      <Setter Property="RenderTransform" Value="{theme:TransformScale Value={size:PressedScale}}" />
+    </Style>
+
     <!-- Hover state -->
     <Style Selector="^:pointerover /template/ Border#ToggleButtonBackground, ^[(theme|Preview.State)=Hover] /template/ Border#ToggleButtonBackground">
-      <Setter Property="Background" Value="{color:BackgroundDefault}" />
-      <Setter Property="BorderBrush" Value="{color:OverlayWeakBrush}" />
-    </Style>
-    <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter, ^[(theme|Preview.State)=Hover] /template/ ContentPresenter#PART_ContentPresenter">
-    </Style>
-    <Style Selector="^:pointerover /template/ Border#ExpandCollapseChevronBorder, ^[(theme|Preview.State)=Hover] /template/ Border#ExpandCollapseChevronBorder">
-      <Setter Property="Background" Value="{color:AccentBrush Dark1}" />
-      <Setter Property="BorderBrush" Value="Transparent" />
-    </Style>
-    <Style Selector="^:pointerover /template/ Path#ExpandCollapseChevron, ^[(theme|Preview.State)=Hover] /template/ Path#ExpandCollapseChevron">
-      <Setter Property="Stroke" Value="{color:AccentBrush Dark1}" />
+      <Setter Property="Background" Value="{color:HoverBackgroundDefault}" />
+      <Setter Property="BorderBrush" Value="{color:BorderDefault}" />
     </Style>
 
     <!-- Pressed state -->
     <Style Selector="^:pressed /template/ Border#ToggleButtonBackground, ^[(theme|Preview.State)=Pressed] /template/ Border#ToggleButtonBackground">
-      <Setter Property="Background" Value="{color:BackgroundDefault}" />
-      <Setter Property="BorderBrush" Value="{color:OverlayWeakBrush}" />
-    </Style>
-    <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter, ^[(theme|Preview.State)=Pressed] /template/ ContentPresenter#PART_ContentPresenter">
-    </Style>
-    <Style Selector="^:pressed /template/ Border#ExpandCollapseChevronBorder, ^[(theme|Preview.State)=Pressed] /template/ Border#ExpandCollapseChevronBorder">
-      <Setter Property="Background" Value="Transparent" />
-      <Setter Property="BorderBrush" Value="Transparent" />
-    </Style>
-    <Style Selector="^:pressed /template/ Path#ExpandCollapseChevron, ^[(theme|Preview.State)=Pressed] /template/ Path#ExpandCollapseChevron">
-      <Setter Property="Stroke" Value="{color:AccentBrush Dark1}" />
+      <Setter Property="Background" Value="{color:PressedBackgroundDefault}" />
+      <Setter Property="BorderBrush" Value="{color:BorderDefault}" />
     </Style>
 
     <!-- Disabled state -->
     <Style Selector="^:disabled /template/ Border#ToggleButtonBackground">
-      <Setter Property="Background" Value="{color:BackgroundDefault}" />
-      <Setter Property="BorderBrush" Value="{color:OverlayWeakBrush}" />
-    </Style>
-    <Style Selector="^:disabled /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="Foreground" Value="{color:DimTextDefault}" />
-    </Style>
-    <Style Selector="^:disabled /template/ Border#ExpandCollapseChevronBorder">
-      <Setter Property="Background" Value="Transparent" />
-      <Setter Property="BorderBrush" Value="Transparent" />
-    </Style>
-    <Style Selector="^:disabled /template/ Path#ExpandCollapseChevron">
-      <Setter Property="Stroke" Value="{color:AccentBrush Light2}" />
+      <Setter Property="Opacity" Value="{size:DisabledOpacity}" />
     </Style>
 
   </ControlTheme>
@@ -210,7 +264,7 @@
        ============================================================ -->
   <ControlTheme x:Key="DefaultExpanderToggleButtonUpTheme" TargetType="ToggleButton" BasedOn="{StaticResource DefaultExpanderToggleButtonTheme}">
     <!-- Chevron glyph -->
-    <Style Selector="^ /template/ Path#ExpandCollapseChevron">
+    <Style Selector="^ /template/ PathIcon#ExpandCollapseChevron">
       <Setter Property="Data" Value="{icons:ChevronUp}" />
     </Style>
   </ControlTheme>
@@ -220,7 +274,7 @@
        ============================================================ -->
   <ControlTheme x:Key="DefaultExpanderToggleButtonDownTheme" TargetType="ToggleButton" BasedOn="{StaticResource DefaultExpanderToggleButtonTheme}">
     <!-- Chevron glyph -->
-    <Style Selector="^ /template/ Path#ExpandCollapseChevron">
+    <Style Selector="^ /template/ PathIcon#ExpandCollapseChevron">
       <Setter Property="Data" Value="{icons:ChevronDown}" />
     </Style>
   </ControlTheme>
@@ -230,7 +284,7 @@
        ============================================================ -->
   <ControlTheme x:Key="DefaultExpanderToggleButtonLeftTheme" TargetType="ToggleButton" BasedOn="{StaticResource DefaultExpanderToggleButtonTheme}">
     <!-- Chevron glyph -->
-    <Style Selector="^ /template/ Path#ExpandCollapseChevron">
+    <Style Selector="^ /template/ PathIcon#ExpandCollapseChevron">
       <Setter Property="Data" Value="{icons:ChevronLeft}" />
     </Style>
   </ControlTheme>
@@ -240,7 +294,7 @@
        ============================================================ -->
   <ControlTheme x:Key="DefaultExpanderToggleButtonRightTheme" TargetType="ToggleButton" BasedOn="{StaticResource DefaultExpanderToggleButtonTheme}">
     <!-- Chevron glyph -->
-    <Style Selector="^ /template/ Path#ExpandCollapseChevron">
+    <Style Selector="^ /template/ PathIcon#ExpandCollapseChevron">
       <Setter Property="Data" Value="{icons:ChevronRight}" />
     </Style>
   </ControlTheme>
@@ -256,12 +310,15 @@
     <Setter Property="MinHeight" Value="{size:ControlHeightLg}" />
     <Setter Property="Background" Value="{color:BackgroundDefault}" />
     <Setter Property="Foreground" Value="{color:TextDefault}" />
-    <Setter Property="BorderBrush" Value="{color:OverlayWeakBrush}" />
+    <Setter Property="BorderBrush" Value="{color:BorderDefault}" />
     <Setter Property="BorderThickness" Value="{size:Edges Left={size:BaseSize}, Right={size:BaseSize}, Bottom={size:BaseSize}}" />
-    <Setter Property="Padding" Value="{size:Edges All={size:SpacingXxl}}" />
-    <Setter Property="FontFamily" Value="{theme:FontFamily}" />
-    <Setter Property="FontSize" Value="{size:FontSizeMd}" />
-    <Setter Property="FontWeight" Value="{theme:FontWeightRegular}" />
+    <!-- Normal content padding on every edge: the revealed body breathes like the header does, so its
+         text never jams against the divider or the frame lines. The horizontal inset is the theme's
+         default {size:ContentPadding}; the vertical edges take the same value, so an open example is
+         header + (body text + 2 x ContentPadding + the card's own border) tall. The preview sizes each
+         example's fixed frame to THAT open height, so nothing jumps and the column may scroll rather
+         than squash the body to fit the window -->
+    <Setter Property="Padding" Value="{size:ContentPadding}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
     <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
     <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
@@ -272,24 +329,41 @@
     <!-- Template -->
     <Setter Property="Template">
       <ControlTemplate>
-        <!-- Layout root docking the header against the content -->
+        <!-- Layout root docking the header against the content. The body is declared after the header, so
+             the header lifts above it in z-order: while the body slides out from under the header it never
+             covers the button, and the same ordering holds on the fold-back -->
         <DockPanel MinWidth="{TemplateBinding MinWidth}"
                    MaxWidth="{TemplateBinding MaxWidth}">
-          <!-- The header, clicked to expand or collapse -->
+          <!-- The header, clicked to expand or collapse. Declared first so it paints above the body:
+               while the body slides out from under the header it never covers the button, and the same
+               ordering holds on the fold-back -->
           <ToggleButton x:Name="ExpanderHeader"
+                        ZIndex="1"
                         MinHeight="{TemplateBinding MinHeight}"
                         CornerRadius="{TemplateBinding CornerRadius}"
                         IsEnabled="{TemplateBinding IsEnabled}"
                         Content="{TemplateBinding Header}"
                         ContentTemplate="{TemplateBinding HeaderTemplate}"
                         IsChecked="{TemplateBinding IsExpanded, Mode=TwoWay}" />
-          <!-- The panel revealed when expanded -->
+          <!-- The body card, revealed when expanded. Clipped to the control's bounds so the reveal emerges
+               from beneath the header (which paints above it); its extent and opacity ride ONE shared
+               transition, so the rectangle and its text travel as a single piece, in AND out. IsVisible
+               tracks IsExpanded so a folded-flat card leaves the scene entirely once the fold-back lands;
+               the extents are steered by the expanded/collapsed styles below, which the transition plays
+               forward and backward -->
+          <!-- Zero floors: the card must fold FLAT when collapsed; inheriting the control's MinHeight
+               kept a 48px sliver alive and stopped the fold-back mid-way -->
           <Border x:Name="ExpanderContent"
                   IsVisible="{TemplateBinding IsExpanded, Mode=TwoWay}"
+                  ClipToBounds="True"
                   Background="{TemplateBinding Background}"
                   BorderBrush="{TemplateBinding BorderBrush}"
                   BorderThickness="{TemplateBinding BorderThickness}"
-                  MinHeight="{TemplateBinding MinHeight}"
+                  MinHeight="0"
+                  MinWidth="0"
+                  MaxWidth="0"
+                  MaxHeight="0"
+                  Opacity="0"
                   HorizontalAlignment="Stretch"
                   VerticalAlignment="Stretch"
                   Padding="{TemplateBinding Padding}">
@@ -305,9 +379,73 @@
       </ControlTemplate>
     </Setter>
 
+    <!-- Shared reveal transition: the body card's extent and opacity glide together over the fast beat,
+         playing forwards on expand and backwards on collapse, so nothing snaps shut. Covering both axes
+         lets each direction steer only its own axis while staying inert on the other -->
+    <Style Selector="^ /template/ Border#ExpanderContent">
+      <Setter Property="Transitions">
+        <Transitions>
+          <DoubleTransition Property="MaxWidth" Duration="{theme:AnimationFastMs}" />
+          <DoubleTransition Property="MaxHeight" Duration="{theme:AnimationFastMs}" />
+          <DoubleTransition Property="Opacity" Duration="{theme:AnimationFastMs}" />
+        </Transitions>
+      </Setter>
+    </Style>
+
+    <!-- Reveal extents: expanded opens the card to its natural size, collapsed folds it flat. Anchored to
+         the edge touching the header, so the card grows OUT FROM UNDERNEATH the button rather than drifting
+         over it, and the fold-back retraces the same path. The MINIMUMS matter too: the dock panel sizes
+         the filler from its DESIRED size, which honours minima but not maxima, so a collapsed card must
+         also demand ZERO or it reserves phantom space and shifts the examples stacked below it -->
+    <Style Selector="^:expanded /template/ Border#ExpanderContent">
+      <Setter Property="MinWidth" Value="0" />
+      <Setter Property="MinHeight" Value="0" />
+      <Setter Property="MaxWidth" Value="1000" />
+      <Setter Property="MaxHeight" Value="1000" />
+      <Setter Property="Opacity" Value="1" />
+    </Style>
+    <Style Selector="^:not(:expanded) /template/ Border#ExpanderContent">
+      <Setter Property="MinWidth" Value="0" />
+      <Setter Property="MinHeight" Value="0" />
+      <Setter Property="MaxWidth" Value="0" />
+      <Setter Property="MaxHeight" Value="0" />
+      <Setter Property="Opacity" Value="0" />
+    </Style>
+    <!-- Anchor per direction: the card hugs the header's revealing edge -->
+    <Style Selector="^:down /template/ Border#ExpanderContent">
+      <Setter Property="VerticalAlignment" Value="Top" />
+    </Style>
+    <Style Selector="^:up /template/ Border#ExpanderContent">
+      <Setter Property="VerticalAlignment" Value="Bottom" />
+    </Style>
+    <!-- The sideways directions FILL the slot beside the header instead of hugging it: pinned to
+         Right/Left the card was arranged at its own DESIRED width (its content plus padding), so it
+         sat next to the header and left a gap at the expander's OUTER edge - the revealed content
+         stopped short of the frame. Stretch fills the whole slot, exactly as the vertical
+         directions already do, so the revealed area reaches the outer edge (gap 0px). The header
+         still paints above the card and the card is still clipped, so the reveal still emerges
+         from under the header rather than over it -->
+    <Style Selector="^:left /template/ Border#ExpanderContent">
+      <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
+    </Style>
+    <Style Selector="^:right /template/ Border#ExpanderContent">
+      <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
+    </Style>
+
     <!-- Press render transform reset -->
     <Style Selector="^ /template/ ToggleButton#ExpanderHeader:pressed">
       <Setter Property="RenderTransform" Value="{x:Null}" />
+    </Style>
+
+    <!-- Pinned preview states: the attribute sits on the Expander, so steer the header through its own
+         properties — the frame TemplateBinds Background, BorderBrush and CornerRadius from them -->
+    <Style Selector="^[(theme|Preview.State)=Hover] /template/ ToggleButton#ExpanderHeader">
+      <Setter Property="Background" Value="{color:HoverBackgroundDefault}" />
+      <Setter Property="BorderBrush" Value="{color:BorderDefault}" />
+    </Style>
+    <Style Selector="^[(theme|Preview.State)=Pressed] /template/ ToggleButton#ExpanderHeader">
+      <Setter Property="Background" Value="{color:PressedBackgroundDefault}" />
+      <Setter Property="BorderBrush" Value="{color:BorderDefault}" />
     </Style>
 
     <!-- Left/Right alignment -->
@@ -357,6 +495,7 @@
     <Style Selector="^:expanded:right /template/ Border#ExpanderContent">
       <Setter Property="CornerRadius" Value="{TemplateBinding CornerRadius, Converter={StaticResource RightCornerRadiusFilterConverter}}" />
     </Style>
+
 
     <!-- Dock direction -->
     <Style Selector="^:left /template/ ToggleButton#ExpanderHeader">

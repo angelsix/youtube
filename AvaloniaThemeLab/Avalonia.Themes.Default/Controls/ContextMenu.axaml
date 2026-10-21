@@ -3,27 +3,70 @@
                     xmlns:default="clr-namespace:Avalonia.Themes.Default"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
                     xmlns:color="using:AngelSix.ThemeEngine.Colors"
-                    xmlns:size="using:AngelSix.ThemeEngine.Sizes">
-  <!-- Design preview: presented directly (not via right-click) so the framed surface shows statically; one list mixes
-       icon, checkbox, separator and :disabled. Declared before Design.PreviewWith uses it -->
+                    xmlns:size="using:AngelSix.ThemeEngine.Sizes"
+                    xmlns:icons="using:AngelSix.ThemeEngine.Icons">
+  <!-- Design preview: every item state the theme paints, pinned INSIDE real context menus (task 139 folds the
+       former MenuItem / MenuFlyoutPresenter / MenuScrollViewer previews in here): the framed flyout-surface look,
+       the leading-column rhythm (glyph centred against the ROW'S OWN highlight edge, fourth-review steer), and the
+       scroll viewer's overflow arrows (the last menu caps its height, so the list scrolls and the down chevron
+       shows). Three menus, one per concern: states, decorations, checks-and-submenu. Declared before
+       Design.PreviewWith uses it -->
   <DataTemplate x:Key="ContextMenuPreview">
-    <ContextMenu Width="240">
-      <MenuItem Header="Standard _Item" />
-      <MenuItem Header="With _Icon">
-        <MenuItem.Icon>
-          <TextBlock>😊</TextBlock>
-        </MenuItem.Icon>
-      </MenuItem>
-      <MenuItem Header="With _Checkbox">
-        <MenuItem.Icon>
-          <CheckBox BorderThickness="0"
-                    IsHitTestVisible="False"
-                    IsChecked="True" />
-        </MenuItem.Icon>
-      </MenuItem>
-      <Separator />
-      <MenuItem Header="_Disabled" IsEnabled="False" />
-    </ContextMenu>
+    <StackPanel Spacing="{size:SpacingSm}" HorizontalAlignment="Left">
+      <!-- Caption naming the first surface -->
+      <TextBlock Text="States: rest · hover · pressed · focused · disabled · selected · separator" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
+      <!-- States only: no check or icon anywhere, so the shared leading column collapses to 0 and the plain-row
+           text inset stays tight; every pseudo-class is pinned on its own row -->
+      <ContextMenu Width="240">
+        <MenuItem Header="Rest" />
+        <MenuItem Header="Ho_ver" theme:Preview.State="Hover" />
+        <MenuItem Header="Pres_sed" theme:Preview.State="Pressed" />
+        <MenuItem Header="Fo_cused" theme:Preview.State="Focused" />
+        <MenuItem Header="Dis_abled" IsEnabled="False" />
+        <MenuItem Header="Sele_cted" IsSelected="True" />
+        <Separator />
+      </ContextMenu>
+      <!-- Caption naming the second surface -->
+      <TextBlock Text="Decorations: icon · shortcut · submenu chevron · accent hue" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
+      <!-- Decorations: the icon row carries the steered centring (gap highlight-edge→ink == gap ink→label);
+           the icon-less rows keep the same single icon-width column; the accent row pins a Warning hue -->
+      <ContextMenu Width="240">
+        <!-- The steered centring is judged against this row's OWN highlight edge (the row's inner face);
+             the Highlight row above demonstrates the paint, the geometry here proves the equal gaps -->
+        <MenuItem Header="With _Icon">
+          <MenuItem.Icon>
+            <PathIcon Data="{icons:Star}" />
+          </MenuItem.Icon>
+        </MenuItem>
+        <MenuItem Header="Short_cut" InputGesture="Ctrl+G" />
+        <MenuItem Header="Plain _Row" />
+        <MenuItem Header="Warn_ing Hue" theme:Accent.Kind="Warning" />
+      </ContextMenu>
+      <!-- Caption naming the third surface -->
+      <TextBlock Text="Checks and submenu: check · radio · nested accent" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
+      <!-- Checks and submenu: the tick and the icon share ONE leading column; the nested Report Bug pins a
+           Success hue inside the sub-menu. The scroll viewer's overflow arrows are shown by the Menu entry's
+           capped File drop-down (its list overflows the popup, so the down chevron draws) -->
+      <ContextMenu Width="240">
+        <MenuItem Header="Wi_th Check" ToggleType="CheckBox" IsChecked="True" />
+        <MenuItem Header="Ra_dio Dot" ToggleType="Radio" IsChecked="True" />
+        <MenuItem Header="With _Glyph">
+          <MenuItem.Icon>
+            <PathIcon Data="{icons:Star}" />
+          </MenuItem.Icon>
+        </MenuItem>
+        <MenuItem Header="More_…">
+          <MenuItem Header="Recent" />
+          <MenuItem Header="Clear History" />
+          <MenuItem Header="Report Bug" theme:Accent.Kind="Success" />
+        </MenuItem>
+        <!-- The chevron marks a sub-menu; its right-side inset shares the row-padding rhythm -->
+        <MenuItem Header="Sub_menu">
+          <MenuItem Header="First" />
+          <MenuItem Header="Second" />
+        </MenuItem>
+      </ContextMenu>
+    </StackPanel>
   </DataTemplate>
 
   <Design.PreviewWith>
@@ -45,11 +88,15 @@
     <Setter Property="Foreground" Value="{color:TextDefault}" />
     <Setter Property="BorderBrush" Value="{color:BorderDefault}" />
     <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
+    <!-- Even inset all round (matches MenuFlyoutPresenter's surface); the list's own rows carry their padding -->
+    <Setter Property="Padding" Value="{size:Edges All={size:SpacingMd}}" />
+    <Setter Property="MaxWidth" Value="{size:Scaled Value={size:BaseSize}, By=456}" />
+    <Setter Property="MinHeight" Value="{size:ControlHeightSm}" />
+    <!-- Disable horizontal scrolling so the scroller hands the list a finite width and every row stretches to it (as MenuFlyoutPresenter does) -->
+    <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
+    <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
     <Setter Property="CornerRadius" Value="{size:RadiusMd}" />
     <Setter Property="Focusable" Value="True" />
-    <Setter Property="MaxWidth" Value="456" />
-    <Setter Property="MinHeight" Value="{size:ControlHeightSm}" />
-    <Setter Property="Padding" Value="0" />
     <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
     <Setter Property="WindowManagerAddShadowHint" Value="False" />
     <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
@@ -67,7 +114,9 @@
                 HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
                 CornerRadius="{TemplateBinding CornerRadius}">
           <!-- Scrolls the menu when it overflows -->
-          <ScrollViewer Theme="{StaticResource DefaultMenuScrollViewer}">
+          <ScrollViewer HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
+                        Theme="{StaticResource DefaultMenuScrollViewer}"
+                        VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}">
             <!-- The menu entries -->
             <ItemsPresenter Name="PART_ItemsPresenter"
                             ItemsPanel="{TemplateBinding ItemsPanel}"
@@ -78,9 +127,9 @@
       </ControlTemplate>
     </Setter>
 
-    <!-- Template element styles -->
-    <Style Selector="^ /template/ ItemsPresenter#PART_ItemsPresenter">
-      <Setter Property="Margin" Value="{size:Edges Vertical={size:SpacingSm}}" />
+    <!-- The menu scroller fills the frame (its own theme left-aligns it); that finite width is what lets every row stretch -->
+    <Style Selector="^ /template/ ScrollViewer">
+      <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
     </Style>
   </ControlTheme>
 </ResourceDictionary>

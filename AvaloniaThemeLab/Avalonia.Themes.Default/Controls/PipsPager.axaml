@@ -9,17 +9,22 @@
        this key, so it is declared before Design.PreviewWith uses it -->
   <DataTemplate x:Key="PipsPagerPreview">
     <!-- Hover and pressed need pointer interaction -->
-    <StackPanel Orientation="Vertical" Spacing="{size:SpacingXxl}">
+    <StackPanel Orientation="Vertical" Spacing="{size:SpacingXl}">
       <PipsPager NumberOfPages="5" SelectedPageIndex="2" />
       <PipsPager NumberOfPages="5" SelectedPageIndex="0" />
       <PipsPager NumberOfPages="5" SelectedPageIndex="4" />
       <PipsPager NumberOfPages="5" SelectedPageIndex="2" IsEnabled="False" />
       <PipsPager NumberOfPages="5" SelectedPageIndex="2" Orientation="Vertical" />
-      <!-- Chevrons are hidden by default; shown here mid-range, fading out at the first/last page -->
-      <StackPanel Orientation="Horizontal" Spacing="{size:SpacingXxl}">
+      <!-- Chevrons are hidden by default; shown here mid-range, faded out at the first/last page -->
+      <StackPanel Orientation="Vertical" Spacing="{size:SpacingXl}">
         <PipsPager NumberOfPages="5" SelectedPageIndex="2" IsPreviousButtonVisible="True" IsNextButtonVisible="True" />
         <PipsPager NumberOfPages="5" SelectedPageIndex="0" IsPreviousButtonVisible="True" IsNextButtonVisible="True" />
         <PipsPager NumberOfPages="5" SelectedPageIndex="4" IsPreviousButtonVisible="True" IsNextButtonVisible="True" />
+      </StackPanel>
+      <!-- The arrows' half-strength grow and press, pinned so both states show without a pointer -->
+      <StackPanel Orientation="Horizontal" Spacing="{size:SpacingXl}">
+        <PipsPager NumberOfPages="5" SelectedPageIndex="2" theme:Preview.State="Hover" />
+        <PipsPager NumberOfPages="5" SelectedPageIndex="2" theme:Preview.State="Pressed" />
       </StackPanel>
     </StackPanel>
   </DataTemplate>
@@ -35,10 +40,6 @@
     </Border>
   </Design.PreviewWith>
 
-  <!-- Icon path data — horizontal arrows -->
-
-  <!-- Icon path data — vertical arrows -->
-
   <!-- ============================================================
        Navigation button
        ============================================================ -->
@@ -49,11 +50,12 @@
     <Setter Property="BorderBrush" Value="Transparent" />
     <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
     <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
-    <!-- Structural: 24x24 icon button (no matching theme token) -->
-    <Setter Property="Width" Value="24" />
-    <Setter Property="Height" Value="24" />
+    <!-- Square icon button, one icon-ladder step and a half wide -->
+    <Setter Property="Width" Value="{size:Scaled Value={size:IconSizeMd}, By=1.5}" />
+    <Setter Property="Height" Value="{size:Scaled Value={size:IconSizeMd}, By=1.5}" />
     <Setter Property="Padding" Value="0" />
-    <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
+    <!-- The glyph sits dead centre in the button, so the arrows read symmetrically around the pip strip -->
+    <Setter Property="HorizontalContentAlignment" Value="{theme:ButtonHorizontalContentAlignment}" />
     <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
     <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
 
@@ -82,16 +84,19 @@
       </ControlTemplate>
     </Setter>
 
-    <!-- Hover state -->
-    <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+    <!-- Hover state: a half-strength grow, like HyperlinkButton's (task 111) -->
+    <Style Selector="^:pointerover, ^[(theme|Preview.State)=Hover]">
       <Setter Property="Background" Value="Transparent" />
       <Setter Property="BorderBrush" Value="Transparent" />
+      <Setter Property="RenderTransform" Value="{theme:TransformScale Value={size:PressedScale}, By=1.045}" />
+      <Setter Property="ZIndex" Value="{size:HoverZIndex}" />
     </Style>
 
-    <!-- Pressed state -->
-    <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter">
+    <!-- Pressed state: a half-strength shrink, like HyperlinkButton's (task 111) -->
+    <Style Selector="^:pressed, ^[(theme|Preview.State)=Pressed]">
       <Setter Property="Background" Value="Transparent" />
       <Setter Property="BorderBrush" Value="Transparent" />
+      <Setter Property="RenderTransform" Value="{theme:TransformScale Value={size:PressedScale}, By=1.01}" />
     </Style>
 
     <!-- Disabled state -->
@@ -113,9 +118,9 @@
        ============================================================ -->
   <ControlTheme x:Key="PipsPagerItemTheme" TargetType="ListBoxItem">
     <!-- Visual defaults -->
-    <!-- Structural: pip item dimensions (no matching theme token) -->
-    <Setter Property="Width" Value="12" />
-    <Setter Property="Height" Value="24" />
+    <!-- One square pip-cell footprint on both axes, so the centre-to-centre pitch is the same in a row and a column -->
+    <Setter Property="Width" Value="{size:Scaled Value={size:IconSizeMd}, By=1.5}" />
+    <Setter Property="Height" Value="{size:Scaled Value={size:IconSizeMd}, By=1.5}" />
     <Setter Property="Padding" Value="0" />
     <Setter Property="Margin" Value="0" />
     <Setter Property="MinWidth" Value="0" />
@@ -169,13 +174,9 @@
 
     <!-- Hover state -->
     <Style Selector="^:pointerover /template/ Ellipse#Pip">
-      <Setter Property="Width" Value="{size:ThicknessXxl}" />
-      <Setter Property="Height" Value="{size:ThicknessXxl}" />
+      <Setter Property="Width" Value="{size:SpacingLg}" />
+      <Setter Property="Height" Value="{size:SpacingLg}" />
       <Setter Property="Fill" Value="{color:AccentBrush Dark1}" />
-    </Style>
-    <Style Selector="^:pointerover /template/ Ellipse#PipBackground">
-      <Setter Property="Fill" Value="Transparent" />
-      <Setter Property="Stroke" Value="Transparent" />
     </Style>
 
     <!-- Pressed state -->
@@ -184,40 +185,24 @@
       <Setter Property="Height" Value="{size:SpacingMd}" />
       <Setter Property="Fill" Value="{color:AccentBrush Dark1}" />
     </Style>
-    <Style Selector="^:pressed /template/ Ellipse#PipBackground">
-      <Setter Property="Fill" Value="Transparent" />
-      <Setter Property="Stroke" Value="Transparent" />
-    </Style>
 
     <!-- Disabled state -->
     <Style Selector="^:disabled /template/ Ellipse#Pip">
       <Setter Property="Fill" Value="{color:AccentBrush Light2}" />
     </Style>
-    <Style Selector="^:disabled /template/ Ellipse#PipBackground">
-      <Setter Property="Fill" Value="Transparent" />
-      <Setter Property="Stroke" Value="Transparent" />
-    </Style>
 
     <!-- Selected state -->
     <Style Selector="^:selected /template/ Ellipse#Pip">
-      <Setter Property="Width" Value="{size:ThicknessXxl}" />
-      <Setter Property="Height" Value="{size:ThicknessXxl}" />
+      <Setter Property="Width" Value="{size:SpacingLg}" />
+      <Setter Property="Height" Value="{size:SpacingLg}" />
       <Setter Property="Fill" Value="{color:AccentBrush Dark1}" />
-    </Style>
-    <Style Selector="^:selected /template/ Ellipse#PipBackground">
-      <Setter Property="Fill" Value="Transparent" />
-      <Setter Property="Stroke" Value="Transparent" />
     </Style>
 
     <!-- Selected hover state -->
     <Style Selector="^:selected:pointerover /template/ Ellipse#Pip">
-      <Setter Property="Width" Value="{size:ThicknessXxl}" />
-      <Setter Property="Height" Value="{size:ThicknessXxl}" />
+      <Setter Property="Width" Value="{size:SpacingLg}" />
+      <Setter Property="Height" Value="{size:SpacingLg}" />
       <Setter Property="Fill" Value="{color:AccentBrush Dark1}" />
-    </Style>
-    <Style Selector="^:selected:pointerover /template/ Ellipse#PipBackground">
-      <Setter Property="Fill" Value="Transparent" />
-      <Setter Property="Stroke" Value="Transparent" />
     </Style>
   </ControlTheme>
 
@@ -226,7 +211,11 @@
        ============================================================ -->
   <ControlTheme x:Key="{x:Type PipsPager}" TargetType="PipsPager">
     <!-- Visual defaults -->
-    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="Background" Value="{color:AccentBrush Light9}" />
+    <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
+    <!-- Breathing room around the whole control, and an even gap between the arrows and the dots -->
+    <Setter Property="Padding" Value="{size:Edges All={size:ContentPadding}}" />
+    <!-- Hug the arrows and the dots; never stretch to the host's width -->
     <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
     <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
     <Setter Property="IsTabStop" Value="False" />
@@ -237,63 +226,73 @@
     <!-- Template -->
     <Setter Property="Template">
       <ControlTemplate>
-        <!-- Layout root laying the pips and arrows out -->
-        <StackPanel Name="PART_RootPanel"
-                    Orientation="{TemplateBinding Orientation}"
-                    Background="{TemplateBinding Background}"
-                    ClipToBounds="False">
-          <!-- Goes to the previous page -->
-          <Button Name="PART_PreviousButton"
-                  Theme="{TemplateBinding PreviousButtonTheme}"
-                  IsVisible="{TemplateBinding IsPreviousButtonVisible}"
-                  VerticalAlignment="Center"
-                  HorizontalAlignment="Center">
-            <!-- The back arrow -->
-            <PathIcon Name="PreviousButtonIcon"
-                      Data="{icons:ChevronLeft}" />
-          </Button>
+        <!-- Rounded face painting the theme's recessed fill behind the arrows and the dots -->
+        <Border Name="PART_RootPanel"
+                Background="{TemplateBinding Background}"
+                CornerRadius="{TemplateBinding CornerRadius}"
+                ClipToBounds="False">
+          <!-- Breathing room between the dots and the arrows -->
+          <Border Padding="{TemplateBinding Padding}">
+            <!-- Lays the arrows and the dot strip out in a row or column -->
+            <StackPanel Orientation="{TemplateBinding Orientation}">
+              <!-- Goes to the previous page -->
+              <Button Name="PART_PreviousButton"
+                      Theme="{TemplateBinding PreviousButtonTheme}"
+                      IsVisible="{TemplateBinding IsPreviousButtonVisible}"
+                      theme:Preview.State="{Binding (theme:Preview.State), RelativeSource={RelativeSource TemplatedParent}}"
+                      VerticalAlignment="Center"
+                      HorizontalAlignment="Center">
+                <!-- The back arrow -->
+                <PathIcon Name="PreviousButtonIcon"
+                          Data="{icons:ChevronLeft}" />
+              </Button>
 
-          <!-- One dot per page, the current one selected -->
-          <ListBox Name="PART_PipsPagerList"
-                   Background="Transparent"
-                   BorderThickness="0"
-                   Padding="0"
-                   HorizontalAlignment="Center"
-                   VerticalAlignment="Center"
-                   ScrollViewer.HorizontalScrollBarVisibility="Hidden"
-                   ScrollViewer.VerticalScrollBarVisibility="Hidden"
-                   ItemsSource="{Binding TemplateSettings.Pips, RelativeSource={RelativeSource TemplatedParent}}"
-                   SelectedIndex="{Binding SelectedPageIndex, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
-                   AutoScrollToSelectedItem="False"
-                   ClipToBounds="False"
-                   ItemContainerTheme="{StaticResource PipsPagerItemTheme}">
-            <ListBox.Styles>
-              <Style Selector="ScrollViewer">
-                <Setter Property="ClipToBounds" Value="False" />
-              </Style>
-            </ListBox.Styles>
-            <ListBox.ItemsPanel>
-              <ItemsPanelTemplate>
-                <!-- Lays the pips out in a row or column -->
-                <StackPanel Orientation="{Binding Orientation, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=PipsPager}}"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            Spacing="0" />
-              </ItemsPanelTemplate>
-            </ListBox.ItemsPanel>
-          </ListBox>
+              <!-- One dot per page, the current one selected -->
+              <ListBox Name="PART_PipsPagerList"
+                       Background="Transparent"
+                       BorderThickness="0"
+                       Padding="0"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                       ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                       ItemsSource="{Binding TemplateSettings.Pips, RelativeSource={RelativeSource TemplatedParent}}"
+                       SelectedIndex="{Binding SelectedPageIndex, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
+                       AutoScrollToSelectedItem="False"
+                       ClipToBounds="False"
+                       ItemContainerTheme="{StaticResource PipsPagerItemTheme}">
+                <ListBox.Styles>
+                  <Style Selector="ScrollViewer">
+                    <Setter Property="ClipToBounds" Value="False" />
+                    <!-- One background throughout: the strip shows the face's recessed fill -->
+                    <Setter Property="Background" Value="Transparent" />
+                  </Style>
+                </ListBox.Styles>
+                <ListBox.ItemsPanel>
+                  <ItemsPanelTemplate>
+                    <!-- Lays the pips out in a row or column -->
+                    <StackPanel Orientation="{Binding Orientation, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=PipsPager}}"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Spacing="0" />
+                  </ItemsPanelTemplate>
+                </ListBox.ItemsPanel>
+              </ListBox>
 
-          <!-- Goes to the next page -->
-          <Button Name="PART_NextButton"
-                  Theme="{TemplateBinding NextButtonTheme}"
-                  IsVisible="{TemplateBinding IsNextButtonVisible}"
-                  VerticalAlignment="Center"
-                  HorizontalAlignment="Center">
-            <!-- The forward arrow -->
-            <PathIcon Name="NextButtonIcon"
-                      Data="{icons:ChevronRight}" />
-          </Button>
-        </StackPanel>
+              <!-- Goes to the next page -->
+              <Button Name="PART_NextButton"
+                      Theme="{TemplateBinding NextButtonTheme}"
+                      IsVisible="{TemplateBinding IsNextButtonVisible}"
+                      theme:Preview.State="{Binding (theme:Preview.State), RelativeSource={RelativeSource TemplatedParent}}"
+                      VerticalAlignment="Center"
+                      HorizontalAlignment="Center">
+                <!-- The forward arrow -->
+                <PathIcon Name="NextButtonIcon"
+                          Data="{icons:ChevronRight}" />
+              </Button>
+            </StackPanel>
+          </Border>
+        </Border>
       </ControlTemplate>
     </Setter>
 
@@ -307,35 +306,6 @@
       <Setter Property="Height" Value="{size:IconSizeMd}" />
     </Style>
 
-    <!-- Pressed state -->
-    <Style Selector="^ /template/ Button#PART_PreviousButton:pressed">
-      <Setter Property="RenderTransformOrigin" Value="0.5, 0.5" />
-      <!-- Structural: stronger press scale for small icon buttons -->
-      <Setter Property="RenderTransform" Value="scale(0.875)" />
-    </Style>
-    <Style Selector="^ /template/ Button#PART_NextButton:pressed">
-      <Setter Property="RenderTransformOrigin" Value="0.5, 0.5" />
-      <!-- Structural: stronger press scale for small icon buttons -->
-      <Setter Property="RenderTransform" Value="scale(0.875)" />
-    </Style>
-
-    <!-- Horizontal orientation -->
-    <Style Selector="^:horizontal /template/ StackPanel#PART_RootPanel">
-      <Setter Property="Orientation" Value="Horizontal" />
-    </Style>
-
-    <!-- Vertical orientation -->
-    <Style Selector="^:vertical /template/ StackPanel#PART_RootPanel">
-      <Setter Property="Orientation" Value="Vertical" />
-      <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
-    </Style>
-
-    <!-- Structural: vertical pip item dimensions (no matching theme token) -->
-    <Style Selector="^:vertical /template/ ListBox ListBoxItem">
-      <Setter Property="Width" Value="24" />
-      <Setter Property="Height" Value="12" />
-    </Style>
-
     <!-- Vertical navigation icons -->
     <Style Selector="^:vertical /template/ Button#PART_PreviousButton PathIcon#PreviousButtonIcon">
       <Setter Property="Data" Value="{icons:ChevronUp}" />
@@ -344,13 +314,18 @@
       <Setter Property="Data" Value="{icons:ChevronDown}" />
     </Style>
 
-    <!-- First page state -->
+    <!-- Disabled state -->
+    <Style Selector="^:disabled">
+      <Setter Property="Opacity" Value="{size:DisabledOpacity}" />
+    </Style>
+
+    <!-- First page state: the back arrow stays in the layout at zero opacity, so the control never changes size -->
     <Style Selector="^:first-page /template/ Button#PART_PreviousButton">
       <Setter Property="Opacity" Value="0" />
       <Setter Property="IsHitTestVisible" Value="False" />
     </Style>
 
-    <!-- Last page state -->
+    <!-- Last page state: the forward arrow stays in the layout at zero opacity, so the control never changes size -->
     <Style Selector="^:last-page /template/ Button#PART_NextButton">
       <Setter Property="Opacity" Value="0" />
       <Setter Property="IsHitTestVisible" Value="False" />

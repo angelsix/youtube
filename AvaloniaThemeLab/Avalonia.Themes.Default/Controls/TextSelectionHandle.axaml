@@ -4,10 +4,46 @@
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
                     xmlns:color="using:AngelSix.ThemeEngine.Colors"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes">
-  <!-- Default grip only: the :caret/:start/:end variants are set internally by TextBox during a live drag -->
+  <!-- Touch-selection grips at their resting seats: Start and End bracket a pinned selection,
+       Caret marks an insertion point in a field with none. Every grip wears the same shape: the
+       variant forms appear only while a finger drags, so a still capture cannot pin them -->
   <DataTemplate x:Key="TextSelectionHandlePreview">
-    <StackPanel Orientation="Horizontal" Spacing="{size:SpacingXxl}" HorizontalAlignment="Left">
-      <TextSelectionHandle />
+    <StackPanel Spacing="{size:SpacingXl}" HorizontalAlignment="Left">
+      <!-- Sample data: literal text and a pinned selection (characters 4-15) are preview content, not theme values -->
+      <Grid Width="360">
+        <TextBox Text="The quick brown fox jumps over the lazy dog" SelectionStart="4" SelectionEnd="15"
+                 VerticalAlignment="Top" />
+        <!-- Theme Exception: literal margins seat each grip just below the measured text-line bottom (tip at the
+             line, body hanging under it), centred under the selection's first and last characters (demo placement,
+             not a themed value) -->
+        <TextSelectionHandle Margin="24,27,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
+        <TextSelectionHandle Margin="105,27,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
+      </Grid>
+
+      <!-- One caption per grip, seated just under it: the grips stretch the field row, so this strip lands below them -->
+      <Grid Width="360">
+        <TextBlock Text="Start" Margin="24,0,0,0" HorizontalAlignment="Left"
+                   FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
+        <TextBlock Text="End" Margin="105,0,0,0" HorizontalAlignment="Left"
+                   FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
+      </Grid>
+
+      <!-- Second example: no selection, the caret grip under an insertion point (character 15, right after 'brown') -->
+      <Grid Width="360">
+        <TextBox Text="The quick brown fox jumps over the lazy dog" SelectionStart="15" SelectionEnd="15"
+                 VerticalAlignment="Top" />
+        <!-- Theme Exception: literal margin seats the caret grip just below the measured text-line bottom (demo placement) -->
+        <TextSelectionHandle Margin="110,27,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
+      </Grid>
+
+      <Grid Width="360">
+        <TextBlock Text="Caret" Margin="110,0,0,0" HorizontalAlignment="Left"
+                   FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
+      </Grid>
+
+      <!-- One line, no API names: why the grips read alike, and where they appear -->
+      <TextBlock Width="360" TextWrapping="Wrap" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}"
+                 Text="Same grip for all three — touch-only; desktop never shows these." />
     </StackPanel>
   </DataTemplate>
 
@@ -20,30 +56,6 @@
       <default:LightDarkPreview Title="TextSelectionHandle" Orientation="Horizontal" ContentTemplate="{StaticResource TextSelectionHandlePreview}" />
     </Border>
   </Design.PreviewWith>
-
-  <DrawingImage x:Key="TextSelectionHandleDrawing">
-    <DrawingImage.Drawing>
-      <GeometryDrawing Geometry="{DynamicResource TextSelectionHandlePath}"
-                       Brush="{color:AccentPrimaryBrush}"
-                       >
-        <GeometryDrawing.Pen>
-          <Pen Thickness="0.5" Brush="{color:AccentBrush Dark1}" LineJoin="Round"/>
-        </GeometryDrawing.Pen>
-      </GeometryDrawing>
-    </DrawingImage.Drawing>
-  </DrawingImage>
-
-  <DrawingImage x:Key="TextCaretHandleDrawing">
-    <DrawingImage.Drawing>
-      <GeometryDrawing Geometry="{DynamicResource TextCaretHandlePath}"
-                       Brush="{color:AccentPrimaryBrush}"
-                       >
-        <GeometryDrawing.Pen>
-          <Pen Thickness="0.5" Brush="{color:AccentBrush Dark1}" LineJoin="Round"/>
-        </GeometryDrawing.Pen>
-      </GeometryDrawing>
-    </DrawingImage.Drawing>
-  </DrawingImage>
 
   <GeometryGroup x:Key="TextSelectionHandlePath">
     <CombinedGeometry>
@@ -79,8 +91,9 @@
   </GeometryGroup>
   <ControlTheme x:Key="{x:Type TextSelectionHandle}"
                 TargetType="TextSelectionHandle">
+    <!-- The grip fill: the same hue stage as the TextBox selection (task 48), so handles and selection agree -->
     <Setter Property="Background"
-            Value="{color:AccentPrimaryBrush}" />
+            Value="{color:AccentBrush Dark3}" />
     <Setter Property="HorizontalAlignment"
             Value="{theme:ControlHorizontalAlignment}" />
     <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
@@ -91,27 +104,29 @@
           <Grid>
             <!-- Enlarged touch area around the grip -->
             <Border x:Name="PART_HitTarget" IsHitTestVisible="True" Background="Transparent">
-              <!-- The grip artwork -->
-              <Image Stretch="Uniform"
-                     Cursor="Arrow"
-                     Name="PART_HandlePathIcon"
-                     Source="{DynamicResource TextSelectionHandleDrawing}"/>
+              <!-- The grip artwork, filled from the control's own Background so it follows the pane and accent -->
+              <Viewbox Name="PART_HandlePathIcon" Cursor="Arrow">
+                <Path x:Name="PART_GripArtwork"
+                      Data="{DynamicResource TextSelectionHandlePath}"
+                      Fill="{TemplateBinding Background}"
+                      Stroke="{TemplateBinding Background}"
+                      StrokeThickness="{size:Scaled Value={size:ThicknessSmDouble}, By=0.5}"/>
+              </Viewbox>
             </Border>
             <!-- The line joining the grip to the caret -->
-            <Border Background="Transparent"
-                    Name="PART_Indicator"
+            <Border Name="PART_Indicator"
                     HorizontalAlignment="Center"
-                    Width="1" 
-                    VerticalAlignment="Top" 
-                    Height="5"/>
+                    Width="{size:ThicknessSmDouble}"
+                    VerticalAlignment="Top"
+                    Height="{size:Scaled Value={size:SpacingLg}, By=0.625}"/>
           </Grid>
         </ControlTemplate>
       </Setter.Value>
     </Setter>
-    <Style Selector="^:caret /template/ Image#PART_HandlePathIcon">
-      <Setter Property="Source" Value="{DynamicResource TextCaretHandleDrawing}" />
+    <Style Selector="^:caret /template/ Path#PART_GripArtwork">
+      <Setter Property="Data" Value="{DynamicResource TextCaretHandlePath}" />
     </Style>
-    <Style Selector="^:start /template/ Image#PART_HandlePathIcon">
+    <Style Selector="^:start /template/ Viewbox#PART_HandlePathIcon">
       <Setter Property="RenderTransform">
         <ScaleTransform ScaleX="-1" ScaleY="1"/>
       </Setter>
@@ -131,8 +146,12 @@
     <Style Selector="^ /template/ Border#PART_HitTarget">
       <Setter Property="Padding" Value="{size:Edges Bottom={size:SpacingXxl}}" />
     </Style>
-    <Style Selector="^ /template/ Image#PART_HandlePathIcon">
+    <Style Selector="^ /template/ Viewbox#PART_HandlePathIcon">
       <Setter Property="Height" Value="{size:ControlHeightSm}" />
+    </Style>
+    <!-- The indicator line takes the control's own Background -->
+    <Style Selector="^ /template/ Border#PART_Indicator">
+      <Setter Property="Background" Value="{TemplateBinding Background}" />
     </Style>
   </ControlTheme>
 </ResourceDictionary>

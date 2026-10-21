@@ -8,61 +8,95 @@
   <!-- Design preview: bar visibility, auto-hide, disabled, accent hue — each instance composes real options.
        Declared before Design.PreviewWith uses it -->
   <DataTemplate x:Key="ScrollViewerPreview">
-    <StackPanel Orientation="Horizontal" Spacing="{size:SpacingXxl}">
-      <!-- Both bars beside content, enabled, corner hidden: the resting look -->
-      <ScrollViewer Width="180" Height="150" Margin="0,0,0,4">
-        <Grid ColumnDefinitions="100,100,100" RowDefinitions="60,60,60">
-          <Rectangle Grid.Column="0" Grid.Row="0" Fill="{color:OverlayWeakBrush}" Margin="4" />
-          <Rectangle Grid.Column="1" Grid.Row="0" Fill="{color:OverlayWeakBrush}" Margin="4" />
-          <Rectangle Grid.Column="2" Grid.Row="0" Fill="{color:OverlayWeakBrush}" Margin="4" />
-          <Rectangle Grid.Column="0" Grid.Row="1" Fill="{color:OverlayWeakBrush}" Margin="4" />
-          <Rectangle Grid.Column="1" Grid.Row="1" Fill="{color:OverlayWeakBrush}" Margin="4" />
-          <Rectangle Grid.Column="2" Grid.Row="1" Fill="{color:OverlayWeakBrush}" Margin="4" />
-          <Rectangle Grid.Column="0" Grid.Row="2" Fill="{color:OverlayWeakBrush}" Margin="4" />
-          <Rectangle Grid.Column="1" Grid.Row="2" Fill="{color:OverlayWeakBrush}" Margin="4" />
-          <Rectangle Grid.Column="2" Grid.Row="2" Fill="{color:OverlayWeakBrush}" Margin="4" />
+    <StackPanel Spacing="{size:SpacingXl}">
+      <!-- Caption naming the state shown -->
+      <TextBlock Text="Always visible · bars beside content" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
+      <!-- Always visible (AllowAutoHide=False): both bars rest beside the content, track and arrows
+           drawn at all times — the counterpart to the auto-hide example below -->
+      <ScrollViewer Width="180" Height="100" HorizontalScrollBarVisibility="Auto" AllowAutoHide="False">
+        <!-- Sample wider than the pane so the horizontal bar rests beside the content; the rows fit the pane exactly, so the vertical extent equals the viewport and the wheel reaches it at rest (the disabled twin below relies on that) -->
+        <Grid ColumnDefinitions="64,64,64,8" RowDefinitions="40,40,40,6">
+          <Rectangle Grid.Column="0" Grid.Row="0" Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
+          <Rectangle Grid.Column="1" Grid.Row="0" Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
+          <Rectangle Grid.Column="2" Grid.Row="0" Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
+          <Rectangle Grid.Column="0" Grid.Row="1" Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
+          <Rectangle Grid.Column="1" Grid.Row="1" Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
+          <Rectangle Grid.Column="2" Grid.Row="1" Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
+          <Rectangle Grid.Column="0" Grid.Row="2" Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
+          <Rectangle Grid.Column="1" Grid.Row="2" Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
+          <Rectangle Grid.Column="2" Grid.Row="2" Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
         </Grid>
       </ScrollViewer>
-      <!-- Bars overlay the content (AllowAutoHide) with a Warning-accented frame -->
-      <ScrollViewer Width="180" Height="150" Margin="0,0,0,4" AllowAutoHide="True" theme:Accent.Kind="Warning">
-        <Grid ColumnDefinitions="100,100,100" RowDefinitions="60,60,60">
-          <Rectangle Grid.Column="0" Grid.Row="0" Fill="{color:OverlayWeakBrush}" Margin="4" />
-          <Rectangle Grid.Column="1" Grid.Row="0" Fill="{color:OverlayWeakBrush}" Margin="4" />
-          <Rectangle Grid.Column="2" Grid.Row="0" Fill="{color:OverlayWeakBrush}" Margin="4" />
-          <Rectangle Grid.Column="0" Grid.Row="1" Fill="{color:OverlayWeakBrush}" Margin="4" />
-          <Rectangle Grid.Column="1" Grid.Row="1" Fill="{color:OverlayWeakBrush}" Margin="4" />
-          <Rectangle Grid.Column="2" Grid.Row="1" Fill="{color:OverlayWeakBrush}" Margin="4" />
-          <Rectangle Grid.Column="0" Grid.Row="2" Fill="{color:OverlayWeakBrush}" Margin="4" />
-          <Rectangle Grid.Column="1" Grid.Row="2" Fill="{color:OverlayWeakBrush}" Margin="4" />
-          <Rectangle Grid.Column="2" Grid.Row="2" Fill="{color:OverlayWeakBrush}" Margin="4" />
+      <!-- Caption naming the state shown -->
+      <TextBlock Text="Auto-hide · idle — bars fully hidden" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
+      <!-- Auto hide (AllowAutoHide=True), neutral content like every other example: when idle the whole
+           bar — track, arrows and thumb — fades out over the content; pointer over the viewer brings
+           the slim thumb back, and pointer over the bar itself expands it to the full track with
+           arrows (the bar's own expand, task 122) -->
+      <ScrollViewer Width="180" Height="100" HorizontalScrollBarVisibility="Auto" AllowAutoHide="True">
+        <!-- Same sample as the resting example: here the bars overlay the content by design -->
+        <Grid ColumnDefinitions="64,64,64,8" RowDefinitions="40,40,40,6">
+          <Rectangle Grid.Column="0" Grid.Row="0" Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
+          <Rectangle Grid.Column="1" Grid.Row="0" Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
+          <Rectangle Grid.Column="2" Grid.Row="0" Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
+          <Rectangle Grid.Column="0" Grid.Row="1" Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
+          <Rectangle Grid.Column="1" Grid.Row="1" Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
+          <Rectangle Grid.Column="2" Grid.Row="1" Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
+          <Rectangle Grid.Column="0" Grid.Row="2" Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
+          <Rectangle Grid.Column="1" Grid.Row="2" Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
+          <Rectangle Grid.Column="2" Grid.Row="2" Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
         </Grid>
       </ScrollViewer>
+      <!-- Caption naming the state shown -->
+      <TextBlock Text="Auto-hide · hover — bars revealed (state pinned)" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
+      <!-- Twin of the idle example with the hover state pinned, so a still capture shows both sides
+           of the auto-hide: the bars drawn at full strength over the neutral content -->
+      <ScrollViewer Width="180" Height="80" HorizontalScrollBarVisibility="Auto" AllowAutoHide="True" theme:Preview.State="Hover">
+        <!-- Same sample as the resting example -->
+        <Grid ColumnDefinitions="64,64,64,8" RowDefinitions="40,40,40,6">
+          <Rectangle Grid.Column="0" Grid.Row="0" Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
+          <Rectangle Grid.Column="1" Grid.Row="0" Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
+          <Rectangle Grid.Column="2" Grid.Row="0" Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
+          <Rectangle Grid.Column="0" Grid.Row="1" Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
+          <Rectangle Grid.Column="1" Grid.Row="1" Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
+          <Rectangle Grid.Column="2" Grid.Row="1" Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
+          <Rectangle Grid.Column="0" Grid.Row="2" Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
+          <Rectangle Grid.Column="1" Grid.Row="2" Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
+          <Rectangle Grid.Column="2" Grid.Row="2" Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
+        </Grid>
+      </ScrollViewer>
+      <!-- Caption naming the state shown -->
+      <TextBlock Text="Disabled" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
       <!-- Disabled: dimmed frame and ghosted bars, still occupying their lanes -->
-      <ScrollViewer Width="180" Height="150" Margin="0,0,0,4" IsEnabled="False">
-        <Grid ColumnDefinitions="100,100,100" RowDefinitions="60,60,60">
-          <Rectangle Grid.Column="0" Grid.Row="0" Fill="{color:OverlayWeakBrush}" Margin="4" />
-          <Rectangle Grid.Column="1" Grid.Row="0" Fill="{color:OverlayWeakBrush}" Margin="4" />
-          <Rectangle Grid.Column="2" Grid.Row="0" Fill="{color:OverlayWeakBrush}" Margin="4" />
-          <Rectangle Grid.Column="0" Grid.Row="1" Fill="{color:OverlayWeakBrush}" Margin="4" />
-          <Rectangle Grid.Column="1" Grid.Row="1" Fill="{color:OverlayWeakBrush}" Margin="4" />
-          <Rectangle Grid.Column="2" Grid.Row="1" Fill="{color:OverlayWeakBrush}" Margin="4" />
-          <Rectangle Grid.Column="0" Grid.Row="2" Fill="{color:OverlayWeakBrush}" Margin="4" />
-          <Rectangle Grid.Column="1" Grid.Row="2" Fill="{color:OverlayWeakBrush}" Margin="4" />
-          <Rectangle Grid.Column="2" Grid.Row="2" Fill="{color:OverlayWeakBrush}" Margin="4" />
+      <ScrollViewer Width="180" Height="90" HorizontalScrollBarVisibility="Auto" IsEnabled="False">
+        <!-- Same oversize sample as the resting example -->
+        <Grid ColumnDefinitions="64,64,64,8" RowDefinitions="40,40,40,6">
+          <Rectangle Grid.Column="0" Grid.Row="0" Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
+          <Rectangle Grid.Column="1" Grid.Row="0" Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
+          <Rectangle Grid.Column="2" Grid.Row="0" Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
+          <Rectangle Grid.Column="0" Grid.Row="1" Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
+          <Rectangle Grid.Column="1" Grid.Row="1" Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
+          <Rectangle Grid.Column="2" Grid.Row="1" Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
+          <Rectangle Grid.Column="0" Grid.Row="2" Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
+          <Rectangle Grid.Column="1" Grid.Row="2" Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
+          <Rectangle Grid.Column="2" Grid.Row="2" Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
         </Grid>
       </ScrollViewer>
+      <!-- Caption naming the state shown -->
+      <TextBlock Text="Success hue" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
       <!-- Success-accented frame. Corner box omitted: set_IsExpanded is non-public in Avalonia 12, so the [IsExpanded] branch cannot fire from markup -->
-      <ScrollViewer Width="180" Height="150" Margin="0,0,0,4" theme:Accent.Kind="Success">
-        <Grid ColumnDefinitions="100,100,100" RowDefinitions="60,60,60">
-          <Rectangle Grid.Column="0" Grid.Row="0" Fill="{color:OverlayWeakBrush}" Margin="4" />
-          <Rectangle Grid.Column="1" Grid.Row="0" Fill="{color:OverlayWeakBrush}" Margin="4" />
-          <Rectangle Grid.Column="2" Grid.Row="0" Fill="{color:OverlayWeakBrush}" Margin="4" />
-          <Rectangle Grid.Column="0" Grid.Row="1" Fill="{color:OverlayWeakBrush}" Margin="4" />
-          <Rectangle Grid.Column="1" Grid.Row="1" Fill="{color:OverlayWeakBrush}" Margin="4" />
-          <Rectangle Grid.Column="2" Grid.Row="1" Fill="{color:OverlayWeakBrush}" Margin="4" />
-          <Rectangle Grid.Column="0" Grid.Row="2" Fill="{color:OverlayWeakBrush}" Margin="4" />
-          <Rectangle Grid.Column="1" Grid.Row="2" Fill="{color:OverlayWeakBrush}" Margin="4" />
-          <Rectangle Grid.Column="2" Grid.Row="2" Fill="{color:OverlayWeakBrush}" Margin="4" />
+      <ScrollViewer Width="180" Height="90" HorizontalScrollBarVisibility="Auto" theme:Accent.Kind="Success">
+        <!-- Same oversize sample as the resting example -->
+        <Grid ColumnDefinitions="64,64,64,8" RowDefinitions="40,40,40,6">
+          <Rectangle Grid.Column="0" Grid.Row="0" Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
+          <Rectangle Grid.Column="1" Grid.Row="0" Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
+          <Rectangle Grid.Column="2" Grid.Row="0" Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
+          <Rectangle Grid.Column="0" Grid.Row="1" Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
+          <Rectangle Grid.Column="1" Grid.Row="1" Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
+          <Rectangle Grid.Column="2" Grid.Row="1" Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
+          <Rectangle Grid.Column="0" Grid.Row="2" Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
+          <Rectangle Grid.Column="1" Grid.Row="2" Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
+          <Rectangle Grid.Column="2" Grid.Row="2" Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
         </Grid>
       </ScrollViewer>
     </StackPanel>
@@ -95,16 +129,36 @@
          scrolled content's Margin, which the extent does count -->
     <Setter Property="Padding" Value="0" />
     <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
-    <!-- Scrollbars sit beside the content, not over it -->
+    <!-- Bars sit beside the content by default; the value is forwarded to each bar below, so an
+         auto-hide viewer (AllowAutoHide=True on the instance) lets its bars collapse when idle -->
     <Setter Property="AllowAutoHide" Value="False" />
+
+    <!-- Bar fades: the whole-bar Opacity flip (idle-hidden <-> revealed) eases over the normal rail
+         instead of snapping, so the bars fade in AND out -->
+    <Style Selector="^ /template/ ScrollBar#PART_HorizontalScrollBar">
+      <Setter Property="Transitions">
+        <Transitions>
+          <DoubleTransition Property="Opacity" Duration="{theme:AnimationNormalMs}" />
+        </Transitions>
+      </Setter>
+    </Style>
+    <Style Selector="^ /template/ ScrollBar#PART_VerticalScrollBar">
+      <Setter Property="Transitions">
+        <Transitions>
+          <DoubleTransition Property="Opacity" Duration="{theme:AnimationNormalMs}" />
+        </Transitions>
+      </Setter>
+    </Style>
 
     <!-- Template -->
     <Setter Property="Template">
       <ControlTemplate>
         <!-- Layout root placing the bars beside the content -->
         <Grid ColumnDefinitions="*,Auto" RowDefinitions="*,Auto">
-          <!-- The scrolling content -->
+          <!-- The scrolling content; ScrollReveal watches the host's offset and marks the viewer
+               'scrolling' while the content moves, so an auto-hide bar fades back in mid-scroll -->
           <ScrollContentPresenter Name="PART_ContentPresenter"
+                                  default:ScrollReveal.Apply="True"
                                   Grid.Row="0"
                                   Grid.Column="0"
                                   Background="{TemplateBinding Background}"
@@ -120,13 +174,16 @@
                                        IsScrollInertiaEnabled="{Binding (ScrollViewer.IsScrollInertiaEnabled), ElementName=PART_ContentPresenter}"/>
             </ScrollContentPresenter.GestureRecognizers>
           </ScrollContentPresenter>
-          <!-- The horizontal scrollbar -->
+          <!-- The horizontal scrollbar; AllowAutoHide is forwarded so an auto-hide viewer lets its
+               bar fade out when idle and back in on hover or scroll -->
           <ScrollBar Name="PART_HorizontalScrollBar"
                      Orientation="Horizontal"
+                     AllowAutoHide="{TemplateBinding AllowAutoHide}"
                      Grid.Row="1"/>
-          <!-- The vertical scrollbar -->
+          <!-- The vertical scrollbar; AllowAutoHide is forwarded as above -->
           <ScrollBar Name="PART_VerticalScrollBar"
                      Orientation="Vertical"
+                     AllowAutoHide="{TemplateBinding AllowAutoHide}"
                      Grid.Column="1"/>
           <!-- Fills the corner where the two bars meet -->
           <Panel x:Name="PART_ScrollBarsSeparator"
@@ -135,7 +192,7 @@
                  Opacity="0">
             <Panel.Transitions>
               <Transitions>
-                <DoubleTransition Property="Opacity" Duration="0:0:0.1" />
+                <DoubleTransition Property="Opacity" Duration="{theme:AnimationNormalMs}" />
               </Transitions>
             </Panel.Transitions>
           </Panel>
@@ -148,15 +205,38 @@
       <Setter Property="Opacity" Value="1" />
     </Style>
 
-    <!-- Separator background -->
+    <!-- Separator background: none. The corner where the two bars meet carries nothing, so it shows the
+         viewer's own background instead of a filled square (Luke, 20 Oct 2026: the square was pointless) -->
     <Style Selector="^ /template/ Panel#PART_ScrollBarsSeparator">
-      <Setter Property="Background" Value="{color:AccentBrush Light6}" />
+      <Setter Property="Background" Value="Transparent" />
     </Style>
 
     <!-- Auto hide mode -->
     <Style Selector="^[AllowAutoHide=True] /template/ ScrollContentPresenter#PART_ContentPresenter">
       <Setter Property="Grid.ColumnSpan" Value="2" />
       <Setter Property="Grid.RowSpan" Value="2" />
+    </Style>
+
+    <!-- Idle auto-hide: the WHOLE bar — track, arrows and thumb — fades out, not just the thumb.
+         This layer decides whether the bar draws at all; the bar's own :pointerover expansion
+         (ScrollBar theme) is untouched underneath. Opacity only, never IsHitTestVisible, so the
+         faded-out bar stays measurable and drivable -->
+    <Style Selector="^[AllowAutoHide=True] /template/ ScrollBar">
+      <Setter Property="Opacity" Value="0" />
+    </Style>
+
+    <!-- Revealed auto-hide: pointer over the VIEWER (the bar itself included — its :pointerover
+         expansion then rides on top), or a pinned Hover preview state, brings the bars back -->
+    <Style Selector="^[AllowAutoHide=True]:pointerover /template/ ScrollBar,
+                     ^[AllowAutoHide=True][(theme|Preview.State)=Hover] /template/ ScrollBar">
+      <Setter Property="Opacity" Value="1" />
+    </Style>
+
+    <!-- Scrolling auto-hide: while the content moves (wheel, trackpad, thumb drag) the ScrollReveal
+         behaviour marks the viewer 'scrolling'; the slim thumb shows again and fades out after the
+         stock hide delay once the offset settles -->
+    <Style Selector="^[AllowAutoHide=True].scrolling /template/ ScrollBar">
+      <Setter Property="Opacity" Value="1" />
     </Style>
   </ControlTheme>
 </ResourceDictionary>

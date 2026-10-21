@@ -15,7 +15,7 @@
       <CheckBox theme:Preview.State="Pressed" IsChecked="True">Pressed</CheckBox>
       <CheckBox theme:Preview.State="Focused" IsChecked="True">Focused</CheckBox>
       <CheckBox IsChecked="True" IsEnabled="False">Disabled</CheckBox>
-      <!-- Hues tint the AccentBrush-driven fill and borders; the tick stays AccentPrimary, so combine hues with states instead of repeating rows -->
+      <!-- Hues tint the AccentBrush-driven fill and the tick follows the hue, so combine hues with states instead of repeating rows -->
       <CheckBox IsThreeState="True" IsChecked="{x:Null}">Indeterminate</CheckBox>
       <CheckBox theme:Accent.Kind="Warning" IsChecked="True">Warning Checked</CheckBox>
       <CheckBox theme:Accent.Kind="Success" theme:Preview.State="Focused" IsChecked="True">Success + Focused</CheckBox>
@@ -41,7 +41,8 @@
     <!-- Visual defaults -->
     <Setter Property="Background" Value="{color:BackgroundDefault}" />
     <Setter Property="Foreground" Value="{color:TextDefault}" />
-    <Setter Property="BorderBrush" Value="{color:OverlayMediumBrush}" />
+    <!-- The unchecked ring: the outlined-control border role, never an overlay -->
+    <Setter Property="BorderBrush" Value="{color:BorderDefault}" />
     <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
     <Setter Property="CornerRadius" Value="{size:RadiusMd}" />
     <Setter Property="Padding" Value="{size:Edges Left={size:SpacingLg}}" />
@@ -53,8 +54,9 @@
     <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
     <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
 
-    <!-- Press animation -->
+    <!-- Press animation: the whole control shrinks about its centre, box and label together -->
     <Setter Property="RenderTransform" Value="none" />
+    <Setter Property="RenderTransformOrigin" Value="50%,50%" />
     <Setter Property="Transitions">
       <Transitions>
         <TransformOperationsTransition Property="RenderTransform" Duration="{theme:AnimationFastMs}" />
@@ -76,7 +78,7 @@
 
           <!-- Checkbox indicator -->
           <Grid Grid.Column="0" VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
-            <!-- The empty box the tick appears in -->
+            <!-- The empty box the tick appears in; its fill follows the check state, not the face -->
             <Border x:Name="NormalRectangle"
                     BorderBrush="{TemplateBinding BorderBrush}"
                     Background="{TemplateBinding Background}"
@@ -125,39 +127,48 @@
       <Setter Property="RecognizesAccessKey" Value="True" />
     </Style>
 
-    <!-- Tick visuals -->
+    <!-- Box face: pinned to the large-icon square so the tick inset never resizes the box -->
+    <Style Selector="^ /template/ Border#NormalRectangle">
+      <Setter Property="Width" Value="{size:IconSizeLg}" />
+      <Setter Property="Height" Value="{size:IconSizeLg}" />
+    </Style>
+
+    <!-- Tick visuals: smaller than the icon size so the tick keeps clear air inside the box edge -->
     <Style Selector="^ /template/ Viewbox#TickViewbox">
-      <Setter Property="Width" Value="{size:IconSizeMd}" />
+      <Setter Property="Width" Value="{size:Scaled Value={size:IconSizeMd}, By=0.75}" />
     </Style>
 
     <Style Selector="^ /template/ Border#TickBorder">
       <Setter Property="Padding" Value="{size:Edges All={size:SpacingMd}}" />
     </Style>
 
+    <!-- Bold tick: filled outline stroked in the same hue-neutral ink; the checked state swaps it to the on-solid-fill ink -->
     <Style Selector="^ /template/ Path#CheckGlyph">
-      <Setter Property="Fill" Value="{color:AccentPrimaryBrush}" />
+      <Setter Property="Fill" Value="{color:AccentBrush Light10}" />
+      <Setter Property="Stroke" Value="{color:AccentBrush Light10}" />
+      <Setter Property="StrokeThickness" Value="{size:ThicknessSmDouble}" />
     </Style>
 
     <!-- Indeterminate box visuals -->
     <Style Selector="^ /template/ Border#IndeterminateBox">
-      <Setter Property="Width" Value="10" />
-      <Setter Property="Height" Value="10" />
+      <Setter Property="Width" Value="{size:Scaled Value={size:IconSizeMd}, By=0.625}" />
+      <Setter Property="Height" Value="{size:Scaled Value={size:IconSizeMd}, By=0.625}" />
       <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
       <Setter Property="Background" Value="{color:BackgroundDefault}" />
     </Style>
 
-    <!-- Hover state -->
+    <!-- Hover state: the box grows slightly and its fill steps to the lighter hover stage,
+         a clear step above the pressed stage below -->
     <Style Selector="^:pointerover, ^[(theme|Preview.State)=Hover]">
-      <Setter Property="BorderBrush" Value="{color:AccentBrush Dark1}" />
-      <Setter Property="Background" Value="{color:BackgroundDefault}" />
+      <Setter Property="Background" Value="{color:HoverBackgroundDefault}" />
+      <Setter Property="Foreground" Value="{color:HoverTextDefault}" />
+      <Setter Property="RenderTransform" Value="{theme:TransformScale Value={size:PressedScale}, By=1.07}" />
+      <Setter Property="ZIndex" Value="{size:HoverZIndex}" />
     </Style>
 
-    <!-- Pressed state -->
+    <!-- Pressed state: the whole control sinks about its centre, box and label together -->
     <Style Selector="^:pressed, ^[(theme|Preview.State)=Pressed]">
       <Setter Property="RenderTransform" Value="{theme:TransformScale Value={size:PressedScale}}" />
-    </Style>
-
-    <Style Selector="^:pressed, ^[(theme|Preview.State)=Pressed]">
       <Setter Property="Background" Value="{color:PressedBackgroundDefault}" />
     </Style>
 
@@ -166,29 +177,70 @@
       <Setter Property="Opacity" Value="{size:DisabledOpacity}" />
     </Style>
 
-    <!-- Focus state -->
-    <Style Selector="^:focus-visible, ^[(theme|Preview.State)=Focused]">
-      <Setter Property="BorderBrush" Value="{color:AccentFocusBrush}" />
-      <Setter Property="BorderThickness" Value="{size:ThicknessMd}" />
+    <!-- Focus state (Rule 21: the switch decides between the focus colour and the control's own hue).
+         Painted on the box part, as Button does on its face: the control's own border metrics stay put -->
+    <Style Selector="^:focus-visible /template/ Border#NormalRectangle, ^[(theme|Preview.State)=Focused] /template/ Border#NormalRectangle">
+      <Setter Property="BorderBrush" Value="{default:FocusBrush}" />
+      <Setter Property="BorderThickness" Value="{default:FocusThickness}" />
     </Style>
 
-    <!-- Checked state -->
+    <!-- Checked state: a filled control (solid-fill face with the on-fill ink tick; identical to the old Dark3/Light10 pair in dark) -->
     <Style Selector="^:checked">
-      <Setter Property="Background" Value="{color:AccentBrush Light6}" />
-      <Setter Property="BorderBrush" Value="{color:OverlayStrongBrush}" />
+      <Setter Property="Background" Value="{color:SolidFillDefault}" />
+      <Setter Property="BorderBrush" Value="{color:SolidFillDefault}" />
 
       <Style Selector="^ /template/ Path#CheckGlyph">
         <Setter Property="Opacity" Value="1" />
+        <!-- The tick rides the solid fill, so it takes the on-solid-fill ink (deep hue-tuned dark; identical to today's Light10 in dark) -->
+        <Setter Property="Fill" Value="{color:OnSolidFillInkDefault}" />
+        <Setter Property="Stroke" Value="{color:OnSolidFillInkDefault}" />
       </Style>
     </Style>
 
-    <!-- Indeterminate state -->
+    <!-- Checked and hovering: the solid face deepens one step (bright solid-fill hover role); the tick keeps
+         the on-solid-fill ink, which clears >= 3:1 on the deeper vivid face (identical to Dark4/Light10 in dark) -->
+    <Style Selector="^:checked:pointerover, ^:checked[(theme|Preview.State)=Hover]">
+      <Setter Property="Background" Value="{color:SolidFillHover}" />
+      <Setter Property="BorderBrush" Value="{color:SolidFillHover}" />
+
+      <Style Selector="^ /template/ Path#CheckGlyph">
+        <Setter Property="Fill" Value="{color:OnSolidFillInkDefault}" />
+        <Setter Property="Stroke" Value="{color:OnSolidFillInkDefault}" />
+      </Style>
+    </Style>
+
+    <!-- Checked and pressed: the solid face deepens two steps (bright solid-fill pressed role); the tick keeps
+         the on-solid-fill ink, which clears >= 3:1 on the deepest vivid face (identical to Dark5/Light10 in dark) -->
+    <Style Selector="^:checked:pressed, ^:checked[(theme|Preview.State)=Pressed]">
+      <Setter Property="Background" Value="{color:SolidFillPressed}" />
+      <Setter Property="BorderBrush" Value="{color:SolidFillPressed}" />
+
+      <Style Selector="^ /template/ Path#CheckGlyph">
+        <Setter Property="Fill" Value="{color:OnSolidFillInkDefault}" />
+        <Setter Property="Stroke" Value="{color:OnSolidFillInkDefault}" />
+      </Style>
+    </Style>
+
+    <!-- Indeterminate state: the solid-fill face carries the dash (identical to the old Dark3 pair in dark) -->
     <Style Selector="^:indeterminate">
-      <Setter Property="Background" Value="{color:AccentBrush Light8}" />
+      <Setter Property="Background" Value="{color:SolidFillDefault}" />
+      <Setter Property="BorderBrush" Value="{color:SolidFillDefault}" />
 
       <Style Selector="^ /template/ Border#IndeterminateBox">
         <Setter Property="Opacity" Value="1" />
       </Style>
+    </Style>
+
+    <!-- Indeterminate and hovering: the solid face deepens one step (bright solid-fill hover role; identical to Dark4 in dark) -->
+    <Style Selector="^:indeterminate:pointerover, ^:indeterminate[(theme|Preview.State)=Hover]">
+      <Setter Property="Background" Value="{color:SolidFillHover}" />
+      <Setter Property="BorderBrush" Value="{color:SolidFillHover}" />
+    </Style>
+
+    <!-- Indeterminate and pressed: the solid face deepens two steps (bright solid-fill pressed role; identical to Dark5 in dark) -->
+    <Style Selector="^:indeterminate:pressed, ^:indeterminate[(theme|Preview.State)=Pressed]">
+      <Setter Property="Background" Value="{color:SolidFillPressed}" />
+      <Setter Property="BorderBrush" Value="{color:SolidFillPressed}" />
     </Style>
 
   </ControlTheme>

@@ -8,10 +8,13 @@
   <!-- Design preview: the presenter panel holding a little flyout content. Declared before Design.PreviewWith uses it -->
   <DataTemplate x:Key="FlyoutPresenterPreview">
     <StackPanel Spacing="{size:SpacingXl}" HorizontalAlignment="Left">
-      <FlyoutPresenter>
-        <StackPanel Spacing="{size:SpacingMd}">
-          <TextBlock Text="Flyout heading" />
+      <!-- One fixed width so the face reads at a realistic flyout size -->
+      <FlyoutPresenter Width="240">
+        <!-- Consistent rhythm between the heading, body and button (task 81): SpacingXl, matching the outer preview panel -->
+        <StackPanel Spacing="{size:SpacingXl}">
+          <TextBlock Text="Flyout heading" FontWeight="{theme:FontWeightSemiBold}" />
           <TextBlock Text="Body copy inside the flyout." />
+          <Button Content="Confirm" />
         </StackPanel>
       </FlyoutPresenter>
     </StackPanel>
@@ -36,10 +39,10 @@
     <Setter Property="BorderBrush" Value="{color:BorderDefault}" />
     <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
     <Setter Property="Padding" Value="{size:Edges All={size:SpacingXxl}}" />
-    <Setter Property="MinWidth" Value="96" />
-    <Setter Property="MaxWidth" Value="456" />
-    <Setter Property="MinHeight" Value="40" />
-    <Setter Property="MaxHeight" Value="758" />
+    <Setter Property="MinWidth" Value="{size:Scaled Value={size:BaseSize}, By=96}" />
+    <Setter Property="MaxWidth" Value="{size:Scaled Value={size:BaseSize}, By=456}" />
+    <Setter Property="MinHeight" Value="{size:ControlHeightMd}" />
+    <Setter Property="MaxHeight" Value="{size:Scaled Value={size:BaseSize}, By=758}" />
     <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
     <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
     <Setter Property="CornerRadius" Value="{size:RadiusMd}" />
@@ -51,7 +54,6 @@
                 Background="{TemplateBinding Background}"
                 BorderBrush="{TemplateBinding BorderBrush}"
                 BorderThickness="{TemplateBinding BorderThickness}"
-                Padding="0"
                 CornerRadius="{TemplateBinding CornerRadius}">
           <!-- Scrolls the flyout when it overflows. The flyout's own inset is the content's Margin below. -->
           <ScrollViewer HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
@@ -69,5 +71,10 @@
         </Border>
       </ControlTemplate>
     </Setter>
+
+    <!-- Scroller: no fill of its own; the frame paints it, and a square fill inside covers the frame's corners (Rule 19) -->
+    <Style Selector="^ /template/ ScrollViewer">
+      <Setter Property="Background" Value="Transparent" />
+    </Style>
   </ControlTheme>
 </ResourceDictionary>

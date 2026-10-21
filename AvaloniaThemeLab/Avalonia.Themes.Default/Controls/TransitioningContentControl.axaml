@@ -1,16 +1,36 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="using:System"
+                    xmlns:default="clr-namespace:Avalonia.Themes.Default"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
                     xmlns:color="using:AngelSix.ThemeEngine.Colors"
-                    xmlns:size="using:AngelSix.ThemeEngine.Sizes"
-                    xmlns:default="clr-namespace:Avalonia.Themes.Default">
-  <!-- Design preview: one piece of content; transitions animate between contents at runtime.
-       Declared before Design.PreviewWith uses it -->
+                    xmlns:size="using:AngelSix.ThemeEngine.Sizes">
+  <!-- Design preview: a picker drives the content, so picking another line cross-fades the framed
+       boxes below it. Declared before Design.PreviewWith uses it -->
   <DataTemplate x:Key="TransitioningContentControlPreview">
     <StackPanel Spacing="{size:SpacingXl}" HorizontalAlignment="Left">
-      <TransitioningContentControl>
-        <TextBlock Text="Cross-faded content." />
-      </TransitioningContentControl>
+      <!-- Picks the shown line; the boxes below fade to it. Plain strings, not row containers: a
+           visual may serve only one parent, so the fading box takes the line's text, not its row.
+           Starts on the middle line so every pick the crawler makes is a real change of content -->
+      <TextBlock Text="Pick a line to cross-fade the boxes"
+                 Foreground="{color:DimTextDefault}" />
+      <!-- Capped so the picker never outruns the pane; it scrolls if more lines are added -->
+      <ListBox x:Name="Pick" Width="240" SelectedIndex="1"
+               MaxHeight="{size:Scaled Value={size:ControlHeightLg}, By=2}">
+        <sys:String>Line one</sys:String>
+        <sys:String>Line two</sys:String>
+        <sys:String>Line three</sys:String>
+      </ListBox>
+      <!-- The framed area the picked line fades into -->
+      <TransitioningContentControl Width="240"
+                                   Content="{Binding #Pick.SelectedItem}" />
+      <!-- Same fade, tinted by the control's own hue -->
+      <TransitioningContentControl Width="240"
+                                   theme:Accent.Kind="Warning"
+                                   Content="{Binding #Pick.SelectedItem}" />
+      <TransitioningContentControl Width="240"
+                                   theme:Accent.Kind="Destructive"
+                                   Content="{Binding #Pick.SelectedItem}" />
     </StackPanel>
   </DataTemplate>
 
@@ -39,6 +59,14 @@
     <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
     <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
     <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
+
+    <!-- The fade played between contents. Theme Exception: CrossFade is not an AvaloniaObject, so its
+         Duration is a plain TimeSpan that a {theme:} token (which resolves to a binding) cannot reach;
+         the normal animation beat (AnimationNormalMs, 150 ms) is written literally, as NavigationPage
+         does for its page transitions -->
+    <Setter Property="PageTransition">
+      <CrossFade Duration="0:0:0.15" />
+    </Setter>
 
     <!-- Template -->
     <Setter Property="Template">

@@ -2,21 +2,29 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:sys="using:System"
                     xmlns:default="clr-namespace:Avalonia.Themes.Default"
+                    xmlns:sdp="clr-namespace:Avalonia.Themes.Default"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
                     xmlns:color="using:AngelSix.ThemeEngine.Colors"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes"
                     xmlns:icons="using:AngelSix.ThemeEngine.Icons">
-  <!-- Design preview: dated and undated pickers, then the states the theme really paints. The designer and the lab gallery both show this key,
-       so it is declared before Design.PreviewWith uses it. One column per pane; the theme exposes no Preview.State hooks for hover/press/focus -->
+  <!-- Design preview: one box per nameable state, ordered so the column reads (default, empty, hover, focused, Warning, disabled, error);
+       the open pop-up is exercised by the crawler's picker action, not pinned here -->
   <DataTemplate x:Key="DatePickerPreview">
     <StackPanel Spacing="{size:SpacingXl}">
-      <DatePicker SelectedDate="2026-09-18" />
-      <DatePicker />
-      <DatePicker SelectedDate="2026-09-18" IsEnabled="False" />
-      <DatePicker SelectedDate="2026-09-18" theme:Accent.Kind="Warning" />
-      <DatePicker SelectedDate="2026-09-18" theme:Accent.Kind="Success" IsEnabled="False" />
-      <!-- Dated so only the error border differs from the default -->
-      <DatePicker SelectedDate="2026-09-18">
+      <!-- A chosen date: the resting face -->
+      <DatePicker Width="240" SelectedDate="2026-09-18" />
+      <!-- Nothing chosen: the prompt dims to the placeholder strength -->
+      <DatePicker Width="240" />
+      <!-- Pointer over the closed box -->
+      <DatePicker Width="240" SelectedDate="2026-09-18" theme:Preview.State="Hover" />
+      <!-- Keyboard focus rings the frame (Rule 21) -->
+      <DatePicker Width="240" SelectedDate="2026-09-18" theme:Preview.State="Focused" />
+      <!-- The Warning hue tints the face and keeps its own hue on focus (Rule 21) -->
+      <DatePicker Width="240" SelectedDate="2026-09-18" theme:Accent.Kind="Warning" />
+      <!-- Unusable: faded to the disabled strength -->
+      <DatePicker Width="240" SelectedDate="2026-09-18" IsEnabled="False" />
+      <!-- Failed validation lights the error border and keeps the box's height -->
+      <DatePicker Width="240" SelectedDate="2026-09-18">
         <DataValidationErrors.Error>
           <sys:Exception>
             <x:Arguments>
@@ -25,6 +33,8 @@
           </sys:Exception>
         </DataValidationErrors.Error>
       </DatePicker>
+      <!-- The open pop-up is exercised by the crawler's picker action (open, wheel a column, confirm);
+           DatePicker exposes no open/close property a preview could pin -->
     </StackPanel>
   </DataTemplate>
 
@@ -43,18 +53,24 @@
   <ControlTheme x:Key="DefaultDatePickerFlyoutButton" TargetType="Button">
     <!-- Visual defaults -->
     <Setter Property="RenderTransform" Value="none" />
+    <Setter Property="Transitions">
+      <Transitions>
+        <TransformOperationsTransition Property="RenderTransform" Duration="{theme:AnimationFastMs}" />
+      </Transitions>
+    </Setter>
     <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
     <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
     <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
     <Setter Property="Template">
       <ControlTemplate>
-        <!-- The button's label -->
+        <!-- The button's label; carries the face inset from the control's padding -->
         <ContentPresenter Name="PART_ContentPresenter"
                           BorderBrush="{TemplateBinding BorderBrush}"
                           Background="{TemplateBinding Background}"
                           BorderThickness="{TemplateBinding BorderThickness}"
                           Content="{TemplateBinding Content}"
                           Foreground="{TemplateBinding Foreground}"
+                          Padding="{TemplateBinding Padding}"
                           HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                           VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
                           CornerRadius="{TemplateBinding CornerRadius}" />
@@ -85,12 +101,13 @@
 
     <!-- Visual defaults -->
     <Setter Property="Background" Value="{color:BackgroundDefault}" />
+    <Setter Property="Foreground" Value="{color:TextDefault}" />
     <Setter Property="BorderBrush" Value="{color:BorderDefault}" />
     <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
     <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
-    <Setter Property="Padding" Value="{size:Edges Top={size:SpacingMd}, Bottom={size:SpacingMd}, Left={size:SpacingMd}, Right={size:SpacingMd}}" />
+    <Setter Property="Padding" Value="{size:Edges All={size:ContentPadding}}" />
     <Setter Property="MinHeight" Value="{size:ControlHeightSm}" />
-    <Setter Property="MinWidth" Value="{size:ControlMinWidth}" />
+    <Setter Property="MinWidth" Value="{size:Scaled Value={size:FontSizeMd}, By=14}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
     <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
     <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
@@ -102,8 +119,8 @@
         <!-- Validation error message for the whole control -->
         <DataValidationErrors>
           <!-- Layout root for the picker button -->
-          <Grid Name="LayoutRoot" Margin="{TemplateBinding Padding}">
-            <!-- Opens the date picker when clicked -->
+          <Grid Name="LayoutRoot">
+            <!-- Opens the date picker when clicked; the label carries the control's padding -->
             <Button Name="PART_FlyoutButton"
                     Theme="{StaticResource DefaultDatePickerFlyoutButton}"
                     Foreground="{TemplateBinding Foreground}"
@@ -111,64 +128,81 @@
                     BorderBrush="{TemplateBinding BorderBrush}"
                     BorderThickness="{TemplateBinding BorderThickness}"
                     CornerRadius="{TemplateBinding CornerRadius}"
+                    Padding="{TemplateBinding Padding}"
                     IsEnabled="{TemplateBinding IsEnabled}"
                     MinWidth="{TemplateBinding MinWidth}"
                     MaxWidth="{TemplateBinding MaxWidth}"
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Stretch"
                     TemplatedControl.IsTemplateFocusTarget="True">
-              <!-- Splits the button into day, month and year -->
+              <!-- Splits the button into day, month and year; the month weighs heaviest, it is the longest segment -->
               <Grid Name="PART_ButtonContentGrid" ColumnDefinitions="78*,Auto,132*,Auto,78*">
                 <!-- The selected day, or a prompt -->
-                <TextBlock Name="PART_DayTextBlock" Text="day" HorizontalAlignment="Center" />
+                <TextBlock Name="PART_DayTextBlock" Text="day"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="{theme:ControlVerticalContentAlignment}" />
                 <!-- The selected month, or a prompt -->
-                <TextBlock Name="PART_MonthTextBlock" Text="month" TextAlignment="Left" />
+                <TextBlock Name="PART_MonthTextBlock" Text="month"
+                           Grid.Column="2"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="{theme:ControlVerticalContentAlignment}" />
                 <!-- The selected year, or a prompt -->
-                <TextBlock Name="PART_YearTextBlock" Text="year" HorizontalAlignment="Center" />
+                <TextBlock Name="PART_YearTextBlock" Text="year"
+                           Grid.Column="4"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="{theme:ControlVerticalContentAlignment}" />
                 <!-- Divider between the day and month -->
                 <Rectangle x:Name="PART_FirstSpacer"
+                           Grid.Column="1"
                            HorizontalAlignment="Center"
-                           Grid.Column="1" />
+                           VerticalAlignment="Stretch" />
                 <!-- Divider between the month and year -->
                 <Rectangle x:Name="PART_SecondSpacer"
+                           Grid.Column="3"
                            HorizontalAlignment="Center"
-                           Grid.Column="3" />
+                           VerticalAlignment="Stretch" />
               </Grid>
             </Button>
 
-            <!-- The picker shown when choosing a date -->
+            <!-- The picker shown when choosing a date; sized to its own card, placed under the box -->
             <Popup Name="PART_Popup" WindowManagerAddShadowHint="False"
                    IsLightDismissEnabled="True" PlacementTarget="{TemplateBinding}"
                    Placement="Bottom">
-              <!-- The spinning day, month and year columns -->
-              <DatePickerPresenter Name="PART_PickerPresenter" />
+              <!-- Forwards the box's hue into the detached pop-up so the picker resolves its own accent -->
+              <Border theme:Accent.Kind="{Binding (theme:Accent.Kind), RelativeSource={RelativeSource TemplatedParent}}">
+                <!-- The spinning day, month and year columns; the behaviour smooths their snaps -->
+                <DatePickerPresenter Name="PART_PickerPresenter"
+                                      default:WheelSnap.Apply="True" />
+              </Border>
             </Popup>
           </Grid>
         </DataValidationErrors>
       </ControlTemplate>
     </Setter>
 
-    <!-- Template element styles -->
-    <Style Selector="^ /template/ TextBlock#PART_DayTextBlock">
-      <Setter Property="Padding" Value="{size:Edges Top={size:SpacingMd}, Bottom={size:SpacingLg}}" />
-    </Style>
-
-    <Style Selector="^ /template/ TextBlock#PART_MonthTextBlock">
-      <Setter Property="Padding" Value="{size:Edges Left={size:SpacingXl}, Top={size:SpacingMd}, Bottom={size:SpacingLg}}" />
-    </Style>
-
-    <Style Selector="^ /template/ TextBlock#PART_YearTextBlock">
-      <Setter Property="Padding" Value="{size:Edges Top={size:SpacingMd}, Bottom={size:SpacingLg}}" />
-    </Style>
-
+    <!-- Dividers: a hairline with air on either side, so the segments never touch -->
     <Style Selector="^ /template/ Rectangle#PART_FirstSpacer, ^ /template/ Rectangle#PART_SecondSpacer">
       <Setter Property="Fill" Value="{color:AccentBrush Light6}" />
-      <Setter Property="Width" Value="{size:ThicknessSm}" />
+      <Setter Property="Width" Value="{size:ThicknessSmDouble}" />
+      <Setter Property="Margin" Value="{size:Edges Left={size:SpacingLg}, Right={size:SpacingLg}}" />
     </Style>
 
-    <!-- Disabled state -->
-    <Style Selector="^:disabled /template/ Rectangle">
-      <Setter Property="Fill" Value="{color:AccentBrush Light6}" />
+    <!-- Hover state -->
+    <Style Selector="^:pointerover /template/ Button#PART_FlyoutButton,
+                     ^[(theme|Preview.State)=Hover] /template/ Button#PART_FlyoutButton">
+      <Setter Property="Background" Value="{color:HoverBackgroundDefault}" />
+      <Setter Property="Foreground" Value="{color:HoverTextDefault}" />
+    </Style>
+
+    <!-- Pressed state -->
+    <Style Selector="^:pressed /template/ Button#PART_FlyoutButton,
+                     ^[(theme|Preview.State)=Pressed] /template/ Button#PART_FlyoutButton">
+      <Setter Property="Background" Value="{color:PressedBackgroundDefault}" />
+    </Style>
+
+    <!-- Disabled state: the whole box fades to the disabled strength (Rule 6) -->
+    <Style Selector="^:disabled">
+      <Setter Property="Opacity" Value="{size:DisabledOpacity}" />
     </Style>
 
     <!-- Watermark state (no date selected) -->
@@ -176,10 +210,11 @@
       <Setter Property="Foreground" Value="{color:DimTextDefault}" />
     </Style>
 
-    <!-- Focus state -->
-    <Style Selector="^:focus-visible /template/ Button#PART_FlyoutButton">
-      <Setter Property="BorderBrush" Value="{color:AccentFocusBrush}" />
-      <Setter Property="BorderThickness" Value="{size:ThicknessMd}" />
+    <!-- Focus state (Rule 21: the switch decides between the focus colour and the control's own hue) -->
+    <Style Selector="^:focus-visible /template/ Button#PART_FlyoutButton,
+                     ^[(theme|Preview.State)=Focused] /template/ Button#PART_FlyoutButton">
+      <Setter Property="BorderBrush" Value="{default:FocusBrush}" />
+      <Setter Property="BorderThickness" Value="{default:FocusThickness}" />
     </Style>
 
     <!-- Error state -->
@@ -189,16 +224,17 @@
   </ControlTheme>
 
   <!-- ============================================================
-       Template
+       Pop-up presenter
        ============================================================ -->
   <ControlTheme x:Key="{x:Type DatePickerPresenter}" TargetType="DatePickerPresenter">
-    <Setter Property="Width" Value="296" />
-    <Setter Property="MinWidth" Value="296" />
     <Setter Property="Background" Value="{color:BackgroundDefault}" />
     <Setter Property="Foreground" Value="{color:TextDefault}" />
     <Setter Property="BorderBrush" Value="{color:BorderDefault}" />
     <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
     <Setter Property="CornerRadius" Value="{size:RadiusMd}" />
+    <!-- Seven spin rows plus the accept row; the star columns need a definite box to divide -->
+    <Setter Property="Width" Value="{size:Scaled Value={size:ControlHeightMd}, By=7}" />
+    <Setter Property="MaxHeight" Value="{size:Scaled Value={size:ControlHeightMd}, By=8}" />
     <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
 
     <!-- Template -->
@@ -209,8 +245,8 @@
                 BorderBrush="{TemplateBinding BorderBrush}"
                 BorderThickness="{TemplateBinding BorderThickness}"
                 CornerRadius="{TemplateBinding CornerRadius}">
-          <!-- Splits the picker from its accept and dismiss row -->
-          <Grid Name="ContentRoot" RowDefinitions="*,Auto">
+          <!-- Splits the picker from its divider and its dismiss-and-accept row -->
+          <Grid Name="ContentRoot" RowDefinitions="*,Auto,Auto">
             <!-- Holds the day, month and year columns -->
             <Grid Name="PART_PickerContainer">
               <Grid.Styles>
@@ -219,6 +255,11 @@
                 </Style>
               </Grid.Styles>
               <!-- Column definitions set in code, ignore here -->
+              <!-- The centre highlight: a very light rounded face with a hairline border, like a resting Button;
+                   declared FIRST so it paints BEHIND the columns' item text (click-through) and frames the
+                   centred value without covering it -->
+              <Border Name="HighlightRect" IsHitTestVisible="False"
+                      Grid.Column="0" Grid.ColumnSpan="5" VerticalAlignment="Center" />
               <!-- The month column -->
               <Panel Name="PART_MonthHost">
                 <!-- Scrolls the month list -->
@@ -229,10 +270,12 @@
                                        PanelType="Month"
                                        ShouldLoop="True" />
                 </ScrollViewer>
-                <!-- Scrolls the months up -->
-                <RepeatButton Name="PART_MonthUpButton" Theme="{StaticResource DefaultDateTimePickerUpButton}" />
-                <!-- Scrolls the months down -->
-                <RepeatButton Name="PART_MonthDownButton" Theme="{StaticResource DefaultDateTimePickerDownButton}" />
+                <!-- Scrolls the months up; pinned to the top edge so it never meets the centred value -->
+                <RepeatButton Name="PART_MonthUpButton" Theme="{StaticResource DefaultDateTimePickerUpButton}"
+                              VerticalAlignment="Top" />
+                <!-- Scrolls the months down; pinned to the bottom edge so it never meets the centred value -->
+                <RepeatButton Name="PART_MonthDownButton" Theme="{StaticResource DefaultDateTimePickerDownButton}"
+                              VerticalAlignment="Bottom" />
               </Panel>
               <!-- The day column -->
               <Panel Name="PART_DayHost">
@@ -244,10 +287,12 @@
                                        PanelType="Day"
                                        ShouldLoop="True" />
                 </ScrollViewer>
-                <!-- Scrolls the days up -->
-                <RepeatButton Name="PART_DayUpButton" Theme="{StaticResource DefaultDateTimePickerUpButton}" />
-                <!-- Scrolls the days down -->
-                <RepeatButton Name="PART_DayDownButton" Theme="{StaticResource DefaultDateTimePickerDownButton}" />
+                <!-- Scrolls the days up; pinned to the top edge so it never meets the centred value -->
+                <RepeatButton Name="PART_DayUpButton" Theme="{StaticResource DefaultDateTimePickerUpButton}"
+                              VerticalAlignment="Top" />
+                <!-- Scrolls the days down; pinned to the bottom edge so it never meets the centred value -->
+                <RepeatButton Name="PART_DayDownButton" Theme="{StaticResource DefaultDateTimePickerDownButton}"
+                              VerticalAlignment="Bottom" />
               </Panel>
               <!-- The year column -->
               <Panel Name="PART_YearHost">
@@ -259,14 +304,13 @@
                                        PanelType="Year"
                                        ShouldLoop="False" />
                 </ScrollViewer>
-                <!-- Scrolls the years up -->
-                <RepeatButton Name="PART_YearUpButton" Theme="{StaticResource DefaultDateTimePickerUpButton}" />
-                <!-- Scrolls the years down -->
-                <RepeatButton Name="PART_YearDownButton" Theme="{StaticResource DefaultDateTimePickerDownButton}" />
+                <!-- Scrolls the years up; pinned to the top edge so it never meets the centred value -->
+                <RepeatButton Name="PART_YearUpButton" Theme="{StaticResource DefaultDateTimePickerUpButton}"
+                              VerticalAlignment="Top" />
+                <!-- Scrolls the years down; pinned to the bottom edge so it never meets the centred value -->
+                <RepeatButton Name="PART_YearDownButton" Theme="{StaticResource DefaultDateTimePickerDownButton}"
+                              VerticalAlignment="Bottom" />
               </Panel>
-              <!-- Band highlighting the centred selection -->
-              <Rectangle Name="HighlightRect" IsHitTestVisible="False" ZIndex="-1"
-                          Grid.Column="0" Grid.ColumnSpan="5" VerticalAlignment="Center" />
               <!-- Divider between the first two columns -->
               <Rectangle Name="PART_FirstSpacer"
                           HorizontalAlignment="Center"
@@ -277,37 +321,41 @@
                           Grid.Column="3" />
             </Grid>
 
-            <!-- The accept and dismiss row -->
+            <!-- Line above the dismiss and accept buttons -->
+            <Rectangle x:Name="PART_TopDivider"
+                       Grid.Row="1" />
+            <!-- The dismiss and accept row: two equal faces divided by TWO tokens of air (SpacingLg),
+                 inset TWO tokens (SpacingLg) from the frame's left/right/bottom borders — double the
+                 old SpacingMd — so the buttons' hover grow never reaches the flyout edge; the gap
+                 above the faces keeps the divider's breathing room -->
             <Grid Name="AcceptDismissGrid"
-                  Grid.Row="1"
-                  ColumnDefinitions="*,*">
-              <!-- Line above the accept and dismiss buttons -->
-              <Rectangle x:Name="PART_TopDivider"
-                          VerticalAlignment="Top"
-                          Grid.ColumnSpan="2" />
-              <!-- Confirms the chosen date -->
-              <Button Name="PART_AcceptButton"
-                      Grid.Column="0"
-                      Theme="{StaticResource DefaultDateTimePickerButton}"
-                      HorizontalAlignment="Stretch"
-                      VerticalAlignment="Stretch">
-                <!-- The tick mark -->
-                <Path x:Name="PART_AcceptGlyph"
-                      Stroke="{Binding $parent[Button].Foreground}"
-                      StrokeLineCap="Round"
-                      Data="{icons:Checkmark}" />
-              </Button>
-              <!-- Closes the picker without choosing -->
+                  Grid.Row="2"
+                  ColumnDefinitions="*,Auto,*"
+                  Margin="{size:Edges Left={size:SpacingLg}, Right={size:SpacingLg}, Bottom={size:SpacingLg}}">
+              <!-- Closes the picker without choosing; a stock theme Button with the Warning accent, filling the left half -->
               <Button Name="PART_DismissButton"
-                      Grid.Column="1"
-                      Theme="{StaticResource DefaultDateTimePickerButton}"
+                      theme:Accent.Kind="Warning"
                       HorizontalAlignment="Stretch"
                       VerticalAlignment="Stretch">
-                <!-- The cross mark -->
-                <Path x:Name="PART_DismissGlyph"
-                      Stroke="{Binding $parent[Button].Foreground}"
-                      StrokeLineCap="Round"
-                      Data="{icons:Close}" />
+                <!-- The cross mark, a theme icon taking the button's text colour -->
+                <PathIcon x:Name="PART_DismissGlyph"
+                          Data="{icons:Close}"
+                          Width="{size:IconSizeMd}"
+                          Height="{size:IconSizeMd}" />
+              </Button>
+              <!-- Air between the two faces: two standard spacing tokens wide -->
+              <Rectangle Grid.Column="1" Width="{size:SpacingLg}" />
+              <!-- Confirms the chosen date; a stock theme Button with the Success accent, filling the right half -->
+              <Button Name="PART_AcceptButton"
+                      theme:Accent.Kind="Success"
+                      Grid.Column="2"
+                      HorizontalAlignment="Stretch"
+                      VerticalAlignment="Stretch">
+                <!-- The tick mark, a theme icon taking the button's text colour -->
+                <PathIcon x:Name="PART_AcceptGlyph"
+                          Data="{icons:Checkmark}"
+                          Width="{size:IconSizeMd}"
+                          Height="{size:IconSizeMd}" />
               </Button>
             </Grid>
           </Grid>
@@ -315,44 +363,57 @@
       </ControlTemplate>
     </Setter>
 
-    <!-- Template element styles -->
+    <!-- Card inset: the frame pads its content, the columns breathe inside it -->
     <Style Selector="^ /template/ Border#Background">
-      <Setter Property="Padding" Value="{size:Edges All={size:SpacingSm}}" />
+      <Setter Property="Padding" Value="{size:Edges All={size:SpacingMd}}" />
     </Style>
 
+    <!-- Spin columns: one row tall, so the band and the centred value agree -->
     <Style Selector="^ /template/ DateTimePickerPanel#PART_MonthSelector,
                      ^ /template/ DateTimePickerPanel#PART_DaySelector,
                      ^ /template/ DateTimePickerPanel#PART_YearSelector">
       <Setter Property="ItemHeight" Value="{size:ControlHeightMd}" />
     </Style>
 
-    <Style Selector="^ /template/ Rectangle#HighlightRect">
-      <Setter Property="Fill" Value="{color:AccentPrimaryBrush}" />
+    <!-- Column scrollers: five rows tall, so the looping lists meet a declared bound and the centred row sits mid-card;
+         kept clear so the selection band behind them reads as one unbroken stripe across all three columns.
+         Padding cleared so the panel's computed centre equals the visual centre and wheel snapping lands on whole rows -->
+    <Style Selector="^ /template/ Panel > ScrollViewer">
+      <Setter Property="Height" Value="{size:Scaled Value={size:ControlHeightMd}, By=5}" />
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="Padding" Value="{size:Edges}" />
+    </Style>
+
+    <!-- Centre highlight: a very light rounded face with a hairline border, like a resting Button;
+         one row tall so the centred value sits dead-middle inside it -->
+    <Style Selector="^ /template/ Border#HighlightRect">
+      <Setter Property="Background" Value="{color:AccentBrush Light9}" />
+      <Setter Property="BorderBrush" Value="{color:BorderDefault}" />
+      <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
+      <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
       <Setter Property="Height" Value="{size:ControlHeightMd}" />
     </Style>
 
+    <!-- Column dividers: a hairline that blends into the selection band, so the band reads as one unbroken stripe -->
     <Style Selector="^ /template/ Rectangle#PART_FirstSpacer, ^ /template/ Rectangle#PART_SecondSpacer">
       <Setter Property="Fill" Value="{color:AccentBrush Light6}" />
-      <Setter Property="Width" Value="{size:BaseSize}" />
+      <Setter Property="Width" Value="{size:ThicknessSmDouble}" />
+      <Setter Property="Margin" Value="{size:Edges Left={size:SpacingLg}, Right={size:SpacingLg}}" />
     </Style>
 
+    <!-- Hairline above the accept and dismiss row -->
     <Style Selector="^ /template/ Rectangle#PART_TopDivider">
-      <Setter Property="Height" Value="{size:BaseSize}" />
+      <Setter Property="Height" Value="{size:ThicknessSmDouble}" />
       <Setter Property="Fill" Value="{color:AccentBrush Light6}" />
     </Style>
 
-    <Style Selector="^ /template/ Button#PART_AcceptButton, ^ /template/ Button#PART_DismissButton">
-      <Setter Property="Height" Value="{size:ControlHeightMd}" />
-    </Style>
 
-    <Style Selector="^ /template/ Path#PART_AcceptGlyph, ^ /template/ Path#PART_DismissGlyph">
-      <Setter Property="StrokeThickness" Value="{size:ThicknessSm}" />
-    </Style>
-
-    <!-- Hover state for selector repeat buttons -->
+    <!-- Stepper reveal: hovering a column fades its up and down chevrons in (and makes them usable);
+         the rows behind them never move, so the centred value stays put throughout -->
     <Style Selector="^ /template/ Panel">
       <Style Selector="^:pointerover RepeatButton">
-        <Setter Property="IsVisible" Value="True" />
+        <Setter Property="Opacity" Value="1" />
+        <Setter Property="IsHitTestVisible" Value="True" />
       </Style>
     </Style>
   </ControlTheme>

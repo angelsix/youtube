@@ -5,45 +5,21 @@
     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
     xmlns:color="using:AngelSix.ThemeEngine.Colors"
     xmlns:size="using:AngelSix.ThemeEngine.Sizes">
-  <!-- Design preview: one shared row instantiated per pane; :pressed/:disabled render identically to
-       :pointerover so they fold into Hover. Declared before Design.PreviewWith uses it -->
-  <DataTemplate x:Key="TabItemPreview">
-    <StackPanel Orientation="Horizontal" Spacing="{size:SpacingXxl}">
-      <TabItem Header="Default" />
-      <TabItem Header="Hover" theme:Preview.State="Hover" />
-      <TabItem Header="Disabled" IsEnabled="False" />
-      <TabItem Header="Selected" IsSelected="True" />
-      <TabItem Header="Sel + Hover" IsSelected="True" theme:Preview.State="Hover" />
-      <TabItem Header="Warn" IsSelected="True" theme:Accent.Kind="Warning" />
-      <TabItem Header="OK" IsSelected="True" theme:Accent.Kind="Success" />
-      <!-- Placement variants live in the TabControl preview: TabStripPlacement's setter is not public on a bare item -->
-    </StackPanel>
-  </DataTemplate>
-
-  <Design.PreviewWith>
-    <Border>
-      <Border.Styles>
-        <default:DefaultThemeStyles />
-      </Border.Styles>
-
-      <default:LightDarkPreview Title="TabItem" Orientation="Vertical" ContentTemplate="{StaticResource TabItemPreview}" />
-
-    </Border>
-  </Design.PreviewWith>
-
-<!-- Template -->
+  <!-- The gallery entry lives on the TabControl preview, which pins every TabItem state inside a real TabControl;
+       this file keeps only the control theme. -->
   <ControlTheme x:Key="{x:Type TabItem}" TargetType="TabItem">
 
     <!-- Visual defaults -->
-    <Setter Property="Background" Value="Transparent" />
-    <Setter Property="Foreground" Value="{color:DimTextDefault}" />
+    <Setter Property="Background" Value="{color:BackgroundDefault}" />
+    <Setter Property="Foreground" Value="{color:TextDefault}" />
     <Setter Property="BorderBrush" Value="Transparent" />
-    <Setter Property="BorderThickness" Value="0" />
-    <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
-    <Setter Property="FontSize" Value="{size:FontSizeXxl}" />
+    <Setter Property="BorderThickness" Value="{size:Edges}" />
+    <!-- Rounded on the two corners away from the selection line; the placement styles below flip which pair curves -->
+    <Setter Property="CornerRadius" Value="{size:Corners Radius={size:RadiusSm}, Top=True}" />
+    <Setter Property="FontSize" Value="{size:FontSizeLg}" />
     <Setter Property="Padding" Value="{size:Edges Horizontal={size:SpacingXxl}}" />
-    <Setter Property="Margin" Value="0" />
-    <Setter Property="MinHeight" Value="{size:ControlHeightLg}" />
+    <Setter Property="Margin" Value="{size:Edges}" />
+    <Setter Property="MinHeight" Value="{size:ControlHeightMd}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
     <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
     <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
@@ -53,17 +29,17 @@
     <!-- Template -->
     <Setter Property="Template">
       <ControlTemplate>
-        <!-- Outer frame around the tab -->
+        <!-- Outer frame around the tab; the item's padding rides on the label so the pipe can hug the frame's own edges -->
         <Border Name="PART_LayoutRoot"
                 Background="{TemplateBinding Background}"
                 BorderBrush="{TemplateBinding BorderBrush}"
                 BorderThickness="{TemplateBinding BorderThickness}"
-                CornerRadius="{TemplateBinding CornerRadius}"
-                Padding="{TemplateBinding Padding}">
+                CornerRadius="{TemplateBinding CornerRadius}">
           <!-- Layout root stacking the pipe over the label -->
-          <Panel>
+          <Grid>
             <!-- The tab's label -->
             <ContentPresenter Name="PART_ContentPresenter"
+                              Padding="{TemplateBinding Padding}"
                               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                               Content="{TemplateBinding Header}"
@@ -71,7 +47,7 @@
             <!-- Bar marking the selected tab -->
             <Border Name="PART_SelectedPipe"
                     IsVisible="False" />
-          </Panel>
+          </Grid>
         </Border>
       </ControlTemplate>
     </Setter>
@@ -81,33 +57,42 @@
       <Setter Property="RecognizesAccessKey" Value="True" />
     </Style>
 
-    <!-- Selected pipe visuals -->
+    <!-- Selected pipe visuals: a 2px bar spanning the item's full cross-axis, hugging the edge that faces the content -->
     <Style Selector="^ /template/ Border#PART_SelectedPipe">
-      <Setter Property="Background" Value="{color:AccentPrimaryBrush}" />
+      <Setter Property="Background" Value="{color:AccentBrush Dark3}" />
       <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
+      <Setter Property="Height" Value="{size:SpacingSm}" />
+      <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
+      <!-- Theme Exception: the pipe hugs the bottom edge by default (Top-placement indicator); an edge-hugging alignment is intrinsic to the indicator, no token expresses it -->
+      <Setter Property="VerticalAlignment" Value="Bottom" />
     </Style>
 
     <!-- Hover state -->
     <Style Selector="^:pointerover /template/ Border#PART_LayoutRoot, ^[(theme|Preview.State)=Hover] /template/ Border#PART_LayoutRoot">
-      <Setter Property="Background" Value="Transparent" />
-      <Setter Property="TextElement.Foreground" Value="{color:DimTextDefault}" />
+      <Setter Property="Background" Value="{color:HoverBackgroundDefault}" />
+      <Setter Property="TextElement.Foreground" Value="{color:HoverTextDefault}" />
     </Style>
 
     <!-- Pressed state -->
     <Style Selector="^:pressed /template/ Border#PART_LayoutRoot, ^[(theme|Preview.State)=Pressed] /template/ Border#PART_LayoutRoot">
-      <Setter Property="Background" Value="Transparent" />
-      <Setter Property="TextElement.Foreground" Value="{color:DimTextDefault}" />
+      <Setter Property="Background" Value="{color:PressedBackgroundDefault}" />
     </Style>
 
     <!-- Disabled state -->
-    <Style Selector="^:disabled /template/ Border#PART_LayoutRoot">
-      <Setter Property="Background" Value="Transparent" />
-      <Setter Property="TextElement.Foreground" Value="{color:DimTextDefault}" />
+    <Style Selector="^:disabled">
+      <Setter Property="Opacity" Value="{size:DisabledOpacity}" />
+    </Style>
+
+    <!-- Focus state -->
+    <Style Selector="^:focus-visible /template/ Border#PART_LayoutRoot, ^[(theme|Preview.State)=Focused] /template/ Border#PART_LayoutRoot">
+      <Setter Property="BorderBrush" Value="{default:FocusBrush}" />
+      <Setter Property="BorderThickness" Value="{default:FocusThickness}" />
     </Style>
 
     <!-- Selected state -->
     <Style Selector="^:selected">
-      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="Background" Value="{color:PressedBackgroundDefault}" />
+      <Setter Property="Foreground" Value="{color:TextDefault}" />
     </Style>
     <Style Selector="^:selected /template/ Border#PART_SelectedPipe">
       <Setter Property="IsVisible" Value="True" />
@@ -115,49 +100,64 @@
 
     <!-- Selected hover state -->
     <Style Selector="^:selected:pointerover /template/ Border#PART_LayoutRoot, ^:selected[(theme|Preview.State)=Hover] /template/ Border#PART_LayoutRoot">
-      <Setter Property="Background" Value="Transparent" />
-      <Setter Property="TextElement.Foreground" Value="{color:DimTextDefault}" />
+      <Setter Property="Background" Value="{color:AccentBrush Light5}" />
     </Style>
 
     <!-- Selected pressed state -->
     <Style Selector="^:selected:pressed /template/ Border#PART_LayoutRoot, ^:selected[(theme|Preview.State)=Pressed] /template/ Border#PART_LayoutRoot">
-      <Setter Property="Background" Value="Transparent" />
-      <Setter Property="TextElement.Foreground" Value="{color:DimTextDefault}" />
+      <Setter Property="Background" Value="{color:AccentBrush Light4}" />
     </Style>
 
-    <!-- TabStripPlacement: Left -->
+    <!-- TabStripPlacement: Left — the pipe hugs the right edge (the edge facing the content), full height of the item; the curve faces away from it; the tab stretches across the strip so every side tab reads the same width -->
+    <Style Selector="^[TabStripPlacement=Left]">
+      <Setter Property="CornerRadius" Value="{size:Corners Radius={size:RadiusSm}, Left=True}" />
+      <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
+    </Style>
     <Style Selector="^[TabStripPlacement=Left] /template/ Border#PART_SelectedPipe">
       <Setter Property="Width" Value="{size:SpacingSm}" />
-      <Setter Property="Height" Value="{size:ControlHeightSm}" />
-      <Setter Property="Margin" Value="0,0,2,0" />
-      <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
-      <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
+      <!-- Release the base state's 2px Height so the pipe spans the item's full height -->
+      <Setter Property="Height" Value="NaN" />
+      <!-- Theme Exception: the pipe hugs the right edge for Left placement; an edge-hugging alignment is intrinsic to the indicator, no token expresses it -->
+      <Setter Property="HorizontalAlignment" Value="Right" />
+      <!-- Theme Exception: the pipe spans the item's full height for side placements; a cross-axis stretch is intrinsic to the indicator, no token expresses it -->
+      <Setter Property="VerticalAlignment" Value="Stretch" />
     </Style>
+    <!-- Keep the label clear of the pipe: reserve the pipe's width on the right edge -->
     <Style Selector="^[TabStripPlacement=Left] /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="Margin" Value="8,0,0,0" />
+      <Setter Property="Margin" Value="{size:Edges Right={size:SpacingSm}}" />
     </Style>
 
-    <!-- TabStripPlacement: Top and Bottom -->
-    <Style Selector="^[TabStripPlacement=Top] /template/ Border#PART_SelectedPipe, ^[TabStripPlacement=Bottom] /template/ Border#PART_SelectedPipe">
-      <Setter Property="Height" Value="{size:SpacingSm}" />
-      <Setter Property="Margin" Value="0,0,0,2" />
+    <!-- TabStripPlacement: Top keeps the pipe at the bottom edge (the base corners already face away from it); Bottom flips it to the top edge and rounds the bottom pair instead -->
+    <Style Selector="^[TabStripPlacement=Top] /template/ Border#PART_SelectedPipe">
       <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
-      <Setter Property="VerticalAlignment" Value="{theme:ContainerVerticalAlignment}" />
+      <!-- Theme Exception: the pipe hugs the bottom edge for Top placement; an edge-hugging alignment is intrinsic to the indicator, no token expresses it -->
+      <Setter Property="VerticalAlignment" Value="Bottom" />
+    </Style>
+    <Style Selector="^[TabStripPlacement=Bottom]">
+      <Setter Property="CornerRadius" Value="{size:Corners Radius={size:RadiusSm}, Bottom=True}" />
+    </Style>
+    <Style Selector="^[TabStripPlacement=Bottom] /template/ Border#PART_SelectedPipe">
+      <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
+      <!-- Theme Exception: the pipe hugs the top edge for Bottom placement; an edge-hugging alignment is intrinsic to the indicator, no token expresses it -->
+      <Setter Property="VerticalAlignment" Value="Top" />
     </Style>
 
-    <!-- TabStripPlacement: Right -->
+    <!-- TabStripPlacement: Right — the pipe hugs the left edge (the edge facing the content), full height of the item; the curve faces away from it; the tab stretches across the strip so every side tab reads the same width -->
+    <Style Selector="^[TabStripPlacement=Right]">
+      <Setter Property="CornerRadius" Value="{size:Corners Radius={size:RadiusSm}, Right=True}" />
+      <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
+    </Style>
     <Style Selector="^[TabStripPlacement=Right] /template/ Border#PART_SelectedPipe">
       <Setter Property="Width" Value="{size:SpacingSm}" />
-      <Setter Property="Height" Value="{size:ControlHeightSm}" />
-      <Setter Property="Margin" Value="2,0,0,0" />
+      <!-- Release the base state's 2px Height so the pipe spans the item's full height -->
+      <Setter Property="Height" Value="NaN" />
       <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
-      <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
+      <!-- Theme Exception: the pipe hugs the left edge for Right placement; an edge-hugging alignment is intrinsic to the indicator, no token expresses it -->
+      <Setter Property="VerticalAlignment" Value="Stretch" />
     </Style>
+    <!-- Keep the label clear of the pipe: reserve the pipe's width on the left edge -->
     <Style Selector="^[TabStripPlacement=Right] /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="Margin" Value="0,0,8,0" />
-    </Style>
-    <Style Selector="^[TabStripPlacement=Right]">
-      <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
+      <Setter Property="Margin" Value="{size:Edges Left={size:SpacingSm}}" />
     </Style>
   </ControlTheme>
 </ResourceDictionary>

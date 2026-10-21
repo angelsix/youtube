@@ -1,24 +1,36 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:default="clr-namespace:Avalonia.Themes.Default"
+                    xmlns:design="clr-namespace:Avalonia.Themes.Default.Design"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
                     xmlns:color="using:AngelSix.ThemeEngine.Colors"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes">
-  <!-- Design preview: core states, then non-default hues riding on enabled states. Declared before Design.PreviewWith uses it -->
+  <!-- Design preview: one vertical column, one fixed width wide enough for the longest label. What makes it a
+       RepeatButton is behaviour - it fires repeatedly while held - so the labels say so and one example shows
+       Delay and Interval. States are pinned on dedicated rows; the unpinned Hold-to-repeat row proves them live.
+       The two counting examples carry their OWN design-time model (one per example, per pane), so their
+       numbers rise independently while the button is held. The one fixed width (300) is sized for the
+       LONGEST counting label at a multi-digit count ("Delay 300 ms · Interval 100 ms · 100"), so the
+       number never clips as it rises. Declared before Design.PreviewWith uses it -->
   <DataTemplate x:Key="RepeatButtonPreview">
-    <StackPanel Spacing="{size:SpacingXxl}" HorizontalAlignment="Left">
-      <StackPanel Orientation="Horizontal" Spacing="{size:SpacingXxl}">
-        <RepeatButton Content="Default" />
-        <RepeatButton theme:Preview.State="Hover" Content="Hover" />
-        <RepeatButton theme:Preview.State="Pressed" Content="Pressed" />
-        <RepeatButton theme:Preview.State="Focused" Content="Focused" />
-        <RepeatButton Content="Disabled" IsEnabled="False" />
-      </StackPanel>
-      <!-- Non-default hues ride on enabled states so each extra instance proves two things at once -->
-      <StackPanel Orientation="Horizontal" Spacing="{size:SpacingXxl}">
-        <RepeatButton theme:Accent.Kind="Warning" theme:Preview.State="Hover" Content="Warning · Hover" />
-        <RepeatButton theme:Accent.Kind="Success" theme:Preview.State="Focused" Content="Success · Focused" />
-      </StackPanel>
+    <StackPanel Spacing="{size:SpacingXl}" HorizontalAlignment="Left">
+      <!-- Counting example: the label rises with every click, and with every repeat while held -->
+      <RepeatButton Width="300"
+                    x:DataType="design:RepeatButtonDesignModel"
+                    DataContext="{x:Static design:RepeatButtonDesignData.HoldSample}"
+                    Command="{Binding Increment}"
+                    Content="{Binding Label}" />
+      <RepeatButton Width="300" Delay="300" Interval="100"
+                    x:DataType="design:RepeatButtonDesignModel"
+                    DataContext="{x:Static design:RepeatButtonDesignData.DelaySample}"
+                    Command="{Binding Increment}"
+                    Content="{Binding Label}" />
+      <RepeatButton Width="300" theme:Preview.State="Hover" Content="Hover" />
+      <RepeatButton Width="300" theme:Preview.State="Pressed" Content="Pressed" />
+      <RepeatButton Width="300" theme:Preview.State="Focused" Content="Focused" />
+      <RepeatButton Width="300" IsEnabled="False" Content="Disabled" />
+      <RepeatButton Width="300" theme:Accent.Kind="Warning" theme:Preview.State="Hover" Content="Warning · Hover" />
+      <RepeatButton Width="300" theme:Accent.Kind="Success" theme:Preview.State="Focused" Content="Success · Focused" />
     </StackPanel>
   </DataTemplate>
 
@@ -38,10 +50,10 @@
        ============================================================ -->
   <ControlTheme x:Key="{x:Type RepeatButton}" TargetType="RepeatButton">
 
-    <!-- Visual defaults -->
+    <!-- Visual defaults: identical to Button (outlined column) -->
     <Setter Property="Background" Value="{color:BackgroundDefault}" />
     <Setter Property="Foreground" Value="{color:TextDefault}" />
-    <Setter Property="BorderBrush" Value="{color:AccentBrush Dark1}" />
+    <Setter Property="BorderBrush" Value="{color:BorderDefault}" />
     <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
     <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
     <Setter Property="Padding" Value="{size:Edges Horizontal={size:ContentPaddingWide}, Vertical={size:ContentPadding}}" />
@@ -49,7 +61,7 @@
     <Setter Property="MinWidth" Value="{size:ControlMinWidth}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
     <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
-    <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
+    <Setter Property="HorizontalContentAlignment" Value="{theme:ButtonHorizontalContentAlignment}" />
     <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
     <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
 
@@ -64,18 +76,21 @@
     <!-- Template -->
     <Setter Property="Template">
       <ControlTemplate>
-        <!-- The button's label -->
-        <ContentPresenter x:Name="PART_ContentPresenter"
-                          Background="{TemplateBinding Background}"
-                          BorderBrush="{TemplateBinding BorderBrush}"
-                          Foreground="{TemplateBinding Foreground}"
-                          BorderThickness="{TemplateBinding BorderThickness}"
-                          CornerRadius="{TemplateBinding CornerRadius}"
-                          Content="{TemplateBinding Content}"
-                          ContentTemplate="{TemplateBinding ContentTemplate}"
-                          Padding="{TemplateBinding Padding}"
-                          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                          VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+        <!-- The button face -->
+        <Border x:Name="PART_Border"
+                Background="{TemplateBinding Background}"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}"
+                CornerRadius="{TemplateBinding CornerRadius}"
+                Padding="{TemplateBinding Padding}">
+          <!-- The button's label -->
+          <ContentPresenter x:Name="PART_ContentPresenter"
+                            Foreground="{TemplateBinding Foreground}"
+                            Content="{TemplateBinding Content}"
+                            ContentTemplate="{TemplateBinding ContentTemplate}"
+                            HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+        </Border>
       </ControlTemplate>
     </Setter>
 
@@ -84,30 +99,31 @@
       <Setter Property="RecognizesAccessKey" Value="True" />
     </Style>
 
-    <!-- Hover state -->
+    <!-- Hover state: identical to Button -->
     <Style Selector="^:pointerover, ^[(theme|Preview.State)=Hover]">
       <Setter Property="Background" Value="{color:HoverBackgroundDefault}" />
+      <Setter Property="Foreground" Value="{color:HoverTextDefault}" />
       <Setter Property="RenderTransform" Value="{theme:TransformScale Value={size:PressedScale}, By=1.07}" />
+      <Setter Property="ZIndex" Value="{size:HoverZIndex}" />
     </Style>
 
-    <!-- Pressed state -->
+    <!-- Pressed state: identical to Button -->
     <Style Selector="^:pressed, ^[(theme|Preview.State)=Pressed]">
       <Setter Property="RenderTransform" Value="{theme:TransformScale Value={size:PressedScale}}" />
-    </Style>
-
-    <Style Selector="^:pressed, ^[(theme|Preview.State)=Pressed]">
       <Setter Property="Background" Value="{color:PressedBackgroundDefault}" />
     </Style>
 
-    <!-- Disabled state -->
+    <!-- Disabled state: identical to Button (whole-face dimming, no recoloured fill) -->
     <Style Selector="^:disabled">
       <Setter Property="Opacity" Value="{size:DisabledOpacity}" />
     </Style>
 
-    <!-- Focus state -->
-    <Style Selector="^:focus-visible, ^[(theme|Preview.State)=Focused]">
-      <Setter Property="BorderBrush" Value="{color:AccentFocusBrush}" />
-      <Setter Property="BorderThickness" Value="{size:ThicknessMd}" />
+    <!-- Focus state (Rule 21: the switch decides between the focus colour and the control's own hue).
+         Painted on the face part, as Button does: the control's own border metrics stay put,
+         so nothing relays the ring into the validation host's width tracking -->
+    <Style Selector="^:focus-visible /template/ Border#PART_Border, ^[(theme|Preview.State)=Focused] /template/ Border#PART_Border">
+      <Setter Property="BorderBrush" Value="{default:FocusBrush}" />
+      <Setter Property="BorderThickness" Value="{default:FocusThickness}" />
     </Style>
 
   </ControlTheme>

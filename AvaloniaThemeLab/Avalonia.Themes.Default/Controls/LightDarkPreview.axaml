@@ -5,10 +5,24 @@
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
                     xmlns:color="using:AngelSix.ThemeEngine.Colors"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes">
-  <!-- Design preview: a representative use — a titled preview hosting a line of text in each pane.
-       Nesting a full LightDarkPreview inside its own preview would recurse, so the fixture stays minimal -->
+  <!-- Design preview: a few real controls plus a refusal-case TextBlock whose explicit Foreground
+       must survive the per-pane inherited colour (Rule 13: an explicit value beats inheritance) -->
   <DataTemplate x:Key="LightDarkPreviewPreview">
-    <TextBlock Text="Hello, theme" />
+    <StackPanel Spacing="{size:SpacingXl}" Width="220">
+      <Button Content="Click me" Width="200" />
+      <CheckBox Content="Checked" IsChecked="True" Width="200" />
+      <TextBox PlaceholderText="Type here" Width="200" />
+      <TextBlock Text="Hello, theme" />
+      <!-- Refusal case: explicit Foreground wins over the pane's inherited colour. The ink is the
+           TRUE Warning hue at its accent-text stage: theme:Accent.Kind="Warning" puts this block on
+           the Warning ramp, and {color:AccentBrush Dark3} picks that ramp's most vibrant ink stage.
+           The seed ({color:AccentWarningBrush}) is unreadable as text on the light canvas (1.84:1),
+           and the ramp's higher-chroma stages (Dark1/Dark2) sit on the yellow of the Favourite hue.
+           Dark3 is the amber one: light #89661b (5.19:1 on the canvas), dark #c59d44 (6.27:1) -->
+      <TextBlock Text="Explicit warning ink" theme:Accent.Kind="Warning" Foreground="{color:AccentBrush Dark3}" />
+      <!-- The caption names the token, so the picture says which one it is -->
+      <TextBlock Text="Warning · AccentBrush Dark3" FontSize="{size:FontSizeSm}" theme:Accent.Kind="Warning" Foreground="{color:DimTextDefault}" />
+    </StackPanel>
   </DataTemplate>
 
   <Design.PreviewWith>
@@ -91,9 +105,11 @@
   <ControlTheme x:Key="{x:Type p:LightDarkPreview}" TargetType="p:LightDarkPreview">
     <!-- Visual defaults -->
     <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
-    <!-- Text root: a design preview has no Window above it, so the inherited text properties a Window
-         gives every control (Rule 13) are established here instead; inside a Window they restate the same values -->
-    <Setter Property="Foreground" Value="{color:AccentBrush Dark8}" />
+    <!-- Text root: a design preview has no Window above it, so the inherited font properties a Window
+         gives every control (Rule 13) are established here instead; inside a Window they restate the same values.
+         Ink colour is deliberately NOT set on the control: it would resolve once in the light region and
+         inherit as an already-resolved value into the dark pane (near-black on dark). Each pane's border
+         carries it instead, from the per-pane style below, so the brush resolves in that pane's own region. -->
     <Setter Property="FontSize" Value="{size:FontSizeMd}" />
     <Setter Property="FontFamily" Value="{theme:FontFamily}" />
     <Setter Property="FontWeight" Value="{theme:FontWeightRegular}" />
@@ -104,28 +120,32 @@
         <!-- The two panes, in equal cells: side by side each takes half the width, stacked each takes the full width -->
         <UniformGrid x:Name="PART_Panes">
           <!-- Light -->
-          <Border Padding="20" Background="{color:SurfaceDefaultBrush}">
-            <StackPanel Spacing="10">
-              <!-- The pane's caption and its accent picker -->
-              <Grid ColumnDefinitions="Auto,Auto" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}">
-                <Label Content="{Binding Title, RelativeSource={RelativeSource FindAncestor, AncestorType=p:LightDarkPreview}, StringFormat='{}{0} - Light'}" />
-                <ListBox Grid.Column="1" Theme="{StaticResource LightDarkPreviewSwatches}" IsVisible="{TemplateBinding IsAccentPickerVisible}"
-                         SelectedItem="{TemplateBinding SelectedAccent, Mode=TwoWay}" ItemsSource="{x:Static p:LightDarkPreview.AccentChoices}" />
-              </Grid>
+          <Border Name="PART_LightPane" Padding="{size:Edges All={size:SpacingXxl}}" Background="{color:SurfaceDefaultBrush}">
+            <StackPanel Spacing="{size:SpacingXl}">
+              <!-- The pane's caption -->
+              <Label Content="{Binding Title, RelativeSource={RelativeSource FindAncestor, AncestorType=p:LightDarkPreview}, StringFormat='{}{0} - Light'}"
+                     HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" />
+              <!-- The pane's accent picker, below the caption -->
+              <ListBox Theme="{StaticResource LightDarkPreviewSwatches}" IsVisible="{TemplateBinding IsAccentPickerVisible}"
+                       SelectedItem="{TemplateBinding SelectedAccent, Mode=TwoWay}" ItemsSource="{x:Static p:LightDarkPreview.AccentChoices}"
+                       HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" />
+              <!-- The preview content -->
               <ContentControl HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" theme:Accent.Kind="{TemplateBinding SelectedAccent}"
                               ContentTemplate="{Binding PaneContentTemplate, RelativeSource={RelativeSource FindAncestor, AncestorType=p:LightDarkPreview}}" />
             </StackPanel>
           </Border>
 
           <!-- Dark -->
-          <Border Padding="20" theme:ThemeRegion.IsDark="True" Background="{color:SurfaceDefaultBrush}">
-            <StackPanel Spacing="10">
-              <!-- The pane's caption and its accent picker -->
-              <Grid ColumnDefinitions="Auto,Auto" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}">
-                <Label Content="{Binding Title, RelativeSource={RelativeSource FindAncestor, AncestorType=p:LightDarkPreview}, StringFormat='{}{0} - Dark'}" />
-                <ListBox Grid.Column="1" Theme="{StaticResource LightDarkPreviewSwatches}" IsVisible="{TemplateBinding IsAccentPickerVisible}"
-                         SelectedItem="{TemplateBinding SelectedAccent, Mode=TwoWay}" ItemsSource="{x:Static p:LightDarkPreview.AccentChoices}" />
-              </Grid>
+          <Border Name="PART_DarkPane" Padding="{size:Edges All={size:SpacingXxl}}" theme:ThemeRegion.IsDark="True" Background="{color:SurfaceDefaultBrush}">
+            <StackPanel Spacing="{size:SpacingXl}">
+              <!-- The pane's caption -->
+              <Label Content="{Binding Title, RelativeSource={RelativeSource FindAncestor, AncestorType=p:LightDarkPreview}, StringFormat='{}{0} - Dark'}"
+                     HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" />
+              <!-- The pane's accent picker, below the caption -->
+              <ListBox Theme="{StaticResource LightDarkPreviewSwatches}" IsVisible="{TemplateBinding IsAccentPickerVisible}"
+                       SelectedItem="{TemplateBinding SelectedAccent, Mode=TwoWay}" ItemsSource="{x:Static p:LightDarkPreview.AccentChoices}"
+                       HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" />
+              <!-- The preview content -->
               <ContentControl HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" theme:Accent.Kind="{TemplateBinding SelectedAccent}"
                               ContentTemplate="{Binding PaneContentTemplate, RelativeSource={RelativeSource FindAncestor, AncestorType=p:LightDarkPreview}}" />
             </StackPanel>
@@ -133,6 +153,21 @@
         </UniformGrid>
       </ControlTemplate>
     </Setter>
+
+    <!-- Compact captions: the Label control theme pads its content on every side (task 32), but a pane
+         caption sits flush against its swatches, so the two captions take zero padding instead -->
+    <Style Selector="^ /template/ Label">
+      <Setter Property="Padding" Value="{size:Edges}" />
+    </Style>
+
+    <!-- Per-pane text colour: each pane's border carries the inherited ink as TextElement.Foreground,
+         which TemplatedControl.Foreground and TextBlock.Foreground share; the attached property is not
+         resolved until it reaches a consumer, so each pane resolves AccentBrush Dark8 in ITS OWN region
+         and the dark pane gets the dark palette's ink instead of the light-resolved near-black a single
+         Foreground on the control would propagate down (Rule 13) -->
+    <Style x:SetterTargetType="Border" Selector="^ /template/ Border#PART_LightPane, ^ /template/ Border#PART_DarkPane">
+      <Setter Property="TextElement.Foreground" Value="{color:AccentBrush Dark8}" />
+    </Style>
 
     <!-- Side by side: one row of two equal columns -->
     <Style Selector="^[Orientation=Horizontal] /template/ UniformGrid#PART_Panes">

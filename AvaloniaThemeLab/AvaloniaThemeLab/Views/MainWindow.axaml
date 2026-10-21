@@ -3,7 +3,9 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:size="using:AngelSix.ThemeEngine.Sizes"
+        xmlns:color="using:AngelSix.ThemeEngine.Colors"
         xmlns:default="using:Avalonia.Themes.Default"
+        xmlns:converters="using:AvaloniaThemeLab.ValueConverters"
         xmlns:vm="using:AvaloniaThemeLab.ViewModels"
         xmlns:views="using:AvaloniaThemeLab.Views"
         mc:Ignorable="d"
@@ -19,6 +21,12 @@
   <Design.DataContext>
     <vm:MainWindowViewModel />
   </Design.DataContext>
+  <!-- Per-preview options the theme files key beside their {Name}Preview template. Declared HERE,
+       not in App.axaml, so the proof host (which boots the real MainWindow but not the lab App)
+       still resolves them; a control asks for stacked panes with a {Name}PreviewOrientation key -->
+  <Window.Resources>
+    <converters:PreviewOrientationConverter x:Key="PreviewOrientationConverter" />
+  </Window.Resources>
   <Window.Styles>
     <!-- The page's inset inside its viewer is the page's Margin: a viewer's Padding is left out of its scroll extent -->
     <Style Selector="ScrollViewer#PageHost > :is(ContentControl)">
@@ -42,14 +50,42 @@
         </DataTemplate>
       </ListBox.ItemTemplate>
     </ListBox>
-    <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding SelectedEntry?.Name}" />
-    <ScrollViewer x:Name="PageHost" Grid.Row="1" Grid.Column="1" Content="{Binding SelectedEntry}">
+    <!-- The app's ONE accent picker (task 87): the same swatch row the previews used to repeat in
+         every pane's header, now in the header top right. Every preview's SelectedAccent binds to
+         its SelectedItem, so one pick styles the whole application -->
+    <DockPanel Grid.Row="0" Grid.Column="1">
+      <ListBox x:Name="AccentPicker" DockPanel.Dock="Right"
+               Theme="{StaticResource LightDarkPreviewSwatches}"
+               ItemsSource="{x:Static default:LightDarkPreview.AccentChoices}"
+               SelectedItem="{Binding SelectedAccent, Mode=TwoWay}">
+        <!-- Each header swatch paints its hue's solid-fill role, the same colour a checked control's face
+             (e.g. CommandBar's Favourite toggle) shows, so the picker always matches the theme's filled faces.
+             Scoped to this picker only; the selection ring (BorderBrush) is left alone so it stays readable -->
+        <ListBox.Styles>
+          <Style Selector="ListBoxItem">
+            <Setter Property="Background" Value="{color:SolidFillDefault}" />
+          </Style>
+        </ListBox.Styles>
+      </ListBox>
+      <!-- Tracks ShownEntry (not SelectedEntry) so the title changes at the same instant the page does -->
+      <TextBlock Text="{Binding ShownEntry?.Name}" />
+    </DockPanel>
+    <!-- Bound to ShownEntry, not SelectedEntry: the sidebar selects on pointer PRESS, so a clicked row
+         flips SelectedEntry mid-click; the view holds ShownEntry back until that click's release has fully
+         routed (see MainWindow.axaml.cs), so the incoming page is never born into a still-propagating
+         release that an overlay drawer would treat as an outside click and light-dismiss -->
+    <ScrollViewer x:Name="PageHost" Grid.Row="1" Grid.Column="1" Content="{Binding ShownEntry}">
       <ScrollViewer.DataTemplates>
-        <!-- Control shown by its theme preview: light and dark halves side by side, each preview centred in its half,
-             with the accent picker in each half's header. DataType is the template's match key;
-             x:DataType is the compiled-binding scope for its bindings -->
+        <!-- Control shown by its theme preview: light and dark halves side by side, each preview centred in its half.
+             Both panes' content takes their hue from the header's ONE accent picker (task 87): SelectedAccent binds
+             TwoWay to the picker's SelectedItem, so every entry in the gallery shares the app-level selection.
+             DataType is the template's match key; x:DataType is the compiled-binding scope for its bindings -->
         <DataTemplate DataType="vm:ControlEntryViewModel" x:DataType="vm:ControlEntryViewModel">
-          <default:LightDarkPreview Title="{Binding Name}" Orientation="Horizontal" HorizontalContentAlignment="Center" IsAccentPickerVisible="True"
+          <!-- Orientation comes from each control's own theme file ({Name}PreviewOrientation, Rule 20) -->
+          <default:LightDarkPreview Title="{Binding Name}"
+                                    Orientation="{Binding ControlType, Converter={StaticResource PreviewOrientationConverter}}"
+                                    HorizontalContentAlignment="Center"
+                                    SelectedAccent="{Binding SelectedItem, ElementName=AccentPicker, Mode=TwoWay}"
                                     ContentTemplate="{Binding ControlType, Converter={StaticResource PreviewTemplateConverter}}" />
         </DataTemplate>
         <!-- Hand-written page -->

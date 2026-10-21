@@ -5,21 +5,54 @@
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes"
                     xmlns:icons="using:AngelSix.ThemeEngine.Icons"
                     xmlns:color="using:AngelSix.ThemeEngine.Colors">
-  <!-- Design preview: the stateless glyph sized down the icon ladder, then tinted through the generic accent brushes.
-       The designer and the lab gallery both show this key, so it is declared before Design.PreviewWith uses it -->
+  <!-- Design preview: the glyph stepped down the icon ladder (labelled, on one baseline), then tinted
+       through the accent hues by its container, never by the icon itself (Rule 13). Declared before
+       Design.PreviewWith uses it, so the designer and the lab gallery both show this key -->
   <DataTemplate x:Key="PathIconPreview">
     <StackPanel Orientation="Vertical" Spacing="{size:SpacingXl}">
-      <StackPanel Orientation="Horizontal" Spacing="{size:SpacingXxl}">
-        <PathIcon Data="{icons:Star}" Width="{size:IconSizeSm}" Height="{size:IconSizeSm}" />
-        <PathIcon Data="{icons:Star}" Width="{size:IconSizeMd}" Height="{size:IconSizeMd}" />
-        <PathIcon Data="{icons:Star}" Width="{size:IconSizeLg}" Height="{size:IconSizeLg}" />
-        <PathIcon Data="{icons:Star}" Width="{size:IconSizeXl}" Height="{size:IconSizeXl}" />
+      <!-- Sizes: the icon ladder Sm..Xl, each labelled, tops on one baseline so the scale reads as a scale.
+           The row carries the default accent ink ({color:AccentBrush Dark3}, no Accent.Kind) so a default
+           icon follows the gallery's default accent instead of staying the pane's black/grey (task 92) -->
+      <StackPanel Orientation="Horizontal" Spacing="{size:SpacingXxl}" TextElement.Foreground="{color:AccentBrush Dark3}">
+        <StackPanel Orientation="Vertical" Spacing="{size:SpacingSm}">
+          <TextBlock Text="Sm" HorizontalAlignment="Center" />
+          <PathIcon Data="{icons:Star}" Width="{size:IconSizeSm}" Height="{size:IconSizeSm}" HorizontalAlignment="Center" />
+        </StackPanel>
+        <StackPanel Orientation="Vertical" Spacing="{size:SpacingSm}">
+          <TextBlock Text="Md" HorizontalAlignment="Center" />
+          <PathIcon Data="{icons:Star}" Width="{size:IconSizeMd}" Height="{size:IconSizeMd}" HorizontalAlignment="Center" />
+        </StackPanel>
+        <StackPanel Orientation="Vertical" Spacing="{size:SpacingSm}">
+          <TextBlock Text="Lg" HorizontalAlignment="Center" />
+          <PathIcon Data="{icons:Star}" Width="{size:IconSizeLg}" Height="{size:IconSizeLg}" HorizontalAlignment="Center" />
+        </StackPanel>
+        <StackPanel Orientation="Vertical" Spacing="{size:SpacingSm}">
+          <TextBlock Text="Xl" HorizontalAlignment="Center" />
+          <PathIcon Data="{icons:Star}" Width="{size:IconSizeXl}" Height="{size:IconSizeXl}" HorizontalAlignment="Center" />
+        </StackPanel>
       </StackPanel>
-      <!-- Colors ride the generic accent tokens, so the hue follows the active accent kind -->
+      <!-- Default accent · Primary: an explicit Accent.Kind on the container proves a picked hue reaches the icon;
+           its ink is the accent-text stage {color:AccentBrush Dark3}, the same stage a neutral default reads as -->
       <StackPanel Orientation="Horizontal" Spacing="{size:SpacingXxl}">
-        <PathIcon Data="{icons:Star}" Foreground="{color:AccentPrimaryBrush}" />
-        <PathIcon Data="{icons:Star}" Foreground="{color:AccentPrimaryBrush}" theme:Accent.Kind="Warning" />
-        <PathIcon Data="{icons:Star}" Foreground="{color:AccentPrimaryBrush}" theme:Accent.Kind="Success" />
+        <StackPanel Orientation="Vertical" Spacing="{size:SpacingSm}" theme:Accent.Kind="Primary" TextElement.Foreground="{color:AccentBrush Dark3}">
+          <TextBlock Text="Default accent · Primary" HorizontalAlignment="Center" />
+          <PathIcon Data="{icons:Star}" Width="{size:IconSizeMd}" Height="{size:IconSizeMd}" HorizontalAlignment="Center" />
+        </StackPanel>
+      </StackPanel>
+      <!-- Accents: the icon sets no Foreground; its container carries the hue and the ink, so the glyph follows it -->
+      <StackPanel Orientation="Horizontal" Spacing="{size:SpacingXxl}">
+        <StackPanel Orientation="Vertical" Spacing="{size:SpacingSm}" theme:Accent.Kind="Primary" TextElement.Foreground="{color:AccentBrush Dark3}">
+          <TextBlock Text="Primary" HorizontalAlignment="Center" />
+          <PathIcon Data="{icons:Star}" Width="{size:IconSizeMd}" Height="{size:IconSizeMd}" HorizontalAlignment="Center" />
+        </StackPanel>
+        <StackPanel Orientation="Vertical" Spacing="{size:SpacingSm}" theme:Accent.Kind="Warning" TextElement.Foreground="{color:AccentBrush Dark3}">
+          <TextBlock Text="Warning" HorizontalAlignment="Center" />
+          <PathIcon Data="{icons:Star}" Width="{size:IconSizeMd}" Height="{size:IconSizeMd}" HorizontalAlignment="Center" />
+        </StackPanel>
+        <StackPanel Orientation="Vertical" Spacing="{size:SpacingSm}" theme:Accent.Kind="Success" TextElement.Foreground="{color:AccentBrush Dark3}">
+          <TextBlock Text="Success" HorizontalAlignment="Center" />
+          <PathIcon Data="{icons:Star}" Width="{size:IconSizeMd}" Height="{size:IconSizeMd}" HorizontalAlignment="Center" />
+        </StackPanel>
       </StackPanel>
     </StackPanel>
   </DataTemplate>

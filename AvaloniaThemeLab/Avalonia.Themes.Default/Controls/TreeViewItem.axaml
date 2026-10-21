@@ -7,56 +7,23 @@
         xmlns:size="using:AngelSix.ThemeEngine.Sizes"
         xmlns:icons="using:AngelSix.ThemeEngine.Icons">
 
-  <!-- Tree written once; each pane (light + dark) instantiates its own copy -->
-  <DataTemplate x:Key="TreeViewItemPreview">
-    <StackPanel Spacing="{size:SpacingXl}" HorizontalAlignment="Left">
-      <!-- Multiple lets the two selected samples coexist; narrow tree fits a half-width pane -->
-      <TreeView SelectionMode="Multiple" Width="260">
-        <!-- Open item: collapse chevron, and hosts the state samples beneath -->
-        <TreeViewItem Header="Open - expanded" IsExpanded="True">
-          <!-- Closed item with a child: expand chevron; its leaf child hits :empty (no chevron) -->
-          <TreeViewItem Header="Closed - has child">
-            <TreeViewItem Header="Leaf - empty" />
-          </TreeViewItem>
-          <!-- Plain selected: the hue's Dark3 fill with Light10 text -->
-          <TreeViewItem Header="Selected" IsSelected="True" />
-          <!-- Selected with a child: the chevron sits on the accent fill -->
-          <TreeViewItem Header="Selected - has child" IsSelected="True">
-            <TreeViewItem Header="Child" />
-          </TreeViewItem>
-          <!-- Forced hover: hover-background fill -->
-          <TreeViewItem Header="Hovered" theme:Preview.State="Hover" />
-          <!-- Disabled: flat chrome, dimmed text -->
-          <TreeViewItem Header="Disabled" IsEnabled="False" />
-          <!-- Disabled + selected together: no fill, dimmed text on the canvas -->
-          <TreeViewItem Header="Disabled + Selected" IsEnabled="False" IsSelected="True" />
-        </TreeViewItem>
-      </TreeView>
-    </StackPanel>
-  </DataTemplate>
-
-  <Design.PreviewWith>
-    <Border>
-      <Border.Styles>
-        <default:DefaultThemeStyles />
-      </Border.Styles>
-
-      <default:LightDarkPreview Title="TreeViewItem" Orientation="Horizontal" ContentTemplate="{StaticResource TreeViewItemPreview}" />
-    </Border>
-  </Design.PreviewWith>
+  <!-- The TreeViewItem theme lives on; its gallery entry does not (task 140: a node is met inside the
+       tree that holds it, so the standalone TreeViewItem preview is retired and every node state now
+       rides inside the TreeView preview). The ControlTheme below is unchanged -->
 
   <!-- Chevron sub-theme -->
   <ControlTheme x:Key="DefaultTreeViewExpandCollapseChevron" TargetType="ToggleButton">
+    <!-- Face is 24 tall/wide (clears the 24px hit-target floor); the glyph itself stays IconSizeMd -->
     <Setter Property="Margin" Value="0" />
-    <Setter Property="Width" Value="{size:FontSizeSm}" />
-    <Setter Property="Height" Value="{size:FontSizeSm}" />
+    <Setter Property="Width" Value="{size:Scaled Value={size:IconSizeMd}, By=1.5}" />
+    <Setter Property="Height" Value="{size:Scaled Value={size:IconSizeMd}, By=1.5}" />
     <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
     <Setter Property="Template">
       <ControlTemplate>
-        <!-- The chevron: right when collapsed, down when expanded -->
+        <!-- The chevron: right when collapsed, down when expanded; pinned to the icon size inside the wider face -->
         <Border Background="Transparent"
-                Width="{TemplateBinding Width}"
-                Height="{TemplateBinding Height}"
+                Width="{size:IconSizeMd}"
+                Height="{size:IconSizeMd}"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center">
           <Path x:Name="ChevronPath"
@@ -86,9 +53,15 @@
     <Setter Property="BorderBrush" Value="Transparent" />
     <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
     <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
-    <Setter Property="Padding" Value="{size:Edges Horizontal={size:SpacingMd}, Vertical={size:SpacingSm}}" />
-    <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
+    <!-- Materialised as a Thickness: a bare {size:ContentPadding} (a double) in a Thickness slot silently
+         resolves to 0, leaving the header with no inset (task 129). Edges wraps it so the 8px content
+         padding actually lands, matching every other list item's right padding -->
+    <Setter Property="Padding" Value="{size:Edges All={size:ContentPadding}}" />
+    <!-- A row fills its tree, and so does its content: the highlight and hit area span the row, not the label -->
+    <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
     <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
+    <!-- Focus is the item's own inset border (below): an outset ring is cut by the tree's scroller and crosses its frame -->
+    <Setter Property="FocusAdorner" Value="{x:Null}" />
     <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
     <!-- HorizontalContentAlignment and VerticalContentAlignment not on TreeViewItem -->
     <Setter Property="MinHeight" Value="{size:ControlHeightSm}" />
@@ -107,7 +80,10 @@
                   CornerRadius="{TemplateBinding CornerRadius}"
                   MinHeight="{TemplateBinding MinHeight}"
                   TemplatedControl.IsTemplateFocusTarget="True">
-            <!-- Places the chevron left of the item's label -->
+            <!-- Places the chevron left of the item's label. The chevron and the label each carry their own
+                 horizontal inset (a Grid has no Padding): the chevron cell's margin and the label's
+                 margins are equal, so the arrow reads centred between the row's highlight edge and the
+                 text (Luke's fourth review) -->
             <Grid Name="PART_Header"
                   ColumnDefinitions="Auto, *">
               <!-- Indented area holding the chevron -->
@@ -118,7 +94,10 @@
                               Focusable="False"
                               IsChecked="{TemplateBinding IsExpanded, Mode=TwoWay}" />
               </Panel>
-              <!-- The item's label -->
+              <!-- The item's label. It carries no left margin: the chevron cell already spaces the
+                   text off the row's highlight edge (Luke's fourth review). Its right margin pads it
+                   off the row's right edge; a {TemplateBinding Padding} here resolved to 0, leaving
+                   the text hard against the edge (task 129) -->
               <ContentPresenter Name="PART_HeaderPresenter"
                                 Grid.Column="1"
                                 Focusable="False"
@@ -127,12 +106,15 @@
                                 ContentTemplate="{TemplateBinding HeaderTemplate}"
                                 HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
                                 VerticalAlignment="{TemplateBinding VerticalAlignment}"
-                                Margin="{TemplateBinding Padding}" />
+                                Margin="{size:Edges Right={size:ContentPadding}}" />
             </Grid>
           </Border>
-          <!-- This item's child items -->
+          <!-- This item's child items: inset one full chevron cell (3px margin + 24px face = 27px) so
+               each level reads deeper than its parent and siblings line up on the same grid
+               (task 129 redirect; the pitch tracks the cell's own footprint, task 140) -->
           <ItemsPresenter Name="PART_ItemsPresenter"
                           IsVisible="{TemplateBinding IsExpanded}"
+                          Margin="{size:Edges Left={size:Scaled Value={size:IconSizeMd}, By=1.6875}}"
                           ItemsPanel="{TemplateBinding ItemsPanel}" />
         </StackPanel>
       </ControlTemplate>
@@ -144,62 +126,58 @@
       <Setter Property="BorderBrush" Value="Transparent" />
     </Style>
 
-    <!-- Pressed state -->
+    <!-- Pressed state: a deeper stage than hover, as ButtonSpinner presses -->
     <Style Selector="^:pressed /template/ Border#PART_LayoutRoot:pointerover, ^:pressed[(theme|Preview.State)=Pressed] /template/ Border#PART_LayoutRoot">
-      <Setter Property="Background" Value="{color:HoverBackgroundDefault}" />
+      <Setter Property="Background" Value="{color:PressedBackgroundDefault}" />
       <Setter Property="BorderBrush" Value="Transparent" />
     </Style>
 
-    <!-- Disabled state -->
-    <Style Selector="^:disabled /template/ Border#PART_LayoutRoot">
-      <Setter Property="Background" Value="Transparent" />
-      <Setter Property="BorderBrush" Value="Transparent" />
-    </Style>
-    <Style Selector="^:disabled /template/ ContentPresenter#PART_HeaderPresenter">
-      <Setter Property="Foreground" Value="{color:DimTextDefault}" />
+    <!-- Disabled state: the whole row fades, selected or not, so a chosen-but-unavailable item still reads as chosen -->
+    <Style Selector="^:disabled">
+      <Setter Property="Opacity" Value="{size:DisabledOpacity}" />
     </Style>
 
-    <!-- Selected state -->
+    <!-- Selected state: the outlined column, not the filled one — a light fill stage of the row's own hue with default-weight text,
+         so a chosen row reads as picked without going dark (Decision, 18 Oct 2026; copied from ComboBoxItem) -->
     <Style Selector="^:selected /template/ Border#PART_LayoutRoot">
-      <Setter Property="Background" Value="{color:AccentBrush Dark3}" />
+      <Setter Property="Background" Value="{color:AccentBrush Light6}" />
       <Setter Property="BorderBrush" Value="Transparent" />
-      <Setter Property="TextElement.Foreground" Value="{color:AccentBrush Light10}" />
     </Style>
 
     <!-- Selected hover state -->
     <Style Selector="^:selected /template/ Border#PART_LayoutRoot:pointerover, ^:selected[(theme|Preview.State)=Hover] /template/ Border#PART_LayoutRoot">
-      <Setter Property="Background" Value="{color:AccentBrush Dark4}" />
+      <Setter Property="Background" Value="{color:AccentBrush Light5}" />
       <Setter Property="BorderBrush" Value="Transparent" />
-      <Setter Property="TextElement.Foreground" Value="{color:AccentBrush Light10}" />
     </Style>
 
     <!-- Selected pressed state -->
     <Style Selector="^:pressed:selected /template/ Border#PART_LayoutRoot:pointerover, ^:pressed:selected[(theme|Preview.State)=Pressed] /template/ Border#PART_LayoutRoot">
-      <Setter Property="Background" Value="{color:AccentBrush Dark5}" />
-      <Setter Property="BorderBrush" Value="Transparent" />
-      <Setter Property="TextElement.Foreground" Value="{color:AccentBrush Light10}" />
-    </Style>
-
-    <!-- Disabled selected state -->
-    <Style Selector="^:disabled:selected /template/ Border#PART_LayoutRoot">
-      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="Background" Value="{color:AccentBrush Light4}" />
       <Setter Property="BorderBrush" Value="Transparent" />
     </Style>
-    <Style Selector="^:disabled:selected /template/ ContentPresenter#PART_HeaderPresenter">
-      <Setter Property="Foreground" Value="{color:DimTextDefault}" />
-    </Style>
 
-    <!-- Empty state -->
+    <!-- The chevron cell reserves the face's width; a leaf keeps it so its label lines up with its parents'.
+         The ROW'S OWN highlight edge is the left datum (Luke's fourth review), exactly as the menus'
+         leading column is (task 139). The 24px face centres the 16px glyph box 4px in, and the label
+         follows the cell with no left margin, so the ink->label gap is the face's remaining dead
+         space (about 11px including the text's own bearing). The cell's LEFT margin is the balancing
+         term: at 3px the highlight-edge->ink gap is 11px too — the two gaps agree and the chevron
+         reads centred between the highlight edge and the label (task 140 redirect: measured 11/11
+         on the selected and closed rows against their own highlight edges, both panes; the open
+         row's wider down-glyph splits the same run 8/7, within 1px; the nesting pitch below tracks
+         the cell's own footprint, so leaves still land on the same grid as their parents') -->
+    <Style Selector="^ /template/ Panel#PART_ExpandCollapseChevronContainer">
+      <Setter Property="Width" Value="{size:Scaled Value={size:IconSizeMd}, By=1.5}" />
+      <Setter Property="Margin" Value="{size:Edges Left={size:ThicknessLgDouble}}" />
+    </Style>
     <Style Selector="^:empty /template/ ToggleButton#PART_ExpandCollapseChevron">
       <Setter Property="IsVisible" Value="False" />
     </Style>
-    <Style Selector="^:empty /template/ Panel#PART_ExpandCollapseChevronContainer">
-      <Setter Property="Width" Value="{size:FontSizeSm}" />
-    </Style>
 
-    <!-- Themed properties moved out of ControlTemplate -->
-    <Style Selector="^ /template/ Panel#PART_ExpandCollapseChevronContainer">
-      <Setter Property="Margin" Value="{size:Edges Horizontal={size:SpacingXxl}}" />
+    <!-- Focus state (Rule 21: the switch decides between the focus colour and the control's own hue) -->
+    <Style Selector="^:focus-visible /template/ Border#PART_LayoutRoot">
+      <Setter Property="BorderBrush" Value="{default:FocusBrush}" />
+      <Setter Property="BorderThickness" Value="{default:FocusThickness}" />
     </Style>
   </ControlTheme>
 </ResourceDictionary>

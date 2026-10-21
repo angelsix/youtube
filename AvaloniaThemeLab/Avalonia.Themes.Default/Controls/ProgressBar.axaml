@@ -5,31 +5,59 @@
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
                     xmlns:color="using:AngelSix.ThemeEngine.Colors"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes">
-  <!-- Design preview: every axis the theme styles — value position, range, text/format, indeterminate, disabled,
-       accent hue, both orientations. The designer and the lab gallery both show this key, so it is declared
-       before Design.PreviewWith uses it -->
+  <!-- Design preview: every axis the theme styles — value position, range, text/format, indeterminate,
+       disabled, accent hue, both orientations. Each bar is a nameable state with a short label beside it,
+       and the values differ visibly (empty, quarter, three-quarter, full). Declared before Design.PreviewWith -->
   <DataTemplate x:Key="ProgressBarPreview">
     <StackPanel Spacing="{size:SpacingXxl}">
-      <!-- Horizontal bars share one column so value/range/text/accent read top-to-bottom -->
+      <!-- Horizontal bars: one labelled row each, values chosen to read apart -->
       <StackPanel Spacing="{size:SpacingLg}">
-        <ProgressBar Value="5" Maximum="10" Width="240" />
-        <ProgressBar Value="50" Width="240" />
-        <ProgressBar Value="100" Width="240" />
-        <ProgressBar Minimum="25" Maximum="75" Value="50" Width="240" />
-        <ProgressBar ShowProgressText="True" Value="50" Width="240" />
-        <ProgressBar ShowProgressText="True" ProgressTextFormat="\{1\} percent" Minimum="50" Maximum="100" Value="70" Width="240" />
-        <ProgressBar IsIndeterminate="True" Width="240" />
-        <ProgressBar IsIndeterminate="True" Width="240" IsEnabled="False" />
-        <!-- Non-default hues ride the same fill so they compose with the value axis -->
-        <ProgressBar Value="50" Width="240" theme:Accent.Kind="Warning" />
-        <ProgressBar Value="50" Width="240" theme:Accent.Kind="Success" ShowProgressText="True" />
+        <StackPanel Orientation="Horizontal" Spacing="{size:SpacingLg}" Width="300">
+          <TextBlock Text="Empty" Width="100" />
+          <ProgressBar Value="0" Maximum="100" Width="190" />
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Spacing="{size:SpacingLg}" Width="300">
+          <TextBlock Text="Quarter" Width="100" />
+          <ProgressBar Value="25" Maximum="100" Width="190" />
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Spacing="{size:SpacingLg}" Width="300">
+          <TextBlock Text="Three-quarter" Width="100" />
+          <ProgressBar Value="75" Maximum="100" Width="190" />
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Spacing="{size:SpacingLg}" Width="300">
+          <TextBlock Text="Full" Width="100" />
+          <ProgressBar Value="100" Maximum="100" Width="190" />
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Spacing="{size:SpacingLg}" Width="300">
+          <!-- Centre the caption on its taller (33px) bar like the other rows -->
+          <TextBlock Text="Percent shown" Width="100" VerticalAlignment="Center" />
+          <ProgressBar ShowProgressText="True" Value="50" Maximum="100" Width="190" />
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Spacing="{size:SpacingLg}" Width="300">
+          <!-- Centre the caption on its taller (33px) bar like the other rows -->
+          <TextBlock Text="Custom format" Width="100" VerticalAlignment="Center" />
+          <ProgressBar ShowProgressText="True" ProgressTextFormat="\{1\} percent" Minimum="50" Maximum="100" Value="70" Width="190" />
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Spacing="{size:SpacingLg}" Width="300">
+          <TextBlock Text="Loading…" Width="100" />
+          <ProgressBar IsIndeterminate="True" Width="190" />
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Spacing="{size:SpacingLg}" Width="300">
+          <TextBlock Text="Disabled" Width="100" />
+          <ProgressBar Value="50" Maximum="100" Width="190" IsEnabled="False" />
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Spacing="{size:SpacingLg}" Width="300">
+          <TextBlock Text="Warning hue" Width="100" />
+          <ProgressBar Value="50" Maximum="100" Width="190" theme:Accent.Kind="Warning" />
+        </StackPanel>
       </StackPanel>
-      <!-- Same axes rotated: the :vertical branch flips growth direction and rotates the text -->
+      <!-- Same axes rotated: the :vertical branch grows upward and rotates the text -->
       <StackPanel Orientation="Horizontal" Spacing="{size:SpacingXxl}">
-        <ProgressBar Value="50" Height="120" />
-        <ProgressBar ShowProgressText="True" Value="50" Height="120" />
-        <ProgressBar IsIndeterminate="True" Height="120" />
-        <ProgressBar IsIndeterminate="True" Height="120" theme:Accent.Kind="Warning" />
+        <ProgressBar Orientation="Vertical" Value="50" Maximum="100" Width="8" Height="120" />
+        <!-- Wider face: the rotated percent text needs room to lay out without escaping the track -->
+        <ProgressBar Orientation="Vertical" ShowProgressText="True" Value="50" Maximum="100" Width="40" Height="120" />
+        <ProgressBar Orientation="Vertical" IsIndeterminate="True" Width="8" Height="120" />
+        <ProgressBar Orientation="Vertical" IsIndeterminate="True" Width="8" Height="120" theme:Accent.Kind="Warning" />
       </StackPanel>
     </StackPanel>
   </DataTemplate>
@@ -53,12 +81,12 @@
   <ControlTheme x:Key="{x:Type ProgressBar}" TargetType="ProgressBar">
 
     <!-- Visual defaults -->
-    <Setter Property="Foreground" Value="{color:AccentPrimaryBrush}" />
+    <Setter Property="Foreground" Value="{color:SolidFillDefault}" />
     <Setter Property="Background" Value="{color:AccentBrush Light8}" />
     <Setter Property="BorderBrush" Value="Transparent" />
     <Setter Property="BorderThickness" Value="0" />
     <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
-    <Setter Property="MinHeight" Value="{size:SpacingMd}" />
+    <Setter Property="MinHeight" Value="{size:SpacingLg}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
     <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
     <Setter Property="Padding" Value="0" />
@@ -84,12 +112,41 @@
                   <DoubleTransition Property="Opacity" Duration="0:0:0.15" />
                 </Transitions>
               </Panel.Transitions>
+              <!-- Progress text over the empty track, hidden beneath the fill -->
+              <Panel x:Name="Part_TrackHost" IsVisible="{TemplateBinding ShowProgressText}">
+                <TextBlock x:Name="PART_TrackText" IsHitTestVisible="False">
+                  <TextBlock.Text>
+                    <MultiBinding Converter="{StaticResource StringFormatConverter}">
+                      <TemplateBinding Property="ProgressTextFormat"/>
+                      <Binding Path="Value" RelativeSource="{RelativeSource TemplatedParent}"/>
+                      <TemplateBinding Property="Percentage"/>
+                      <TemplateBinding Property="Minimum"/>
+                      <TemplateBinding Property="Maximum"/>
+                    </MultiBinding>
+                  </TextBlock.Text>
+                </TextBlock>
+              </Panel>
               <!-- The filled portion of the bar -->
               <Border
                   x:Name="PART_Indicator"
                   Margin="{TemplateBinding Padding}"
                   Background="{TemplateBinding Foreground}"
-                  CornerRadius="{TemplateBinding CornerRadius}" />
+                  CornerRadius="{TemplateBinding CornerRadius}">
+                <!-- Clipse here, not on the rounded frame: a clip on the curved border casts its radius wrong -->
+                <Panel x:Name="Part_FillHost" ClipToBounds="True" IsVisible="{TemplateBinding ShowProgressText}">
+                  <TextBlock x:Name="PART_FillText" IsHitTestVisible="False">
+                    <TextBlock.Text>
+                      <MultiBinding Converter="{StaticResource StringFormatConverter}">
+                        <TemplateBinding Property="ProgressTextFormat"/>
+                        <Binding Path="Value" RelativeSource="{RelativeSource TemplatedParent}"/>
+                        <TemplateBinding Property="Percentage"/>
+                        <TemplateBinding Property="Minimum"/>
+                        <TemplateBinding Property="Maximum"/>
+                      </MultiBinding>
+                    </TextBlock.Text>
+                  </TextBlock>
+                </Panel>
+              </Border>
             </Panel>
             <!-- Shown when progress is indeterminate -->
             <Panel x:Name="IndeterminateRoot" Opacity="0">
@@ -111,32 +168,73 @@
                   Background="{TemplateBinding Foreground}"
                   CornerRadius="{TemplateBinding CornerRadius}" />
             </Panel>
-            <!-- Rotates the text with a vertical bar -->
+            <!-- Vertical label: one turned copy centred on the face, plain text with no box -->
             <LayoutTransformControl
                 x:Name="PART_LayoutTransformControl"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                 IsVisible="{TemplateBinding ShowProgressText}">
               <!-- The progress percentage, when shown -->
-              <TextBlock>
-                  <TextBlock.Text>
-                    <MultiBinding Converter="{StaticResource StringFormatConverter}">
-                      <TemplateBinding Property="ProgressTextFormat"/>
-                      <Binding Path="Value" RelativeSource="{RelativeSource TemplatedParent}"/>
-                      <TemplateBinding Property="Percentage"/>
-                      <TemplateBinding Property="Minimum"/>
-                      <TemplateBinding Property="Maximum"/>
-                    </MultiBinding>
-                  </TextBlock.Text>
-                </TextBlock>
+              <TextBlock x:Name="PART_CenterText" IsHitTestVisible="False">
+                <TextBlock.Text>
+                  <MultiBinding Converter="{StaticResource StringFormatConverter}">
+                    <TemplateBinding Property="ProgressTextFormat"/>
+                    <Binding Path="Value" RelativeSource="{RelativeSource TemplatedParent}"/>
+                    <TemplateBinding Property="Percentage"/>
+                    <TemplateBinding Property="Minimum"/>
+                    <TemplateBinding Property="Maximum"/>
+                  </MultiBinding>
+                </TextBlock.Text>
+              </TextBlock>
             </LayoutTransformControl>
           </Panel>
         </Border>
       </ControlTemplate>
     </Setter>
 
-    <!-- Template: progress text color -->
-    <Style Selector="^ /template/ TextBlock">
+    <!-- Progress text: two coincident copies, one per surface it crosses; inset from the bar's ends -->
+    <Style Selector="^ /template/ TextBlock#PART_TrackText">
+      <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
+      <Setter Property="VerticalAlignment" Value="{theme:ContainerVerticalAlignment}" />
+      <Setter Property="Foreground" Value="{color:TextDefault}" />
+      <!-- Padding around the glyph: a full spacing step clear of the bar's ends and of its top
+           and bottom edges, so the label sits in the bar rather than cutting into it -->
+      <Setter Property="Padding" Value="{size:Edges All={size:SpacingLg}}" />
+    </Style>
+    <Style Selector="^ /template/ TextBlock#PART_FillText">
+      <Setter Property="VerticalAlignment" Value="{theme:ContainerVerticalAlignment}" />
+      <Setter Property="Foreground" Value="{color:OnSolidFillInkDefault}" />
+      <!-- The same padding as the track copy, so the two coincide where they overlap -->
+      <Setter Property="Padding" Value="{size:Edges All={size:SpacingLg}}" />
+    </Style>
+    <!-- Centred copy on a vertical face: plain text, no painted box. The on-fill ink clears the
+         mid-blue fill in the light pane and the lighter blue fill in the dark pane; over the pale
+         track it still reads comfortably in both palettes. -->
+    <Style Selector="^:vertical /template/ TextBlock#PART_CenterText">
+      <Setter Property="Foreground" Value="{color:OnSolidFillInkDefault}" />
+      <Setter Property="Padding" Value="{size:Edges All={size:SpacingSm}}" />
+    </Style>
+    <!-- The turned label's own centring: the layout transform places the rotated text's line box
+         on the face's centre line, but the glyphs ride high in that line box, so the ink lands to
+         the left of the centre. A symmetric margin pulls the ink back onto the centre line
+         without changing the face's usable width. -->
+    <Style Selector="^:vertical /template/ LayoutTransformControl#PART_LayoutTransformControl">
+      <Setter Property="Margin" Value="{size:Edges Left={size:SpacingSm}, Right={size:SpacingSm}}" />
+    </Style>
+    <Style Selector="^:horizontal /template/ TextBlock#PART_CenterText">
+      <Setter Property="IsVisible" Value="False" />
+    </Style>
+    <!-- The split copies serve horizontal bars only; on a vertical face they straddle the fill edge -->
+    <Style Selector="^:vertical /template/ TextBlock#PART_TrackText">
+      <Setter Property="IsVisible" Value="False" />
+    </Style>
+    <Style Selector="^:vertical /template/ TextBlock#PART_FillText">
+      <Setter Property="IsVisible" Value="False" />
+    </Style>
+
+    <!-- Disabled state -->
+    <Style Selector="^:disabled">
+      <Setter Property="Opacity" Value="{size:DisabledOpacity}" />
     </Style>
 
     <!-- Template: determinate indicator positioning -->
@@ -153,10 +251,10 @@
 
     <!-- Orientation: dimensions -->
     <Style Selector="^:horizontal">
-      <Setter Property="MinHeight" Value="{size:SpacingMd}" />
+      <Setter Property="MinHeight" Value="{size:SpacingLg}" />
     </Style>
     <Style Selector="^:vertical">
-      <Setter Property="MinWidth" Value="{size:SpacingMd}" />
+      <Setter Property="MinWidth" Value="{size:SpacingLg}" />
     </Style>
 
     <!-- Template: vertical layout rotation -->

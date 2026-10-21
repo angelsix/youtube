@@ -3,15 +3,196 @@
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
                     xmlns:color="using:AngelSix.ThemeEngine.Colors"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes"
+                    xmlns:icons="using:AngelSix.ThemeEngine.Icons"
                     xmlns:default="clr-namespace:Avalonia.Themes.Default">
-  <!-- Design preview: content wrapped for pull-to-refresh; its spinner slot hosts a RefreshVisualizer.
-       Declared before Design.PreviewWith uses it -->
+  <!-- Design preview: the pull indicator lives INSIDE the container that hosts it (task 140: the
+       standalone RefreshVisualizer gallery entry is retired; its control theme stays). TWO columns,
+       each example sized to fit inside the ~412px half-pane: the page must not scroll at 1200x800 -->
   <DataTemplate x:Key="RefreshContainerPreview">
-    <StackPanel Spacing="{size:SpacingXl}" HorizontalAlignment="Left">
-      <RefreshContainer>
-        <TextBlock Text="Pull down to refresh." />
-      </RefreshContainer>
-    </StackPanel>
+    <UniformGrid Columns="2" ColumnSpacing="{size:SpacingXl}">
+      <StackPanel Spacing="{size:SpacingXl}" HorizontalAlignment="Left">
+        <!-- Caption naming the states shown -->
+        <TextBlock Text="Real use · pull to refresh" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
+        <!-- The pull is touch or pen only; the gallery can't start a live pull, so the indicator shows at rest -->
+        <TextBlock Width="190"
+                   Text="Pull is touch or pen only — the indicator is shown at rest."
+                   FontSize="{size:FontSizeSm}"
+                   Opacity="0.7"
+                   TextWrapping="Wrap" />
+        <!-- Real use: a fixed-size container wrapping a short scrollable list that fills the frame.
+             Its spinner slot is sized down to the everyday glyph (part style below): the stock
+             visualizer otherwise sizes itself to the container's pull dimension (100px+) and the
+             container's idle pose lifts it UP by ITS HEIGHT, parking the resting arrow 126px clear
+             of the frame (AVLG001 on every earlier capture). At the glyph size the lift stays
+             inside the frame, so the resting arrow reads at the head of the list (task 140
+             redirect) -->
+        <RefreshContainer Width="190" Height="160" HorizontalContentAlignment="Stretch" ClipToBounds="True">
+          <!-- Uses the container's own themed default visualizer. Assigning a bespoke one before the
+               template realizes leaves the refresh deferral over-counted, so the headless crawl never
+               sees it leave the Refreshing state (AVLG009). The default visualizer self-sizes to the
+               pull dimension (100px) and escapes the frame, so it is clamped to the everyday glyph HERE,
+               on the instance: a /template/ part style cannot reach it (the container inserts it after the
+               template realizes), but an instance style re-applies on insertion. The slot's top margin
+               keeps the resting arrow clear of the frame's top border -->
+          <RefreshContainer.Styles>
+            <!-- Clamp the default visualizer's BOX to the everyday glyph; a /template/ part style cannot reach
+                 it because the container inserts it after the template realizes, but an instance style re-applies
+                 on insertion. The inner arrow binds its size to the visualizer's raw height (the container forces
+                 100px), so it is clamped too, or it overflows the frame (AVLG001) -->
+            <Style Selector="RefreshVisualizer">
+              <Setter Property="MaxWidth" Value="{size:IconSizeMd}" />
+              <Setter Property="MaxHeight" Value="{size:IconSizeMd}" />
+            </Style>
+            <Style Selector="PathIcon">
+              <Setter Property="MaxWidth" Value="{size:IconSizeMd}" />
+              <Setter Property="MaxHeight" Value="{size:IconSizeMd}" />
+            </Style>
+          </RefreshContainer.Styles>
+          <ScrollViewer>
+            <!-- Inset lives on the content's Margin, never the viewer's Padding, so the last row scrolls fully into view -->
+            <StackPanel Spacing="{size:SpacingMd}" Margin="{size:Edges All={size:SpacingMd}}">
+              <TextBlock Text="First" />
+              <TextBlock Text="Second" />
+              <TextBlock Text="Third" />
+              <TextBlock Text="Fourth" />
+              <TextBlock Text="Fifth" />
+              <TextBlock Text="Sixth" />
+              <TextBlock Text="Seventh" />
+              <TextBlock Text="Eighth" />
+            </StackPanel>
+          </ScrollViewer>
+        </RefreshContainer>
+        <!-- Caption naming the states shown -->
+        <TextBlock Text="Indicator in the spinner slot" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
+        <!-- The indicator in a REAL container, at the everyday glyph size. A bottom-to-top pull
+             parks the indicator at the foot of the container, where the stock resting pull lifts it
+             clear of the content, so the arrow reads inside the frame. Same themed default visualizer
+             as above, clamped to the everyday glyph on the instance so it stays inside the frame -->
+        <RefreshContainer Width="190" Height="120" PullDirection="BottomToTop" ClipToBounds="True">
+          <!-- Same themed default visualizer as above, clamped to the everyday glyph on the instance for
+               the same reason. This one pulls bottom-to-top, so its resting arrow sits at the foot of the
+               list, clear of the top border either way -->
+          <RefreshContainer.Styles>
+            <!-- Same two-instance clamp as above: the default visualizer's box and its inner arrow, both to the
+                 everyday glyph, so neither escapes the frame (AVLG001) while the deferral still completes -->
+            <Style Selector="RefreshVisualizer">
+              <Setter Property="MaxWidth" Value="{size:IconSizeMd}" />
+              <Setter Property="MaxHeight" Value="{size:IconSizeMd}" />
+            </Style>
+            <Style Selector="PathIcon">
+              <Setter Property="MaxWidth" Value="{size:IconSizeMd}" />
+              <Setter Property="MaxHeight" Value="{size:IconSizeMd}" />
+            </Style>
+          </RefreshContainer.Styles>
+          <ScrollViewer>
+            <!-- Inset lives on the content's Margin, never the viewer's Padding, so the last row scrolls fully into view -->
+            <StackPanel Spacing="{size:SpacingMd}" Margin="{size:Edges All={size:SpacingMd}}">
+              <TextBlock Text="Pull up to refresh" />
+            </StackPanel>
+          </ScrollViewer>
+        </RefreshContainer>
+      </StackPanel>
+      <StackPanel Spacing="{size:SpacingXl}" HorizontalAlignment="Left">
+        <!-- Caption naming the states shown -->
+        <TextBlock Text="Live control · idle (16px)" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
+        <!-- The live control at its native resting size. The stock idle pose pulls the arrow up by the
+             control's height (the refresh animation's resting pull, task 130); the inner grid carries an
+             equal opposing offset so the resting arrow lands dead-centre in its visual area -->
+        <Border Width="190"
+                Height="{size:Scaled Value={size:IconSizeMd}, By=3}"
+                Padding="{size:Edges All={size:SpacingLg}}"
+                ClipToBounds="True"
+                Background="{color:BackgroundDefault}"
+                BorderBrush="{color:BorderDefault}"
+                BorderThickness="{size:ThicknessSm}"
+                CornerRadius="{size:RadiusSm}">
+          <Grid Width="{size:IconSizeMd}" Height="{size:IconSizeMd}" HorizontalAlignment="Center"
+                VerticalAlignment="Center">
+            <!-- Theme Exception: literal offset cancels the stock idle-pull render transform
+                 (mirrors the pinned 16px instance height); the motion itself belongs to task 130 -->
+            <Grid.RenderTransform>
+              <TranslateTransform X="0" Y="16" />
+            </Grid.RenderTransform>
+            <RefreshVisualizer Width="{size:IconSizeMd}"
+                               Height="{size:IconSizeMd}"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center" />
+          </Grid>
+        </Border>
+        <!-- Caption naming the states shown -->
+        <TextBlock Text="Live control · 48px" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
+        <!-- The same live control enlarged: the arrow grows with the control; the inner grid's opposing
+             offset cancels the stock idle pull so the arrow rests dead-centre. The box matches the
+             accent box's proportion (three glyph heights): short enough proportions push the
+             countered grid past the bottom edge (AVLG001), so the headroom keeps its painted bounds
+             inside the frame while the arrow still reads centred (task 140 redirect) -->
+        <Border Width="190"
+                Height="{size:Scaled Value={size:ControlHeightLg}, By=3}"
+                Padding="{size:Edges All={size:SpacingLg}}"
+                ClipToBounds="True"
+                Background="{color:BackgroundDefault}"
+                BorderBrush="{color:BorderDefault}"
+                BorderThickness="{size:ThicknessSm}"
+                CornerRadius="{size:RadiusSm}">
+          <!-- Centre-aligned like the 16px box: the opposing offset then cancels the stock idle pull
+               instead of stacking below the layout position (task 140 redirect) -->
+          <Grid Width="{size:ControlHeightLg}" Height="{size:ControlHeightLg}" HorizontalAlignment="Center"
+                VerticalAlignment="Center">
+            <!-- Theme Exception: literal offset cancels the stock idle-pull render transform
+                 (mirrors the pinned 48px instance height); the motion itself belongs to task 130 -->
+            <Grid.RenderTransform>
+              <TranslateTransform X="0" Y="48" />
+            </Grid.RenderTransform>
+            <RefreshVisualizer Width="{size:ControlHeightLg}"
+                               Height="{size:ControlHeightLg}"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center" />
+          </Grid>
+        </Border>
+        <!-- Caption naming the states shown -->
+        <TextBlock Text="Follows the accent" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
+        <!-- The arrow takes the control's own hue: two accents side by side; each inner grid's
+             opposing offset cancels the stock idle pull so both arrows rest dead-centre -->
+        <Border Width="190"
+                Height="{size:Scaled Value={size:ControlHeightLg}, By=3}"
+                Padding="{size:Edges All={size:SpacingLg}}"
+                ClipToBounds="True"
+                Background="{color:BackgroundDefault}"
+                BorderBrush="{color:BorderDefault}"
+                BorderThickness="{size:ThicknessSm}"
+                CornerRadius="{size:RadiusSm}">
+          <StackPanel Orientation="Horizontal" Spacing="{size:SpacingLg}" HorizontalAlignment="Center"
+                      VerticalAlignment="Center">
+            <!-- Visual area: the icon's nominal square -->
+            <Grid Width="{size:ControlHeightLg}" Height="{size:ControlHeightLg}">
+              <!-- Theme Exception: literal offset cancels the stock idle-pull render transform
+                   (mirrors the pinned 48px instance height); the motion itself belongs to task 130 -->
+              <Grid.RenderTransform>
+                <TranslateTransform X="0" Y="48" />
+              </Grid.RenderTransform>
+              <RefreshVisualizer Width="{size:ControlHeightLg}"
+                                 Height="{size:ControlHeightLg}"
+                                 HorizontalAlignment="Center"
+                                 VerticalAlignment="Center"
+                                 theme:Accent.Kind="Warning" />
+            </Grid>
+            <!-- Visual area: the icon's nominal square -->
+            <Grid Width="{size:ControlHeightLg}" Height="{size:ControlHeightLg}">
+              <!-- Theme Exception: literal offset cancels the stock idle-pull render transform
+                   (mirrors the pinned 48px instance height); the motion itself belongs to task 130 -->
+              <Grid.RenderTransform>
+                <TranslateTransform X="0" Y="48" />
+              </Grid.RenderTransform>
+              <RefreshVisualizer Width="{size:ControlHeightLg}"
+                                 Height="{size:ControlHeightLg}"
+                                 HorizontalAlignment="Center"
+                                 VerticalAlignment="Center"
+                                 theme:Accent.Kind="Success" />
+            </Grid>
+          </StackPanel>
+        </Border>
+      </StackPanel>
+    </UniformGrid>
   </DataTemplate>
 
   <Design.PreviewWith>
@@ -31,10 +212,10 @@
     <!-- Visual defaults -->
     <Setter Property="Background" Value="{color:BackgroundDefault}" />
     <Setter Property="Foreground" Value="{color:TextDefault}" />
-    <Setter Property="BorderBrush" Value="{color:AccentBrush Dark1}" />
+    <Setter Property="BorderBrush" Value="{color:BorderDefault}" />
     <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
     <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
-    <Setter Property="Padding" Value="{size:Edges Horizontal={size:SpacingMd}, Vertical={size:SpacingMd}}" />
+    <Setter Property="Padding" Value="{size:Edges All={size:ContentPadding}}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
     <Setter Property="VerticalAlignment" Value="{theme:ContainerVerticalAlignment}" />
     <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
@@ -44,8 +225,8 @@
     <!-- Template -->
     <Setter Property="Template">
       <ControlTemplate>
-        <!-- Layout root stacking the spinner over the content -->
-        <Grid>
+        <!-- Layout root stacking the spinner over the content; clips the idle-raised visualizer to the frame -->
+        <Grid ClipToBounds="True">
           <!-- The content being pulled to refresh -->
           <ContentPresenter Name="PART_ContentPresenter"
                             Background="{TemplateBinding Background}"
@@ -57,11 +238,32 @@
                             Padding="{TemplateBinding Padding}"
                             VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
                             HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" />
-          <!-- The pull-to-refresh spinner -->
+          <!-- The pull-to-refresh spinner, sized by the part style below -->
           <Grid Name="PART_RefreshVisualizerPresenter" />
         </Grid>
       </ControlTemplate>
     </Setter>
+
+    <!-- Spinner slot: centred over the content, raised only while refreshing. The container anchors it
+         Top (pull-down) or Bottom (pull-up) itself and drives the visualizer's idle lift, so this style
+         only sizes the slot and insets it from the top border — the top margin keeps the resting arrow
+         clear of the frame's top edge (Luke: the indicator must not touch the top of its container) -->
+    <Style Selector="^ /template/ Grid#PART_RefreshVisualizerPresenter">
+      <Setter Property="Width" Value="{size:ControlHeightLg}" />
+      <Setter Property="Height" Value="{size:ControlHeightLg}" />
+      <Setter Property="HorizontalAlignment" Value="Center" />
+      <Setter Property="Margin" Value="{size:Edges Top={size:SpacingLg}}" />
+    </Style>
+
+    <!-- The container's own themed default visualizer self-sizes to the pull dimension (100px); capping
+         it to the everyday glyph keeps the resting lift inside the frame. It is routed through the default
+         (never a bespoke instance assigned before the template realizes) so the refresh deferral completes
+         headlessly — a pre-template custom visualizer leaves the deferral over-counted and the crawl stalls
+         in the Refreshing state (AVLG009) -->
+    <Style Selector="^ /template/ Grid#PART_RefreshVisualizerPresenter RefreshVisualizer">
+      <Setter Property="MaxWidth" Value="{size:IconSizeMd}" />
+      <Setter Property="MaxHeight" Value="{size:IconSizeMd}" />
+    </Style>
 
   </ControlTheme>
 </ResourceDictionary>

@@ -4,19 +4,53 @@
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
                     xmlns:color="using:AngelSix.ThemeEngine.Colors"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes">
-  <!-- Design preview: one strip mixing every state the theme paints. Declared before Design.PreviewWith uses it -->
+  <!-- Design preview: one strip per example; a TabStrip holds one selection, so each strip selects exactly the item its caption names. Declared before Design.PreviewWith uses it -->
   <DataTemplate x:Key="TabStripPreview">
-    <TabStrip>
-      <!-- Baseline: DimTextDefault label, no pipe -->
-      <TabStripItem>Plain</TabStripItem>
-      <!-- :selected reveals the accent-colored pipe under the label -->
-      <TabStripItem IsSelected="True">Selected</TabStripItem>
-      <!-- :disabled recolors the label to the accent Light2 tint, like the hover/pressed branches -->
-      <TabStripItem IsEnabled="False">Disabled</TabStripItem>
-      <!-- Non-default hues: the pipe resolves {color:AccentPrimaryBrush} against each item's Accent.Kind -->
-      <TabStripItem IsSelected="True" theme:Accent.Kind="Warning">Warn</TabStripItem>
-      <TabStripItem IsSelected="True" theme:Accent.Kind="Success">Ok</TabStripItem>
-    </TabStrip>
+    <StackPanel Spacing="{size:SpacingLg}">
+      <!-- Item states folded in: every state the TabStripItem entry showed, pinned as items inside real TabStrips.
+           A TabStrip keeps only one selection, so the states are split across two strips: the first carries the
+           selected item beside the rest, hover and pressed items, the second the selected, focused and disabled
+           items. Every strip is a single row, so no item wraps onto a second line. -->
+      <Label Content="States" Foreground="{color:DimTextDefault}" FontSize="{size:FontSizeMd}" />
+      <TabStrip>
+        <TabStripItem>Rest</TabStripItem>
+        <TabStripItem IsSelected="True">On</TabStripItem>
+        <TabStripItem theme:Preview.State="Hover">Hover</TabStripItem>
+        <TabStripItem theme:Preview.State="Pressed">Pressed</TabStripItem>
+      </TabStrip>
+      <TabStrip>
+        <TabStripItem IsSelected="True">On</TabStripItem>
+        <TabStripItem theme:Preview.State="Focused">Focused</TabStripItem>
+        <TabStripItem IsEnabled="False">Off</TabStripItem>
+      </TabStrip>
+
+      <!-- Selected + hover: the selected item lit brighter than a plain selection -->
+      <Label Content="Selected + hover" Foreground="{color:DimTextDefault}" FontSize="{size:FontSizeMd}" />
+      <TabStrip Width="180">
+        <TabStripItem>Closed</TabStripItem>
+        <TabStripItem IsSelected="True" theme:Preview.State="Hover">Open</TabStripItem>
+      </TabStrip>
+
+      <!-- Accent-coloured selections: the selection bar follows the item's Accent.Kind -->
+      <Label Content="Accent selections" Foreground="{color:DimTextDefault}" FontSize="{size:FontSizeMd}" />
+      <WrapPanel Orientation="Horizontal">
+        <TabStrip Width="180" Margin="{size:Edges Right={size:SpacingLg}}">
+          <TabStripItem>Plain</TabStripItem>
+          <TabStripItem IsSelected="True" theme:Accent.Kind="Warning">Warn</TabStripItem>
+        </TabStrip>
+        <TabStrip Width="180">
+          <TabStripItem>Plain</TabStripItem>
+          <TabStripItem IsSelected="True" theme:Accent.Kind="Success">Ok</TabStripItem>
+        </TabStrip>
+      </WrapPanel>
+
+      <!-- An accent hue at rest: the item carries the hue but is not selected, so no bar shows -->
+      <Label Content="Accent at rest" Foreground="{color:DimTextDefault}" FontSize="{size:FontSizeMd}" />
+      <TabStrip Width="180">
+        <TabStripItem>Plain</TabStripItem>
+        <TabStripItem theme:Accent.Kind="Warning">Warn</TabStripItem>
+      </TabStrip>
+    </StackPanel>
   </DataTemplate>
 
   <Design.PreviewWith>
@@ -36,12 +70,14 @@
   <ControlTheme x:Key="{x:Type TabStrip}" TargetType="TabStrip">
 
     <!-- Visual defaults -->
-    <Setter Property="Background" Value="{color:BackgroundDefault}" />
+    <Setter Property="Background" Value="Transparent" />
     <Setter Property="Foreground" Value="{color:TextDefault}" />
-    <Setter Property="BorderBrush" Value="{color:AccentBrush Dark1}" />
+    <Setter Property="BorderBrush" Value="{color:BorderDefault}" />
     <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
-    <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
-    <Setter Property="Padding" Value="{size:SpacingSm}" />
+    <!-- Square where the selection line runs along the strip's bottom edge; the top keeps the theme radius -->
+    <Setter Property="CornerRadius" Value="{size:Corners Radius={size:RadiusSm}, Top=True}" />
+    <!-- Strip inset: one spacing token on every side, so a selected or hovered tab's fill never runs into the frame's corners -->
+    <Setter Property="Padding" Value="{size:Edges All={size:SpacingSm}}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
     <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
     <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
