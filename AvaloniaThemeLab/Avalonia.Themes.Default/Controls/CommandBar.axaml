@@ -128,6 +128,22 @@
   </Design.PreviewWith>
 
   <!-- CommandBarButton ControlTheme -->
+  <!-- The declared reason the bar's own parts have no gallery entries of their own (task 176): they
+       are met inside the bar that holds them, and the CommandBar preview pins every state of every
+       part there. The gallery lists a control only when the theme gives it a {Name}Preview, so
+       without these markers the parts would vanish from the gallery with no record of why. -->
+
+  <default:PreviewShownIn x:Key="CommandBarButtonPreviewShownIn"
+                           ShownIn="{x:Type CommandBar}"
+                           Reason="A bar button is met inside the bar that holds it." />
+  <default:PreviewShownIn x:Key="CommandBarToggleButtonPreviewShownIn"
+                           ShownIn="{x:Type CommandBar}"
+                           Reason="A bar toggle is met inside the bar that holds it." />
+  <default:PreviewShownIn x:Key="CommandBarSeparatorPreviewShownIn"
+                           ShownIn="{x:Type CommandBar}"
+                           Reason="A bar separator is met inside the bar that holds it." />
+
+
   <ControlTheme x:Key="{x:Type CommandBarButton}" TargetType="CommandBarButton">
     <Setter Property="Background" Value="Transparent" />
     <Setter Property="Foreground" Value="{color:TextDefault}" />
@@ -202,8 +218,8 @@
 
     <!-- Focus -->
     <Style Selector="^:focus-visible, ^[(theme|Preview.State)=Focused]">
-      <Setter Property="BorderBrush" Value="{default:FocusBrush}" />
-      <Setter Property="BorderThickness" Value="{default:FocusThickness}" />
+      <Setter Property="BorderBrush" Value="{color:AccentFocusBorderBrush}" />
+      <Setter Property="BorderThickness" Value="0" />
     </Style>
 
     <!-- Compact: hide label, reduce width -->
@@ -316,37 +332,37 @@
 
     <!-- Focus (Rule 21: the switch decides between the focus colour and the control's own hue) -->
     <Style Selector="^:focus-visible, ^[(theme|Preview.State)=Focused]">
-      <Setter Property="BorderBrush" Value="{default:FocusBrush}" />
-      <Setter Property="BorderThickness" Value="{default:FocusThickness}" />
+      <Setter Property="BorderBrush" Value="{color:AccentFocusBorderBrush}" />
+      <Setter Property="BorderThickness" Value="0" />
     </Style>
 
     <!-- ============================================================
          Checked column (filled): the item's own hue. The resting fill takes the
-         solid-fill policy ({default:SolidFill}) and the glyph/text on it the on-solid
-         ink ({default:OnSolidInk}, picked by contrast against that face)
+         solid-fill policy ({color:SolidFillDefaultBrush}) and the glyph/text on it the on-solid
+         ink ({color:OnSolidFillInkDefaultBrush}, picked by contrast against that face)
          ============================================================ -->
 
     <!-- Checked default -->
     <Style Selector="^:checked">
-      <Setter Property="Background" Value="{default:SolidFill}" />
+      <Setter Property="Background" Value="{color:SolidFillDefaultBrush}" />
       <Setter Property="BorderBrush" Value="Transparent" />
-      <Setter Property="Foreground" Value="{default:OnSolidInk}" />
+      <Setter Property="Foreground" Value="{color:OnSolidFillInkDefaultBrush}" />
     </Style>
 
-    <!-- Checked hover: the solid face steps one stage deeper ({default:SolidFillHover}); the on-fill ink
+    <!-- Checked hover: the solid face steps one stage deeper ({color:SolidFillHoverBrush}); the on-fill ink
          is re-picked against that face, so it keeps >= 4.5:1 whichever column the hue wears -->
     <Style Selector="^:checked:pointerover, ^:checked[(theme|Preview.State)=Hover]">
-      <Setter Property="Background" Value="{default:SolidFillHover}" />
+      <Setter Property="Background" Value="{color:SolidFillHoverBrush}" />
       <Setter Property="BorderBrush" Value="Transparent" />
-      <Setter Property="Foreground" Value="{default:OnSolidInk}" />
+      <Setter Property="Foreground" Value="{color:OnSolidFillInkDefaultBrush}" />
     </Style>
 
-    <!-- Checked pressed: the solid face steps two stages deeper ({default:SolidFillPressed}); the on-fill ink
+    <!-- Checked pressed: the solid face steps two stages deeper ({color:SolidFillPressedBrush}); the on-fill ink
          is re-picked against that face, so it keeps >= 4.5:1 whichever column the hue wears -->
     <Style Selector="^:checked:pressed, ^:checked[(theme|Preview.State)=Pressed]">
-      <Setter Property="Background" Value="{default:SolidFillPressed}" />
+      <Setter Property="Background" Value="{color:SolidFillPressedBrush}" />
       <Setter Property="BorderBrush" Value="Transparent" />
-      <Setter Property="Foreground" Value="{default:OnSolidInk}" />
+      <Setter Property="Foreground" Value="{color:OnSolidFillInkDefaultBrush}" />
     </Style>
 
     <!-- Checked disabled: keeps the filled face under the whole-control {size:DisabledOpacity} dim above,

@@ -201,14 +201,32 @@
     <!-- Focus state (Rule 21: the switch decides between the focus colour and the control's own hue).
          Painted on the ring part, as CheckBox does on its box: the control's own metrics stay put -->
     <Style Selector="^:focus-visible, ^[(theme|Preview.State)=Focused]">
-      <Setter Property="BorderBrush" Value="{default:FocusBrush}" />
-      <Setter Property="BorderThickness" Value="{default:FocusThickness}" />
+      <Setter Property="BorderBrush" Value="{color:AccentFocusBorderBrush}" />
+      <!-- The focus weight is 0, the weight the PINNED focus example has always drawn (task 175):
+           the focus border is announced by its COLOUR, and a 1px frame would grow the control
+           by 2px and shift every row below it -->
+      <Setter Property="BorderThickness" Value="0" />
     </Style>
 
-    <!-- The ring takes the focus colour; {default:FocusThickness} is a Thickness and would read as 0 in the
+    <!-- The ring takes the focus colour; {size:ThicknessSm} is a Thickness and would read as 0 in the
          double StrokeThickness slot, so the ring keeps its rest weight and signals focus by colour -->
     <Style Selector="^:focus-visible /template/ Ellipse#RingEllipse, ^[(theme|Preview.State)=Focused] /template/ Ellipse#RingEllipse">
-      <Setter Property="Stroke" Value="{default:FocusBrush}" />
+      <Setter Property="Stroke" Value="{color:AccentFocusBorderBrush}" />
+    </Style>
+
+    <!-- Accent-coloured label text: a radio that carries its own hue colours its TEXT by that hue,
+         exactly the way a Label does (Label.axaml's accent rule) - the text takes the accent-text
+         stage {color:AccentTextDefault} (Dark3) of the hue the radio names, so a Warning radio's
+         label reads as amber instead of the near-black body ink the neutral role gives
+         (Luke, 22 Oct 2026: "the text doesn't follow the accent ... it should colour its text by
+         accent the way Label does"). The selector matches only a hue SET ON THIS RADIO, so a radio
+         that merely inherits a hue from a tinted ancestor - and the neutral radio in a plain pane -
+         keeps its TextDefault body ink, exactly as a plain Label does. It comes after the state
+         styles, so an accented radio keeps its hue's ink in hover, pressed and focus too, instead of
+         dropping back to the neutral hover ink. The ring and the checked dot are untouched: the ring
+         keeps the control's text colour (Luke's spec) and the dot the accent's own mark role. -->
+    <Style Selector="^[(theme|Accent.Kind)=Primary], ^[(theme|Accent.Kind)=Success], ^[(theme|Accent.Kind)=Warning], ^[(theme|Accent.Kind)=Info], ^[(theme|Accent.Kind)=Error], ^[(theme|Accent.Kind)=Destructive], ^[(theme|Accent.Kind)=Subtle]">
+      <Setter Property="Foreground" Value="{color:AccentTextDefault}" />
     </Style>
 
   </ControlTheme>

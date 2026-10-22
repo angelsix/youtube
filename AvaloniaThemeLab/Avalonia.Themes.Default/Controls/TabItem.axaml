@@ -7,6 +7,15 @@
     xmlns:size="using:AngelSix.ThemeEngine.Sizes">
   <!-- The gallery entry lives on the TabControl preview, which pins every TabItem state inside a real TabControl;
        this file keeps only the control theme. -->
+  <!-- The declared reason for that (task 176): the gallery lists a control only when the theme
+       gives it a {Name}Preview, so a control shown inside another entry would otherwise vanish
+       from the gallery with no record of why. This marker IS the record: it names the entry that
+       shows the tab, and the gallery reads it as a deliberate exclusion. -->
+
+  <default:PreviewShownIn x:Key="TabItemPreviewShownIn"
+                           ShownIn="{x:Type TabControl}"
+                           Reason="A tab is met inside the tab control that holds it." />
+
   <ControlTheme x:Key="{x:Type TabItem}" TargetType="TabItem">
 
     <!-- Visual defaults -->
@@ -85,8 +94,8 @@
 
     <!-- Focus state -->
     <Style Selector="^:focus-visible /template/ Border#PART_LayoutRoot, ^[(theme|Preview.State)=Focused] /template/ Border#PART_LayoutRoot">
-      <Setter Property="BorderBrush" Value="{default:FocusBrush}" />
-      <Setter Property="BorderThickness" Value="{default:FocusThickness}" />
+      <Setter Property="BorderBrush" Value="{color:AccentFocusBorderBrush}" />
+      <Setter Property="BorderThickness" Value="0" />
     </Style>
 
     <!-- Selected state: the selected row's tint. The tab is a selected row, so it takes the

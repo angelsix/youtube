@@ -8,6 +8,16 @@
                     xmlns:icons="using:AngelSix.ThemeEngine.Icons">
   <conv:PlatformKeyGestureConverter x:Key="KeyGestureConverter" />
 
+  <!-- The declared reason this control has no gallery entry of its own (task 176): a menu row is
+       met inside a real menu, and the ContextMenu preview pins every row state there. The gallery
+       lists a control only when the theme gives it a {Name}Preview, so without this marker the row
+       would vanish from the gallery with no record of why. -->
+
+  <default:PreviewShownIn x:Key="MenuItemPreviewShownIn"
+                           ShownIn="{x:Type ContextMenu}"
+                           Reason="A menu row is met inside a real menu; the ContextMenu preview pins every row state." />
+
+
   <!-- The tick drawn beside a checked item; local so the :checked:toggle style always resolves it.
        An open polyline, painted as a stroke (filling an unclosed path would draw nothing) -->
   <PathGeometry x:Key="CheckedTickPathData" Figures="M 0,5 L 4,9 L 11,1" />
@@ -230,8 +240,8 @@
     <!-- Focus: the row's own inset border (Rule 21); neutral borrows the focus colour, an accented row keeps its own hue -->
     <Style Selector="^:focus-visible /template/ Border#PART_LayoutRoot,
                      ^[(theme|Preview.State)=Focused] /template/ Border#PART_LayoutRoot">
-      <Setter Property="BorderBrush" Value="{default:FocusBrush}" />
-      <Setter Property="BorderThickness" Value="{default:FocusThickness}" />
+      <Setter Property="BorderBrush" Value="{color:AccentFocusBorderBrush}" />
+      <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
     </Style>
 
     <Style Selector="^:open /template/ Path#PART_ChevronPath">

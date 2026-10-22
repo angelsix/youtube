@@ -71,10 +71,10 @@
     <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
     <Setter Property="VerticalAlignment" Value="{theme:ContainerVerticalAlignment}" />
     <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
-    <!-- Squares the hosted page's top corners where it meets the navigation bar (Rule 19): no
-         selector reaches the page from the theme, so the behaviour installs the corner rule where
-         the page consults it. The far corners keep {size:RadiusSm}. -->
-    <Setter Property="(default:PageContentCorners.Apply)" Value="True" />
+    <!-- Squares the hosted page's top corners where it meets the navigation bar (Rule 19): the
+         page's own theme reads Avalonia's public Page.IsInNavigationPage property, which this
+         host sets on the page it shows, and keys its corner rule on it
+         (Controls/ContentPage.axaml). The far corners keep {size:RadiusSm}. -->
     <Setter Property="PageTransition">
       <Setter.Value>
         <PageSlide Duration="0:0:0.3" Orientation="Horizontal" FillMode="Forward">

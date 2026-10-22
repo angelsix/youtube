@@ -33,7 +33,12 @@
              "does not exist in the current context" errors rather than anything that names the
              real cause. (1.17.0 also adds ColourRamp's DarkSeed; 1.20.0 adds ColorRamp's HueAware, which the
              seeds in DefaultTheme.cs use.) -->
-        <PackageReference Include="AngelSix.ThemeEngine" Version="1.20.0" />
+        <!-- 1.22.0 adds the PER-HUE POLICIES on [AccentRole] — BrightStage/BrightThreshold,
+             ContrastAgainst/Alternate and FocusColour/NeutralHue/FocusSwitch — which is what lets the
+             solid-fill and focus-border decisions live in the theme's DECLARATION rather than in a C#
+             markup extension (task 175). Those policies are resolved inside the engine's own reactive
+             binding, so a change of Accent.Kind re-resolves them with no other trigger. -->
+        <PackageReference Include="AngelSix.ThemeEngine" Version="1.22.0" />
     </ItemGroup>
 
     <ItemGroup>

@@ -1,0 +1,19 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:size="using:AngelSix.ThemeEngine.Sizes"
+             xmlns:color="using:AngelSix.ThemeEngine.Colors"
+             xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+             x:Class="AvaloniaThemeLab.Pages.MissingPreviewPage">
+  <StackPanel Spacing="{size:SpacingXl}" MaxWidth="520">
+    <!-- The headline: this row IS the mistake, so it says so first -->
+    <TextBlock Text="Missing preview" FontSize="{size:FontSizeLg}"
+               Foreground="{color:AccentTextDefault}" theme:Accent.Kind="Error" />
+    <!-- What is missing and what to do about it: the theme file's own marker is the fix -->
+    <TextBlock TextWrapping="Wrap"
+               Foreground="{color:TextDefault}"
+               Text="This control has a ControlTheme, so the theme styles it — but the theme gives it no {Name}Preview template, and its theme file declares no {Name}PreviewShownIn or {Name}PreviewExcluded marker. It therefore has no gallery entry of its own." />
+    <TextBlock TextWrapping="Wrap"
+               Foreground="{color:TextDefault}"
+               Text="Add one marker to the control's own theme file, beside its ControlTheme: PreviewShownIn when another entry already shows the control, PreviewExcluded when it can never have an entry of its own." />
+  </StackPanel>
+</UserControl>

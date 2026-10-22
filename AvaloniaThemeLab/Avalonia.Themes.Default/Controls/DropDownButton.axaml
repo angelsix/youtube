@@ -173,8 +173,8 @@
          Painted on the frame part, as Button does: the control's own border metrics stay put,
          so nothing relays the ring into the neighbour rows' layout -->
     <Style Selector="^:focus-visible /template/ Border#RootBorder, ^[(theme|Preview.State)=Focused] /template/ Border#RootBorder">
-      <Setter Property="BorderBrush" Value="{default:FocusBrush}" />
-      <Setter Property="BorderThickness" Value="{default:FocusThickness}" />
+      <Setter Property="BorderBrush" Value="{color:AccentFocusBorderBrush}" />
+      <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
     </Style>
 
   </ControlTheme>

@@ -9,6 +9,15 @@
        is met inside the RefreshContainer that hosts it, so the standalone RefreshVisualizer preview is
        retired and every indicator state now rides inside the RefreshContainer preview). The
        ControlTheme below is unchanged -->
+  <!-- The declared reason for that (task 176): the gallery lists a control only when the theme
+       gives it a {Name}Preview, so a control shown inside another entry would otherwise vanish
+       from the gallery with no record of why. This marker IS the record: it names the entry that
+       shows the indicator, and the gallery reads it as a deliberate exclusion. -->
+
+  <default:PreviewShownIn x:Key="RefreshVisualizerPreviewShownIn"
+                           ShownIn="{x:Type RefreshContainer}"
+                           Reason="The pull indicator is met inside the container that hosts it." />
+
 
   <ControlTheme x:Key="{x:Type RefreshVisualizer}"
                 TargetType="RefreshVisualizer">

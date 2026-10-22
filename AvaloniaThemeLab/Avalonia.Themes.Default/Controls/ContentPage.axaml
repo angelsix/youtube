@@ -50,23 +50,16 @@
     <Setter Property="VerticalContentAlignment" Value="{theme:ContainerVerticalAlignment}" />
     <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
 
-    <!-- Hosted-by-a-page-host corners (Rule 19): the behaviour tags the hosted page with a
-         Square&lt;Side&gt; class naming the edge the HOST'S chrome sits on, and these square the border
-         pair that meets it while the opposite pair keeps {size:RadiusSm}. A class beats the bare-type
-         specificity above, so these win wherever the host docks; the border thickness stays
-         {size:ThicknessSm} throughout. One class per edge, so a tab strip on top and a navigation
-         bar on top share the same rule. -->
-    <Style Selector="^.SquareTop">
+    <!-- Hosted-by-a-page-host corners (Rule 19). A page hosted by a NavigationPage meets the
+         navigation bar along its TOP edge, so the top pair squares while the bottom pair keeps
+         {size:RadiusSm}. Avalonia's NavigationPage marks the page it shows with the public
+         Page.IsInNavigationPage property, and a property-match selector is a StyleTrigger, so
+         this rule outranks the page's own plain CornerRadius setter above. The border THICKNESS
+         stays {size:ThicknessSm} throughout. A TabbedPage's hosted page gets its corners from the
+         theme's application-level rule for the tab strip's side (Theme/PageHostStyles.axaml), which
+         knows which edge the strip docks on. -->
+    <Style Selector="^[IsInNavigationPage=True]">
       <Setter Property="CornerRadius" Value="{size:Corners Radius={size:RadiusSm}, Bottom=True}" />
-    </Style>
-    <Style Selector="^.SquareBottom">
-      <Setter Property="CornerRadius" Value="{size:Corners Radius={size:RadiusSm}, Top=True}" />
-    </Style>
-    <Style Selector="^.SquareLeft">
-      <Setter Property="CornerRadius" Value="{size:Corners Radius={size:RadiusSm}, Right=True}" />
-    </Style>
-    <Style Selector="^.SquareRight">
-      <Setter Property="CornerRadius" Value="{size:Corners Radius={size:RadiusSm}, Left=True}" />
     </Style>
 
     <!-- Template -->

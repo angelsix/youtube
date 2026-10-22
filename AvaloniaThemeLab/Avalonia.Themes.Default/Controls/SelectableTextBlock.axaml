@@ -37,8 +37,8 @@
     <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
     <!-- Selection: the solid-fill column (the filled face and its on-fill ink), so it follows
          Accent.Kind and reads on every hue -->
-    <Setter Property="SelectionBrush" Value="{default:SolidFill}" />
-    <Setter Property="SelectionForegroundBrush" Value="{default:OnSolidInk}" />
+    <Setter Property="SelectionBrush" Value="{color:SolidFillDefaultBrush}" />
+    <Setter Property="SelectionForegroundBrush" Value="{color:OnSolidFillInkDefaultBrush}" />
 
     <!-- Enabled state -->
     <Style Selector="^[IsEnabled=True]">

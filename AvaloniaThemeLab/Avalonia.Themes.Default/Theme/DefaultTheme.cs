@@ -75,12 +75,11 @@ public partial class DefaultTheme
     /// focused control, whatever its hue, takes <c>{color:AccentFocusBrush}</c>.
     /// </summary>
     /// <remarks>
-    /// Consumed by the {default:FocusBrush} and {default:FocusThickness} extensions
-    /// (Theme/FocusBrush.cs), which a control's focus state uses instead of the raw focus tokens.
-    /// Those extensions read this switch off the ACTIVE THEME INSTANCE and combine it with the
-    /// TARGET ELEMENT'S EFFECTIVE hue, so one override here flips every focused accented control at
-    /// once. Documented as Rule 21 in ThemeRules.md. A downstream theme flips it by overriding this
-    /// property to return true.
+    /// Consumed by the <see cref="AccentFocusBorder"/> role's FOCUS HUE SWITCH policy (task 175), which
+    /// a control's focus state uses instead of the raw focus tokens. The policy reads this switch off
+    /// the LIVE THEME INSTANCE and combines it with the TARGET ELEMENT'S EFFECTIVE hue, so one
+    /// override here flips every focused accented control at once. Documented as Rule 21 in
+    /// ThemeRules.md. A downstream theme flips it by overriding this property to return true.
     /// </remarks>
     public virtual bool FocusColorOnAccents => false;
 
@@ -277,19 +276,31 @@ public partial class DefaultTheme
     // overrides were deleted and the roles re-pointed at the genuine filled-column stages above.
 
     /// <summary>Solid-filled face (checked/toggled/starred): the filled-column REST stage, Dark3 — the same stage the existing filled controls draw today, taken from the engine's own ramp (no hand-placed hex, no IsDark branching).</summary>
-    [AccentRole]
+    /// <remarks>
+    /// Task 175: the BRIGHT STAGE policy moves this to the bright column for a hue whose seed is light
+    /// enough to go olive at the deep ink stage (Favourite). The policy is resolved inside the engine's
+    /// own reactive binding, per hue, so a change of <c>Accent.Kind</c> re-resolves the face with no
+    /// other trigger — which is what the C# helper (Theme/SolidFillBrush.cs, now deleted) could not do.
+    /// </remarks>
+    [AccentRole(BrightStage = nameof(SolidFillBrightFace), BrightThreshold = nameof(SolidFillBrightSeedLightness))]
     internal virtual RampStage SolidFillDefault => RampStage.Dark3;
 
     /// <summary>Ink drawn ON a solid fill (tick, dot, icon, on-fill text): the filled-column TEXT stage, Light10 — the stage the theme already uses for text on filled faces.</summary>
-    [AccentRole]
+    /// <remarks>
+    /// Task 175: the CONTRAST policy flips this to the near-black text role when that reaches the higher
+    /// contrast against the face the control actually wears. The face role carries its own bright
+    /// policy, so the measurement is made against the bright face for a light-seeded hue and against
+    /// the deep one for every other hue — the same two candidates the C# helper weighed.
+    /// </remarks>
+    [AccentRole(ContrastAgainst = nameof(SolidFillDefault), Alternate = nameof(TextDefault))]
     internal virtual RampStage OnSolidFillInkDefault => RampStage.Light10;
 
     /// <summary>Solid-filled face under the pointer (checked:hover): the filled-column HOVER stage, Dark4 — one stage deeper than the rest, as Button's outlined hover steps through its stages.</summary>
-    [AccentRole]
+    [AccentRole(BrightStage = nameof(SolidFillBrightHover), BrightThreshold = nameof(SolidFillBrightSeedLightness))]
     internal virtual RampStage SolidFillHover => RampStage.Dark4;
 
     /// <summary>Solid-filled face while pressed (checked:pressed): the filled-column PRESSED stage, Dark5 — two stages deeper than the rest.</summary>
-    [AccentRole]
+    [AccentRole(BrightStage = nameof(SolidFillBrightPressed), BrightThreshold = nameof(SolidFillBrightSeedLightness))]
     internal virtual RampStage SolidFillPressed => RampStage.Dark5;
 
     #endregion Bright Solid-Fill Stages (tasks 131, 134)
@@ -303,12 +314,12 @@ public partial class DefaultTheme
     // Dark3 is #856600 — a muddy olive, not a yellow (Luke, 21 Oct 2026: the light Favourite must be a
     // clear yellow).
     //
-    // So the solid-fill policy has TWO columns, and WHICH one a hue wears is decided in ONE place
-    // (Theme/SolidFillBrush.cs), from a threshold declared HERE. A hue whose seed reaches
-    // SolidFillBrightSeedLightness in OKLCH lightness wears the BRIGHT column in the light palette; every
-    // other hue keeps the deep column. The DARK palette never uses the bright column: there the ink column
-    // already reads bright (Favourite's dark Dark3 is the clear gold #CB9C00), so the deep stage is not
-    // muddy and the dark picture is unchanged.
+    // So the solid-fill policy has TWO columns, and WHICH one a hue wears is decided by the
+    // BRIGHT STAGE policy on the roles below, from a threshold declared HERE. A hue whose seed
+    // reaches SolidFillBrightSeedLightness in OKLCH lightness wears the BRIGHT column in the light
+    // palette; every other hue keeps the deep column. The DARK palette never uses the bright column:
+    // there the ink column already reads bright (Favourite's dark Dark3 is the clear gold #CB9C00),
+    // so the deep stage is not muddy and the dark picture is unchanged.
     //
     // The threshold is measured from the SEEDS, so it is a property of the palette rather than a per-control
     // value: Favourite #FFC400 sits at OKLCH L 0.8498 and crosses it; Warning #E89A3C at 0.7483, Success
@@ -650,11 +661,20 @@ public partial class DefaultTheme
     /// <para>
     /// Measured, it clears the 3:1 non-text floor in every hue and both palettes: light 4.69:1
     /// (Success) to 5.23:1 (Error), dark 4.29:1 (Destructive) to 4.95:1 (Success). It is read off the
-    /// RESOLVED theme instance at render time by {default:FocusBrush} (Theme/FocusBrush.cs) as
-    /// Accent{Hue}{this stage}Brush — see ThemeRules.md, Rule 21.
+    /// RESOLVED theme instance at render time as Accent{Hue}{this stage}Brush — see ThemeRules.md,
+    /// Rule 21.
+    /// </para>
+    /// <para>
+    /// Task 175: the FOCUS HUE SWITCH policy carries the Rule 21 decision declaratively. The neutral
+    /// hue takes the dedicated focus colour, and so does every hue when the theme's
+    /// <see cref="FocusColorOnAccents"/> switch is on; every other hue keeps its OWN colour at this
+    /// stage. The switch is read off the live theme instance, so flipping it flips every focused
+    /// control at once, and the whole decision is resolved inside the engine's reactive binding — so a
+    /// change of <c>Accent.Kind</c> re-resolves it with no other trigger (the C# helper this replaced
+    /// resolved once, and went stale when the accent changed).
     /// </para>
     /// </remarks>
-    [AccentRole]
+    [AccentRole(NeutralHue = "Neutral", FocusColour = nameof(AccentFocus), FocusSwitch = nameof(FocusColorOnAccents))]
     internal virtual RampStage AccentFocusBorder => RampStage.Dark1;
 
     #endregion Theme-Specific Defaults

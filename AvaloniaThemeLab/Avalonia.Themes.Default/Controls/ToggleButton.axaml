@@ -106,36 +106,39 @@
 
     <!-- Focus state (Rule 21: the switch decides between the focus colour and the control's own hue) -->
     <Style Selector="^:focus-visible, ^[(theme|Preview.State)=Focused]">
-      <Setter Property="BorderBrush" Value="{default:FocusBrush}" />
-      <Setter Property="BorderThickness" Value="{default:FocusThickness}" />
+      <Setter Property="BorderBrush" Value="{color:AccentFocusBorderBrush}" />
+      <!-- The focus weight is 0, the weight the PINNED focus example has always drawn (task 175):
+           the focus border is announced by its COLOUR, and a 1px frame would grow the control
+           by 2px and shift every row below it -->
+      <Setter Property="BorderThickness" Value="0" />
     </Style>
 
     <!-- ============================================================
-         Checked column (filled): the solid-fill face ({default:SolidFill}) and its on-fill
-         ink ({default:OnSolidInk}) — both chosen by the solid-fill policy
+         Checked column (filled): the solid-fill face ({color:SolidFillDefaultBrush}) and its on-fill
+         ink ({color:OnSolidFillInkDefaultBrush}) — both chosen by the solid-fill policy
          ============================================================ -->
 
     <!-- Checked default: the solid-fill face with the on-fill ink the policy picks for it -->
     <Style Selector="^:checked">
-      <Setter Property="Background" Value="{default:SolidFill}" />
+      <Setter Property="Background" Value="{color:SolidFillDefaultBrush}" />
       <Setter Property="BorderBrush" Value="Transparent" />
-      <Setter Property="Foreground" Value="{default:OnSolidInk}" />
+      <Setter Property="Foreground" Value="{color:OnSolidFillInkDefaultBrush}" />
     </Style>
 
-    <!-- Checked hover: the solid face steps one stage deeper ({default:SolidFillHover}); the on-fill ink
+    <!-- Checked hover: the solid face steps one stage deeper ({color:SolidFillHoverBrush}); the on-fill ink
          is re-picked against that face, so it keeps >= 4.5:1 whichever column the hue wears -->
     <Style Selector="^:checked:pointerover, ^:checked[(theme|Preview.State)=Hover]">
-      <Setter Property="Background" Value="{default:SolidFillHover}" />
+      <Setter Property="Background" Value="{color:SolidFillHoverBrush}" />
       <Setter Property="BorderBrush" Value="Transparent" />
-      <Setter Property="Foreground" Value="{default:OnSolidInk}" />
+      <Setter Property="Foreground" Value="{color:OnSolidFillInkDefaultBrush}" />
     </Style>
 
-    <!-- Checked pressed: the solid face steps two stages deeper ({default:SolidFillPressed}); the on-fill ink
+    <!-- Checked pressed: the solid face steps two stages deeper ({color:SolidFillPressedBrush}); the on-fill ink
          is re-picked against that face, so it keeps >= 4.5:1 whichever column the hue wears -->
     <Style Selector="^:checked:pressed, ^:checked[(theme|Preview.State)=Pressed]">
-      <Setter Property="Background" Value="{default:SolidFillPressed}" />
+      <Setter Property="Background" Value="{color:SolidFillPressedBrush}" />
       <Setter Property="BorderBrush" Value="Transparent" />
-      <Setter Property="Foreground" Value="{default:OnSolidInk}" />
+      <Setter Property="Foreground" Value="{color:OnSolidFillInkDefaultBrush}" />
     </Style>
 
     <!-- Checked disabled: unlike CheckBox (only its tick-box is filled), a ToggleButton's WHOLE face is the

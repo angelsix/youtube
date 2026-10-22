@@ -182,8 +182,8 @@
 
     <!-- Focus state (Rule 21: the switch decides between the focus colour and the control's own hue) -->
     <Style Selector="^:focus-visible /template/ TextBox#PART_TextBox, ^[(theme|Preview.State)=Focused] /template/ TextBox#PART_TextBox">
-      <Setter Property="BorderBrush" Value="{default:FocusBrush}" />
-      <Setter Property="BorderThickness" Value="{default:FocusThickness}" />
+      <Setter Property="BorderBrush" Value="{color:AccentFocusBorderBrush}" />
+      <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
     </Style>
 
   </ControlTheme>

@@ -4,6 +4,16 @@
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
                     xmlns:color="using:AngelSix.ThemeEngine.Colors"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes">
+  <!-- The declared reason this control has no gallery entry of its own (task 176): the flyout
+       surface is met inside the menus that open it — the ContextMenu preview shows the framed
+       surface, and the Menu preview's File drop-down shows the hosted-flyout panel. The gallery
+       lists a control only when the theme gives it a {Name}Preview, so without this marker the
+       surface would vanish from the gallery with no record of why. -->
+
+  <default:PreviewShownIn x:Key="MenuFlyoutPresenterPreviewShownIn"
+                           ShownIn="{x:Type ContextMenu}"
+                           Reason="The flyout surface is met inside the menus that open it." />
+
   <ControlTheme x:Key="{x:Type MenuFlyoutPresenter}" TargetType="MenuFlyoutPresenter">
     <!-- Visual defaults -->
     <Setter Property="Background" Value="{color:BackgroundDefault}" />

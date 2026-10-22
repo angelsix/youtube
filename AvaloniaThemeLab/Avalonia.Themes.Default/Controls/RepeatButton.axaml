@@ -122,8 +122,8 @@
          Painted on the face part, as Button does: the control's own border metrics stay put,
          so nothing relays the ring into the validation host's width tracking -->
     <Style Selector="^:focus-visible /template/ Border#PART_Border, ^[(theme|Preview.State)=Focused] /template/ Border#PART_Border">
-      <Setter Property="BorderBrush" Value="{default:FocusBrush}" />
-      <Setter Property="BorderThickness" Value="{default:FocusThickness}" />
+      <Setter Property="BorderBrush" Value="{color:AccentFocusBorderBrush}" />
+      <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
     </Style>
 
   </ControlTheme>

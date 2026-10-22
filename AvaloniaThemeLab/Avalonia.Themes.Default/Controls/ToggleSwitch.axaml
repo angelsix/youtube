@@ -44,7 +44,7 @@
     <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
     <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
     <Setter Property="Padding" Value="{size:Edges Horizontal={size:SpacingMd}, Vertical={size:SpacingSm}}" />
-    <!-- The resting border weight the track draws at; {default:FocusThickness} reads this off the control so focus never resizes it -->
+    <!-- The resting border weight the track draws at; the focus state uses the SAME weight, so focus never resizes the switch -->
     <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
     <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
     <Setter Property="KnobTransitions">
@@ -195,7 +195,7 @@
          the policy picks whichever of white or the near-black text role reads on that face.
          (On the deep ink column that is white, as before; on a bright face it is the near-black ink.) -->
     <Style Selector="^ /template/ Ellipse#SwitchKnobOn">
-      <Setter Property="Fill" Value="{default:OnSolidInk}" />
+      <Setter Property="Fill" Value="{color:OnSolidFillInkDefaultBrush}" />
     </Style>
 
     <Style Selector="^ /template/ Ellipse#SwitchKnobOff">
@@ -204,7 +204,7 @@
 
     <!-- Hover state: the outline keeps Button's constant rest border; only the inner fill steps up -->
     <Style Selector="^:pointerover /template/ Ellipse#SwitchKnobOn, ^[(theme|Preview.State)=Hover] /template/ Ellipse#SwitchKnobOn">
-      <Setter Property="Fill" Value="{default:OnSolidInk}" />
+      <Setter Property="Fill" Value="{color:OnSolidFillInkDefaultBrush}" />
     </Style>
 
     <!-- Off track steps to Button's hover fill; the checked face keeps its own hue ramp -->
@@ -218,7 +218,7 @@
     </Style>
 
     <Style Selector="^:pressed /template/ Ellipse#SwitchKnobOn, ^[(theme|Preview.State)=Pressed] /template/ Ellipse#SwitchKnobOn">
-      <Setter Property="Fill" Value="{default:OnSolidInk}" />
+      <Setter Property="Fill" Value="{color:OnSolidFillInkDefaultBrush}" />
     </Style>
 
     <!-- Disabled state: the whole switch dims under one opacity, checked fill included -->
@@ -229,7 +229,7 @@
 
     <!-- Checked state: the track keeps its outline, recoloured to the solid fill so the filled face has no mismatched ring -->
     <Style Selector="^:checked /template/ Border#OuterBorder">
-      <Setter Property="BorderBrush" Value="{default:SolidFill}" />
+      <Setter Property="BorderBrush" Value="{color:SolidFillDefaultBrush}" />
     </Style>
 
     <Style Selector="^:checked /template/ Ellipse#SwitchKnobOff">
@@ -239,29 +239,29 @@
     <Style Selector="^:checked /template/ Border#SwitchKnobBounds">
       <Setter Property="Opacity" Value="1" />
       <!-- The checked face is a solid fill, brighter than the outlined rest column; inset by the outline so the border shows -->
-      <Setter Property="Background" Value="{default:SolidFill}" />
+      <Setter Property="Background" Value="{color:SolidFillDefaultBrush}" />
       <Setter Property="Margin" Value="{size:Edges All={size:ThicknessSmDouble}}" />
     </Style>
 
-    <!-- Checked (on) hover: the solid track steps one stage deeper ({default:SolidFillHover}).
+    <!-- Checked (on) hover: the solid track steps one stage deeper ({color:SolidFillHoverBrush}).
          Kept AFTER the base checked rule above so it wins the specificity tie when Preview.State pins the state -->
     <Style Selector="^:checked:pointerover /template/ Border#SwitchKnobBounds, ^:checked[(theme|Preview.State)=Hover] /template/ Border#SwitchKnobBounds">
-      <Setter Property="Background" Value="{default:SolidFillHover}" />
+      <Setter Property="Background" Value="{color:SolidFillHoverBrush}" />
     </Style>
 
     <!-- Checked (on) hover: the outline follows the deepened fill so the ring stays seamless -->
     <Style Selector="^:checked:pointerover /template/ Border#OuterBorder, ^:checked[(theme|Preview.State)=Hover] /template/ Border#OuterBorder">
-      <Setter Property="BorderBrush" Value="{default:SolidFillHover}" />
+      <Setter Property="BorderBrush" Value="{color:SolidFillHoverBrush}" />
     </Style>
 
-    <!-- Checked (on) pressed: the solid track steps two stages deeper ({default:SolidFillPressed}) -->
+    <!-- Checked (on) pressed: the solid track steps two stages deeper ({color:SolidFillPressedBrush}) -->
     <Style Selector="^:checked:pressed /template/ Border#SwitchKnobBounds, ^:checked[(theme|Preview.State)=Pressed] /template/ Border#SwitchKnobBounds">
-      <Setter Property="Background" Value="{default:SolidFillPressed}" />
+      <Setter Property="Background" Value="{color:SolidFillPressedBrush}" />
     </Style>
 
     <!-- Checked (on) pressed: the outline follows the deepened fill so the ring stays seamless -->
     <Style Selector="^:checked:pressed /template/ Border#OuterBorder, ^:checked[(theme|Preview.State)=Pressed] /template/ Border#OuterBorder">
-      <Setter Property="BorderBrush" Value="{default:SolidFillPressed}" />
+      <Setter Property="BorderBrush" Value="{color:SolidFillPressedBrush}" />
     </Style>
 
     <Style Selector="^:checked /template/ Ellipse#SwitchKnobOn">
@@ -311,8 +311,8 @@
 
     <!-- Focus state (Rule 21): the track outline takes the focus colour at the rest weight; the outset ring is the default adornment -->
     <Style Selector="^:focus-visible /template/ Border#OuterBorder, ^[(theme|Preview.State)=Focused] /template/ Border#OuterBorder">
-      <Setter Property="BorderBrush" Value="{default:FocusBrush}" />
-      <Setter Property="BorderThickness" Value="{default:FocusThickness}" />
+      <Setter Property="BorderBrush" Value="{color:AccentFocusBorderBrush}" />
+      <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
     </Style>
   </ControlTheme>
 </ResourceDictionary>

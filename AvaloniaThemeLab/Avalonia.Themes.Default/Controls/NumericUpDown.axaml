@@ -43,6 +43,10 @@
       <NumericUpDown Width="240" Minimum="0" Maximum="10" Increment="0.5"
                      PlaceholderText="Enter a value"
                      IsEnabled="False" />
+      <!-- Disabled with a value: the value wears the same disabled ink a disabled TextBox wears -->
+      <TextBlock Text="Disabled" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
+      <NumericUpDown Width="240" Minimum="0" Maximum="10" Increment="0.5" Value="5"
+                     IsEnabled="False" />
       <!-- The template wraps the spinner in DataValidationErrors, so the error banner is fully wired -->
       <TextBlock Text="Error" FontSize="{size:FontSizeSm}" theme:Accent.Kind="Error" Foreground="{color:AccentTextDefault}" />
       <NumericUpDown Width="240" Minimum="0" Maximum="10" Increment="0.5" Value="5">
@@ -170,6 +174,16 @@
     </Style>
   </ControlTheme>
 
+  <!-- The value's field: the frameless field terms, with the field's OWN disabled dim cancelled.
+       The NumericUpDown dims the whole control once (Rule 6), so a second dim on the field inside it
+       would take the value's ink down to 0.09 of its role colour and the number would be all but
+       invisible. The field therefore dims exactly once, exactly like a plain disabled TextBox -->
+  <ControlTheme x:Key="DefaultNumericUpDownValueField" TargetType="TextBox" BasedOn="{StaticResource DefaultFramelessTextBox}">
+    <Style Selector="^:disabled">
+      <Setter Property="Opacity" Value="1" />
+    </Style>
+  </ControlTheme>
+
   <!-- Clear button seated beside the spinner: the field-icon-button terms (frameless face, the field's frame draws
        every state around it) padded exactly like the arrow buttons, so its face matches theirs -->
   <ControlTheme x:Key="DefaultNumericUpDownClearButton" TargetType="Button" BasedOn="{StaticResource DefaultTextBoxFieldIconButton}">
@@ -247,7 +261,7 @@
                     <!-- The number, typed or stepped; frameless, so the field's frame draws every state. It
                          starts at the field's standard text inset, the same left padding TextBox carries -->
                     <TextBox Name="PART_TextBox"
-                             Theme="{StaticResource DefaultFramelessTextBox}"
+                             Theme="{StaticResource DefaultNumericUpDownValueField}"
                              Padding="{size:Edges}"
                              MinWidth="0"
                              MinHeight="0"
@@ -296,8 +310,8 @@
 
     <!-- Focus state (Rule 21: the switch decides between the focus colour and the control's own hue) -->
     <Style Selector="^:focus-visible /template/ Border#PART_FieldFrame">
-      <Setter Property="BorderBrush" Value="{default:FocusBrush}" />
-      <Setter Property="BorderThickness" Value="{default:FocusThickness}" />
+      <Setter Property="BorderBrush" Value="{color:AccentFocusBorderBrush}" />
+      <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
     </Style>
 
     <!-- Error state -->

@@ -7,6 +7,13 @@
                     xmlns:icons="using:AngelSix.ThemeEngine.Icons">
 
   <!-- No design preview: decorations attach to a real window's frame (drag areas, caption actions); standalone they render only an empty title bar strip -->
+  <!-- The declared reason for that (task 176): the gallery lists a control only when the theme gives
+       it a {Name}Preview, so the decorations would vanish from the gallery with no record of why. The
+       marker is that record: they attach to a real window's frame, never shown on their own. -->
+
+  <default:PreviewExcluded x:Key="WindowDrawnDecorationsPreviewExcluded"
+                            Reason="The decorations attach to a real window's frame." />
+
   <ControlTheme x:Key="DefaultDrawnCaptionButton" TargetType="Button">
     <Setter Property="Background" Value="{color:BackgroundDefault}" />
     <Setter Property="Foreground" Value="{color:TextDefault}" />

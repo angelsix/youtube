@@ -9,6 +9,15 @@
        one captioned preview there), so its {Name}Preview template and design preview were removed. Only the
        shipped ControlTheme remains; the gallery no longer lists CarouselPage because neither a Preview template
        nor a Pages.CarouselPagePage fallback exists anymore. -->
+  <!-- The declared reason for that (task 176): the gallery lists a control only when the theme
+       gives it a {Name}Preview, so a control shown inside another entry would otherwise vanish
+       from the gallery with no record of why. This marker IS the record: it names the entry that
+       shows the page, and the gallery reads it as a deliberate exclusion. -->
+
+  <default:PreviewShownIn x:Key="CarouselPagePreviewShownIn"
+                           ShownIn="{x:Type Carousel}"
+                           Reason="The swipeable page is met inside the Carousel preview, beside the slides." />
+
 
   <!-- ============================================================
        Template

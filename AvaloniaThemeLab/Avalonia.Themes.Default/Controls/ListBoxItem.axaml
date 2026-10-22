@@ -7,6 +7,15 @@
   <!-- The ListBoxItem theme lives on; its gallery entry does not (task 140: a row is met inside the
        list that holds it, so the standalone ListBoxItem preview is retired and every row state now
        rides inside the ListBox preview). The ControlTheme below is unchanged -->
+  <!-- The declared reason for that (task 176): the gallery lists a control only when the theme
+       gives it a {Name}Preview, so a control shown inside another entry would otherwise vanish
+       from the gallery with no record of why. This marker IS the record: it names the entry that
+       shows the row, and the gallery reads it as a deliberate exclusion. -->
+
+  <default:PreviewShownIn x:Key="ListBoxItemPreviewShownIn"
+                           ShownIn="{x:Type ListBox}"
+                           Reason="A row is met inside the list that holds it." />
+
 
   <!-- ============================================================
        Template
@@ -67,8 +76,8 @@
 
     <!-- Focus state (Rule 21: the switch decides between the focus colour and the control's own hue) -->
     <Style Selector="^:focus-visible">
-      <Setter Property="BorderBrush" Value="{default:FocusBrush}" />
-      <Setter Property="BorderThickness" Value="{default:FocusThickness}" />
+      <Setter Property="BorderBrush" Value="{color:AccentFocusBorderBrush}" />
+      <Setter Property="BorderThickness" Value="0" />
     </Style>
 
     <!-- Selected state: the outlined column, not the filled one — a light fill stage with default-weight text,

@@ -93,6 +93,15 @@
           <ComboBoxItem>Selected</ComboBoxItem>
           <ComboBoxItem>Third</ComboBoxItem>
         </ComboBox>
+        <!-- Caption naming the state shown -->
+        <TextBlock Text="Editable · Disabled" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
+        <!-- Unusable free-text box: the box dims once and the field inside it never dims again,
+             so the typed text keeps the disabled standard of a plain disabled TextBox -->
+        <ComboBox Width="180" SelectedIndex="1" IsEditable="True" IsEnabled="False">
+          <ComboBoxItem>First</ComboBoxItem>
+          <ComboBoxItem>Selected</ComboBoxItem>
+          <ComboBoxItem>Third</ComboBoxItem>
+        </ComboBox>
       </StackPanel>
       <!-- Right column: the drop-down's item states -->
       <StackPanel Grid.Column="1" Spacing="{size:SpacingLg}">
@@ -146,6 +155,16 @@
 
   <x:Int32 x:Key="ComboBoxPopupMaxNumberOfItems">15</x:Int32>
   <x:Int32 x:Key="ComboBoxPopupMaxNumberOfItemsThatCanBeShownOnOneSide">7</x:Int32>
+
+  <!-- The editable field: the frameless field terms, with the field's OWN disabled dim cancelled.
+       The ComboBox dims the whole box once (Rule 6), so a second dim on the field inside it
+       would take the typed text down to 0.09 of its role colour and the text would be all but
+       invisible. The field therefore dims exactly once, exactly like a plain disabled TextBox -->
+  <ControlTheme x:Key="DefaultComboBoxEditableField" TargetType="TextBox" BasedOn="{StaticResource DefaultFramelessTextBox}">
+    <Style Selector="^:disabled">
+      <Setter Property="Opacity" Value="1" />
+    </Style>
+  </ControlTheme>
 
   <ControlTheme x:Key="{x:Type ComboBox}" TargetType="ComboBox">
 
@@ -212,7 +231,7 @@
 
             <!-- The editable text, when editable -->
             <TextBox Name="PART_EditableTextBox"
-                     Theme="{StaticResource DefaultFramelessTextBox}"
+                     Theme="{StaticResource DefaultComboBoxEditableField}"
                      Grid.Column="0"
                      Padding="{TemplateBinding Padding}"
                      HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
@@ -326,8 +345,8 @@
     <!-- Focus state (Rule 21): the frame takes the focus weight and colour; neutral borrows magenta, an accented box keeps its own hue while FocusColorOnAccents is off -->
     <Style Selector="^:focus-visible /template/ Border#Background,
                      ^[(theme|Preview.State)=Focused] /template/ Border#Background">
-      <Setter Property="BorderBrush" Value="{default:FocusBrush}" />
-      <Setter Property="BorderThickness" Value="{default:FocusThickness}" />
+      <Setter Property="BorderBrush" Value="{color:AccentFocusBorderBrush}" />
+      <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
     </Style>
 
     <!-- Error state -->

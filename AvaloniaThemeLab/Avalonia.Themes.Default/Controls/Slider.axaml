@@ -157,7 +157,7 @@
          visible (the same stage ProgressBar's empty track takes), and the filled column takes the
          control's hue through the solid-fill policy, exactly as ProgressBar's fill does -->
     <Setter Property="Background" Value="{color:HoverBackgroundDefault}" />
-    <Setter Property="Foreground" Value="{default:SolidFill}" />
+    <Setter Property="Foreground" Value="{color:SolidFillDefaultBrush}" />
     <Setter Property="BorderThickness" Value="0" />
     <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
@@ -378,7 +378,7 @@
     <Style Selector="^ /template/ Thumb">
       <Setter Property="Width" Value="{size:IconSizeMd}" />
       <Setter Property="Height" Value="{size:IconSizeMd}" />
-      <Setter Property="Background" Value="{default:SolidFill}" />
+      <Setter Property="Background" Value="{color:SolidFillDefaultBrush}" />
       <Setter Property="CornerRadius" Value="{size:RadiusMd}" />
     </Style>
 
@@ -427,20 +427,20 @@
     <!-- Hover state: the thumb steps toward ink, the fill deepens one stage -->
     <Style Selector="^:pointerover, ^[(theme|Preview.State)=Hover]">
       <Style Selector="^ /template/ Thumb">
-        <Setter Property="Background" Value="{default:SolidFillHover}" />
+        <Setter Property="Background" Value="{color:SolidFillHoverBrush}" />
       </Style>
       <Style Selector="^ /template/ RepeatButton#PART_DecreaseButton">
-        <Setter Property="Background" Value="{default:SolidFillHover}" />
+        <Setter Property="Background" Value="{color:SolidFillHoverBrush}" />
       </Style>
     </Style>
 
     <!-- Pressed state: one stage deeper again -->
     <Style Selector="^:pressed, ^[(theme|Preview.State)=Pressed]">
       <Style Selector="^ /template/ Thumb">
-        <Setter Property="Background" Value="{default:SolidFillPressed}" />
+        <Setter Property="Background" Value="{color:SolidFillPressedBrush}" />
       </Style>
       <Style Selector="^ /template/ RepeatButton#PART_DecreaseButton">
-        <Setter Property="Background" Value="{default:SolidFillPressed}" />
+        <Setter Property="Background" Value="{color:SolidFillPressedBrush}" />
       </Style>
     </Style>
 
@@ -452,8 +452,8 @@
     <!-- Focus state (Rule 21: the switch decides between the focus colour and the control's own hue) -->
     <Style Selector="^:focus-visible, ^[(theme|Preview.State)=Focused]">
       <Style Selector="^ /template/ Thumb">
-        <Setter Property="BorderBrush" Value="{default:FocusBrush}" />
-        <Setter Property="BorderThickness" Value="{default:FocusThickness}" />
+        <Setter Property="BorderBrush" Value="{color:AccentFocusBorderBrush}" />
+        <Setter Property="BorderThickness" Value="0" />
       </Style>
     </Style>
 

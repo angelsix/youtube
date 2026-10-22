@@ -264,8 +264,8 @@
     <!-- Focus state (Rule 21: the switch decides between the focus colour and the control's own hue) -->
     <Style Selector="^:focus-visible /template/ Button#PART_FlyoutButton,
                      ^[(theme|Preview.State)=Focused] /template/ Button#PART_FlyoutButton">
-      <Setter Property="BorderBrush" Value="{default:FocusBrush}" />
-      <Setter Property="BorderThickness" Value="{default:FocusThickness}" />
+      <Setter Property="BorderBrush" Value="{color:AccentFocusBorderBrush}" />
+      <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
     </Style>
 
     <!-- Error state -->
@@ -277,6 +277,16 @@
   <!-- ============================================================
        Pop-up presenter
        ============================================================ -->
+  <!-- The declared reason the pop-up presenter has no gallery entry of its own (task 176): the
+       pop-up is met inside the TimePicker that opens it, and the crawler's picker action opens it
+       there. The gallery lists a control only when the theme gives it a {Name}Preview, so without
+       this marker the presenter would vanish from the gallery with no record of why. -->
+
+  <default:PreviewShownIn x:Key="TimePickerPresenterPreviewShownIn"
+                           ShownIn="{x:Type TimePicker}"
+                           Reason="The pop-up presenter is met inside the picker that opens it." />
+
+
   <ControlTheme x:Key="{x:Type TimePickerPresenter}" TargetType="TimePickerPresenter">
     <Setter Property="Background" Value="{color:BackgroundDefault}" />
     <Setter Property="Foreground" Value="{color:TextDefault}" />

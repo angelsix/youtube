@@ -58,9 +58,9 @@
     <Setter Property="MinWidth" Value="{size:ThicknessXxlDouble}" />
     <Setter Property="MinHeight" Value="{size:ThicknessXxlDouble}" />
     <!-- Filled grip: a solid bar that stands out from the panes it divides. The solid-fill policy
-         ({default:SolidFill}) picks the face from the control's own hue, so a light-seeded hue takes
+         ({color:SolidFillDefaultBrush}) picks the face from the control's own hue, so a light-seeded hue takes
          the bright face instead of the deep ink column (task 149) -->
-    <Setter Property="Background" Value="{default:SolidFill}" />
+    <Setter Property="Background" Value="{color:SolidFillDefaultBrush}" />
     <Setter Property="Foreground" Value="{color:TextDefault}" />
     <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
 
@@ -78,12 +78,12 @@
 
     <!-- Hover state: the grip deepens so it reads as grabbable -->
     <Style Selector="^:pointerover:not(:disabled)">
-      <Setter Property="Background" Value="{default:SolidFillHover}" />
+      <Setter Property="Background" Value="{color:SolidFillHoverBrush}" />
     </Style>
 
     <!-- Pressed state: deepest while the pointer holds it -->
     <Style Selector="^:pressed">
-      <Setter Property="Background" Value="{default:SolidFillPressed}" />
+      <Setter Property="Background" Value="{color:SolidFillPressedBrush}" />
     </Style>
 
     <!-- Disabled state -->
@@ -93,8 +93,8 @@
 
     <!-- Focus state (Rule 21: the switch decides between the focus colour and the control's own hue) -->
     <Style Selector="^:focus-visible">
-      <Setter Property="BorderBrush" Value="{default:FocusBrush}" />
-      <Setter Property="BorderThickness" Value="{default:FocusThickness}" />
+      <Setter Property="BorderBrush" Value="{color:AccentFocusBorderBrush}" />
+      <Setter Property="BorderThickness" Value="0" />
     </Style>
   </ControlTheme>
 </ResourceDictionary>

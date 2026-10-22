@@ -1,0 +1,41 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:size="using:AngelSix.ThemeEngine.Sizes">
+  <!-- The rules a ControlTheme cannot hold.
+       Avalonia 12.0.1 refuses a child or descendant selector inside a ControlTheme
+       (Selector.ValidateNestingSelector throws "ControlTheme style may not directly
+       contain a child or descendent selector"), and a page's own theme cannot see
+       its host: the relationship "this page is inside a TabbedPage whose strip docks
+       on side N" is invisible to every selector that starts at the page.
+       These rules therefore live in the theme's application-level Styles collection,
+       where a descendant selector is legal and where they outrank the page's own
+       ControlTheme: a rule with an activator is a StyleTrigger and a plain rule is a
+       Style, and both outrank the implicit ControlTheme's StyleTheme. -->
+
+  <!-- Squares the hosted page's tab-side corners (Rule 19). The tab strip's side is
+       a fact the theme can key on: Avalonia's TabbedPage carries a TabPlacement, and
+       the hosted page is that TabbedPage's logical child, so the rule reads the edge
+       the strip docks on and squares the hosted page's pair of corners that meet it.
+       The border THICKNESS is untouched: only the CORNERS change, and only the pair
+       meeting the strip — the opposite pair keeps the theme radius. -->
+
+  <!-- The strip docks on top: the page's TOP pair squares and meets the strip. -->
+  <Style Selector="TabbedPage[TabPlacement=Top] ContentPage">
+    <Setter Property="CornerRadius" Value="{size:Corners Radius={size:RadiusSm}, Bottom=True}" />
+  </Style>
+
+  <!-- The strip docks on the bottom: the page's BOTTOM pair squares. -->
+  <Style Selector="TabbedPage[TabPlacement=Bottom] ContentPage">
+    <Setter Property="CornerRadius" Value="{size:Corners Radius={size:RadiusSm}, Top=True}" />
+  </Style>
+
+  <!-- The strip docks on the left: the page's LEFT pair squares. -->
+  <Style Selector="TabbedPage[TabPlacement=Left] ContentPage">
+    <Setter Property="CornerRadius" Value="{size:Corners Radius={size:RadiusSm}, Right=True}" />
+  </Style>
+
+  <!-- The strip docks on the right: the page's RIGHT pair squares. -->
+  <Style Selector="TabbedPage[TabPlacement=Right] ContentPage">
+    <Setter Property="CornerRadius" Value="{size:Corners Radius={size:RadiusSm}, Left=True}" />
+  </Style>
+</Styles>

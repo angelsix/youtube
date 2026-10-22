@@ -27,11 +27,15 @@
                  FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}"
                  Text="Start and end grips bracket the selection. Drag the end grip right to widen the selection, the start grip left to narrow it." />
 
-      <!-- Second example: no selection, the caret grip under an insertion point (character 15, right after 'brown') -->
+      <!-- Second example: no selection, the caret grip under an insertion point (character 15, right after 'brown').
+           ShowCaretGrip says this example carries the CARET grip: it is shown while the field has no
+           selection, and it is hidden the moment a selection exists. The selection example above
+           does not carry it, so emptying its selection leaves it with no grips at all. -->
       <design:TextSelectionHandleDemo Width="360"
                                        Margin="{size:Edges Bottom={size:SpacingLg}}"
                                        Text="The quick brown fox jumps over the lazy dog"
-                                       SelectionStart="15" SelectionEnd="15" CaretIndex="15" />
+                                       SelectionStart="15" SelectionEnd="15" CaretIndex="15"
+                                       ShowCaretGrip="True" />
 
       <TextBlock Width="360" TextWrapping="Wrap"
                  FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}"

@@ -227,8 +227,9 @@
 
     <!-- Focus visible (Rule 21: the switch decides between the focus colour and the control's own hue) -->
     <Style Selector="^:focus-visible /template/ Border#PART_LayoutRoot">
-      <Setter Property="BorderBrush" Value="{default:FocusBrush}" />
-      <Setter Property="BorderThickness" Value="{default:FocusThickness}" />
+      <Setter Property="BorderBrush" Value="{color:AccentFocusBorderBrush}" />
+      <!-- The focus weight equals the tab's resting weight (0), so focusing a tab never resizes it -->
+      <Setter Property="BorderThickness" Value="0" />
     </Style>
 
     <!-- Themed properties moved out of ControlTemplate -->
@@ -250,9 +251,6 @@
          the tabs, and a selector needs a definite value to match. Auto would resolve to Top on desktop
          and Bottom on mobile, and the page's corners would follow the platform, not the theme. -->
     <Setter Property="TabPlacement" Value="Top" />
-    <!-- Squares the hosted page's tab-side corners (Rule 19): no selector reaches the page from the
-         theme, so the behaviour installs the corner rules where the page consults them -->
-    <Setter Property="(default:PageContentCorners.Apply)" Value="True" />
     <Setter Property="Template">
       <ControlTemplate>
         <!-- Layout root for the tabbed page -->

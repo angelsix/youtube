@@ -195,8 +195,8 @@
     <!-- Focus: the item's own inset border (Rule 21); neutral borrows the focus colour, an accented item keeps its own hue -->
     <Style Selector="^:focus-visible /template/ Border#PART_LayoutRoot,
                      ^[(theme|Preview.State)=Focused] /template/ Border#PART_LayoutRoot">
-      <Setter Property="BorderBrush" Value="{default:FocusBrush}" />
-      <Setter Property="BorderThickness" Value="{default:FocusThickness}" />
+      <Setter Property="BorderBrush" Value="{color:AccentFocusBorderBrush}" />
+      <Setter Property="BorderThickness" Value="0" />
     </Style>
   </ControlTheme>
 

@@ -87,8 +87,13 @@
          one unit. The Label's own bottom padding is dropped (the field's own padding is the gap
          that shows), which pulls the text down onto the field instead of leaving a band of empty
          canvas between them. The Bottom edge is left unset, which is 0: the theme's zero padding
-         is an unset edge, never a literal. The pseudo-class is set by the LabelPairing behaviour,
-         which is the only way to see "the Label names a field" — see Theme/LabelPairingBehavior.cs. -->
+         is an unset edge, never a literal.
+         The pseudo-class is set by the LabelPairing behaviour, and it has to stay: neither half of
+         "the Label names a field" is expressible as a selector in Avalonia 12.0.1. A property-match
+         selector cannot read Label.Target (an IInputElement, which no literal converts to: the
+         compiler refuses it with AVLN2000), and there is no adjacent-sibling combinator (the
+         compiler refuses '+' with AVLN2201), so a field stacked directly under the Label cannot be
+         named from a selector either. See Theme/LabelPairingBehavior.cs. -->
     <Style Selector="^:paired">
       <Setter Property="Padding" Value="{size:Edges Top={size:ContentPadding}, Left={size:ContentPadding}, Right={size:ContentPadding}}" />
     </Style>

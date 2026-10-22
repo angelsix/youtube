@@ -6,6 +6,15 @@
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes">
   <!-- The item theme has no gallery entry of its own (task 137): the drop-down's rows are shown
        inside the ComboBox preview, where a user actually meets them. -->
+  <!-- The declared reason for that (task 176): the gallery lists a control only when the theme
+       gives it a {Name}Preview, so a control shown inside another entry would otherwise vanish
+       from the gallery with no record of why. This marker IS the record: it names the entry that
+       shows the row, and the gallery reads it as a deliberate exclusion. -->
+
+  <default:PreviewShownIn x:Key="ComboBoxItemPreviewShownIn"
+                           ShownIn="{x:Type ComboBox}"
+                           Reason="A drop-down row is met inside the drop-down that holds it." />
+
 
   <!-- ============================================================
        Template
@@ -95,8 +104,8 @@
          is beaten by them, which left a selected row's keyboard focus invisible (AVLG031/AVLG033). -->
     <Style Selector="^:focus-visible /template/ ContentPresenter#PART_ContentPresenter,
                      ^:selected:focus-visible /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="BorderBrush" Value="{default:FocusBrush}" />
-      <Setter Property="BorderThickness" Value="{default:FocusThickness}" />
+      <Setter Property="BorderBrush" Value="{color:AccentFocusBorderBrush}" />
+      <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
     </Style>
 
   </ControlTheme>

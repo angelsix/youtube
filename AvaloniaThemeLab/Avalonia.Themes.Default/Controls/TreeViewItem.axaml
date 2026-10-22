@@ -10,6 +10,15 @@
   <!-- The TreeViewItem theme lives on; its gallery entry does not (task 140: a node is met inside the
        tree that holds it, so the standalone TreeViewItem preview is retired and every node state now
        rides inside the TreeView preview). The ControlTheme below is unchanged -->
+  <!-- The declared reason for that (task 176): the gallery lists a control only when the theme
+       gives it a {Name}Preview, so a control shown inside another entry would otherwise vanish
+       from the gallery with no record of why. This marker IS the record: it names the entry that
+       shows the node, and the gallery reads it as a deliberate exclusion. -->
+
+  <default:PreviewShownIn x:Key="TreeViewItemPreviewShownIn"
+                           ShownIn="{x:Type TreeView}"
+                           Reason="A node is met inside the tree that holds it." />
+
 
   <!-- Chevron sub-theme -->
   <ControlTheme x:Key="DefaultTreeViewExpandCollapseChevron" TargetType="ToggleButton">
@@ -200,8 +209,8 @@
 
     <!-- Focus state (Rule 21: the switch decides between the focus colour and the control's own hue) -->
     <Style Selector="^:focus-visible /template/ Border#PART_LayoutRoot">
-      <Setter Property="BorderBrush" Value="{default:FocusBrush}" />
-      <Setter Property="BorderThickness" Value="{default:FocusThickness}" />
+      <Setter Property="BorderBrush" Value="{color:AccentFocusBorderBrush}" />
+      <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
     </Style>
   </ControlTheme>
 </ResourceDictionary>

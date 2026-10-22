@@ -21,6 +21,18 @@ namespace Avalonia.Themes.Default;
 /// and <c>:nth-child</c> counts from the start of the parent, so it cannot say "the one after me"
 /// either. So the theme reads both signals here, where code can, and reports the answer as a
 /// pseudo-class the Label's own ControlTheme styles.</para>
+/// <para><b>Why this file stays (task 174, measured on Avalonia 12.0.1):</b> the two limits above
+/// were confirmed against the compiler, not assumed. A property-match selector on the Target
+/// refuses to compile at all — <c>Label[Target=FieldInput]</c> fails with <c>AVLN2000: Cannot
+/// convert 'FieldInput' to 'Avalonia.Input.IInputElement'</c>, because a property match converts
+/// its literal to the property's type at compile time and <c>IInputElement</c> is an interface with
+/// no converter. The adjacent-sibling relation has no syntax: <c>Label + TextBox</c> fails with
+/// <c>AVLN2201: Unable to parse selector: Expected an identifier, got '+'</c>, because Avalonia's
+/// selector grammar (<c>Avalonia.Markup.Parsers/SelectorGrammar.cs</c>) knows only the child
+/// combinator, the descendant combinator, <c>/template/</c>, and the <c>is()</c>, <c>not()</c>,
+/// <c>:nth-child()</c> and <c>:nth-last-child()</c> pseudo-classes. <c>:nth-child()</c> counts an
+/// element from the START of its parent, so it cannot say "the one after me" either, and Avalonia
+/// has no concept of a Grid row and column for a selector to match on.</para>
 /// <para><b>Which signal wins:</b> <see cref="Label.Target"/> first, because it is the explicit
 /// statement of intent; the control directly after the Label is the fallback, for the common
 /// caption-over-a-field stack where nobody bothered to wire a Target. A Label that names

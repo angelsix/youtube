@@ -135,6 +135,16 @@
   <!-- ============================================================
        Day cell
        ============================================================ -->
+  <!-- The declared reason the day cell has no gallery entry of its own (task 176): a cell is met
+       inside the calendar that holds it, and the CalendarView preview shows the grid. The gallery
+       lists a control only when the theme gives it a {Name}Preview, so without this marker the cell
+       would vanish from the gallery with no record of why. -->
+
+  <default:PreviewShownIn x:Key="CalendarViewCellPreviewShownIn"
+                           ShownIn="{x:Type controls:CalendarView}"
+                           Reason="A day cell is met inside the calendar that holds it." />
+
+
   <ControlTheme x:Key="{x:Type controls:CalendarViewCell}" TargetType="controls:CalendarViewCell">
 
     <!-- Visual defaults -->

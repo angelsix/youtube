@@ -5,6 +5,13 @@
                     xmlns:color="using:AngelSix.ThemeEngine.Colors"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes">
   <!-- No design preview: a popup host is populated by popups opened at runtime; empty standalone it shows no chrome of its own -->
+  <!-- The declared reason for that (task 176): the gallery lists a control only when the theme gives
+       it a {Name}Preview, so this host would vanish from the gallery with no record of why. The
+       marker is that record: it is filled by a popup at runtime, never shown on its own. -->
+
+  <default:PreviewExcluded x:Key="OverlayPopupHostPreviewExcluded"
+                            Reason="A popup host is filled by a popup opened at runtime." />
+
   <ControlTheme x:Key="{x:Type OverlayPopupHost}" TargetType="OverlayPopupHost">
     <!-- Visual defaults -->
     <Setter Property="Foreground" Value="{color:TextDefault}"/>

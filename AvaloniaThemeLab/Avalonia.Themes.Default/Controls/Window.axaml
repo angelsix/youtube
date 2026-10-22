@@ -5,6 +5,13 @@
                     xmlns:color="using:AngelSix.ThemeEngine.Colors"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes">
   <!-- No design preview: a Window is a TopLevel that opens as its own OS surface; it cannot nest inside a preview pane -->
+  <!-- The declared reason for that (task 176): the gallery lists a control only when the theme gives
+       it a {Name}Preview, so the window would vanish from the gallery with no record of why. The
+       marker is that record: a window is its own OS surface, never a preview pane's content. -->
+
+  <default:PreviewExcluded x:Key="WindowPreviewExcluded"
+                            Reason="A window opens as its own OS surface." />
+
   <ControlTheme x:Key="{x:Type Window}" TargetType="Window">
     <!-- Canvas color: SurfaceDefault follows the palette -->
     <Setter Property="Background" Value="{color:SurfaceDefaultBrush}"/>

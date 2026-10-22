@@ -115,14 +115,15 @@
         </TabControl>
       </WrapPanel>
 
-      <!-- Tabs down the left and down the right, stacked: each names the tab that is open;
-           shorter than the top examples so the whole preview fits the default window without scrolling -->
-      <StackPanel Orientation="Vertical" Spacing="{size:SpacingSm}">
+      <!-- Tabs down the left and down the right, stacked: each names the tab that is open.
+           Each control takes the FULL preview width (the container's alignment stretches it), so the
+           page beside the strip has room for its text; a fixed 200px cut the page short. -->
+      <StackPanel Orientation="Vertical" Spacing="{size:SpacingLg}">
         <Label Content="Tabs on the left and right" Foreground="{color:DimTextDefault}" FontSize="{size:FontSizeMd}" />
-        <!-- Side by side so the pair costs one row of height and the preview stays inside the default
-             window; each stacks its two tabs down one column along the content's edge -->
-        <WrapPanel Orientation="Horizontal" ItemSpacing="{size:SpacingLg}" LineSpacing="{size:SpacingLg}">
-          <TabControl TabStripPlacement="Left" Width="200" Height="90">
+        <!-- One above the other, each stretched to the pane's width: a vertical strip leaves the
+             whole content area to the page, so the page text shows in full -->
+        <StackPanel Orientation="Vertical" Spacing="{size:SpacingLg}">
+          <TabControl TabStripPlacement="Left" HorizontalAlignment="{theme:ContainerHorizontalAlignment}" Height="90">
             <TabItem Header="First" IsSelected="True">
               <TextBlock Text="First is open" Foreground="{color:TextDefault}" VerticalAlignment="Center" />
             </TabItem>
@@ -130,7 +131,7 @@
               <TextBlock Text="Second is open" Foreground="{color:TextDefault}" VerticalAlignment="Center" />
             </TabItem>
           </TabControl>
-          <TabControl TabStripPlacement="Right" Width="200" Height="90">
+          <TabControl TabStripPlacement="Right" HorizontalAlignment="{theme:ContainerHorizontalAlignment}" Height="90">
             <TabItem Header="Third" IsSelected="True">
               <TextBlock Text="Third is open" Foreground="{color:TextDefault}" VerticalAlignment="Center" />
             </TabItem>
@@ -138,7 +139,7 @@
               <TextBlock Text="Fourth is open" Foreground="{color:TextDefault}" VerticalAlignment="Center" />
             </TabItem>
           </TabControl>
-        </WrapPanel>
+        </StackPanel>
       </StackPanel>
     </StackPanel>
   </DataTemplate>

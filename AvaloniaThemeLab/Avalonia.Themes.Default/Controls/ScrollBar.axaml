@@ -103,15 +103,15 @@
   <!-- ScrollBar Thumb sub-theme -->
   <ControlTheme x:Key="DefaultScrollBarThumb" TargetType="Thumb">
     <!-- Visual defaults: the thumb is the DARKER element — it takes the solid-face fill policy
-         ({default:SolidFill} rest, {default:SolidFillHover} hover, {default:SolidFillPressed} pressed)
+         ({color:SolidFillDefaultBrush} rest, {color:SolidFillHoverBrush} hover, {color:SolidFillPressedBrush} pressed)
          over the light-neutral groove, so it stands out in light and flips to the lighter element in dark -->
     <!-- The thumb takes the control's own hue at the solid-face stages, so an accented bar shows that
          accent in its thumb; the groove behind it recedes one stage lighter. The line buttons' arrow
          glyphs take the SAME policy, so an arrow is always exactly the thumb's colour in every state
          (Luke, 20 Oct 2026) -->
-    <Setter Property="Background" Value="{default:SolidFill}"/>
+    <Setter Property="Background" Value="{color:SolidFillDefaultBrush}"/>
     <Setter Property="Foreground" Value="{color:TextDefault}" />
-    <Setter Property="BorderBrush" Value="{default:SolidFill}"/>
+    <Setter Property="BorderBrush" Value="{color:SolidFillDefaultBrush}"/>
     <Setter Property="BorderThickness" Value="0"/>
     <!-- The thumb's radius: a CornerRadius-typed token that renders as EXACTLY HALF the thumb's own
          thickness (Avalonia clamps a corner to half the element), so both ends are true half-circles,
@@ -149,12 +149,12 @@
 
     <!-- Hover state: one fill stage deeper than rest, the same stage the arrow takes -->
     <Style Selector="^:pointerover /template/ Border">
-      <Setter Property="Background" Value="{default:SolidFillHover}" />
+      <Setter Property="Background" Value="{color:SolidFillHoverBrush}" />
     </Style>
 
     <!-- Pressed state: deepest fill stage, the same stage the arrow takes -->
     <Style Selector="^:pressed  /template/ Border">
-      <Setter Property="Background" Value="{default:SolidFillPressed}" />
+      <Setter Property="Background" Value="{color:SolidFillPressedBrush}" />
     </Style>
   </ControlTheme>
 
@@ -191,7 +191,7 @@
     <Setter Property="Background" Value="Transparent"/>
     <!-- The arrow glyph takes the SAME solid-face roles as the thumb, so an arrow is always exactly
          the thumb's colour in every state (Luke, 20 Oct 2026) -->
-    <Setter Property="Foreground" Value="{default:SolidFill}" />
+    <Setter Property="Foreground" Value="{color:SolidFillDefaultBrush}" />
     <Setter Property="BorderBrush" Value="Transparent"/>
     <Setter Property="BorderThickness" Value="0"/>
     <Setter Property="CornerRadius" Value="{size:RadiusSm}"/>
@@ -225,13 +225,13 @@
     <!-- Hover state: the outlined column's hover stages of the bar's own hue -->
     <Style Selector="^:pointerover:not(:disabled)">
       <Setter Property="Background" Value="{color:HoverBackgroundDefault}" />
-      <Setter Property="Foreground" Value="{default:SolidFillHover}" />
+      <Setter Property="Foreground" Value="{color:SolidFillHoverBrush}" />
     </Style>
 
     <!-- Pressed state -->
     <Style Selector="^:pressed:not(:disabled)">
       <Setter Property="Background" Value="{color:PressedBackgroundDefault}" />
-      <Setter Property="Foreground" Value="{default:SolidFillPressed}" />
+      <Setter Property="Foreground" Value="{color:SolidFillPressedBrush}" />
     </Style>
   </ControlTheme>
 

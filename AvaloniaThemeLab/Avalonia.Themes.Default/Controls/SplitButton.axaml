@@ -250,33 +250,33 @@
          Painted on the frame part, as Button does: the control's own border metrics stay put,
          so nothing relays the ring into the neighbour rows' layout -->
     <Style Selector="^:focus-visible /template/ Border#RootBorder, ^[(theme|Preview.State)=Focused] /template/ Border#RootBorder">
-      <Setter Property="BorderBrush" Value="{default:FocusBrush}" />
-      <Setter Property="BorderThickness" Value="{default:FocusThickness}" />
+      <Setter Property="BorderBrush" Value="{color:AccentFocusBorderBrush}" />
+      <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
     </Style>
 
     <!-- ============================================================
-         Checked column (filled): the solid-fill face ({default:SolidFill}) and its on-fill
-         ink ({default:OnSolidInk}) — both chosen by the solid-fill policy
+         Checked column (filled): the solid-fill face ({color:SolidFillDefaultBrush}) and its on-fill
+         ink ({color:OnSolidFillInkDefaultBrush}) — both chosen by the solid-fill policy
          ============================================================ -->
 
     <!-- Checked default: the solid-fill face with the on-fill ink the policy picks for it -->
     <Style Selector="^:checked">
-      <Setter Property="Background" Value="{default:SolidFill}" />
-      <Setter Property="Foreground" Value="{default:OnSolidInk}" />
+      <Setter Property="Background" Value="{color:SolidFillDefaultBrush}" />
+      <Setter Property="Foreground" Value="{color:OnSolidFillInkDefaultBrush}" />
     </Style>
 
-    <!-- Checked hover: the solid face steps one stage deeper ({default:SolidFillHover}); the on-fill ink
+    <!-- Checked hover: the solid face steps one stage deeper ({color:SolidFillHoverBrush}); the on-fill ink
          is re-picked against that face, so it keeps >= 4.5:1 whichever column the hue wears -->
     <Style Selector="^:checked:pointerover:not(:disabled), ^:checked[(theme|Preview.State)=Hover]:not(:disabled)">
-      <Setter Property="Background" Value="{default:SolidFillHover}" />
-      <Setter Property="Foreground" Value="{default:OnSolidInk}" />
+      <Setter Property="Background" Value="{color:SolidFillHoverBrush}" />
+      <Setter Property="Foreground" Value="{color:OnSolidFillInkDefaultBrush}" />
     </Style>
 
-    <!-- Checked pressed: the solid face steps two stages deeper ({default:SolidFillPressed}); the on-fill ink
+    <!-- Checked pressed: the solid face steps two stages deeper ({color:SolidFillPressedBrush}); the on-fill ink
          is re-picked against that face, so it keeps >= 4.5:1 whichever column the hue wears -->
     <Style Selector="^:checked:pressed:not(:disabled), ^:checked[(theme|Preview.State)=Pressed]:not(:disabled)">
-      <Setter Property="Background" Value="{default:SolidFillPressed}" />
-      <Setter Property="Foreground" Value="{default:OnSolidInk}" />
+      <Setter Property="Background" Value="{color:SolidFillPressedBrush}" />
+      <Setter Property="Foreground" Value="{color:OnSolidFillInkDefaultBrush}" />
     </Style>
 
     <!-- Checked and disabled: the filled column stays under the whole-control dim above,

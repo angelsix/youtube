@@ -106,8 +106,11 @@
 
     <!-- Focus state (Rule 21: the switch decides between the focus colour and the control's own hue) -->
     <Style Selector="^:focus-visible, ^[(theme|Preview.State)=Focused]">
-      <Setter Property="BorderBrush" Value="{default:FocusBrush}" />
-      <Setter Property="BorderThickness" Value="{default:FocusThickness}" />
+      <Setter Property="BorderBrush" Value="{color:AccentFocusBorderBrush}" />
+      <!-- The focus weight is 0, the weight the PINNED focus example has always drawn (task 175):
+           the focus border is announced by its COLOUR, and a 1px frame would grow the control
+           by 2px and shift every row below it -->
+      <Setter Property="BorderThickness" Value="0" />
     </Style>
 
     <!-- Visited state: stays at the accent text stage (Dark3). The former Dark2 was lighter than

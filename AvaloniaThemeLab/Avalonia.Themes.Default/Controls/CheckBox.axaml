@@ -181,69 +181,69 @@
     <!-- Focus state (Rule 21: the switch decides between the focus colour and the control's own hue).
          Painted on the box part, as Button does on its face: the control's own border metrics stay put -->
     <Style Selector="^:focus-visible /template/ Border#NormalRectangle, ^[(theme|Preview.State)=Focused] /template/ Border#NormalRectangle">
-      <Setter Property="BorderBrush" Value="{default:FocusBrush}" />
-      <Setter Property="BorderThickness" Value="{default:FocusThickness}" />
+      <Setter Property="BorderBrush" Value="{color:AccentFocusBorderBrush}" />
+      <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
     </Style>
 
-    <!-- Checked state: a filled control (the solid-fill face from {default:SolidFill}, with the
-         on-fill ink tick from {default:OnSolidInk} — the policy picks both from the hue) -->
+    <!-- Checked state: a filled control (the solid-fill face from {color:SolidFillDefaultBrush}, with the
+         on-fill ink tick from {color:OnSolidFillInkDefaultBrush} — the policy picks both from the hue) -->
     <Style Selector="^:checked">
-      <Setter Property="Background" Value="{default:SolidFill}" />
-      <Setter Property="BorderBrush" Value="{default:SolidFill}" />
+      <Setter Property="Background" Value="{color:SolidFillDefaultBrush}" />
+      <Setter Property="BorderBrush" Value="{color:SolidFillDefaultBrush}" />
 
       <Style Selector="^ /template/ Path#CheckGlyph">
         <Setter Property="Opacity" Value="1" />
         <!-- The tick rides the solid fill, so it takes the on-solid ink: whichever of white or the
              near-black text role reads with the higher contrast on that face -->
-        <Setter Property="Fill" Value="{default:OnSolidInk}" />
-        <Setter Property="Stroke" Value="{default:OnSolidInk}" />
+        <Setter Property="Fill" Value="{color:OnSolidFillInkDefaultBrush}" />
+        <Setter Property="Stroke" Value="{color:OnSolidFillInkDefaultBrush}" />
       </Style>
     </Style>
 
-    <!-- Checked and hovering: the solid face steps one stage deeper ({default:SolidFillHover}); the tick
+    <!-- Checked and hovering: the solid face steps one stage deeper ({color:SolidFillHoverBrush}); the tick
          keeps the on-solid ink, re-picked against that face and clearing >= 4.5:1 on it -->
     <Style Selector="^:checked:pointerover, ^:checked[(theme|Preview.State)=Hover]">
-      <Setter Property="Background" Value="{default:SolidFillHover}" />
-      <Setter Property="BorderBrush" Value="{default:SolidFillHover}" />
+      <Setter Property="Background" Value="{color:SolidFillHoverBrush}" />
+      <Setter Property="BorderBrush" Value="{color:SolidFillHoverBrush}" />
 
       <Style Selector="^ /template/ Path#CheckGlyph">
-        <Setter Property="Fill" Value="{default:OnSolidInk}" />
-        <Setter Property="Stroke" Value="{default:OnSolidInk}" />
+        <Setter Property="Fill" Value="{color:OnSolidFillInkDefaultBrush}" />
+        <Setter Property="Stroke" Value="{color:OnSolidFillInkDefaultBrush}" />
       </Style>
     </Style>
 
-    <!-- Checked and pressed: the solid face steps two stages deeper ({default:SolidFillPressed}); the tick
+    <!-- Checked and pressed: the solid face steps two stages deeper ({color:SolidFillPressedBrush}); the tick
          keeps the on-solid ink, re-picked against that face and clearing >= 4.5:1 on it -->
     <Style Selector="^:checked:pressed, ^:checked[(theme|Preview.State)=Pressed]">
-      <Setter Property="Background" Value="{default:SolidFillPressed}" />
-      <Setter Property="BorderBrush" Value="{default:SolidFillPressed}" />
+      <Setter Property="Background" Value="{color:SolidFillPressedBrush}" />
+      <Setter Property="BorderBrush" Value="{color:SolidFillPressedBrush}" />
 
       <Style Selector="^ /template/ Path#CheckGlyph">
-        <Setter Property="Fill" Value="{default:OnSolidInk}" />
-        <Setter Property="Stroke" Value="{default:OnSolidInk}" />
+        <Setter Property="Fill" Value="{color:OnSolidFillInkDefaultBrush}" />
+        <Setter Property="Stroke" Value="{color:OnSolidFillInkDefaultBrush}" />
       </Style>
     </Style>
 
     <!-- Indeterminate state: the solid-fill face carries the dash -->
     <Style Selector="^:indeterminate">
-      <Setter Property="Background" Value="{default:SolidFill}" />
-      <Setter Property="BorderBrush" Value="{default:SolidFill}" />
+      <Setter Property="Background" Value="{color:SolidFillDefaultBrush}" />
+      <Setter Property="BorderBrush" Value="{color:SolidFillDefaultBrush}" />
 
       <Style Selector="^ /template/ Border#IndeterminateBox">
         <Setter Property="Opacity" Value="1" />
       </Style>
     </Style>
 
-    <!-- Indeterminate and hovering: the solid face steps one stage deeper ({default:SolidFillHover}) -->
+    <!-- Indeterminate and hovering: the solid face steps one stage deeper ({color:SolidFillHoverBrush}) -->
     <Style Selector="^:indeterminate:pointerover, ^:indeterminate[(theme|Preview.State)=Hover]">
-      <Setter Property="Background" Value="{default:SolidFillHover}" />
-      <Setter Property="BorderBrush" Value="{default:SolidFillHover}" />
+      <Setter Property="Background" Value="{color:SolidFillHoverBrush}" />
+      <Setter Property="BorderBrush" Value="{color:SolidFillHoverBrush}" />
     </Style>
 
-    <!-- Indeterminate and pressed: the solid face steps two stages deeper ({default:SolidFillPressed}) -->
+    <!-- Indeterminate and pressed: the solid face steps two stages deeper ({color:SolidFillPressedBrush}) -->
     <Style Selector="^:indeterminate:pressed, ^:indeterminate[(theme|Preview.State)=Pressed]">
-      <Setter Property="Background" Value="{default:SolidFillPressed}" />
-      <Setter Property="BorderBrush" Value="{default:SolidFillPressed}" />
+      <Setter Property="Background" Value="{color:SolidFillPressedBrush}" />
+      <Setter Property="BorderBrush" Value="{color:SolidFillPressedBrush}" />
     </Style>
 
   </ControlTheme>

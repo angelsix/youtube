@@ -6,6 +6,13 @@
                     xmlns:color="using:AngelSix.ThemeEngine.Colors"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes">
   <!-- No design preview: notifications enter only via Show(), which needs a live TopLevel host; the manager renders empty standalone -->
+  <!-- The declared reason for that (task 176): the gallery lists a control only when the theme gives
+       it a {Name}Preview, so the manager would vanish from the gallery with no record of why. The
+       marker is that record: it is fed by Show() on a live TopLevel, never shown on its own. -->
+
+  <default:PreviewExcluded x:Key="WindowNotificationManagerPreviewExcluded"
+                            Reason="The manager is fed by Show() on a live TopLevel." />
+
   <ControlTheme x:Key="{x:Type WindowNotificationManager}" TargetType="WindowNotificationManager">
     <Setter Property="Margin" Value="0 0" />
     <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />

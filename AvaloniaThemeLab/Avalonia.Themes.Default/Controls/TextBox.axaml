@@ -181,10 +181,10 @@
     <Setter Property="CaretBrush" Value="{color:AccentBorderDefault}" />
     <Setter Property="BorderBrush" Value="{color:BorderDefault}" />
     <!-- Selected text: the filled column (Dark3 fill, Light10 ink), following the hue like every other state.
-         The face and its ink come from the solid-fill policy ({default:SolidFill} / {default:OnSolidInk}), the
+         The face and its ink come from the solid-fill policy ({color:SolidFillDefaultBrush} / {color:OnSolidFillInkDefaultBrush}), the
          same pair SelectableTextBlock and the checked controls use, so a bright-seeded hue takes its bright face -->
-    <Setter Property="SelectionBrush" Value="{default:SolidFill}" />
-    <Setter Property="SelectionForegroundBrush" Value="{default:OnSolidInk}" />
+    <Setter Property="SelectionBrush" Value="{color:SolidFillDefaultBrush}" />
+    <Setter Property="SelectionForegroundBrush" Value="{color:OnSolidFillInkDefaultBrush}" />
     <Setter Property="PlaceholderForeground" Value="{color:DimTextDefault}" />
     <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
     <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
@@ -338,7 +338,7 @@
     <!-- Focus state (Rule 21: the switch decides between the focus colour and the control's own hue) -->
     <Style Selector="^:focus, ^[(theme|Preview.State)=Focused]">
       <Style Selector="^ /template/ Border#PART_BorderElement">
-        <Setter Property="BorderBrush" Value="{default:FocusBrush}" />
+        <Setter Property="BorderBrush" Value="{color:AccentFocusBorderBrush}" />
       </Style>
     </Style>
 

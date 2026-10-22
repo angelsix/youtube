@@ -87,6 +87,17 @@ public sealed class GripShape
 /// written back to the field's selection.
 /// </para>
 /// <para>
+/// <b>THE FIELD IS THE SOURCE OF TRUTH.</b> The grips FOLLOW the field, not the other way round:
+/// the control watches the field's own <see cref="TextBox.SelectionStart"/>,
+/// <see cref="TextBox.SelectionEnd"/>, <see cref="TextBox.CaretIndex"/> and
+/// <see cref="TextBox.Text"/> changes — plus its layout and its scroll offset — and re-seats the
+/// grips on every one of them. So a selection made with the mouse, a double-clicked word, a
+/// shift-and-arrow selection, a dragged grip, a changed text or a scrolled field all leave the
+/// grips standing on the field's REAL selection. The start and end grips are shown only while the
+/// selection is non-empty; the caret grip is shown only in a caret example (see
+/// <see cref="ShowCaretGrip"/>) and only while there is no selection.
+/// </para>
+/// <para>
 /// <b>WHAT IS NOT REINVENTED.</b> The grip's look, its accent and its hit target all come from the
 /// theme's <c>TextSelectionHandle</c> ControlTheme. Only the seating and the drag are this
 /// control's work.
@@ -110,12 +121,35 @@ public sealed class TextSelectionHandleDemo : Canvas
     public static readonly StyledProperty<int> CaretIndexProperty =
         AvaloniaProperty.Register<TextSelectionHandleDemo, int>(nameof(CaretIndex));
 
+    /// <summary>
+    /// Defines the <see cref="ShowCaretGrip"/> property: whether this example carries the CARET
+    /// grip (the grip that stands at a bare insertion point) as well as the selection grips.
+    /// </summary>
+    /// <remarks>
+    /// The caret grip belongs to the CARET example: an example that shows a selection is about the
+    /// start and end grips, and it must not grow a third grip when its selection is emptied. An
+    /// example that sets this property shows the caret grip whenever the field has NO selection,
+    /// and hides it as soon as one exists.
+    /// </remarks>
+    public static readonly StyledProperty<bool> ShowCaretGripProperty =
+        AvaloniaProperty.Register<TextSelectionHandleDemo, bool>(nameof(ShowCaretGrip));
+
     private readonly TextBox _textBox;
     private readonly TextSelectionHandle _startHandle;
     private readonly TextSelectionHandle _endHandle;
     private readonly TextSelectionHandle _caretHandle;
 
     private TextPresenter? _presenter;
+    private ScrollViewer? _scrollWatcher;
+
+    // The room the grips need below the field's line of text, remembered from the last time a
+    // grip was measured. A hidden control measures 0x0, so without this the control would shrink
+    // every time the selection emptied and grow again when one appeared.
+    private double _gripHeight;
+
+    // True while the grips are being seated, so a seating that raises a layout pass cannot
+    // re-enter the seating.
+    private bool _seating;
 
     // The drag in progress: the grip being held, the point in the text it is anchored at, and the
     // pointer's position when it went down.
@@ -153,6 +187,18 @@ public sealed class TextSelectionHandleDemo : Canvas
             grip.PointerMoved += GripMoved;
             grip.PointerReleased += GripReleased;
         }
+
+        // THE FIELD IS THE SOURCE OF TRUTH. Every change the field makes to its own selection,
+        // its caret or its text is watched, so the grips follow the field's REAL selection
+        // whatever made it: a mouse selection, a double-clicked word, a shift-and-arrow
+        // selection, a typed character, or a dragged grip.
+        _textBox.PropertyChanged += FieldPropertyChanged;
+        _textBox.SizeChanged += FieldSizeChanged;
+
+        // A layout pass can move the field's text under the grips (a different width, a different
+        // padding, a re-measured preview), and a scroll moves it without any layout at all. Both
+        // are watched so the grips are re-seated on the text they really stand on.
+        LayoutUpdated += LayoutUpdatedHandler;
     }
 
     /// <summary>The field the grips belong to.</summary>
@@ -195,6 +241,16 @@ public sealed class TextSelectionHandleDemo : Canvas
         set => SetValue(CaretIndexProperty, value);
     }
 
+    /// <summary>
+    /// Whether this example carries the CARET grip — the grip that stands at a bare insertion
+    /// point, shown only while the field has no selection.
+    /// </summary>
+    public bool ShowCaretGrip
+    {
+        get => GetValue(ShowCaretGripProperty);
+        set => SetValue(ShowCaretGripProperty, value);
+    }
+
     /// <inheritdoc />
     protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
     {
@@ -212,6 +268,10 @@ public sealed class TextSelectionHandleDemo : Canvas
         else if (change.Property == CaretIndexProperty)
         {
             _textBox.CaretIndex = change.GetNewValue<int>();
+        }
+        else if (change.Property == ShowCaretGripProperty)
+        {
+            Reseat();
         }
         else if (change.Property == WidthProperty)
         {
@@ -253,12 +313,77 @@ public sealed class TextSelectionHandleDemo : Canvas
         return size;
     }
 
+    /// <summary>
+    /// The field changed its own selection, its caret or its text: the grips are re-seated on the
+    /// field's REAL selection, and the demo's own properties are brought back in step with it.
+    /// </summary>
+    private void FieldPropertyChanged(object? sender, AvaloniaPropertyChangedEventArgs e)
+    {
+        if (e.Property != TextBox.SelectionStartProperty
+            && e.Property != TextBox.SelectionEndProperty
+            && e.Property != TextBox.CaretIndexProperty
+            && e.Property != TextBox.TextProperty)
+            return;
+
+        // THE FIELD IS THE SOURCE OF TRUTH FOR THE GRIPS. The demo's own properties are the
+        // DESIGNER'S PIN — the selection the preview starts with — and they are NOT written back
+        // from the field: a pin that was overwritten by the field's live selection would be
+        // overwritten again by the next theme pass, and the field and its pin would fight.
+        Reseat();
+    }
+
+    /// <summary>The field was resized: its text moved, so the grips move with it.</summary>
+    private void FieldSizeChanged(object? sender, SizeChangedEventArgs e) => Reseat();
+
+    /// <summary>
+    /// A layout pass completed: anything that moved the field's text — a different preview
+    /// width, a re-measured caption, a scrolled pane — is caught here and the grips are re-seated.
+    /// </summary>
+    private void LayoutUpdatedHandler(object? sender, EventArgs e) => Reseat();
+
+    /// <inheritdoc />
+    protected override void OnAttachedToVisualTree(VisualTreeAttachmentEventArgs e)
+    {
+        base.OnAttachedToVisualTree(e);
+
+        // The designer's pin is written onto the field once the control is in the tree, so the
+        // order in which the preview's properties were set cannot leave the field with the
+        // wrong selection.
+        ApplySelection();
+    }
+
+    /// <summary>
+    /// Re-seats the grips on the field's current selection: the visibility first (the measure
+    /// reserves room for the shown grip), then the positions.
+    /// </summary>
+    private void Reseat()
+    {
+        if (_seating)
+            return;
+
+        _seating = true;
+        try
+        {
+            UpdateGripVisibility();
+            SeatGrips();
+        }
+        finally
+        {
+            _seating = false;
+        }
+    }
+
     /// <summary>Writes the demo's selection onto the field.</summary>
     private void ApplySelection()
     {
         var length = _textBox.Text?.Length ?? 0;
-        _textBox.SelectionStart = Math.Clamp(SelectionStart, 0, length);
-        _textBox.SelectionEnd = Math.Clamp(SelectionEnd, 0, length);
+        var start = Math.Clamp(SelectionStart, 0, length);
+        var end = Math.Clamp(SelectionEnd, 0, length);
+
+        if (_textBox.SelectionStart != start)
+            _textBox.SelectionStart = start;
+        if (_textBox.SelectionEnd != end)
+            _textBox.SelectionEnd = end;
     }
 
     /// <summary>Builds one grip and marks the shape it wears.</summary>
@@ -314,9 +439,34 @@ public sealed class TextSelectionHandleDemo : Canvas
         _textBox.GetVisualDescendants().OfType<TextPresenter>().FirstOrDefault();
 
     /// <summary>
+    /// The field's scroll viewer, watched once it exists: a scrolled field moves its text under
+    /// the grips without any layout, so the grips have to be re-seated on the scroll too.
+    /// </summary>
+    private void WatchScroll()
+    {
+        if (_scrollWatcher is not null)
+            return;
+
+        var viewer = _textBox.GetVisualDescendants().OfType<ScrollViewer>().FirstOrDefault();
+        if (viewer is null)
+            return;
+
+        _scrollWatcher = viewer;
+        viewer.PropertyChanged += ScrollChanged;
+    }
+
+    /// <summary>The field scrolled: its text moved, so the grips move with it.</summary>
+    private void ScrollChanged(object? sender, AvaloniaPropertyChangedEventArgs e)
+    {
+        if (e.Property == ScrollViewer.OffsetProperty)
+            Reseat();
+    }
+
+    /// <summary>
     /// Which grips are shown: the start and end grips on a non-empty selection, the caret grip on
-    /// a bare insertion point. Exactly the same rule the seating applies, so the visibility the
-    /// MEASURE reserves room for is the visibility the arrange shows.
+    /// a bare insertion point — and only in an example that carries the caret grip. Exactly the
+    /// same rule the seating applies, so the visibility the MEASURE reserves room for is the
+    /// visibility the arrange shows.
     /// </summary>
     private void UpdateGripVisibility()
     {
@@ -325,9 +475,27 @@ public sealed class TextSelectionHandleDemo : Canvas
         var end = Math.Clamp(_textBox.SelectionEnd, 0, length);
         var hasSelection = start != end;
 
-        _startHandle.IsVisible = hasSelection;
-        _endHandle.IsVisible = hasSelection;
-        _caretHandle.IsVisible = !hasSelection;
+        if (SetVisible(_startHandle, hasSelection)
+            | SetVisible(_endHandle, hasSelection)
+            | SetVisible(_caretHandle, !hasSelection && ShowCaretGrip))
+        {
+            // A grip came or went: the room it takes below the field's line of text changes with
+            // it, so the control has to be measured again.
+            InvalidateMeasure();
+        }
+    }
+
+    /// <summary>
+    /// Shows or hides a grip, but only when the state really changes: a redundant write would
+    /// invalidate the layout and start a seating loop. Returns true when a grip came or went.
+    /// </summary>
+    private static bool SetVisible(Control control, bool visible)
+    {
+        if (control.IsVisible == visible)
+            return false;
+
+        control.IsVisible = visible;
+        return true;
     }
 
     /// <summary>
@@ -338,18 +506,36 @@ public sealed class TextSelectionHandleDemo : Canvas
         _textBox.Padding.Top + (FindPresenter()?.TextLayout.Height ?? 0);
 
     /// <summary>
-    /// The height of the grip that is shown, measured: the grip's own desired height, which
-    /// includes its enlarged touch target. It is the SHOWN grip's height, because a hidden grip
-    /// reserves nothing.
+    /// The height of the grips, measured: the grip's own desired height, which includes its
+    /// enlarged touch target.
     /// </summary>
+    /// <remarks>
+    /// The room is reserved WHETHER OR NOT a grip is on show. A hidden control measures 0x0, so
+    /// the room a hidden grip would need has to be remembered from the last time a grip was
+    /// shown: if the control shrank every time the selection emptied, every caption below it
+    /// would jump, and the grip that reappeared would paint over the caption it had pushed up.
+    /// </remarks>
     private double GripHeight()
     {
-        var grip = _startHandle.IsVisible ? _startHandle
-            : _endHandle.IsVisible ? _endHandle
-            : _caretHandle.IsVisible ? _caretHandle
-            : null;
+        // A hidden control measures 0x0, so the room a grip needs is measured from a grip that
+        // is on show, and remembered for the passes where no grip is on show. The measure is
+        // forced here because the grip may not have been arranged yet.
+        foreach (var grip in new[] { _startHandle, _endHandle, _caretHandle })
+        {
+            if (grip.IsVisible && grip.DesiredSize.Height > 0)
+                _gripHeight = Math.Max(_gripHeight, grip.DesiredSize.Height);
+        }
 
-        return grip?.DesiredSize.Height ?? 0;
+        if (_gripHeight <= 0)
+        {
+            // Nothing is on show yet: measure the tallest grip directly, in the room the field
+            // offers, so the first pass already reserves what a grip will need.
+            var probe = _startHandle;
+            probe.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
+            _gripHeight = Math.Max(_gripHeight, probe.DesiredSize.Height);
+        }
+
+        return _gripHeight;
     }
 
     /// <summary>
@@ -365,6 +551,8 @@ public sealed class TextSelectionHandleDemo : Canvas
         var layout = presenter.TextLayout;
         if (layout is null)
             return;
+
+        WatchScroll();
 
         var start = _textBox.SelectionStart;
         var end = _textBox.SelectionEnd;
@@ -386,7 +574,7 @@ public sealed class TextSelectionHandleDemo : Canvas
             if (endRect is not null)
                 Seat(_endHandle, endRect.Value.Right, endRect.Value.Bottom, presenter);
         }
-        else
+        else if (_caretHandle.IsVisible)
         {
             var caret = layout.HitTestTextPosition(_textBox.CaretIndex);
             Seat(_caretHandle, caret.Left, caret.Bottom, presenter);
@@ -401,8 +589,22 @@ public sealed class TextSelectionHandleDemo : Canvas
     private void Seat(TextSelectionHandle grip, double textX, double textY, TextPresenter presenter)
     {
         var point = presenter.TranslatePoint(new Point(textX, textY), this) ?? new Point(textX, textY);
-        Canvas.SetLeft(grip, point.X - IndicatorOffset(grip));
-        Canvas.SetTop(grip, point.Y);
+        Place(grip, point.X - IndicatorOffset(grip), point.Y);
+    }
+
+    /// <summary>
+    /// Moves a grip on the canvas. A position that has not changed is not written back, so the
+    /// seating never invalidates the layout it is running in.
+    /// </summary>
+    private static void Place(Control control, double left, double top)
+    {
+        var currentLeft = Canvas.GetLeft(control);
+        if (double.IsNaN(currentLeft) || Math.Abs(currentLeft - left) > 0.01)
+            Canvas.SetLeft(control, left);
+
+        var currentTop = Canvas.GetTop(control);
+        if (double.IsNaN(currentTop) || Math.Abs(currentTop - top) > 0.01)
+            Canvas.SetTop(control, top);
     }
 
     /// <summary>
@@ -495,13 +697,16 @@ public sealed class TextSelectionHandleDemo : Canvas
                 break;
         }
 
-        SeatGrips();
+        // The field's own property change does the re-seating; this call keeps the grips in step
+        // within the same frame the pointer moved in.
+        Reseat();
     }
 
     /// <summary>
     /// The point in the text a grip stands at: the leading edge of the first selected character
     /// for the start grip, the trailing edge of the last for the end grip, and the caret's own
-    /// edge for the caret grip.
+    /// edge for the caret grip. These are the SAME two points the seating uses, so a drag moves
+    /// the grip by the pointer's own distance and lands where the pointer is.
     /// </summary>
     private bool TryGetAnchor(TextSelectionHandle grip, TextPresenter presenter, out double x, out double y)
     {
@@ -535,6 +740,9 @@ public sealed class TextSelectionHandleDemo : Canvas
             if (found is null)
                 return false;
             rect = found.Value;
+            // The end grip's indicator stands at the TRAILING edge of the last selected
+            // character, so that is the point a drag moves from.
+            rect = new Rect(rect.Right, rect.Y, 0, rect.Height);
         }
 
         x = rect.Left;

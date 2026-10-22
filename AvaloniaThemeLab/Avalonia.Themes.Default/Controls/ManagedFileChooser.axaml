@@ -57,8 +57,12 @@
       <ControlTemplate>
         <!-- Layout root stacking the shadow behind the list -->
         <Panel>
-          <!-- Inset shadow for depth (themed — replaces hardcoded BoxShadow) -->
+          <!-- Inset shadow for depth (themed — replaces hardcoded BoxShadow). Its LEFT corners
+               follow the chooser frame's own curve (ConcentricCorners), the SAME curve the rail's
+               fill follows: a square shadow corner painted over the frame's rounded corner, and
+               the shadow's grey showed where the frame's curve should have shown the canvas -->
           <Border x:Name="PART_ShadowBorder"
+                  CornerRadius="{default:ConcentricCorners Radius={size:RadiusMd}, Thickness={size:ThicknessSm}, Left=True}"
                   IsHitTestVisible="False"/>
           <!-- Outer frame around the quick links list. Its LEFT corners follow the chooser's own
                rounded frame (ConcentricCorners), so the rail's fill never paints a square corner
@@ -266,8 +270,9 @@
     </Style>
     <!-- Focus state (Rule 21) -->
     <Style Selector="^:focus-visible">
-      <Setter Property="BorderBrush" Value="{default:FocusBrush}" />
-      <Setter Property="BorderThickness" Value="{default:FocusThickness}" />
+      <Setter Property="BorderBrush" Value="{color:AccentFocusBorderBrush}" />
+      <!-- The focus weight equals the ROW's resting weight (0), so focusing a row never resizes it -->
+      <Setter Property="BorderThickness" Value="0" />
     </Style>
   </ControlTheme>
 
@@ -506,17 +511,19 @@
                   <!-- The file name being saved or opened -->
                   <TextBox x:Name="FileName" Text="{Binding FileName}" PlaceholderText="File name" IsVisible="{Binding !SelectingFolder}" />
                 </DockPanel>
-                <!-- Toggles hidden files in the list; its own row, so the buttons keep their face -->
-                <CheckBox IsChecked="{Binding ShowHiddenFiles}" Content="Show hidden files" DockPanel.Dock="Top"/>
-                <!-- The cancel and save buttons, on a row of their own across the WHOLE width of
-                     the dialog, so the row can sit at the file-name field's right edge. The refusal
-                     comes FIRST and the confirmation second, the order the platform puts a dialog's
-                     buttons in and the order this theme's own pickers use (DatePicker puts its
-                     dismiss face before its accept face). Save wears the Success accent and Cancel
-                     the Destructive one - the theme's existing negative-dialog hue, the same one
-                     the overwrite prompt's "No" button wears. The two faces are the SAME width
-                     (two equal columns), with the gap between them from the grid's own column
-                     spacing. -->
+                <!-- Toggles hidden files in the list. It SHARES THE ROW with the action pair:
+                     docked LEFT it rides the row's left edge, the buttons ride the right, and
+                     the dialog loses a whole row of height. -->
+                <CheckBox IsChecked="{Binding ShowHiddenFiles}" Content="Show hidden files" DockPanel.Dock="Left"/>
+                <!-- The cancel and save buttons, on the SAME ROW as the hidden-files toggle, at the
+                     row's RIGHT edge - the file-name field's right edge, the inset the field above
+                     it has. The refusal comes FIRST and the confirmation second, the order the
+                     platform puts a dialog's buttons in and the order this theme's own pickers use
+                     (DatePicker puts its dismiss face before its accept face). Save wears the
+                     Success accent and Cancel the Destructive one - the theme's existing
+                     negative-dialog hue, the same one the overwrite prompt's "No" button wears. The
+                     two faces are the SAME width (two equal columns), with the gap between them
+                     from the grid's own column spacing. -->
                 <!-- Theme Exception: Right is required - Luke asked for the action pair to sit at
                      the file-name field's right edge, and the theme's left alignment would pull it
                      away from it -->
@@ -781,10 +788,21 @@
 
     <!-- Focus state (Rule 21): the frame carries the focus ring -->
     <Style Selector="^:focus-visible /template/ Border#PART_FrameBorder">
-      <Setter Property="BorderBrush" Value="{default:FocusBrush}" />
-      <Setter Property="BorderThickness" Value="{default:FocusThickness}" />
+      <Setter Property="BorderBrush" Value="{color:AccentFocusBorderBrush}" />
+      <!-- The focus weight equals the frame's resting weight, so focusing never resizes the frame -->
+      <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
     </Style>
   </ControlTheme>
+
+  <!-- The declared reason the overwrite prompt has no gallery entry of its own (task 176): the
+       prompt is met inside the chooser that raises it, and the ManagedFileChooser preview shows it
+       there. The gallery lists a control only when the theme gives it a {Name}Preview, so without
+       this marker the prompt would vanish from the gallery with no record of why. -->
+
+  <default:PreviewShownIn x:Key="ManagedFileChooserOverwritePromptPreviewShownIn"
+                           ShownIn="{x:Type dialogs:ManagedFileChooser}"
+                           Reason="The overwrite prompt is met inside the chooser that raises it." />
+
 
   <ControlTheme x:Key="{x:Type dialogs:ManagedFileChooserOverwritePrompt}" TargetType="dialogs:ManagedFileChooserOverwritePrompt">
     <!-- Visual defaults -->

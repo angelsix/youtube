@@ -5,6 +5,13 @@
                     xmlns:color="using:AngelSix.ThemeEngine.Colors"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes">
   <!-- No design preview: an adorner layer draws only over elements it adorns; standalone it renders nothing -->
+  <!-- The declared reason for that (task 176): the gallery lists a control only when the theme gives
+       it a {Name}Preview, so this layer would vanish from the gallery with no record of why. The
+       marker is that record: it is drawn over other controls, never on its own. -->
+
+  <default:PreviewExcluded x:Key="AdornerLayerPreviewExcluded"
+                            Reason="An adorner layer draws only over the elements it adorns." />
+
   <ControlTheme x:Key="{x:Type AdornerLayer}" TargetType="AdornerLayer">
     <!-- Focus adorner template -->
     <Setter Property="DefaultFocusAdorner">

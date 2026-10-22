@@ -5,6 +5,13 @@
                     xmlns:color="using:AngelSix.ThemeEngine.Colors"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes">
   <!-- No design preview: a popup root is its own transparent TopLevel opened by popups at runtime; it cannot nest inside a preview pane -->
+  <!-- The declared reason for that (task 176): the gallery lists a control only when the theme gives
+       it a {Name}Preview, so this root would vanish from the gallery with no record of why. The
+       marker is that record: it is a runtime host, never shown on its own. -->
+
+  <default:PreviewExcluded x:Key="PopupRootPreviewExcluded"
+                            Reason="A popup root is its own TopLevel, opened by a popup at runtime." />
+
   <ControlTheme x:Key="{x:Type PopupRoot}" TargetType="PopupRoot">
     <!-- Visual defaults -->
     <Setter Property="Background" Value="{x:Null}" />
