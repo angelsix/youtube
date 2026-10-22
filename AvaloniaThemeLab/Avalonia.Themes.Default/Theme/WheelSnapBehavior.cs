@@ -344,7 +344,12 @@ namespace Avalonia.Themes.Default
 
             var att = new Attachment { Root = root };
             Live.Add(root, att);
-            EventHandler<VisualTreeAttachmentEventArgs> detached = (_, __) => Detach(root);
+            // Closing the pop-up takes the presenter OUT of the visual tree, and reopening puts it
+            // back. Leaving must only SUSPEND the wiring (timers, watches, columns) and keep the
+            // attachment: the flag never changes again, so a full Detach here left every picker
+            // unwired from its second opening on (Luke: the first and third pickers lost the
+            // wheel behaviour after being opened before). Load re-wires on the next opening.
+            EventHandler<VisualTreeAttachmentEventArgs> detached = (_, __) => Suspend(att);
             att.Detached = detached;
             root.DetachedFromVisualTree += att.Detached;
 
@@ -933,6 +938,31 @@ namespace Avalonia.Themes.Default
         }
 
         // -------------------------------------------------------------- teardown -------------
+
+        // Releases everything an opening wired (layout tracking, raised-event watches, the
+        // watchdog, the columns) but keeps the attachment and its Loaded/TemplateApplied/Detached
+        // handlers, so the next opening wires a fresh set of columns.
+        private static void Suspend(Attachment att)
+        {
+            try
+            {
+                if (att.LayoutChanged is { } lc)
+                    att.Root.LayoutUpdated -= lc;
+                att.LayoutChanged = null;
+                att.TapWatch?.Dispose();
+                att.TapWatch = null;
+                att.ClickWatch = null;
+                att.Watchdog?.Stop();
+                att.Watchdog = null;
+                foreach (var col in att.Columns)
+                    col.Unwire?.Invoke();
+                att.Columns.Clear();
+            }
+            catch
+            {
+                // A suspend failure must never take the app down.
+            }
+        }
 
         private static void Detach(Control root)
         {
