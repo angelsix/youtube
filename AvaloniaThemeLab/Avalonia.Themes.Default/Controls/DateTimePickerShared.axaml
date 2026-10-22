@@ -267,6 +267,15 @@
               <LinearGradientBrush StartPoint="0%,0%" EndPoint="0%,100%"><GradientStop Color="Transparent" Offset="0" /><GradientStop Color="Black" Offset="0.5" /><GradientStop Color="Black" Offset="1" /></LinearGradientBrush>
             </Border.OpacityMask>
           </Border>
+          <!-- The accent glow, the up chip's twin mirrored: strongest at the LOWER edge and clearing inward,
+               revealed together with the chip by its fade-in, so both arrows light up the same on hover -->
+          <Border Name="PART_Glow" IsHitTestVisible="False"
+                  Background="{color:SurfaceBorderless}"
+                  CornerRadius="{TemplateBinding CornerRadius}">
+            <Border.OpacityMask>
+              <LinearGradientBrush StartPoint="0%,0%" EndPoint="0%,100%"><GradientStop Color="Transparent" Offset="0" /><GradientStop Color="Black" Offset="0.5" /><GradientStop Color="Black" Offset="1" /></LinearGradientBrush>
+            </Border.OpacityMask>
+          </Border>
           <!-- The chevron, unmasked on top of the scrim -->
           <ContentPresenter Name="PART_ContentPresenter"
                           Background="Transparent"
