@@ -125,7 +125,13 @@
         <!-- The two panes, in equal cells: side by side each takes half the width, stacked each takes the full width -->
         <UniformGrid x:Name="PART_Panes">
           <!-- Light -->
-          <Border Name="PART_LightPane" Padding="{size:Edges All={size:SpacingXxl}}" Background="{color:SurfaceDefaultBrush}">
+          <!-- The pane's own inset. Its bottom edge gives up SpacingLg (8px) to the scrolled content's
+               own inset below, and the grid's RowSpacing gives up the same 8px on the top edge
+               (SpacingXl 12 -> SpacingMd 4), so the header-to-content gap is unchanged at 12px
+               (4 + 8) and the content lands exactly where it did before. The left, top and right
+               keep their full SpacingXxl, so the caption and the swatches sit exactly where they
+               did, and the content keeps its horizontal centring. -->
+          <Border Name="PART_LightPane" Padding="{size:Edges Left={size:SpacingXxl}, Top={size:SpacingXxl}, Right={size:SpacingXxl}, Bottom={size:SpacingLg}}" Background="{color:SurfaceDefaultBrush}">
             <!-- A Grid, not a StackPanel: the pane's content is a scrolling viewport, and a StackPanel
                  measures its children with an infinite height, so a viewer inside one never scrolls.
                  Theme Exception: the grid is Top-aligned, not stretched. A stretched grid hands its
@@ -136,8 +142,12 @@
                  a fixed height (a page that wants a fixed-height preview), the viewer takes the
                  remaining height and CLIPS and SCROLLS the too-tall content instead of letting it
                  spill out of the pane. When the pane is free to grow, the star row is measured
-                 with an infinite height and takes the content's own height, so nothing changes. -->
-            <Grid ColumnDefinitions="*" RowDefinitions="Auto,*" RowSpacing="{size:SpacingXl}" VerticalAlignment="Top">
+                 with an infinite height and takes the content's own height, so nothing changes.
+                 Theme Exception: the grid's RowSpacing is SpacingMd (4px), not SpacingXl (12px).
+                 The content's own inset (below) takes the 8px the header-to-content gap gives up,
+                 so the content stays exactly where it was while the viewport it sits in reaches
+                 8px further up and leaves the control's hover grow inside the clip. -->
+            <Grid ColumnDefinitions="*" RowDefinitions="Auto,*" RowSpacing="{size:SpacingMd}" VerticalAlignment="Top">
               <!-- The pane's header: its caption and, below it, the accent picker -->
               <StackPanel Grid.Row="0" Spacing="{size:SpacingXl}">
                 <!-- The pane's caption -->
@@ -153,19 +163,36 @@
                    The viewer takes the height the pane has left (a bounded pane scrolls; a pane free to
                    grow takes the content's own height), and the horizontal axis is squeezed to the
                    pane's width rather than spilled: every preview's content measures to a fixed width
-                   that fits, so nothing is ever clipped sideways -->
+                   that fits, so nothing is ever clipped sideways.
+                   The content carries a vertical MARGIN, and the margin is the room a preview control
+                   needs INSIDE the viewport. A scroll viewport clips to its own rectangle (Rule 18: "a
+                   grow at the very edge of a viewport is still cut there"), and the theme's hover grow
+                   is a scale of 1.07 (PressedScale 0.98 x 1.07 = 1.0486), so a control whose box
+                   touches the viewport's top or bottom edge grows PAST it and loses that edge. The
+                   focus ring reaches 3px outside the control (a 2px ring plus a 1px halo), so it
+                   needs the same room. The margin is MEASURED, not guessed: across every gallery entry
+                   the largest growth that fell outside a viewport was 1.361px (a Button's bottom edge)
+                   and the largest growth on any edge was 4.86px vertically (a 200px-tall RepeatButton),
+                   so one spacing step (8px) covers the growth plus the ring's 3px (4.86 + 3 = 7.86px).
+                   The horizontal axis needs no inset: the measured worst side deficit across the
+                   gallery was 0px, because the content is centred in a viewport far wider than the
+                   controls that grow. It is a MARGIN on the scrolled content, not the viewer's
+                   Padding: a viewer's Padding is left out of its scroll extent, so padded content
+                   ended past the furthest scroll (AVLG010), while a Margin IS counted by the extent. -->
               <ScrollViewer Grid.Row="1" Background="Transparent" BorderThickness="{size:Edges}" AllowAutoHide="True"
                             HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
                 <ContentControl HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" theme:Accent.Kind="{TemplateBinding SelectedAccent}"
+                                Margin="{size:Edges Top={size:SpacingLg}, Bottom={size:SpacingLg}}"
                                 ContentTemplate="{Binding PaneContentTemplate, RelativeSource={RelativeSource FindAncestor, AncestorType=p:LightDarkPreview}}" />
               </ScrollViewer>
             </Grid>
           </Border>
 
           <!-- Dark -->
-          <Border Name="PART_DarkPane" Padding="{size:Edges All={size:SpacingXxl}}" theme:ThemeRegion.IsDark="True" Background="{color:SurfaceDefaultBrush}">
+          <!-- The dark pane's inset matches the light one's exactly (see the light pane above) -->
+          <Border Name="PART_DarkPane" Padding="{size:Edges Left={size:SpacingXxl}, Top={size:SpacingXxl}, Right={size:SpacingXxl}, Bottom={size:SpacingLg}}" theme:ThemeRegion.IsDark="True" Background="{color:SurfaceDefaultBrush}">
             <!-- The dark pane lays out exactly like the light one -->
-            <Grid ColumnDefinitions="*" RowDefinitions="Auto,*" RowSpacing="{size:SpacingXl}" VerticalAlignment="Top">
+            <Grid ColumnDefinitions="*" RowDefinitions="Auto,*" RowSpacing="{size:SpacingMd}" VerticalAlignment="Top">
               <!-- The pane's header: its caption and, below it, the accent picker -->
               <StackPanel Grid.Row="0" Spacing="{size:SpacingXl}">
                 <!-- The pane's caption -->
@@ -180,6 +207,7 @@
               <ScrollViewer Grid.Row="1" Background="Transparent" BorderThickness="{size:Edges}" AllowAutoHide="True"
                             HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
                 <ContentControl HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" theme:Accent.Kind="{TemplateBinding SelectedAccent}"
+                                Margin="{size:Edges Top={size:SpacingLg}, Bottom={size:SpacingLg}}"
                                 ContentTemplate="{Binding PaneContentTemplate, RelativeSource={RelativeSource FindAncestor, AncestorType=p:LightDarkPreview}}" />
               </ScrollViewer>
             </Grid>

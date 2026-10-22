@@ -509,17 +509,18 @@
                 <!-- Toggles hidden files in the list; its own row, so the buttons keep their face -->
                 <CheckBox IsChecked="{Binding ShowHiddenFiles}" Content="Show hidden files" DockPanel.Dock="Top"/>
                 <!-- The cancel and save buttons, on a row of their own across the WHOLE width of
-                     the dialog, so the row can be centred in it. The refusal comes FIRST and the
-                     confirmation second, the order the platform puts a dialog's buttons in and the
-                     order this theme's own pickers use (DatePicker puts its dismiss face before its
-                     accept face). Save wears the Success accent and Cancel the Destructive one -
-                     the theme's existing negative-dialog hue, the same one the overwrite prompt's
-                     "No" button wears. The two faces are the SAME width (two equal columns), with
-                     the gap between them from the grid's own column spacing, so the row is
-                     symmetric about the middle of the dialog. -->
-                <!-- Theme Exception: Centre is required - Luke asked for the button row centred in
-                     the dialog, which the theme's left alignment would put against the frame's edge -->
-                <Grid x:Name="Finalize" HorizontalAlignment="Center" ColumnSpacing="{size:SpacingMd}">
+                     the dialog, so the row can sit at the file-name field's right edge. The refusal
+                     comes FIRST and the confirmation second, the order the platform puts a dialog's
+                     buttons in and the order this theme's own pickers use (DatePicker puts its
+                     dismiss face before its accept face). Save wears the Success accent and Cancel
+                     the Destructive one - the theme's existing negative-dialog hue, the same one
+                     the overwrite prompt's "No" button wears. The two faces are the SAME width
+                     (two equal columns), with the gap between them from the grid's own column
+                     spacing. -->
+                <!-- Theme Exception: Right is required - Luke asked for the action pair to sit at
+                     the file-name field's right edge, and the theme's left alignment would pull it
+                     away from it -->
+                <Grid x:Name="Finalize" HorizontalAlignment="Right" ColumnSpacing="{size:SpacingLg}">
                   <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="{size:GridPixels Value={size:Scaled Value={size:ControlMinWidth}, By=1.2}}" />
                     <ColumnDefinition Width="{size:GridPixels Value={size:Scaled Value={size:ControlMinWidth}, By=1.2}}" />
@@ -671,22 +672,31 @@
     </Setter>
 
     <!-- Themed defaults for inner template elements (Rule 2) -->
+    <!-- The address bar's own inset: ONE spacing token all round, so the bar's top and bottom
+         padding are the SAME as its sides. Its sides keep the chooser's own 12px inset, the one
+         the action bar below shares. -->
     <Style Selector="^ /template/ DockPanel#NavBar">
-      <Setter Property="Margin" Value="{size:Edges Left={size:SpacingXl}, Top={size:SpacingMd}, Right={size:SpacingXl}}" />
+      <Setter Property="Margin" Value="{size:Edges Left={size:SpacingXl}, Top={size:SpacingXl}, Right={size:SpacingXl}}" />
     </Style>
-    <!-- Single hairline under the address bar (neutral groove tone) -->
+    <!-- Single hairline under the address bar (neutral groove tone); the air above it is the
+         bar's bottom padding, the same token as its top and sides -->
     <Style Selector="^ /template/ Rectangle#NavBarSeparator">
       <Setter Property="Fill" Value="{color:BorderDefault}" />
-      <Setter Property="Margin" Value="{size:Edges Top={size:SpacingMd}}" />
+      <Setter Property="Margin" Value="{size:Edges Top={size:SpacingXl}}" />
     </Style>
+    <!-- The row of three items keeps the same inset the action bar's row takes, so the path box
+         and the file-name box below share one left and right edge -->
     <Style Selector="^ /template/ DockPanel#NavBarInner">
       <Setter Property="Margin" Value="{size:Edges Left={size:SpacingMd}, Right={size:SpacingMd}}" />
     </Style>
+    <!-- The gaps between the three items: ONE standard spacing token, the same gap the theme
+         puts between a field and an adjacent button (the TextBox's inner buttons, the
+         NumericUpDown's trailing slot) and between a dialog's two action faces -->
     <Style Selector="^ /template/ Button#GoUpButton">
-      <Setter Property="Margin" Value="{size:Edges Right={size:SpacingXl}}" />
+      <Setter Property="Margin" Value="{size:Edges Right={size:SpacingLg}}" />
     </Style>
     <Style Selector="^ /template/ Button#RefreshButton">
-      <Setter Property="Margin" Value="{size:Edges Left={size:SpacingXl}}" />
+      <Setter Property="Margin" Value="{size:Edges Left={size:SpacingLg}}" />
     </Style>
     <Style Selector="^ /template/ DockPanel#BottomBar">
       <Setter Property="Margin" Value="{size:Edges Left={size:SpacingXl}, Right={size:SpacingXl}, Bottom={size:SpacingMd}}" />
@@ -761,9 +771,8 @@
     <!-- The action buttons. Save wears the Success accent and Cancel the Destructive one - the
          theme's negative-dialog hue, the same one the overwrite prompt's "No" button wears. The
          accent tints the button's own face (the theme's roles follow the control's hue), so the
-         two actions read apart without a per-control colour. The row is CENTRED: Luke asked for
-         the dialog's actions centred, which is a deliberate exception to the theme's left
-         alignment. -->
+         two actions read apart without a per-control colour. The row is RIGHT-ALIGNED: it sits
+         on the file-name field's right edge, the same inset the field above it has. -->
     <Style Selector="^ /template/ Grid#Finalize > Button">
       <Setter Property="HorizontalContentAlignment" Value="{theme:ButtonHorizontalContentAlignment}"/>
       <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}"/>

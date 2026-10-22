@@ -134,11 +134,15 @@
     <Setter Property="AllowAutoHide" Value="False" />
 
     <!-- Bar fades: the whole-bar Opacity flip (idle-hidden <-> revealed) eases over the normal rail
-         instead of snapping, so the bars fade in AND out -->
+         instead of snapping, so the bars fade in AND out. The bar's own groove brush rides along
+         here too: a Style setter on the bar REPLACES the ScrollBar theme's own Transitions setter,
+         so the brush transitions have to be repeated or the track would snap its colour in -->
     <Style Selector="^ /template/ ScrollBar#PART_HorizontalScrollBar">
       <Setter Property="Transitions">
         <Transitions>
           <DoubleTransition Property="Opacity" Duration="{theme:AnimationNormalMs}" />
+          <BrushTransition Property="Background" Duration="{theme:AnimationFastMs}" />
+          <BrushTransition Property="BorderBrush" Duration="{theme:AnimationFastMs}" />
         </Transitions>
       </Setter>
     </Style>
@@ -146,6 +150,8 @@
       <Setter Property="Transitions">
         <Transitions>
           <DoubleTransition Property="Opacity" Duration="{theme:AnimationNormalMs}" />
+          <BrushTransition Property="Background" Duration="{theme:AnimationFastMs}" />
+          <BrushTransition Property="BorderBrush" Duration="{theme:AnimationFastMs}" />
         </Transitions>
       </Setter>
     </Style>

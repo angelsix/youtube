@@ -135,10 +135,15 @@
       </Setter.Value>
     </Setter>
 
-    <!-- Transitions: the radius follows its token as the pill grows and shrinks -->
+    <!-- Transitions: the radius follows its token as the pill grows and shrinks, and the pill's
+         own THICKNESS glides with it. The thickness is the property the expand actually changes
+         (task 4c08de22 replaced the old scaleX/scaleY with real Width/Height), so without a
+         transition on it the pill snapped between 8px and 16px instead of easing -->
     <Setter Property="Transitions">
       <Transitions>
         <CornerRadiusTransition Property="CornerRadius" Duration="{theme:AnimationFastMs}" />
+        <DoubleTransition Property="Width" Duration="{theme:AnimationFastMs}" />
+        <DoubleTransition Property="Height" Duration="{theme:AnimationFastMs}" />
       </Transitions>
     </Setter>
 
@@ -190,8 +195,11 @@
     <Setter Property="BorderBrush" Value="Transparent"/>
     <Setter Property="BorderThickness" Value="0"/>
     <Setter Property="CornerRadius" Value="{size:RadiusSm}"/>
-    <!-- Hidden until the bar expands: IsVisible, not Opacity, so no broader Opacity style resurrects it -->
-    <Setter Property="IsVisible" Value="False" />
+    <!-- Hidden until the bar expands. The arrow FADES rather than appearing out of nowhere:
+         Opacity rides a transition, and the button stays in the layout (so the track keeps one
+         length in both states) but takes no clicks while it is invisible -->
+    <Setter Property="Opacity" Value="0" />
+    <Setter Property="IsHitTestVisible" Value="False" />
     <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
 
     <!-- Template -->
@@ -205,6 +213,13 @@
                           CornerRadius="{TemplateBinding CornerRadius}"
                           Content="{TemplateBinding Content}"/>
       </ControlTemplate>
+    </Setter>
+
+    <!-- Transitions: the arrow fades in and out with the bar's expand -->
+    <Setter Property="Transitions">
+      <Transitions>
+        <DoubleTransition Property="Opacity" Duration="{theme:AnimationFastMs}" />
+      </Transitions>
     </Setter>
 
     <!-- Hover state: the outlined column's hover stages of the bar's own hue -->
@@ -229,6 +244,15 @@
     <Setter Property="Foreground" Value="{color:TextDefault}" />
     <Setter Property="BorderBrush" Value="Transparent" />
     <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
+    <!-- Transitions: the GROOVE's own appearance eases in and out with the expand. The groove is
+         the bar's Background and BorderBrush, so without a brush transition the track snapped
+         from nothing to a painted strip the instant the bar expanded -->
+    <Setter Property="Transitions">
+      <Transitions>
+        <BrushTransition Property="Background" Duration="{theme:AnimationFastMs}" />
+        <BrushTransition Property="BorderBrush" Duration="{theme:AnimationFastMs}" />
+      </Transitions>
+    </Setter>
     <!-- No outline: a 1px border drew a dark frame round every scrollbar (Luke, 29 Sep 2026) -->
     <Setter Property="BorderThickness" Value="0" />
     <!-- The container radius: RadiusSm read small on a full-size bar -->
@@ -458,7 +482,10 @@
       </Style>
       <Style Selector="^ /template/ RepeatButton#PART_LineUpButton,
                        ^ /template/ RepeatButton#PART_LineDownButton">
-        <Setter Property="IsVisible" Value="True" />
+        <!-- The arrows FADE in: they keep their place in the layout in both states, so the
+             track's length never jumps, and only their opacity rides the expand -->
+        <Setter Property="Opacity" Value="1" />
+        <Setter Property="IsHitTestVisible" Value="True" />
       </Style>
     </Style>
 

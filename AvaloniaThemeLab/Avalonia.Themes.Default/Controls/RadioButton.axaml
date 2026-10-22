@@ -171,13 +171,20 @@
       <Setter Property="BorderBrush" Value="{color:HoverTextDefault}" />
     </Style>
 
-    <!-- Checked state: the ring takes the solid accent fill and the solid accent dot appears in the
-         centre, leaving a transparent gap between them (the accent picker's selected dot) -->
+    <!-- Checked state: the ring keeps the control's text colour (Luke's spec: the ring reads as the
+         label), and the dot in its centre carries the ACCENT, so a checked radio in Warning reads
+         Warning. The dot is a MARK, not a filled face, so it takes the accent's own mark role
+         ({color:AccentGlyphDefault}, Dark1) rather than the solid-fill column (Dark3): Dark1 is the
+         VIVID stage in the light palette (Primary #2D789C, not the near-black #005F83 of Dark3) and
+         the DEEPER stage in the dark one (Primary #4D95BB, not the pale #65ADD4), so the dot reads as
+         the accent in BOTH palettes instead of collapsing into the black ring in light and washing
+         out in dark. The same role the theme's other small accent marks take (the picker's pip, the
+         switch's knob, the menu's check glyph). -->
     <Style Selector="^:checked">
       <Setter Property="BorderBrush" Value="{color:TextDefault}" />
 
       <Style Selector="^ /template/ Ellipse#DotEllipse">
-        <Setter Property="Fill" Value="{default:SolidFill}" />
+        <Setter Property="Fill" Value="{color:AccentGlyphDefault}" />
         <Setter Property="Opacity" Value="1" />
       </Style>
     </Style>

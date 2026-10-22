@@ -1,49 +1,45 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:default="clr-namespace:Avalonia.Themes.Default"
+                    xmlns:design="clr-namespace:Avalonia.Themes.Default.Design"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
                     xmlns:color="using:AngelSix.ThemeEngine.Colors"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes">
-  <!-- Touch-selection grips at their resting seats: Start and End bracket a pinned selection,
-       Caret marks an insertion point in a field with none. Every grip wears the same shape: the
-       variant forms appear only while a finger drags, so a still capture cannot pin them -->
+  <!-- The grips of a text field's selection: the START and END grips bracket the selection, the
+       CARET grip marks a bare insertion point. The demo control below gives the field a REAL
+       selection and seats the theme's own grips on the field's text geometry, so a drag on a grip
+       moves the field's selection. -->
   <DataTemplate x:Key="TextSelectionHandlePreview">
     <StackPanel Spacing="{size:SpacingXl}" HorizontalAlignment="Left">
-      <!-- Sample data: literal text and a pinned selection (characters 4-15) are preview content, not theme values -->
-      <Grid Width="360">
-        <TextBox Text="The quick brown fox jumps over the lazy dog" SelectionStart="4" SelectionEnd="15"
-                 VerticalAlignment="Top" />
-        <!-- Theme Exception: literal margins seat each grip just below the measured text-line bottom (tip at the
-             line, body hanging under it), centred under the selection's first and last characters (demo placement,
-             not a themed value) -->
-        <TextSelectionHandle Margin="24,27,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
-        <TextSelectionHandle Margin="105,27,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
-      </Grid>
+      <!-- Sample data: literal text and a pinned selection (characters 4-15) are preview content, not theme values.
+           Each field takes a MARGIN below it: the grips hang BELOW the field's line of text and are
+           drawn on the control's own canvas, so they take no layout space of their own. The field
+           reserves the room its grip needs inside itself (the demo control measures the grip), and
+           this margin is the GAP on top of that: one spacing step between the grip's ink and the
+           caption underneath, so a grip never paints over the text below it. -->
+      <design:TextSelectionHandleDemo Width="360"
+                                       Margin="{size:Edges Bottom={size:SpacingLg}}"
+                                       Text="The quick brown fox jumps over the lazy dog"
+                                       SelectionStart="4" SelectionEnd="15" />
 
-      <!-- One caption per grip, seated just under it: the grips stretch the field row, so this strip lands below them -->
-      <Grid Width="360">
-        <TextBlock Text="Start" Margin="24,0,0,0" HorizontalAlignment="Left"
-                   FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
-        <TextBlock Text="End" Margin="105,0,0,0" HorizontalAlignment="Left"
-                   FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
-      </Grid>
+      <!-- One caption per grip pair, naming what each one does -->
+      <TextBlock Width="360" TextWrapping="Wrap"
+                 FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}"
+                 Text="Start and end grips bracket the selection. Drag the end grip right to widen the selection, the start grip left to narrow it." />
 
       <!-- Second example: no selection, the caret grip under an insertion point (character 15, right after 'brown') -->
-      <Grid Width="360">
-        <TextBox Text="The quick brown fox jumps over the lazy dog" SelectionStart="15" SelectionEnd="15"
-                 VerticalAlignment="Top" />
-        <!-- Theme Exception: literal margin seats the caret grip just below the measured text-line bottom (demo placement) -->
-        <TextSelectionHandle Margin="110,27,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
-      </Grid>
+      <design:TextSelectionHandleDemo Width="360"
+                                       Margin="{size:Edges Bottom={size:SpacingLg}}"
+                                       Text="The quick brown fox jumps over the lazy dog"
+                                       SelectionStart="15" SelectionEnd="15" CaretIndex="15" />
 
-      <Grid Width="360">
-        <TextBlock Text="Caret" Margin="110,0,0,0" HorizontalAlignment="Left"
-                   FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
-      </Grid>
+      <TextBlock Width="360" TextWrapping="Wrap"
+                 FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}"
+                 Text="With no selection, the caret grip marks the insertion point. Drag it and the caret follows." />
 
-      <!-- One line, no API names: why the grips read alike, and where they appear -->
+      <!-- One line, no API names: what the grips are for -->
       <TextBlock Width="360" TextWrapping="Wrap" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}"
-                 Text="Same grip for all three — touch-only; desktop never shows these." />
+                 Text="The grips of a text field's selection — the accent-coloured touches you grab with a finger, and the theme's own grip artwork." />
     </StackPanel>
   </DataTemplate>
 
@@ -142,6 +138,35 @@
     </Style>
     <Style Selector="^:start /template/ Border#PART_Indicator">
       <Setter Property="HorizontalAlignment" Value="Right" />
+    </Style>
+
+    <!-- The same three shapes, keyed on the STANDALONE grip's own attached property.
+         Avalonia's own handles reach these rules through the internal :start/:end/:caret
+         pseudo-classes, which the framework re-derives on every arrange; a grip that stands on
+         its own (the demo control's) carries the shape as an attached property instead, so the
+         same artwork and the same indicator anchor are reached either way. -->
+    <Style Selector="^[(design|GripShape.Shape)=Start] /template/ Path#PART_GripArtwork">
+      <Setter Property="Data" Value="{DynamicResource TextSelectionHandlePath}" />
+    </Style>
+    <Style Selector="^[(design|GripShape.Shape)=Start] /template/ Viewbox#PART_HandlePathIcon">
+      <Setter Property="RenderTransform">
+        <ScaleTransform ScaleX="-1" ScaleY="1"/>
+      </Setter>
+    </Style>
+    <Style Selector="^[(design|GripShape.Shape)=Start] /template/ Border#PART_Indicator">
+      <Setter Property="HorizontalAlignment" Value="Right" />
+    </Style>
+    <Style Selector="^[(design|GripShape.Shape)=End] /template/ Path#PART_GripArtwork">
+      <Setter Property="Data" Value="{DynamicResource TextSelectionHandlePath}" />
+    </Style>
+    <Style Selector="^[(design|GripShape.Shape)=End] /template/ Border#PART_Indicator">
+      <Setter Property="HorizontalAlignment" Value="Left" />
+    </Style>
+    <Style Selector="^[(design|GripShape.Shape)=Caret] /template/ Path#PART_GripArtwork">
+      <Setter Property="Data" Value="{DynamicResource TextCaretHandlePath}" />
+    </Style>
+    <Style Selector="^[(design|GripShape.Shape)=Caret] /template/ Border#PART_Indicator">
+      <Setter Property="HorizontalAlignment" Value="Center" />
     </Style>
 
     <!-- Themed properties moved out of ControlTemplate -->

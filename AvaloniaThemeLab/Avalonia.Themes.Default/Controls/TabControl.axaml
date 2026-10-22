@@ -7,7 +7,8 @@
   <!-- Design preview: every state and accent hue composed into one strip, plus Left/Right placements.
        Declared before Design.PreviewWith uses it -->
   <DataTemplate x:Key="TabControlPreview">
-    <StackPanel Spacing="{size:SpacingSm}">
+    <!-- The same gap between examples as TabStrip's preview, so each control stands clear of the next -->
+    <StackPanel Spacing="{size:SpacingLg}">
       <!-- Item states folded in: every state the TabItem entry showed, pinned as tabs inside real TabControls.
            A TabControl keeps only one selection, so the states are split across two controls: the first carries the
            selected page beside the rest, hover and pressed tabs, the second the selected, focused and disabled tabs.
@@ -61,8 +62,8 @@
       <!-- Selection variants: selected + hover, and the two accent-coloured selections; the bar follows Accent.Kind.
            Each is its own control so its single selection survives; laid out two-up so the section stays compact. -->
       <Label Content="Selection variants" Foreground="{color:DimTextDefault}" FontSize="{size:FontSizeMd}" />
-      <WrapPanel Orientation="Horizontal">
-        <TabControl Width="180" Margin="{size:Edges Right={size:SpacingLg}, Bottom={size:SpacingSm}}">
+      <WrapPanel Orientation="Horizontal" ItemSpacing="{size:SpacingLg}" LineSpacing="{size:SpacingLg}">
+        <TabControl Width="180">
           <TabItem Header="Closed">
             <TextBlock Text="&#160;" Height="48" Foreground="{color:TextDefault}" />
           </TabItem>
@@ -74,7 +75,7 @@
             </Border>
           </TabItem>
         </TabControl>
-        <TabControl Width="180" Margin="{size:Edges Bottom={size:SpacingSm}}">
+        <TabControl Width="180">
           <TabItem Header="Plain">
             <TextBlock Text="&#160;" Height="48" Foreground="{color:TextDefault}" />
           </TabItem>
@@ -120,8 +121,8 @@
         <Label Content="Tabs on the left and right" Foreground="{color:DimTextDefault}" FontSize="{size:FontSizeMd}" />
         <!-- Side by side so the pair costs one row of height and the preview stays inside the default
              window; each stacks its two tabs down one column along the content's edge -->
-        <WrapPanel Orientation="Horizontal">
-          <TabControl TabStripPlacement="Left" Width="200" Height="90" Margin="{size:Edges Right={size:SpacingLg}}">
+        <WrapPanel Orientation="Horizontal" ItemSpacing="{size:SpacingLg}" LineSpacing="{size:SpacingLg}">
+          <TabControl TabStripPlacement="Left" Width="200" Height="90">
             <TabItem Header="First" IsSelected="True">
               <TextBlock Text="First is open" Foreground="{color:TextDefault}" VerticalAlignment="Center" />
             </TabItem>

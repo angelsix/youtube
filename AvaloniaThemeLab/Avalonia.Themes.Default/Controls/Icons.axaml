@@ -22,10 +22,15 @@
     </StackPanel>
   </DataTemplate>
 
-  <!-- Design preview: the whole set, one cell per icon the theme generates. The width is the
-       pane's own content width, so the cells wrap into three columns without clipping -->
+  <!-- Design preview: the whole set, one cell per icon the theme generates. The container takes
+       the pane's own content width rather than a fixed one, so it never overflows the pane: when
+       the pane narrows, the cells wrap to fewer columns instead of being clipped -->
+  <!-- Stacked panes (Rule 20): the set needs width more than height, so the light and dark panes
+       stack vertically and each lays the cells out across the full page width -->
+  <Orientation x:Key="IconsPreviewOrientation">Vertical</Orientation>
+
   <DataTemplate x:Key="IconsPreview">
-    <default:Icons Width="412" />
+    <default:Icons />
   </DataTemplate>
 
   <Design.PreviewWith>
@@ -52,7 +57,15 @@
     <Setter Property="BorderBrush" Value="{color:BorderDefault}" />
     <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
     <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
-    <Setter Property="Padding" Value="{size:Edges All={size:ContentPadding}}" />
+    <!-- The frame breathes: the top and bottom edges step out as far as the rows step
+         apart from each other, so the first glyph and the last caption sit the same
+         distance from the border as one row sits from the next. The sides keep the
+         ordinary content step, so the cells sit close to the frame's edges -->
+    <Setter Property="Padding"
+            Value="{size:Edges Top={size:Scaled Value={size:SpacingXxl}, By=1.5},
+                              Bottom={size:Scaled Value={size:SpacingXxl}, By=1.5},
+                              Left={size:ContentPadding},
+                              Right={size:ContentPadding}}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
     <Setter Property="VerticalAlignment" Value="{theme:ContainerVerticalAlignment}" />
     <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
@@ -65,7 +78,7 @@
              the glyphs line up in columns. The cell is wide enough for the longest icon name.
              The rows are set far apart (an Xxl step and a half) so a caption reads as
              belonging to the glyph above it, not to the row below; the columns stay on a
-             modest step so three cells still fit the pane's width -->
+             modest step so as many cells as fit the pane's width share each row -->
         <WrapPanel ItemSpacing="{size:SpacingMd}"
                    LineSpacing="{size:Scaled Value={size:SpacingXxl}, By=1.5}"
                    ItemWidth="{size:Scaled Value={size:ControlMinWidth}, By=2}" />
