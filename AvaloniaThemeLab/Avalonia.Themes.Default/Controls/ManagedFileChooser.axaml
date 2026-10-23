@@ -50,8 +50,9 @@
     <!-- Borderless surface: no border of its own, so it fills with SurfaceBorderless (ThemeRules) -->
     <Setter Property="Background" Value="{color:SurfaceBorderless}"/>
     <Setter Property="BorderThickness" Value="0"/>
-    <!-- Like the reference rail, the entries start at the top of the surface: no top/bottom inset -->
-    <Setter Property="Padding" Value="{size:Edges}"/>
+    <!-- The entries sit one spacing step in from every edge of the rail, so a hovered or selected
+         row's rounded fill never reaches the frame's rounded corner and cuts across it -->
+    <Setter Property="Padding" Value="{size:Edges All={size:SpacingMd}}"/>
     <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
     <Setter Property="Template">
       <ControlTemplate>
@@ -705,19 +706,26 @@
     <Style Selector="^ /template/ Button#RefreshButton">
       <Setter Property="Margin" Value="{size:Edges Left={size:SpacingLg}}" />
     </Style>
+    <!-- The action bar's inset: the same tokens on its bottom as on its sides (the bar's own
+         SpacingXl plus the inner row's SpacingMd), so the buttons sit as far from the frame's
+         bottom edge as from its right edge -->
     <Style Selector="^ /template/ DockPanel#BottomBar">
-      <Setter Property="Margin" Value="{size:Edges Left={size:SpacingXl}, Right={size:SpacingXl}, Bottom={size:SpacingMd}}" />
+      <Setter Property="Margin" Value="{size:Edges Left={size:SpacingXl}, Right={size:SpacingXl}, Bottom={size:SpacingXl}}" />
     </Style>
-    <!-- Single hairline above the action bar (the same groove tone as the one under the path) -->
+    <!-- Single hairline above the action bar (the same groove tone as the one under the path). It
+         takes the address bar's hairline air, SpacingXl, on both sides, so it stands as clear of the
+         file list above it as of the file-name field below it -->
     <Style Selector="^ /template/ Rectangle#BottomBarSeparator">
       <Setter Property="Fill" Value="{color:BorderDefault}" />
-      <Setter Property="Margin" Value="{size:Edges Bottom={size:SpacingMd}}" />
+      <Setter Property="Margin" Value="{size:Edges Top={size:SpacingXl}, Bottom={size:SpacingXl}}" />
     </Style>
     <Style Selector="^ /template/ DockPanel#BottomBarInner">
-      <Setter Property="Margin" Value="{size:Edges Left={size:SpacingMd}, Right={size:SpacingMd}}" />
+      <Setter Property="Margin" Value="{size:Edges Left={size:SpacingMd}, Right={size:SpacingMd}, Bottom={size:SpacingMd}}" />
     </Style>
+    <!-- The gap between the file-name row and the button row: the same SpacingXl air the hairline
+         takes, so the two rows don't crowd each other -->
     <Style Selector="^ /template/ DockPanel#BottomBarTop">
-      <Setter Property="Margin" Value="{size:Edges Bottom={size:SpacingMd}}" />
+      <Setter Property="Margin" Value="{size:Edges Bottom={size:SpacingXl}}" />
     </Style>
     <!-- The header row's left inset is the SAME one the file rows take (their ListBoxItem
          theme's padding), so the header's columns and the rows' columns line up exactly -->
