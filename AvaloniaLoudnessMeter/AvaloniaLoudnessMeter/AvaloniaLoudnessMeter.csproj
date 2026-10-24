@@ -21,5 +21,9 @@
         <PackageReference Include="LiveChartsCore.SkiaSharpView.Avalonia" Version="2.0.0-beta.800-11.0.0-rc1.1" />
         <PackageReference Include="ManagedBass" Version="3.1.1" />
         <PackageReference Include="NWaves" Version="0.9.6" />
+
+        <!-- Security pin: Avalonia 11.0.0-rc1.1 pulls SkiaSharp 2.88.3 (GHSA-j7hp-h8jx-5ppr, libwebp). Same 2.88 line. -->
+        <PackageReference Include="SkiaSharp" Version="2.88.9" />
+        <PackageReference Include="SkiaSharp.NativeAssets.Linux" Version="2.88.9" />
     </ItemGroup>
 </Project>
