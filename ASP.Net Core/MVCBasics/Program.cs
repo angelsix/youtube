@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Hosting;
-using System.IO;
+using Microsoft.Extensions.Hosting;
 
 namespace test
 {
@@ -10,12 +10,10 @@ namespace test
             BuildWebHost(args).Run();
         }
 
-        public static IWebHost BuildWebHost(string[] args)
+        public static IHost BuildWebHost(string[] args)
         {
-            return new WebHostBuilder()
-                .UseKestrel()
-                .UseContentRoot(Directory.GetCurrentDirectory())
-                .UseStartup<Startup>()
+            return Host.CreateDefaultBuilder(args)
+                .ConfigureWebHostDefaults(webBuilder => webBuilder.UseStartup<Startup>())
                 .Build();
         }
     }

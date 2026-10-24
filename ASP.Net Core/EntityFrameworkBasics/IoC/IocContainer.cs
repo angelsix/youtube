@@ -22,6 +22,6 @@ namespace EntityFrameworkBasics
         /// <summary>
         /// The service provider for this application
         /// </summary>
-        public static ServiceProvider Provider { get; set; }
+        public static IServiceProvider Provider { get; set; }
     }
 }

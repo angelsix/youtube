@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using System;
 
 namespace EntityFrameworkBasics
@@ -23,14 +24,15 @@ namespace EntityFrameworkBasics
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddMvc();
+            // Keep the conventional UseMvc routes this tutorial teaches, rather than endpoint routing
+            services.AddMvc(options => options.EnableEndpointRouting = false);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IServiceProvider serviceProvider)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider serviceProvider)
         {
             // Store instance of the DI service provider so our application can access it anywhere
-            IoCContainer.Provider = (ServiceProvider)serviceProvider;
+            IoCContainer.Provider = serviceProvider;
 
             if (env.IsDevelopment())
                 app.UseDeveloperExceptionPage();
