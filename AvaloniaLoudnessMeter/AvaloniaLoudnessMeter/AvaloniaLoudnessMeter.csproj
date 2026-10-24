@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <TargetFramework>net7.0</TargetFramework>
+        <TargetFramework>net10.0</TargetFramework>
         <Nullable>enable</Nullable>
         <LangVersion>latest</LangVersion>
     </PropertyGroup>
@@ -8,21 +8,22 @@
         <AvaloniaResource Include="Assets\**" />
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="Avalonia" Version="11.0.0-rc1.1" />
-        <PackageReference Include="Avalonia.Svg.Skia" Version="11.0.0-rc1.1" />
-        <PackageReference Include="Avalonia.Themes.Fluent" Version="11.0.0-rc1.1" />
-        <PackageReference Include="Avalonia.Fonts.Inter" Version="11.0.0-rc1.1" />
-        <PackageReference Include="Avalonia.ReactiveUI" Version="11.0.0-rc1.1" />
+        <PackageReference Include="Avalonia" Version="11.3.22" />
+        <PackageReference Include="Avalonia.Svg.Skia" Version="11.2.0.2" />
+        <PackageReference Include="Avalonia.Themes.Fluent" Version="11.3.22" />
+        <PackageReference Include="Avalonia.Fonts.Inter" Version="11.3.22" />
+        <PackageReference Include="Avalonia.ReactiveUI" Version="11.3.9" />
         <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
-        <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.0.0-rc1.1" />
+        <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.3.22" />
 
-        <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.0" />
+        <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
 
-        <PackageReference Include="LiveChartsCore.SkiaSharpView.Avalonia" Version="2.0.0-beta.800-11.0.0-rc1.1" />
+        <PackageReference Include="LiveChartsCore.SkiaSharpView.Avalonia" Version="2.0.5" />
         <PackageReference Include="ManagedBass" Version="3.1.1" />
         <PackageReference Include="NWaves" Version="0.9.6" />
 
-        <!-- Security pin: Avalonia 11.0.0-rc1.1 pulls SkiaSharp 2.88.3 (GHSA-j7hp-h8jx-5ppr, libwebp). Same 2.88 line. -->
+        <!-- One SkiaSharp line for Avalonia 11.3, LiveCharts 2.0.5 and Svg.Skia 11.2.0.2 (the last Svg.Skia on 2.88;
+             11.2.1+ moves to SkiaSharp 3). 2.88.9 also carries the libwebp fix (GHSA-j7hp-h8jx-5ppr). -->
         <PackageReference Include="SkiaSharp" Version="2.88.9" />
         <PackageReference Include="SkiaSharp.NativeAssets.Linux" Version="2.88.9" />
     </ItemGroup>

@@ -1,5 +1,6 @@
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Interactivity;
 using Avalonia.Input;
 using Avalonia.Media;
 using Avalonia.Threading;
@@ -78,11 +79,11 @@ namespace AvaloniaLoudnessMeter.Views
         /// <summary>
         /// Run on-load initialization code
         /// </summary>
-        protected override async void OnLoaded()
+        protected override async void OnLoaded(RoutedEventArgs e)
         {
             await mViewModel.LoadCommand.ExecuteAsync(null);
             
-            base.OnLoaded();
+            base.OnLoaded(e);
         }
 
         public override void Render(DrawingContext context)

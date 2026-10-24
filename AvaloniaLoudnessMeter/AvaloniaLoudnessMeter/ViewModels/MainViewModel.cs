@@ -218,9 +218,9 @@ public partial class MainViewModel : ObservableObject
         }
 
         // Set volume bar height
-        VolumeBarMaskHeight = Math.Min(_volumeBarHeight, _volumeBarHeight / 60 * -audioChuckData.Loudness);
+        VolumeBarMaskHeight = Math.Min(VolumeBarHeight, VolumeBarHeight / 60 * -audioChuckData.Loudness);
         
         // Set Volume Arrow height
-        VolumePercentPosition = Math.Min(_volumeContainerHeight, _volumeContainerHeight / 60 * -audioChuckData.ShortTermLUFS);
+        VolumePercentPosition = Math.Min(VolumeContainerHeight, VolumeContainerHeight / 60 * -audioChuckData.ShortTermLUFS);
     }
 }
