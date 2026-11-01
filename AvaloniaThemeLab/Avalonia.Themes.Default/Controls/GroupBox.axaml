@@ -8,7 +8,7 @@
   <!-- Design preview: one row per pane. The designer and the lab gallery both show this key,
        so it is declared before Design.PreviewWith uses it. The theme exposes no Preview.State or :error selectors, so its full surface is enabled/disabled plus inherited accent hue -->
   <DataTemplate x:Key="GroupBoxPreview">
-    <StackPanel Orientation="Vertical" Spacing="{size:SpacingXxl}" Width="340">
+    <StackPanel Orientation="Vertical" Spacing="{size:SpacingXxl}" Width="{size:Scaled Value={size:BaseSize}, By=340}">
       <GroupBox Header="Default">
         <TextBlock Text="Grouped content" />
       </GroupBox>
@@ -55,8 +55,11 @@
     <!-- Template -->
     <Setter Property="Template">
       <ControlTemplate>
-        <!-- Layout root: header row over the framed content, with an inset column either side -->
-        <Grid x:Name="RootGrid" UseLayoutRounding="true" ColumnDefinitions="6,Auto,*,6" RowDefinitions="Auto,Auto,*,6">
+        <!-- Layout root: header row over the framed content, with an inset column either side and an inset row below -->
+        <Grid x:Name="RootGrid" ColumnDefinitions="Auto,Auto,*,Auto" RowDefinitions="Auto,Auto,*,Auto">
+          <!-- The frame's inset: these two empty corner cells size the side columns and the bottom row, so the inset zooms with BaseSize (a grid line cannot take a size token) -->
+          <Border Grid.Row="3" Grid.Column="0" Width="{size:Scaled Value={size:BaseSize}, By=6}" Height="{size:Scaled Value={size:BaseSize}, By=6}" />
+          <Border Grid.Row="3" Grid.Column="3" Width="{size:Scaled Value={size:BaseSize}, By=6}" Height="{size:Scaled Value={size:BaseSize}, By=6}" />
           <!-- Background border, kept apart from the stroke border -->
           <Border Grid.Row="1"
                   Grid.RowSpan="3"

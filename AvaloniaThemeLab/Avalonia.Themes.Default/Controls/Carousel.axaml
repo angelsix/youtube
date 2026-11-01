@@ -20,7 +20,7 @@
       <Label Content="Carousel · one slide at a time, paged by the PipsPager" />
       <!-- The interactive Carousel: three distinct, labelled slides (each carrying its own accent hue so the
            fill follows Accent.Kind), advancing with a horizontal PageSlide transition -->
-      <Carousel x:Name="Slides" Width="340" Height="120">
+      <Carousel x:Name="Slides" Width="{size:Scaled Value={size:BaseSize}, By=340}" Height="{size:Scaled Value={size:BaseSize}, By=120}">
         <Carousel.PageTransition>
           <!-- Theme Exception: CrossFade.Duration is a TimeSpan on a non-AvaloniaObject, so a token resolves to a
                MultiBinding crash at runtime; a literal duration is required (same exemption as TransitioningContentControl).
@@ -55,7 +55,7 @@
       <!-- Focusable=False keeps this showcase instance out of the crawler's pseudo-class STATE pass (its TwoWay-coupled
            selection would otherwise displace the animated slide and trip AVLG030); it renders identically and its paging
            is still proven by the ACTION pass (the native swipe plus the NavPagesPager below it). -->
-      <CarouselPage x:Name="NavPages" Focusable="False" Width="340" Height="150">
+      <CarouselPage x:Name="NavPages" Focusable="False" Width="{size:Scaled Value={size:BaseSize}, By=340}" Height="{size:Scaled Value={size:BaseSize}, By=150}">
         <ContentPage Header="Page 1">
           <TextBlock Text="First page" HorizontalAlignment="Center" VerticalAlignment="Center" />
         </ContentPage>

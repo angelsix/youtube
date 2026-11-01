@@ -9,7 +9,7 @@
        Vertical stacks five 200px boxes so none spills past a half-width pane -->
   <DataTemplate x:Key="AutoCompleteBoxPreview">
     <StackPanel Spacing="{size:SpacingXxl}" HorizontalAlignment="Left">
-      <AutoCompleteBox Width="200" PlaceholderText="Default">
+      <AutoCompleteBox Width="{size:Scaled Value={size:BaseSize}, By=200}" PlaceholderText="Default">
         <AutoCompleteBox.ItemsSource>
           <generic:List x:TypeArguments="x:String">
             <x:String>Apple</x:String>
@@ -19,7 +19,7 @@
           </generic:List>
         </AutoCompleteBox.ItemsSource>
       </AutoCompleteBox>
-      <AutoCompleteBox Width="200" theme:Preview.State="Focused" PlaceholderText="Focused">
+      <AutoCompleteBox Width="{size:Scaled Value={size:BaseSize}, By=200}" theme:Preview.State="Focused" PlaceholderText="Focused">
         <AutoCompleteBox.ItemsSource>
           <generic:List x:TypeArguments="x:String">
             <x:String>Apple</x:String>
@@ -31,7 +31,7 @@
       </AutoCompleteBox>
       <!-- Non-default accent hues ride on the focused boxes so each extra instance also demos a state;
            pinned Focused so the focus ring (and the FocusColorOnAccents decision, Rule 21) is always shown -->
-      <AutoCompleteBox Width="200" theme:Accent.Kind="Warning" theme:Preview.State="Focused" PlaceholderText="Warn">
+      <AutoCompleteBox Width="{size:Scaled Value={size:BaseSize}, By=200}" theme:Accent.Kind="Warning" theme:Preview.State="Focused" PlaceholderText="Warn">
         <AutoCompleteBox.ItemsSource>
           <generic:List x:TypeArguments="x:String">
             <x:String>Apple</x:String>
@@ -41,7 +41,7 @@
           </generic:List>
         </AutoCompleteBox.ItemsSource>
       </AutoCompleteBox>
-      <AutoCompleteBox Width="200" theme:Accent.Kind="Success" theme:Preview.State="Focused" PlaceholderText="Success">
+      <AutoCompleteBox Width="{size:Scaled Value={size:BaseSize}, By=200}" theme:Accent.Kind="Success" theme:Preview.State="Focused" PlaceholderText="Success">
         <AutoCompleteBox.ItemsSource>
           <generic:List x:TypeArguments="x:String">
             <x:String>Apple</x:String>
@@ -51,7 +51,7 @@
           </generic:List>
         </AutoCompleteBox.ItemsSource>
       </AutoCompleteBox>
-      <AutoCompleteBox Width="200" IsEnabled="False" Text="Disabled">
+      <AutoCompleteBox Width="{size:Scaled Value={size:BaseSize}, By=200}" IsEnabled="False" Text="Disabled">
         <AutoCompleteBox.ItemsSource>
           <generic:List x:TypeArguments="x:String">
             <x:String>Apple</x:String>

@@ -1,0 +1,147 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:default="clr-namespace:Avalonia.Themes.Default"
+                    xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+                    xmlns:color="using:AngelSix.ThemeEngine.Colors"
+                    xmlns:size="using:AngelSix.ThemeEngine.Sizes">
+  <!-- Design preview: the editor with its opacity strip, without it, in a Warning frame, and disabled.
+       Every editor shares one colour seeded from the pane's accent (ColorSample), so editing one moves
+       the rest. Declared before Design.PreviewWith uses it -->
+  <DataTemplate x:Key="ColorViewPreview">
+    <Grid x:Name="Sample" default:ColorSample.Seed="{default:AccentColor}" ColumnDefinitions="Auto,Auto" ColumnSpacing="{size:SpacingXl}">
+      <StackPanel Spacing="{size:SpacingXl}">
+        <Label Content="With opacity" />
+        <ColorView HsvColor="{Binding #Sample.(default:ColorSample.HsvColor), Mode=TwoWay}" />
+        <Label Content="Opaque only" />
+        <ColorView HsvColor="{Binding #Sample.(default:ColorSample.HsvColor), Mode=TwoWay}" IsAlphaEnabled="False" />
+      </StackPanel>
+      <StackPanel Grid.Column="1" Spacing="{size:SpacingXl}">
+        <Label Content="Warning frame" theme:Accent.Kind="Warning" Foreground="{color:AccentTextDefault}" />
+        <ColorView HsvColor="{Binding #Sample.(default:ColorSample.HsvColor), Mode=TwoWay}" IsAlphaEnabled="False" theme:Accent.Kind="Warning" />
+        <Label Content="Disabled" />
+        <ColorView HsvColor="{Binding #Sample.(default:ColorSample.HsvColor), Mode=TwoWay}" IsAlphaEnabled="False" IsEnabled="False" />
+      </StackPanel>
+    </Grid>
+  </DataTemplate>
+
+  <!-- Two editors side by side are wider than half the gallery, so the light and dark panes stack -->
+  <Orientation x:Key="ColorViewPreviewOrientation">Vertical</Orientation>
+
+  <Design.PreviewWith>
+    <Border>
+      <Border.Styles>
+        <default:DefaultThemeStyles />
+      </Border.Styles>
+
+      <default:LightDarkPreview Title="ColorView" Orientation="Vertical" ContentTemplate="{StaticResource ColorViewPreview}" />
+
+    </Border>
+  </Design.PreviewWith>
+
+  <!-- ============================================================
+       Template
+       ============================================================ -->
+  <ControlTheme x:Key="{x:Type ColorView}" TargetType="ColorView">
+
+    <!-- Visual defaults: a panel like the flyout it usually sits in -->
+    <Setter Property="Background" Value="{color:BackgroundDefault}" />
+    <Setter Property="Foreground" Value="{color:TextDefault}" />
+    <Setter Property="BorderBrush" Value="{color:BorderDefault}" />
+    <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
+    <Setter Property="CornerRadius" Value="{size:RadiusMd}" />
+    <Setter Property="Padding" Value="{size:Edges All={size:SpacingXxl}}" />
+    <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
+    <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
+
+    <!-- Behaviour: a saturation and brightness square beside a hue strip; hex written as CSS writes it -->
+    <Setter Property="ColorSpectrumComponents" Value="SaturationValue" />
+    <Setter Property="ColorSpectrumShape" Value="Box" />
+    <Setter Property="HexInputAlphaPosition" Value="Trailing" />
+
+    <!-- Template -->
+    <Setter Property="Template">
+      <ControlTemplate>
+        <!-- Panel behind the colour editor -->
+        <Border Background="{TemplateBinding Background}"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}"
+                CornerRadius="{TemplateBinding CornerRadius}"
+                Padding="{TemplateBinding Padding}">
+          <!-- Layout root: the editor's rows, top to bottom; a hidden row leaves no gap -->
+          <StackPanel x:Name="LayoutRoot">
+            <!-- The square with its strips beside it -->
+            <StackPanel x:Name="SpectrumRow" Orientation="Horizontal">
+              <!-- The saturation and brightness square -->
+              <ColorSpectrum x:Name="ColorSpectrum"
+                             Components="{TemplateBinding ColorSpectrumComponents}"
+                             Shape="{TemplateBinding ColorSpectrumShape}"
+                             HsvColor="{Binding HsvColor, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
+                             MinHue="{TemplateBinding MinHue}"
+                             MaxHue="{TemplateBinding MaxHue}"
+                             MinSaturation="{TemplateBinding MinSaturation}"
+                             MaxSaturation="{TemplateBinding MaxSaturation}"
+                             MinValue="{TemplateBinding MinValue}"
+                             MaxValue="{TemplateBinding MaxValue}"
+                             IsVisible="{TemplateBinding IsColorSpectrumVisible}" />
+              <!-- The hue strip: whichever component the square leaves out -->
+              <ColorSlider x:Name="ColorSpectrumThirdComponentSlider"
+                           Orientation="Vertical"
+                           ColorModel="Hsva"
+                           IsAlphaVisible="False"
+                           IsPerceptive="True"
+                           ColorComponent="{Binding #ColorSpectrum.ThirdComponent}"
+                           HsvColor="{Binding HsvColor, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
+                           IsVisible="{TemplateBinding IsColorSpectrumSliderVisible}" />
+              <!-- The opacity strip, when opacity can be edited -->
+              <ColorSlider x:Name="ColorSpectrumAlphaSlider"
+                           Orientation="Vertical"
+                           ColorModel="Hsva"
+                           ColorComponent="Alpha"
+                           HsvColor="{Binding HsvColor, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}">
+                <ColorSlider.IsVisible>
+                  <MultiBinding Converter="{x:Static BoolConverters.And}">
+                    <Binding Path="IsAlphaEnabled" RelativeSource="{RelativeSource TemplatedParent}" />
+                    <Binding Path="IsAlphaVisible" RelativeSource="{RelativeSource TemplatedParent}" />
+                  </MultiBinding>
+                </ColorSlider.IsVisible>
+              </ColorSlider>
+            </StackPanel>
+            <!-- The chosen colour with shades to pick from -->
+            <ColorPreviewer x:Name="ColorPreviewer"
+                            HsvColor="{Binding HsvColor, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
+                            IsAccentColorsVisible="{TemplateBinding IsAccentColorsVisible}"
+                            IsVisible="{TemplateBinding IsColorPreviewVisible}" />
+            <!-- The hex code field -->
+            <TextBox x:Name="PART_HexTextBox"
+                     MaxLength="9"
+                     IsVisible="{TemplateBinding IsHexInputVisible}" />
+          </StackPanel>
+        </Border>
+      </ControlTemplate>
+    </Setter>
+
+    <!-- Row rhythm -->
+    <Style Selector="^ /template/ StackPanel#LayoutRoot">
+      <Setter Property="Spacing" Value="{size:SpacingXl}" />
+    </Style>
+    <Style Selector="^ /template/ StackPanel#SpectrumRow">
+      <Setter Property="Spacing" Value="{size:SpacingLg}" />
+    </Style>
+
+    <!-- Hex field fills the row under the square -->
+    <Style Selector="^ /template/ TextBox#PART_HexTextBox">
+      <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
+    </Style>
+
+    <!-- Disabled state: the editor dims once, as ComboBox does; its parts' own dim is cancelled,
+         or they would fall to DisabledOpacity squared -->
+    <Style Selector="^:disabled">
+      <Setter Property="Opacity" Value="{size:DisabledOpacity}" />
+    </Style>
+    <Style Selector="^:disabled /template/ ColorSpectrum, ^:disabled /template/ ColorSlider, ^:disabled /template/ ColorPreviewer, ^:disabled /template/ TextBox">
+      <Setter Property="Opacity" Value="1" />
+    </Style>
+
+  </ControlTheme>
+</ResourceDictionary>

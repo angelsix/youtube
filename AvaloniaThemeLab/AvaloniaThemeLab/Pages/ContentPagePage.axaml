@@ -3,7 +3,7 @@
              xmlns:size="using:AngelSix.ThemeEngine.Sizes"
              x:Class="AvaloniaThemeLab.Pages.ContentPagePage">
   <StackPanel Spacing="{size:SpacingXl}">
-    <ContentPage Header="Page header" Height="200">
+    <ContentPage Header="Page header" Height="{size:Scaled Value={size:BaseSize}, By=200}">
       <TextBlock Text="Page content" />
     </ContentPage>
   </StackPanel>

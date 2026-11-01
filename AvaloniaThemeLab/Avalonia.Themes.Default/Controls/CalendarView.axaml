@@ -36,10 +36,10 @@
       <!-- Picker chrome is a distinct surface (inline root, hover/focus rings). Fixed sample date so the
            typed value, its left padding and its centring are visible; fixed width matching the calendars above -->
       <controls:CalendarView DisplayAsPicker="True" theme:Accent.Kind="Subtle"
-                             SelectedDate="2026-09-18" Width="268" />
+                             SelectedDate="2026-09-18" Width="{size:Scaled Value={size:BaseSize}, By=268}" />
       <!-- Same picker pinned focused: the concentric focus ring on the frame, centred on its stroke -->
       <controls:CalendarView DisplayAsPicker="True" theme:Accent.Kind="Subtle"
-                             SelectedDate="2026-09-18" Width="268" theme:Preview.State="Focused" />
+                             SelectedDate="2026-09-18" Width="{size:Scaled Value={size:BaseSize}, By=268}" theme:Preview.State="Focused" />
     </StackPanel>
   </DataTemplate>
 
@@ -96,7 +96,7 @@
     <!-- Chevron arrows only (the .navarrow class): the header label and the picker arrow keep their
          rest size. Hover grows the chevron slightly, painting over its neighbours (Button's hover) -->
     <Style Selector="^.navarrow:pointerover">
-      <Setter Property="RenderTransform" Value="{theme:TransformScale Value={size:PressedScale}, By=1.07}" />
+      <Setter Property="RenderTransform" Value="{theme:TransformScale Value={size:HoverScale}}" />
       <Setter Property="ZIndex" Value="{size:HoverZIndex}" />
     </Style>
 
@@ -174,9 +174,9 @@
          -0.5 and -0.55 both weights land on the same 18px box (centre delta 0.00px), whereas -0.25
          splits them 18px vs 19px and revives the 0.5px selection jump. Single digits lose only their
          TRAILING tracking slot: the glyph itself never moves (rendered pixels verified byte-identical
-         before/after), so no visible offset arises. Raw double rather than a token: no spacing token
-         sits at this sub-point magnitude. -->
-    <Setter Property="LetterSpacing" Value="-0.5" />
+         before/after), so no visible offset arises. Scaled off the type ladder's base, not a fixed
+         -0.5: tracking was measured against the 14px type, so it grows with it when BaseSize zooms. -->
+    <Setter Property="LetterSpacing" Value="{size:Scaled Value={size:FontSize}, By=-0.5}" />
 
     <!-- Template -->
     <Setter Property="Template">

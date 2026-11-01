@@ -42,6 +42,11 @@ public partial class App : Application
 
         services.AddSingleton<GalleryCatalogue>();
         services.AddSingleton<MainWindowViewModel>();
+        services.AddSingleton<ThemeSettingsViewModel>();
+        services.AddSingleton(sp => new ThemeSettingsWindowService(
+            sp.GetRequiredService<Func<TopLevel?>>(), sp.GetRequiredService<ThemeSettingsViewModel>));
+        // The Window page's dialogs and modal page
+        services.AddSingleton(sp => new DialogWindowService(sp.GetRequiredService<Func<TopLevel?>>()));
 
         return services.BuildServiceProvider();
     }

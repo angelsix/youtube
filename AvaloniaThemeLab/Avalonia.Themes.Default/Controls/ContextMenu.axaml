@@ -20,7 +20,7 @@
            disabled row (task 142): it used to sit at the very bottom of the list, under the selected row,
            which is a strange place for a divider — it now divides the interactive states from the
            unavailable one, the way a menu's groups read. -->
-      <ContextMenu Width="240">
+      <ContextMenu Width="{size:Scaled Value={size:BaseSize}, By=240}">
         <MenuItem Header="Rest" />
         <MenuItem Header="Ho_ver" theme:Preview.State="Hover" />
         <MenuItem Header="Pres_sed" theme:Preview.State="Pressed" />
@@ -35,7 +35,7 @@
       <TextBlock Text="Decorations: icon · shortcut · submenu chevron · accent hue" FontSize="{size:FontSizeSm}" theme:Accent.Kind="Warning" Foreground="{color:AccentTextDefault}" />
       <!-- Decorations: the icon row carries the steered centring (gap highlight-edge→ink == gap ink→label);
            the icon-less rows keep the same single icon-width column; the accent row pins a Warning hue -->
-      <ContextMenu Width="240">
+      <ContextMenu Width="{size:Scaled Value={size:BaseSize}, By=240}">
         <!-- The steered centring is judged against this row's OWN highlight edge (the row's inner face);
              the Highlight row above demonstrates the paint, the geometry here proves the equal gaps -->
         <MenuItem Header="With _Icon">
@@ -54,7 +54,7 @@
       <!-- Checks and submenu: the tick and the icon share ONE leading column; the nested Report Bug pins a
            Success hue inside the sub-menu. The scroll viewer's overflow arrows are shown by the Menu entry's
            capped File drop-down (its list overflows the popup, so the down chevron draws) -->
-      <ContextMenu Width="240">
+      <ContextMenu Width="{size:Scaled Value={size:BaseSize}, By=240}">
         <MenuItem Header="Wi_th Check" ToggleType="CheckBox" IsChecked="True" />
         <MenuItem Header="Ra_dio Dot" ToggleType="Radio" IsChecked="True" />
         <MenuItem Header="With _Glyph">

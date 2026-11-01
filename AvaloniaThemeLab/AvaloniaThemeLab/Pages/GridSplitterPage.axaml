@@ -3,12 +3,12 @@
              xmlns:size="using:AngelSix.ThemeEngine.Sizes"
              x:Class="AvaloniaThemeLab.Pages.GridSplitterPage">
   <StackPanel Spacing="{size:SpacingXl}">
-    <Grid ColumnDefinitions="*,Auto,*" Height="160">
+    <Grid ColumnDefinitions="*,Auto,*" Height="{size:Scaled Value={size:BaseSize}, By=160}">
       <TextBlock Text="Left" />
       <GridSplitter Grid.Column="1" />
       <TextBlock Grid.Column="2" Text="Right" />
     </Grid>
-    <Grid RowDefinitions="*,Auto,*" Height="160">
+    <Grid RowDefinitions="*,Auto,*" Height="{size:Scaled Value={size:BaseSize}, By=160}">
       <TextBlock Text="Top" />
       <GridSplitter Grid.Row="1" />
       <TextBlock Grid.Row="2" Text="Bottom" />

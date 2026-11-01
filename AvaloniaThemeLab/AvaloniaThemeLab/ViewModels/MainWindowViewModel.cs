@@ -3,6 +3,8 @@ using System.Linq;
 using AngelSix.ThemeEngine.Generated;
 using Avalonia;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using AvaloniaThemeLab.Views;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace AvaloniaThemeLab.ViewModels;
@@ -31,9 +33,13 @@ public sealed partial class MainWindowViewModel : ObservableObject
     [ObservableProperty]
     private AccentKind _selectedAccent = AccentKind.Primary;
 
-    public MainWindowViewModel(GalleryCatalogue catalogue)
+    // Absent in design-time and headless tools, which have no window to open over
+    private readonly ThemeSettingsWindowService? _settingsWindow;
+
+    public MainWindowViewModel(GalleryCatalogue catalogue, ThemeSettingsWindowService? settingsWindow = null)
     {
         _catalogue = catalogue;
+        _settingsWindow = settingsWindow;
         _selectedEntry = catalogue.Entries.FirstOrDefault();
         // The first entry is shown straight away: no click is in flight, so the page host mirrors it.
         _shownEntry = _selectedEntry;
@@ -52,6 +58,10 @@ public sealed partial class MainWindowViewModel : ObservableObject
     }
 
     public GalleryCatalogue Catalogue => _catalogue;
+
+    /// <summary>Opens the live theme editor over this window.</summary>
+    [RelayCommand]
+    private void OpenSettings() => _settingsWindow?.Show();
 
     // Armed while a navigating click on the sidebar is in flight (its press has landed, its release
     // has not yet routed). While armed, the SelectedEntry flip that press causes does NOT reach

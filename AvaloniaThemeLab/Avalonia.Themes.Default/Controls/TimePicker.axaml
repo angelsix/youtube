@@ -12,19 +12,19 @@
   <DataTemplate x:Key="TimePickerPreview">
     <StackPanel Spacing="{size:SpacingXl}">
       <!-- A chosen time: the resting face -->
-      <TimePicker Width="240" SelectedTime="14:30" />
+      <TimePicker Width="{size:Scaled Value={size:BaseSize}, By=240}" SelectedTime="14:30" />
       <!-- Nothing chosen: the prompt dims to the placeholder strength -->
-      <TimePicker Width="240" />
+      <TimePicker Width="{size:Scaled Value={size:BaseSize}, By=240}" />
       <!-- Pointer over the closed box -->
-      <TimePicker Width="240" SelectedTime="14:30" theme:Preview.State="Hover" />
+      <TimePicker Width="{size:Scaled Value={size:BaseSize}, By=240}" SelectedTime="14:30" theme:Preview.State="Hover" />
       <!-- Keyboard focus rings the frame (Rule 21) -->
-      <TimePicker Width="240" SelectedTime="14:30" theme:Preview.State="Focused" />
+      <TimePicker Width="{size:Scaled Value={size:BaseSize}, By=240}" SelectedTime="14:30" theme:Preview.State="Focused" />
       <!-- The Warning hue tints the face and keeps its own hue on focus (Rule 21) -->
-      <TimePicker Width="240" SelectedTime="14:30" theme:Accent.Kind="Warning" />
+      <TimePicker Width="{size:Scaled Value={size:BaseSize}, By=240}" SelectedTime="14:30" theme:Accent.Kind="Warning" />
       <!-- Unusable: faded to the disabled strength -->
-      <TimePicker Width="240" SelectedTime="14:30" IsEnabled="False" />
+      <TimePicker Width="{size:Scaled Value={size:BaseSize}, By=240}" SelectedTime="14:30" IsEnabled="False" />
       <!-- Failed validation lights the error border and keeps the box's height -->
-      <TimePicker Width="240" SelectedTime="14:30">
+      <TimePicker Width="{size:Scaled Value={size:BaseSize}, By=240}" SelectedTime="14:30">
         <DataValidationErrors.Error>
           <sys:Exception>
             <x:Arguments>

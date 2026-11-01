@@ -4,14 +4,14 @@
              x:Class="AvaloniaThemeLab.Pages.DrawerPagePage">
   <StackPanel Spacing="{size:SpacingXl}">
     <TextBlock Text="Open" />
-    <DrawerPage Header="Drawer header" IsOpen="True" Height="200">
+    <DrawerPage Header="Drawer header" IsOpen="True" Height="{size:Scaled Value={size:BaseSize}, By=200}">
       <DrawerPage.Drawer>
         <TextBlock Text="Drawer" />
       </DrawerPage.Drawer>
       <TextBlock Text="Main content" />
     </DrawerPage>
     <TextBlock Text="Closed" />
-    <DrawerPage Header="Drawer header" Height="200">
+    <DrawerPage Header="Drawer header" Height="{size:Scaled Value={size:BaseSize}, By=200}">
       <DrawerPage.Drawer>
         <TextBlock Text="Drawer" />
       </DrawerPage.Drawer>

@@ -11,7 +11,7 @@
          left-aligned (task 78): Placement is set on the flyout so the list hangs off the lower-left edge
          instead of centred over the face. -->
     <StackPanel Spacing="{size:SpacingXl}" HorizontalAlignment="Left">
-      <DropDownButton Width="240" Content="Default">
+      <DropDownButton Width="{size:Scaled Value={size:BaseSize}, By=240}" Content="Default">
         <DropDownButton.Flyout>
           <MenuFlyout Placement="BottomEdgeAlignedLeft">
             <MenuItem Header="First" />
@@ -20,7 +20,7 @@
           </MenuFlyout>
         </DropDownButton.Flyout>
       </DropDownButton>
-      <DropDownButton Width="240" theme:Preview.State="Hover" Content="Hover">
+      <DropDownButton Width="{size:Scaled Value={size:BaseSize}, By=240}" theme:Preview.State="Hover" Content="Hover">
         <DropDownButton.Flyout>
           <MenuFlyout Placement="BottomEdgeAlignedLeft">
             <MenuItem Header="First" />
@@ -29,7 +29,7 @@
           </MenuFlyout>
         </DropDownButton.Flyout>
       </DropDownButton>
-      <DropDownButton Width="240" theme:Preview.State="Pressed" Content="Pressed">
+      <DropDownButton Width="{size:Scaled Value={size:BaseSize}, By=240}" theme:Preview.State="Pressed" Content="Pressed">
         <DropDownButton.Flyout>
           <MenuFlyout Placement="BottomEdgeAlignedLeft">
             <MenuItem Header="First" />
@@ -38,7 +38,7 @@
           </MenuFlyout>
         </DropDownButton.Flyout>
       </DropDownButton>
-      <DropDownButton Width="240" theme:Preview.State="Focused" Content="Focused">
+      <DropDownButton Width="{size:Scaled Value={size:BaseSize}, By=240}" theme:Preview.State="Focused" Content="Focused">
         <DropDownButton.Flyout>
           <MenuFlyout Placement="BottomEdgeAlignedLeft">
             <MenuItem Header="First" />
@@ -47,8 +47,8 @@
           </MenuFlyout>
         </DropDownButton.Flyout>
       </DropDownButton>
-      <DropDownButton Width="240" IsEnabled="False" Content="Disabled" />
-      <DropDownButton Width="240" theme:Accent.Kind="Warning" Content="Warn">
+      <DropDownButton Width="{size:Scaled Value={size:BaseSize}, By=240}" IsEnabled="False" Content="Disabled" />
+      <DropDownButton Width="{size:Scaled Value={size:BaseSize}, By=240}" theme:Accent.Kind="Warning" Content="Warn">
         <DropDownButton.Flyout>
           <MenuFlyout Placement="BottomEdgeAlignedLeft">
             <MenuItem Header="First" />
@@ -57,7 +57,7 @@
           </MenuFlyout>
         </DropDownButton.Flyout>
       </DropDownButton>
-      <DropDownButton Width="240" theme:Accent.Kind="Success" Content="OK">
+      <DropDownButton Width="{size:Scaled Value={size:BaseSize}, By=240}" theme:Accent.Kind="Success" Content="OK">
         <DropDownButton.Flyout>
           <MenuFlyout Placement="BottomEdgeAlignedLeft">
             <MenuItem Header="First" />

@@ -14,7 +14,7 @@
       <!-- Canonical left drawer: reserved column, open width pushing content aside -->
       <StackPanel Orientation="Vertical" Spacing="{size:SpacingMd}">
         <TextBlock Text="Left · Inline · Open" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
-        <SplitView Height="96" Width="360" PanePlacement="Left" DisplayMode="Inline" IsPaneOpen="True"
+        <SplitView Height="{size:Scaled Value={size:BaseSize}, By=96}" Width="{size:Scaled Value={size:BaseSize}, By=360}" PanePlacement="Left" DisplayMode="Inline" IsPaneOpen="True"
                    OpenPaneLength="{size:Scaled Value={size:ControlHeightLg}, By=2}" CompactPaneLength="{size:ControlHeightMd}">
           <SplitView.Pane>
             <!-- Nav entries start at the top of the strip, inset by the standard content padding -->
@@ -31,7 +31,7 @@
       <!-- Overlay floats the pane over full-width content; pairing it with light-dismiss exercises the scrim branch in one instance -->
       <StackPanel Orientation="Vertical" Spacing="{size:SpacingMd}">
         <TextBlock Text="Left · Overlay · Open · LightDismiss" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
-        <SplitView Height="96" Width="360" PanePlacement="Left" DisplayMode="Overlay" IsPaneOpen="True"
+        <SplitView Height="{size:Scaled Value={size:BaseSize}, By=96}" Width="{size:Scaled Value={size:BaseSize}, By=360}" PanePlacement="Left" DisplayMode="Overlay" IsPaneOpen="True"
                    UseLightDismissOverlayMode="True"
                    OpenPaneLength="{size:Scaled Value={size:ControlHeightLg}, By=2}" CompactPaneLength="{size:ControlHeightMd}">
           <SplitView.Pane>
@@ -49,7 +49,7 @@
       <!-- Compact strip: the compact width holds while the content reclaims the rest of the column -->
       <StackPanel Orientation="Vertical" Spacing="{size:SpacingMd}">
         <TextBlock Text="Left · CompactInline · Open" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
-        <SplitView Height="96" Width="360" PanePlacement="Left" DisplayMode="CompactInline" IsPaneOpen="True"
+        <SplitView Height="{size:Scaled Value={size:BaseSize}, By=96}" Width="{size:Scaled Value={size:BaseSize}, By=360}" PanePlacement="Left" DisplayMode="CompactInline" IsPaneOpen="True"
                    OpenPaneLength="{size:Scaled Value={size:ControlHeightLg}, By=2}" CompactPaneLength="{size:ControlHeightMd}">
           <SplitView.Pane>
             <!-- Nav entries start at the top of the strip, inset by the standard content padding -->
@@ -66,7 +66,7 @@
       <!-- Mirrored right-edge template -->
       <StackPanel Orientation="Vertical" Spacing="{size:SpacingMd}">
         <TextBlock Text="Right · Inline · Open" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
-        <SplitView Height="96" Width="360" PanePlacement="Right" DisplayMode="Inline" IsPaneOpen="True"
+        <SplitView Height="{size:Scaled Value={size:BaseSize}, By=96}" Width="{size:Scaled Value={size:BaseSize}, By=360}" PanePlacement="Right" DisplayMode="Inline" IsPaneOpen="True"
                    OpenPaneLength="{size:Scaled Value={size:ControlHeightLg}, By=2}" CompactPaneLength="{size:ControlHeightMd}">
           <SplitView.Pane>
             <!-- Nav entries start at the top of the strip, inset by the standard content padding -->
@@ -83,7 +83,7 @@
       <!-- Top-edge template: horizontal bar reserving a row above content -->
       <StackPanel Orientation="Vertical" Spacing="{size:SpacingMd}">
         <TextBlock Text="Top · Inline · Open" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
-        <SplitView Height="96" Width="360" PanePlacement="Top" DisplayMode="Inline" IsPaneOpen="True"
+        <SplitView Height="{size:Scaled Value={size:BaseSize}, By=96}" Width="{size:Scaled Value={size:BaseSize}, By=360}" PanePlacement="Top" DisplayMode="Inline" IsPaneOpen="True"
                    OpenPaneLength="{size:ControlHeightLg}" CompactPaneLength="{size:ControlHeightMd}">
           <SplitView.Pane>
             <!-- Nav entries start at the left of the bar, inset by the standard content padding -->
@@ -100,7 +100,7 @@
       <!-- Bottom-edge template: horizontal bar reserving a row below content -->
       <StackPanel Orientation="Vertical" Spacing="{size:SpacingMd}">
         <TextBlock Text="Bottom · Inline · Open" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
-        <SplitView Height="96" Width="360" PanePlacement="Bottom" DisplayMode="Inline" IsPaneOpen="True"
+        <SplitView Height="{size:Scaled Value={size:BaseSize}, By=96}" Width="{size:Scaled Value={size:BaseSize}, By=360}" PanePlacement="Bottom" DisplayMode="Inline" IsPaneOpen="True"
                    OpenPaneLength="{size:ControlHeightLg}" CompactPaneLength="{size:ControlHeightMd}">
           <SplitView.Pane>
             <!-- Nav entries start at the left of the bar, inset by the standard content padding -->

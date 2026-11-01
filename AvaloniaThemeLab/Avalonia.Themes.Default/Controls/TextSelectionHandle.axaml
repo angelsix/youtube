@@ -17,18 +17,18 @@
            reserves the room its grip needs inside itself (the demo control measures the grip), and
            this margin is the GAP on top of that: one spacing step between the grip's ink and the
            caption underneath, so a grip never paints over the text below it. -->
-      <design:TextSelectionHandleDemo Width="360"
+      <design:TextSelectionHandleDemo Width="{size:Scaled Value={size:BaseSize}, By=360}"
                                        Margin="{size:Edges Bottom={size:SpacingLg}}"
                                        Text="The quick brown fox jumps over the lazy dog"
                                        SelectionStart="4" SelectionEnd="15" />
 
       <!-- One caption per grip pair, naming what each one does -->
-      <TextBlock Width="360" TextWrapping="Wrap"
+      <TextBlock Width="{size:Scaled Value={size:BaseSize}, By=360}" TextWrapping="Wrap"
                  FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}"
                  Text="Start and end grips bracket the selection. Drag the end grip right to widen the selection, the start grip left to narrow it." />
 
       <!-- One line, no API names: what the grips are for -->
-      <TextBlock Width="360" TextWrapping="Wrap" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}"
+      <TextBlock Width="{size:Scaled Value={size:BaseSize}, By=360}" TextWrapping="Wrap" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}"
                  Text="The grips of a text field's selection — the accent-coloured touches you grab with a finger, and the theme's own grip artwork." />
     </StackPanel>
   </DataTemplate>

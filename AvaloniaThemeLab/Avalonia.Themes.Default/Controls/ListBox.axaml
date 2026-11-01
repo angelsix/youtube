@@ -17,7 +17,7 @@
         <TextBlock Grid.Row="0" Text="Row states" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
         <!-- Every state a row can be in, pinned inside one real list. Multiple selection keeps all
              three pinned "Selected" rows chosen: a single-selection list keeps only the last one -->
-        <ListBox Grid.Row="1" Width="190" SelectionMode="Multiple">
+        <ListBox Grid.Row="1" Width="{size:Scaled Value={size:BaseSize}, By=190}" SelectionMode="Multiple">
           <!-- Rest: the row's plain state -->
           <ListBoxItem>Default</ListBoxItem>
           <!-- Hover: the row's hover fill, pinned -->
@@ -37,7 +37,7 @@
              takes that hue and the accent's text role -->
         <TextBlock Grid.Row="2" Text="Selection follows the hue" FontSize="{size:FontSizeSm}" theme:Accent.Kind="Warning" Foreground="{color:AccentTextDefault}" />
         <!-- A chosen row takes the box's own hue -->
-        <ListBox Grid.Row="3" Width="190" SelectionMode="Multiple" theme:Accent.Kind="Warning">
+        <ListBox Grid.Row="3" Width="{size:Scaled Value={size:BaseSize}, By=190}" SelectionMode="Multiple" theme:Accent.Kind="Warning">
           <ListBoxItem IsSelected="True">First</ListBoxItem>
           <ListBoxItem>Second</ListBoxItem>
           <ListBoxItem IsSelected="True">Third</ListBoxItem>
@@ -47,7 +47,7 @@
         <!-- Caption naming the states shown -->
         <TextBlock Grid.Row="0" Text="Single selection" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
         <!-- One chosen row: a click elsewhere swaps the choice -->
-        <ListBox Grid.Row="1" Width="190" SelectedIndex="1">
+        <ListBox Grid.Row="1" Width="{size:Scaled Value={size:BaseSize}, By=190}" SelectedIndex="1">
           <ListBoxItem>First</ListBoxItem>
           <ListBoxItem>Selected</ListBoxItem>
           <ListBoxItem>Third</ListBoxItem>
@@ -55,7 +55,7 @@
         <!-- Caption naming the states shown -->
         <TextBlock Grid.Row="2" Text="Toggle multi-select" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
         <!-- Toggle mode: click adds or removes a row instead of swapping the choice -->
-        <ListBox Grid.Row="3" Width="190" SelectionMode="Toggle" SelectedIndex="1" theme:Accent.Kind="Success">
+        <ListBox Grid.Row="3" Width="{size:Scaled Value={size:BaseSize}, By=190}" SelectionMode="Toggle" SelectedIndex="1" theme:Accent.Kind="Success">
           <ListBoxItem>Alpha</ListBoxItem>
           <ListBoxItem>Beta</ListBoxItem>
           <ListBoxItem>Gamma</ListBoxItem>
@@ -63,7 +63,7 @@
         <!-- Caption naming the states shown -->
         <TextBlock Grid.Row="4" Text="Clickable rows" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
         <!-- The rest and disabled rows the user or the crawler actually clicks -->
-        <ListBox Grid.Row="5" Width="190">
+        <ListBox Grid.Row="5" Width="{size:Scaled Value={size:BaseSize}, By=190}">
           <ListBoxItem>Default</ListBoxItem>
           <ListBoxItem IsEnabled="False">Disabled</ListBoxItem>
         </ListBox>

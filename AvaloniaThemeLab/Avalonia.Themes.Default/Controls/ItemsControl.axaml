@@ -8,7 +8,7 @@
   <DataTemplate x:Key="ItemsControlPreview">
     <StackPanel Spacing="{size:SpacingXl}" HorizontalAlignment="Left">
       <!-- A short list: framed and padded, each row templated and spaced so it reads as a list, not loose text -->
-      <ItemsControl Width="240">
+      <ItemsControl Width="{size:Scaled Value={size:BaseSize}, By=240}">
         <ItemsControl.ItemsPanel>
           <ItemsPanelTemplate>
             <StackPanel Orientation="Vertical" Spacing="{size:SpacingLg}" />

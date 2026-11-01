@@ -20,7 +20,7 @@
            three pinned "Selected" nodes chosen: a single-select tree keeps only the last one.
            The row is Auto-sized, so the tree takes its content's height and no inner scrollbar
            is ever drawn over its rows (a MaxHeight here would force one) -->
-      <TreeView Grid.Row="1" Width="240" SelectionMode="Multiple">
+      <TreeView Grid.Row="1" Width="{size:Scaled Value={size:BaseSize}, By=240}" SelectionMode="Multiple">
         <!-- Open node: the collapse chevron, and it hosts the state samples beneath -->
         <TreeViewItem Header="Open - expanded" IsExpanded="True">
           <!-- Closed node with a child: the expand chevron; its leaf child hits :empty (no chevron) -->
@@ -52,7 +52,7 @@
            the accent kind supplies the hue and the hue-aware foreground supplies the ink -->
       <TextBlock Grid.Row="2" Text="Selection follows the hue" FontSize="{size:FontSizeSm}" theme:Accent.Kind="Warning" Foreground="{color:AccentTextDefault}" />
       <!-- A chosen node takes the tree's own hue -->
-      <TreeView Grid.Row="3" Width="240" SelectionMode="Multiple" theme:Accent.Kind="Warning">
+      <TreeView Grid.Row="3" Width="{size:Scaled Value={size:BaseSize}, By=240}" SelectionMode="Multiple" theme:Accent.Kind="Warning">
         <TreeViewItem Header="First" IsSelected="True" />
         <TreeViewItem Header="Second" />
         <TreeViewItem Header="Third" IsSelected="True" />
@@ -60,7 +60,7 @@
       <!-- Caption naming the states shown -->
       <TextBlock Grid.Row="4" Text="Whole tree unavailable" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
       <!-- The frame and every row fade together under the disabled dim -->
-      <TreeView Grid.Row="5" Width="240" IsEnabled="False">
+      <TreeView Grid.Row="5" Width="{size:Scaled Value={size:BaseSize}, By=240}" IsEnabled="False">
         <TreeViewItem Header="Unavailable" />
         <TreeViewItem Header="Unreachable" />
       </TreeView>

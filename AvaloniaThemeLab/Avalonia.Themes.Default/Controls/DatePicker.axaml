@@ -12,19 +12,19 @@
   <DataTemplate x:Key="DatePickerPreview">
     <StackPanel Spacing="{size:SpacingXl}">
       <!-- A chosen date: the resting face -->
-      <DatePicker Width="240" SelectedDate="2026-09-18" />
+      <DatePicker Width="{size:Scaled Value={size:BaseSize}, By=240}" SelectedDate="2026-09-18" />
       <!-- Nothing chosen: the prompt dims to the placeholder strength -->
-      <DatePicker Width="240" />
+      <DatePicker Width="{size:Scaled Value={size:BaseSize}, By=240}" />
       <!-- Pointer over the closed box -->
-      <DatePicker Width="240" SelectedDate="2026-09-18" theme:Preview.State="Hover" />
+      <DatePicker Width="{size:Scaled Value={size:BaseSize}, By=240}" SelectedDate="2026-09-18" theme:Preview.State="Hover" />
       <!-- Keyboard focus rings the frame (Rule 21) -->
-      <DatePicker Width="240" SelectedDate="2026-09-18" theme:Preview.State="Focused" />
+      <DatePicker Width="{size:Scaled Value={size:BaseSize}, By=240}" SelectedDate="2026-09-18" theme:Preview.State="Focused" />
       <!-- The Warning hue tints the face and keeps its own hue on focus (Rule 21) -->
-      <DatePicker Width="240" SelectedDate="2026-09-18" theme:Accent.Kind="Warning" />
+      <DatePicker Width="{size:Scaled Value={size:BaseSize}, By=240}" SelectedDate="2026-09-18" theme:Accent.Kind="Warning" />
       <!-- Unusable: faded to the disabled strength -->
-      <DatePicker Width="240" SelectedDate="2026-09-18" IsEnabled="False" />
+      <DatePicker Width="{size:Scaled Value={size:BaseSize}, By=240}" SelectedDate="2026-09-18" IsEnabled="False" />
       <!-- Failed validation lights the error border and keeps the box's height -->
-      <DatePicker Width="240" SelectedDate="2026-09-18">
+      <DatePicker Width="{size:Scaled Value={size:BaseSize}, By=240}" SelectedDate="2026-09-18">
         <DataValidationErrors.Error>
           <sys:Exception>
             <x:Arguments>

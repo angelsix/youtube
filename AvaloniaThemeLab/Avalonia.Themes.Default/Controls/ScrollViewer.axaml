@@ -13,19 +13,20 @@
       <TextBlock Text="Always visible · bars beside content" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
       <!-- Always visible (AllowAutoHide=False): both bars rest beside the content, track and arrows
            drawn at all times — the counterpart to the auto-hide example below -->
-      <ScrollViewer Width="180" Height="100" HorizontalScrollBarVisibility="Auto" AllowAutoHide="False">
-        <!-- Sample wider than the pane so the horizontal bar rests beside the content; the rows fit the pane exactly, so the vertical extent equals the viewport and the wheel reaches it at rest (the disabled twin below relies on that) -->
-        <Grid ColumnDefinitions="64,64,64,8" RowDefinitions="40,40,40,6">
-          <Rectangle Grid.Column="0" Grid.Row="0" Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
-          <Rectangle Grid.Column="1" Grid.Row="0" Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
-          <Rectangle Grid.Column="2" Grid.Row="0" Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
-          <Rectangle Grid.Column="0" Grid.Row="1" Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
-          <Rectangle Grid.Column="1" Grid.Row="1" Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
-          <Rectangle Grid.Column="2" Grid.Row="1" Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
-          <Rectangle Grid.Column="0" Grid.Row="2" Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
-          <Rectangle Grid.Column="1" Grid.Row="2" Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
-          <Rectangle Grid.Column="2" Grid.Row="2" Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
-        </Grid>
+      <ScrollViewer Width="{size:Scaled Value={size:BaseSize}, By=180}" Height="{size:Scaled Value={size:BaseSize}, By=100}" HorizontalScrollBarVisibility="Auto" AllowAutoHide="False">
+        <!-- Nine 64x40 cells plus an overflow lane right (8) and below (6): wider than the pane so the horizontal bar rests beside the content; the rows fit the pane exactly, so the vertical extent equals the viewport and the wheel reaches it at rest (the disabled twin below relies on that) -->
+        <UniformGrid Columns="3" Width="{size:Scaled Value={size:BaseSize}, By=192}" Height="{size:Scaled Value={size:BaseSize}, By=120}"
+                     Margin="{size:Edges Right={size:SpacingLg}, Bottom={size:Scaled Value={size:BaseSize}, By=6}}">
+          <Rectangle Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
+          <Rectangle Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
+          <Rectangle Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
+          <Rectangle Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
+          <Rectangle Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
+          <Rectangle Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
+          <Rectangle Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
+          <Rectangle Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
+          <Rectangle Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
+        </UniformGrid>
       </ScrollViewer>
       <!-- Caption naming the state shown -->
       <TextBlock Text="Auto-hide · idle — bars fully hidden" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
@@ -33,71 +34,75 @@
            bar — track, arrows and thumb — fades out over the content; pointer over the viewer brings
            the slim thumb back, and pointer over the bar itself expands it to the full track with
            arrows (the bar's own expand, task 122) -->
-      <ScrollViewer Width="180" Height="100" HorizontalScrollBarVisibility="Auto" AllowAutoHide="True">
+      <ScrollViewer Width="{size:Scaled Value={size:BaseSize}, By=180}" Height="{size:Scaled Value={size:BaseSize}, By=100}" HorizontalScrollBarVisibility="Auto" AllowAutoHide="True">
         <!-- Same sample as the resting example: here the bars overlay the content by design -->
-        <Grid ColumnDefinitions="64,64,64,8" RowDefinitions="40,40,40,6">
-          <Rectangle Grid.Column="0" Grid.Row="0" Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
-          <Rectangle Grid.Column="1" Grid.Row="0" Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
-          <Rectangle Grid.Column="2" Grid.Row="0" Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
-          <Rectangle Grid.Column="0" Grid.Row="1" Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
-          <Rectangle Grid.Column="1" Grid.Row="1" Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
-          <Rectangle Grid.Column="2" Grid.Row="1" Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
-          <Rectangle Grid.Column="0" Grid.Row="2" Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
-          <Rectangle Grid.Column="1" Grid.Row="2" Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
-          <Rectangle Grid.Column="2" Grid.Row="2" Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
-        </Grid>
+        <UniformGrid Columns="3" Width="{size:Scaled Value={size:BaseSize}, By=192}" Height="{size:Scaled Value={size:BaseSize}, By=120}"
+                     Margin="{size:Edges Right={size:SpacingLg}, Bottom={size:Scaled Value={size:BaseSize}, By=6}}">
+          <Rectangle Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
+          <Rectangle Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
+          <Rectangle Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
+          <Rectangle Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
+          <Rectangle Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
+          <Rectangle Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
+          <Rectangle Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
+          <Rectangle Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
+          <Rectangle Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
+        </UniformGrid>
       </ScrollViewer>
       <!-- Caption naming the state shown -->
       <TextBlock Text="Auto-hide · hover — bars revealed (state pinned)" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
       <!-- Twin of the idle example with the hover state pinned, so a still capture shows both sides
            of the auto-hide: the bars drawn at full strength over the neutral content -->
-      <ScrollViewer Width="180" Height="80" HorizontalScrollBarVisibility="Auto" AllowAutoHide="True" theme:Preview.State="Hover">
+      <ScrollViewer Width="{size:Scaled Value={size:BaseSize}, By=180}" Height="{size:Scaled Value={size:BaseSize}, By=80}" HorizontalScrollBarVisibility="Auto" AllowAutoHide="True" theme:Preview.State="Hover">
         <!-- Same sample as the resting example -->
-        <Grid ColumnDefinitions="64,64,64,8" RowDefinitions="40,40,40,6">
-          <Rectangle Grid.Column="0" Grid.Row="0" Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
-          <Rectangle Grid.Column="1" Grid.Row="0" Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
-          <Rectangle Grid.Column="2" Grid.Row="0" Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
-          <Rectangle Grid.Column="0" Grid.Row="1" Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
-          <Rectangle Grid.Column="1" Grid.Row="1" Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
-          <Rectangle Grid.Column="2" Grid.Row="1" Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
-          <Rectangle Grid.Column="0" Grid.Row="2" Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
-          <Rectangle Grid.Column="1" Grid.Row="2" Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
-          <Rectangle Grid.Column="2" Grid.Row="2" Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
-        </Grid>
+        <UniformGrid Columns="3" Width="{size:Scaled Value={size:BaseSize}, By=192}" Height="{size:Scaled Value={size:BaseSize}, By=120}"
+                     Margin="{size:Edges Right={size:SpacingLg}, Bottom={size:Scaled Value={size:BaseSize}, By=6}}">
+          <Rectangle Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
+          <Rectangle Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
+          <Rectangle Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
+          <Rectangle Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
+          <Rectangle Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
+          <Rectangle Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
+          <Rectangle Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
+          <Rectangle Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
+          <Rectangle Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
+        </UniformGrid>
       </ScrollViewer>
       <!-- Caption naming the state shown -->
       <TextBlock Text="Disabled" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
       <!-- Disabled: dimmed frame and ghosted bars, still occupying their lanes -->
-      <ScrollViewer Width="180" Height="90" HorizontalScrollBarVisibility="Auto" IsEnabled="False">
+      <ScrollViewer Width="{size:Scaled Value={size:BaseSize}, By=180}" Height="{size:Scaled Value={size:BaseSize}, By=90}" HorizontalScrollBarVisibility="Auto" IsEnabled="False">
         <!-- Same oversize sample as the resting example -->
-        <Grid ColumnDefinitions="64,64,64,8" RowDefinitions="40,40,40,6">
-          <Rectangle Grid.Column="0" Grid.Row="0" Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
-          <Rectangle Grid.Column="1" Grid.Row="0" Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
-          <Rectangle Grid.Column="2" Grid.Row="0" Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
-          <Rectangle Grid.Column="0" Grid.Row="1" Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
-          <Rectangle Grid.Column="1" Grid.Row="1" Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
-          <Rectangle Grid.Column="2" Grid.Row="1" Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
-          <Rectangle Grid.Column="0" Grid.Row="2" Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
-          <Rectangle Grid.Column="1" Grid.Row="2" Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
-          <Rectangle Grid.Column="2" Grid.Row="2" Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
-        </Grid>
+        <UniformGrid Columns="3" Width="{size:Scaled Value={size:BaseSize}, By=192}" Height="{size:Scaled Value={size:BaseSize}, By=120}"
+                     Margin="{size:Edges Right={size:SpacingLg}, Bottom={size:Scaled Value={size:BaseSize}, By=6}}">
+          <Rectangle Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
+          <Rectangle Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
+          <Rectangle Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
+          <Rectangle Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
+          <Rectangle Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
+          <Rectangle Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
+          <Rectangle Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
+          <Rectangle Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
+          <Rectangle Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
+        </UniformGrid>
       </ScrollViewer>
       <!-- Caption naming the state shown -->
       <TextBlock Text="Success hue" FontSize="{size:FontSizeSm}" theme:Accent.Kind="Success" Foreground="{color:AccentTextDefault}" />
       <!-- Success-accented frame. Corner box omitted: set_IsExpanded is non-public in Avalonia 12, so the [IsExpanded] branch cannot fire from markup -->
-      <ScrollViewer Width="180" Height="90" HorizontalScrollBarVisibility="Auto" theme:Accent.Kind="Success">
+      <ScrollViewer Width="{size:Scaled Value={size:BaseSize}, By=180}" Height="{size:Scaled Value={size:BaseSize}, By=90}" HorizontalScrollBarVisibility="Auto" theme:Accent.Kind="Success">
         <!-- Same oversize sample as the resting example -->
-        <Grid ColumnDefinitions="64,64,64,8" RowDefinitions="40,40,40,6">
-          <Rectangle Grid.Column="0" Grid.Row="0" Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
-          <Rectangle Grid.Column="1" Grid.Row="0" Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
-          <Rectangle Grid.Column="2" Grid.Row="0" Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
-          <Rectangle Grid.Column="0" Grid.Row="1" Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
-          <Rectangle Grid.Column="1" Grid.Row="1" Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
-          <Rectangle Grid.Column="2" Grid.Row="1" Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
-          <Rectangle Grid.Column="0" Grid.Row="2" Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
-          <Rectangle Grid.Column="1" Grid.Row="2" Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
-          <Rectangle Grid.Column="2" Grid.Row="2" Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
-        </Grid>
+        <UniformGrid Columns="3" Width="{size:Scaled Value={size:BaseSize}, By=192}" Height="{size:Scaled Value={size:BaseSize}, By=120}"
+                     Margin="{size:Edges Right={size:SpacingLg}, Bottom={size:Scaled Value={size:BaseSize}, By=6}}">
+          <Rectangle Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
+          <Rectangle Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
+          <Rectangle Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
+          <Rectangle Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
+          <Rectangle Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
+          <Rectangle Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
+          <Rectangle Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
+          <Rectangle Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
+          <Rectangle Fill="{color:NeutralLight5Brush}" Margin="{size:Edges All={size:SpacingMd}}" />
+        </UniformGrid>
       </ScrollViewer>
     </StackPanel>
   </DataTemplate>

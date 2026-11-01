@@ -1,5 +1,6 @@
 using AngelSix.ThemeEngine;
 using Avalonia;
+using CommunityToolkit.Mvvm.ComponentModel;
 using Avalonia.Layout;
 using Avalonia.Media;
 
@@ -16,6 +17,13 @@ namespace Avalonia.Themes.Default;
 /// values for alternative palettes (e.g. dark mode).
 /// </para>
 /// <para>
+/// The declared values are <c>[ObservableProperty]</c>s, so a live instance can be edited at
+/// runtime: <c>ThemeContext</c> listens to <c>PropertyChanged</c> and re-resolves every
+/// <c>{theme:}</c>, <c>{color:}</c> and <c>{size:}</c> binding, so everything derived from the
+/// edited value (its ramp, its ladder) follows with no notification of its own. A subclass that
+/// overrides one with a get-only property fixes that value for its look.
+/// </para>
+/// <para>
 /// The class is <c>partial</c> because most of it is generated. A <c>[ColorRamp]</c> seed expands
 /// into its ramp, twenty stage colors, twenty-one brushes and — for the fallback hue — the neutral
 /// aliases; a <c>[SizeScale]</c> base expands into its ladder. What is left here is the material
@@ -24,7 +32,7 @@ namespace Avalonia.Themes.Default;
 /// </para>
 /// </remarks>
 [Theme(FallbackHue = "Neutral")]
-public partial class DefaultTheme
+public partial class DefaultTheme : ObservableObject
 {
     #region Identity
 
@@ -36,9 +44,9 @@ public partial class DefaultTheme
     /// </summary>
     /// <remarks>
     /// Settable, so a consumer can flip a live instance into its mirrored palette — e.g. for a
-    /// scoped dark region.
+    /// scoped dark region — and every token re-resolves against it.
     /// </remarks>
-    public virtual bool IsDark { get; set; } = false;
+    [ObservableProperty] public virtual partial bool IsDark { get; set; } = false;
 
     #endregion Identity
 
@@ -53,7 +61,7 @@ public partial class DefaultTheme
     /// Clipping stays where something is a viewport: a scroll presenter clips on its own, and a
     /// template that slides content (TransitioningContentControl) clips its own root. See ThemeRules.md.
     /// </remarks>
-    public virtual bool WebRenderStyle => true;
+    [ObservableProperty] public virtual partial bool WebRenderStyle { get; set; } = true;
 
     /// <summary>
     /// ClipToBounds for every templated control, as a setter in each control theme, so a consumer's
@@ -79,9 +87,10 @@ public partial class DefaultTheme
     /// a control's focus state uses instead of the raw focus tokens. The policy reads this switch off
     /// the LIVE THEME INSTANCE and combines it with the TARGET ELEMENT'S EFFECTIVE hue, so one
     /// override here flips every focused accented control at once. Documented as Rule 21 in
-    /// ThemeRules.md. A downstream theme flips it by overriding this property to return true.
+    /// ThemeRules.md. A downstream theme flips it by overriding this property to return true; a live
+    /// instance flips it by setting it.
     /// </remarks>
-    public virtual bool FocusColorOnAccents => false;
+    [ObservableProperty] public virtual partial bool FocusColorOnAccents { get; set; } = false;
 
     #endregion Render Style
 
@@ -105,36 +114,49 @@ public partial class DefaultTheme
     // canvas and 6.0-6.6:1 on the dark one in all eight hues. The seed gives only hue and chroma,
     // so the seed color itself (Accent{Hue}) is unchanged. Surface stays off: its stages are the
     // canvas's own tints. A downstream theme overriding a seed must repeat HueAware = true.
+    //
+    // LightInk (task 93, carried by the engine since 1.24.0): the hue-aware ramp parks every stage at
+    // one shared OKLCH lightness with chroma capped by the gamut there, so on the LIGHT palette the
+    // hued accents' deep ink stages settled near-black while the dark palette's mirrored versions read
+    // vibrant. Luke's review: the light theme's dark accent stages must be more saturated and less
+    // near-black, and the dark theme stays byte-identical. So each hue declares its hand-tuned light
+    // Dark3..Dark7: every one keeps its stage's OKLCH hue, gains a little lightness (+0.03 .. +0.005,
+    // shallowest first) and wears the full gamut chroma there; task 101 lifted Success and Warning
+    // further. Floors held in every hue: the stage on the light canvas >= 4.5:1 (worst 5.19, Warning
+    // Dark3) and Light10 text on it >= 4.5:1, ordering preserved. The engine emits those stages:
+    // exact at the declared seed, and for an edited seed carried as the same OKLCH offset from the
+    // engine's own stage, so a live seed edit moves them and setting the seed back restores them.
+    // The dark palette is the engine ramp, untouched. Neutral is deliberately left alone.
 
     [AccentHue]
     [ColorRamp(OverlayLevels = [0.08, 0.16, 0.32], DarkSeed = "#D1D1D1", HueAware = true)]
-    public virtual Color AccentNeutral => Color.Parse("#2E2E2E");
+    [ObservableProperty] public virtual partial Color AccentNeutral { get; set; } = Color.Parse("#2E2E2E");
 
-    [AccentHue, ColorRamp(HueAware = true)] public virtual Color AccentPrimary => Color.Parse("#5BA3C9");
-    [AccentHue, ColorRamp(HueAware = true)] public virtual Color AccentSuccess => Color.Parse("#6DB87E");
+    [AccentHue, ColorRamp(HueAware = true, LightInk = ["#005F83", "#004B69", "#003950", "#00283A", "#001825"])] [ObservableProperty] public virtual partial Color AccentPrimary { get; set; } = Color.Parse("#5BA3C9");
+    [AccentHue, ColorRamp(HueAware = true, LightInk = ["#3A7848", "#2E5E39", "#214529", "#152B1A", "#08110A"])] [ObservableProperty] public virtual partial Color AccentSuccess { get; set; } = Color.Parse("#6DB87E");
     // Task 148: Warning is an AMBER/ORANGE warning, distinct from Favourite's clear yellow. It used to
     // sit at a muted gold (#E0B860) that read identically to Favourite in both palettes; the seed moves
     // towards orange so the two hues separate in the engine's own ramps (no per-control hex).
-    [AccentHue, ColorRamp(HueAware = true)] public virtual Color AccentWarning => Color.Parse("#E89A3C");
+    [AccentHue, ColorRamp(HueAware = true, LightInk = ["#B05E1E", "#8D4B18", "#6A3812", "#46260C", "#231306"])] [ObservableProperty] public virtual partial Color AccentWarning { get; set; } = Color.Parse("#E89A3C");
     // Favourite (task 101): a vibrant golden-yellow that sits between Warning (now amber/orange) and the
     // blues (Info). Declared like every other hue, so the source generator derives its full ramp,
     // its AccentKind member and its {color:Favourite…} extensions — Accent.Kind="Favourite" therefore
     // works everywhere with no other wiring. Its light ink stages are hand-placed below (task 93's
     // pattern) so the new hue ships vibrant in the light palette rather than settling near-black.
-    [AccentHue, ColorRamp(HueAware = true)] public virtual Color AccentFavourite => Color.Parse("#FFC400");
+    [AccentHue, ColorRamp(HueAware = true, LightInk = ["#856600", "#5E4900", "#382B00", "#120E00", "#000000"])] [ObservableProperty] public virtual partial Color AccentFavourite { get; set; } = Color.Parse("#FFC400");
     // Task 148: Error stays the BRIGHTEST red. Destructive rotates toward magenta (raspberry) and deepens,
     // so the two reds finally differ instead of reading as one.
-    [AccentHue, ColorRamp(HueAware = true)] public virtual Color AccentError => Color.Parse("#D47A7A");
+    [AccentHue, ColorRamp(HueAware = true, LightInk = ["#A50025", "#83001D", "#660015", "#4B000C", "#310005"])] [ObservableProperty] public virtual partial Color AccentError { get; set; } = Color.Parse("#D47A7A");
     // Task 148: Info was a muddy orange (#E89F4A) that collided with Warning/Favourite. Light blue is taken
     // by Primary, so Info takes INDIGO — the hue furthest from Primary and every other hue (measured min
     // RGB-Euclidean distance to the other seven seeds: 77, versus teal 60 / cyan-green 72). Clearly cool,
     // clearly informational, unmistakably not the primary sky-blue.
-    [AccentHue, ColorRamp(HueAware = true)] public virtual Color AccentInfo => Color.Parse("#4B5BE0");
+    [AccentHue, ColorRamp(HueAware = true, LightInk = ["#4655D1", "#3844A7", "#2A337D", "#1C2254", "#0E112A"])] [ObservableProperty] public virtual partial Color AccentInfo { get; set; } = Color.Parse("#4B5BE0");
     // Task 148: Destructive rotates hard toward MAGENTA (raspberry, hue ~316°) and deepens, so it finally
     // differs from Error's pure red in BOTH palettes — including the dark one, where the engine's shared
     // lightness compresses chroma and a mild shift stayed too close. A stronger rotation clears that.
-    [AccentHue, ColorRamp(HueAware = true)] public virtual Color AccentDestructive => Color.Parse("#A02A80");
-    [AccentHue, ColorRamp(HueAware = true)] public virtual Color AccentSubtle => Color.Parse("#B088C8");
+    [AccentHue, ColorRamp(HueAware = true, LightInk = ["#87236C", "#6C1C56", "#511541", "#360E2B", "#1B0716"])] [ObservableProperty] public virtual partial Color AccentDestructive { get; set; } = Color.Parse("#A02A80");
+    [AccentHue, ColorRamp(HueAware = true, LightInk = ["#8000AE", "#66008C", "#4E006D", "#390050", "#240034"])] [ObservableProperty] public virtual partial Color AccentSubtle { get; set; } = Color.Parse("#B088C8");
 
     // The surface hue seeds the application canvas. In the light palette it keeps the paper seed
     // (#fdfdfd) and mirrors as usual; in the dark palette the whole ramp is re-centred on the
@@ -143,7 +165,7 @@ public partial class DefaultTheme
     // this seed must repeat the attribute including DarkSeed, or it loses the re-centring.
     [AccentHue]
     [ColorRamp(DarkSeed = "#222222")]
-    public virtual Color AccentSurface => Color.Parse("#fdfdfd");
+    [ObservableProperty] public virtual partial Color AccentSurface { get; set; } = Color.Parse("#fdfdfd");
 
     // The focus ring is the one color that is deliberately not a hue: a focused control should
     // announce itself the same way whatever accent it carries, so this must not follow Accent.Kind.
@@ -152,111 +174,10 @@ public partial class DefaultTheme
     // There was an AccentBorder here too, for the resting border of every control. It was a mistake:
     // being a fixed color it bypassed the accent entirely, so an accented control drew a border
     // that ignored its own hue. Borders now use {color:BorderDefault}, which follows the hue.
-    public virtual Color AccentFocus => Color.Parse("#bf4aF9");
+    [ObservableProperty] public virtual partial Color AccentFocus { get; set; } = Color.Parse("#bf4aF9");
 
     #endregion Seed Colors
 
-    #region Light Palette Ink Stages (task 93)
-
-    // The hue-aware ramp parks every stage at one shared OKLCH lightness, and its chroma is capped
-    // at whatever the gamut carries there — so on the light palette the deep ink stages of the hued
-    // accents settle near-black (Primary Dark3 #005677, Error Dark5 #5C0A16), while the dark
-    // palette's mirrored versions read vibrant. Luke's second review: the LIGHT theme's dark accent
-    // stages must be more saturated and less near-black; the dark theme is correct and stays
-    // byte-identical.
-    //
-    // The engine exposes no light-side lever for this (HueAwareCentre and ExtremeAmount are fixed
-    // constants; the seeds feed BOTH palettes, so retuning a seed would move the dark theme too).
-    // These declarations therefore re-place the light palette's deep ink stages individually: each
-    // keeps its stage's OKLCH hue, gains a little lightness (+0.03 .. +0.005, shallowest first) and
-    // wears the full chroma the gamut allows at the new lightness. Declaring a stage here makes the
-    // source generator withhold its own emission of that member (verified: the generated partial
-    // simply omits it while keeping the Brush companion), so the body below IS the token — the
-    // {color:...} extensions bind straight to it. In dark mode every body delegates to the same
-    // ramp the generator would have used ({Hue}Ramp.Dark(N)), so the dark palette computes exactly
-    // what it always did.
-    //
-    // Contrast floors held in every hue: the stage on the light canvas >= 4.5:1 (worst now 5.19,
-    // Warning Dark3 after task 101 lifted Success and Warning out of the near-black mud; was 6.75
-    // Success Dark3 under task 93, originally 7.7-8.6) and Light10 text on the stage >= 4.5:1.
-    // Ordering within a ramp is preserved (each stage stays darker than the one above it). Neutral
-    // is deliberately left alone: its grey ink is not "near-black" and its dim-text role reads
-    // correctly as-is.
-
-    public virtual Color AccentPrimaryDark3 => IsDark ? PrimaryRamp.Dark(3) : Color.Parse("#005F83");
-    public virtual Color AccentPrimaryDark4 => IsDark ? PrimaryRamp.Dark(4) : Color.Parse("#004B69");
-    public virtual Color AccentPrimaryDark5 => IsDark ? PrimaryRamp.Dark(5) : Color.Parse("#003950");
-    public virtual Color AccentPrimaryDark6 => IsDark ? PrimaryRamp.Dark(6) : Color.Parse("#00283A");
-    public virtual Color AccentPrimaryDark7 => IsDark ? PrimaryRamp.Dark(7) : Color.Parse("#001825");
-
-    // Task 101: the light Success and Warning fills read too dark and muddy (most visible on a
-    // checked CheckBox's fill). Lifted at the source so every control that draws those stages follows.
-    // Dark3 doubles as the accent-text ink, so its binding floor is 4.5:1 against the light canvas
-    // (stricter than the 3:1 a check glyph needs); each stage below keeps its hue and sits ~5.2:1 on
-    // the canvas — clearly less muddy than the old 6.75/7.19 while holding both floors. The dark
-    // palette still delegates to the engine ramp, so it stays byte-identical.
-    public virtual Color AccentSuccessDark3 => IsDark ? SuccessRamp.Dark(3) : Color.Parse("#3A7848");
-    public virtual Color AccentSuccessDark4 => IsDark ? SuccessRamp.Dark(4) : Color.Parse("#2E5E39");
-    public virtual Color AccentSuccessDark5 => IsDark ? SuccessRamp.Dark(5) : Color.Parse("#214529");
-    public virtual Color AccentSuccessDark6 => IsDark ? SuccessRamp.Dark(6) : Color.Parse("#152B1A");
-    public virtual Color AccentSuccessDark7 => IsDark ? SuccessRamp.Dark(7) : Color.Parse("#08110A");
-
-    // Task 148: the old gold band (#89661B…) read identically to Favourite's golden-yellow in the light
-    // palette. Replaced with an amber/orange band that keeps the raised seed's hue, lands Dark3 at ~4.7:1
-    // on the light canvas (holds the 4.5:1 accent-text floor) and steps down monotonically. Favourite's
-    // golden band below is untouched, so the two hues now differ by 53 RGB units at Dark3 (was 0).
-    public virtual Color AccentWarningDark3 => IsDark ? WarningRamp.Dark(3) : Color.Parse("#B05E1E");
-    public virtual Color AccentWarningDark4 => IsDark ? WarningRamp.Dark(4) : Color.Parse("#8D4B18");
-    public virtual Color AccentWarningDark5 => IsDark ? WarningRamp.Dark(5) : Color.Parse("#6A3812");
-    public virtual Color AccentWarningDark6 => IsDark ? WarningRamp.Dark(6) : Color.Parse("#46260C");
-    public virtual Color AccentWarningDark7 => IsDark ? WarningRamp.Dark(7) : Color.Parse("#231306");
-
-    public virtual Color AccentErrorDark3 => IsDark ? ErrorRamp.Dark(3) : Color.Parse("#A50025");
-    public virtual Color AccentErrorDark4 => IsDark ? ErrorRamp.Dark(4) : Color.Parse("#83001D");
-    public virtual Color AccentErrorDark5 => IsDark ? ErrorRamp.Dark(5) : Color.Parse("#660015");
-    public virtual Color AccentErrorDark6 => IsDark ? ErrorRamp.Dark(6) : Color.Parse("#4B000C");
-    public virtual Color AccentErrorDark7 => IsDark ? ErrorRamp.Dark(7) : Color.Parse("#310005");
-
-    // Task 148: the old muddy-orange band (#7B4A00…) collided with Warning and Favourite. Replaced with an
-    // indigo band that keeps the raised seed's hue, lands Dark3 at ~6.0:1 on the light canvas (well over the
-    // 4.5:1 accent-text floor) and steps down monotonically. Indigo is a COOL hue, so Info now reads as a
-    // distinct informational colour instead of yet another warm tone; it sits 105 RGB units from Primary's
-    // ink at Dark3 and 77 from Primary's seed, furthest of any candidate from every other hue.
-    public virtual Color AccentInfoDark3 => IsDark ? InfoRamp.Dark(3) : Color.Parse("#4655D1");
-    public virtual Color AccentInfoDark4 => IsDark ? InfoRamp.Dark(4) : Color.Parse("#3844A7");
-    public virtual Color AccentInfoDark5 => IsDark ? InfoRamp.Dark(5) : Color.Parse("#2A337D");
-    public virtual Color AccentInfoDark6 => IsDark ? InfoRamp.Dark(6) : Color.Parse("#1C2254");
-    public virtual Color AccentInfoDark7 => IsDark ? InfoRamp.Dark(7) : Color.Parse("#0E112A");
-
-    // Task 148: this band was BYTE-IDENTICAL to Error's (#A40028…), which is exactly why Luke saw the two reds
-    // as one. Replaced with a deeper raspberry band that keeps the strongly-magenta seed's hue, lands Dark3 at
-    // ~8.4:1 on the light canvas and steps down monotonically. Error stays the brighter pure-red; Destructive
-    // now reads as a darker, magenta-shifted red — 85 RGB units apart at Dark3 in light (was 0), and the
-    // stronger rotation also separates the engine-computed dark stages past the 40-unit floor.
-    public virtual Color AccentDestructiveDark3 => IsDark ? DestructiveRamp.Dark(3) : Color.Parse("#87236C");
-    public virtual Color AccentDestructiveDark4 => IsDark ? DestructiveRamp.Dark(4) : Color.Parse("#6C1C56");
-    public virtual Color AccentDestructiveDark5 => IsDark ? DestructiveRamp.Dark(5) : Color.Parse("#511541");
-    public virtual Color AccentDestructiveDark6 => IsDark ? DestructiveRamp.Dark(6) : Color.Parse("#360E2B");
-    public virtual Color AccentDestructiveDark7 => IsDark ? DestructiveRamp.Dark(7) : Color.Parse("#1B0716");
-
-    public virtual Color AccentSubtleDark3 => IsDark ? SubtleRamp.Dark(3) : Color.Parse("#8000AE");
-    public virtual Color AccentSubtleDark4 => IsDark ? SubtleRamp.Dark(4) : Color.Parse("#66008C");
-    public virtual Color AccentSubtleDark5 => IsDark ? SubtleRamp.Dark(5) : Color.Parse("#4E006D");
-    public virtual Color AccentSubtleDark6 => IsDark ? SubtleRamp.Dark(6) : Color.Parse("#390050");
-    public virtual Color AccentSubtleDark7 => IsDark ? SubtleRamp.Dark(7) : Color.Parse("#240034");
-
-    // Favourite (task 101): a brand-new hue, so without these its light DeepInk would settle near-black
-    // like every hued accent did before task 93 — reintroducing exactly the mudiness Luke rejected. Placed
-    // with the same method as Success and Warning above: keep the seed's golden-yellow hue, land Dark3 at
-    // ~5.3:1 on the light canvas (holds the 4.5:1 text floor and the 3:1 glyph floor), step down monotonically.
-    // The dark palette delegates to the engine ramp, so it is computed by the standard HueAware path.
-    public virtual Color AccentFavouriteDark3 => IsDark ? FavouriteRamp.Dark(3) : Color.Parse("#856600");
-    public virtual Color AccentFavouriteDark4 => IsDark ? FavouriteRamp.Dark(4) : Color.Parse("#5E4900");
-    public virtual Color AccentFavouriteDark5 => IsDark ? FavouriteRamp.Dark(5) : Color.Parse("#382B00");
-    public virtual Color AccentFavouriteDark6 => IsDark ? FavouriteRamp.Dark(6) : Color.Parse("#120E00");
-    public virtual Color AccentFavouriteDark7 => IsDark ? FavouriteRamp.Dark(7) : Color.Parse("#000000");
-
-    #endregion Light Palette Ink Stages (task 93)
 
     #region Bright Solid-Fill Stages (task 131)
 
@@ -682,23 +603,45 @@ public partial class DefaultTheme
     #region Size Scales
 
     /// <summary>Base size multiplier (user-adjustable 0.75-2.0). Every scale below rides on it.</summary>
-    public virtual double BaseSize => 1.0;
+    [ObservableProperty] public virtual partial double BaseSize { get; set; } = 1.0;
 
     // One base per ladder; the multipliers spell out the steps. The ladders are not uniform —
     // spacing breaks its own doubling at the fourth step — so the factors are listed literally
     // rather than derived from a ratio.
+    //
+    // Each base is BaseSize times its own scale, so BaseSize still moves the whole theme evenly
+    // while one ladder (the radii, say) can be retuned on its own, down to 0. Every scale is 1.0,
+    // so each base equals BaseSize exactly as before.
+
+    /// <summary>The spacing ladder's own factor on <see cref="BaseSize"/>.</summary>
+    [ObservableProperty] public virtual partial double SpacingScale { get; set; } = 1.0;
+
+    /// <summary>The type ladder's own factor on <see cref="BaseSize"/>.</summary>
+    [ObservableProperty] public virtual partial double FontSizeScale { get; set; } = 1.0;
+
+    /// <summary>The control height ladder's own factor on <see cref="BaseSize"/>.</summary>
+    [ObservableProperty] public virtual partial double ControlHeightScale { get; set; } = 1.0;
+
+    /// <summary>The corner radius ladder's own factor on <see cref="BaseSize"/>.</summary>
+    [ObservableProperty] public virtual partial double RadiusScale { get; set; } = 1.0;
+
+    /// <summary>The thickness ladder's own factor on <see cref="BaseSize"/>.</summary>
+    [ObservableProperty] public virtual partial double ThicknessScale { get; set; } = 1.0;
+
+    /// <summary>The icon ladder's own factor on <see cref="BaseSize"/>.</summary>
+    [ObservableProperty] public virtual partial double IconSizeScale { get; set; } = 1.0;
 
     /// <summary>Spacing ladder: SpacingSm through SpacingXxl.</summary>
     [SizeScale(Multipliers = [2, 4, 8, 12, 16])]
-    public virtual double Spacing => BaseSize;
+    public virtual double Spacing => BaseSize * SpacingScale;
 
     /// <summary>Type ladder: FontSizeSm through FontSizeXxl.</summary>
     [SizeScale(Multipliers = [12, 14, 16, 20, 24])]
-    public virtual double FontSize => BaseSize;
+    public virtual double FontSize => BaseSize * FontSizeScale;
 
     /// <summary>Control height ladder: ControlHeightSm, Md and Lg.</summary>
     [SizeScale(Multipliers = [32, 40, 48])]
-    public virtual double ControlHeight => BaseSize;
+    public virtual double ControlHeight => BaseSize * ControlHeightScale;
 
     /// <summary>
     /// Corner radius ladder, emitted twice over: as <c>CornerRadius</c> for Border and friends, and
@@ -707,7 +650,7 @@ public partial class DefaultTheme
     [SizeScale(Multipliers = [6, 12, 24, 32],
                Types = [typeof(CornerRadius), typeof(double)],
                TypeSuffixes = ["", "Double"])]
-    public virtual double Radius => BaseSize;
+    public virtual double Radius => BaseSize * RadiusScale;
 
     /// <summary>
     /// Uniform border/outline thicknesses, emitted twice over: as <c>Thickness</c> for
@@ -719,11 +662,11 @@ public partial class DefaultTheme
     [SizeScale(Multipliers = [1, 2, 3, 4, 6],
                Types = [typeof(Thickness), typeof(double)],
                TypeSuffixes = ["", "Double"])]
-    public virtual double Thickness => BaseSize;
+    public virtual double Thickness => BaseSize * ThicknessScale;
 
     /// <summary>Icon ladder: IconSizeSm through IconSizeXl. Md is the everyday glyph size.</summary>
     [SizeScale(Multipliers = [12, 16, 24, 32])]
-    public virtual double IconSize => BaseSize;
+    public virtual double IconSize => BaseSize * IconSizeScale;
 
     /// <summary>
     /// Widths for things that are surfaces rather than controls — a notification, a tooltip, a
@@ -773,11 +716,18 @@ public partial class DefaultTheme
                  Labels = ["Regular", "Medium", "SemiBold", "Bold"])]
     // WithInterFont() registers Inter as the "fonts:Inter" collection only. The bare name "Inter" matched no
     // registered family, so every text fell back to the platform default (Helvetica on macOS) until 29 Sep 2026.
-    public virtual FontFamily FontFamily => new("fonts:Inter#Inter, $Default");
+    [ObservableProperty] public virtual partial FontFamily FontFamily { get; set; } = new("fonts:Inter#Inter, $Default");
 
     // State visual properties
-    public virtual double DisabledOpacity => 0.3;
-    public virtual double PressedScale => 0.98;
+    [ObservableProperty] public virtual partial double DisabledOpacity { get; set; } = 0.3;
+    [ObservableProperty] public virtual partial double PressedScale { get; set; } = 0.98;
+
+    /// <summary>
+    /// The grow a control takes under the pointer, independent of <see cref="PressedScale"/> so the two
+    /// can be tuned apart. 1.0486 is the grow the hover states always drew (they used to be spelled
+    /// PressedScale x 1.07, which tied the hover to the press).
+    /// </summary>
+    [ObservableProperty] public virtual partial double HoverScale { get; set; } = 1.0486;
 
     /// <summary>
     /// Animation timing, in milliseconds: AnimationFastMs, AnimationNormalMs and AnimationSlowMs.
@@ -786,21 +736,21 @@ public partial class DefaultTheme
     [SizeScale(Multipliers = [0.5, 1, 2],
                Labels = ["FastMs", "NormalMs", "SlowMs"],
                Types = [typeof(TimeSpan)])]
-    public virtual double Animation => 150;
+    [ObservableProperty] public virtual partial double Animation { get; set; } = 150;
 
     // Control alignment defaults (for interactive controls: buttons, inputs, pickers, etc.)
-    public virtual HorizontalAlignment ControlHorizontalAlignment => HorizontalAlignment.Left;
-    public virtual VerticalAlignment ControlVerticalAlignment => VerticalAlignment.Center;
-    public virtual HorizontalAlignment ControlHorizontalContentAlignment => HorizontalAlignment.Left;
-    public virtual VerticalAlignment ControlVerticalContentAlignment => VerticalAlignment.Center;
+    [ObservableProperty] public virtual partial HorizontalAlignment ControlHorizontalAlignment { get; set; } = HorizontalAlignment.Left;
+    [ObservableProperty] public virtual partial VerticalAlignment ControlVerticalAlignment { get; set; } = VerticalAlignment.Center;
+    [ObservableProperty] public virtual partial HorizontalAlignment ControlHorizontalContentAlignment { get; set; } = HorizontalAlignment.Left;
+    [ObservableProperty] public virtual partial VerticalAlignment ControlVerticalContentAlignment { get; set; } = VerticalAlignment.Center;
 
     // Button content alignment (for every button-like control: Button, RepeatButton, ToggleButton, SplitButton, ...)
     // A label or icon sits in the middle of the face it presses, whatever the general content alignment is
-    public virtual HorizontalAlignment ButtonHorizontalContentAlignment => HorizontalAlignment.Center;
+    [ObservableProperty] public virtual partial HorizontalAlignment ButtonHorizontalContentAlignment { get; set; } = HorizontalAlignment.Center;
 
     // Container alignment defaults (for structural elements that stretch to fill: list items, panels, etc.)
-    public virtual HorizontalAlignment ContainerHorizontalAlignment => HorizontalAlignment.Stretch;
-    public virtual VerticalAlignment ContainerVerticalAlignment => VerticalAlignment.Stretch;
+    [ObservableProperty] public virtual partial HorizontalAlignment ContainerHorizontalAlignment { get; set; } = HorizontalAlignment.Stretch;
+    [ObservableProperty] public virtual partial VerticalAlignment ContainerVerticalAlignment { get; set; } = VerticalAlignment.Stretch;
 
     #endregion One-off Metrics
 

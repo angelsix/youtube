@@ -38,4 +38,12 @@
   <Style Selector="TabbedPage[TabPlacement=Right] ContentPage">
     <Setter Property="CornerRadius" Value="{size:Corners Radius={size:RadiusSm}, Left=True}" />
   </Style>
+
+  <!-- A modal page stands alone over the NavigationPage's scrim with no bar above it, so all four
+       corners round. NavigationPage marks a modal IsInNavigationPage exactly like a pushed page, so
+       only the presenter hosting it tells the two apart; the property match lets the rule outrank
+       the page theme's own IsInNavigationPage trigger. -->
+  <Style Selector="ContentPresenter#PART_ModalPresenter > ContentPage[IsInNavigationPage=True], ContentPresenter#PART_ModalBackPresenter > ContentPage[IsInNavigationPage=True]">
+    <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
+  </Style>
 </Styles>

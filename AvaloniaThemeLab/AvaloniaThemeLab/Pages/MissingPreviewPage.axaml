@@ -4,7 +4,7 @@
              xmlns:color="using:AngelSix.ThemeEngine.Colors"
              xmlns:theme="using:AngelSix.ThemeEngine.Generated"
              x:Class="AvaloniaThemeLab.Pages.MissingPreviewPage">
-  <StackPanel Spacing="{size:SpacingXl}" MaxWidth="520">
+  <StackPanel Spacing="{size:SpacingXl}" MaxWidth="{size:Scaled Value={size:BaseSize}, By=520}">
     <!-- The headline: this row IS the mistake, so it says so first -->
     <TextBlock Text="Missing preview" FontSize="{size:FontSizeLg}"
                Foreground="{color:AccentTextDefault}" theme:Accent.Kind="Error" />

@@ -15,20 +15,20 @@
       <TextBlock Text="Pick a line to cross-fade the boxes"
                  Foreground="{color:DimTextDefault}" />
       <!-- Capped so the picker never outruns the pane; it scrolls if more lines are added -->
-      <ListBox x:Name="Pick" Width="240" SelectedIndex="1"
+      <ListBox x:Name="Pick" Width="{size:Scaled Value={size:BaseSize}, By=240}" SelectedIndex="1"
                MaxHeight="{size:Scaled Value={size:ControlHeightLg}, By=2}">
         <sys:String>Line one</sys:String>
         <sys:String>Line two</sys:String>
         <sys:String>Line three</sys:String>
       </ListBox>
       <!-- The framed area the picked line fades into -->
-      <TransitioningContentControl Width="240"
+      <TransitioningContentControl Width="{size:Scaled Value={size:BaseSize}, By=240}"
                                    Content="{Binding #Pick.SelectedItem}" />
       <!-- Same fade, tinted by the control's own hue -->
-      <TransitioningContentControl Width="240"
+      <TransitioningContentControl Width="{size:Scaled Value={size:BaseSize}, By=240}"
                                    theme:Accent.Kind="Warning"
                                    Content="{Binding #Pick.SelectedItem}" />
-      <TransitioningContentControl Width="240"
+      <TransitioningContentControl Width="{size:Scaled Value={size:BaseSize}, By=240}"
                                    theme:Accent.Kind="Destructive"
                                    Content="{Binding #Pick.SelectedItem}" />
     </StackPanel>

@@ -9,20 +9,20 @@
   <!-- Design preview: location/hue folded onto the state instances so nothing repeats. Declared before Design.PreviewWith uses it -->
   <DataTemplate x:Key="ButtonSpinnerPreview">
     <StackPanel Spacing="{size:SpacingXl}" HorizontalAlignment="Left">
-      <ButtonSpinner Width="240" Content="Default" />
-      <ButtonSpinner Width="240" ButtonSpinnerLocation="Left"
+      <ButtonSpinner Width="{size:Scaled Value={size:BaseSize}, By=240}" Content="Default" />
+      <ButtonSpinner Width="{size:Scaled Value={size:BaseSize}, By=240}" ButtonSpinnerLocation="Left"
                      theme:Accent.Kind="Warning"
                      Content="Left · Warning" />
-      <ButtonSpinner Width="240" theme:Preview.State="Hover"
+      <ButtonSpinner Width="{size:Scaled Value={size:BaseSize}, By=240}" theme:Preview.State="Hover"
                      theme:Accent.Kind="Success"
                      Content="Hover · Success" />
-      <ButtonSpinner Width="240" theme:Preview.State="Pressed"
+      <ButtonSpinner Width="{size:Scaled Value={size:BaseSize}, By=240}" theme:Preview.State="Pressed"
                      Content="Pressed" />
-      <ButtonSpinner Width="240" ButtonSpinnerLocation="Left"
+      <ButtonSpinner Width="{size:Scaled Value={size:BaseSize}, By=240}" ButtonSpinnerLocation="Left"
                      theme:Accent.Kind="Warning"
                      IsEnabled="False"
                      Content="Disabled · Left" />
-      <ButtonSpinner Width="240" theme:Accent.Kind="Destructive"
+      <ButtonSpinner Width="{size:Scaled Value={size:BaseSize}, By=240}" theme:Accent.Kind="Destructive"
                      Content="Error · Destructive">
         <DataValidationErrors.Error>
           <sys:Exception>
@@ -32,7 +32,7 @@
           </sys:Exception>
         </DataValidationErrors.Error>
       </ButtonSpinner>
-      <ButtonSpinner Width="240" ShowButtonSpinner="False"
+      <ButtonSpinner Width="{size:Scaled Value={size:BaseSize}, By=240}" ShowButtonSpinner="False"
                      theme:Accent.Kind="Subtle"
                      Content="No spinner · Subtle" />
     </StackPanel>

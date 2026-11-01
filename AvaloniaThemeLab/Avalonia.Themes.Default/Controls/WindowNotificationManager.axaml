@@ -31,7 +31,7 @@
                 <TextBlock Text="{Binding Title}"
                            FontWeight="{theme:FontWeightSemiBold}" />
                 <!-- The notification's message -->
-                <TextBlock MaxHeight="80"
+                <TextBlock MaxHeight="{size:Scaled Value={size:BaseSize}, By=80}"
                            Text="{Binding Message}"
                            TextWrapping="Wrap"
                            Margin="{size:Edges Right={size:SpacingXxl}}" />

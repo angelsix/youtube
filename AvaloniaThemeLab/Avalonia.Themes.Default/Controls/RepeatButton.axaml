@@ -15,22 +15,22 @@
   <DataTemplate x:Key="RepeatButtonPreview">
     <StackPanel Spacing="{size:SpacingXl}" HorizontalAlignment="Left">
       <!-- Counting example: the label rises with every click, and with every repeat while held -->
-      <RepeatButton Width="300"
+      <RepeatButton Width="{size:Scaled Value={size:BaseSize}, By=300}"
                     x:DataType="design:RepeatButtonDesignModel"
                     DataContext="{x:Static design:RepeatButtonDesignData.HoldSample}"
                     Command="{Binding Increment}"
                     Content="{Binding Label}" />
-      <RepeatButton Width="300" Delay="300" Interval="100"
+      <RepeatButton Width="{size:Scaled Value={size:BaseSize}, By=300}" Delay="300" Interval="100"
                     x:DataType="design:RepeatButtonDesignModel"
                     DataContext="{x:Static design:RepeatButtonDesignData.DelaySample}"
                     Command="{Binding Increment}"
                     Content="{Binding Label}" />
-      <RepeatButton Width="300" theme:Preview.State="Hover" Content="Hover" />
-      <RepeatButton Width="300" theme:Preview.State="Pressed" Content="Pressed" />
-      <RepeatButton Width="300" theme:Preview.State="Focused" Content="Focused" />
-      <RepeatButton Width="300" IsEnabled="False" Content="Disabled" />
-      <RepeatButton Width="300" theme:Accent.Kind="Warning" theme:Preview.State="Hover" Content="Warning · Hover" />
-      <RepeatButton Width="300" theme:Accent.Kind="Success" theme:Preview.State="Focused" Content="Success · Focused" />
+      <RepeatButton Width="{size:Scaled Value={size:BaseSize}, By=300}" theme:Preview.State="Hover" Content="Hover" />
+      <RepeatButton Width="{size:Scaled Value={size:BaseSize}, By=300}" theme:Preview.State="Pressed" Content="Pressed" />
+      <RepeatButton Width="{size:Scaled Value={size:BaseSize}, By=300}" theme:Preview.State="Focused" Content="Focused" />
+      <RepeatButton Width="{size:Scaled Value={size:BaseSize}, By=300}" IsEnabled="False" Content="Disabled" />
+      <RepeatButton Width="{size:Scaled Value={size:BaseSize}, By=300}" theme:Accent.Kind="Warning" theme:Preview.State="Hover" Content="Warning · Hover" />
+      <RepeatButton Width="{size:Scaled Value={size:BaseSize}, By=300}" theme:Accent.Kind="Success" theme:Preview.State="Focused" Content="Success · Focused" />
     </StackPanel>
   </DataTemplate>
 
@@ -103,7 +103,7 @@
     <Style Selector="^:pointerover, ^[(theme|Preview.State)=Hover]">
       <Setter Property="Background" Value="{color:HoverBackgroundDefault}" />
       <Setter Property="Foreground" Value="{color:HoverTextDefault}" />
-      <Setter Property="RenderTransform" Value="{theme:TransformScale Value={size:PressedScale}, By=1.07}" />
+      <Setter Property="RenderTransform" Value="{theme:TransformScale Value={size:HoverScale}}" />
       <Setter Property="ZIndex" Value="{size:HoverZIndex}" />
     </Style>
 

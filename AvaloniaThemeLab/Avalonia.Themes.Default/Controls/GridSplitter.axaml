@@ -10,7 +10,7 @@
   <DataTemplate x:Key="GridSplitterPreview">
     <StackPanel Spacing="{size:SpacingXl}" HorizontalAlignment="Left">
       <!-- Overall container: Button's frame radius, outline and surface -->
-      <Border Width="360" Height="160"
+      <Border Width="{size:Scaled Value={size:BaseSize}, By=360}" Height="{size:Scaled Value={size:BaseSize}, By=160}"
               Background="{color:BackgroundDefault}"
               BorderBrush="{color:BorderDefault}"
               BorderThickness="{size:ThicknessSm}"

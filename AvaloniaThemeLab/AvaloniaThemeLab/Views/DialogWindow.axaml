@@ -1,0 +1,24 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:size="using:AngelSix.ThemeEngine.Sizes"
+        xmlns:vm="using:AvaloniaThemeLab.ViewModels"
+        x:Class="AvaloniaThemeLab.Views.DialogWindow"
+        x:DataType="vm:WindowPageViewModel"
+        Classes="dialog"
+        Title="Dialog"
+        Width="{size:SurfaceWidthLg}"
+        SizeToContent="Height"
+        WindowStartupLocation="CenterOwner"
+        CanResize="False"
+        ShowInTaskbar="False">
+  <!-- What this layer is, and the actions that stack or close one -->
+  <StackPanel Spacing="{size:SpacingXl}" Margin="{size:Edges All={size:SpacingXxl}}">
+    <TextBlock Text="{Binding $parent[Window].Title}" />
+    <TextBlock Text="A modal window shown over the window beneath it. Open another to stack a second layer."
+               TextWrapping="Wrap" />
+    <StackPanel Orientation="Horizontal" Spacing="{size:SpacingLg}">
+      <Button Content="Open another dialog" Command="{Binding OpenDialogCommand}" />
+      <Button Content="Close" Command="{Binding CloseDialogCommand}" />
+    </StackPanel>
+  </StackPanel>
+</Window>

@@ -9,27 +9,27 @@
   <!-- Design preview: every input kind and state in one column. Declared before Design.PreviewWith uses it -->
   <DataTemplate x:Key="TextBoxPreview">
     <StackPanel Spacing="{size:SpacingLg}" HorizontalAlignment="Left">
-      <TextBox Width="256" Text="Default" />
-      <TextBox Width="256" theme:Preview.State="Hover" Text="Hover" />
-      <TextBox Width="256" theme:Preview.State="Focused" Text="Focused" />
+      <TextBox Width="{size:SurfaceWidthSm}" Text="Default" />
+      <TextBox Width="{size:SurfaceWidthSm}" theme:Preview.State="Hover" Text="Hover" />
+      <TextBox Width="{size:SurfaceWidthSm}" theme:Preview.State="Focused" Text="Focused" />
       <!-- Hue inherits down, so one instance proves both accent and focus together -->
-      <TextBox Width="256" theme:Accent.Kind="Warning" theme:Preview.State="Focused" Text="Warning · Focused" />
-      <TextBox Width="256" Text="Error">
+      <TextBox Width="{size:SurfaceWidthSm}" theme:Accent.Kind="Warning" theme:Preview.State="Focused" Text="Warning · Focused" />
+      <TextBox Width="{size:SurfaceWidthSm}" Text="Error">
         <DataValidationErrors.Error>
           <sys:Exception><x:Arguments><x:String>Error</x:String></x:Arguments></sys:Exception>
         </DataValidationErrors.Error>
       </TextBox>
-      <TextBox Width="256" IsEnabled="False" Text="Disabled" />
-      <TextBox Width="256" IsReadOnly="True" Text="Read only" />
-      <TextBox Width="256" AcceptsReturn="True" TextWrapping="Wrap" Text="Multiline&#x0a;second line" />
-      <TextBox Width="256" TextAlignment="Center" Text="Center aligned" />
-      <TextBox Width="256" PlaceholderText="Empty with placeholder" />
-      <TextBox Width="256" PlaceholderText="Floating placeholder" UseFloatingPlaceholder="True" />
-      <TextBox Width="256" PlaceholderText="Floating placeholder" UseFloatingPlaceholder="True" Text="Floated over content" />
-      <TextBox Width="256" Classes="clearButton" Text="Clear button" />
+      <TextBox Width="{size:SurfaceWidthSm}" IsEnabled="False" Text="Disabled" />
+      <TextBox Width="{size:SurfaceWidthSm}" IsReadOnly="True" Text="Read only" />
+      <TextBox Width="{size:SurfaceWidthSm}" AcceptsReturn="True" TextWrapping="Wrap" Text="Multiline&#x0a;second line" />
+      <TextBox Width="{size:SurfaceWidthSm}" TextAlignment="Center" Text="Center aligned" />
+      <TextBox Width="{size:SurfaceWidthSm}" PlaceholderText="Empty with placeholder" />
+      <TextBox Width="{size:SurfaceWidthSm}" PlaceholderText="Floating placeholder" UseFloatingPlaceholder="True" />
+      <TextBox Width="{size:SurfaceWidthSm}" PlaceholderText="Floating placeholder" UseFloatingPlaceholder="True" Text="Floated over content" />
+      <TextBox Width="{size:SurfaceWidthSm}" Classes="clearButton" Text="Clear button" />
       <!-- Both passwords rest masked; the reveal affordance is proved by the crawler flipping the toggle (mask to plaintext, eye to eye-off) -->
-      <TextBox Width="256" PasswordChar="*" Classes="revealPasswordButton" Text="Hidden password" />
-      <TextBox Width="256" PasswordChar="*" Classes="revealPasswordButton" Text="Reveal password" />
+      <TextBox Width="{size:SurfaceWidthSm}" PasswordChar="*" Classes="revealPasswordButton" Text="Hidden password" />
+      <TextBox Width="{size:SurfaceWidthSm}" PasswordChar="*" Classes="revealPasswordButton" Text="Reveal password" />
     </StackPanel>
   </DataTemplate>
 
@@ -93,10 +93,10 @@
       </Setter>
     </Style>
     <!-- Hover: the glyph GROWS ~2px over its 16px rest size. TransformScale multiplies the token by
-         By (scale = Value x By), so 0.98 x 1.153 ~= 1.13: a visibly-slight grow that reads at icon
+         By (scale = Value x By), so 1.0486 x 1.07757 ~= 1.13: a visibly-slight grow that reads at icon
          size where a whole-face scale was sub-pixel. The face holds still, so nothing clips. -->
     <Style Selector="^:pointerover:not(:disabled) /template/ ContentPresenter#PART_Glyph">
-      <Setter Property="RenderTransform" Value="{theme:TransformScale Value={size:PressedScale}, By=1.153}" />
+      <Setter Property="RenderTransform" Value="{theme:TransformScale Value={size:HoverScale}, By=1.07757}" />
     </Style>
     <!-- Pressed: the glyph DIPS ~2.5px: 0.98 x 0.84 ~= 0.82. Deeper than the bare 0.94x sketch so
          the shrink beats the 1.5px proof bar even through headless sub-pixel rounding (16 -> 13.1),

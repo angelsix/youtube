@@ -26,7 +26,7 @@
 
       <!-- Selected + hover: the selected item lit brighter than a plain selection -->
       <Label Content="Selected + hover" Foreground="{color:DimTextDefault}" FontSize="{size:FontSizeMd}" />
-      <TabStrip Width="180">
+      <TabStrip Width="{size:Scaled Value={size:BaseSize}, By=180}">
         <TabStripItem>Closed</TabStripItem>
         <TabStripItem IsSelected="True" theme:Preview.State="Hover">Open</TabStripItem>
       </TabStrip>
@@ -36,11 +36,11 @@
            stays neutral: it takes the neutral body role, which follows no hue. -->
       <Label Content="Accent selections" Foreground="{color:DimTextDefault}" FontSize="{size:FontSizeMd}" />
       <WrapPanel Orientation="Horizontal">
-        <TabStrip Width="180" Margin="{size:Edges Right={size:SpacingLg}}">
+        <TabStrip Width="{size:Scaled Value={size:BaseSize}, By=180}" Margin="{size:Edges Right={size:SpacingLg}}">
           <TabStripItem>Plain</TabStripItem>
           <TabStripItem IsSelected="True" theme:Accent.Kind="Warning">Warn</TabStripItem>
         </TabStrip>
-        <TabStrip Width="180">
+        <TabStrip Width="{size:Scaled Value={size:BaseSize}, By=180}">
           <TabStripItem>Plain</TabStripItem>
           <TabStripItem IsSelected="True" theme:Accent.Kind="Success">Ok</TabStripItem>
         </TabStrip>
@@ -52,7 +52,7 @@
            value does not re-resolve when the hue changes under it). -->
       <Label Content="Accent at rest" Foreground="{color:AccentTextDefault}" FontSize="{size:FontSizeMd}"
              theme:Accent.Kind="Warning" />
-      <TabStrip Width="180">
+      <TabStrip Width="{size:Scaled Value={size:BaseSize}, By=180}">
         <TabStripItem>Plain</TabStripItem>
         <TabStripItem theme:Accent.Kind="Warning">Warn</TabStripItem>
       </TabStrip>

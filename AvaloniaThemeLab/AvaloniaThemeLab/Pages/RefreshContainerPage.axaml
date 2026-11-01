@@ -4,7 +4,7 @@
              x:Class="AvaloniaThemeLab.Pages.RefreshContainerPage">
   <StackPanel Spacing="{size:SpacingXl}">
     <TextBlock Text="Pull down (touch or trackpad) to refresh" />
-    <RefreshContainer Height="200">
+    <RefreshContainer Height="{size:Scaled Value={size:BaseSize}, By=200}">
       <ListBox>
         <ListBoxItem Content="First" />
         <ListBoxItem Content="Second" />

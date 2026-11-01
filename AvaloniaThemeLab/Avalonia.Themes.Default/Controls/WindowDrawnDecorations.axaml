@@ -42,31 +42,37 @@
   </ControlTheme>
 
   <ControlTheme x:Key="{x:Type WindowDrawnDecorations}" TargetType="WindowDrawnDecorations">
-    <Setter Property="DefaultTitleBarHeight" Value="30"/>
-    <Setter Property="DefaultFrameThickness" Value="1"/>
-    <Setter Property="DefaultShadowThickness" Value="8"/>
+    <!-- No token names a title bar's height or a window shadow's reach, so both are BaseSize multiples (Rule 1) -->
+    <Setter Property="DefaultTitleBarHeight" Value="{size:Scaled Value={size:BaseSize}, By=30}"/>
+    <Setter Property="DefaultFrameThickness" Value="{size:ThicknessSm}"/>
+    <Setter Property="DefaultShadowThickness" Value="{size:Edges All={size:Scaled Value={size:BaseSize}, By=8}}"/>
     <Setter Property="Template">
       <WindowDrawnDecorationsTemplate>
         <WindowDrawnDecorationsContent>
 
           <WindowDrawnDecorationsContent.Underlay>
-            <Panel x:Name="PART_UnderlayWrapper">
+            <!-- Layout root: the shadow band spans the whole surface, the frame sits inset inside it -->
+            <Panel>
+              <!-- Drop shadow around the window frame -->
+              <!-- Outside the inset wrapper: inside it the shadow lay exactly under the frame and never showed -->
               <Border x:Name="PART_WindowShadow"
-                      Background="{color:OverlayWeakBrush}"
                       IsHitTestVisible="False"
-                      IsVisible="False" />
-              <Border x:Name="PART_WindowBorder"
-                      Background="{color:BackgroundDefault}"
-                      BorderThickness="{TemplateBinding FrameThickness}"
-                      BorderBrush="{color:AccentBrush Light6}"
-                      IsHitTestVisible="False" />
-              <!-- Titlebar: background, title text, and drag area live in underlay -->
-              <Panel x:Name="PART_TitleBar" VerticalAlignment="Top"
-                     Height="{TemplateBinding TitleBarHeight}"
-                     Background="{color:BackgroundDefault}"
-                     IsVisible="{TemplateBinding HasTitleBar}"
-                     WindowDecorationProperties.ElementRole="TitleBar" />
-
+                      IsVisible="False">
+                <!-- Denser inner half of the shadow, so it fades outwards -->
+                <Border x:Name="WindowShadowCore" />
+              </Border>
+              <!-- The window's frame and title bar, inset by the shadow's reach -->
+              <Panel x:Name="PART_UnderlayWrapper">
+                <!-- The window frame -->
+                <Border x:Name="PART_WindowBorder"
+                        BorderThickness="{TemplateBinding FrameThickness}"
+                        IsHitTestVisible="False" />
+                <!-- Title bar strip and its drag area -->
+                <Panel x:Name="PART_TitleBar" VerticalAlignment="Top"
+                       Height="{TemplateBinding TitleBarHeight}"
+                       IsVisible="{TemplateBinding HasTitleBar}"
+                       WindowDecorationProperties.ElementRole="TitleBar" />
+              </Panel>
             </Panel>
           </WindowDrawnDecorationsContent.Underlay>
 
@@ -179,7 +185,26 @@
       </WindowDrawnDecorationsTemplate>
     </Setter>
 
-    <!-- Shadow: inset border and add drop shadow -->
+    <!-- Shadow, frame and title bar surfaces -->
+    <!-- Two weak layers: the outer half of the band reads 8%, the inner half 16% -->
+    <Style Selector="^ /template/ Border#PART_WindowShadow">
+      <Setter Property="Background" Value="{color:OverlayWeakBrush}" />
+      <Setter Property="CornerRadius" Value="{size:RadiusMd}" />
+    </Style>
+    <Style Selector="^ /template/ Border#WindowShadowCore">
+      <Setter Property="Background" Value="{color:OverlayWeakBrush}" />
+      <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
+      <Setter Property="Margin" Value="{size:Edges All={size:Scaled Value={size:BaseSize}, By=4}}" />
+    </Style>
+    <Style Selector="^ /template/ Border#PART_WindowBorder">
+      <Setter Property="Background" Value="{color:BackgroundDefault}" />
+      <Setter Property="BorderBrush" Value="{color:BorderDefault}" />
+    </Style>
+    <Style Selector="^ /template/ Panel#PART_TitleBar">
+      <Setter Property="Background" Value="{color:BackgroundDefault}" />
+    </Style>
+
+    <!-- Shadow: inset the frame and show the drop shadow around it -->
     <Style Selector="^:has-shadow /template/ Panel#PART_UnderlayWrapper">
       <Setter Property="Margin" Value="{TemplateBinding ShadowThickness}"/>
     </Style>
@@ -192,23 +217,23 @@
 
     <!-- Border: inset titlebar and buttons inside frame -->
     <Style Selector="^:has-border /template/ Panel#PART_TitleTextPanel">
-      <Setter Property="Margin" Value="1,1,1,0"/>
+      <Setter Property="Margin" Value="{TemplateBinding FrameThickness}"/>
     </Style>
     <Style Selector="^:has-border /template/ Panel#PART_TitleBar">
-      <Setter Property="Margin" Value="1,1,1,0"/>
+      <Setter Property="Margin" Value="{TemplateBinding FrameThickness}"/>
     </Style>
     <Style Selector="^:has-border /template/ StackPanel#PART_OverlayPanel">
-      <Setter Property="Margin" Value="0,1,1,0"/>
+      <Setter Property="Margin" Value="{TemplateBinding FrameThickness}"/>
     </Style>
 
     <!-- Maximized: restore button path changes -->
     <Style Selector="^:maximized /template/ Path#RestoreButtonPath">
-      <Setter Property="Data" Value="M2048 410h-410v-410h-1638v1638h410v410h1638v-1638zM1434 1434h-1229v-1229h1229v1229zM1843 1843h-1229v-205h1024v-1024h205v1229z" />
+      <Setter Property="Data" Value="{icons:WindowRestore}" />
     </Style>
     
     <!-- Disabled buttons -->
     <Style Selector="^ /template/ Button:disabled">
-      <Setter Property="Opacity" Value="0.2"/>
+      <Setter Property="Opacity" Value="{size:DisabledOpacity}"/>
     </Style>
 
     <!-- Hide caption buttons when the platform does not support the action -->

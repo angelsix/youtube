@@ -7,24 +7,24 @@
   <!-- Design preview: the states Button shows, plus what makes it a Label — an access key and a Target pointing at a field -->
   <DataTemplate x:Key="LabelPreview">
     <StackPanel Spacing="{size:SpacingXl}" HorizontalAlignment="Left">
-      <Label Width="200" Content="_File" />
+      <Label Width="{size:Scaled Value={size:BaseSize}, By=200}" Content="_File" />
       <!-- The paired example: the Label names the field through Target, and the theme pulls the two together -->
       <StackPanel Spacing="{size:SpacingMd}" HorizontalAlignment="Left">
-        <Label Width="200" Content="Paired with a field" Target="FieldInput" />
-        <TextBox Width="200" x:Name="FieldInput" PlaceholderText="Type here" />
+        <Label Width="{size:Scaled Value={size:BaseSize}, By=200}" Content="Paired with a field" Target="FieldInput" />
+        <TextBox Width="{size:Scaled Value={size:BaseSize}, By=200}" x:Name="FieldInput" PlaceholderText="Type here" />
       </StackPanel>
       <!-- The same pairing with no Target at all: the theme finds the field under the Label on its own,
            so a plain caption over a field reads as one unit without the page doing anything -->
       <StackPanel Spacing="{size:SpacingMd}" HorizontalAlignment="Left">
-        <Label Width="200" Content="Detected without a Target" />
-        <TextBox Width="200" PlaceholderText="Type here" />
+        <Label Width="{size:Scaled Value={size:BaseSize}, By=200}" Content="Detected without a Target" />
+        <TextBox Width="{size:Scaled Value={size:BaseSize}, By=200}" PlaceholderText="Type here" />
       </StackPanel>
-      <Label Width="200" theme:Accent.Kind="Success" Content="Success" />
-      <Label Width="200" theme:Accent.Kind="Warning" Content="Warning" />
-      <Label Width="200" theme:Accent.Kind="Info" Content="Info" />
-      <Label Width="200" theme:Accent.Kind="Destructive" Content="Destructive" />
-      <Label Width="200" theme:Accent.Kind="Subtle" Content="Subtle" />
-      <Label Width="200" Content="Disabled" IsEnabled="False" />
+      <Label Width="{size:Scaled Value={size:BaseSize}, By=200}" theme:Accent.Kind="Success" Content="Success" />
+      <Label Width="{size:Scaled Value={size:BaseSize}, By=200}" theme:Accent.Kind="Warning" Content="Warning" />
+      <Label Width="{size:Scaled Value={size:BaseSize}, By=200}" theme:Accent.Kind="Info" Content="Info" />
+      <Label Width="{size:Scaled Value={size:BaseSize}, By=200}" theme:Accent.Kind="Destructive" Content="Destructive" />
+      <Label Width="{size:Scaled Value={size:BaseSize}, By=200}" theme:Accent.Kind="Subtle" Content="Subtle" />
+      <Label Width="{size:Scaled Value={size:BaseSize}, By=200}" Content="Disabled" IsEnabled="False" />
     </StackPanel>
   </DataTemplate>
 

@@ -1,0 +1,159 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:default="clr-namespace:Avalonia.Themes.Default"
+                    xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+                    xmlns:color="using:AngelSix.ThemeEngine.Colors"
+                    xmlns:size="using:AngelSix.ThemeEngine.Sizes"
+                    xmlns:converters="using:Avalonia.Controls.Converters">
+  <!-- Design preview: one column of faces, every one the same fixed width; a click drops the editor.
+       Every face shares one colour seeded from the pane's accent (ColorSample), so a pick in one moves
+       the rest. Declared before Design.PreviewWith uses it -->
+  <DataTemplate x:Key="ColorPickerPreview">
+    <StackPanel x:Name="Sample" default:ColorSample.Seed="{default:AccentColor}" Spacing="{size:SpacingXl}" HorizontalAlignment="Left">
+      <ColorPicker Width="{size:SurfaceWidthSm}" HsvColor="{Binding #Sample.(default:ColorSample.HsvColor), Mode=TwoWay}" />
+      <ColorPicker Width="{size:SurfaceWidthSm}" HsvColor="{Binding #Sample.(default:ColorSample.HsvColor), Mode=TwoWay}" IsAlphaEnabled="False" />
+      <ColorPicker Width="{size:SurfaceWidthSm}" HsvColor="{Binding #Sample.(default:ColorSample.HsvColor), Mode=TwoWay}" theme:Preview.State="Hover" />
+      <ColorPicker Width="{size:SurfaceWidthSm}" HsvColor="{Binding #Sample.(default:ColorSample.HsvColor), Mode=TwoWay}" theme:Preview.State="Pressed" />
+      <ColorPicker Width="{size:SurfaceWidthSm}" HsvColor="{Binding #Sample.(default:ColorSample.HsvColor), Mode=TwoWay}" theme:Preview.State="Focused" />
+      <ColorPicker Width="{size:SurfaceWidthSm}" HsvColor="{Binding #Sample.(default:ColorSample.HsvColor), Mode=TwoWay}" theme:Accent.Kind="Warning" theme:Preview.State="Focused" />
+      <ColorPicker Width="{size:SurfaceWidthSm}" HsvColor="{Binding #Sample.(default:ColorSample.HsvColor), Mode=TwoWay}" IsEnabled="False" />
+    </StackPanel>
+  </DataTemplate>
+
+  <Design.PreviewWith>
+    <Border>
+      <Border.Styles>
+        <default:DefaultThemeStyles />
+      </Border.Styles>
+
+      <default:LightDarkPreview Title="ColorPicker" ContentTemplate="{StaticResource ColorPickerPreview}" />
+
+    </Border>
+  </Design.PreviewWith>
+
+  <converters:ColorToHexConverter x:Key="DefaultColorPickerHexConverter" AlphaPosition="Trailing" IsAlphaVisible="False" />
+
+  <!-- The editor inside the flyout: the flyout is its panel, so it draws no frame of its own -->
+  <ControlTheme x:Key="DefaultFlyoutColorView" TargetType="ColorView" BasedOn="{StaticResource {x:Type ColorView}}">
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="BorderThickness" Value="{size:Edges}" />
+    <Setter Property="Padding" Value="{size:Edges}" />
+  </ControlTheme>
+
+  <!-- ============================================================
+       Template
+       ============================================================ -->
+  <ControlTheme x:Key="{x:Type ColorPicker}" TargetType="ColorPicker">
+
+    <!-- Visual defaults: the face of a picker, the same as ComboBox's -->
+    <Setter Property="Background" Value="{color:BackgroundDefault}" />
+    <Setter Property="Foreground" Value="{color:TextDefault}" />
+    <Setter Property="BorderBrush" Value="{color:BorderDefault}" />
+    <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
+    <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
+    <Setter Property="Padding" Value="{size:Edges Left={size:SpacingXxl}, Top={size:SpacingMd}, Bottom={size:SpacingMd}}" />
+    <Setter Property="MinWidth" Value="{size:ControlMinWidth}" />
+    <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
+    <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
+    <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
+    <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
+
+    <!-- Behaviour: the same editor ColorView shows -->
+    <Setter Property="ColorSpectrumComponents" Value="SaturationValue" />
+    <Setter Property="ColorSpectrumShape" Value="Box" />
+    <Setter Property="HexInputAlphaPosition" Value="Trailing" />
+
+    <!-- Template -->
+    <Setter Property="Template">
+      <ControlTemplate>
+        <!-- The drop-down face that opens the editor -->
+        <DropDownButton x:Name="Face"
+                        Background="{TemplateBinding Background}"
+                        Foreground="{TemplateBinding Foreground}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        CornerRadius="{TemplateBinding CornerRadius}"
+                        Padding="{TemplateBinding Padding}"
+                        MinWidth="{TemplateBinding MinWidth}"
+                        HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                        VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}">
+          <!-- The swatch and hex code on the face -->
+          <StackPanel x:Name="FaceContent" Orientation="Horizontal">
+            <!-- Swatch of the chosen colour -->
+            <ColorPreviewer x:Name="FaceSwatch"
+                            HsvColor="{TemplateBinding HsvColor}"
+                            IsAccentColorsVisible="False"
+                            IsHitTestVisible="False" />
+            <!-- The chosen colour's hex code -->
+            <TextBlock x:Name="FaceText" Text="{TemplateBinding Color, Converter={StaticResource DefaultColorPickerHexConverter}}" />
+          </StackPanel>
+          <DropDownButton.Flyout>
+            <!-- The editor dropped below the face -->
+            <Flyout Placement="BottomEdgeAlignedLeft">
+              <!-- The editor; forwards the picker's hue into the detached flyout -->
+              <ColorView x:Name="FlyoutColorView"
+                         Theme="{StaticResource DefaultFlyoutColorView}"
+                         theme:Accent.Kind="{Binding (theme:Accent.Kind), RelativeSource={RelativeSource TemplatedParent}}"
+                         HsvColor="{Binding HsvColor, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
+                         ColorSpectrumComponents="{TemplateBinding ColorSpectrumComponents}"
+                         ColorSpectrumShape="{TemplateBinding ColorSpectrumShape}"
+                         HexInputAlphaPosition="{TemplateBinding HexInputAlphaPosition}"
+                         IsAlphaEnabled="{TemplateBinding IsAlphaEnabled}"
+                         IsAlphaVisible="{TemplateBinding IsAlphaVisible}"
+                         IsAccentColorsVisible="{TemplateBinding IsAccentColorsVisible}"
+                         IsColorPreviewVisible="{TemplateBinding IsColorPreviewVisible}"
+                         IsColorSpectrumVisible="{TemplateBinding IsColorSpectrumVisible}"
+                         IsColorSpectrumSliderVisible="{TemplateBinding IsColorSpectrumSliderVisible}"
+                         IsHexInputVisible="{TemplateBinding IsHexInputVisible}"
+                         MinHue="{TemplateBinding MinHue}"
+                         MaxHue="{TemplateBinding MaxHue}"
+                         MinSaturation="{TemplateBinding MinSaturation}"
+                         MaxSaturation="{TemplateBinding MaxSaturation}"
+                         MinValue="{TemplateBinding MinValue}"
+                         MaxValue="{TemplateBinding MaxValue}" />
+            </Flyout>
+          </DropDownButton.Flyout>
+        </DropDownButton>
+      </ControlTemplate>
+    </Setter>
+
+    <!-- The face fills the picker -->
+    <Style Selector="^ /template/ DropDownButton#Face">
+      <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
+      <Setter Property="VerticalAlignment" Value="{theme:ContainerVerticalAlignment}" />
+    </Style>
+
+    <!-- Swatch beside the hex code, both centred on the text line -->
+    <Style Selector="^ /template/ StackPanel#FaceContent">
+      <Setter Property="Spacing" Value="{size:SpacingLg}" />
+    </Style>
+    <Style Selector="^ /template/ ColorPreviewer#FaceSwatch">
+      <Setter Property="Width" Value="{size:IconSizeMd}" />
+      <Setter Property="Height" Value="{size:IconSizeMd}" />
+      <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
+      <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
+    </Style>
+    <Style Selector="^ /template/ TextBlock#FaceText">
+      <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
+    </Style>
+
+    <!-- Hover, pressed, focus and disabled are the face's own (DropDownButton): the face dims once when
+         the picker is disabled, so the picker sets no Opacity of its own, and the swatch's own dim is
+         cancelled or it would fall to DisabledOpacity squared. The pinned preview states are relayed
+         to the face so the gallery shows them -->
+    <Style Selector="^:disabled /template/ ColorPreviewer#FaceSwatch">
+      <Setter Property="Opacity" Value="1" />
+    </Style>
+    <Style Selector="^[(theme|Preview.State)=Hover] /template/ DropDownButton#Face">
+      <Setter Property="theme:Preview.State" Value="Hover" />
+    </Style>
+    <Style Selector="^[(theme|Preview.State)=Pressed] /template/ DropDownButton#Face">
+      <Setter Property="theme:Preview.State" Value="Pressed" />
+    </Style>
+    <Style Selector="^[(theme|Preview.State)=Focused] /template/ DropDownButton#Face">
+      <Setter Property="theme:Preview.State" Value="Focused" />
+    </Style>
+
+  </ControlTheme>
+</ResourceDictionary>

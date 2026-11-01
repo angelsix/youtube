@@ -12,14 +12,14 @@
     <StackPanel Spacing="{size:SpacingXl}" HorizontalAlignment="Left">
       <!-- Embedded surface: borderless, so it fills with the borderless-surface role (one shade deeper than the rest tint);
            the same fill edged with a border below reads fine because the border carries it -->
-      <Border Width="320" Height="120"
+      <Border Width="{size:SurfaceWidthMd}" Height="{size:Scaled Value={size:BaseSize}, By=120}"
               Background="{color:SurfaceBorderless}"
               Padding="{size:Edges All={size:ContentPadding}}">
         <TextBlock Text="Embedded content" Foreground="{color:TextDefault}"
                    HorizontalAlignment="Center" VerticalAlignment="Center" />
       </Border>
       <!-- Framed surface: the same fill edged with the default border, hosting a caption and a live control -->
-      <Border Width="320" Height="120"
+      <Border Width="{size:SurfaceWidthMd}" Height="{size:Scaled Value={size:BaseSize}, By=120}"
               Background="{color:BackgroundDefault}"
               BorderBrush="{color:BorderDefault}"
               BorderThickness="{size:ThicknessSm}"
@@ -31,7 +31,7 @@
         </StackPanel>
       </Border>
       <!-- Hue: the surface follows the host's accent, never a named colour -->
-      <Border Width="320" Height="120"
+      <Border Width="{size:SurfaceWidthMd}" Height="{size:Scaled Value={size:BaseSize}, By=120}"
               theme:Accent.Kind="Warning"
               Background="{color:BackgroundDefault}"
               BorderBrush="{color:BorderDefault}"
@@ -43,7 +43,7 @@
                    HorizontalAlignment="Center" VerticalAlignment="Center" />
       </Border>
       <!-- Disabled: hosted content takes the disabled treatment - the control dims under the disabled opacity, the caption drops to the dim stage -->
-      <Border Width="320" Height="120"
+      <Border Width="{size:SurfaceWidthMd}" Height="{size:Scaled Value={size:BaseSize}, By=120}"
               Background="{color:BackgroundDefault}"
               BorderBrush="{color:BorderDefault}"
               BorderThickness="{size:ThicknessSm}"

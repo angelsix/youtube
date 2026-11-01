@@ -15,25 +15,25 @@
     <Grid ColumnDefinitions="Auto,*">
       <StackPanel Spacing="{size:SpacingSm}">
         <Label Content="Default" />
-        <Slider Width="240" Value="50" />
+        <Slider Width="{size:Scaled Value={size:BaseSize}, By=240}" Value="50" />
         <Label Content="Reversed" />
-        <Slider Width="240" IsDirectionReversed="True" Value="50" />
+        <Slider Width="{size:Scaled Value={size:BaseSize}, By=240}" IsDirectionReversed="True" Value="50" />
         <Label Content="Ticks outside" />
-        <Slider Width="240" Value="50" TickPlacement="Outside" TickFrequency="10" />
+        <Slider Width="{size:Scaled Value={size:BaseSize}, By=240}" Value="50" TickPlacement="Outside" TickFrequency="10" />
         <Label Content="Hover" />
-        <Slider Width="240" Value="50" theme:Preview.State="Hover" />
+        <Slider Width="{size:Scaled Value={size:BaseSize}, By=240}" Value="50" theme:Preview.State="Hover" />
         <Label Content="Pressed" />
-        <Slider Width="240" Value="50" theme:Preview.State="Pressed" />
+        <Slider Width="{size:Scaled Value={size:BaseSize}, By=240}" Value="50" theme:Preview.State="Pressed" />
         <Label Content="Focused" />
-        <Slider Width="240" Value="50" theme:Preview.State="Focused" />
+        <Slider Width="{size:Scaled Value={size:BaseSize}, By=240}" Value="50" theme:Preview.State="Focused" />
         <Label Content="Disabled" />
-        <Slider Width="240" Value="50" IsEnabled="False" />
+        <Slider Width="{size:Scaled Value={size:BaseSize}, By=240}" Value="50" IsEnabled="False" />
         <Label Content="Warning" theme:Accent.Kind="Warning" Foreground="{color:AccentTextDefault}" />
-        <Slider Width="240" Value="50" theme:Accent.Kind="Warning" />
+        <Slider Width="{size:Scaled Value={size:BaseSize}, By=240}" Value="50" theme:Accent.Kind="Warning" />
         <Label Content="Success" theme:Accent.Kind="Success" Foreground="{color:AccentTextDefault}" />
-        <Slider Width="240" Value="50" theme:Accent.Kind="Success" />
+        <Slider Width="{size:Scaled Value={size:BaseSize}, By=240}" Value="50" theme:Accent.Kind="Success" />
         <Label Content="Error" theme:Accent.Kind="Error" Foreground="{color:AccentTextDefault}" />
-        <Slider Width="240" Value="50">
+        <Slider Width="{size:Scaled Value={size:BaseSize}, By=240}" Value="50">
           <DataValidationErrors.Error>
             <sys:Exception><x:Arguments><x:String>Error</x:String></x:Arguments></sys:Exception>
           </DataValidationErrors.Error>
@@ -41,19 +41,19 @@
       </StackPanel>
       <StackPanel Grid.Column="1" Spacing="{size:SpacingSm}" Margin="{size:Edges Left={size:SpacingXxl}}">
         <Label Content="Vertical" />
-        <Slider Height="64" Orientation="Vertical" Value="50" />
+        <Slider Height="{size:Scaled Value={size:BaseSize}, By=64}" Orientation="Vertical" Value="50" />
         <Label Content="Vertical · Reversed" />
-        <Slider Height="64" Orientation="Vertical" IsDirectionReversed="True" Value="50" />
+        <Slider Height="{size:Scaled Value={size:BaseSize}, By=64}" Orientation="Vertical" IsDirectionReversed="True" Value="50" />
         <Label Content="Vertical · Ticks" />
-        <Slider Height="64" Orientation="Vertical" TickPlacement="Outside" TickFrequency="10" Value="50" />
+        <Slider Height="{size:Scaled Value={size:BaseSize}, By=64}" Orientation="Vertical" TickPlacement="Outside" TickFrequency="10" Value="50" />
         <Label Content="Vertical · Disabled" />
-        <Slider Height="64" Orientation="Vertical" IsEnabled="False" Value="50" />
+        <Slider Height="{size:Scaled Value={size:BaseSize}, By=64}" Orientation="Vertical" IsEnabled="False" Value="50" />
       </StackPanel>
     </Grid>
   </DataTemplate>
 
   <Design.PreviewWith>
-    <Border Width="400" Height="600">
+    <Border Width="{size:Scaled Value={size:BaseSize}, By=400}" Height="{size:Scaled Value={size:BaseSize}, By=600}">
       <Border.Styles>
         <default:DefaultThemeStyles />
       </Border.Styles>

@@ -8,10 +8,10 @@
   <!-- Design preview: a few real controls plus a refusal-case TextBlock whose explicit Foreground
        must survive the per-pane inherited colour (Rule 13: an explicit value beats inheritance) -->
   <DataTemplate x:Key="LightDarkPreviewPreview">
-    <StackPanel Spacing="{size:SpacingXl}" Width="220">
-      <Button Content="Click me" Width="200" />
-      <CheckBox Content="Checked" IsChecked="True" Width="200" />
-      <TextBox PlaceholderText="Type here" Width="200" />
+    <StackPanel Spacing="{size:SpacingXl}" Width="{size:Scaled Value={size:BaseSize}, By=220}">
+      <Button Content="Click me" Width="{size:Scaled Value={size:BaseSize}, By=200}" />
+      <CheckBox Content="Checked" IsChecked="True" Width="{size:Scaled Value={size:BaseSize}, By=200}" />
+      <TextBox PlaceholderText="Type here" Width="{size:Scaled Value={size:BaseSize}, By=200}" />
       <TextBlock Text="Hello, theme" />
       <!-- Refusal case: explicit Foreground wins over the pane's inherited colour. The ink is the
            TRUE Warning hue at its accent-text stage: theme:Accent.Kind="Warning" puts this block on
@@ -167,7 +167,7 @@
                    The content carries a vertical MARGIN, and the margin is the room a preview control
                    needs INSIDE the viewport. A scroll viewport clips to its own rectangle (Rule 18: "a
                    grow at the very edge of a viewport is still cut there"), and the theme's hover grow
-                   is a scale of 1.07 (PressedScale 0.98 x 1.07 = 1.0486), so a control whose box
+                   is a scale of 1.0486 (HoverScale), so a control whose box
                    touches the viewport's top or bottom edge grows PAST it and loses that edge. The
                    focus ring reaches 3px outside the control (a 2px ring plus a 1px halo), so it
                    needs the same room. The margin is MEASURED, not guessed: across every gallery entry

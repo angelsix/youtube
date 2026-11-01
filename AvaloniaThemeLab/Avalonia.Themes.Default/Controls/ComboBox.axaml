@@ -17,7 +17,7 @@
         <!-- Caption naming the state shown -->
         <TextBlock Text="Rest · nothing chosen" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
         <!-- Resting face with nothing chosen: the prompt shows -->
-        <ComboBox Width="180" PlaceholderText="Select…">
+        <ComboBox Width="{size:Scaled Value={size:BaseSize}, By=180}" PlaceholderText="Select…">
           <ComboBoxItem>Rest</ComboBoxItem>
           <ComboBoxItem>Second</ComboBoxItem>
           <ComboBoxItem>Third</ComboBoxItem>
@@ -25,7 +25,7 @@
         <!-- Caption naming the state shown -->
         <TextBlock Text="Selected" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
         <!-- A value chosen: the face carries the chosen value -->
-        <ComboBox Width="180" SelectedIndex="1">
+        <ComboBox Width="{size:Scaled Value={size:BaseSize}, By=180}" SelectedIndex="1">
           <ComboBoxItem>First</ComboBoxItem>
           <ComboBoxItem>Selected</ComboBoxItem>
           <ComboBoxItem>Third</ComboBoxItem>
@@ -33,7 +33,7 @@
         <!-- Caption naming the state shown -->
         <TextBlock Text="Hover" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
         <!-- Pointer over the closed box -->
-        <ComboBox Width="180" SelectedIndex="1" theme:Preview.State="Hover">
+        <ComboBox Width="{size:Scaled Value={size:BaseSize}, By=180}" SelectedIndex="1" theme:Preview.State="Hover">
           <ComboBoxItem>First</ComboBoxItem>
           <ComboBoxItem>Selected</ComboBoxItem>
           <ComboBoxItem>Third</ComboBoxItem>
@@ -41,7 +41,7 @@
         <!-- Caption naming the state shown -->
         <TextBlock Text="Pressed" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
         <!-- Held down on the closed box -->
-        <ComboBox Width="180" SelectedIndex="1" theme:Preview.State="Pressed">
+        <ComboBox Width="{size:Scaled Value={size:BaseSize}, By=180}" SelectedIndex="1" theme:Preview.State="Pressed">
           <ComboBoxItem>First</ComboBoxItem>
           <ComboBoxItem>Selected</ComboBoxItem>
           <ComboBoxItem>Third</ComboBoxItem>
@@ -49,7 +49,7 @@
         <!-- Caption naming the state shown -->
         <TextBlock Text="Focused" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
         <!-- Keyboard focus rings the frame (Rule 21) -->
-        <ComboBox Width="180" SelectedIndex="1" theme:Preview.State="Focused">
+        <ComboBox Width="{size:Scaled Value={size:BaseSize}, By=180}" SelectedIndex="1" theme:Preview.State="Focused">
           <ComboBoxItem>First</ComboBoxItem>
           <ComboBoxItem>Selected</ComboBoxItem>
           <ComboBoxItem>Third</ComboBoxItem>
@@ -57,7 +57,7 @@
         <!-- Caption naming the state shown -->
         <TextBlock Text="Focused · Warning hue" FontSize="{size:FontSizeSm}" theme:Accent.Kind="Warning" Foreground="{color:AccentTextDefault}" />
         <!-- An accented box keeps its own hue for the focus ring while FocusColorOnAccents is off (Rule 21) -->
-        <ComboBox Width="180" SelectedIndex="1" theme:Preview.State="Focused" theme:Accent.Kind="Warning">
+        <ComboBox Width="{size:Scaled Value={size:BaseSize}, By=180}" SelectedIndex="1" theme:Preview.State="Focused" theme:Accent.Kind="Warning">
           <ComboBoxItem>First</ComboBoxItem>
           <ComboBoxItem>Selected</ComboBoxItem>
           <ComboBoxItem>Third</ComboBoxItem>
@@ -65,7 +65,7 @@
         <!-- Caption naming the state shown -->
         <TextBlock Text="Disabled" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
         <!-- Unusable: faded to the disabled strength -->
-        <ComboBox Width="180" SelectedIndex="1" IsEnabled="False">
+        <ComboBox Width="{size:Scaled Value={size:BaseSize}, By=180}" SelectedIndex="1" IsEnabled="False">
           <ComboBoxItem>First</ComboBoxItem>
           <ComboBoxItem>Selected</ComboBoxItem>
           <ComboBoxItem>Third</ComboBoxItem>
@@ -73,7 +73,7 @@
         <!-- Caption naming the state shown -->
         <TextBlock Text="Failed validation" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
         <!-- Failed validation lights the error border and keeps the box's height -->
-        <ComboBox Width="180" SelectedIndex="1">
+        <ComboBox Width="{size:Scaled Value={size:BaseSize}, By=180}" SelectedIndex="1">
           <DataValidationErrors.Error>
             <sys:Exception>
               <x:Arguments>
@@ -88,7 +88,7 @@
         <!-- Caption naming the state shown -->
         <TextBlock Text="Editable" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
         <!-- Free-text mode swaps the picker face for a text field -->
-        <ComboBox Width="180" SelectedIndex="1" IsEditable="True">
+        <ComboBox Width="{size:Scaled Value={size:BaseSize}, By=180}" SelectedIndex="1" IsEditable="True">
           <ComboBoxItem>First</ComboBoxItem>
           <ComboBoxItem>Selected</ComboBoxItem>
           <ComboBoxItem>Third</ComboBoxItem>
@@ -97,7 +97,7 @@
         <TextBlock Text="Editable · Disabled" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
         <!-- Unusable free-text box: the box dims once and the field inside it never dims again,
              so the typed text keeps the disabled standard of a plain disabled TextBox -->
-        <ComboBox Width="180" SelectedIndex="1" IsEditable="True" IsEnabled="False">
+        <ComboBox Width="{size:Scaled Value={size:BaseSize}, By=180}" SelectedIndex="1" IsEditable="True" IsEnabled="False">
           <ComboBoxItem>First</ComboBoxItem>
           <ComboBoxItem>Selected</ComboBoxItem>
           <ComboBoxItem>Third</ComboBoxItem>
@@ -112,7 +112,7 @@
              theme exactly as a user's list does. The rows sit in their own list, not in the box above:
              a drop-down keeps one chosen row, so pinning "Selected" on several of one box would leave
              only the last one chosen and the labels would lie. -->
-        <Border Width="190"
+        <Border Width="{size:Scaled Value={size:BaseSize}, By=190}"
                 Background="{color:BackgroundDefault}"
                 BorderBrush="{color:BorderDefault}"
                 BorderThickness="{size:ThicknessSm}"
@@ -134,7 +134,7 @@
         <!-- Caption naming the state shown -->
         <TextBlock Text="Open · the real drop-down" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
         <!-- The box with its own drop-down open, so the real popup frame and its live rows are shown too (kept last so the popup overlays nothing) -->
-        <ComboBox Width="190" SelectedIndex="1" IsDropDownOpen="True">
+        <ComboBox Width="{size:Scaled Value={size:BaseSize}, By=190}" SelectedIndex="1" IsDropDownOpen="True">
           <ComboBoxItem>First</ComboBoxItem>
           <ComboBoxItem>Selected</ComboBoxItem>
           <ComboBoxItem>Third</ComboBoxItem>
@@ -174,7 +174,7 @@
     <!-- Focus ring is the default focus ADORNER (outset, concentric, consumes no layout — Rule 19 / task 67).
          Previously nulled so the ring rode on the border bump, which grew the box 2px on focus; the bump is gone,
          so the box keeps its rest size and the adorner carries the 2px ring -->
-    <Setter Property="MaxDropDownHeight" Value="504" />
+    <Setter Property="MaxDropDownHeight" Value="{size:Scaled Value={size:BaseSize}, By=504}" />
     <Setter Property="Background" Value="{color:BackgroundDefault}" />
     <Setter Property="Foreground" Value="{color:TextDefault}" />
     <Setter Property="BorderBrush" Value="{color:BorderDefault}" />
@@ -194,8 +194,8 @@
       <ControlTemplate>
         <!-- Validation error message for the whole control -->
         <DataValidationErrors>
-          <!-- Layout root: value on the left, arrow right -->
-          <Grid ColumnDefinitions="*,32">
+          <!-- Layout root: value on the left, arrow right (its column is the arrow plus its margin) -->
+          <Grid ColumnDefinitions="*,Auto">
             <!-- Outer frame around the closed box -->
             <Border x:Name="Background"
                     Grid.Column="0"

@@ -22,7 +22,7 @@
     <StackPanel Orientation="Vertical" Spacing="{size:SpacingXl}" HorizontalAlignment="Left">
       <!-- The picker surface, browsable: the places rail on the left, the path box across the top,
            the file list in the middle and the file-name row with the actions at the bottom -->
-      <dialogs:ManagedFileChooser Width="832" Height="600"
+      <dialogs:ManagedFileChooser Width="{size:Scaled Value={size:BaseSize}, By=832}" Height="{size:Scaled Value={size:BaseSize}, By=600}"
                                    DataContext="{x:Static design:ManagedFileChooserDesignData.Sample}" />
 
       <!-- The overwrite prompt: the platform convention puts the refusal first and the confirmation

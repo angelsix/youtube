@@ -16,7 +16,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Avalonia" Version="12.0.1"/>
+        <PackageReference Include="Avalonia" Version="12.1.4"/>
         <!-- Home of the CalendarView/CalendarSelectionEngine types. Their STYLING stays in this
              theme (Controls/CalendarView.axaml) — a ControlTheme targeting a foreign type is the
              same relationship as every other control file here (Button, ComboBox...). The engine's
@@ -25,6 +25,8 @@
         <!-- 1.1.0 adds CalendarEvent/CalendarEvent<TData>, CalendarView.Events and the week-number
              properties (IsWeekNumberVisible, WeekNumberRule). -->
         <PackageReference Include="AngelSix.ThemeEngine.Controls" Version="1.1.0"/>
+        <!-- Home of ColorPicker, ColorView, ColorSpectrum, ColorSlider and ColorPreviewer; their styling is Controls/Color*.axaml. -->
+        <PackageReference Include="Avalonia.Controls.ColorPicker" Version="12.1.4"/>
 
         <!-- 1.12.0 or later is required, not merely preferred: the theme is built on attributes
              this version introduced — [Brush], [GradientBrush], [FontWeights], ColourRamp's
@@ -38,7 +40,14 @@
              solid-fill and focus-border decisions live in the theme's DECLARATION rather than in a C#
              markup extension (task 175). Those policies are resolved inside the engine's own reactive
              binding, so a change of Accent.Kind re-resolves them with no other trigger. -->
-        <PackageReference Include="AngelSix.ThemeEngine" Version="1.22.0" />
+        <!-- 1.24.0: a dark region's twin follows live edits to an observable theme (the gallery's
+             dark pane follows the settings window), and ColorRamp's LightInk carries the hand-tuned
+             light ink stages so they follow a live seed edit. -->
+        <PackageReference Include="AngelSix.ThemeEngine" Version="1.24.0" />
+        <!-- The theme's declared values are [ObservableProperty] partial properties, so a live
+             instance can be edited at runtime; partial properties need 8.4.2 (the engine's own
+             8.4.0 does not generate them). -->
+        <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
     </ItemGroup>
 
     <ItemGroup>

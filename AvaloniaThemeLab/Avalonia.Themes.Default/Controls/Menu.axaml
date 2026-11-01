@@ -45,7 +45,7 @@
         <MenuItem Header="_Disabled" IsEnabled="False" />
         <!-- Caps its drop-down (the top-level theme travels MaxHeight onto the popup), so the list overflows
              and the scroll viewer's overflow arrow draws: the former MenuScrollViewer preview's state -->
-        <MenuItem Header="_Long" MaxHeight="180">
+        <MenuItem Header="_Long" MaxHeight="{size:Scaled Value={size:BaseSize}, By=180}">
           <MenuItem Header="Import from CSV…" InputGesture="Ctrl+I" />
           <MenuItem Header="Export to PDF…" InputGesture="Ctrl+E" />
           <MenuItem Header="Sync with Server" />
@@ -121,7 +121,6 @@
               <!-- The item may cap its drop-down's surface (a preview data point), so a long list scrolls and
                    the scroll viewer's overflow arrows show -->
               <Border x:Name="PART_PopupBorder"
-                      MaxWidth="456"
                       MaxHeight="{Binding $parent[MenuItem].MaxHeight}"
                       HorizontalAlignment="{TemplateBinding HorizontalAlignment}">
                 <!-- Scrolls the submenu when it overflows -->
@@ -153,6 +152,7 @@
       <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
       <Setter Property="Padding" Value="{size:Edges All={size:SpacingMd}}" />
       <Setter Property="MinHeight" Value="{size:ControlHeightSm}" />
+      <Setter Property="MaxWidth" Value="{size:Scaled Value={size:BaseSize}, By=456}" />
       <Setter Property="CornerRadius" Value="{size:RadiusMd}" />
     </Style>
 

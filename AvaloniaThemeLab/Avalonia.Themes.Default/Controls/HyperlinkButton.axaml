@@ -7,18 +7,18 @@
   <!-- Design preview: one link per line, every instance the same width. Declared before Design.PreviewWith uses it -->
   <DataTemplate x:Key="HyperlinkButtonPreview">
     <StackPanel Spacing="{size:SpacingXl}" HorizontalAlignment="Left">
-      <HyperlinkButton Width="240" Content="Default" />
-      <HyperlinkButton Width="240" theme:Preview.State="Hover" Content="Hover" />
-      <HyperlinkButton Width="240" theme:Preview.State="Pressed" Content="Pressed" />
-      <HyperlinkButton Width="240" theme:Preview.State="Focused" Content="Focused" />
-      <HyperlinkButton Width="240" Content="Disabled" IsEnabled="False" />
+      <HyperlinkButton Width="{size:Scaled Value={size:BaseSize}, By=240}" Content="Default" />
+      <HyperlinkButton Width="{size:Scaled Value={size:BaseSize}, By=240}" theme:Preview.State="Hover" Content="Hover" />
+      <HyperlinkButton Width="{size:Scaled Value={size:BaseSize}, By=240}" theme:Preview.State="Pressed" Content="Pressed" />
+      <HyperlinkButton Width="{size:Scaled Value={size:BaseSize}, By=240}" theme:Preview.State="Focused" Content="Focused" />
+      <HyperlinkButton Width="{size:Scaled Value={size:BaseSize}, By=240}" Content="Disabled" IsEnabled="False" />
       <!-- Accents recolour the text through the hue-aware ramp -->
-      <HyperlinkButton Width="240" theme:Accent.Kind="Warning" theme:Preview.State="Hover" Content="Warning · Hover" />
-      <HyperlinkButton Width="240" theme:Accent.Kind="Success" theme:Preview.State="Focused" Content="Success · Focused" />
+      <HyperlinkButton Width="{size:Scaled Value={size:BaseSize}, By=240}" theme:Accent.Kind="Warning" theme:Preview.State="Hover" Content="Warning · Hover" />
+      <HyperlinkButton Width="{size:Scaled Value={size:BaseSize}, By=240}" theme:Accent.Kind="Success" theme:Preview.State="Focused" Content="Success · Focused" />
       <!-- Size parity with a Button (task 83): same padding, so both measure identically tall -->
       <StackPanel Orientation="Horizontal" Spacing="{size:SpacingLg}" HorizontalAlignment="Left">
-        <Button Width="120" Content="Button" />
-        <HyperlinkButton Width="120" Content="Link" />
+        <Button Width="{size:Scaled Value={size:BaseSize}, By=120}" Content="Button" />
+        <HyperlinkButton Width="{size:Scaled Value={size:BaseSize}, By=120}" Content="Link" />
       </StackPanel>
     </StackPanel>
   </DataTemplate>
@@ -90,7 +90,7 @@
     <!-- Hover state: the ink stays at the accent text stage (Dark3) like every other accent text;
          feedback is the half-strength grow (task 111), no invented colour or underline -->
     <Style Selector="^:pointerover, ^[(theme|Preview.State)=Hover]">
-      <Setter Property="RenderTransform" Value="{theme:TransformScale Value={size:PressedScale}, By=1.045}" />
+      <Setter Property="RenderTransform" Value="{theme:TransformScale Value={size:HoverScale}, By=0.97664}" />
       <Setter Property="ZIndex" Value="{size:HoverZIndex}" />
     </Style>
 

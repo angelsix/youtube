@@ -87,7 +87,9 @@ Only the following categories are exempt from theming. **No other exemptions exi
 | **Icon artwork** | `GeometryDrawing Brush="#FF797774"` inside `DrawingGroup` resources | Intrinsic drawn graphics — these are images, not UI surfaces. **Note:** icon artwork should be moved into `ThemeIconGallery.cs` or a shared icon resource file; hardcoded icons in control themes are a code smell |
 | **`StrokeDashArray` values** | `StrokeDashArray="3, 2, 6, 2"` | Structural pattern definition, not a color |
 | **Animation keyframe trajectory values** | `TranslateTransform.Y="800"` in closing animations | Motion parameters, not visual properties |
-| **Structural layout values** | `RowDefinitions="*, Auto"`, `ColumnDefinitions="100, *"`, `Grid.Row="1"` | Layout geometry, not visual style |
+| **Structural layout values** | `RowDefinitions="*, Auto"`, `ColumnDefinitions="Auto, *"`, `Grid.Row="1"` | Layout geometry, not visual style. Proportions (`*`), `Auto` and positions only, never a pixel size (below) |
+
+**A fixed pixel size is not structural.** `BaseSize` is a zoom: at `BaseSize` 2 in a window twice the size every element must land at exactly twice its bounds, and one pixel line (`ColumnDefinitions="64,64,64,8"`, `"*,32"`, `MinWidth="160"`) keeps its size and moves everything after and inside it. So the structural exemption covers proportions, `Auto` and positions, and a size takes a token or `{size:Scaled Value={size:BaseSize}, By=n}`, chosen to equal the old literal at `BaseSize` 1 so the default picture does not move. A grid line cannot take a token: a `{size:}` double on `ColumnDefinition.Width` or `RowDefinition.Height` fails silently (measured: the plain token lands as `Auto`, a `Scaled` one leaves the default `1*`, and neither moves at `BaseSize` 2). Make the line `Auto` and size the element in it from a token, or let a `UniformGrid` with a token width and height divide its cells. `AvaloniaThemeLab.Tests/ZoomTests` is the check; zero stays fine, because 0 x 2 = 0.
 
 > **Current icon artwork in ManagedFileChooser.axaml:** The file/folder/volume DrawingGroup icons are Avalonia's stock file picker assets. They are correctly exempted as icon artwork but should be extracted to a shared resource file when Avalonia supports `ResourceDictionary.Source` in merged dictionaries.
 
@@ -254,7 +256,7 @@ When you find any hard-coded color value, apply this test **before** deciding wh
 
 **Justification:** This is the foundational rule. The entire purpose of the token system is that visual properties flow from a single source of truth (the theme class) into every control. A hard-coded value at the ControlTheme level defeats this: it cannot be overridden by a theme swap and must be hunted down and edited manually. By binding every setter to a theme token, we ensure that a consumer can change the theme (e.g. light → dark, or swap in a custom `DefaultTheme` subclass) and have the entire controls library re-style without touching individual control XAML files.
 
-**Exceptions:** Logical, non-visual property values that are genuinely intrinsic to the control's behaviour (e.g. `ClickMode="Release"`, `Focusable="True"`, `RecognizesAccessKey="True"`). Also structural properties like `RowDefinitions` and `ColumnDefinitions` in templates which define layout structure, not visual style.
+**Exceptions:** Logical, non-visual property values that are genuinely intrinsic to the control's behaviour (e.g. `ClickMode="Release"`, `Focusable="True"`, `RecognizesAccessKey="True"`). Also structural properties like `RowDefinitions` and `ColumnDefinitions` in templates which define layout structure, not visual style, as long as their lines are proportions or `Auto`: a pixel line is a size and takes a token (see the exemptions above).
 
 ---
 
@@ -297,7 +299,7 @@ When you find any hard-coded color value, apply this test **before** deciding wh
 - `HorizontalAlignment`, `VerticalAlignment`
 - `HorizontalContentAlignment`, `VerticalContentAlignment` — these are especially important because they control how content is positioned inside the control. If omitted, they fall through to the control's base-class default (often `Stretch`/`Center`), which may not match what the theme expects. Always bind them to the appropriate theme alignment tokens (e.g. `ControlHorizontalContentAlignment`, `ControlVerticalContentAlignment`, or `ButtonHorizontalContentAlignment` for a button-like control) so the theme's layout intent is honoured everywhere.
 - `MinHeight`, `MinWidth` (or `ControlHeightSm`/`ControlMinWidth` tokens)
-- `RenderTransform` / `Transitions` — for press/state animations, use `{theme:TransformScale Value={size:PressedScale}}`
+- `RenderTransform` / `Transitions` — for state animations, use `{theme:TransformScale Value={size:HoverScale}}` on hover and `{theme:TransformScale Value={size:PressedScale}}` on press, never one token scaled into the other
 - `Opacity` (for disabled states, use `{size:DisabledOpacity}`)
 
 ---
@@ -740,7 +742,6 @@ A subclass turns it off with `public override bool WebRenderStyle => false;`, an
 | Kind | Example |
 |------|---------|
 | Strings | `Content="Save"`, `PlaceholderText="Default"` |
-| Numbers | `Width="200"` on a preview instance |
 | Collections | `ItemsSource` set to a generic list (`AutoCompleteBox.axaml`) |
 | Dates, URLs, enum values | any literal standing in for bound data |
 
@@ -749,9 +750,11 @@ A subclass turns it off with `public override bool WebRenderStyle => false;`, an
 | Still forbidden | Why |
 |-----------------|-----|
 | Literal hex colours or brushes | Same reason as everywhere else — a preview that ignores the theme hides what a theme swap does to the control |
-| Literal pixel dimensions where a token exists | Use `{size:...}` (spacing, radii, thicknesses) as the rest of the file does |
+| Literal pixel dimensions | Use `{size:...}` (spacing, radii, thicknesses), or `{size:Scaled Value={size:BaseSize}, By=200}` for a sample size no token names |
 | Hand-rolled control templates | A preview shows the ControlTheme's template; drawing one inline previews nothing real |
 | New resource keys that leak outside the preview | A key referenced beyond the preview escapes this rule's scope and pollutes the dictionary |
+
+**Numbers are no longer sample data.** The relaxation once let a preview instance carry `Width="200"`. It is withdrawn: a preview's sizes come from tokens or `{size:Scaled Value={size:BaseSize}, By=n}`, because `BaseSize` is a zoom and the gallery must zoom with it. A literal width keeps its control, and everything laid out after it, at the 1x size while the rest of the pane doubles; `ZoomTests` names it as the root. `By` equals the old literal, so the preview is unchanged at `BaseSize` 1.
 
 **Stacked panes per control — the `{Name}PreviewOrientation` key.** The gallery (`MainWindow.axaml`) wraps every control's preview in a `LightDarkPreview` and used to hard-code `Orientation="Horizontal"` for all of them; a control file's `Design.PreviewWith` never reaches the gallery, so a control had no way to ask for its panes stacked vertically. That changed: beside its `<DataTemplate x:Key="{Name}Preview">`, a control file may now declare
 
@@ -863,6 +866,8 @@ A `Thickness` token stays right wherever the property takes a `Thickness` (`Bord
 | Category | Tokens |
 |----------|--------|
 | **Theme identity** | `ThemeName`, `BaseSize`, **`IsDark`** |
+| **Ladder scales** | `SpacingScale`, `FontSizeScale`, `ControlHeightScale`, `RadiusScale`, `ThicknessScale`, `IconSizeScale` (all 1.0): each ladder base is `BaseSize` times its own scale, so `BaseSize` still moves the whole theme evenly while one ladder (the radii, say) is retuned alone, down to 0 |
+| **Live editing** | The declared values are CommunityToolkit `[ObservableProperty]` partial properties, so a live instance is edited by setting them; `ThemeContext` re-resolves every token binding on the change. A subclass overriding one with a get-only property fixes it for its look |
 | **Render style** | `WebRenderStyle` (true), and from it `ControlClipToBounds` (false / true; a setter in every templated control theme) and `HoverZIndex` (1 / 0) — see Rule 18. Plus `FocusColorOnAccents` (false): the focus-ring policy switch consumed by the `AccentFocusBorder` role's FOCUS HUE SWITCH policy — see Rule 21 |
 | **Color ramps** | One hue per `[AccentHue] Color Accent{Hue}`, each with `Light1..10` / `Dark1..10` from `ColorRamp`; every hue but Surface is `HueAware`, so stage N is one OKLCH lightness in all of them. Reached as `{color:AccentBrush Dark2}`; the stage properties have no extension of their own |
 | **Accent colors (10)** | Nine hues: `AccentPrimary`, `AccentSuccess`, `AccentWarning`, `AccentError`, `AccentInfo`, `AccentDestructive`, `AccentSubtle`, `AccentNeutral` (dark seed `#D1D1D1`), **`AccentSurface`** (surface/background hue, the canvas: seed is the fill, not the ink; dark seed `#222222`). Plus **`AccentFocus`**, which is not a hue. Effective seeds `NeutralSeed` and `SurfaceSeed` give the seed of whichever palette is active |
@@ -877,8 +882,9 @@ A `Thickness` token stays right wherever the property takes a `Thickness` (`Bord
 | **Shape** | `RadiusSm` (6), `RadiusMd` (12), `RadiusSmDouble` (6), `RadiusMdDouble` (12) — the `…Double` twins serve `Shape.RadiusX/Y`, which takes a `double`, never a `CornerRadius` |
 | **Thickness (5)** | `ThicknessSm` (1), `ThicknessMd` (2), `ThicknessLg` (3), `ThicknessXl` (4), `ThicknessXxl` (6) — each with a `double` twin (`ThicknessSmDouble` … `ThicknessXxlDouble`) for plain-number slots: a track's `Height`, a dot's `Width`, a glyph's `StrokeThickness`. A `Thickness` token in one of those slots silently renders 0; see the wrong-type token trap above |
 | **Alignment** | `ControlHorizontalAlignment` (Left), `ControlVerticalAlignment` (Center), `ControlHorizontalContentAlignment` (Left), `ControlVerticalContentAlignment` (Center), `ButtonHorizontalContentAlignment` (Center; button-like controls only, see Rule 12), `ContainerHorizontalAlignment` (Stretch), `ContainerVerticalAlignment` (Stretch) |
-| **State** | `DisabledOpacity` (0.3), `PressedScale` (0.98) |
+| **State** | `DisabledOpacity` (0.3), `HoverScale` (1.0486, the grow every hover state draws: `{theme:TransformScale Value={size:HoverScale}}`), `PressedScale` (0.98, the press). The two are separate tokens so a hover never moves with the press |
 | **Animation** | `AnimationFastMs` (75), `AnimationNormalMs` (150), `AnimationSlowMs` (300) |
 | **Derived brushes** | Every `Color` gets a `…Brush`, including all 20 stages of each of the nine hues; Neutral also gets the `Neutral*` aliases (`NeutralDark1Brush` …) |
 | **Shadow / overlay** | `OverlayWeakBrush` (8%), `OverlayMediumBrush` (16%), `OverlayStrongBrush` (32%) — translucent tints off `AccentNeutralDark10` (near-black in light, near-white in dark), for shadows and scrims only |
+| **Dialogs** | Avalonia has no dialog control: a dialog is a `Window` shown with `ShowDialog`, or a `NavigationPage` modal page. A selector cannot tell a dialog window apart (`IsDialog` is a plain property, and `Owner` cannot be matched), so a dialog declares itself with `Classes="dialog"`, which gives the window its `BackgroundDefault` surface and a `BorderDefault` frame so a second layer reads as separate. Theme-drawn chrome (`WindowDrawnDecorations`: Linux without server decorations, Wayland, Windows with an extended client area) draws its frame and an `OverlayWeakBrush` shadow outside the frame; macOS always draws its own chrome and shadow. A modal page sits over an `OverlayMediumBrush` scrim with a shadow band and rounded corners (`PageHostStyles.axaml`) |
 | **Dark variant** | No separate dark variant class — darkness is a state of the theme, selected by setting `IsDark` on the instance. Every stage falls out of the mirrored ramp, whose Light stages travel towards the canvas (`SurfaceSeed`) |

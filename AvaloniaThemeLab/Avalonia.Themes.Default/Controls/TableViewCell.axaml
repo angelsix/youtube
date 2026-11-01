@@ -1,0 +1,94 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:default="clr-namespace:Avalonia.Themes.Default"
+                    xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+                    xmlns:color="using:AngelSix.ThemeEngine.Colors"
+                    xmlns:size="using:AngelSix.ThemeEngine.Sizes">
+  <!-- Design preview: cells inside a real table (a cell has no column outside one): the content
+       alignment each column asks for, the hairline between columns, and text that runs out of room.
+       Declared before Design.PreviewWith uses it -->
+  <DataTemplate x:Key="TableViewCellPreview">
+    <StackPanel Spacing="{size:SpacingXl}" HorizontalAlignment="Left">
+      <!-- Caption naming the states shown -->
+      <TextBlock Text="Left, centred and right columns" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
+      <!-- Each column places its cells' content; the last column draws no hairline against the frame -->
+      <TableView Width="{size:SurfaceWidthLg}">
+        <TableView.Columns>
+          <TableViewColumn x:DataType="NativeMenuItem" Header="Left" Binding="{Binding Header}" Width="*" />
+          <TableViewColumn x:DataType="NativeMenuItem" Header="Centre" Binding="{Binding Gesture}" Width="100" HorizontalContentAlignment="Center" />
+          <TableViewColumn x:DataType="NativeMenuItem" Header="Right" Binding="{Binding ToolTip}" Width="*" HorizontalContentAlignment="Right" />
+        </TableView.Columns>
+        <NativeMenuItem Header="Bold" Gesture="Ctrl+B" ToolTip="Heavier" />
+        <NativeMenuItem Header="Italic" Gesture="Ctrl+I" ToolTip="Slanted" />
+      </TableView>
+      <!-- Caption naming the state shown -->
+      <TextBlock Text="Text longer than its column" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
+      <!-- Fixed narrow columns: a long value ends in an ellipsis inside its own cell -->
+      <TableView Width="{size:SurfaceWidthLg}">
+        <TableView.Columns>
+          <TableViewColumn x:DataType="NativeMenuItem" Header="Command" Binding="{Binding Header}" Width="140" />
+          <TableViewColumn x:DataType="NativeMenuItem" Header="Does" Binding="{Binding ToolTip}" Width="*" />
+        </TableView.Columns>
+        <NativeMenuItem Header="Toggle full screen presentation mode" ToolTip="Hide every window edge and fill the display" />
+      </TableView>
+    </StackPanel>
+  </DataTemplate>
+
+  <Design.PreviewWith>
+    <Border>
+      <Border.Styles>
+        <default:DefaultThemeStyles />
+      </Border.Styles>
+
+      <default:LightDarkPreview Title="TableViewCell" Orientation="Vertical" ContentTemplate="{StaticResource TableViewCellPreview}" />
+
+    </Border>
+  </Design.PreviewWith>
+  <Orientation x:Key="TableViewCellPreviewOrientation">Vertical</Orientation>
+
+  <!-- ============================================================
+       Template
+       ============================================================ -->
+  <ControlTheme x:Key="{x:Type TableViewCell}" TargetType="TableViewCell">
+
+    <!-- Visual defaults: no fill of its own, so the row's hover and selection show through;
+         the accent hairline on its right rules it off from the next column -->
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="Foreground" Value="{color:TextDefault}" />
+    <Setter Property="BorderBrush" Value="{color:AccentDividerDefault}" />
+    <Setter Property="BorderThickness" Value="{size:Edges Right={size:ThicknessSmDouble}}" />
+    <Setter Property="Padding" Value="{size:Edges Horizontal={size:ContentPaddingWide}, Vertical={size:ContentPadding}}" />
+    <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
+    <Setter Property="VerticalAlignment" Value="{theme:ContainerVerticalAlignment}" />
+    <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
+    <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
+
+    <!-- Template -->
+    <Setter Property="Template">
+      <ControlTemplate>
+        <!-- The cell's value, as the column binds or templates it -->
+        <ContentPresenter Name="PART_ContentPresenter"
+                          Background="{TemplateBinding Background}"
+                          BorderBrush="{TemplateBinding BorderBrush}"
+                          BorderThickness="{TemplateBinding BorderThickness}"
+                          Content="{TemplateBinding Content}"
+                          ContentTemplate="{TemplateBinding ContentTemplate}"
+                          Padding="{TemplateBinding Padding}"
+                          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                          VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+      </ControlTemplate>
+    </Setter>
+
+    <!-- Cell value: a value longer than its column ends in an ellipsis rather than running into the next column -->
+    <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+    </Style>
+
+    <!-- Last column: the table's frame already closes it -->
+    <Style Selector="^:nth-last-child(1)">
+      <Setter Property="BorderThickness" Value="{size:Edges}" />
+    </Style>
+
+  </ControlTheme>
+</ResourceDictionary>

@@ -15,6 +15,9 @@
   <ControlTheme x:Key="{x:Type Window}" TargetType="Window">
     <!-- Canvas color: SurfaceDefault follows the palette -->
     <Setter Property="Background" Value="{color:SurfaceDefaultBrush}"/>
+    <!-- The frame is drawn only by a dialog (below); a main window's edge is the OS's -->
+    <Setter Property="BorderBrush" Value="{color:BorderDefault}"/>
+    <Setter Property="BorderThickness" Value="{size:Edges}"/>
     <Setter Property="TransparencyBackgroundFallback" Value="{color:SurfaceDefaultBrush}" />
     <Setter Property="TopLevel.SystemBarColor" Value="{color:SurfaceDefaultBrush}"/>
     <Setter Property="Foreground" Value="{color:AccentBrush Dark8}"/>
@@ -47,8 +50,20 @@
                               HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                               VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
           </VisualLayerManager>
+          <!-- The window's own frame, drawn over its content -->
+          <Border Name="PART_WindowFrame"
+                  BorderBrush="{TemplateBinding BorderBrush}"
+                  BorderThickness="{TemplateBinding BorderThickness}"
+                  IsHitTestVisible="False" />
         </Panel>
       </ControlTemplate>
     </Setter>
+
+    <!-- Dialog class: a window shown over another reads as a bordered surface, not the canvas.
+         A class, not automatic: Owner cannot be matched by a selector and IsDialog is not a styled property -->
+    <Style Selector="^.dialog">
+      <Setter Property="Background" Value="{color:BackgroundDefault}"/>
+      <Setter Property="BorderThickness" Value="{size:ThicknessSm}"/>
+    </Style>
   </ControlTheme>
 </ResourceDictionary>

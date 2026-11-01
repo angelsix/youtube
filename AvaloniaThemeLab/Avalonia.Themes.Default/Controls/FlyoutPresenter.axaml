@@ -9,7 +9,7 @@
   <DataTemplate x:Key="FlyoutPresenterPreview">
     <StackPanel Spacing="{size:SpacingXl}" HorizontalAlignment="Left">
       <!-- One fixed width so the face reads at a realistic flyout size -->
-      <FlyoutPresenter Width="240">
+      <FlyoutPresenter Width="{size:Scaled Value={size:BaseSize}, By=240}">
         <!-- Consistent rhythm between the heading, body and button (task 81): SpacingXl, matching the outer preview panel -->
         <StackPanel Spacing="{size:SpacingXl}">
           <TextBlock Text="Flyout heading" FontWeight="{theme:FontWeightSemiBold}" />

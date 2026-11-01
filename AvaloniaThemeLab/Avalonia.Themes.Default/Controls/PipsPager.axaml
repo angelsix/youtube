@@ -88,7 +88,7 @@
     <Style Selector="^:pointerover, ^[(theme|Preview.State)=Hover]">
       <Setter Property="Background" Value="Transparent" />
       <Setter Property="BorderBrush" Value="Transparent" />
-      <Setter Property="RenderTransform" Value="{theme:TransformScale Value={size:PressedScale}, By=1.045}" />
+      <Setter Property="RenderTransform" Value="{theme:TransformScale Value={size:HoverScale}, By=0.97664}" />
       <Setter Property="ZIndex" Value="{size:HoverZIndex}" />
     </Style>
 
@@ -139,7 +139,7 @@
                    VerticalAlignment="Center"
                    Fill="Transparent"
                    Stroke="Transparent"
-                   StrokeThickness="1" />
+                   StrokeThickness="{size:ThicknessSmDouble}" />
           <!-- The dot representing one page -->
           <Ellipse Name="Pip"
                    HorizontalAlignment="Center"

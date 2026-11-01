@@ -16,7 +16,7 @@
         <!-- The pull is touch or pen only, so the gallery can never start one: the arrow would sit
              there for ever, turning nothing. The arrow below runs its real cycle on its own instead
              (the looping demonstration in the first container's styles) -->
-        <TextBlock Width="190"
+        <TextBlock Width="{size:Scaled Value={size:BaseSize}, By=190}"
                    Text="Pull is touch or pen only — the arrow loops its real cycle."
                    FontSize="{size:FontSizeSm}"
                    Opacity="0.7"
@@ -28,7 +28,7 @@
              of the frame (AVLG001 on every earlier capture). At the glyph size the lift stays
              inside the frame, so the resting arrow reads at the head of the list (task 140
              redirect) -->
-        <RefreshContainer Width="190" Height="160" HorizontalContentAlignment="Stretch" ClipToBounds="True">
+        <RefreshContainer Width="{size:Scaled Value={size:BaseSize}, By=190}" Height="{size:Scaled Value={size:BaseSize}, By=160}" HorizontalContentAlignment="Stretch" ClipToBounds="True">
           <!-- Uses the container's own themed default visualizer. Assigning a bespoke one before the
                template realizes leaves the refresh deferral over-counted, so the headless crawl never
                sees it leave the Refreshing state (AVLG009). The default visualizer self-sizes to the
@@ -101,7 +101,7 @@
              parks the indicator at the foot of the container, where the stock resting pull lifts it
              clear of the content, so the arrow reads inside the frame. Same themed default visualizer
              as above, clamped to the everyday glyph on the instance so it stays inside the frame -->
-        <RefreshContainer Width="190" Height="120" PullDirection="BottomToTop" ClipToBounds="True">
+        <RefreshContainer Width="{size:Scaled Value={size:BaseSize}, By=190}" Height="{size:Scaled Value={size:BaseSize}, By=120}" PullDirection="BottomToTop" ClipToBounds="True">
           <!-- Same themed default visualizer as above, clamped to the everyday glyph on the instance for
                the same reason. This one pulls bottom-to-top, so its resting arrow sits at the foot of the
                list, clear of the top border either way -->
@@ -131,7 +131,7 @@
         <!-- The live control at its native resting size. The stock idle pose pulls the arrow up by the
              control's height (the refresh animation's resting pull, task 130); the inner grid carries an
              equal opposing offset so the resting arrow lands dead-centre in its visual area -->
-        <Border Width="190"
+        <Border Width="{size:Scaled Value={size:BaseSize}, By=190}"
                 Height="{size:Scaled Value={size:IconSizeMd}, By=3}"
                 Padding="{size:Edges All={size:SpacingLg}}"
                 ClipToBounds="True"
@@ -159,7 +159,7 @@
              accent box's proportion (three glyph heights): short enough proportions push the
              countered grid past the bottom edge (AVLG001), so the headroom keeps its painted bounds
              inside the frame while the arrow still reads centred (task 140 redirect) -->
-        <Border Width="190"
+        <Border Width="{size:Scaled Value={size:BaseSize}, By=190}"
                 Height="{size:Scaled Value={size:ControlHeightLg}, By=3}"
                 Padding="{size:Edges All={size:SpacingLg}}"
                 ClipToBounds="True"
@@ -186,7 +186,7 @@
         <TextBlock Text="Follows the accent" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
         <!-- The arrow takes the control's own hue: two accents side by side; each inner grid's
              opposing offset cancels the stock idle pull so both arrows rest dead-centre -->
-        <Border Width="190"
+        <Border Width="{size:Scaled Value={size:BaseSize}, By=190}"
                 Height="{size:Scaled Value={size:ControlHeightLg}, By=3}"
                 Padding="{size:Edges All={size:SpacingLg}}"
                 ClipToBounds="True"

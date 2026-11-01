@@ -14,18 +14,17 @@
         <!-- One rounded unit: the DrawerPage draws the frame itself (thickness/radius/border colour)
              and masks its contents to that frame's inner curve, so the menu bar, the nav pane and
              the content read together and nothing paints over the border -->
-        <DrawerPage Width="362" Height="152" Header="Menu" DrawerLength="150" IsOpen="True">
+        <DrawerPage Width="{size:Scaled Value={size:BaseSize}, By=362}" Height="{size:Scaled Value={size:BaseSize}, By=152}" Header="Menu" DrawerLength="{size:Scaled Value={size:BaseSize}, By=150}" IsOpen="True">
           <DrawerPage.Drawer>
             <!-- Centred so the nav breathes equally on all four sides of the pane -->
             <TextBlock Text="NAV" HorizontalAlignment="Center" VerticalAlignment="Center" />
           </DrawerPage.Drawer>
           <DrawerPage.Content>
             <ContentPage BorderThickness="0" Background="Transparent" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-              <!-- In Overlay the content slot runs under the floating pane, so a column reserved at the pane's own
-                   width (fixed 150, matching this example's DrawerLength) keeps the text centred in the visible page area -->
-              <Grid ColumnDefinitions="150,*">
-                <TextBlock Grid.Column="1" Text="Main content" HorizontalAlignment="Center" VerticalAlignment="Center" />
-              </Grid>
+              <!-- In Overlay the content slot runs under the floating pane, so a left margin at the pane's own
+                   width (this example's DrawerLength) keeps the text centred in the visible page area -->
+              <TextBlock Text="Main content" HorizontalAlignment="Center" VerticalAlignment="Center"
+                         Margin="{size:Edges Left={size:Scaled Value={size:BaseSize}, By=150}}" />
             </ContentPage>
           </DrawerPage.Content>
         </DrawerPage>
@@ -35,7 +34,7 @@
         <!-- One rounded unit: the DrawerPage draws the frame itself and masks its contents to
              that frame's inner curve -->
         <!-- CompactDrawerLength 64 = the 40-wide toggle face plus the 8px inset on both sides -->
-        <DrawerPage Width="362" Height="152" Header="Menu" DisplayMode="CompactOverlay" DrawerLayoutBehavior="CompactOverlay" DrawerLength="150" CompactDrawerLength="64" IsOpen="True">
+        <DrawerPage Width="{size:Scaled Value={size:BaseSize}, By=362}" Height="{size:Scaled Value={size:BaseSize}, By=152}" Header="Menu" DisplayMode="CompactOverlay" DrawerLayoutBehavior="CompactOverlay" DrawerLength="{size:Scaled Value={size:BaseSize}, By=150}" CompactDrawerLength="{size:Scaled Value={size:BaseSize}, By=64}" IsOpen="True">
           <DrawerPage.Drawer>
             <!-- Centred so the nav breathes equally on all four sides of the pane -->
             <TextBlock Text="NAV" HorizontalAlignment="Center" VerticalAlignment="Center" />
@@ -52,7 +51,7 @@
         <!-- One rounded unit: the DrawerPage draws the frame itself and masks its contents to
              that frame's inner curve -->
         <!-- CompactDrawerLength 64 = the 40-wide toggle face plus the 8px inset on both sides -->
-        <DrawerPage Width="362" Height="152" Header="Menu" DisplayMode="CompactInline" DrawerLayoutBehavior="CompactInline" DrawerLength="150" CompactDrawerLength="64" IsOpen="True">
+        <DrawerPage Width="{size:Scaled Value={size:BaseSize}, By=362}" Height="{size:Scaled Value={size:BaseSize}, By=152}" Header="Menu" DisplayMode="CompactInline" DrawerLayoutBehavior="CompactInline" DrawerLength="{size:Scaled Value={size:BaseSize}, By=150}" CompactDrawerLength="{size:Scaled Value={size:BaseSize}, By=64}" IsOpen="True">
           <DrawerPage.Drawer>
             <!-- Centred so the nav breathes equally on all four sides of the pane -->
             <TextBlock Text="NAV" HorizontalAlignment="Center" VerticalAlignment="Center" />

@@ -18,42 +18,42 @@
       <!-- Caption naming the state shown -->
       <TextBlock Text="Default · expanded" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}"/>
       <!-- Full track, full-width thumb and both arrows, the bar's own hue -->
-      <ScrollBar Orientation="Horizontal" AllowAutoHide="False" Width="240" Minimum="0" Maximum="100" Value="20" ViewportSize="60"/>
+      <ScrollBar Orientation="Horizontal" AllowAutoHide="False" Width="{size:Scaled Value={size:BaseSize}, By=240}" Minimum="0" Maximum="100" Value="20" ViewportSize="60"/>
       <!-- Caption naming the state shown -->
       <TextBlock Text="Auto-hide · resting" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}"/>
       <!-- Collapsed: only the slim thumb draws; the track and arrows join it on pointer-over -->
-      <ScrollBar Orientation="Horizontal" AllowAutoHide="True" Width="240" Minimum="0" Maximum="100" Value="20" ViewportSize="60"/>
+      <ScrollBar Orientation="Horizontal" AllowAutoHide="True" Width="{size:Scaled Value={size:BaseSize}, By=240}" Minimum="0" Maximum="100" Value="20" ViewportSize="60"/>
       <!-- Caption naming the state shown -->
       <TextBlock Text="Resting · disabled" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}"/>
       <!-- Ghosted under the whole-bar dim -->
-      <ScrollBar Orientation="Horizontal" AllowAutoHide="True" Width="240" Minimum="0" Maximum="100" Value="20" ViewportSize="60" IsEnabled="False"/>
+      <ScrollBar Orientation="Horizontal" AllowAutoHide="True" Width="{size:Scaled Value={size:BaseSize}, By=240}" Minimum="0" Maximum="100" Value="20" ViewportSize="60" IsEnabled="False"/>
       <!-- Caption naming the state shown -->
       <TextBlock Text="Expanded · disabled" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}"/>
       <!-- Arrows and full thumb, dimmed together -->
-      <ScrollBar Orientation="Horizontal" AllowAutoHide="False" Width="240" Minimum="0" Maximum="100" Value="20" ViewportSize="60" IsEnabled="False"/>
+      <ScrollBar Orientation="Horizontal" AllowAutoHide="False" Width="{size:Scaled Value={size:BaseSize}, By=240}" Minimum="0" Maximum="100" Value="20" ViewportSize="60" IsEnabled="False"/>
       <!-- Caption naming the state shown -->
       <TextBlock Text="Scrolled far right" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}"/>
       <!-- The thumb parked near the end of the range -->
-      <ScrollBar Orientation="Horizontal" AllowAutoHide="True" Width="240" Minimum="0" Maximum="100" Value="85" ViewportSize="60"/>
+      <ScrollBar Orientation="Horizontal" AllowAutoHide="True" Width="{size:Scaled Value={size:BaseSize}, By=240}" Minimum="0" Maximum="100" Value="85" ViewportSize="60"/>
       <!-- Vertical bars mirror the matrix in two rows of three, each captioned beneath; the block
            stays inside the narrowest pane so no bar runs off the frame -->
       <StackPanel Spacing="{size:SpacingLg}">
         <StackPanel Orientation="Horizontal" Spacing="{size:SpacingLg}">
           <StackPanel Spacing="{size:SpacingSm}">
             <!-- Full track, thumb and arrows -->
-            <ScrollBar Orientation="Vertical" AllowAutoHide="False" Height="100" Minimum="0" Maximum="100" Value="20" ViewportSize="60" Width="20"/>
+            <ScrollBar Orientation="Vertical" AllowAutoHide="False" Height="{size:Scaled Value={size:BaseSize}, By=100}" Minimum="0" Maximum="100" Value="20" ViewportSize="60" Width="{size:Scaled Value={size:BaseSize}, By=20}"/>
             <!-- Caption naming the state shown -->
             <TextBlock Text="Default" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}"/>
           </StackPanel>
           <StackPanel Spacing="{size:SpacingSm}">
             <!-- Slim thumb only until hover -->
-            <ScrollBar Orientation="Vertical" AllowAutoHide="True" Height="100" Minimum="0" Maximum="100" Value="20" ViewportSize="60" Width="20"/>
+            <ScrollBar Orientation="Vertical" AllowAutoHide="True" Height="{size:Scaled Value={size:BaseSize}, By=100}" Minimum="0" Maximum="100" Value="20" ViewportSize="60" Width="{size:Scaled Value={size:BaseSize}, By=20}"/>
             <!-- Caption naming the state shown -->
             <TextBlock Text="Auto-hide" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}"/>
           </StackPanel>
           <StackPanel Spacing="{size:SpacingSm}">
             <!-- Dimmed resting bar -->
-            <ScrollBar Orientation="Vertical" AllowAutoHide="True" Height="100" Minimum="0" Maximum="100" Value="20" ViewportSize="60" IsEnabled="False" Width="20"/>
+            <ScrollBar Orientation="Vertical" AllowAutoHide="True" Height="{size:Scaled Value={size:BaseSize}, By=100}" Minimum="0" Maximum="100" Value="20" ViewportSize="60" IsEnabled="False" Width="{size:Scaled Value={size:BaseSize}, By=20}"/>
             <!-- Caption naming the state shown -->
             <TextBlock Text="Disabled" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}"/>
           </StackPanel>
@@ -61,26 +61,26 @@
         <StackPanel Orientation="Horizontal" Spacing="{size:SpacingLg}">
           <StackPanel Spacing="{size:SpacingSm}">
             <!-- Dimmed expanded bar -->
-            <ScrollBar Orientation="Vertical" AllowAutoHide="False" Height="100" Minimum="0" Maximum="100" Value="20" ViewportSize="60" IsEnabled="False" Width="20"/>
+            <ScrollBar Orientation="Vertical" AllowAutoHide="False" Height="{size:Scaled Value={size:BaseSize}, By=100}" Minimum="0" Maximum="100" Value="20" ViewportSize="60" IsEnabled="False" Width="{size:Scaled Value={size:BaseSize}, By=20}"/>
             <!-- Caption naming the state shown -->
             <TextBlock Text="Full · disabled" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}"/>
           </StackPanel>
           <StackPanel Spacing="{size:SpacingSm}">
             <!-- Thumb parked near the bottom of the range -->
-            <ScrollBar Orientation="Vertical" AllowAutoHide="True" Height="100" Minimum="0" Maximum="100" Value="85" ViewportSize="60" Width="20"/>
+            <ScrollBar Orientation="Vertical" AllowAutoHide="True" Height="{size:Scaled Value={size:BaseSize}, By=100}" Minimum="0" Maximum="100" Value="85" ViewportSize="60" Width="{size:Scaled Value={size:BaseSize}, By=20}"/>
             <!-- Caption naming the state shown -->
             <TextBlock Text="Scrolled" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}"/>
           </StackPanel>
           <StackPanel Spacing="{size:SpacingSm}">
             <!-- Every part tinted by the Warning hue -->
-            <ScrollBar Orientation="Vertical" AllowAutoHide="False" Height="100" Minimum="0" Maximum="100" Value="20" ViewportSize="60" theme:Accent.Kind="Warning" Width="20"/>
+            <ScrollBar Orientation="Vertical" AllowAutoHide="False" Height="{size:Scaled Value={size:BaseSize}, By=100}" Minimum="0" Maximum="100" Value="20" ViewportSize="60" theme:Accent.Kind="Warning" Width="{size:Scaled Value={size:BaseSize}, By=20}"/>
             <!-- Caption naming the state shown -->
             <TextBlock Text="Warning" FontSize="{size:FontSizeSm}" theme:Accent.Kind="Warning" Foreground="{color:AccentTextDefault}"/>
           </StackPanel>
           <StackPanel Spacing="{size:SpacingSm}">
             <!-- The thumb in the BRIGHT solid-fill column: the Favourite hue's light thumb is a clear
                  yellow, which is the only place the bright column shows on a scroll bar -->
-            <ScrollBar Orientation="Vertical" AllowAutoHide="False" Height="100" Minimum="0" Maximum="100" Value="20" ViewportSize="60" theme:Accent.Kind="Favourite" Width="20"/>
+            <ScrollBar Orientation="Vertical" AllowAutoHide="False" Height="{size:Scaled Value={size:BaseSize}, By=100}" Minimum="0" Maximum="100" Value="20" ViewportSize="60" theme:Accent.Kind="Favourite" Width="{size:Scaled Value={size:BaseSize}, By=20}"/>
             <!-- Caption naming the state shown -->
             <TextBlock Text="Favourite" FontSize="{size:FontSizeSm}" theme:Accent.Kind="Favourite" Foreground="{color:AccentTextDefault}"/>
           </StackPanel>

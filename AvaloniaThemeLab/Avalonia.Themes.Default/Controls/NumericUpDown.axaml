@@ -12,11 +12,11 @@
     <StackPanel Orientation="Vertical" Spacing="{size:SpacingLg}">
       <!-- Caption naming the state shown -->
       <TextBlock Text="Default" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
-      <NumericUpDown Width="240" Minimum="0" Maximum="10" Increment="0.5" Value="5" />
+      <NumericUpDown Width="{size:Scaled Value={size:BaseSize}, By=240}" Minimum="0" Maximum="10" Increment="0.5" Value="5" />
       <!-- Prefix demo: the unit sits before the number in the leading slot; the clear button stays pinned
            beside the spinner, so it never drifts as the number grows -->
       <TextBlock Text="Prefix · M" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
-      <NumericUpDown Width="240" Minimum="0" Maximum="10" Increment="0.5" Value="5">
+      <NumericUpDown Width="{size:Scaled Value={size:BaseSize}, By=240}" Minimum="0" Maximum="10" Increment="0.5" Value="5">
         <NumericUpDown.InnerLeftContent>
           <TextBlock Text="M" Foreground="{color:DimTextDefault}"
                      VerticalAlignment="Center" Margin="{size:Edges Right={size:SpacingLg}}" />
@@ -24,7 +24,7 @@
       </NumericUpDown>
       <!-- Same prefix demo with a wider value: the value stays left-aligned, so the prefix never jumps -->
       <TextBlock Text="Prefix · M, wide value" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
-      <NumericUpDown Width="240" Minimum="0" Maximum="10" Increment="0.5" Value="10">
+      <NumericUpDown Width="{size:Scaled Value={size:BaseSize}, By=240}" Minimum="0" Maximum="10" Increment="0.5" Value="10">
         <NumericUpDown.InnerLeftContent>
           <TextBlock Text="M" Foreground="{color:DimTextDefault}"
                      VerticalAlignment="Center" Margin="{size:Edges Right={size:SpacingLg}}" />
@@ -32,7 +32,7 @@
       </NumericUpDown>
       <!-- Suffix demo: the unit follows the number in the trailing slot, one spacing token behind it -->
       <TextBlock Text="Suffix · m" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
-      <NumericUpDown Width="240" Minimum="0" Maximum="10" Increment="0.5" Value="5">
+      <NumericUpDown Width="{size:Scaled Value={size:BaseSize}, By=240}" Minimum="0" Maximum="10" Increment="0.5" Value="5">
         <NumericUpDown.InnerRightContent>
           <TextBlock Text="m" Foreground="{color:DimTextDefault}"
                      VerticalAlignment="Center" Margin="{size:Edges Left={size:SpacingLg}}" />
@@ -40,16 +40,16 @@
       </NumericUpDown>
       <!-- Disabled paired with an empty value doubles as the placeholder demo -->
       <TextBlock Text="Disabled · placeholder" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
-      <NumericUpDown Width="240" Minimum="0" Maximum="10" Increment="0.5"
+      <NumericUpDown Width="{size:Scaled Value={size:BaseSize}, By=240}" Minimum="0" Maximum="10" Increment="0.5"
                      PlaceholderText="Enter a value"
                      IsEnabled="False" />
       <!-- Disabled with a value: the value wears the same disabled ink a disabled TextBox wears -->
       <TextBlock Text="Disabled" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
-      <NumericUpDown Width="240" Minimum="0" Maximum="10" Increment="0.5" Value="5"
+      <NumericUpDown Width="{size:Scaled Value={size:BaseSize}, By=240}" Minimum="0" Maximum="10" Increment="0.5" Value="5"
                      IsEnabled="False" />
       <!-- The template wraps the spinner in DataValidationErrors, so the error banner is fully wired -->
       <TextBlock Text="Error" FontSize="{size:FontSizeSm}" theme:Accent.Kind="Error" Foreground="{color:AccentTextDefault}" />
-      <NumericUpDown Width="240" Minimum="0" Maximum="10" Increment="0.5" Value="5">
+      <NumericUpDown Width="{size:Scaled Value={size:BaseSize}, By=240}" Minimum="0" Maximum="10" Increment="0.5" Value="5">
         <DataValidationErrors.Error>
           <sys:Exception>
             <x:Arguments>

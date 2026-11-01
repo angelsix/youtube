@@ -12,9 +12,9 @@
   <DataTemplate x:Key="DataValidationErrorsPreview">
     <StackPanel Spacing="{size:SpacingXl}">
       <!-- Clean value: the wrapper renders nothing extra around healthy content -->
-      <TextBox Text="Valid" Width="140" />
+      <TextBox Text="Valid" Width="{size:Scaled Value={size:BaseSize}, By=140}" />
       <!-- Single error: glyph + message in the error color beneath the field -->
-      <TextBox Text="Invalid" Width="140">
+      <TextBox Text="Invalid" Width="{size:Scaled Value={size:BaseSize}, By=140}">
         <DataValidationErrors.Error>
           <sys:Exception>
             <x:Arguments>
@@ -24,7 +24,7 @@
         </DataValidationErrors.Error>
       </TextBox>
       <!-- Long error: message wraps to two lines without stretching the field -->
-      <TextBox Text="Too long" Width="200">
+      <TextBox Text="Too long" Width="{size:Scaled Value={size:BaseSize}, By=200}">
         <DataValidationErrors.Error>
           <sys:Exception>
             <x:Arguments>

@@ -10,17 +10,17 @@
        Declared before Design.PreviewWith uses it -->
   <DataTemplate x:Key="ToggleButtonPreview">
     <StackPanel Spacing="{size:SpacingXl}" HorizontalAlignment="Left">
-      <ToggleButton Width="240" Content="Unchecked" />
-      <ToggleButton Width="240" theme:Preview.State="Hover" Content="Hover" />
-      <ToggleButton Width="240" theme:Preview.State="Pressed" Content="Pressed" />
-      <ToggleButton Width="240" theme:Preview.State="Focused" Content="Focused" />
-      <ToggleButton Width="240" IsEnabled="False" Content="Disabled" />
-      <ToggleButton Width="240" IsChecked="True" Content="Checked" />
-      <ToggleButton Width="240" theme:Accent.Kind="Warning" theme:Preview.State="Hover" IsChecked="True" Content="Checked · Warning · Hover" />
-      <ToggleButton Width="240" IsChecked="True" IsEnabled="False" Content="Checked · Disabled" />
-      <ToggleButton Width="240" IsThreeState="True" IsChecked="{x:Null}" Content="Indeterminate" />
-      <ToggleButton Width="240" theme:Accent.Kind="Success" IsThreeState="True" IsChecked="{x:Null}" Content="Indeterminate · Success" />
-      <ToggleButton Width="240" IsThreeState="True" IsChecked="{x:Null}" IsEnabled="False" Content="Indeterminate · Disabled" />
+      <ToggleButton Width="{size:Scaled Value={size:BaseSize}, By=240}" Content="Unchecked" />
+      <ToggleButton Width="{size:Scaled Value={size:BaseSize}, By=240}" theme:Preview.State="Hover" Content="Hover" />
+      <ToggleButton Width="{size:Scaled Value={size:BaseSize}, By=240}" theme:Preview.State="Pressed" Content="Pressed" />
+      <ToggleButton Width="{size:Scaled Value={size:BaseSize}, By=240}" theme:Preview.State="Focused" Content="Focused" />
+      <ToggleButton Width="{size:Scaled Value={size:BaseSize}, By=240}" IsEnabled="False" Content="Disabled" />
+      <ToggleButton Width="{size:Scaled Value={size:BaseSize}, By=240}" IsChecked="True" Content="Checked" />
+      <ToggleButton Width="{size:Scaled Value={size:BaseSize}, By=240}" theme:Accent.Kind="Warning" theme:Preview.State="Hover" IsChecked="True" Content="Checked · Warning · Hover" />
+      <ToggleButton Width="{size:Scaled Value={size:BaseSize}, By=240}" IsChecked="True" IsEnabled="False" Content="Checked · Disabled" />
+      <ToggleButton Width="{size:Scaled Value={size:BaseSize}, By=240}" IsThreeState="True" IsChecked="{x:Null}" Content="Indeterminate" />
+      <ToggleButton Width="{size:Scaled Value={size:BaseSize}, By=240}" theme:Accent.Kind="Success" IsThreeState="True" IsChecked="{x:Null}" Content="Indeterminate · Success" />
+      <ToggleButton Width="{size:Scaled Value={size:BaseSize}, By=240}" IsThreeState="True" IsChecked="{x:Null}" IsEnabled="False" Content="Indeterminate · Disabled" />
     </StackPanel>
   </DataTemplate>
 
@@ -89,7 +89,7 @@
     <Style Selector="^:pointerover, ^[(theme|Preview.State)=Hover]">
       <Setter Property="Background" Value="{color:HoverBackgroundDefault}" />
       <Setter Property="Foreground" Value="{color:HoverTextDefault}" />
-      <Setter Property="RenderTransform" Value="{theme:TransformScale Value={size:PressedScale}, By=1.07}" />
+      <Setter Property="RenderTransform" Value="{theme:TransformScale Value={size:HoverScale}}" />
       <Setter Property="ZIndex" Value="{size:HoverZIndex}" />
     </Style>
 

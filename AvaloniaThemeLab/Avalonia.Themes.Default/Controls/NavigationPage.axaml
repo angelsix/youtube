@@ -10,7 +10,7 @@
   <DataTemplate x:Key="NavigationPagePreview">
     <!-- A single root page: Content takes exactly one child, so the bar, its title and the page content
          render. BarHeight gives the bar a measured height; HasShadow paints the strip beneath it -->
-    <Border Width="340" Height="300">
+    <Border Width="{size:Scaled Value={size:BaseSize}, By=340}" Height="{size:Scaled Value={size:BaseSize}, By=300}">
       <NavigationPage BarHeight="{size:ControlHeightLg}" HasShadow="True">
         <ContentPage Header="Home">
           <TextBlock Text="Welcome to the home page"
@@ -68,6 +68,7 @@
   <ControlTheme x:Key="{x:Type NavigationPage}" TargetType="NavigationPage">
     <!-- Visual defaults -->
     <Setter Property="Background" Value="Transparent" />
+    <Setter Property="BarHeight" Value="{size:ControlHeightLg}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
     <Setter Property="VerticalAlignment" Value="{theme:ContainerVerticalAlignment}" />
     <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
@@ -176,16 +177,24 @@
                   IsVisible="False"
                   IsHitTestVisible="False" />
 
+          <!-- Scrim dimming the pages beneath a modal, and taking their clicks -->
+          <!-- Follows both presenters: the control swaps their roles when a stacked modal pops -->
+          <Border Name="ModalScrim" ZIndex="98">
+            <Border.IsVisible>
+              <MultiBinding Converter="{x:Static BoolConverters.Or}">
+                <Binding ElementName="PART_ModalBackPresenter" Path="IsVisible" />
+                <Binding ElementName="PART_ModalPresenter" Path="IsVisible" />
+              </MultiBinding>
+            </Border.IsVisible>
+          </Border>
           <!-- Modal overlay: ZIndex 99 static, 100 animating -->
           <ContentPresenter Name="PART_ModalBackPresenter"
                             ZIndex="99"
-                            IsVisible="False"
-                            Background="{TemplateBinding Background}" />
+                            IsVisible="False" />
           <!-- The page shown over everything as a modal -->
           <ContentPresenter Name="PART_ModalPresenter"
                             ZIndex="100"
-                            IsVisible="False"
-                            Background="{TemplateBinding Background}" />
+                            IsVisible="False" />
         </Panel>
       </ControlTemplate>
     </Setter>
@@ -253,6 +262,19 @@
     <Style Selector="^ /template/ Border#PART_NavBarShadow">
       <Setter Property="Height" Value="{size:ThicknessLgDouble}" />
       <Setter Property="Background" Value="{color:BorderDefault}" />
+    </Style>
+
+    <!-- Modal scrim -->
+    <Style Selector="^ /template/ Border#ModalScrim">
+      <Setter Property="Background" Value="{color:OverlayMediumBrush}" />
+    </Style>
+
+    <!-- Modal surface: inset over the scrim, its padding the shadow band around the page -->
+    <Style Selector="^ /template/ ContentPresenter#PART_ModalBackPresenter, ^ /template/ ContentPresenter#PART_ModalPresenter">
+      <Setter Property="Margin" Value="{size:Edges All={size:SpacingXxl}}" />
+      <Setter Property="Padding" Value="{size:Edges All={size:Scaled Value={size:BaseSize}, By=8}}" />
+      <Setter Property="Background" Value="{color:OverlayWeakBrush}" />
+      <Setter Property="CornerRadius" Value="{size:RadiusMd}" />
     </Style>
 
     <!-- :nav-bar-inset: spacer reserves nav-bar height so content is pushed below -->

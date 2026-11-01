@@ -53,7 +53,9 @@
     <!-- The app's ONE accent picker (task 87): the same swatch row the previews used to repeat in
          every pane's header, now in the header top right. Every preview's SelectedAccent binds to
          its SelectedItem, so one pick styles the whole application -->
-    <DockPanel Grid.Row="0" Grid.Column="1">
+    <DockPanel Grid.Row="0" Grid.Column="1" HorizontalSpacing="{size:SpacingXl}">
+      <!-- Opens the live theme editor over this window -->
+      <Button DockPanel.Dock="Right" Content="Settings" Command="{Binding OpenSettingsCommand}" />
       <ListBox x:Name="AccentPicker" DockPanel.Dock="Right"
                Theme="{StaticResource LightDarkPreviewSwatches}"
                ItemsSource="{x:Static default:LightDarkPreview.AccentChoices}"

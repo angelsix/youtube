@@ -14,7 +14,7 @@
   <!-- Design preview: the picker-part themes, each shown once per pane. The designer and the lab gallery both show this key,
        so it is declared before Design.PreviewWith uses it. States ride real item properties — these themes expose no Preview.State hooks -->
   <DataTemplate x:Key="DateTimePickerSharedPreview">
-    <StackPanel Spacing="{size:SpacingXl}" Width="200">
+    <StackPanel Spacing="{size:SpacingXl}" Width="{size:Scaled Value={size:BaseSize}, By=200}">
       <!-- Spin-item: a plain day, month or year row -->
       <ListBoxItem Theme="{DynamicResource DefaultDateTimePickerItem}">Spin item · standard</ListBoxItem>
       <!-- Spin-item: the month column left-aligns its rows -->
@@ -206,7 +206,7 @@
     <Style Selector="^:pointerover">
       <Setter Property="Opacity" Value="1" />
       <Setter Property="Foreground" Value="{color:HoverTextDefault}" />
-      <Setter Property="RenderTransform" Value="{theme:TransformScale Value={size:PressedScale}, By=1.07}" />
+      <Setter Property="RenderTransform" Value="{theme:TransformScale Value={size:HoverScale}}" />
     </Style>
     <!-- Pressed: the scrim holds and the chevron pushes down like a Button's face -->
     <Style Selector="^:pressed">
@@ -300,7 +300,7 @@
     <Style Selector="^:pointerover">
       <Setter Property="Opacity" Value="1" />
       <Setter Property="Foreground" Value="{color:HoverTextDefault}" />
-      <Setter Property="RenderTransform" Value="{theme:TransformScale Value={size:PressedScale}, By=1.07}" />
+      <Setter Property="RenderTransform" Value="{theme:TransformScale Value={size:HoverScale}}" />
     </Style>
     <!-- Pressed: the scrim holds and the chevron pushes down like a Button's face -->
     <Style Selector="^:pressed">

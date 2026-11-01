@@ -7,7 +7,7 @@
   <!-- Design preview: one strip shows the selectable states at once: index 0 selected (hue Dark3 underline
        on the divider, semibold text), middle unselected, last disabled. Declared before Design.PreviewWith uses it -->
   <DataTemplate x:Key="TabbedPagePreview">
-    <Border Width="360" Height="240">
+    <Border Width="{size:Scaled Value={size:BaseSize}, By=360}" Height="{size:Scaled Value={size:BaseSize}, By=240}">
       <TabbedPage>
         <ContentPage Header="Home">
           <TextBlock Text="Home page" HorizontalAlignment="Center" VerticalAlignment="Center" />

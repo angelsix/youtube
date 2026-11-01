@@ -7,9 +7,9 @@
   <!-- Design preview: default, a markup-pinned selection and a Warning-hued pinned selection. Declared before Design.PreviewWith uses it -->
   <DataTemplate x:Key="SelectableTextBlockPreview">
     <StackPanel Spacing="{size:SpacingXl}" HorizontalAlignment="Left">
-      <SelectableTextBlock Width="240">Select me — this line is selectable.</SelectableTextBlock>
-      <SelectableTextBlock Width="240" SelectionStart="0" SelectionEnd="10">Select me — this line is selectable.</SelectableTextBlock>
-      <SelectableTextBlock Width="240" theme:Accent.Kind="Warning"
+      <SelectableTextBlock Width="{size:Scaled Value={size:BaseSize}, By=240}">Select me — this line is selectable.</SelectableTextBlock>
+      <SelectableTextBlock Width="{size:Scaled Value={size:BaseSize}, By=240}" SelectionStart="0" SelectionEnd="10">Select me — this line is selectable.</SelectableTextBlock>
+      <SelectableTextBlock Width="{size:Scaled Value={size:BaseSize}, By=240}" theme:Accent.Kind="Warning"
                            SelectionStart="0" SelectionEnd="10">Select me — this line is selectable.</SelectableTextBlock>
     </StackPanel>
   </DataTemplate>

@@ -7,7 +7,7 @@
   <!-- Design preview: scaffold only — the theme defines no hover/press/state selectors, so the shared template shows
        the page chrome once per pane. Declared before Design.PreviewWith uses it -->
   <DataTemplate x:Key="ContentPagePreview">
-    <Border Width="340" Height="280">
+    <Border Width="{size:Scaled Value={size:BaseSize}, By=340}" Height="{size:Scaled Value={size:BaseSize}, By=280}">
       <ContentPage Header="Sample Page">
         <TextBlock Text="Content goes here"
                    HorizontalAlignment="Center"

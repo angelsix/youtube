@@ -8,7 +8,7 @@
   <DataTemplate x:Key="ContentControlPreview">
     <StackPanel Spacing="{size:SpacingXl}" HorizontalAlignment="Left">
       <!-- Framed sample: the frame is the host's own 320x120 area, painted by its Background/Border*; plain text centred both ways -->
-      <ContentControl Width="320" Height="120"
+      <ContentControl Width="{size:SurfaceWidthMd}" Height="{size:Scaled Value={size:BaseSize}, By=120}"
                       Background="{color:BackgroundDefault}"
                       BorderBrush="{color:BorderDefault}"
                       BorderThickness="{size:ThicknessSm}"
@@ -19,7 +19,7 @@
         <TextBlock Text="With content" />
       </ContentControl>
       <!-- Framed sample on a hue: the frame's role tokens answer in the host's accent -->
-      <ContentControl Width="320" Height="120"
+      <ContentControl Width="{size:SurfaceWidthMd}" Height="{size:Scaled Value={size:BaseSize}, By=120}"
                       theme:Accent.Kind="Warning"
                       Background="{color:BackgroundDefault}"
                       BorderBrush="{color:BorderDefault}"
@@ -33,7 +33,7 @@
       <!-- Empty sample: no Background set, so the host paints nothing. A non-breaking space gives the
            content presenter a non-zero line height, and the pinned Height matches the siblings above, so
            the empty row does not collapse to zero and change the preview's layout -->
-      <ContentControl Width="320" Height="120">
+      <ContentControl Width="{size:SurfaceWidthMd}" Height="{size:Scaled Value={size:BaseSize}, By=120}">
         <TextBlock Text="&#160;" />
       </ContentControl>
     </StackPanel>

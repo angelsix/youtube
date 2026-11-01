@@ -3,25 +3,25 @@
              xmlns:size="using:AngelSix.ThemeEngine.Sizes"
              x:Class="AvaloniaThemeLab.Pages.SplitViewPage">
   <StackPanel Spacing="{size:SpacingXl}">
-    <SplitView IsPaneOpen="True" DisplayMode="Inline" Height="140">
+    <SplitView IsPaneOpen="True" DisplayMode="Inline" Height="{size:Scaled Value={size:BaseSize}, By=140}">
       <SplitView.Pane>
         <TextBlock Text="Inline pane, open" />
       </SplitView.Pane>
       <TextBlock Text="Content" />
     </SplitView>
-    <SplitView DisplayMode="CompactInline" Height="140">
+    <SplitView DisplayMode="CompactInline" Height="{size:Scaled Value={size:BaseSize}, By=140}">
       <SplitView.Pane>
         <TextBlock Text="Compact pane" />
       </SplitView.Pane>
       <TextBlock Text="Content beside a closed compact pane" />
     </SplitView>
-    <SplitView IsPaneOpen="True" DisplayMode="Overlay" Height="140">
+    <SplitView IsPaneOpen="True" DisplayMode="Overlay" Height="{size:Scaled Value={size:BaseSize}, By=140}">
       <SplitView.Pane>
         <TextBlock Text="Overlay pane, open" />
       </SplitView.Pane>
       <TextBlock Text="Content" />
     </SplitView>
-    <SplitView IsPaneOpen="True" DisplayMode="Inline" PanePlacement="Right" Height="140">
+    <SplitView IsPaneOpen="True" DisplayMode="Inline" PanePlacement="Right" Height="{size:Scaled Value={size:BaseSize}, By=140}">
       <SplitView.Pane>
         <TextBlock Text="Right pane" />
       </SplitView.Pane>

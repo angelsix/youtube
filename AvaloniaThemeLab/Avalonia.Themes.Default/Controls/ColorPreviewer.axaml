@@ -1,0 +1,165 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:default="clr-namespace:Avalonia.Themes.Default"
+                    xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+                    xmlns:color="using:AngelSix.ThemeEngine.Colors"
+                    xmlns:size="using:AngelSix.ThemeEngine.Sizes"
+                    xmlns:converters="using:Avalonia.Controls.Converters"
+                    xmlns:pc="using:Avalonia.Controls.Primitives.Converters">
+  <!-- Design preview: the colour with its shades, the colour alone, the accent's own ramp, a translucent
+       colour over the checkerboard, and the states. The previewers share one colour seeded from the pane's
+       accent (ColorSample), so picking a shade in one moves the rest; the translucent one is a fixed sample
+       for the checkerboard. Declared before Design.PreviewWith uses it -->
+  <DataTemplate x:Key="ColorPreviewerPreview">
+    <StackPanel x:Name="Sample" default:ColorSample.Seed="{default:AccentColor}" Spacing="{size:SpacingXl}" HorizontalAlignment="Left">
+      <Label Content="With shades" />
+      <ColorPreviewer Width="{size:SurfaceWidthSm}" HsvColor="{Binding #Sample.(default:ColorSample.HsvColor), Mode=TwoWay}" />
+      <Label Content="Colour only" />
+      <ColorPreviewer Width="{size:SurfaceWidthSm}" IsAccentColorsVisible="False" HsvColor="{Binding #Sample.(default:ColorSample.HsvColor), Mode=TwoWay}" />
+      <Label Content="Accent ramp, Light10 to Dark10" />
+      <!-- The theme's own stages of the pane's accent, lightest to darkest -->
+      <UniformGrid Width="{size:SurfaceWidthSm}" Height="{size:IconSizeLg}" Rows="1">
+        <Border Background="{color:AccentBrush Light10}" />
+        <Border Background="{color:AccentBrush Light9}" />
+        <Border Background="{color:AccentBrush Light8}" />
+        <Border Background="{color:AccentBrush Light7}" />
+        <Border Background="{color:AccentBrush Light6}" />
+        <Border Background="{color:AccentBrush Light5}" />
+        <Border Background="{color:AccentBrush Light4}" />
+        <Border Background="{color:AccentBrush Light3}" />
+        <Border Background="{color:AccentBrush Light2}" />
+        <Border Background="{color:AccentBrush Light1}" />
+        <Border Background="{color:AccentBrush}" />
+        <Border Background="{color:AccentBrush Dark1}" />
+        <Border Background="{color:AccentBrush Dark2}" />
+        <Border Background="{color:AccentBrush Dark3}" />
+        <Border Background="{color:AccentBrush Dark4}" />
+        <Border Background="{color:AccentBrush Dark5}" />
+        <Border Background="{color:AccentBrush Dark6}" />
+        <Border Background="{color:AccentBrush Dark7}" />
+        <Border Background="{color:AccentBrush Dark8}" />
+        <Border Background="{color:AccentBrush Dark9}" />
+        <Border Background="{color:AccentBrush Dark10}" />
+      </UniformGrid>
+      <Label Content="Translucent" />
+      <ColorPreviewer Width="{size:SurfaceWidthSm}" HsvColor="hsva(200, 80%, 90%, 0.4)" />
+      <Label Content="Disabled" />
+      <ColorPreviewer Width="{size:SurfaceWidthSm}" IsEnabled="False" HsvColor="{Binding #Sample.(default:ColorSample.HsvColor), Mode=TwoWay}" />
+    </StackPanel>
+  </DataTemplate>
+
+  <Design.PreviewWith>
+    <Border>
+      <Border.Styles>
+        <default:DefaultThemeStyles />
+      </Border.Styles>
+
+      <default:LightDarkPreview Title="ColorPreviewer" ContentTemplate="{StaticResource ColorPreviewerPreview}" />
+
+    </Border>
+  </Design.PreviewWith>
+
+  <pc:AccentColorConverter x:Key="DefaultColorPreviewerAccentConverter" />
+  <converters:ToBrushConverter x:Key="DefaultColorPreviewerBrushConverter" />
+
+  <!-- Checkerboard mask behind translucent colours, shared by every colour control.
+       Theme Exception: a mask, not paint. Black is "opaque" and the 8px tile is pattern geometry
+       (like a StrokeDashArray); the squares' colour is a theme stage on the masked element -->
+  <DrawingBrush x:Key="DefaultColorCheckerMask" TileMode="Tile" DestinationRect="0,0,8,8">
+    <DrawingBrush.Drawing>
+      <GeometryDrawing Brush="Black" Geometry="M0,0 H1 V1 H0 Z M1,1 H2 V2 H1 Z" />
+    </DrawingBrush.Drawing>
+  </DrawingBrush>
+
+  <!-- ============================================================
+       Template
+       ============================================================ -->
+  <ControlTheme x:Key="{x:Type ColorPreviewer}" TargetType="ColorPreviewer">
+
+    <!-- Visual defaults: the background is the checkerboard's light square -->
+    <Setter Property="Background" Value="{color:NeutralLight10Brush}" />
+    <Setter Property="BorderBrush" Value="{color:BorderDefault}" />
+    <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
+    <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
+    <Setter Property="Height" Value="{size:ControlHeightSm}" />
+    <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
+    <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
+
+    <!-- Template -->
+    <Setter Property="Template">
+      <ControlTemplate>
+        <!-- Outer frame around the swatches -->
+        <Border Background="{TemplateBinding Background}"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}"
+                CornerRadius="{TemplateBinding CornerRadius}">
+          <!-- Layout root stacking the checkerboard under the swatch row -->
+          <Panel>
+            <!-- Checkerboard squares showing through translucent colours -->
+            <Border x:Name="CheckerSquares" OpacityMask="{StaticResource DefaultColorCheckerMask}" />
+            <!-- Row: two darker shades, the colour, two lighter shades -->
+            <Grid ColumnDefinitions="Auto,Auto,*,Auto,Auto">
+              <!-- Darkest shade; clicking it picks it -->
+              <Border x:Name="PART_AccentDecrement2Border"
+                      Grid.Column="0"
+                      Tag="-2"
+                      IsVisible="{TemplateBinding IsAccentColorsVisible}"
+                      Background="{TemplateBinding HsvColor, Converter={StaticResource DefaultColorPreviewerAccentConverter}, ConverterParameter=-2}" />
+              <!-- Darker shade; clicking it picks it -->
+              <Border x:Name="PART_AccentDecrement1Border"
+                      Grid.Column="1"
+                      Tag="-1"
+                      IsVisible="{TemplateBinding IsAccentColorsVisible}"
+                      Background="{TemplateBinding HsvColor, Converter={StaticResource DefaultColorPreviewerAccentConverter}, ConverterParameter=-1}" />
+              <!-- The chosen colour -->
+              <Border x:Name="PreviewColor"
+                      Grid.Column="2"
+                      Background="{TemplateBinding HsvColor, Converter={StaticResource DefaultColorPreviewerBrushConverter}}" />
+              <!-- Lighter shade; clicking it picks it -->
+              <Border x:Name="PART_AccentIncrement1Border"
+                      Grid.Column="3"
+                      Tag="1"
+                      IsVisible="{TemplateBinding IsAccentColorsVisible}"
+                      Background="{TemplateBinding HsvColor, Converter={StaticResource DefaultColorPreviewerAccentConverter}, ConverterParameter=1}" />
+              <!-- Lightest shade; clicking it picks it -->
+              <Border x:Name="PART_AccentIncrement2Border"
+                      Grid.Column="4"
+                      Tag="2"
+                      IsVisible="{TemplateBinding IsAccentColorsVisible}"
+                      Background="{TemplateBinding HsvColor, Converter={StaticResource DefaultColorPreviewerAccentConverter}, ConverterParameter=2}" />
+            </Grid>
+          </Panel>
+        </Border>
+      </ControlTemplate>
+    </Setter>
+
+    <!-- Checkerboard dark square, following the frame's inner curve (Rule 19) -->
+    <Style Selector="^ /template/ Border#CheckerSquares">
+      <Setter Property="Background" Value="{color:NeutralLight6Brush}" />
+      <Setter Property="CornerRadius" Value="{default:ConcentricCorners Radius={TemplateBinding CornerRadius}, Thickness={TemplateBinding BorderThickness}, All=True}" />
+    </Style>
+
+    <!-- Shade swatch width -->
+    <Style Selector="^ /template/ Border#PART_AccentDecrement2Border, ^ /template/ Border#PART_AccentDecrement1Border, ^ /template/ Border#PART_AccentIncrement1Border, ^ /template/ Border#PART_AccentIncrement2Border">
+      <Setter Property="Width" Value="{size:IconSizeLg}" />
+    </Style>
+
+    <!-- Outer swatches follow the frame's inner curve on the side they touch (Rule 19) -->
+    <Style Selector="^ /template/ Border#PART_AccentDecrement2Border">
+      <Setter Property="CornerRadius" Value="{default:ConcentricCorners Radius={TemplateBinding CornerRadius}, Thickness={TemplateBinding BorderThickness}, Left=True}" />
+    </Style>
+    <Style Selector="^ /template/ Border#PART_AccentIncrement2Border">
+      <Setter Property="CornerRadius" Value="{default:ConcentricCorners Radius={TemplateBinding CornerRadius}, Thickness={TemplateBinding BorderThickness}, Right=True}" />
+    </Style>
+    <Style Selector="^[IsAccentColorsVisible=False] /template/ Border#PreviewColor">
+      <Setter Property="CornerRadius" Value="{default:ConcentricCorners Radius={TemplateBinding CornerRadius}, Thickness={TemplateBinding BorderThickness}, All=True}" />
+    </Style>
+
+    <!-- Disabled state -->
+    <Style Selector="^:disabled">
+      <Setter Property="Opacity" Value="{size:DisabledOpacity}" />
+    </Style>
+
+  </ControlTheme>
+</ResourceDictionary>

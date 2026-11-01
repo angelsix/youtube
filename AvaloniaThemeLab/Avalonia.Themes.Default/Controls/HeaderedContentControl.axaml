@@ -8,10 +8,10 @@
        so it is declared before Design.PreviewWith uses it. The theme exposes no Preview.State or :error selectors, so its full surface is enabled/disabled plus inherited accent hue -->
   <DataTemplate x:Key="HeaderedContentControlPreview">
     <StackPanel Spacing="{size:SpacingXl}" HorizontalAlignment="Left">
-      <HeaderedContentControl Width="280" Header="Section header" Content="Body content" />
-      <HeaderedContentControl Width="280" theme:Accent.Kind="Warning"
+      <HeaderedContentControl Width="{size:Scaled Value={size:BaseSize}, By=280}" Header="Section header" Content="Body content" />
+      <HeaderedContentControl Width="{size:Scaled Value={size:BaseSize}, By=280}" theme:Accent.Kind="Warning"
                               Header="Warning · Section header" Content="Body content" />
-      <HeaderedContentControl Width="280" IsEnabled="False"
+      <HeaderedContentControl Width="{size:Scaled Value={size:BaseSize}, By=280}" IsEnabled="False"
                               Header="Disabled · Section header" Content="Body content" />
     </StackPanel>
   </DataTemplate>
