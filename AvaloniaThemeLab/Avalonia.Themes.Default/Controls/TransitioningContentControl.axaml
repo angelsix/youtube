@@ -1,5 +1,6 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="using:AngelSix.ThemeEngine.Controls"
                     xmlns:sys="using:System"
                     xmlns:default="clr-namespace:Avalonia.Themes.Default"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
@@ -14,9 +15,10 @@
            Starts on the middle line so every pick the crawler makes is a real change of content -->
       <TextBlock Text="Pick a line to cross-fade the boxes"
                  Foreground="{color:DimTextDefault}" />
-      <!-- Capped so the picker never outruns the pane; it scrolls if more lines are added -->
+      <!-- Capped so the picker never outruns the pane (it scrolls past the cap). The cap rides BaseSize, not control
+           height: a control-height cap shrinks to nothing and crops the lines -->
       <ListBox x:Name="Pick" Width="{size:Scaled Value={size:BaseSize}, By=240}" SelectedIndex="1"
-               MaxHeight="{size:Scaled Value={size:ControlHeightLg}, By=2}">
+               MaxHeight="{size:Scaled Value={size:BaseSize}, By=160}">
         <sys:String>Line one</sys:String>
         <sys:String>Line two</sys:String>
         <sys:String>Line three</sys:String>
@@ -40,7 +42,7 @@
         <default:DefaultThemeStyles />
       </Border.Styles>
 
-      <default:LightDarkPreview Title="TransitioningContentControl" ContentTemplate="{StaticResource TransitioningContentControlPreview}" />
+      <controls:LightDarkPreview Title="TransitioningContentControl" ContentTemplate="{StaticResource TransitioningContentControlPreview}" />
 
     </Border>
   </Design.PreviewWith>

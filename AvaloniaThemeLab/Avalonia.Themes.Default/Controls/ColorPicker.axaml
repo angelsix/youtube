@@ -1,5 +1,6 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="using:AngelSix.ThemeEngine.Controls"
                     xmlns:default="clr-namespace:Avalonia.Themes.Default"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
                     xmlns:color="using:AngelSix.ThemeEngine.Colors"
@@ -9,14 +10,14 @@
        Every face shares one colour seeded from the pane's accent (ColorSample), so a pick in one moves
        the rest. Declared before Design.PreviewWith uses it -->
   <DataTemplate x:Key="ColorPickerPreview">
-    <StackPanel x:Name="Sample" default:ColorSample.Seed="{default:AccentColor}" Spacing="{size:SpacingXl}" HorizontalAlignment="Left">
-      <ColorPicker Width="{size:SurfaceWidthSm}" HsvColor="{Binding #Sample.(default:ColorSample.HsvColor), Mode=TwoWay}" />
-      <ColorPicker Width="{size:SurfaceWidthSm}" HsvColor="{Binding #Sample.(default:ColorSample.HsvColor), Mode=TwoWay}" IsAlphaEnabled="False" />
-      <ColorPicker Width="{size:SurfaceWidthSm}" HsvColor="{Binding #Sample.(default:ColorSample.HsvColor), Mode=TwoWay}" theme:Preview.State="Hover" />
-      <ColorPicker Width="{size:SurfaceWidthSm}" HsvColor="{Binding #Sample.(default:ColorSample.HsvColor), Mode=TwoWay}" theme:Preview.State="Pressed" />
-      <ColorPicker Width="{size:SurfaceWidthSm}" HsvColor="{Binding #Sample.(default:ColorSample.HsvColor), Mode=TwoWay}" theme:Preview.State="Focused" />
-      <ColorPicker Width="{size:SurfaceWidthSm}" HsvColor="{Binding #Sample.(default:ColorSample.HsvColor), Mode=TwoWay}" theme:Accent.Kind="Warning" theme:Preview.State="Focused" />
-      <ColorPicker Width="{size:SurfaceWidthSm}" HsvColor="{Binding #Sample.(default:ColorSample.HsvColor), Mode=TwoWay}" IsEnabled="False" />
+    <StackPanel x:Name="Sample" controls:ColorSample.Seed="{color:AccentColor}" Spacing="{size:SpacingXl}" HorizontalAlignment="Left">
+      <ColorPicker Width="{size:SurfaceWidthSm}" HsvColor="{Binding #Sample.(controls:ColorSample.HsvColor), Mode=TwoWay}" />
+      <ColorPicker Width="{size:SurfaceWidthSm}" HsvColor="{Binding #Sample.(controls:ColorSample.HsvColor), Mode=TwoWay}" IsAlphaEnabled="False" />
+      <ColorPicker Width="{size:SurfaceWidthSm}" HsvColor="{Binding #Sample.(controls:ColorSample.HsvColor), Mode=TwoWay}" theme:Preview.State="Hover" />
+      <ColorPicker Width="{size:SurfaceWidthSm}" HsvColor="{Binding #Sample.(controls:ColorSample.HsvColor), Mode=TwoWay}" theme:Preview.State="Pressed" />
+      <ColorPicker Width="{size:SurfaceWidthSm}" HsvColor="{Binding #Sample.(controls:ColorSample.HsvColor), Mode=TwoWay}" theme:Preview.State="Focused" />
+      <ColorPicker Width="{size:SurfaceWidthSm}" HsvColor="{Binding #Sample.(controls:ColorSample.HsvColor), Mode=TwoWay}" theme:Accent.Kind="Warning" theme:Preview.State="Focused" />
+      <ColorPicker Width="{size:SurfaceWidthSm}" HsvColor="{Binding #Sample.(controls:ColorSample.HsvColor), Mode=TwoWay}" IsEnabled="False" />
     </StackPanel>
   </DataTemplate>
 
@@ -26,19 +27,12 @@
         <default:DefaultThemeStyles />
       </Border.Styles>
 
-      <default:LightDarkPreview Title="ColorPicker" ContentTemplate="{StaticResource ColorPickerPreview}" />
+      <controls:LightDarkPreview Title="ColorPicker" ContentTemplate="{StaticResource ColorPickerPreview}" />
 
     </Border>
   </Design.PreviewWith>
 
   <converters:ColorToHexConverter x:Key="DefaultColorPickerHexConverter" AlphaPosition="Trailing" IsAlphaVisible="False" />
-
-  <!-- The editor inside the flyout: the flyout is its panel, so it draws no frame of its own -->
-  <ControlTheme x:Key="DefaultFlyoutColorView" TargetType="ColorView" BasedOn="{StaticResource {x:Type ColorView}}">
-    <Setter Property="Background" Value="Transparent" />
-    <Setter Property="BorderThickness" Value="{size:Edges}" />
-    <Setter Property="Padding" Value="{size:Edges}" />
-  </ControlTheme>
 
   <!-- ============================================================
        Template
@@ -93,7 +87,6 @@
             <Flyout Placement="BottomEdgeAlignedLeft">
               <!-- The editor; forwards the picker's hue into the detached flyout -->
               <ColorView x:Name="FlyoutColorView"
-                         Theme="{StaticResource DefaultFlyoutColorView}"
                          theme:Accent.Kind="{Binding (theme:Accent.Kind), RelativeSource={RelativeSource TemplatedParent}}"
                          HsvColor="{Binding HsvColor, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
                          ColorSpectrumComponents="{TemplateBinding ColorSpectrumComponents}"

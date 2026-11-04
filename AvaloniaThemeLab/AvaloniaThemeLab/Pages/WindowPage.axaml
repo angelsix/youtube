@@ -14,6 +14,7 @@
     <NavigationPage x:Name="ModalHost" Height="{size:Scaled Value={size:BaseSize}, By=360}">
       <ContentPage Header="Root page">
         <Button Content="Push a modal page"
+                HorizontalAlignment="Center"
                 Command="{Binding PushModalCommand}"
                 CommandParameter="{Binding #ModalHost}" />
       </ContentPage>

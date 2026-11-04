@@ -1,3 +1,4 @@
+using AngelSix.ThemeEngine.Generated;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -128,8 +129,8 @@ public sealed class GalleryCatalogue
             $"[gallery] {mistakes.Count} themed control(s) have NO gallery preview and NO marker declaring why, " +
             "so they vanish from the gallery silently: " + string.Join(", ", mistakes) + ". " +
             $"Each one needs a marker in its own theme file: " +
-            $"<default:PreviewShownIn x:Key=\"<Name>PreviewShownIn\" ShownIn=\"{{x:Type <host>}}\" Reason=\"…\" /> " +
-            "(shown inside another entry) or <default:PreviewExcluded x:Key=\"<Name>PreviewExcluded\" Reason=\"…\" /> " +
+            $"<theme:PreviewShownIn x:Key=\"<Name>PreviewShownIn\" ShownIn=\"{{x:Type <host>}}\" Reason=\"…\" /> " +
+            "(shown inside another entry) or <theme:PreviewExcluded x:Key=\"<Name>PreviewExcluded\" Reason=\"…\" /> " +
             "(shown nowhere, and cannot have an entry of its own).";
 
         Console.Error.WriteLine(message);

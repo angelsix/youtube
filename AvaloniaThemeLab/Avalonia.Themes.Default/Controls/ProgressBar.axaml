@@ -1,5 +1,6 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="using:AngelSix.ThemeEngine.Controls"
                     xmlns:converters="using:Avalonia.Controls.Converters"
                     xmlns:default="clr-namespace:Avalonia.Themes.Default"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
@@ -68,7 +69,7 @@
         <default:DefaultThemeStyles />
       </Border.Styles>
 
-      <default:LightDarkPreview Title="ProgressBar" Orientation="Vertical" ContentTemplate="{StaticResource ProgressBarPreview}" />
+      <controls:LightDarkPreview Title="ProgressBar" Orientation="Vertical" ContentTemplate="{StaticResource ProgressBarPreview}" />
 
     </Border>
   </Design.PreviewWith>

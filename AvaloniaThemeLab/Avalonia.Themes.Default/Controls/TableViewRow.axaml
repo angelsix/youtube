@@ -1,79 +1,14 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="using:AngelSix.ThemeEngine.Controls"
                     xmlns:default="clr-namespace:Avalonia.Themes.Default"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
                     xmlns:color="using:AngelSix.ThemeEngine.Colors"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes">
-  <!-- Design preview: every state a row can be in, pinned inside one real table, the way a user
-       meets them (a row has no cells outside a table). Multiple selection keeps every pinned
-       "Selected" row chosen. Declared before Design.PreviewWith uses it -->
-  <DataTemplate x:Key="TableViewRowPreview">
-    <StackPanel Spacing="{size:SpacingXl}" HorizontalAlignment="Left">
-      <!-- Caption naming the states shown -->
-      <TextBlock Text="Row states" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
-      <TableView Width="{size:Scaled Value={size:SurfaceWidthLg}, By=1.25}" SelectionMode="Multiple">
-        <TableView.Columns>
-          <TableViewColumn x:DataType="NativeMenuItem" Header="State" Binding="{Binding Header}" Width="2*" />
-          <TableViewColumn x:DataType="NativeMenuItem" Header="Key" Binding="{Binding Gesture}" Width="120" />
-          <TableViewColumn x:DataType="NativeMenuItem" Header="Note" Binding="{Binding ToolTip}" Width="2*" />
-        </TableView.Columns>
-        <!-- Rest: the row's plain state -->
-        <TableViewRow>
-          <TableViewRow.DataContext>
-            <NativeMenuItem Header="Default" Gesture="Ctrl+1" ToolTip="At rest" />
-          </TableViewRow.DataContext>
-        </TableViewRow>
-        <!-- Hover: the row's hover fill, pinned -->
-        <TableViewRow theme:Preview.State="Hover">
-          <TableViewRow.DataContext>
-            <NativeMenuItem Header="Hover" Gesture="Ctrl+2" ToolTip="Pointer over" />
-          </TableViewRow.DataContext>
-        </TableViewRow>
-        <!-- Pressed: the row's pressed fill, pinned -->
-        <TableViewRow theme:Preview.State="Pressed">
-          <TableViewRow.DataContext>
-            <NativeMenuItem Header="Pressed" Gesture="Ctrl+3" ToolTip="Button down" />
-          </TableViewRow.DataContext>
-        </TableViewRow>
-        <!-- Selected: the outlined column, a light fill stage of the row's own hue -->
-        <TableViewRow IsSelected="True">
-          <TableViewRow.DataContext>
-            <NativeMenuItem Header="Selected" Gesture="Ctrl+4" ToolTip="Chosen" />
-          </TableViewRow.DataContext>
-        </TableViewRow>
-        <!-- The same rule under another accent kind: the fill takes that hue -->
-        <TableViewRow IsSelected="True" theme:Accent.Kind="Warning">
-          <TableViewRow.DataContext>
-            <NativeMenuItem Header="Selected · Warning" Gesture="Ctrl+5" ToolTip="Chosen, in a hue" />
-          </TableViewRow.DataContext>
-        </TableViewRow>
-        <!-- Disabled: the whole row dims -->
-        <TableViewRow IsEnabled="False">
-          <TableViewRow.DataContext>
-            <NativeMenuItem Header="Disabled" Gesture="Ctrl+6" ToolTip="Unavailable" />
-          </TableViewRow.DataContext>
-        </TableViewRow>
-        <!-- Disabled beats selection, keeping the chosen fill under the dim -->
-        <TableViewRow IsEnabled="False" IsSelected="True">
-          <TableViewRow.DataContext>
-            <NativeMenuItem Header="Disabled + Selected" Gesture="Ctrl+7" ToolTip="Chosen, unavailable" />
-          </TableViewRow.DataContext>
-        </TableViewRow>
-      </TableView>
-    </StackPanel>
-  </DataTemplate>
-
-  <Design.PreviewWith>
-    <Border>
-      <Border.Styles>
-        <default:DefaultThemeStyles />
-      </Border.Styles>
-
-      <default:LightDarkPreview Title="TableViewRow" Orientation="Vertical" ContentTemplate="{StaticResource TableViewRowPreview}" />
-
-    </Border>
-  </Design.PreviewWith>
-  <Orientation x:Key="TableViewRowPreviewOrientation">Vertical</Orientation>
+  <!-- Shown inside the TableView entry, as a table is the only place one is met -->
+  <theme:PreviewShownIn x:Key="TableViewRowPreviewShownIn"
+                        ShownIn="{x:Type TableView}"
+                        Reason="Rows are met inside a table; the TableView entry shows every row state." />
 
   <!-- ============================================================
        Template
@@ -87,7 +22,7 @@
     <Setter Property="BorderBrush" Value="Transparent" />
     <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
     <!-- Parallel to the table's curved frame (Rule 19): the frame's radius pulled in by its 1px border + 4px padding -->
-    <Setter Property="CornerRadius" Value="{default:ConcentricCorners Radius={size:RadiusSm}, Thickness={size:ThicknessSm}, Inset={size:Edges All={size:Scaled Value={size:SpacingMd}, By=1.25}}, All=True}" />
+    <Setter Property="CornerRadius" Value="{size:ConcentricCorners Radius={size:RadiusSm}, Thickness={size:ThicknessSm}, Inset={size:Edges All={size:Scaled Value={size:SpacingMd}, By=1.25}}, All=True}" />
     <Setter Property="MinHeight" Value="{size:ControlHeightSm}" />
     <!-- The cells carry the content padding, so the row adds none and its columns line up with the headers -->
     <Setter Property="Padding" Value="{size:Edges}" />

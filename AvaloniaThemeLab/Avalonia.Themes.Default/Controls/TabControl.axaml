@@ -1,5 +1,6 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="using:AngelSix.ThemeEngine.Controls"
                     xmlns:default="clr-namespace:Avalonia.Themes.Default"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
                     xmlns:color="using:AngelSix.ThemeEngine.Colors"
@@ -25,7 +26,7 @@
                   BorderBrush="{color:BorderDefault}"
                   BorderThickness="{size:ThicknessSm}"
                   CornerRadius="{size:RadiusSm}"
-                  Height="{size:ControlHeightLg}">
+                  MinHeight="{size:ControlHeightLg}">
             <TextBlock Text="Selected page content" Foreground="{color:TextDefault}"
                        FontSize="{size:FontSizeMd}" HorizontalAlignment="Center" VerticalAlignment="Center" />
           </Border>
@@ -34,28 +35,28 @@
              page above, so selecting them does not resize the control. A non-breaking space keeps
              the page from collapsing to nothing. -->
         <TabItem Header="Rest">
-          <TextBlock Text="&#160;" Height="{size:ControlHeightLg}" Foreground="{color:TextDefault}" />
+          <TextBlock Text="&#160;" MinHeight="{size:ControlHeightLg}" Foreground="{color:TextDefault}" />
         </TabItem>
         <TabItem Header="Hover" theme:Preview.State="Hover">
-          <TextBlock Text="&#160;" Height="{size:ControlHeightLg}" Foreground="{color:TextDefault}" />
+          <TextBlock Text="&#160;" MinHeight="{size:ControlHeightLg}" Foreground="{color:TextDefault}" />
         </TabItem>
         <TabItem Header="Pressed" theme:Preview.State="Pressed">
-          <TextBlock Text="&#160;" Height="{size:ControlHeightLg}" Foreground="{color:TextDefault}" />
+          <TextBlock Text="&#160;" MinHeight="{size:ControlHeightLg}" Foreground="{color:TextDefault}" />
         </TabItem>
       </TabControl>
       <TabControl>
         <TabItem Header="Selected" IsSelected="True">
           <!-- Caption page at the same content height as the first example's card -->
-          <Border Height="{size:ControlHeightLg}">
+          <Border MinHeight="{size:ControlHeightLg}">
             <TextBlock Text="This tab is selected" Foreground="{color:TextDefault}"
                        HorizontalAlignment="Center" VerticalAlignment="Center" />
           </Border>
         </TabItem>
         <TabItem Header="Focused" theme:Preview.State="Focused">
-          <TextBlock Text="&#160;" Height="{size:ControlHeightLg}" Foreground="{color:TextDefault}" />
+          <TextBlock Text="&#160;" MinHeight="{size:ControlHeightLg}" Foreground="{color:TextDefault}" />
         </TabItem>
         <TabItem Header="Off" IsEnabled="False">
-          <TextBlock Text="&#160;" Height="{size:ControlHeightLg}" Foreground="{color:TextDefault}" />
+          <TextBlock Text="&#160;" MinHeight="{size:ControlHeightLg}" Foreground="{color:TextDefault}" />
         </TabItem>
       </TabControl>
 
@@ -65,11 +66,11 @@
       <WrapPanel Orientation="Horizontal" ItemSpacing="{size:SpacingLg}" LineSpacing="{size:SpacingLg}">
         <TabControl Width="{size:Scaled Value={size:BaseSize}, By=180}">
           <TabItem Header="Closed">
-            <TextBlock Text="&#160;" Height="{size:ControlHeightLg}" Foreground="{color:TextDefault}" />
+            <TextBlock Text="&#160;" MinHeight="{size:ControlHeightLg}" Foreground="{color:TextDefault}" />
           </TabItem>
           <TabItem Header="Open" IsSelected="True" theme:Preview.State="Hover">
             <!-- Caption page at the same content height as the first example's card -->
-            <Border Height="{size:ControlHeightLg}">
+            <Border MinHeight="{size:ControlHeightLg}">
               <TextBlock Text="Open is selected" Foreground="{color:TextDefault}"
                          HorizontalAlignment="Center" VerticalAlignment="Center" />
             </Border>
@@ -77,11 +78,11 @@
         </TabControl>
         <TabControl Width="{size:Scaled Value={size:BaseSize}, By=180}">
           <TabItem Header="Plain">
-            <TextBlock Text="&#160;" Height="{size:ControlHeightLg}" Foreground="{color:TextDefault}" />
+            <TextBlock Text="&#160;" MinHeight="{size:ControlHeightLg}" Foreground="{color:TextDefault}" />
           </TabItem>
           <TabItem Header="Warn" IsSelected="True" theme:Accent.Kind="Warning">
             <!-- Caption page at the same content height as the first example's card -->
-            <Border Height="{size:ControlHeightLg}">
+            <Border MinHeight="{size:ControlHeightLg}">
               <TextBlock Text="Warn is selected" Foreground="{color:TextDefault}"
                          HorizontalAlignment="Center" VerticalAlignment="Center" />
             </Border>
@@ -89,11 +90,11 @@
         </TabControl>
         <TabControl Width="{size:Scaled Value={size:BaseSize}, By=180}">
           <TabItem Header="Plain">
-            <TextBlock Text="&#160;" Height="{size:ControlHeightLg}" Foreground="{color:TextDefault}" />
+            <TextBlock Text="&#160;" MinHeight="{size:ControlHeightLg}" Foreground="{color:TextDefault}" />
           </TabItem>
           <TabItem Header="Ok" IsSelected="True" theme:Accent.Kind="Success">
             <!-- Caption page at the same content height as the first example's card -->
-            <Border Height="{size:ControlHeightLg}">
+            <Border MinHeight="{size:ControlHeightLg}">
               <TextBlock Text="Ok is selected" Foreground="{color:TextDefault}"
                          HorizontalAlignment="Center" VerticalAlignment="Center" />
             </Border>
@@ -103,11 +104,11 @@
              meet the page border flush just like the other three placements. -->
         <TabControl Width="{size:Scaled Value={size:BaseSize}, By=180}" TabStripPlacement="Bottom">
           <TabItem Header="Foot">
-            <TextBlock Text="&#160;" Height="{size:ControlHeightLg}" Foreground="{color:TextDefault}" />
+            <TextBlock Text="&#160;" MinHeight="{size:ControlHeightLg}" Foreground="{color:TextDefault}" />
           </TabItem>
           <TabItem Header="Base" IsSelected="True">
             <!-- Caption page at the same content height as the first example's card -->
-            <Border Height="{size:ControlHeightLg}">
+            <Border MinHeight="{size:ControlHeightLg}">
               <TextBlock Text="Base is selected" Foreground="{color:TextDefault}"
                          HorizontalAlignment="Center" VerticalAlignment="Center" />
             </Border>
@@ -150,7 +151,7 @@
         <default:DefaultThemeStyles />
       </Border.Styles>
 
-      <default:LightDarkPreview Title="TabControl" Orientation="Vertical" ContentTemplate="{StaticResource TabControlPreview}" />
+      <controls:LightDarkPreview Title="TabControl" Orientation="Vertical" ContentTemplate="{StaticResource TabControlPreview}" />
 
     </Border>
   </Design.PreviewWith>

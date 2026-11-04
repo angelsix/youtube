@@ -1,5 +1,6 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="using:AngelSix.ThemeEngine.Controls"
                     xmlns:default="clr-namespace:Avalonia.Themes.Default"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
                     xmlns:color="using:AngelSix.ThemeEngine.Colors"
@@ -77,7 +78,7 @@
         <default:DefaultThemeStyles />
       </Border.Styles>
 
-      <default:LightDarkPreview Title="ListBox" Orientation="Vertical" ContentTemplate="{StaticResource ListBoxPreview}" />
+      <controls:LightDarkPreview Title="ListBox" Orientation="Vertical" ContentTemplate="{StaticResource ListBoxPreview}" />
 
     </Border>
   </Design.PreviewWith>
@@ -107,8 +108,7 @@
     <!-- Template -->
     <Setter Property="Template">
       <ControlTemplate>
-        <!-- Outer frame around the list. Its Padding insets the scroller off the rounded
-             edge so the scroller's square corners never paint over the frame's corner arcs -->
+        <!-- Outer frame around the list -->
         <Border Name="border"
                 ClipToBounds="{TemplateBinding ClipToBounds}"
                 Background="{TemplateBinding Background}"
@@ -116,8 +116,10 @@
                 BorderThickness="{TemplateBinding BorderThickness}"
                 CornerRadius="{TemplateBinding CornerRadius}"
                 Padding="{TemplateBinding Padding}">
-          <!-- Scrolls the list when it overflows -->
+          <!-- Scrolls the list when it overflows. Its background is rounded concentric with the frame (Rule 19),
+               inset by the frame's stroke and padding, so it never paints over the frame's corner arcs -->
           <ScrollViewer Name="PART_ScrollViewer"
+                        CornerRadius="{size:ConcentricCorners Radius={TemplateBinding CornerRadius}, Thickness={TemplateBinding BorderThickness}, Padding={TemplateBinding Padding}, All=True}"
                         VerticalSnapPointsType="{TemplateBinding (ScrollViewer.VerticalSnapPointsType)}"
                         HorizontalSnapPointsType="{TemplateBinding (ScrollViewer.HorizontalSnapPointsType)}"
                         HorizontalScrollBarVisibility="{TemplateBinding (ScrollViewer.HorizontalScrollBarVisibility)}"

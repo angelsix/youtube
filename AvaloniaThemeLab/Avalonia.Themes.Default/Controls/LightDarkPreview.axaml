@@ -1,6 +1,6 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:p="clr-namespace:Avalonia.Themes.Default"
+                    xmlns:controls="using:AngelSix.ThemeEngine.Controls"
                     xmlns:default="clr-namespace:Avalonia.Themes.Default"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
                     xmlns:color="using:AngelSix.ThemeEngine.Colors"
@@ -32,20 +32,20 @@
         <default:DefaultThemeStyles />
       </Border.Styles>
 
-      <p:LightDarkPreview Title="LightDarkPreview" PaneContentTemplate="{StaticResource LightDarkPreviewPreview}" />
+      <controls:LightDarkPreview Title="LightDarkPreview" PaneContentTemplate="{StaticResource LightDarkPreviewPreview}" />
 
     </Border>
   </Design.PreviewWith>
 
   <!-- One accent swatch: a dot in its own hue, ringed when it is the picked one. The item carries its
-       hue as its own Accent.Kind, so a pick recolours the preview's content and never the swatches.
+       hue as its own ThemeAccent.Hue, so a pick recolours the preview's content and never the swatches.
        Task 148: the dot paints the LIST-ROW PRESSED fill ({color:PressedBackgroundDefault}, the
        outlined control's pressed stage of the item's own hue) — the exact colour a ComboBoxItem shows
        while pressed, read from ComboBoxItem.axaml's :pressed state — replacing the old checked-face
        {color:AccentBrush Dark3}. -->
-  <ControlTheme x:Key="LightDarkPreviewSwatch" TargetType="ListBoxItem" x:DataType="theme:AccentKind">
+  <ControlTheme x:Key="LightDarkPreviewSwatch" TargetType="ListBoxItem" x:DataType="theme:AccentHue">
     <!-- Visual defaults -->
-    <Setter Property="theme:Accent.Kind" Value="{Binding}" />
+    <Setter Property="theme:ThemeAccent.Hue" Value="{Binding}" />
     <Setter Property="Background" Value="{color:PressedBackgroundDefault}" />
     <Setter Property="BorderBrush" Value="Transparent" />
     <Setter Property="BorderThickness" Value="{size:ThicknessMd}" />
@@ -107,7 +107,7 @@
 
   <!-- Two identical panes, the second flipped into a dark region; each presents an independent
        instantiation of the caller's template -->
-  <ControlTheme x:Key="{x:Type p:LightDarkPreview}" TargetType="p:LightDarkPreview">
+  <ControlTheme x:Key="{x:Type controls:LightDarkPreview}" TargetType="controls:LightDarkPreview">
     <!-- Visual defaults -->
     <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
     <!-- Text root: a design preview has no Window above it, so the inherited font properties a Window
@@ -151,11 +151,11 @@
               <!-- The pane's header: its caption and, below it, the accent picker -->
               <StackPanel Grid.Row="0" Spacing="{size:SpacingXl}">
                 <!-- The pane's caption -->
-                <Label Content="{Binding Title, RelativeSource={RelativeSource FindAncestor, AncestorType=p:LightDarkPreview}, StringFormat='{}{0} - Light'}"
+                <Label Content="{Binding Title, RelativeSource={RelativeSource FindAncestor, AncestorType=controls:LightDarkPreview}, StringFormat='{}{0} - Light'}"
                        HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" />
                 <!-- The pane's accent picker, below the caption -->
                 <ListBox Theme="{StaticResource LightDarkPreviewSwatches}" IsVisible="{TemplateBinding IsAccentPickerVisible}"
-                         SelectedItem="{TemplateBinding SelectedAccent, Mode=TwoWay}" ItemsSource="{x:Static p:LightDarkPreview.AccentChoices}"
+                         SelectedItem="{TemplateBinding SelectedAccent, Mode=TwoWay}" ItemsSource="{TemplateBinding AccentChoices}"
                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" />
               </StackPanel>
               <!-- The preview content, in the theme's own auto-hide scrolling viewport: the pane keeps
@@ -181,9 +181,9 @@
                    ended past the furthest scroll (AVLG010), while a Margin IS counted by the extent. -->
               <ScrollViewer Grid.Row="1" Background="Transparent" BorderThickness="{size:Edges}" AllowAutoHide="True"
                             HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
-                <ContentControl HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" theme:Accent.Kind="{TemplateBinding SelectedAccent}"
+                <ContentControl HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" theme:ThemeAccent.Hue="{TemplateBinding SelectedAccent}"
                                 Margin="{size:Edges Top={size:SpacingLg}, Bottom={size:SpacingLg}}"
-                                ContentTemplate="{Binding PaneContentTemplate, RelativeSource={RelativeSource FindAncestor, AncestorType=p:LightDarkPreview}}" />
+                                ContentTemplate="{Binding PaneContentTemplate, RelativeSource={RelativeSource FindAncestor, AncestorType=controls:LightDarkPreview}}" />
               </ScrollViewer>
             </Grid>
           </Border>
@@ -196,19 +196,19 @@
               <!-- The pane's header: its caption and, below it, the accent picker -->
               <StackPanel Grid.Row="0" Spacing="{size:SpacingXl}">
                 <!-- The pane's caption -->
-                <Label Content="{Binding Title, RelativeSource={RelativeSource FindAncestor, AncestorType=p:LightDarkPreview}, StringFormat='{}{0} - Dark'}"
+                <Label Content="{Binding Title, RelativeSource={RelativeSource FindAncestor, AncestorType=controls:LightDarkPreview}, StringFormat='{}{0} - Dark'}"
                        HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" />
                 <!-- The pane's accent picker, below the caption -->
                 <ListBox Theme="{StaticResource LightDarkPreviewSwatches}" IsVisible="{TemplateBinding IsAccentPickerVisible}"
-                         SelectedItem="{TemplateBinding SelectedAccent, Mode=TwoWay}" ItemsSource="{x:Static p:LightDarkPreview.AccentChoices}"
+                         SelectedItem="{TemplateBinding SelectedAccent, Mode=TwoWay}" ItemsSource="{TemplateBinding AccentChoices}"
                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" />
               </StackPanel>
               <!-- The preview content, in the theme's own auto-hide scrolling viewport -->
               <ScrollViewer Grid.Row="1" Background="Transparent" BorderThickness="{size:Edges}" AllowAutoHide="True"
                             HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
-                <ContentControl HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" theme:Accent.Kind="{TemplateBinding SelectedAccent}"
+                <ContentControl HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" theme:ThemeAccent.Hue="{TemplateBinding SelectedAccent}"
                                 Margin="{size:Edges Top={size:SpacingLg}, Bottom={size:SpacingLg}}"
-                                ContentTemplate="{Binding PaneContentTemplate, RelativeSource={RelativeSource FindAncestor, AncestorType=p:LightDarkPreview}}" />
+                                ContentTemplate="{Binding PaneContentTemplate, RelativeSource={RelativeSource FindAncestor, AncestorType=controls:LightDarkPreview}}" />
               </ScrollViewer>
             </Grid>
           </Border>

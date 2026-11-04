@@ -1,5 +1,6 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="using:AngelSix.ThemeEngine.Controls"
         xmlns:dialogs="using:Avalonia.Dialogs"
         xmlns:internal="using:Avalonia.Dialogs.Internal"
         xmlns:converters="clr-namespace:Avalonia.Controls.Converters;assembly=Avalonia.Controls"
@@ -38,7 +39,7 @@
         <default:DefaultThemeStyles />
       </Border.Styles>
 
-      <default:LightDarkPreview Title="ManagedFileChooser" Orientation="Vertical" ContentTemplate="{StaticResource ManagedFileChooserPreview}" />
+      <controls:LightDarkPreview Title="ManagedFileChooser" Orientation="Vertical" ContentTemplate="{StaticResource ManagedFileChooserPreview}" />
 
     </Border>
   </Design.PreviewWith>
@@ -63,7 +64,7 @@
                fill follows: a square shadow corner painted over the frame's rounded corner, and
                the shadow's grey showed where the frame's curve should have shown the canvas -->
           <Border x:Name="PART_ShadowBorder"
-                  CornerRadius="{default:ConcentricCorners Radius={size:RadiusMd}, Thickness={size:ThicknessSm}, Left=True}"
+                  CornerRadius="{size:ConcentricCorners Radius={size:RadiusMd}, Thickness={size:ThicknessSm}, Left=True}"
                   IsHitTestVisible="False"/>
           <!-- Outer frame around the quick links list. Its LEFT corners follow the chooser's own
                rounded frame (ConcentricCorners), so the rail's fill never paints a square corner
@@ -75,7 +76,7 @@
                   BorderBrush="{TemplateBinding BorderBrush}"
                   BorderThickness="{TemplateBinding BorderThickness}"
                   ClipToBounds="{TemplateBinding ClipToBounds}"
-                  CornerRadius="{default:ConcentricCorners Radius={size:RadiusMd}, Thickness={size:ThicknessSm}, Left=True}">
+                  CornerRadius="{size:ConcentricCorners Radius={size:RadiusMd}, Thickness={size:ThicknessSm}, Left=True}">
             <!-- Scrolls the quick links when they overflow -->
             <ScrollViewer Name="PART_ScrollViewer" HorizontalScrollBarVisibility="{TemplateBinding (ScrollViewer.HorizontalScrollBarVisibility)}" VerticalScrollBarVisibility="{TemplateBinding (ScrollViewer.VerticalScrollBarVisibility)}">
               <!-- The quick link entries -->
@@ -745,7 +746,7 @@
     <!-- Places rail keeps the reference's 200px width: the names inside it are trimmed, so a long
          one never widens the rail and squeezes the file list -->
     <Style Selector="^ /template/ ListBox#PART_QuickLinks">
-      <Setter Property="Width" Value="{size:Scaled Value={size:ControlHeightMd}, By=5}" />
+      <Setter Property="Width" Value="{size:Scaled Value={size:ControlMinWidth}, By=3.125}" />
     </Style>
     <!-- The file list fills whatever is left BELOW the header row; frameless too: the reference lists
          files without a box, the nav hairline and the bottom bar's rule are the only lines in the
@@ -767,16 +768,16 @@
     </Style>
 
     <Style Selector="^ /template/ DockPanel#NavBar Button, ^ /template/ DockPanel#NavBar TextBox">
-      <Setter Property="Height" Value="{size:ControlHeightMd}"/>
+      <Setter Property="MinHeight" Value="{size:ControlHeightMd}"/>
     </Style>
     <!-- The stretched path and file-name fields take the taller control height so their 16.9px
          text lines clear the slot instead of being clipped at 14px -->
     <Style Selector="^ /template/ TextBox#Location, ^ /template/ TextBox#FileName">
-      <Setter Property="Height" Value="{size:ControlHeightMd}" />
+      <Setter Property="MinHeight" Value="{size:ControlHeightMd}" />
     </Style>
     <Style Selector="^ /template/ DockPanel#NavBar Button">
       <Setter Property="VerticalAlignment" Value="{theme:ContainerVerticalAlignment}"/>
-      <Setter Property="Width" Value="{size:ControlHeightMd}"/>
+      <Setter Property="MinWidth" Value="{size:ControlHeightMd}"/>
       <Setter Property="BorderThickness" Value="0"/>
     </Style>
     <Style Selector="^ /template/ DockPanel#NavBar Button:not(:pointerover):not(:pressed)">
@@ -807,9 +808,9 @@
        there. The gallery lists a control only when the theme gives it a {Name}Preview, so without
        this marker the prompt would vanish from the gallery with no record of why. -->
 
-  <default:PreviewShownIn x:Key="ManagedFileChooserOverwritePromptPreviewShownIn"
-                           ShownIn="{x:Type dialogs:ManagedFileChooser}"
-                           Reason="The overwrite prompt is met inside the chooser that raises it." />
+  <theme:PreviewShownIn x:Key="ManagedFileChooserOverwritePromptPreviewShownIn"
+                        ShownIn="{x:Type dialogs:ManagedFileChooser}"
+                        Reason="The overwrite prompt is met inside the chooser that raises it." />
 
 
   <ControlTheme x:Key="{x:Type dialogs:ManagedFileChooserOverwritePrompt}" TargetType="dialogs:ManagedFileChooserOverwritePrompt">

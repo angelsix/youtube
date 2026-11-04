@@ -1,5 +1,6 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="using:AngelSix.ThemeEngine.Controls"
                     xmlns:sys="using:System"
                     xmlns:default="clr-namespace:Avalonia.Themes.Default"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
@@ -17,11 +18,11 @@
         </Style>
       </StackPanel.Styles>
       <Button Content="Text" />
-      <Button Icon.Data="{icons:Save}" />
-      <Button Icon.Data="{icons:Save}" Content="Icon and text" />
-      <Button Icon.Data="{icons:Save}" Icon.Placement="Top" Content="Top" />
-      <Button Icon.Data="{icons:Save}" Icon.Placement="Right" Content="Right" />
-      <Button Icon.Data="{icons:Save}" Icon.Placement="Bottom" Content="Bottom" />
+      <Button theme:Icon.Data="{icons:Save}" />
+      <Button theme:Icon.Data="{icons:Save}" Content="Icon and text" />
+      <Button theme:Icon.Data="{icons:Save}" theme:Icon.Placement="Top" Content="Top" />
+      <Button theme:Icon.Data="{icons:Save}" theme:Icon.Placement="Right" Content="Right" />
+      <Button theme:Icon.Data="{icons:Save}" theme:Icon.Placement="Bottom" Content="Bottom" />
       <Button Content="Default" />
       <Button theme:Preview.State="Hover" Content="Hover" />
       <Button theme:Preview.State="Pressed" Content="Pressed" />
@@ -45,7 +46,7 @@
         <default:DefaultThemeStyles />
       </Border.Styles>
 
-      <default:LightDarkPreview Title="Button" ContentTemplate="{StaticResource ButtonPreview}" />
+      <controls:LightDarkPreview Title="Button" ContentTemplate="{StaticResource ButtonPreview}" />
 
     </Border>
   </Design.PreviewWith>
@@ -101,9 +102,9 @@
                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
                 <!-- The button's icon -->
                 <PathIcon x:Name="PART_Icon"
-                          DockPanel.Dock="{TemplateBinding Icon.Placement}"
-                          Data="{TemplateBinding Icon.Data}"
-                          IsVisible="{TemplateBinding Icon.Data, Converter={x:Static ObjectConverters.IsNotNull}}"
+                          DockPanel.Dock="{TemplateBinding (theme:Icon.Placement)}"
+                          Data="{TemplateBinding (theme:Icon.Data)}"
+                          IsVisible="{TemplateBinding (theme:Icon.Data), Converter={x:Static ObjectConverters.IsNotNull}}"
                           HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                           VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
 
@@ -131,10 +132,10 @@
       <Setter Property="HorizontalSpacing" Value="{Binding Padding.Left, RelativeSource={RelativeSource TemplatedParent}}" />
       <Setter Property="VerticalSpacing" Value="{Binding Padding.Top, RelativeSource={RelativeSource TemplatedParent}}" />
     </Style>
-    <Style Selector="^[(Icon.Placement)=Right] /template/ DockPanel#PART_IconLayout">
+    <Style Selector="^[(theme|Icon.Placement)=Right] /template/ DockPanel#PART_IconLayout">
       <Setter Property="HorizontalSpacing" Value="{Binding Padding.Right, RelativeSource={RelativeSource TemplatedParent}}" />
     </Style>
-    <Style Selector="^[(Icon.Placement)=Bottom] /template/ DockPanel#PART_IconLayout">
+    <Style Selector="^[(theme|Icon.Placement)=Bottom] /template/ DockPanel#PART_IconLayout">
       <Setter Property="VerticalSpacing" Value="{Binding Padding.Bottom, RelativeSource={RelativeSource TemplatedParent}}" />
     </Style>
 

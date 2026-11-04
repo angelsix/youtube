@@ -1,5 +1,6 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="using:AngelSix.ThemeEngine.Controls"
                     xmlns:default="clr-namespace:Avalonia.Themes.Default"
                     xmlns:design="clr-namespace:Avalonia.Themes.Default.Design"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
@@ -40,7 +41,7 @@
         <default:DefaultThemeStyles />
       </Border.Styles>
 
-      <default:LightDarkPreview Title="RepeatButton" Orientation="Vertical" ContentTemplate="{StaticResource RepeatButtonPreview}" />
+      <controls:LightDarkPreview Title="RepeatButton" Orientation="Vertical" ContentTemplate="{StaticResource RepeatButtonPreview}" />
 
     </Border>
   </Design.PreviewWith>

@@ -1,5 +1,6 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="using:AngelSix.ThemeEngine.Controls"
                     xmlns:sys="using:System"
                     xmlns:default="clr-namespace:Avalonia.Themes.Default"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
@@ -149,7 +150,7 @@
         <default:DefaultThemeStyles />
       </Border.Styles>
 
-      <default:LightDarkPreview Title="ComboBox" Orientation="Horizontal" ContentTemplate="{StaticResource ComboBoxPreview}" />
+      <controls:LightDarkPreview Title="ComboBox" Orientation="Horizontal" ContentTemplate="{StaticResource ComboBoxPreview}" />
     </Border>
   </Design.PreviewWith>
 

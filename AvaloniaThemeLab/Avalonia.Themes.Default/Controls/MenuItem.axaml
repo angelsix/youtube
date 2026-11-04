@@ -1,7 +1,6 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:conv="using:Avalonia.Controls.Converters"
-                    xmlns:default="clr-namespace:Avalonia.Themes.Default"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
                     xmlns:color="using:AngelSix.ThemeEngine.Colors"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes"
@@ -13,9 +12,9 @@
        lists a control only when the theme gives it a {Name}Preview, so without this marker the row
        would vanish from the gallery with no record of why. -->
 
-  <default:PreviewShownIn x:Key="MenuItemPreviewShownIn"
-                           ShownIn="{x:Type ContextMenu}"
-                           Reason="A menu row is met inside a real menu; the ContextMenu preview pins every row state." />
+  <theme:PreviewShownIn x:Key="MenuItemPreviewShownIn"
+                        ShownIn="{x:Type ContextMenu}"
+                        Reason="A menu row is met inside a real menu; the ContextMenu preview pins every row state." />
 
 
   <!-- The tick drawn beside a checked item; local so the :checked:toggle style always resolves it.
@@ -37,7 +36,7 @@
     <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
     <!-- Concentric with the menu container (Rule 19): the container's RadiusMd minus its border and padding,
          so the row's curve runs parallel to the frame's -->
-    <Setter Property="CornerRadius" Value="{default:ConcentricCorners Radius={size:RadiusMd}, Thickness={size:ThicknessSm}, Inset={size:Edges All={size:Scaled Value={size:SpacingMd}, By=1.25}}, All=True}" />
+    <Setter Property="CornerRadius" Value="{size:ConcentricCorners Radius={size:RadiusMd}, Thickness={size:ThicknessSm}, Inset={size:Edges All={size:Scaled Value={size:SpacingMd}, By=1.25}}, All=True}" />
     <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
     <!-- Even vertical edges so the label sits true centre (was Top 4 / Bottom 8) -->
     <Setter Property="Padding" Value="{size:Edges All={size:ContentPadding}}" />

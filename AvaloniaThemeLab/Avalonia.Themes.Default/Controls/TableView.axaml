@@ -1,5 +1,6 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="using:AngelSix.ThemeEngine.Controls"
                     xmlns:default="clr-namespace:Avalonia.Themes.Default"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
                     xmlns:color="using:AngelSix.ThemeEngine.Colors"
@@ -71,6 +72,111 @@
         <NativeMenuItem Header="Close" Gesture="Ctrl+W" ToolTip="Close the document" />
         <NativeMenuItem Header="Quit" Gesture="Ctrl+Q" ToolTip="Quit the app" />
       </TableView>
+      <!-- Caption naming the states shown -->
+      <TextBlock Text="Left, centred and right columns" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
+      <!-- Each column places its cells' content; the last column draws no hairline against the frame -->
+      <TableView Width="{size:SurfaceWidthLg}">
+        <TableView.Columns>
+          <TableViewColumn x:DataType="NativeMenuItem" Header="Left" Binding="{Binding Header}" Width="*" />
+          <TableViewColumn x:DataType="NativeMenuItem" Header="Centre" Binding="{Binding Gesture}" Width="100" HorizontalContentAlignment="Center" />
+          <TableViewColumn x:DataType="NativeMenuItem" Header="Right" Binding="{Binding ToolTip}" Width="*" HorizontalContentAlignment="Right" />
+        </TableView.Columns>
+        <NativeMenuItem Header="Bold" Gesture="Ctrl+B" ToolTip="Heavier" />
+        <NativeMenuItem Header="Italic" Gesture="Ctrl+I" ToolTip="Slanted" />
+      </TableView>
+      <!-- Caption naming the state shown -->
+      <TextBlock Text="Text longer than its column" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
+      <!-- Fixed narrow columns: a long value ends in an ellipsis inside its own cell -->
+      <TableView Width="{size:SurfaceWidthLg}">
+        <TableView.Columns>
+          <TableViewColumn x:DataType="NativeMenuItem" Header="Command" Binding="{Binding Header}" Width="140" />
+          <TableViewColumn x:DataType="NativeMenuItem" Header="Does" Binding="{Binding ToolTip}" Width="*" />
+        </TableView.Columns>
+        <NativeMenuItem Header="Toggle full screen presentation mode" ToolTip="Hide every window edge and fill the display" />
+      </TableView>
+      <!-- Caption naming the states shown -->
+      <TextBlock Text="Row states" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
+      <TableView Width="{size:Scaled Value={size:SurfaceWidthLg}, By=1.25}" SelectionMode="Multiple">
+        <TableView.Columns>
+          <TableViewColumn x:DataType="NativeMenuItem" Header="State" Binding="{Binding Header}" Width="2*" />
+          <TableViewColumn x:DataType="NativeMenuItem" Header="Key" Binding="{Binding Gesture}" Width="120" />
+          <TableViewColumn x:DataType="NativeMenuItem" Header="Note" Binding="{Binding ToolTip}" Width="2*" />
+        </TableView.Columns>
+        <!-- Rest: the row's plain state -->
+        <TableViewRow>
+          <TableViewRow.DataContext>
+            <NativeMenuItem Header="Default" Gesture="Ctrl+1" ToolTip="At rest" />
+          </TableViewRow.DataContext>
+        </TableViewRow>
+        <!-- Hover: the row's hover fill, pinned -->
+        <TableViewRow theme:Preview.State="Hover">
+          <TableViewRow.DataContext>
+            <NativeMenuItem Header="Hover" Gesture="Ctrl+2" ToolTip="Pointer over" />
+          </TableViewRow.DataContext>
+        </TableViewRow>
+        <!-- Pressed: the row's pressed fill, pinned -->
+        <TableViewRow theme:Preview.State="Pressed">
+          <TableViewRow.DataContext>
+            <NativeMenuItem Header="Pressed" Gesture="Ctrl+3" ToolTip="Button down" />
+          </TableViewRow.DataContext>
+        </TableViewRow>
+        <!-- Selected: the outlined column, a light fill stage of the row's own hue -->
+        <TableViewRow IsSelected="True">
+          <TableViewRow.DataContext>
+            <NativeMenuItem Header="Selected" Gesture="Ctrl+4" ToolTip="Chosen" />
+          </TableViewRow.DataContext>
+        </TableViewRow>
+        <!-- The same rule under another accent kind: the fill takes that hue -->
+        <TableViewRow IsSelected="True" theme:Accent.Kind="Warning">
+          <TableViewRow.DataContext>
+            <NativeMenuItem Header="Selected · Warning" Gesture="Ctrl+5" ToolTip="Chosen, in a hue" />
+          </TableViewRow.DataContext>
+        </TableViewRow>
+        <!-- Disabled: the whole row dims -->
+        <TableViewRow IsEnabled="False">
+          <TableViewRow.DataContext>
+            <NativeMenuItem Header="Disabled" Gesture="Ctrl+6" ToolTip="Unavailable" />
+          </TableViewRow.DataContext>
+        </TableViewRow>
+        <!-- Disabled beats selection, keeping the chosen fill under the dim -->
+        <TableViewRow IsEnabled="False" IsSelected="True">
+          <TableViewRow.DataContext>
+            <NativeMenuItem Header="Disabled + Selected" Gesture="Ctrl+7" ToolTip="Chosen, unavailable" />
+          </TableViewRow.DataContext>
+        </TableViewRow>
+      </TableView>
+      <!-- Caption naming the states shown -->
+      <TextBlock Text="Drag a column edge to resize" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
+      <!-- Resizable columns; the last one right-aligns its header with its numbers -->
+      <TableView Width="{size:SurfaceWidthLg}">
+        <TableView.Columns>
+          <TableViewColumn x:DataType="NativeMenuItem" Header="Command" Binding="{Binding Header}" Width="140" />
+          <TableViewColumn x:DataType="NativeMenuItem" Header="Shortcut" Binding="{Binding Gesture}" Width="*" />
+          <TableViewColumn x:DataType="NativeMenuItem" Header="Group" Binding="{Binding ToolTip}" Width="80" HorizontalContentAlignment="Right" />
+        </TableView.Columns>
+        <NativeMenuItem Header="Zoom in" Gesture="Ctrl+Add" ToolTip="View" />
+      </TableView>
+      <!-- Caption naming the state shown -->
+      <TextBlock Text="Resizing turned off" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
+      <!-- No grips: the header edges are plain hairlines -->
+      <TableView Width="{size:SurfaceWidthLg}" CanUserResizeColumns="False">
+        <TableView.Columns>
+          <TableViewColumn x:DataType="NativeMenuItem" Header="Command" Binding="{Binding Header}" Width="*" />
+          <TableViewColumn x:DataType="NativeMenuItem" Header="Shortcut" Binding="{Binding Gesture}" Width="120" />
+        </TableView.Columns>
+        <NativeMenuItem Header="Zoom out" Gesture="Ctrl+Subtract" />
+      </TableView>
+      <!-- Caption naming the state shown. It names the hue the example below carries, so it
+           takes that hue and the accent's text role -->
+      <TextBlock Text="Headers follow the hue" FontSize="{size:FontSizeSm}" theme:Accent.Kind="Warning" Foreground="{color:AccentTextDefault}" />
+      <!-- The header text and its hairlines take the table's hue -->
+      <TableView Width="{size:SurfaceWidthLg}" theme:Accent.Kind="Warning">
+        <TableView.Columns>
+          <TableViewColumn x:DataType="NativeMenuItem" Header="Command" Binding="{Binding Header}" Width="*" />
+          <TableViewColumn x:DataType="NativeMenuItem" Header="Shortcut" Binding="{Binding Gesture}" Width="120" />
+        </TableView.Columns>
+        <NativeMenuItem Header="Delete" Gesture="Delete" />
+      </TableView>
     </StackPanel>
   </DataTemplate>
   <Orientation x:Key="TableViewPreviewOrientation">Vertical</Orientation>
@@ -81,7 +187,7 @@
         <default:DefaultThemeStyles />
       </Border.Styles>
 
-      <default:LightDarkPreview Title="TableView" Orientation="Vertical" ContentTemplate="{StaticResource TableViewPreview}" />
+      <controls:LightDarkPreview Title="TableView" Orientation="Vertical" ContentTemplate="{StaticResource TableViewPreview}" />
 
     </Border>
   </Design.PreviewWith>
@@ -113,8 +219,7 @@
     <!-- Template -->
     <Setter Property="Template">
       <ControlTemplate>
-        <!-- Outer frame around the table. Its Padding insets the scroller off the rounded
-             edge so the scroller's square corners never paint over the frame's corner arcs -->
+        <!-- Outer frame around the table -->
         <Border Name="border"
                 ClipToBounds="{TemplateBinding ClipToBounds}"
                 Background="{TemplateBinding Background}"
@@ -122,9 +227,11 @@
                 BorderThickness="{TemplateBinding BorderThickness}"
                 CornerRadius="{TemplateBinding CornerRadius}"
                 Padding="{TemplateBinding Padding}">
-          <!-- Scrolls the rows under the column headers -->
+          <!-- Scrolls the rows under the column headers. Rounded concentric with the frame (Rule 19), inset by its
+               stroke and padding; the rows take its bottom corners, so they never paint over the frame's arcs -->
           <ScrollViewer Name="PART_ScrollViewer"
                         Theme="{StaticResource DefaultTableViewScrollViewer}"
+                        CornerRadius="{size:ConcentricCorners Radius={TemplateBinding CornerRadius}, Thickness={TemplateBinding BorderThickness}, Padding={TemplateBinding Padding}, All=True}"
                         VerticalSnapPointsType="{TemplateBinding (ScrollViewer.VerticalSnapPointsType)}"
                         HorizontalSnapPointsType="{TemplateBinding (ScrollViewer.HorizontalSnapPointsType)}"
                         HorizontalScrollBarVisibility="{TemplateBinding (ScrollViewer.HorizontalScrollBarVisibility)}"
@@ -158,10 +265,12 @@
               <!-- One header per column, following the rows' horizontal offset -->
               <TableViewColumnHeadersPresenter />
             </Border>
-            <!-- The scrolling rows; ScrollReveal marks the viewer 'scrolling' while they move -->
+            <!-- The scrolling rows; ScrollReveal marks the viewer 'scrolling' while they move. The header bar sits on
+                 their top edge, so only their bottom corners follow the scroller's rounding -->
             <ScrollContentPresenter Name="PART_ContentPresenter"
-                                    default:ScrollReveal.Apply="True"
+                                    controls:ScrollReveal.Apply="True"
                                     Background="{TemplateBinding Background}"
+                                    CornerRadius="{size:Corners Radius={TemplateBinding CornerRadius}, Bottom=True}"
                                     HorizontalSnapPointsType="{TemplateBinding HorizontalSnapPointsType}"
                                     VerticalSnapPointsType="{TemplateBinding VerticalSnapPointsType}"
                                     HorizontalSnapPointsAlignment="{TemplateBinding HorizontalSnapPointsAlignment}"
@@ -202,7 +311,7 @@
       <Setter Property="BorderBrush" Value="{color:AccentDividerDefault}" />
       <Setter Property="BorderThickness" Value="{size:Edges Bottom={size:ThicknessSmDouble}}" />
       <Setter Property="Padding" Value="{size:Edges Horizontal={size:ThicknessSmDouble}}" />
-      <Setter Property="CornerRadius" Value="{default:ConcentricCorners Radius={size:RadiusSm}, Thickness={size:ThicknessSm}, Inset={size:Edges All={size:Scaled Value={size:SpacingMd}, By=1.25}}, Top=True}" />
+      <Setter Property="CornerRadius" Value="{size:ConcentricCorners Radius={size:RadiusSm}, Thickness={size:ThicknessSm}, Inset={size:Edges All={size:Scaled Value={size:SpacingMd}, By=1.25}}, Top=True}" />
     </Style>
 
     <!-- Auto hide mode: the header and rows run under the bars -->

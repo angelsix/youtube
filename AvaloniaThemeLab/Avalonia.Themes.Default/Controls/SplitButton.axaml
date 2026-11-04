@@ -1,5 +1,6 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="using:AngelSix.ThemeEngine.Controls"
         xmlns:converters="using:Avalonia.Controls.Converters"
         xmlns:default="clr-namespace:Avalonia.Themes.Default"
         xmlns:theme="using:AngelSix.ThemeEngine.Generated"
@@ -79,7 +80,7 @@
         <default:DefaultThemeStyles />
       </Border.Styles>
 
-      <default:LightDarkPreview Title="SplitButton" Orientation="Vertical" ContentTemplate="{StaticResource SplitButtonPreview}" />
+      <controls:LightDarkPreview Title="SplitButton" Orientation="Vertical" ContentTemplate="{StaticResource SplitButtonPreview}" />
 
     </Border>
   </Design.PreviewWith>
@@ -211,7 +212,7 @@
     <!-- Corner radius: the halves touching the frame follow its inner curve (concentric corners) -->
     <Style Selector="^ /template/ Button#PART_PrimaryButton">
       <Setter Property="MinWidth" Value="{size:ControlHeightSm}" />
-      <Setter Property="CornerRadius" Value="{default:ConcentricCorners Radius={TemplateBinding CornerRadius}, Thickness={TemplateBinding BorderThickness}, Left=True}" />
+      <Setter Property="CornerRadius" Value="{size:ConcentricCorners Radius={TemplateBinding CornerRadius}, Thickness={TemplateBinding BorderThickness}, Left=True}" />
     </Style>
 
     <!-- Hairline divider: the frame's own stroke colour, one pixel wide -->
@@ -222,7 +223,7 @@
     <!-- Arrow half: sized like the frame's height, glyph centred -->
     <Style Selector="^ /template/ Button#PART_SecondaryButton">
       <Setter Property="MinWidth" Value="{size:ControlHeightSm}" />
-      <Setter Property="CornerRadius" Value="{default:ConcentricCorners Radius={TemplateBinding CornerRadius}, Thickness={TemplateBinding BorderThickness}, Right=True}" />
+      <Setter Property="CornerRadius" Value="{size:ConcentricCorners Radius={TemplateBinding CornerRadius}, Thickness={TemplateBinding BorderThickness}, Right=True}" />
     </Style>
 
     <Style Selector="^ /template/ PathIcon#PART_DropDownIcon">

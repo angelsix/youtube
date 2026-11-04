@@ -1,5 +1,6 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="using:AngelSix.ThemeEngine.Controls"
                     xmlns:generic="using:System.Collections.Generic"
                     xmlns:default="clr-namespace:Avalonia.Themes.Default"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
@@ -70,7 +71,7 @@
         <default:DefaultThemeStyles />
       </Border.Styles>
 
-      <default:LightDarkPreview Title="AutoCompleteBox" Orientation="Vertical" ContentTemplate="{StaticResource AutoCompleteBoxPreview}" />
+      <controls:LightDarkPreview Title="AutoCompleteBox" Orientation="Vertical" ContentTemplate="{StaticResource AutoCompleteBoxPreview}" />
 
     </Border>
   </Design.PreviewWith>

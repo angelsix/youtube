@@ -1,5 +1,6 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="using:AngelSix.ThemeEngine.Controls"
                     xmlns:default="clr-namespace:Avalonia.Themes.Default"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
                     xmlns:color="using:AngelSix.ThemeEngine.Colors"
@@ -11,14 +12,14 @@
        accent (ColorSample), so picking a shade in one moves the rest; the translucent one is a fixed sample
        for the checkerboard. Declared before Design.PreviewWith uses it -->
   <DataTemplate x:Key="ColorPreviewerPreview">
-    <StackPanel x:Name="Sample" default:ColorSample.Seed="{default:AccentColor}" Spacing="{size:SpacingXl}" HorizontalAlignment="Left">
+    <StackPanel x:Name="Sample" controls:ColorSample.Seed="{color:AccentColor}" Spacing="{size:SpacingXl}" HorizontalAlignment="Left">
       <Label Content="With shades" />
-      <ColorPreviewer Width="{size:SurfaceWidthSm}" HsvColor="{Binding #Sample.(default:ColorSample.HsvColor), Mode=TwoWay}" />
+      <ColorPreviewer Width="{size:SurfaceWidthSm}" HsvColor="{Binding #Sample.(controls:ColorSample.HsvColor), Mode=TwoWay}" />
       <Label Content="Colour only" />
-      <ColorPreviewer Width="{size:SurfaceWidthSm}" IsAccentColorsVisible="False" HsvColor="{Binding #Sample.(default:ColorSample.HsvColor), Mode=TwoWay}" />
+      <ColorPreviewer Width="{size:SurfaceWidthSm}" IsAccentColorsVisible="False" HsvColor="{Binding #Sample.(controls:ColorSample.HsvColor), Mode=TwoWay}" />
       <Label Content="Accent ramp, Light10 to Dark10" />
       <!-- The theme's own stages of the pane's accent, lightest to darkest -->
-      <UniformGrid Width="{size:SurfaceWidthSm}" Height="{size:IconSizeLg}" Rows="1">
+      <UniformGrid Width="{size:SurfaceWidthSm}" Height="{size:ControlHeightSm}" Rows="1">
         <Border Background="{color:AccentBrush Light10}" />
         <Border Background="{color:AccentBrush Light9}" />
         <Border Background="{color:AccentBrush Light8}" />
@@ -44,7 +45,7 @@
       <Label Content="Translucent" />
       <ColorPreviewer Width="{size:SurfaceWidthSm}" HsvColor="hsva(200, 80%, 90%, 0.4)" />
       <Label Content="Disabled" />
-      <ColorPreviewer Width="{size:SurfaceWidthSm}" IsEnabled="False" HsvColor="{Binding #Sample.(default:ColorSample.HsvColor), Mode=TwoWay}" />
+      <ColorPreviewer Width="{size:SurfaceWidthSm}" IsEnabled="False" HsvColor="{Binding #Sample.(controls:ColorSample.HsvColor), Mode=TwoWay}" />
     </StackPanel>
   </DataTemplate>
 
@@ -54,7 +55,7 @@
         <default:DefaultThemeStyles />
       </Border.Styles>
 
-      <default:LightDarkPreview Title="ColorPreviewer" ContentTemplate="{StaticResource ColorPreviewerPreview}" />
+      <controls:LightDarkPreview Title="ColorPreviewer" ContentTemplate="{StaticResource ColorPreviewerPreview}" />
 
     </Border>
   </Design.PreviewWith>
@@ -137,7 +138,7 @@
     <!-- Checkerboard dark square, following the frame's inner curve (Rule 19) -->
     <Style Selector="^ /template/ Border#CheckerSquares">
       <Setter Property="Background" Value="{color:NeutralLight6Brush}" />
-      <Setter Property="CornerRadius" Value="{default:ConcentricCorners Radius={TemplateBinding CornerRadius}, Thickness={TemplateBinding BorderThickness}, All=True}" />
+      <Setter Property="CornerRadius" Value="{size:ConcentricCorners Radius={TemplateBinding CornerRadius}, Thickness={TemplateBinding BorderThickness}, All=True}" />
     </Style>
 
     <!-- Shade swatch width -->
@@ -147,13 +148,13 @@
 
     <!-- Outer swatches follow the frame's inner curve on the side they touch (Rule 19) -->
     <Style Selector="^ /template/ Border#PART_AccentDecrement2Border">
-      <Setter Property="CornerRadius" Value="{default:ConcentricCorners Radius={TemplateBinding CornerRadius}, Thickness={TemplateBinding BorderThickness}, Left=True}" />
+      <Setter Property="CornerRadius" Value="{size:ConcentricCorners Radius={TemplateBinding CornerRadius}, Thickness={TemplateBinding BorderThickness}, Left=True}" />
     </Style>
     <Style Selector="^ /template/ Border#PART_AccentIncrement2Border">
-      <Setter Property="CornerRadius" Value="{default:ConcentricCorners Radius={TemplateBinding CornerRadius}, Thickness={TemplateBinding BorderThickness}, Right=True}" />
+      <Setter Property="CornerRadius" Value="{size:ConcentricCorners Radius={TemplateBinding CornerRadius}, Thickness={TemplateBinding BorderThickness}, Right=True}" />
     </Style>
     <Style Selector="^[IsAccentColorsVisible=False] /template/ Border#PreviewColor">
-      <Setter Property="CornerRadius" Value="{default:ConcentricCorners Radius={TemplateBinding CornerRadius}, Thickness={TemplateBinding BorderThickness}, All=True}" />
+      <Setter Property="CornerRadius" Value="{size:ConcentricCorners Radius={TemplateBinding CornerRadius}, Thickness={TemplateBinding BorderThickness}, All=True}" />
     </Style>
 
     <!-- Disabled state -->

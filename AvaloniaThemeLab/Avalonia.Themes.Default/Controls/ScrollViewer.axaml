@@ -1,6 +1,7 @@
 <ResourceDictionary
   xmlns="https://github.com/avaloniaui"
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:controls="using:AngelSix.ThemeEngine.Controls"
   xmlns:default="clr-namespace:Avalonia.Themes.Default"
   xmlns:theme="using:AngelSix.ThemeEngine.Generated"
   xmlns:color="using:AngelSix.ThemeEngine.Colors"
@@ -113,7 +114,7 @@
         <default:DefaultThemeStyles />
       </Border.Styles>
 
-      <default:LightDarkPreview Title="ScrollViewer" Orientation="Vertical" ContentTemplate="{StaticResource ScrollViewerPreview}" />
+      <controls:LightDarkPreview Title="ScrollViewer" Orientation="Vertical" ContentTemplate="{StaticResource ScrollViewerPreview}" />
 
     </Border>
   </Design.PreviewWith>
@@ -169,10 +170,11 @@
           <!-- The scrolling content; ScrollReveal watches the host's offset and marks the viewer
                'scrolling' while the content moves, so an auto-hide bar fades back in mid-scroll -->
           <ScrollContentPresenter Name="PART_ContentPresenter"
-                                  default:ScrollReveal.Apply="True"
+                                  controls:ScrollReveal.Apply="True"
                                   Grid.Row="0"
                                   Grid.Column="0"
                                   Background="{TemplateBinding Background}"
+                                  CornerRadius="{TemplateBinding CornerRadius}"
                                   HorizontalSnapPointsType="{TemplateBinding HorizontalSnapPointsType}"
                                   VerticalSnapPointsType="{TemplateBinding VerticalSnapPointsType}"
                                   HorizontalSnapPointsAlignment="{TemplateBinding HorizontalSnapPointsAlignment}"

@@ -1,5 +1,6 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="using:AngelSix.ThemeEngine.Controls"
                     xmlns:sys="clr-namespace:System;assembly=System.Runtime"
                     xmlns:default="clr-namespace:Avalonia.Themes.Default"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
@@ -67,7 +68,7 @@
         <default:DefaultThemeStyles />
       </Border.Styles>
 
-      <default:LightDarkPreview Title="NumericUpDown" Orientation="Vertical" ContentTemplate="{StaticResource NumericUpDownPreview}" />
+      <controls:LightDarkPreview Title="NumericUpDown" Orientation="Vertical" ContentTemplate="{StaticResource NumericUpDownPreview}" />
 
     </Border>
   </Design.PreviewWith>
@@ -141,7 +142,7 @@
 
     <!-- Corner radius: the button touching the frame follows its inner curve (ThemeRules: concentric corners) -->
     <Style Selector="^ /template/ RepeatButton#PART_IncreaseButton">
-      <Setter Property="CornerRadius" Value="{default:ConcentricCorners Radius={TemplateBinding CornerRadius}, Thickness={TemplateBinding BorderThickness}, Right=True}" />
+      <Setter Property="CornerRadius" Value="{size:ConcentricCorners Radius={TemplateBinding CornerRadius}, Thickness={TemplateBinding BorderThickness}, Right=True}" />
     </Style>
 
     <!-- Hover state: on the arrow buttons, not the frame (IsPointerOver quirk) -->
@@ -165,7 +166,7 @@
            down arrow to the second -->
       <Style Selector="^ /template/ RepeatButton#PART_IncreaseButton">
         <Setter Property="Grid.Column" Value="0" />
-        <Setter Property="CornerRadius" Value="{default:ConcentricCorners Radius={TemplateBinding CornerRadius}, Thickness={TemplateBinding BorderThickness}, Left=True}" />
+        <Setter Property="CornerRadius" Value="{size:ConcentricCorners Radius={TemplateBinding CornerRadius}, Thickness={TemplateBinding BorderThickness}, Left=True}" />
       </Style>
       <Style Selector="^ /template/ RepeatButton#PART_DecreaseButton">
         <Setter Property="Grid.Column" Value="1" />

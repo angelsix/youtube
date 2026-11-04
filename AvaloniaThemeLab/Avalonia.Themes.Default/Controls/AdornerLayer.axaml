@@ -1,6 +1,5 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:default="clr-namespace:Avalonia.Themes.Default"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
                     xmlns:color="using:AngelSix.ThemeEngine.Colors"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes">
@@ -9,8 +8,8 @@
        it a {Name}Preview, so this layer would vanish from the gallery with no record of why. The
        marker is that record: it is drawn over other controls, never on its own. -->
 
-  <default:PreviewExcluded x:Key="AdornerLayerPreviewExcluded"
-                            Reason="An adorner layer draws only over the elements it adorns." />
+  <theme:PreviewExcluded x:Key="AdornerLayerPreviewExcluded"
+                         Reason="An adorner layer draws only over the elements it adorns." />
 
   <ControlTheme x:Key="{x:Type AdornerLayer}" TargetType="AdornerLayer">
     <!-- Focus adorner template -->
@@ -21,11 +20,11 @@
         <Border Margin="{size:Edges All={size:Scaled Value={size:Thickness}, By=-3}}"
                 BorderThickness="{size:ThicknessMd}"
                 BorderBrush="{color:AccentFocusBrush}"
-                CornerRadius="{default:ConcentricCorners Radius={ReflectionBinding Path=(AdornerLayer.AdornedElement).CornerRadius, RelativeSource={RelativeSource Self}}, Thickness={ReflectionBinding Path=(AdornerLayer.AdornedElement).BorderThickness, RelativeSource={RelativeSource Self}}, Inset={ReflectionBinding Path=Margin, RelativeSource={RelativeSource Self}}, Stroke={ReflectionBinding Path=BorderThickness, RelativeSource={RelativeSource Self}}, All=True}">
+                CornerRadius="{size:ConcentricCorners Radius={ReflectionBinding Path=(AdornerLayer.AdornedElement).CornerRadius, RelativeSource={RelativeSource Self}}, Thickness={ReflectionBinding Path=(AdornerLayer.AdornedElement).BorderThickness, RelativeSource={RelativeSource Self}}, Inset={ReflectionBinding Path=Margin, RelativeSource={RelativeSource Self}}, Stroke={ReflectionBinding Path=BorderThickness, RelativeSource={RelativeSource Self}}, All=True}">
           <!-- Light halo between the ring and the control -->
           <Border BorderThickness="{size:ThicknessSm}"
                   BorderBrush="{color:BackgroundDefault}"
-                  CornerRadius="{default:ConcentricCorners Radius={Binding $parent[Border].CornerRadius}, Thickness={Binding $parent[Border].BorderThickness}, Stroke={ReflectionBinding Path=BorderThickness, RelativeSource={RelativeSource Self}}, All=True}" />
+                  CornerRadius="{size:ConcentricCorners Radius={Binding $parent[Border].CornerRadius}, Thickness={Binding $parent[Border].BorderThickness}, Stroke={ReflectionBinding Path=BorderThickness, RelativeSource={RelativeSource Self}}, All=True}" />
         </Border>
       </FocusAdornerTemplate>
     </Setter>

@@ -1,5 +1,6 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="using:AngelSix.ThemeEngine.Controls"
                     xmlns:default="clr-namespace:Avalonia.Themes.Default"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
                     xmlns:color="using:AngelSix.ThemeEngine.Colors"
@@ -28,7 +29,7 @@
         <default:DefaultThemeStyles />
       </Border.Styles>
 
-      <default:LightDarkPreview Title="GroupBox" Orientation="Horizontal" ContentTemplate="{StaticResource GroupBoxPreview}" />
+      <controls:LightDarkPreview Title="GroupBox" Orientation="Horizontal" ContentTemplate="{StaticResource GroupBoxPreview}" />
 
     </Border>
   </Design.PreviewWith>

@@ -1,5 +1,6 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="using:AngelSix.ThemeEngine.Controls"
                     xmlns:default="clr-namespace:Avalonia.Themes.Default"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
                     xmlns:color="using:AngelSix.ThemeEngine.Colors"
@@ -19,7 +20,7 @@
           <!-- Left pane: Button's rest surface, no outline of its own (the container's single outline frames both panes); outer corners concentric with the container (Rule 19) -->
           <Border Grid.Column="0"
                   Background="{color:BackgroundDefault}"
-                  CornerRadius="{default:ConcentricCorners Radius={size:RadiusSm}, Thickness={size:ThicknessSm}, Left=True}">
+                  CornerRadius="{size:ConcentricCorners Radius={size:RadiusSm}, Thickness={size:ThicknessSm}, Left=True}">
             <TextBlock Text="Left pane"
                        Foreground="{color:TextDefault}"
                        HorizontalAlignment="Center"
@@ -30,7 +31,7 @@
           <!-- Right pane: Button's rest surface, no outline of its own; outer corners concentric with the container (Rule 19) -->
           <Border Grid.Column="2"
                   Background="{color:BackgroundDefault}"
-                  CornerRadius="{default:ConcentricCorners Radius={size:RadiusSm}, Thickness={size:ThicknessSm}, Right=True}">
+                  CornerRadius="{size:ConcentricCorners Radius={size:RadiusSm}, Thickness={size:ThicknessSm}, Right=True}">
             <TextBlock Text="Right pane"
                        Foreground="{color:TextDefault}"
                        HorizontalAlignment="Center"
@@ -47,7 +48,7 @@
         <default:DefaultThemeStyles />
       </Border.Styles>
 
-      <default:LightDarkPreview Title="GridSplitter" ContentTemplate="{StaticResource GridSplitterPreview}" />
+      <controls:LightDarkPreview Title="GridSplitter" ContentTemplate="{StaticResource GridSplitterPreview}" />
 
     </Border>
   </Design.PreviewWith>

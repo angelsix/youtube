@@ -658,10 +658,16 @@ public partial class DefaultTheme : ObservableObject
     /// a plain number — a track's <c>Height</c>, a dot's <c>Width</c>, a glyph's <c>StrokeThickness</c>.
     /// A Thickness token in one of those slots silently resolves to 0 (the wrong-type trap), so a
     /// plain-number slot must read the <c>…Double</c> twin, exactly as <see cref="Radius"/> does.
+    /// <para>
+    /// Floored at one pixel: Avalonia snaps a border to whole device pixels, rounding half to even, so at
+    /// <see cref="BaseSize"/> 0.5 a 0.5 hairline would paint as nothing and every outline would vanish.
+    /// A step above zero stays at 1 or more; <see cref="ThicknessScale"/> 0 still switches borders off.
+    /// </para>
     /// </summary>
     [SizeScale(Multipliers = [1, 2, 3, 4, 6],
                Types = [typeof(Thickness), typeof(double)],
-               TypeSuffixes = ["", "Double"])]
+               TypeSuffixes = ["", "Double"],
+               Floor = 1)]
     public virtual double Thickness => BaseSize * ThicknessScale;
 
     /// <summary>Icon ladder: IconSizeSm through IconSizeXl. Md is the everyday glyph size.</summary>

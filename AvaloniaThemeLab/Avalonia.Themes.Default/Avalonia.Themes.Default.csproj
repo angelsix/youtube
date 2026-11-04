@@ -23,8 +23,11 @@
              dictionary-list generator scans this project's .axaml by content, so the theme keeps
              merging the calendar's dictionaries automatically; nothing else needs wiring. -->
         <!-- 1.1.0 adds CalendarEvent/CalendarEvent<TData>, CalendarView.Events and the week-number
-             properties (IsWeekNumberVisible, WeekNumberRule). -->
-        <PackageReference Include="AngelSix.ThemeEngine.Controls" Version="1.1.0"/>
+             properties (IsWeekNumberVisible, WeekNumberRule). 1.2.0 takes over the engine-level code
+             this theme used to carry: LightDarkPreview, Icons, ColorSample and the LabelPairing,
+             ScrollReveal, PickerPopupAlignment and WheelSnap behaviours. Their look stays here, in
+             Controls/*.axaml, exactly as CalendarView's does. -->
+        <PackageReference Include="AngelSix.ThemeEngine.Controls" Version="1.2.0"/>
         <!-- Home of ColorPicker, ColorView, ColorSpectrum, ColorSlider and ColorPreviewer; their styling is Controls/Color*.axaml. -->
         <PackageReference Include="Avalonia.Controls.ColorPicker" Version="12.1.4"/>
 
@@ -43,7 +46,12 @@
         <!-- 1.24.0: a dark region's twin follows live edits to an observable theme (the gallery's
              dark pane follows the settings window), and ColorRamp's LightInk carries the hand-tuned
              light ink stages so they follow a live seed edit. -->
-        <PackageReference Include="AngelSix.ThemeEngine" Version="1.24.0" />
+        <!-- 1.27.0 adds ConcentricCorners Padding (the ListBox's scroller); 1.29.0 removes the short-lived CornerFit.
+             1.25.0 takes over {size:ConcentricCorners}, {color:AccentColor}, theme:Icon.Data/Placement and
+             the theme:PreviewShownIn/PreviewExcluded gallery markers, which used to live in Theme/.
+             1.26.0 adds [SizeScale(Floor)], which keeps the Thickness ladder at 1px or more when
+             BaseSize shrinks, so borders never round away to nothing. -->
+        <PackageReference Include="AngelSix.ThemeEngine" Version="1.28.0" />
         <!-- The theme's declared values are [ObservableProperty] partial properties, so a live
              instance can be edited at runtime; partial properties need 8.4.2 (the engine's own
              8.4.0 does not generate them). -->

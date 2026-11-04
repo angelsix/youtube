@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using AngelSix.ThemeEngine.Generated;
 using Avalonia;
@@ -31,7 +32,20 @@ public sealed partial class MainWindowViewModel : ObservableObject
     // Defaults to Primary — a commonly used accent — rather than the dark Neutral the picker fell
     // back to when nothing was pinned.
     [ObservableProperty]
-    private AccentKind _selectedAccent = AccentKind.Primary;
+    private AccentHue _selectedAccent = Hue(AccentKind.Primary);
+
+    /// <summary>The hues the header picker offers, in the order DefaultTheme declares them. Surface is left
+    /// out: it is the canvas's own hue, so content drawn in it disappears into the pane.</summary>
+    /// <remarks>Engine hues (<see cref="AccentHue"/>) rather than this theme's generated <see cref="AccentKind"/>,
+    /// because the engine's LightDarkPreview carries the open type so it can serve every theme.</remarks>
+    public static IReadOnlyList<AccentHue> AccentChoices { get; } =
+    [
+        Hue(AccentKind.Neutral), Hue(AccentKind.Primary), Hue(AccentKind.Success), Hue(AccentKind.Warning),
+        Hue(AccentKind.Favourite), Hue(AccentKind.Error), Hue(AccentKind.Info), Hue(AccentKind.Destructive), Hue(AccentKind.Subtle),
+    ];
+
+    /// <summary>The engine hue for one of this theme's generated accent kinds.</summary>
+    public static AccentHue Hue(AccentKind kind) => new(kind.ToString());
 
     // Absent in design-time and headless tools, which have no window to open over
     private readonly ThemeSettingsWindowService? _settingsWindow;

@@ -1,5 +1,6 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="using:AngelSix.ThemeEngine.Controls"
                     xmlns:default="clr-namespace:Avalonia.Themes.Default"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
                     xmlns:color="using:AngelSix.ThemeEngine.Colors"
@@ -123,7 +124,7 @@
         <default:DefaultThemeStyles />
       </Border.Styles>
 
-      <default:LightDarkPreview Title="CommandBar" Orientation="Horizontal" ContentTemplate="{StaticResource CommandBarPreview}" />
+      <controls:LightDarkPreview Title="CommandBar" Orientation="Horizontal" ContentTemplate="{StaticResource CommandBarPreview}" />
     </Border>
   </Design.PreviewWith>
 
@@ -133,15 +134,15 @@
        part there. The gallery lists a control only when the theme gives it a {Name}Preview, so
        without these markers the parts would vanish from the gallery with no record of why. -->
 
-  <default:PreviewShownIn x:Key="CommandBarButtonPreviewShownIn"
-                           ShownIn="{x:Type CommandBar}"
-                           Reason="A bar button is met inside the bar that holds it." />
-  <default:PreviewShownIn x:Key="CommandBarToggleButtonPreviewShownIn"
-                           ShownIn="{x:Type CommandBar}"
-                           Reason="A bar toggle is met inside the bar that holds it." />
-  <default:PreviewShownIn x:Key="CommandBarSeparatorPreviewShownIn"
-                           ShownIn="{x:Type CommandBar}"
-                           Reason="A bar separator is met inside the bar that holds it." />
+  <theme:PreviewShownIn x:Key="CommandBarButtonPreviewShownIn"
+                        ShownIn="{x:Type CommandBar}"
+                        Reason="A bar button is met inside the bar that holds it." />
+  <theme:PreviewShownIn x:Key="CommandBarToggleButtonPreviewShownIn"
+                        ShownIn="{x:Type CommandBar}"
+                        Reason="A bar toggle is met inside the bar that holds it." />
+  <theme:PreviewShownIn x:Key="CommandBarSeparatorPreviewShownIn"
+                        ShownIn="{x:Type CommandBar}"
+                        Reason="A bar separator is met inside the bar that holds it." />
 
 
   <ControlTheme x:Key="{x:Type CommandBarButton}" TargetType="CommandBarButton">
@@ -151,7 +152,8 @@
     <Setter Property="BorderThickness" Value="0" />
     <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
     <Setter Property="Padding" Value="{size:Edges Horizontal={size:SpacingLg}, Vertical={size:SpacingMd}}" />
-    <Setter Property="Width" Value="{size:Scaled Value={size:ControlHeightSm}, By=2}" />
+    <!-- A floor, not a width: the face grows to fit its icon and label, so no setting can collapse it or wrap its label -->
+    <Setter Property="MinWidth" Value="{size:Scaled Value={size:ControlHeightSm}, By=2}" />
     <Setter Property="MinHeight" Value="{size:ControlHeightMd}" />
     <Setter Property="HorizontalContentAlignment" Value="{theme:ButtonHorizontalContentAlignment}" />
     <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
@@ -224,7 +226,7 @@
 
     <!-- Compact: hide label, reduce width -->
     <Style Selector="^[IsCompact=True]">
-      <Setter Property="Width" Value="{size:ControlHeightMd}" />
+      <Setter Property="MinWidth" Value="{size:ControlHeightMd}" />
     </Style>
     <Style Selector="^[IsCompact=True] /template/ TextBlock#PART_Label">
       <Setter Property="IsVisible" Value="False" />
@@ -232,7 +234,6 @@
 
     <!-- LabelPosition=Right: horizontal layout, auto-width -->
     <Style Selector="^[LabelPosition=Right]">
-      <Setter Property="Width" Value="NaN" />
       <Setter Property="MinWidth" Value="{size:ControlHeightMd}" />
     </Style>
     <Style Selector="^[LabelPosition=Right] /template/ StackPanel#PART_LayoutRoot">
@@ -249,7 +250,6 @@
     <Style Selector="^[IsInOverflow=True]">
       <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
       <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
-      <Setter Property="Width" Value="NaN" />
       <Setter Property="MinHeight" Value="{size:ControlHeightMd}" />
     </Style>
     <Style Selector="^[IsInOverflow=True] /template/ StackPanel#PART_LayoutRoot">
@@ -265,7 +265,8 @@
     <Setter Property="BorderThickness" Value="0" />
     <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
     <Setter Property="Padding" Value="{size:Edges Horizontal={size:SpacingLg}, Vertical={size:SpacingMd}}" />
-    <Setter Property="Width" Value="{size:Scaled Value={size:ControlHeightSm}, By=2}" />
+    <!-- A floor, not a width: the face grows to fit its icon and label, so no setting can collapse it or wrap its label -->
+    <Setter Property="MinWidth" Value="{size:Scaled Value={size:ControlHeightSm}, By=2}" />
     <Setter Property="MinHeight" Value="{size:ControlHeightMd}" />
     <Setter Property="HorizontalContentAlignment" Value="{theme:ButtonHorizontalContentAlignment}" />
     <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
@@ -370,7 +371,7 @@
 
     <!-- Compact: hide label, reduce width -->
     <Style Selector="^[IsCompact=True]">
-      <Setter Property="Width" Value="{size:ControlHeightMd}" />
+      <Setter Property="MinWidth" Value="{size:ControlHeightMd}" />
     </Style>
     <Style Selector="^[IsCompact=True] /template/ TextBlock#PART_Label">
       <Setter Property="IsVisible" Value="False" />
@@ -378,7 +379,6 @@
 
     <!-- LabelPosition=Right: horizontal layout, auto-width -->
     <Style Selector="^[LabelPosition=Right]">
-      <Setter Property="Width" Value="NaN" />
       <Setter Property="MinWidth" Value="{size:ControlHeightMd}" />
     </Style>
     <Style Selector="^[LabelPosition=Right] /template/ StackPanel#PART_LayoutRoot">
@@ -395,7 +395,6 @@
     <Style Selector="^[IsInOverflow=True]">
       <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
       <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />
-      <Setter Property="Width" Value="NaN" />
       <Setter Property="MinHeight" Value="{size:ControlHeightMd}" />
     </Style>
     <Style Selector="^[IsInOverflow=True] /template/ StackPanel#PART_LayoutRoot">
@@ -569,7 +568,7 @@
       <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
       <Setter Property="CornerRadius" Value="{size:RadiusMd}" />
       <Setter Property="Padding" Value="{size:Edges All={size:SpacingMd}}" />
-      <Setter Property="MinWidth" Value="160" />
+      <Setter Property="MinWidth" Value="{size:Scaled Value={size:ControlMinWidth}, By=2.5}" />
     </Style>
 
   </ControlTheme>

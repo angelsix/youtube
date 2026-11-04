@@ -1,6 +1,5 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:default="clr-namespace:Avalonia.Themes.Default"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
                     xmlns:color="using:AngelSix.ThemeEngine.Colors"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes">
@@ -9,8 +8,8 @@
        it a {Name}Preview, so the window would vanish from the gallery with no record of why. The
        marker is that record: a window is its own OS surface, never a preview pane's content. -->
 
-  <default:PreviewExcluded x:Key="WindowPreviewExcluded"
-                            Reason="A window opens as its own OS surface." />
+  <theme:PreviewExcluded x:Key="WindowPreviewExcluded"
+                         Reason="A window opens as its own OS surface." />
 
   <ControlTheme x:Key="{x:Type Window}" TargetType="Window">
     <!-- Canvas color: SurfaceDefault follows the palette -->
@@ -59,11 +58,15 @@
       </ControlTemplate>
     </Setter>
 
-    <!-- Dialog class: a window shown over another reads as a bordered surface, not the canvas.
+    <!-- Dialog class: a window shown over another reads as a surface, not the canvas.
          A class, not automatic: Owner cannot be matched by a selector and IsDialog is not a styled property -->
     <Style Selector="^.dialog">
       <Setter Property="Background" Value="{color:BackgroundDefault}"/>
-      <Setter Property="BorderThickness" Value="{size:ThicknessSm}"/>
+      <!-- The frame is drawn on Windows only. Windows gives a window no shadow or outline of its own, so a dialog over
+           another window needs one to stand apart; macOS already outlines and shadows it, and a second border doubles it -->
+      <Setter Property="BorderThickness">
+        <OnPlatform Default="{size:Edges}" Windows="{size:ThicknessSm}" />
+      </Setter>
     </Style>
   </ControlTheme>
 </ResourceDictionary>

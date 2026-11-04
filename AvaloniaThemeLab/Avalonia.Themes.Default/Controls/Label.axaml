@@ -1,5 +1,6 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="using:AngelSix.ThemeEngine.Controls"
                     xmlns:default="clr-namespace:Avalonia.Themes.Default"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
                     xmlns:color="using:AngelSix.ThemeEngine.Colors"
@@ -34,7 +35,7 @@
         <default:DefaultThemeStyles />
       </Border.Styles>
 
-      <default:LightDarkPreview Title="Label" ContentTemplate="{StaticResource LabelPreview}" />
+      <controls:LightDarkPreview Title="Label" ContentTemplate="{StaticResource LabelPreview}" />
     </Border>
   </Design.PreviewWith>
 
@@ -54,7 +55,7 @@
     <!-- Pairing detection: the Label names the field under it, and the theme pulls the two together.
          Applied here, on every Label, so the behaviour is a property of the control rather than
          something a page has to opt into. -->
-    <Setter Property="(default:LabelPairing.Apply)" Value="True" />
+    <Setter Property="(controls:LabelPairing.Apply)" Value="True" />
     <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
     <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
     <Setter Property="HorizontalContentAlignment" Value="{theme:ControlHorizontalContentAlignment}" />

@@ -1,5 +1,6 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="using:AngelSix.ThemeEngine.Controls"
                     xmlns:sys="using:System"
                     xmlns:default="clr-namespace:Avalonia.Themes.Default"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
@@ -39,7 +40,7 @@
         <default:DefaultThemeStyles />
       </Border.Styles>
 
-      <default:LightDarkPreview Title="TextBox" ContentTemplate="{StaticResource TextBoxPreview}" />
+      <controls:LightDarkPreview Title="TextBox" ContentTemplate="{StaticResource TextBoxPreview}" />
 
     </Border>
   </Design.PreviewWith>
@@ -159,13 +160,13 @@
 
   <!-- Clear button inside the field, on the field-icon-button terms above -->
   <ControlTheme x:Key="DefaultTextBoxClearButton" TargetType="Button" BasedOn="{StaticResource DefaultTextBoxFieldIconButton}">
-    <Setter Property="CornerRadius" Value="{default:ConcentricCorners Radius={Binding $parent[TextBox].CornerRadius}, Thickness={Binding $parent[TextBox].BorderThickness}, Right=True}" />
+    <Setter Property="CornerRadius" Value="{size:ConcentricCorners Radius={Binding $parent[TextBox].CornerRadius}, Thickness={Binding $parent[TextBox].BorderThickness}, Right=True}" />
   </ControlTheme>
 
   <!-- Reveal-password toggle inside the field: the same frameless face, and revealing keeps it frameless —
        the eye icon alone says the state, never a filled button face -->
   <ControlTheme x:Key="DefaultTextBoxRevealButton" TargetType="ToggleButton" BasedOn="{StaticResource DefaultTextBoxFieldIconButton}">
-    <Setter Property="CornerRadius" Value="{default:ConcentricCorners Radius={Binding $parent[TextBox].CornerRadius}, Thickness={Binding $parent[TextBox].BorderThickness}, Right=True}" />
+    <Setter Property="CornerRadius" Value="{size:ConcentricCorners Radius={Binding $parent[TextBox].CornerRadius}, Thickness={Binding $parent[TextBox].BorderThickness}, Right=True}" />
     <Style Selector="^:checked">
       <Setter Property="Background" Value="Transparent" />
     </Style>

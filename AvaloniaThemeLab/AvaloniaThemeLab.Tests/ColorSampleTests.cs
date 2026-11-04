@@ -35,7 +35,7 @@ public sealed class ColorSampleTests
     {
         var (theme, lab) = Lab();
         var accent = lab.SelectedAccent;
-        lab.SelectedAccent = AccentKind.Warning;
+        lab.SelectedAccent = MainWindowViewModel.Hue(AccentKind.Warning);
         var window = Show(lab, entry);
         try
         {
@@ -122,7 +122,7 @@ public sealed class ColorSampleTests
         {
             var samples = Samples(window, dark: false);
             Drag(window, samples.OfType<ColorSlider>().First(slider => slider.ColorComponent == ColorComponent.Component1 && slider.IsEnabled), from: 0.2, to: 0.7);
-            lab.SelectedAccent = AccentKind.Success;
+            lab.SelectedAccent = MainWindowViewModel.Hue(AccentKind.Success);
             Dispatcher.UIThread.RunJobs();
 
             Assert.All(samples, sample => Assert.Equal(theme.AccentSuccess, ColorOf(sample)));

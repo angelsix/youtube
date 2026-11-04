@@ -1,5 +1,6 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="using:AngelSix.ThemeEngine.Controls"
                     xmlns:default="clr-namespace:Avalonia.Themes.Default"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
                     xmlns:color="using:AngelSix.ThemeEngine.Colors"
@@ -10,13 +11,13 @@
     <StackPanel Spacing="{size:SpacingXl}" HorizontalAlignment="Left">
       <Separator />
       <!-- A vertical rule dividing two items in a row: the grid cell stretches it to the row's height -->
-      <Grid ColumnDefinitions="*, Auto, *" Height="{size:ControlHeightMd}">
+      <Grid ColumnDefinitions="*, Auto, *" MinHeight="{size:ControlHeightMd}">
         <Label Content="First item" Grid.Column="0" />
         <!-- A vertical rule: its length runs down the row, so the instance names it here -->
         <Separator Grid.Column="1"
                    Margin="{size:Edges All={size:SpacingSm}}"
                    Width="{size:ThicknessSmDouble}"
-                   Height="{size:ControlHeightMd}" />
+                   MinHeight="{size:ControlHeightMd}" />
         <Label Content="Second item" Grid.Column="2" />
       </Grid>
     </StackPanel>
@@ -28,7 +29,7 @@
         <default:DefaultThemeStyles />
       </Border.Styles>
 
-      <default:LightDarkPreview Title="Separator" ContentTemplate="{StaticResource SeparatorPreview}" />
+      <controls:LightDarkPreview Title="Separator" ContentTemplate="{StaticResource SeparatorPreview}" />
 
     </Border>
   </Design.PreviewWith>

@@ -1,6 +1,7 @@
 <ResourceDictionary
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:AngelSix.ThemeEngine.Controls"
     xmlns:default="clr-namespace:Avalonia.Themes.Default"
     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
     xmlns:color="using:AngelSix.ThemeEngine.Colors"
@@ -30,7 +31,7 @@
         <default:DefaultThemeStyles />
       </Border.Styles>
 
-      <default:LightDarkPreview Title="ToggleSwitch" Orientation="Horizontal" ContentTemplate="{StaticResource ToggleSwitchPreview}" />
+      <controls:LightDarkPreview Title="ToggleSwitch" Orientation="Horizontal" ContentTemplate="{StaticResource ToggleSwitchPreview}" />
 
     </Border>
   </Design.PreviewWith>
@@ -121,12 +122,13 @@
                 Content="{TemplateBinding OnContent}"
                 ContentTemplate="{TemplateBinding OnContentTemplate}" />
 
-            <!-- The switch's outline -->
+            <!-- The switch's outline. The switch is a control face, so the outline, track and knob all follow control
+                 height: 40 by 20 at the default scale -->
             <Border
                 x:Name="OuterBorder"
                 Grid.Row="1"
-                Width="{size:Scaled Value={size:BaseSize}, By=40}"
-                Height="{size:Scaled Value={size:BaseSize}, By=20}" />
+                Width="{size:Scaled Value={size:ControlHeightSm}, By=1.25}"
+                Height="{size:Scaled Value={size:ControlHeightSm}, By=0.625}" />
 
             <!-- The track the knob slides along; unstretched so it fills the cell set by the outline and its margin insets it by the border weight -->
             <Border
@@ -137,22 +139,22 @@
             <Canvas
                 x:Name="PART_SwitchKnob"
                 Grid.Row="1"
-                Width="{size:Scaled Value={size:BaseSize}, By=20}"
-                Height="{size:Scaled Value={size:BaseSize}, By=20}"
+                Width="{size:Scaled Value={size:ControlHeightSm}, By=0.625}"
+                Height="{size:Scaled Value={size:ControlHeightSm}, By=0.625}"
                 HorizontalAlignment="Left">
 
               <!-- The sliding knob -->
-              <Grid x:Name="PART_MovingKnobs" Width="{size:Scaled Value={size:BaseSize}, By=20}" Height="{size:Scaled Value={size:BaseSize}, By=20}">
+              <Grid x:Name="PART_MovingKnobs" Width="{size:Scaled Value={size:ControlHeightSm}, By=0.625}" Height="{size:Scaled Value={size:ControlHeightSm}, By=0.625}">
                 <!-- Knob fill shown when on -->
                 <Ellipse
                     x:Name="SwitchKnobOn"
-                    Width="{size:Scaled Value={size:BaseSize}, By=10}"
-                    Height="{size:Scaled Value={size:BaseSize}, By=10}" />
+                    Width="{size:Scaled Value={size:ControlHeightSm}, By=0.3125}"
+                    Height="{size:Scaled Value={size:ControlHeightSm}, By=0.3125}" />
                 <!-- Knob fill shown when off -->
                 <Ellipse
                     x:Name="SwitchKnobOff"
-                    Width="{size:Scaled Value={size:BaseSize}, By=10}"
-                    Height="{size:Scaled Value={size:BaseSize}, By=10}" />
+                    Width="{size:Scaled Value={size:ControlHeightSm}, By=0.3125}"
+                    Height="{size:Scaled Value={size:ControlHeightSm}, By=0.3125}" />
               </Grid>
             </Canvas>
           </Grid>
@@ -188,7 +190,7 @@
     <Style Selector="^ /template/ Border#SwitchKnobBounds">
       <Setter Property="Background" Value="{color:BackgroundDefault}" />
       <Setter Property="BorderThickness" Value="{size:Edges}" />
-      <Setter Property="CornerRadius" Value="{default:ConcentricCorners Radius={size:RadiusMd}, Thickness={size:ThicknessSm}, Inset={ReflectionBinding Path=Margin, RelativeSource={RelativeSource Self}}, All=True}" />
+      <Setter Property="CornerRadius" Value="{size:ConcentricCorners Radius={size:RadiusMd}, Thickness={size:ThicknessSm}, Inset={ReflectionBinding Path=Margin, RelativeSource={RelativeSource Self}}, All=True}" />
     </Style>
 
     <!-- The knob that rides the ON track sits ON the solid fill, so it takes the on-solid ink:

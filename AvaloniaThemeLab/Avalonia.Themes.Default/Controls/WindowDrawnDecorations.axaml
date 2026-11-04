@@ -1,6 +1,5 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:default="clr-namespace:Avalonia.Themes.Default"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
                     xmlns:color="using:AngelSix.ThemeEngine.Colors"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes"
@@ -11,15 +10,18 @@
        it a {Name}Preview, so the decorations would vanish from the gallery with no record of why. The
        marker is that record: they attach to a real window's frame, never shown on their own. -->
 
-  <default:PreviewExcluded x:Key="WindowDrawnDecorationsPreviewExcluded"
-                            Reason="The decorations attach to a real window's frame." />
+  <theme:PreviewExcluded x:Key="WindowDrawnDecorationsPreviewExcluded"
+                         Reason="The decorations attach to a real window's frame." />
 
   <ControlTheme x:Key="DefaultDrawnCaptionButton" TargetType="Button">
     <Setter Property="Background" Value="{color:BackgroundDefault}" />
     <Setter Property="Foreground" Value="{color:TextDefault}" />
     <Setter Property="BorderBrush" Value="{color:BorderDefault}" />
-    <Setter Property="Width" Value="{size:ControlHeightLg}"/>
-    <Setter Property="Height" Value="{size:ControlHeightMd}"/>
+    <!-- A floor, not a size: the button always holds its icon, which sits dead centre as a Button's content does -->
+    <Setter Property="MinWidth" Value="{size:ControlHeightLg}"/>
+    <Setter Property="MinHeight" Value="{size:ControlHeightMd}"/>
+    <Setter Property="HorizontalContentAlignment" Value="{theme:ButtonHorizontalContentAlignment}" />
+    <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
     <Setter Property="VerticalAlignment" Value="{theme:ContainerVerticalAlignment}"/>
     <Setter Property="(WindowDecorationProperties.ElementRole)" Value="DecorationsElement"/>
     <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
@@ -28,6 +30,8 @@
         <!-- The caption button's icon -->
         <ContentPresenter Name="PART_ContentPresenter"
                           Background="Transparent"
+                          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                          VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
                           Content="{TemplateBinding Content}"/>
       </ControlTemplate>
     </Setter>

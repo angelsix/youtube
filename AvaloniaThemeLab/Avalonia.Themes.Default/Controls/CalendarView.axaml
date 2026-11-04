@@ -49,7 +49,7 @@
         <default:DefaultThemeStyles />
       </Border.Styles>
 
-      <default:LightDarkPreview Title="CalendarView" ContentTemplate="{StaticResource CalendarViewPreview}" />
+      <controls:LightDarkPreview Title="CalendarView" ContentTemplate="{StaticResource CalendarViewPreview}" />
 
     </Border>
   </Design.PreviewWith>
@@ -140,9 +140,9 @@
        lists a control only when the theme gives it a {Name}Preview, so without this marker the cell
        would vanish from the gallery with no record of why. -->
 
-  <default:PreviewShownIn x:Key="CalendarViewCellPreviewShownIn"
-                           ShownIn="{x:Type controls:CalendarView}"
-                           Reason="A day cell is met inside the calendar that holds it." />
+  <theme:PreviewShownIn x:Key="CalendarViewCellPreviewShownIn"
+                        ShownIn="{x:Type controls:CalendarView}"
+                        Reason="A day cell is met inside the calendar that holds it." />
 
 
   <ControlTheme x:Key="{x:Type controls:CalendarViewCell}" TargetType="controls:CalendarViewCell">
@@ -227,7 +227,7 @@
                   IsHitTestVisible="False"
                   Background="Transparent"
                   BorderThickness="{size:ThicknessMd}"
-                  CornerRadius="{default:ConcentricCorners Radius={TemplateBinding CornerRadius}, Stroke={size:ThicknessMd}, All=True}" />
+                  CornerRadius="{size:ConcentricCorners Radius={TemplateBinding CornerRadius}, Stroke={size:ThicknessMd}, All=True}" />
         </Panel>
       </ControlTemplate>
     </Setter>
@@ -335,7 +335,9 @@
     <Setter Property="MinWidth" Value="{size:ControlMinWidth}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ControlHorizontalAlignment}" />
     <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
-    <Setter Property="HeaderBackground" Value="{color:BackgroundDefault}" />
+    <!-- The frame already paints the header's area; a second, square-cornered paint of the same colour over it would
+         cover the frame's top arcs wherever the header is shorter than the radius -->
+    <Setter Property="HeaderBackground" Value="Transparent" />
     <Setter Property="MarkerBrush" Value="{color:AccentBorderDefault}" />
     <Setter Property="Focusable" Value="True" />
     <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
@@ -355,36 +357,40 @@
             <!-- Rows: header, then the active presentation -->
             <Grid RowDefinitions="Auto,*">
               <!-- Header row: month label left, arrows right -->
-              <Grid ColumnDefinitions="*,Auto,Auto"
-                    Background="{TemplateBinding HeaderBackground}">
-                <!-- Zooms out from month to year to decade -->
-                <Button Name="PART_HeaderButton"
-                        Theme="{StaticResource DefaultCalendarViewNavButton}"
-                        Foreground="{TemplateBinding Foreground}"
-                        Content="{TemplateBinding HeaderText}" />
-                <!-- Goes to the previous month, year or decade -->
-                <Button Name="PART_PreviousButton"
-                        Classes="navarrow"
-                        Grid.Column="1"
-                        Theme="{StaticResource DefaultCalendarViewNavButton}"
-                        Foreground="{TemplateBinding Foreground}">
-                  <PathIcon Name="PreviousArrow"
-                            Data="{icons:ChevronLeft}"
-                            HorizontalAlignment="{theme:ControlHorizontalContentAlignment}"
-                            VerticalAlignment="{theme:ControlVerticalContentAlignment}" />
-                </Button>
-                <!-- Goes to the next month, year or decade -->
-                <Button Name="PART_NextButton"
-                        Classes="navarrow"
-                        Grid.Column="2"
-                        Theme="{StaticResource DefaultCalendarViewNavButton}"
-                        Foreground="{TemplateBinding Foreground}">
-                  <PathIcon Name="NextArrow"
-                            Data="{icons:ChevronRight}"
-                            HorizontalAlignment="{theme:ControlHorizontalContentAlignment}"
-                            VerticalAlignment="{theme:ControlVerticalContentAlignment}" />
-                </Button>
-              </Grid>
+              <!-- The header's background, rounded concentric with the frame on its top corners (Rule 19), inset by the
+                   frame's stroke and padding, so with no padding it never paints square over the frame's arcs -->
+              <Border Background="{TemplateBinding HeaderBackground}"
+                      CornerRadius="{size:ConcentricCorners Radius={TemplateBinding CornerRadius}, Thickness={TemplateBinding BorderThickness}, Padding={TemplateBinding Padding}, Top=True}">
+                <Grid ColumnDefinitions="*,Auto,Auto">
+                  <!-- Zooms out from month to year to decade -->
+                  <Button Name="PART_HeaderButton"
+                          Theme="{StaticResource DefaultCalendarViewNavButton}"
+                          Foreground="{TemplateBinding Foreground}"
+                          Content="{TemplateBinding HeaderText}" />
+                  <!-- Goes to the previous month, year or decade -->
+                  <Button Name="PART_PreviousButton"
+                          Classes="navarrow"
+                          Grid.Column="1"
+                          Theme="{StaticResource DefaultCalendarViewNavButton}"
+                          Foreground="{TemplateBinding Foreground}">
+                    <PathIcon Name="PreviousArrow"
+                              Data="{icons:ChevronLeft}"
+                              HorizontalAlignment="{theme:ControlHorizontalContentAlignment}"
+                              VerticalAlignment="{theme:ControlVerticalContentAlignment}" />
+                  </Button>
+                  <!-- Goes to the next month, year or decade -->
+                  <Button Name="PART_NextButton"
+                          Classes="navarrow"
+                          Grid.Column="2"
+                          Theme="{StaticResource DefaultCalendarViewNavButton}"
+                          Foreground="{TemplateBinding Foreground}">
+                    <PathIcon Name="NextArrow"
+                              Data="{icons:ChevronRight}"
+                              HorizontalAlignment="{theme:ControlHorizontalContentAlignment}"
+                              VerticalAlignment="{theme:ControlVerticalContentAlignment}" />
+                  </Button>
+                </Grid>
+              </Border>
               <!-- Month and zoom presentations overlaid; swapped by the styles below -->
               <Panel Grid.Row="1">
                  <!-- Month grid: gutter column + seven day columns. Gutter labels are static parts the control
@@ -453,7 +459,7 @@
                   BorderBrush="{color:AccentFocusBrush}"
                   BorderThickness="{size:ThicknessMd}"
                   Margin="{size:ThicknessSm}"
-                  CornerRadius="{default:ConcentricCorners Radius={TemplateBinding CornerRadius}, Stroke={size:ThicknessMd}, All=True}" />
+                  CornerRadius="{size:ConcentricCorners Radius={TemplateBinding CornerRadius}, Stroke={size:ThicknessMd}, All=True}" />
           <!-- Focus outline for the picker frame, revealed on :picker:focus-within; centred on the frame's
                stroke (no inset margin) so no grey frame pixel shows outside the ring -->
           <Border Name="PickerFocusRing"
@@ -462,7 +468,7 @@
                   Background="Transparent"
                   BorderBrush="{color:AccentFocusBrush}"
                   BorderThickness="{size:ThicknessMd}"
-                  CornerRadius="{default:ConcentricCorners Radius={TemplateBinding CornerRadius}, Thickness={TemplateBinding BorderThickness}, Inset={ReflectionBinding Path=Margin, RelativeSource={RelativeSource Self}}, Stroke={size:ThicknessMd}, All=True}" />
+                  CornerRadius="{size:ConcentricCorners Radius={TemplateBinding CornerRadius}, Thickness={TemplateBinding BorderThickness}, Inset={ReflectionBinding Path=Margin, RelativeSource={RelativeSource Self}}, Stroke={size:ThicknessMd}, All=True}" />
 
           <!-- The calendar shown when picking from the text box -->
           <Popup Name="PART_Popup"
@@ -470,20 +476,20 @@
                  IsLightDismissEnabled="True">
             <!-- The same control, inline, driving the same selection -->
             <controls:CalendarView Name="PopupCalendar"
-                          DisplayAsPicker="False"
-                          SelectionMode="{TemplateBinding SelectionMode}"
-                          FirstDayOfWeek="{TemplateBinding FirstDayOfWeek}"
-                          IsTodayHighlighted="{TemplateBinding IsTodayHighlighted}"
-                          MinDate="{TemplateBinding MinDate}"
-                          MaxDate="{TemplateBinding MaxDate}"
-                          IsDateDisabled="{TemplateBinding IsDateDisabled}"
-                          Markers="{TemplateBinding Markers}"
-                          Events="{TemplateBinding Events}"
-                          IsWeekNumberVisible="{TemplateBinding IsWeekNumberVisible}"
-                          WeekNumberRule="{TemplateBinding WeekNumberRule}"
-                          SelectedDate="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=SelectedDate, Mode=TwoWay}"
-                          RangeStart="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=RangeStart, Mode=TwoWay}"
-                          RangeEnd="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=RangeEnd, Mode=TwoWay}" />
+                                   DisplayAsPicker="False"
+                                   SelectionMode="{TemplateBinding SelectionMode}"
+                                   FirstDayOfWeek="{TemplateBinding FirstDayOfWeek}"
+                                   IsTodayHighlighted="{TemplateBinding IsTodayHighlighted}"
+                                   MinDate="{TemplateBinding MinDate}"
+                                   MaxDate="{TemplateBinding MaxDate}"
+                                   IsDateDisabled="{TemplateBinding IsDateDisabled}"
+                                   Markers="{TemplateBinding Markers}"
+                                   Events="{TemplateBinding Events}"
+                                   IsWeekNumberVisible="{TemplateBinding IsWeekNumberVisible}"
+                                   WeekNumberRule="{TemplateBinding WeekNumberRule}"
+                                   SelectedDate="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=SelectedDate, Mode=TwoWay}"
+                                   RangeStart="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=RangeStart, Mode=TwoWay}"
+                                   RangeEnd="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=RangeEnd, Mode=TwoWay}" />
           </Popup>
         </Panel>
       </ControlTemplate>

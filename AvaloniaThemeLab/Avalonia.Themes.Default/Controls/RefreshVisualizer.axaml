@@ -1,6 +1,5 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:default="clr-namespace:Avalonia.Themes.Default"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
                     xmlns:color="using:AngelSix.ThemeEngine.Colors"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes"
@@ -14,9 +13,9 @@
        from the gallery with no record of why. This marker IS the record: it names the entry that
        shows the indicator, and the gallery reads it as a deliberate exclusion. -->
 
-  <default:PreviewShownIn x:Key="RefreshVisualizerPreviewShownIn"
-                           ShownIn="{x:Type RefreshContainer}"
-                           Reason="The pull indicator is met inside the container that hosts it." />
+  <theme:PreviewShownIn x:Key="RefreshVisualizerPreviewShownIn"
+                        ShownIn="{x:Type RefreshContainer}"
+                        Reason="The pull indicator is met inside the container that hosts it." />
 
 
   <ControlTheme x:Key="{x:Type RefreshVisualizer}"

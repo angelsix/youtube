@@ -1,7 +1,6 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     x:DataType="WindowNotificationManager"
-                    xmlns:default="clr-namespace:Avalonia.Themes.Default"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
                     xmlns:color="using:AngelSix.ThemeEngine.Colors"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes">
@@ -10,8 +9,8 @@
        it a {Name}Preview, so the manager would vanish from the gallery with no record of why. The
        marker is that record: it is fed by Show() on a live TopLevel, never shown on its own. -->
 
-  <default:PreviewExcluded x:Key="WindowNotificationManagerPreviewExcluded"
-                            Reason="The manager is fed by Show() on a live TopLevel." />
+  <theme:PreviewExcluded x:Key="WindowNotificationManagerPreviewExcluded"
+                         Reason="The manager is fed by Show() on a live TopLevel." />
 
   <ControlTheme x:Key="{x:Type WindowNotificationManager}" TargetType="WindowNotificationManager">
     <Setter Property="Margin" Value="0 0" />

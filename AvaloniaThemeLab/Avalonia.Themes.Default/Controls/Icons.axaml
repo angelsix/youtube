@@ -1,5 +1,6 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="using:AngelSix.ThemeEngine.Controls"
                     xmlns:default="clr-namespace:Avalonia.Themes.Default"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
                     xmlns:color="using:AngelSix.ThemeEngine.Colors"
@@ -7,7 +8,7 @@
   <!-- One cell of the gallery: the glyph at the everyday icon size, its name beneath it.
        The name sits a comfortable step below the glyph, so a caption reads as belonging to
        the icon above it -->
-  <DataTemplate x:Key="IconsCell" x:DataType="default:IconEntry">
+  <DataTemplate x:Key="IconsCell" x:DataType="controls:IconEntry">
     <StackPanel Orientation="Vertical" Spacing="{size:SpacingMd}">
       <!-- The glyph itself, centred in the cell -->
       <PathIcon Data="{Binding Geometry}"
@@ -30,7 +31,7 @@
   <Orientation x:Key="IconsPreviewOrientation">Vertical</Orientation>
 
   <DataTemplate x:Key="IconsPreview">
-    <default:Icons />
+    <controls:Icons />
   </DataTemplate>
 
   <Design.PreviewWith>
@@ -39,7 +40,7 @@
         <default:DefaultThemeStyles />
       </Border.Styles>
 
-      <default:LightDarkPreview Title="Icons" ContentTemplate="{StaticResource IconsPreview}" />
+      <controls:LightDarkPreview Title="Icons" ContentTemplate="{StaticResource IconsPreview}" />
 
     </Border>
   </Design.PreviewWith>
@@ -47,7 +48,7 @@
   <!-- ============================================================
        Template
        ============================================================ -->
-  <ControlTheme x:Key="{x:Type default:Icons}" TargetType="default:Icons">
+  <ControlTheme x:Key="{x:Type controls:Icons}" TargetType="controls:Icons">
 
     <!-- Visual defaults. The glyphs take the ink from here, so they follow the accent the pane
          carries (the gallery's accent picker) rather than a pinned colour; the cell names use

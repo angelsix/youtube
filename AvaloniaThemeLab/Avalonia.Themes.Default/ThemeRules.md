@@ -416,9 +416,12 @@ When the *reason* needs more room than two lines, write the full argument somewh
 | `Corners` | `{size:Corners Radius={size:RadiusSm}, Top=True}` | Apply a `CornerRadius` to selected corners only |
 | `TransformScale` | `{theme:TransformScale Value={size:PressedScale}, By=1}` | Wrap a double token into a `TransformOperations` for `RenderTransform` |
 | `AccentBrush` | `{color:AccentBrush}` / `{color:AccentBrush Dark1}` | Resolve an accent brush against the hue the target control carries (see Rule 16) |
-| `ConcentricCorners` | `{default:ConcentricCorners Radius={TemplateBinding CornerRadius}, Thickness={TemplateBinding BorderThickness}, Left=True}` | The radius of a part inside (or around) a rounded frame that follows the frame's curve (see Rule 19). **Theme-local** (`Theme/ConcentricCorners.cs`), not yet in the engine |
+| `ConcentricCorners` | `{size:ConcentricCorners Radius={TemplateBinding CornerRadius}, Thickness={TemplateBinding BorderThickness}, Left=True}` | The radius of a part inside (or around) a rounded frame that follows the frame's curve (see Rule 19) |
+| `AccentColor` | `{color:AccentColor}` / `{color:AccentColor Dark3}` | The `Color` twin of `AccentBrush`, for a `Color` slot a brush cannot fill |
 
-All live in the ThemeEngine source repo, except `ConcentricCorners`, which lives in this theme until it is promoted to the engine. After adding a new one, rebuild the NuGet package and push to nuget.org.
+All live in the ThemeEngine source repo (`AngelSix.ThemeEngine` 1.25.0 and later). After adding a new one, rebuild the NuGet package and push to nuget.org.
+
+**What lives where.** This theme holds only what makes it this particular look: `Theme/DefaultTheme.cs` (the tokens), `Theme/DefaultThemeStyles.cs` and `Theme/PageHostStyles.axaml` (how it is included), `Icons/` (its icon set), and `Controls/*.axaml` with their converters and design data. Anything a different theme would need just as much belongs in the engine: markup extensions and gallery markers in `AngelSix.ThemeEngine` (`{size:ConcentricCorners}`, `{color:AccentColor}`, `theme:Icon.Data`, `theme:PreviewShownIn`, `theme:PreviewExcluded`), and control types and behaviours in `AngelSix.ThemeEngine.Controls` (`controls:LightDarkPreview`, `controls:Icons`, `controls:ColorSample`, `controls:LabelPairing`, `controls:ScrollReveal`, `controls:PickerPopupAlignment`, `controls:WheelSnap`), whose look stays here in `Controls/*.axaml` exactly as `CalendarView`'s does. If you find yourself writing C# in this theme that never names `DefaultTheme`, it probably belongs in the engine.
 
 ---
 
@@ -712,7 +715,7 @@ A subclass turns it off with `public override bool WebRenderStyle => false;`, an
 
 ## Rule 19: Nothing Inside a Rounded Frame Paints Past Its Curve — Parts Follow It, Frames Don't Clip
 
-**Statement:** A part that paints (a fill, a stroke, a ring) and touches a rounded frame's corner takes a radius **concentric** with the frame, from `{default:ConcentricCorners}`, on exactly the corners it touches. A rounded frame never relies on `ClipToBounds` to hide what its children paint.
+**Statement:** A part that paints (a fill, a stroke, a ring) and touches a rounded frame's corner takes a radius **concentric** with the frame, from `{size:ConcentricCorners}`, on exactly the corners it touches. A rounded frame never relies on `ClipToBounds` to hide what its children paint.
 
 **Why (Avalonia 12.0.1):** a Border's `CornerRadius` is the *middle* of its stroke ("the corner radius is defined to be the middle of the stroke", `GeometryBuilder.cs`; `BorderRenderHelper` strokes the rect deflated by t/2 with the full radius). So the stroke's drawn outer edge is radius r + t/2 at the bounds and its inner edge, where children are arranged, is r − t/2 at inset t. A square child, or one given the frame's own r, paints over the stroke at every corner. `ClipToBounds` on a Border clips to `RoundedRect(bounds, r)` (`BorderVisual.cs`): the *outer* box at r, which is tighter than the frame's own stroke (it shaves its outer anti-aliasing) and still lets a child cover the stroke. The web clips `overflow: hidden` children to the padding box at the inner radius; Avalonia has no such clip, so the part carries the shape itself.
 
@@ -735,7 +738,7 @@ A subclass turns it off with `public override bool WebRenderStyle => false;`, an
 
 **Statement:** Inside a designer preview, sample *data* may be hard-coded. A preview is a design-time fixture with no view model behind it, so its job is to show the control's visual states at a glance — and binding sample data to a view model would obscure exactly the states being previewed. This relaxation applies **only** to content inside `<Design.PreviewWith>` blocks and inside `<DataTemplate x:Key="*Preview">` templates in `Controls/*.axaml`. Everywhere else — control templates, ControlTheme setters, the lab app, pages — the rules stand unchanged.
 
-**House pattern:** `Button.axaml` declares a keyed `<DataTemplate x:Key="ButtonPreview">` holding the content variants and the interactive states (via `theme:Preview.State`), then wraps `<default:LightDarkPreview>` in a `<Design.PreviewWith>` block that consumes it. Every other control adopts the same shape.
+**House pattern:** `Button.axaml` declares a keyed `<DataTemplate x:Key="ButtonPreview">` holding the content variants and the interactive states (via `theme:Preview.State`), then wraps `<controls:LightDarkPreview>` in a `<Design.PreviewWith>` block that consumes it. Every other control adopts the same shape.
 
 **Relaxed inside previews — literal sample data is allowed:**
 
@@ -824,7 +827,7 @@ The Button control has been fully converted and serves as the reference implemen
 - Disabled opacity: `{size:DisabledOpacity}` (accent disabled: `{size:Scaled Value={size:DisabledOpacity}, By=1.4}`)
 - Focus state: `BorderBrush="{color:AccentFocusBorderBrush}"`, `BorderThickness="{size:ThicknessSm}"` (or `0` where the control's frame draws no border) (Rule 21 — magenta on neutral, own hue on accented while `FocusColorOnAccents` is off)
 - Designer preview includes: Default, Hover, Pressed, Focused, Disabled — plus all accent variants
-- Icons are template parts, not content: `<Button Icon.Data="{icons:Save}" Content="Save" />`, with `Icon.Placement` `Left` (default), `Top`, `Right` or `Bottom`. `Icon` (Theme/Icon.cs) is a pair of attached properties on `Control`, so another button-like control opts in by reading them in its own template; the theme assembly maps its namespace into Avalonia's, so no prefix is written
+- Icons are template parts, not content: `<Button theme:Icon.Data="{icons:Save}" Content="Save" />`, with `theme:Icon.Placement` `Left` (default), `Top`, `Right` or `Bottom`. `Icon` (in the engine, `AngelSix.ThemeEngine.Generated`) is a pair of attached properties on `Control`, so another button-like control opts in by reading them in its own template with `{TemplateBinding (theme:Icon.Data)}`
 - The template's face is `PART_Border` (fill, border, padding); a theme that restyles the face of a button targets `^ /template/ Border#PART_Border`, not the `ContentPresenter`, which now carries only the label
 - The icon gap is the button's `Padding` on the icon's side, applied by `DockPanel` spacing only between an icon and a label; an icon-only button has none
 - `PART_Strut` is an empty `TextBlock`: one zero-width line of the button's own font, so an icon-only button is exactly as tall as a text button whenever the icon is no taller than a text line

@@ -1,5 +1,6 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="using:AngelSix.ThemeEngine.Controls"
                     xmlns:default="clr-namespace:Avalonia.Themes.Default"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
                     xmlns:color="using:AngelSix.ThemeEngine.Colors"
@@ -29,19 +30,19 @@
            already reserved and never grows its row or nudges a neighbour. The body takes the theme's NORMAL
            content padding (vertical {size:ContentPadding}), so its text breathes instead of jamming the
            divider; the left inset is pinned to the header's (SpacingXxl) so header and body text align -->
-      <Border Height="{size:Scaled Value={size:ControlHeightLg}, By=1.7083}">
+      <Border MinHeight="{size:Scaled Value={size:ControlHeightLg}, By=1.7083}">
         <Expander Width="{size:Scaled Value={size:BaseSize}, By=240}" HorizontalAlignment="Left" VerticalAlignment="Top" Header="Collapsed"
                   Padding="{size:Edges Left={size:SpacingXxl}, Top={size:ContentPadding}, Right={size:ContentPadding}, Bottom={size:ContentPadding}}">
           <TextBlock>Content</TextBlock>
         </Expander>
       </Border>
-      <Border Height="{size:Scaled Value={size:ControlHeightLg}, By=1.7083}">
+      <Border MinHeight="{size:Scaled Value={size:ControlHeightLg}, By=1.7083}">
         <Expander Width="{size:Scaled Value={size:BaseSize}, By=240}" HorizontalAlignment="Left" VerticalAlignment="Top" Header="Hover" theme:Preview.State="Hover"
                   Padding="{size:Edges Left={size:SpacingXxl}, Top={size:ContentPadding}, Right={size:ContentPadding}, Bottom={size:ContentPadding}}">
           <TextBlock>Content</TextBlock>
         </Expander>
       </Border>
-      <Border Height="{size:Scaled Value={size:ControlHeightLg}, By=1.7083}">
+      <Border MinHeight="{size:Scaled Value={size:ControlHeightLg}, By=1.7083}">
         <Expander Width="{size:Scaled Value={size:BaseSize}, By=240}" HorizontalAlignment="Left" VerticalAlignment="Top" Header="Pressed" theme:Preview.State="Pressed"
                   Padding="{size:Edges Left={size:SpacingXxl}, Top={size:ContentPadding}, Right={size:ContentPadding}, Bottom={size:ContentPadding}}">
           <TextBlock>Content</TextBlock>
@@ -49,7 +50,7 @@
       </Border>
       <!-- Genuinely disabled: IsEnabled=False flows to the header ToggleButton, so a click must not toggle.
            Its frame is header-height: a disabled example never opens, so it reserves nothing more -->
-      <Border Height="{size:ControlHeightLg}">
+      <Border MinHeight="{size:ControlHeightLg}">
         <Expander Width="{size:Scaled Value={size:BaseSize}, By=240}" HorizontalAlignment="Left" VerticalAlignment="Top" IsEnabled="False" Header="Disabled"
                   Padding="{size:Edges Left={size:SpacingXxl}, Top={size:ContentPadding}, Right={size:ContentPadding}, Bottom={size:ContentPadding}}">
           <TextBlock>Content</TextBlock>
@@ -61,20 +62,20 @@
            restores it, so the final frame shows the open form (proved live by the expand-*.json captures).
            The body's left inset is pinned to the header's (SpacingXxl) so header text and content text line
            up on the same x-position; the vertical inset is the theme's normal {size:ContentPadding} -->
-      <Border Height="{size:Scaled Value={size:ControlHeightLg}, By=1.7083}">
+      <Border MinHeight="{size:Scaled Value={size:ControlHeightLg}, By=1.7083}">
         <Expander Width="{size:Scaled Value={size:BaseSize}, By=240}" HorizontalAlignment="Left" VerticalAlignment="Top" Header="Success Expanded" IsExpanded="True" theme:Accent.Kind="Success"
                   Padding="{size:Edges Left={size:SpacingXxl}, Top={size:ContentPadding}, Right={size:ContentPadding}, Bottom={size:ContentPadding}}">
           <TextBlock>Content</TextBlock>
         </Expander>
       </Border>
-      <Border Height="{size:Scaled Value={size:ControlHeightLg}, By=1.7083}">
+      <Border MinHeight="{size:Scaled Value={size:ControlHeightLg}, By=1.7083}">
         <Expander Width="{size:Scaled Value={size:BaseSize}, By=240}" HorizontalAlignment="Left" VerticalAlignment="Top" Header="Expanded" IsExpanded="True"
                   Padding="{size:Edges Left={size:SpacingXxl}, Top={size:ContentPadding}, Right={size:ContentPadding}, Bottom={size:ContentPadding}}">
           <TextBlock>Content</TextBlock>
         </Expander>
       </Border>
       <!-- Up reveals its body ABOVE the header, so the Bottom alignment parks the header at the frame's foot -->
-      <Border Height="{size:Scaled Value={size:ControlHeightLg}, By=1.7083}">
+      <Border MinHeight="{size:Scaled Value={size:ControlHeightLg}, By=1.7083}">
         <Expander Width="{size:Scaled Value={size:BaseSize}, By=240}" HorizontalAlignment="Left" VerticalAlignment="Bottom" ExpandDirection="Up" Header="Up · Warning" IsExpanded="True" theme:Accent.Kind="Warning"
                   Padding="{size:Edges Left={size:SpacingXxl}, Top={size:ContentPadding}, Right={size:ContentPadding}, Bottom={size:ContentPadding}}">
           <TextBlock>Content</TextBlock>
@@ -82,14 +83,14 @@
       </Border>
       <!-- Left unfolds sideways beside its header; the frame is header-height so it stays 48px tall open and
            closed. Richer sample text gives the body enough width to read comfortably rather than squeeze -->
-      <Border Height="{size:ControlHeightLg}">
+      <Border MinHeight="{size:ControlHeightLg}">
         <Expander Width="{size:Scaled Value={size:BaseSize}, By=240}" HorizontalAlignment="Left" VerticalAlignment="Top" ExpandDirection="Left" Header="Left" IsExpanded="True"
                   Padding="{size:Edges Left={size:SpacingXxl}, Top={size:ContentPadding}, Right={size:ContentPadding}, Bottom={size:ContentPadding}}">
           <TextBlock>More content</TextBlock>
         </Expander>
       </Border>
       <!-- Right completes the directions; it reads as a resting header, consistent with the rows above -->
-      <Border Height="{size:ControlHeightLg}">
+      <Border MinHeight="{size:ControlHeightLg}">
         <Expander Width="{size:Scaled Value={size:BaseSize}, By=240}" HorizontalAlignment="Left" VerticalAlignment="Top" ExpandDirection="Right" Header="Right"
                   Padding="{size:Edges Left={size:SpacingXxl}, Top={size:ContentPadding}, Right={size:ContentPadding}, Bottom={size:ContentPadding}}">
           <TextBlock>More content</TextBlock>
@@ -104,7 +105,7 @@
         <default:DefaultThemeStyles />
       </Border.Styles>
 
-      <default:LightDarkPreview Title="Expander" Orientation="Horizontal" ContentTemplate="{StaticResource ExpanderPreview}" />
+      <controls:LightDarkPreview Title="Expander" Orientation="Horizontal" ContentTemplate="{StaticResource ExpanderPreview}" />
 
     </Border>
   </Design.PreviewWith>
@@ -186,8 +187,8 @@
 
     <!-- Chevron button visuals -->
     <Style Selector="^ /template/ Border#ExpandCollapseChevronBorder">
-      <Setter Property="Width" Value="{size:ControlHeightSm}" />
-      <Setter Property="Height" Value="{size:ControlHeightSm}" />
+      <Setter Property="MinWidth" Value="{size:ControlHeightSm}" />
+      <Setter Property="MinHeight" Value="{size:ControlHeightSm}" />
       <Setter Property="Margin" Value="{size:Edges Left={size:SpacingXxl}, Right={size:SpacingXl}}" />
       <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
       <Setter Property="BorderBrush" Value="Transparent" />

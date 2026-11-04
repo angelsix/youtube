@@ -1,50 +1,14 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="using:AngelSix.ThemeEngine.Controls"
                     xmlns:default="clr-namespace:Avalonia.Themes.Default"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
                     xmlns:color="using:AngelSix.ThemeEngine.Colors"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes">
-  <!-- Design preview: cells inside a real table (a cell has no column outside one): the content
-       alignment each column asks for, the hairline between columns, and text that runs out of room.
-       Declared before Design.PreviewWith uses it -->
-  <DataTemplate x:Key="TableViewCellPreview">
-    <StackPanel Spacing="{size:SpacingXl}" HorizontalAlignment="Left">
-      <!-- Caption naming the states shown -->
-      <TextBlock Text="Left, centred and right columns" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
-      <!-- Each column places its cells' content; the last column draws no hairline against the frame -->
-      <TableView Width="{size:SurfaceWidthLg}">
-        <TableView.Columns>
-          <TableViewColumn x:DataType="NativeMenuItem" Header="Left" Binding="{Binding Header}" Width="*" />
-          <TableViewColumn x:DataType="NativeMenuItem" Header="Centre" Binding="{Binding Gesture}" Width="100" HorizontalContentAlignment="Center" />
-          <TableViewColumn x:DataType="NativeMenuItem" Header="Right" Binding="{Binding ToolTip}" Width="*" HorizontalContentAlignment="Right" />
-        </TableView.Columns>
-        <NativeMenuItem Header="Bold" Gesture="Ctrl+B" ToolTip="Heavier" />
-        <NativeMenuItem Header="Italic" Gesture="Ctrl+I" ToolTip="Slanted" />
-      </TableView>
-      <!-- Caption naming the state shown -->
-      <TextBlock Text="Text longer than its column" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
-      <!-- Fixed narrow columns: a long value ends in an ellipsis inside its own cell -->
-      <TableView Width="{size:SurfaceWidthLg}">
-        <TableView.Columns>
-          <TableViewColumn x:DataType="NativeMenuItem" Header="Command" Binding="{Binding Header}" Width="140" />
-          <TableViewColumn x:DataType="NativeMenuItem" Header="Does" Binding="{Binding ToolTip}" Width="*" />
-        </TableView.Columns>
-        <NativeMenuItem Header="Toggle full screen presentation mode" ToolTip="Hide every window edge and fill the display" />
-      </TableView>
-    </StackPanel>
-  </DataTemplate>
-
-  <Design.PreviewWith>
-    <Border>
-      <Border.Styles>
-        <default:DefaultThemeStyles />
-      </Border.Styles>
-
-      <default:LightDarkPreview Title="TableViewCell" Orientation="Vertical" ContentTemplate="{StaticResource TableViewCellPreview}" />
-
-    </Border>
-  </Design.PreviewWith>
-  <Orientation x:Key="TableViewCellPreviewOrientation">Vertical</Orientation>
+  <!-- Shown inside the TableView entry, as a table is the only place one is met -->
+  <theme:PreviewShownIn x:Key="TableViewCellPreviewShownIn"
+                        ShownIn="{x:Type TableView}"
+                        Reason="Cells are met inside a table; the TableView entry shows their alignments and overflow." />
 
   <!-- ============================================================
        Template

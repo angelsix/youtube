@@ -48,8 +48,8 @@
             <StackPanel Spacing="{size:SpacingMd}">
               <Label Content="Control height" Target="ControlHeightScaleBox" />
               <Grid ColumnDefinitions="*,Auto" ColumnSpacing="{size:SpacingXl}">
-                <Slider HorizontalAlignment="Stretch" Minimum="0.5" Maximum="2" Value="{Binding Theme.ControlHeightScale}" />
-                <NumericUpDown Grid.Column="1" x:Name="ControlHeightScaleBox" Width="{size:Scaled Value={size:BaseSize}, By=192}" Minimum="0.5" Maximum="2" Increment="0.05" FormatString="0.00" Value="{Binding Theme.ControlHeightScale}" />
+                <Slider HorizontalAlignment="Stretch" Minimum="0" Maximum="2" Value="{Binding Theme.ControlHeightScale}" />
+                <NumericUpDown Grid.Column="1" x:Name="ControlHeightScaleBox" Width="{size:Scaled Value={size:BaseSize}, By=192}" Minimum="0" Maximum="2" Increment="0.05" FormatString="0.00" Value="{Binding Theme.ControlHeightScale}" />
               </Grid>
             </StackPanel>
             <StackPanel Spacing="{size:SpacingMd}">

@@ -1,5 +1,6 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="using:AngelSix.ThemeEngine.Controls"
                     xmlns:sys="using:System"
                     xmlns:default="clr-namespace:Avalonia.Themes.Default"
                     xmlns:sdp="clr-namespace:Avalonia.Themes.Default"
@@ -44,7 +45,7 @@
         <default:DefaultThemeStyles />
       </Border.Styles>
 
-      <default:LightDarkPreview Title="DatePicker" Orientation="Horizontal" ContentTemplate="{StaticResource DatePickerPreview}" />
+      <controls:LightDarkPreview Title="DatePicker" Orientation="Horizontal" ContentTemplate="{StaticResource DatePickerPreview}" />
 
     </Border>
   </Design.PreviewWith>
@@ -120,7 +121,7 @@
         <DataValidationErrors>
           <!-- Layout root for the picker button; carries the shared popup-alignment behaviour,
                which wires the flyout below so its centre row lands exactly on the box -->
-          <Grid Name="LayoutRoot" default:PickerPopupAlignment.Apply="True">
+          <Grid Name="LayoutRoot" controls:PickerPopupAlignment.Apply="True">
             <!-- Opens the date picker when clicked; the label carries the control's padding -->
             <Button Name="PART_FlyoutButton"
                     Theme="{StaticResource DefaultDatePickerFlyoutButton}"
@@ -184,7 +185,7 @@
               <Border theme:Accent.Kind="{Binding (theme:Accent.Kind), RelativeSource={RelativeSource TemplatedParent}}">
                 <!-- The spinning day, month and year columns; the behaviour smooths their snaps -->
                 <DatePickerPresenter Name="PART_PickerPresenter"
-                                      default:WheelSnap.Apply="True" />
+                                      controls:WheelSnap.Apply="True" />
               </Border>
             </Popup>
           </Grid>
@@ -243,9 +244,9 @@
        there. The gallery lists a control only when the theme gives it a {Name}Preview, so without
        this marker the presenter would vanish from the gallery with no record of why. -->
 
-  <default:PreviewShownIn x:Key="DatePickerPresenterPreviewShownIn"
-                           ShownIn="{x:Type DatePicker}"
-                           Reason="The pop-up presenter is met inside the picker that opens it." />
+  <theme:PreviewShownIn x:Key="DatePickerPresenterPreviewShownIn"
+                        ShownIn="{x:Type DatePicker}"
+                        Reason="The pop-up presenter is met inside the picker that opens it." />
 
 
   <ControlTheme x:Key="{x:Type DatePickerPresenter}" TargetType="DatePickerPresenter">

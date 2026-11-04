@@ -1,5 +1,6 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="using:AngelSix.ThemeEngine.Controls"
                     xmlns:default="clr-namespace:Avalonia.Themes.Default"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
                     xmlns:color="using:AngelSix.ThemeEngine.Colors"
@@ -28,7 +29,7 @@
         <default:DefaultThemeStyles />
       </Border.Styles>
 
-      <default:LightDarkPreview Title="NotificationCard" Orientation="Vertical" ContentTemplate="{StaticResource NotificationCardPreview}" />
+      <controls:LightDarkPreview Title="NotificationCard" Orientation="Vertical" ContentTemplate="{StaticResource NotificationCardPreview}" />
 
     </Border>
   </Design.PreviewWith>
@@ -152,7 +153,7 @@
     <Style Selector="^ /template/ Border#PART_HeaderBar">
       <Setter Property="Height" Value="{size:ThicknessXxlDouble}" />
       <Setter Property="Background" Value="{color:AccentTintDefault}" />
-      <Setter Property="CornerRadius" Value="{default:ConcentricCorners Radius={TemplateBinding CornerRadius}, Thickness={TemplateBinding BorderThickness}, Top=True}" />
+      <Setter Property="CornerRadius" Value="{size:ConcentricCorners Radius={TemplateBinding CornerRadius}, Thickness={TemplateBinding BorderThickness}, Top=True}" />
     </Style>
 
     <!-- Message: padded a step further in than the default content padding, so the text sits inside the

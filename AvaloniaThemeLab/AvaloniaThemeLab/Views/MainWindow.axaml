@@ -4,7 +4,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:size="using:AngelSix.ThemeEngine.Sizes"
         xmlns:color="using:AngelSix.ThemeEngine.Colors"
-        xmlns:default="using:Avalonia.Themes.Default"
+        xmlns:controls="using:AngelSix.ThemeEngine.Controls"
         xmlns:converters="using:AvaloniaThemeLab.ValueConverters"
         xmlns:vm="using:AvaloniaThemeLab.ViewModels"
         xmlns:views="using:AvaloniaThemeLab.Views"
@@ -58,7 +58,7 @@
       <Button DockPanel.Dock="Right" Content="Settings" Command="{Binding OpenSettingsCommand}" />
       <ListBox x:Name="AccentPicker" DockPanel.Dock="Right"
                Theme="{StaticResource LightDarkPreviewSwatches}"
-               ItemsSource="{x:Static default:LightDarkPreview.AccentChoices}"
+               ItemsSource="{x:Static vm:MainWindowViewModel.AccentChoices}"
                SelectedItem="{Binding SelectedAccent, Mode=TwoWay}">
         <!-- Each header swatch paints its hue's LIST-ROW PRESSED fill — the exact colour a ComboBoxItem
              shows while pressed ({color:PressedBackgroundDefault}, Light6 of the item's own hue), read from
@@ -86,11 +86,11 @@
              DataType is the template's match key; x:DataType is the compiled-binding scope for its bindings -->
         <DataTemplate DataType="vm:ControlEntryViewModel" x:DataType="vm:ControlEntryViewModel">
           <!-- Orientation comes from each control's own theme file ({Name}PreviewOrientation, Rule 20) -->
-          <default:LightDarkPreview Title="{Binding Name}"
-                                    Orientation="{Binding ControlType, Converter={StaticResource PreviewOrientationConverter}}"
-                                    HorizontalContentAlignment="Center"
-                                    SelectedAccent="{Binding SelectedItem, ElementName=AccentPicker, Mode=TwoWay}"
-                                    ContentTemplate="{Binding ControlType, Converter={StaticResource PreviewTemplateConverter}}" />
+          <controls:LightDarkPreview Title="{Binding Name}"
+                                      Orientation="{Binding ControlType, Converter={StaticResource PreviewOrientationConverter}}"
+                                     HorizontalContentAlignment="Center"
+                                     SelectedAccent="{Binding SelectedItem, ElementName=AccentPicker, Mode=TwoWay}"
+                                     ContentTemplate="{Binding ControlType, Converter={StaticResource PreviewTemplateConverter}}" />
         </DataTemplate>
         <!-- Hand-written page -->
         <views:ViewLocator />

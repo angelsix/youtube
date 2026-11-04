@@ -1,5 +1,6 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="using:AngelSix.ThemeEngine.Controls"
                     xmlns:sys="using:System"
                     xmlns:default="clr-namespace:Avalonia.Themes.Default"
                     xmlns:sdp="clr-namespace:Avalonia.Themes.Default"
@@ -44,7 +45,7 @@
         <default:DefaultThemeStyles />
       </Border.Styles>
 
-      <default:LightDarkPreview Title="TimePicker" Orientation="Horizontal" ContentTemplate="{StaticResource TimePickerPreview}" />
+      <controls:LightDarkPreview Title="TimePicker" Orientation="Horizontal" ContentTemplate="{StaticResource TimePickerPreview}" />
 
     </Border>
   </Design.PreviewWith>
@@ -120,7 +121,7 @@
         <DataValidationErrors>
           <!-- Layout root for the picker button; carries the shared popup-alignment behaviour,
                which wires the flyout below so its centre row lands exactly on the box -->
-          <Grid Name="LayoutRoot" default:PickerPopupAlignment.Apply="True">
+          <Grid Name="LayoutRoot" controls:PickerPopupAlignment.Apply="True">
             <!-- Opens the time picker when clicked; the label carries the control's padding -->
             <Button Name="PART_FlyoutButton"
                     Theme="{StaticResource DefaultTimePickerFlyoutButton}"
@@ -221,7 +222,7 @@
                 <!-- The spinning hour, minute, second and period columns; the behaviour smooths their snaps
                      (stepper glides, idle settle, tap glide and centre-band hover gating) exactly as the date card -->
                 <TimePickerPresenter Name="PART_PickerPresenter"
-                                      default:WheelSnap.Apply="True" />
+                                      controls:WheelSnap.Apply="True" />
               </Border>
             </Popup>
           </Grid>
@@ -282,9 +283,9 @@
        there. The gallery lists a control only when the theme gives it a {Name}Preview, so without
        this marker the presenter would vanish from the gallery with no record of why. -->
 
-  <default:PreviewShownIn x:Key="TimePickerPresenterPreviewShownIn"
-                           ShownIn="{x:Type TimePicker}"
-                           Reason="The pop-up presenter is met inside the picker that opens it." />
+  <theme:PreviewShownIn x:Key="TimePickerPresenterPreviewShownIn"
+                        ShownIn="{x:Type TimePicker}"
+                        Reason="The pop-up presenter is met inside the picker that opens it." />
 
 
   <ControlTheme x:Key="{x:Type TimePickerPresenter}" TargetType="TimePickerPresenter">

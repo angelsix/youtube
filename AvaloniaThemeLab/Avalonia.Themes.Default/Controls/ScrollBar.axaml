@@ -1,5 +1,6 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="using:AngelSix.ThemeEngine.Controls"
                     xmlns:default="clr-namespace:Avalonia.Themes.Default"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
                     xmlns:color="using:AngelSix.ThemeEngine.Colors"
@@ -41,19 +42,19 @@
         <StackPanel Orientation="Horizontal" Spacing="{size:SpacingLg}">
           <StackPanel Spacing="{size:SpacingSm}">
             <!-- Full track, thumb and arrows -->
-            <ScrollBar Orientation="Vertical" AllowAutoHide="False" Height="{size:Scaled Value={size:BaseSize}, By=100}" Minimum="0" Maximum="100" Value="20" ViewportSize="60" Width="{size:Scaled Value={size:BaseSize}, By=20}"/>
+            <ScrollBar Orientation="Vertical" AllowAutoHide="False" Height="{size:Scaled Value={size:BaseSize}, By=100}" Minimum="0" Maximum="100" Value="20" ViewportSize="60"/>
             <!-- Caption naming the state shown -->
             <TextBlock Text="Default" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}"/>
           </StackPanel>
           <StackPanel Spacing="{size:SpacingSm}">
             <!-- Slim thumb only until hover -->
-            <ScrollBar Orientation="Vertical" AllowAutoHide="True" Height="{size:Scaled Value={size:BaseSize}, By=100}" Minimum="0" Maximum="100" Value="20" ViewportSize="60" Width="{size:Scaled Value={size:BaseSize}, By=20}"/>
+            <ScrollBar Orientation="Vertical" AllowAutoHide="True" Height="{size:Scaled Value={size:BaseSize}, By=100}" Minimum="0" Maximum="100" Value="20" ViewportSize="60"/>
             <!-- Caption naming the state shown -->
             <TextBlock Text="Auto-hide" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}"/>
           </StackPanel>
           <StackPanel Spacing="{size:SpacingSm}">
             <!-- Dimmed resting bar -->
-            <ScrollBar Orientation="Vertical" AllowAutoHide="True" Height="{size:Scaled Value={size:BaseSize}, By=100}" Minimum="0" Maximum="100" Value="20" ViewportSize="60" IsEnabled="False" Width="{size:Scaled Value={size:BaseSize}, By=20}"/>
+            <ScrollBar Orientation="Vertical" AllowAutoHide="True" Height="{size:Scaled Value={size:BaseSize}, By=100}" Minimum="0" Maximum="100" Value="20" ViewportSize="60" IsEnabled="False"/>
             <!-- Caption naming the state shown -->
             <TextBlock Text="Disabled" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}"/>
           </StackPanel>
@@ -61,26 +62,26 @@
         <StackPanel Orientation="Horizontal" Spacing="{size:SpacingLg}">
           <StackPanel Spacing="{size:SpacingSm}">
             <!-- Dimmed expanded bar -->
-            <ScrollBar Orientation="Vertical" AllowAutoHide="False" Height="{size:Scaled Value={size:BaseSize}, By=100}" Minimum="0" Maximum="100" Value="20" ViewportSize="60" IsEnabled="False" Width="{size:Scaled Value={size:BaseSize}, By=20}"/>
+            <ScrollBar Orientation="Vertical" AllowAutoHide="False" Height="{size:Scaled Value={size:BaseSize}, By=100}" Minimum="0" Maximum="100" Value="20" ViewportSize="60" IsEnabled="False"/>
             <!-- Caption naming the state shown -->
             <TextBlock Text="Full · disabled" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}"/>
           </StackPanel>
           <StackPanel Spacing="{size:SpacingSm}">
             <!-- Thumb parked near the bottom of the range -->
-            <ScrollBar Orientation="Vertical" AllowAutoHide="True" Height="{size:Scaled Value={size:BaseSize}, By=100}" Minimum="0" Maximum="100" Value="85" ViewportSize="60" Width="{size:Scaled Value={size:BaseSize}, By=20}"/>
+            <ScrollBar Orientation="Vertical" AllowAutoHide="True" Height="{size:Scaled Value={size:BaseSize}, By=100}" Minimum="0" Maximum="100" Value="85" ViewportSize="60"/>
             <!-- Caption naming the state shown -->
             <TextBlock Text="Scrolled" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}"/>
           </StackPanel>
           <StackPanel Spacing="{size:SpacingSm}">
             <!-- Every part tinted by the Warning hue -->
-            <ScrollBar Orientation="Vertical" AllowAutoHide="False" Height="{size:Scaled Value={size:BaseSize}, By=100}" Minimum="0" Maximum="100" Value="20" ViewportSize="60" theme:Accent.Kind="Warning" Width="{size:Scaled Value={size:BaseSize}, By=20}"/>
+            <ScrollBar Orientation="Vertical" AllowAutoHide="False" Height="{size:Scaled Value={size:BaseSize}, By=100}" Minimum="0" Maximum="100" Value="20" ViewportSize="60" theme:Accent.Kind="Warning"/>
             <!-- Caption naming the state shown -->
             <TextBlock Text="Warning" FontSize="{size:FontSizeSm}" theme:Accent.Kind="Warning" Foreground="{color:AccentTextDefault}"/>
           </StackPanel>
           <StackPanel Spacing="{size:SpacingSm}">
             <!-- The thumb in the BRIGHT solid-fill column: the Favourite hue's light thumb is a clear
                  yellow, which is the only place the bright column shows on a scroll bar -->
-            <ScrollBar Orientation="Vertical" AllowAutoHide="False" Height="{size:Scaled Value={size:BaseSize}, By=100}" Minimum="0" Maximum="100" Value="20" ViewportSize="60" theme:Accent.Kind="Favourite" Width="{size:Scaled Value={size:BaseSize}, By=20}"/>
+            <ScrollBar Orientation="Vertical" AllowAutoHide="False" Height="{size:Scaled Value={size:BaseSize}, By=100}" Minimum="0" Maximum="100" Value="20" ViewportSize="60" theme:Accent.Kind="Favourite"/>
             <!-- Caption naming the state shown -->
             <TextBlock Text="Favourite" FontSize="{size:FontSizeSm}" theme:Accent.Kind="Favourite" Foreground="{color:AccentTextDefault}"/>
           </StackPanel>
@@ -95,7 +96,7 @@
         <default:DefaultThemeStyles />
       </Border.Styles>
 
-      <default:LightDarkPreview Title="ScrollBar" Orientation="Vertical" ContentTemplate="{StaticResource ScrollBarPreview}" />
+      <controls:LightDarkPreview Title="ScrollBar" Orientation="Vertical" ContentTemplate="{StaticResource ScrollBarPreview}" />
 
     </Border>
   </Design.PreviewWith>
@@ -195,6 +196,9 @@
     <Setter Property="BorderBrush" Value="Transparent"/>
     <Setter Property="BorderThickness" Value="0"/>
     <Setter Property="CornerRadius" Value="{size:RadiusSm}"/>
+    <!-- The arrow sits dead centre in its button, as a Button's content does -->
+    <Setter Property="HorizontalContentAlignment" Value="{theme:ButtonHorizontalContentAlignment}" />
+    <Setter Property="VerticalContentAlignment" Value="{theme:ControlVerticalContentAlignment}" />
     <!-- Hidden until the bar expands. The arrow FADES rather than appearing out of nowhere:
          Opacity rides a transition, and the button stays in the layout (so the track keeps one
          length in both states) but takes no clicks while it is invisible -->
@@ -211,6 +215,8 @@
                           BorderBrush="{TemplateBinding BorderBrush}"
                           BorderThickness="{TemplateBinding BorderThickness}"
                           CornerRadius="{TemplateBinding CornerRadius}"
+                          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                          VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
                           Content="{TemplateBinding Content}"/>
       </ControlTemplate>
     </Setter>
@@ -405,10 +411,12 @@
 
     <!-- Bar thickness: sized to hug the thumb -->
     <Style Selector="^:vertical">
-      <Setter Property="MinWidth" Value="{size:Scaled Value={size:IconSizeMd}, By=1.25}" />
+      <!-- A size, not a floor: the bar is exactly its thickness wherever it is placed, so a bar outside a scroller
+           never stretches across its column -->
+      <Setter Property="Width" Value="{size:Scaled Value={size:IconSizeMd}, By=1.25}" />
     </Style>
     <Style Selector="^:horizontal">
-      <Setter Property="MinHeight" Value="{size:Scaled Value={size:IconSizeMd}, By=1.25}" />
+      <Setter Property="Height" Value="{size:Scaled Value={size:IconSizeMd}, By=1.25}" />
     </Style>
 
     <!-- Default template element styles — vertical orientation -->

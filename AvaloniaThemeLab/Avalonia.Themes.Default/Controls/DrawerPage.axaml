@@ -1,5 +1,6 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="using:AngelSix.ThemeEngine.Controls"
                     xmlns:default="clr-namespace:Avalonia.Themes.Default"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
                     xmlns:color="using:AngelSix.ThemeEngine.Colors"
@@ -72,7 +73,7 @@
         <default:DefaultThemeStyles />
       </Border.Styles>
 
-      <default:LightDarkPreview Title="DrawerPage" Orientation="Horizontal" ContentTemplate="{StaticResource DrawerPagePreview}" />
+      <controls:LightDarkPreview Title="DrawerPage" Orientation="Horizontal" ContentTemplate="{StaticResource DrawerPagePreview}" />
 
     </Border>
   </Design.PreviewWith>
@@ -196,7 +197,7 @@
                exactly that, so the fills meet the border and never cover it -->
           <Border Name="PART_Clip"
                   ClipToBounds="True"
-                  CornerRadius="{default:ConcentricCorners Radius={TemplateBinding CornerRadius}, Thickness={TemplateBinding BorderThickness}, All=True}">
+                  CornerRadius="{size:ConcentricCorners Radius={TemplateBinding CornerRadius}, Thickness={TemplateBinding BorderThickness}, All=True}">
             <!-- Docks the bars above and below the page; the bars stay clear of the sliding pane -->
             <DockPanel Name="PART_RootDock">
               <!-- The bar across the top of the page -->
@@ -280,7 +281,7 @@
                    its own. Its own frame stays square and the page's mask rounds the outer corners -->
               <SplitView Name="PART_SplitView"
                          BorderThickness="{size:Edges}"
-                         CornerRadius="{default:ConcentricCorners Radius={TemplateBinding CornerRadius}, Thickness={TemplateBinding BorderThickness}, All=True}"
+                         CornerRadius="{size:ConcentricCorners Radius={TemplateBinding CornerRadius}, Thickness={TemplateBinding BorderThickness}, All=True}"
                          DisplayMode="{TemplateBinding DisplayMode}"
                          OpenPaneLength="{TemplateBinding DrawerLength}"
                          CompactPaneLength="{TemplateBinding CompactDrawerLength}"
@@ -367,7 +368,7 @@
                                     BorderThickness="{size:Edges}"
                                     Content="{TemplateBinding Content}"
                                     ContentTemplate="{TemplateBinding ContentTemplate}"
-                                    CornerRadius="{default:ConcentricCorners Radius={TemplateBinding CornerRadius}, Thickness={TemplateBinding BorderThickness}, All=True}" />
+                                    CornerRadius="{size:ConcentricCorners Radius={TemplateBinding CornerRadius}, Thickness={TemplateBinding BorderThickness}, All=True}" />
                   <!-- Dims the page while the drawer is open -->
                   <Border Name="PART_Backdrop"
                           Background="{TemplateBinding BackdropBrush}"
@@ -407,10 +408,8 @@
       <Setter Property="Margin" Value="{size:Edges Left={size:SpacingXl}}" />
     </Style>
 
-    <!-- Nav toggle metrics -->
+    <!-- Nav toggle metrics: a floor, so the button always holds its icon and padding at any setting -->
     <Style Selector="^ /template/ ToggleButton">
-      <Setter Property="Width" Value="{size:ControlHeightMd}" />
-      <Setter Property="Height" Value="{size:ControlHeightMd}" />
       <Setter Property="MinWidth" Value="{size:ControlHeightMd}" />
       <Setter Property="MinHeight" Value="{size:ControlHeightMd}" />
     </Style>

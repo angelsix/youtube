@@ -1,60 +1,14 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="using:AngelSix.ThemeEngine.Controls"
                     xmlns:default="clr-namespace:Avalonia.Themes.Default"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
                     xmlns:color="using:AngelSix.ThemeEngine.Colors"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes">
-  <!-- Design preview: headers inside a real table (a header has no column outside one): resizable
-       and fixed columns, a right-aligned header, and a hued table. Avalonia 12.1's TableView has no
-       sorting, so there is no sorted state to show. Declared before Design.PreviewWith uses it -->
-  <DataTemplate x:Key="TableViewColumnHeaderPreview">
-    <StackPanel Spacing="{size:SpacingXl}" HorizontalAlignment="Left">
-      <!-- Caption naming the states shown -->
-      <TextBlock Text="Drag a column edge to resize" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
-      <!-- Resizable columns; the last one right-aligns its header with its numbers -->
-      <TableView Width="{size:SurfaceWidthLg}">
-        <TableView.Columns>
-          <TableViewColumn x:DataType="NativeMenuItem" Header="Command" Binding="{Binding Header}" Width="140" />
-          <TableViewColumn x:DataType="NativeMenuItem" Header="Shortcut" Binding="{Binding Gesture}" Width="*" />
-          <TableViewColumn x:DataType="NativeMenuItem" Header="Group" Binding="{Binding ToolTip}" Width="80" HorizontalContentAlignment="Right" />
-        </TableView.Columns>
-        <NativeMenuItem Header="Zoom in" Gesture="Ctrl+Add" ToolTip="View" />
-      </TableView>
-      <!-- Caption naming the state shown -->
-      <TextBlock Text="Resizing turned off" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
-      <!-- No grips: the header edges are plain hairlines -->
-      <TableView Width="{size:SurfaceWidthLg}" CanUserResizeColumns="False">
-        <TableView.Columns>
-          <TableViewColumn x:DataType="NativeMenuItem" Header="Command" Binding="{Binding Header}" Width="*" />
-          <TableViewColumn x:DataType="NativeMenuItem" Header="Shortcut" Binding="{Binding Gesture}" Width="120" />
-        </TableView.Columns>
-        <NativeMenuItem Header="Zoom out" Gesture="Ctrl+Subtract" />
-      </TableView>
-      <!-- Caption naming the state shown. It names the hue the example below carries, so it
-           takes that hue and the accent's text role -->
-      <TextBlock Text="Headers follow the hue" FontSize="{size:FontSizeSm}" theme:Accent.Kind="Warning" Foreground="{color:AccentTextDefault}" />
-      <!-- The header text and its hairlines take the table's hue -->
-      <TableView Width="{size:SurfaceWidthLg}" theme:Accent.Kind="Warning">
-        <TableView.Columns>
-          <TableViewColumn x:DataType="NativeMenuItem" Header="Command" Binding="{Binding Header}" Width="*" />
-          <TableViewColumn x:DataType="NativeMenuItem" Header="Shortcut" Binding="{Binding Gesture}" Width="120" />
-        </TableView.Columns>
-        <NativeMenuItem Header="Delete" Gesture="Delete" />
-      </TableView>
-    </StackPanel>
-  </DataTemplate>
-
-  <Design.PreviewWith>
-    <Border>
-      <Border.Styles>
-        <default:DefaultThemeStyles />
-      </Border.Styles>
-
-      <default:LightDarkPreview Title="TableViewColumnHeader" Orientation="Vertical" ContentTemplate="{StaticResource TableViewColumnHeaderPreview}" />
-
-    </Border>
-  </Design.PreviewWith>
-  <Orientation x:Key="TableViewColumnHeaderPreviewOrientation">Vertical</Orientation>
+  <!-- Shown inside the TableView entry, as a table is the only place one is met -->
+  <theme:PreviewShownIn x:Key="TableViewColumnHeaderPreviewShownIn"
+                        ShownIn="{x:Type TableView}"
+                        Reason="Headers are met inside a table; the TableView entry shows resizing, its absence and the header hue." />
 
   <!-- ============================================================
        Template
@@ -116,10 +70,14 @@
   <!-- Resize grip -->
   <ControlTheme x:Key="DefaultTableViewColumnResizer" TargetType="Thumb">
 
-    <!-- Visual defaults: an invisible hit strip straddling the column's right hairline -->
+    <!-- Visual defaults: an invisible hit strip along the column's right hairline -->
     <Setter Property="Background" Value="Transparent" />
-    <Setter Property="Width" Value="{size:SpacingLg}" />
-    <Setter Property="Margin" Value="{size:Edges Right={size:Scaled Value={size:SpacingMd}, By=-1}}" />
+    <!-- A hit target, so it follows control height (8px at the default scale), floored at half a small icon so no
+         setting leaves a column with nothing to grab. It sits inside its own column against the hairline rather than
+         straddling it: the next header is drawn over anything that crosses into it, and with no padding its label
+         would take the pointer -->
+    <Setter Property="Width" Value="{size:Scaled Value={size:ControlHeightSm}, By=0.25}" />
+    <Setter Property="MinWidth" Value="{size:Scaled Value={size:IconSizeSm}, By=0.5}" />
     <!-- Theme Exception: the grip sits on the column's right edge; no alignment token means "the far edge" -->
     <Setter Property="HorizontalAlignment" Value="Right" />
     <Setter Property="VerticalAlignment" Value="{theme:ContainerVerticalAlignment}" />

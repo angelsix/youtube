@@ -183,12 +183,12 @@ internal static class PreviewHotReload
             return;
 
         var converter = new ValueConverters.PreviewTemplateConverter();
-        foreach (var visual in window.GetVisualDescendants().OfType<Avalonia.Themes.Default.LightDarkPreview>())
+        foreach (var visual in window.GetVisualDescendants().OfType<AngelSix.ThemeEngine.Controls.LightDarkPreview>())
             if (visual.DataContext is ViewModels.ControlEntryViewModel controlEntry)
             {
                 var template = converter.Convert(controlEntry.ControlType, typeof(DataTemplate), null, CultureInfo.InvariantCulture) as DataTemplate;
                 if (template is not null)
-                    visual.SetCurrentValue(Avalonia.Themes.Default.LightDarkPreview.PaneContentTemplateProperty, template);
+                    visual.SetCurrentValue(AngelSix.ThemeEngine.Controls.LightDarkPreview.PaneContentTemplateProperty, template);
             }
 
         Debug.WriteLine("[hotreload] Visible previews refreshed.");

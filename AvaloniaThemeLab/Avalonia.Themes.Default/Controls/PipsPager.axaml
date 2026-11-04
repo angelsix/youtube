@@ -1,5 +1,6 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="using:AngelSix.ThemeEngine.Controls"
                     xmlns:default="clr-namespace:Avalonia.Themes.Default"
                     xmlns:theme="using:AngelSix.ThemeEngine.Generated"
                     xmlns:color="using:AngelSix.ThemeEngine.Colors"
@@ -35,7 +36,7 @@
         <default:DefaultThemeStyles />
       </Border.Styles>
 
-      <default:LightDarkPreview Title="PipsPager" Orientation="Vertical" ContentTemplate="{StaticResource PipsPagerPreview}" />
+      <controls:LightDarkPreview Title="PipsPager" Orientation="Vertical" ContentTemplate="{StaticResource PipsPagerPreview}" />
 
     </Border>
   </Design.PreviewWith>
@@ -50,9 +51,9 @@
     <Setter Property="BorderBrush" Value="Transparent" />
     <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
     <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
-    <!-- Square icon button, one icon-ladder step and a half wide -->
-    <Setter Property="Width" Value="{size:Scaled Value={size:IconSizeMd}, By=1.5}" />
-    <Setter Property="Height" Value="{size:Scaled Value={size:IconSizeMd}, By=1.5}" />
+    <!-- Square hit target: a control face, so it follows control height (24 at the default scale) -->
+    <Setter Property="MinWidth" Value="{size:Scaled Value={size:ControlHeightSm}, By=0.75}" />
+    <Setter Property="MinHeight" Value="{size:Scaled Value={size:ControlHeightSm}, By=0.75}" />
     <Setter Property="Padding" Value="0" />
     <!-- The glyph sits dead centre in the button, so the arrows read symmetrically around the pip strip -->
     <Setter Property="HorizontalContentAlignment" Value="{theme:ButtonHorizontalContentAlignment}" />
@@ -118,13 +119,16 @@
        ============================================================ -->
   <ControlTheme x:Key="PipsPagerItemTheme" TargetType="ListBoxItem">
     <!-- Visual defaults -->
-    <!-- One square pip-cell footprint on both axes, so the centre-to-centre pitch is the same in a row and a column -->
-    <Setter Property="Width" Value="{size:Scaled Value={size:IconSizeMd}, By=1.5}" />
-    <Setter Property="Height" Value="{size:Scaled Value={size:IconSizeMd}, By=1.5}" />
+    <!-- One square pip-cell footprint on both axes, so the centre-to-centre pitch is the same in a row and a column.
+         The cell is the hit target, so it follows control height like the arrows -->
+    <!-- Fixed at the largest dot, so every cell is the same size whichever dot is selected, and floored by control
+         height, so the cells never close up on each other -->
+    <Setter Property="Width" Value="{size:Scaled Value={size:IconSizeMd}, By=0.5}" />
+    <Setter Property="Height" Value="{size:Scaled Value={size:IconSizeMd}, By=0.5}" />
     <Setter Property="Padding" Value="0" />
     <Setter Property="Margin" Value="0" />
-    <Setter Property="MinWidth" Value="0" />
-    <Setter Property="MinHeight" Value="0" />
+    <Setter Property="MinWidth" Value="{size:Scaled Value={size:ControlHeightSm}, By=0.75}" />
+    <Setter Property="MinHeight" Value="{size:Scaled Value={size:ControlHeightSm}, By=0.75}" />
     <Setter Property="ClipToBounds" Value="False" />
     <Setter Property="VerticalAlignment" Value="{theme:ControlVerticalAlignment}" />
 
@@ -160,8 +164,8 @@
       </Setter>
     </Style>
     <Style Selector="^ /template/ Ellipse#Pip">
-      <Setter Property="Width" Value="{size:SpacingMd}" />
-      <Setter Property="Height" Value="{size:SpacingMd}" />
+      <Setter Property="Width" Value="{size:Scaled Value={size:IconSizeMd}, By=0.25}" />
+      <Setter Property="Height" Value="{size:Scaled Value={size:IconSizeMd}, By=0.25}" />
       <Setter Property="Fill" Value="{color:AccentBrush Light1}" />
       <Setter Property="Transitions">
         <Transitions>
@@ -174,15 +178,15 @@
 
     <!-- Hover state -->
     <Style Selector="^:pointerover /template/ Ellipse#Pip">
-      <Setter Property="Width" Value="{size:SpacingLg}" />
-      <Setter Property="Height" Value="{size:SpacingLg}" />
+      <Setter Property="Width" Value="{size:Scaled Value={size:IconSizeMd}, By=0.5}" />
+      <Setter Property="Height" Value="{size:Scaled Value={size:IconSizeMd}, By=0.5}" />
       <Setter Property="Fill" Value="{color:AccentGlyphDefault}" />
     </Style>
 
     <!-- Pressed state -->
     <Style Selector="^:pressed /template/ Ellipse#Pip">
-      <Setter Property="Width" Value="{size:SpacingMd}" />
-      <Setter Property="Height" Value="{size:SpacingMd}" />
+      <Setter Property="Width" Value="{size:Scaled Value={size:IconSizeMd}, By=0.25}" />
+      <Setter Property="Height" Value="{size:Scaled Value={size:IconSizeMd}, By=0.25}" />
       <Setter Property="Fill" Value="{color:AccentGlyphDefault}" />
     </Style>
 
@@ -193,15 +197,15 @@
 
     <!-- Selected state -->
     <Style Selector="^:selected /template/ Ellipse#Pip">
-      <Setter Property="Width" Value="{size:SpacingLg}" />
-      <Setter Property="Height" Value="{size:SpacingLg}" />
+      <Setter Property="Width" Value="{size:Scaled Value={size:IconSizeMd}, By=0.5}" />
+      <Setter Property="Height" Value="{size:Scaled Value={size:IconSizeMd}, By=0.5}" />
       <Setter Property="Fill" Value="{color:AccentGlyphDefault}" />
     </Style>
 
     <!-- Selected hover state -->
     <Style Selector="^:selected:pointerover /template/ Ellipse#Pip">
-      <Setter Property="Width" Value="{size:SpacingLg}" />
-      <Setter Property="Height" Value="{size:SpacingLg}" />
+      <Setter Property="Width" Value="{size:Scaled Value={size:IconSizeMd}, By=0.5}" />
+      <Setter Property="Height" Value="{size:Scaled Value={size:IconSizeMd}, By=0.5}" />
       <Setter Property="Fill" Value="{color:AccentGlyphDefault}" />
     </Style>
   </ControlTheme>
@@ -332,7 +336,7 @@
         <MultiBinding Converter="{x:Static default:PipsPagerStripExtentConverter.Instance}">
           <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="NumberOfPages" />
           <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="MaxVisiblePips" />
-          <size:Scaled Value="{size:IconSizeMd}" By="1.5" />
+          <size:Scaled Value="{size:ControlHeightSm}" By="0.75" />
         </MultiBinding>
       </Setter>
     </Style>
@@ -344,7 +348,7 @@
         <MultiBinding Converter="{x:Static default:PipsPagerStripExtentConverter.Instance}">
           <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="NumberOfPages" />
           <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="MaxVisiblePips" />
-          <size:Scaled Value="{size:IconSizeMd}" By="1.5" />
+          <size:Scaled Value="{size:ControlHeightSm}" By="0.75" />
         </MultiBinding>
       </Setter>
     </Style>
