@@ -16,7 +16,7 @@
       <StackPanel Orientation="Vertical" Spacing="{size:SpacingMd}">
         <TextBlock Text="Left · Inline · Open" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
         <SplitView Height="{size:Scaled Value={size:BaseSize}, By=96}" Width="{size:Scaled Value={size:BaseSize}, By=360}" PanePlacement="Left" DisplayMode="Inline" IsPaneOpen="True"
-                   OpenPaneLength="{size:Scaled Value={size:ControlHeightLg}, By=2}" CompactPaneLength="{size:ControlHeightMd}">
+                   OpenPaneLength="{size:Scaled Value={size:BaseSize}, By=96}" CompactPaneLength="{size:Scaled Value={size:BaseSize}, By=40}">
           <SplitView.Pane>
             <!-- Nav entries start at the top of the strip, inset by the standard content padding -->
             <TextBlock Text="NAV" FontWeight="{theme:FontWeightSemiBold}" FontSize="{size:FontSizeSm}"
@@ -34,7 +34,7 @@
         <TextBlock Text="Left · Overlay · Open · LightDismiss" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
         <SplitView Height="{size:Scaled Value={size:BaseSize}, By=96}" Width="{size:Scaled Value={size:BaseSize}, By=360}" PanePlacement="Left" DisplayMode="Overlay" IsPaneOpen="True"
                    UseLightDismissOverlayMode="True"
-                   OpenPaneLength="{size:Scaled Value={size:ControlHeightLg}, By=2}" CompactPaneLength="{size:ControlHeightMd}">
+                   OpenPaneLength="{size:Scaled Value={size:BaseSize}, By=96}" CompactPaneLength="{size:Scaled Value={size:BaseSize}, By=40}">
           <SplitView.Pane>
             <!-- Nav entries start at the top of the strip, inset by the standard content padding -->
             <TextBlock Text="NAV" FontWeight="{theme:FontWeightSemiBold}" FontSize="{size:FontSizeSm}"
@@ -51,7 +51,7 @@
       <StackPanel Orientation="Vertical" Spacing="{size:SpacingMd}">
         <TextBlock Text="Left · CompactInline · Open" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
         <SplitView Height="{size:Scaled Value={size:BaseSize}, By=96}" Width="{size:Scaled Value={size:BaseSize}, By=360}" PanePlacement="Left" DisplayMode="CompactInline" IsPaneOpen="True"
-                   OpenPaneLength="{size:Scaled Value={size:ControlHeightLg}, By=2}" CompactPaneLength="{size:ControlHeightMd}">
+                   OpenPaneLength="{size:Scaled Value={size:BaseSize}, By=96}" CompactPaneLength="{size:Scaled Value={size:BaseSize}, By=40}">
           <SplitView.Pane>
             <!-- Nav entries start at the top of the strip, inset by the standard content padding -->
             <TextBlock Text="NAV" FontWeight="{theme:FontWeightSemiBold}" FontSize="{size:FontSizeSm}"
@@ -68,7 +68,7 @@
       <StackPanel Orientation="Vertical" Spacing="{size:SpacingMd}">
         <TextBlock Text="Right · Inline · Open" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
         <SplitView Height="{size:Scaled Value={size:BaseSize}, By=96}" Width="{size:Scaled Value={size:BaseSize}, By=360}" PanePlacement="Right" DisplayMode="Inline" IsPaneOpen="True"
-                   OpenPaneLength="{size:Scaled Value={size:ControlHeightLg}, By=2}" CompactPaneLength="{size:ControlHeightMd}">
+                   OpenPaneLength="{size:Scaled Value={size:BaseSize}, By=96}" CompactPaneLength="{size:Scaled Value={size:BaseSize}, By=40}">
           <SplitView.Pane>
             <!-- Nav entries start at the top of the strip, inset by the standard content padding -->
             <TextBlock Text="NAV" FontWeight="{theme:FontWeightSemiBold}" FontSize="{size:FontSizeSm}"
@@ -85,7 +85,7 @@
       <StackPanel Orientation="Vertical" Spacing="{size:SpacingMd}">
         <TextBlock Text="Top · Inline · Open" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
         <SplitView Height="{size:Scaled Value={size:BaseSize}, By=96}" Width="{size:Scaled Value={size:BaseSize}, By=360}" PanePlacement="Top" DisplayMode="Inline" IsPaneOpen="True"
-                   OpenPaneLength="{size:ControlHeightLg}" CompactPaneLength="{size:ControlHeightMd}">
+                   OpenPaneLength="{size:Scaled Value={size:BaseSize}, By=48}" CompactPaneLength="{size:Scaled Value={size:BaseSize}, By=40}">
           <SplitView.Pane>
             <!-- Nav entries start at the left of the bar, inset by the standard content padding -->
             <TextBlock Text="NAV BAR" FontWeight="{theme:FontWeightSemiBold}" FontSize="{size:FontSizeSm}"
@@ -102,7 +102,7 @@
       <StackPanel Orientation="Vertical" Spacing="{size:SpacingMd}">
         <TextBlock Text="Bottom · Inline · Open" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
         <SplitView Height="{size:Scaled Value={size:BaseSize}, By=96}" Width="{size:Scaled Value={size:BaseSize}, By=360}" PanePlacement="Bottom" DisplayMode="Inline" IsPaneOpen="True"
-                   OpenPaneLength="{size:ControlHeightLg}" CompactPaneLength="{size:ControlHeightMd}">
+                   OpenPaneLength="{size:Scaled Value={size:BaseSize}, By=48}" CompactPaneLength="{size:Scaled Value={size:BaseSize}, By=40}">
           <SplitView.Pane>
             <!-- Nav entries start at the left of the bar, inset by the standard content padding -->
             <TextBlock Text="NAV BAR" FontWeight="{theme:FontWeightSemiBold}" FontSize="{size:FontSizeSm}"
@@ -135,7 +135,8 @@
 
   <ControlTheme x:Key="{x:Type SplitView}" TargetType="SplitView">
     <Setter Property="OpenPaneLength" Value="{size:SurfaceWidthMd}" />
-    <Setter Property="CompactPaneLength" Value="{size:ControlHeightLg}" />
+    <!-- Pane lengths are content widths (Rule 22): they follow the base size, never the control height -->
+    <Setter Property="CompactPaneLength" Value="{size:Scaled Value={size:BaseSize}, By=48}" />
     <!-- Bordered container: the frame reads like every other boxed control -->
     <Setter Property="Background" Value="{color:BackgroundDefault}" />
     <Setter Property="BorderBrush" Value="{color:BorderDefault}" />
