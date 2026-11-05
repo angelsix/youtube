@@ -48,12 +48,10 @@
     <!-- Template -->
     <Setter Property="Template">
       <ControlTemplate>
-        <!-- The divider line -->
-        <Border Padding="{TemplateBinding Margin}"
-                Height="{TemplateBinding Height}"
-                HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
-                VerticalAlignment="{TemplateBinding VerticalAlignment}"
-                BorderBrush="{TemplateBinding BorderBrush}"
+        <!-- The divider line: it fills the control's own box, so a rule sized by Height, Width or a MinHeight
+             (a vertical rule between two items) draws its whole length. Pinning it to Height drew a vertical
+             rule as a dot -->
+        <Border BorderBrush="{TemplateBinding BorderBrush}"
                 BorderThickness="{TemplateBinding BorderThickness}"
                 CornerRadius="{TemplateBinding CornerRadius}"
                 Background="{TemplateBinding Background}" />
