@@ -19,6 +19,11 @@
     <Setter Property="Padding" Value="{size:ButtonPadding}" />
     <Setter Property="FontFamily" Value="{theme:FontFamily}" />
     <Setter Property="FontSize" Value="{size:FontSize}" />
+    <!-- At rest: no scale, as one fixed value. With no resting value the scale transition ran from unset, and every
+         time it started the hover or press scale binding published a new, unequal transform, which restarted the
+         transition until the stack overflowed: a few clicks crashed the app. Engine 1.31.0 fixes the cause (the same
+         scale is now the same transform); a resting value is still the clear way to say "no scale" -->
+    <Setter Property="RenderTransform" Value="none" />
     <!-- Each state change eases in rather than snapping -->
     <Setter Property="Transitions">
       <Transitions>
