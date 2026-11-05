@@ -185,8 +185,9 @@
     <Setter Property="BorderThickness" Value="0" />
     <Setter Property="CornerRadius" Value="0" />
     <!-- The grab strip is wider than the hairline it draws, so the pointer has something to
-         catch, but not so wide that it steals the click from the column beside it -->
-    <Setter Property="MinWidth" Value="{size:SpacingXl}" />
+         catch, but not so wide that it steals the click from the column beside it. A hit target,
+         so it follows control height (12px at the default scale), as do the split columns it sits in -->
+    <Setter Property="MinWidth" Value="{size:Scaled Value={size:ControlHeightSm}, By=0.375}" />
     <Setter Property="HorizontalAlignment" Value="{theme:ContainerHorizontalAlignment}" />
     <Setter Property="VerticalAlignment" Value="{theme:ContainerVerticalAlignment}" />
     <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
@@ -232,6 +233,9 @@
     <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
     <!-- Focus is the row's own inset border, as in the theme's own ListBoxItem theme -->
     <Setter Property="FocusAdorner" Value="{x:Null}" />
+    <!-- Transparent, not unset: a row with no background catches the pointer only over its text, so it would not
+         light up while the pointer sits in the row's empty space (AVL035) -->
+    <Setter Property="Background" Value="Transparent" />
     <Setter Property="Template">
       <ControlTemplate>
         <!-- The row's label; the selected row's tint spans the whole row -->
@@ -564,11 +568,11 @@
                   <!-- The name column's width is SHARED with the rows, so a drag in the header
                        resizes the column in every row too. It is the column to the LEFT of the
                        first splitter, and the splitter is what the user grabs. -->
-                  <ColumnDefinition Width="{size:GridPixels Value={size:SpacingXl}}" SharedSizeGroup="SplitA" />
-                  <ColumnDefinition Width="{size:GridPixels Value={size:Scaled Value={size:SpacingXxl}, By=10}}" SharedSizeGroup="Modified" />
-                  <ColumnDefinition Width="{size:GridPixels Value={size:SpacingXl}}" SharedSizeGroup="SplitB" />
-                  <ColumnDefinition Width="{size:GridPixels Value={size:Scaled Value={size:SpacingXxl}, By=5}}" SharedSizeGroup="Type" />
-                  <ColumnDefinition Width="{size:GridPixels Value={size:SpacingXl}}" SharedSizeGroup="SplitC" />
+                  <ColumnDefinition Width="{size:GridPixels Value={size:Scaled Value={size:ControlHeightSm}, By=0.375}}" SharedSizeGroup="SplitA" />
+                  <ColumnDefinition Width="{size:GridPixels Value={size:Scaled Value={size:ControlMinWidth}, By=2.5}}" SharedSizeGroup="Modified" />
+                  <ColumnDefinition Width="{size:GridPixels Value={size:Scaled Value={size:ControlHeightSm}, By=0.375}}" SharedSizeGroup="SplitB" />
+                  <ColumnDefinition Width="{size:GridPixels Value={size:Scaled Value={size:ControlMinWidth}, By=1.25}}" SharedSizeGroup="Type" />
+                  <ColumnDefinition Width="{size:GridPixels Value={size:Scaled Value={size:ControlHeightSm}, By=0.375}}" SharedSizeGroup="SplitC" />
                   <ColumnDefinition Width="*" SharedSizeGroup="Size" />
                 </Grid.ColumnDefinitions>
 
@@ -629,11 +633,11 @@
                              header resizes the column in every row too. It is the column to the
                              LEFT of the first splitter, and the splitter is what the user grabs. -->
                         <ColumnDefinition Width="Auto" SharedSizeGroup="Name" />
-                        <ColumnDefinition Width="{size:GridPixels Value={size:SpacingXl}}" SharedSizeGroup="SplitA" />
-                        <ColumnDefinition Width="{size:GridPixels Value={size:Scaled Value={size:SpacingXxl}, By=10}}" SharedSizeGroup="Modified" />
-                        <ColumnDefinition Width="{size:GridPixels Value={size:SpacingXl}}" SharedSizeGroup="SplitB" />
-                        <ColumnDefinition Width="{size:GridPixels Value={size:Scaled Value={size:SpacingXxl}, By=5}}" SharedSizeGroup="Type" />
-                        <ColumnDefinition Width="{size:GridPixels Value={size:SpacingXl}}" SharedSizeGroup="SplitC" />
+                        <ColumnDefinition Width="{size:GridPixels Value={size:Scaled Value={size:ControlHeightSm}, By=0.375}}" SharedSizeGroup="SplitA" />
+                        <ColumnDefinition Width="{size:GridPixels Value={size:Scaled Value={size:ControlMinWidth}, By=2.5}}" SharedSizeGroup="Modified" />
+                        <ColumnDefinition Width="{size:GridPixels Value={size:Scaled Value={size:ControlHeightSm}, By=0.375}}" SharedSizeGroup="SplitB" />
+                        <ColumnDefinition Width="{size:GridPixels Value={size:Scaled Value={size:ControlMinWidth}, By=1.25}}" SharedSizeGroup="Type" />
+                        <ColumnDefinition Width="{size:GridPixels Value={size:Scaled Value={size:ControlHeightSm}, By=0.375}}" SharedSizeGroup="SplitC" />
                         <ColumnDefinition Width="Auto" SharedSizeGroup="Size" />
                         <!-- The rows' grid is CONTENT-SIZED: its columns are the shared widths
                              and the last one takes what is left, so the fixed columns are

@@ -8,6 +8,11 @@
        and takes the pressed ink while pressed. No fill in any state. Every value comes from SkeletonTheme, and the
        template reads the button's own properties, so an app can still restyle any of them -->
   <ControlTheme x:Key="{x:Type Button}" TargetType="Button">
+    <!-- Transparent, not unset: an element with no background is not hit-testable, so only the text would catch the
+         pointer. The hover state grows the button, the text moves out from under the pointer, the hover drops, the
+         button shrinks back and the text comes back under it: it flickers. A transparent fill paints nothing but
+         makes the whole face hit-testable -->
+    <Setter Property="Background" Value="Transparent" />
     <Setter Property="Foreground" Value="{color:TextBrush}" />
     <Setter Property="BorderBrush" Value="{color:TextBrush}" />
     <Setter Property="BorderThickness" Value="{size:BorderThickness}" />

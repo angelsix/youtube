@@ -53,6 +53,45 @@ public sealed class GalleryCropTests
         }
     }
 
+    /// <summary>
+    /// The file chooser's columns are content, not gaps: with no spacing every heading keeps its width and none slides
+    /// over another, and every column splitter keeps a strip to grab.
+    /// </summary>
+    [AvaloniaFact]
+    public void File_chooser_columns_keep_their_widths_with_no_spacing()
+    {
+        var lab = ((App)Application.Current!).Services.GetRequiredService<MainWindowViewModel>();
+        var shown = lab.SelectedEntry;
+        var window = new MainWindow { DataContext = lab, Width = 1400, Height = 900 };
+        ThemeRegion.SetTheme(window, new DefaultTheme { SpacingScale = 0 });
+        try
+        {
+            lab.SelectedEntry = lab.Catalogue.Entries.Single(e => e.Name == "ManagedFileChooser");
+            window.Show();
+            Dispatcher.UIThread.RunJobs();
+            window.UpdateLayout();
+            Dispatcher.UIThread.RunJobs();
+
+            var headers = window.GetVisualDescendants().OfType<Grid>().First(g => g.Name == "FileHeaders");
+            var cells = headers.Children.Where(c => c is TextBlock or GridSplitter).OrderBy(Grid.GetColumn).ToList();
+            var problems = new List<string>();
+            for (var i = 0; i < cells.Count; i++)
+            {
+                if (cells[i].Bounds.Width < 1)
+                    problems.Add($"{cells[i].Name} is {cells[i].Bounds.Width:0.#}px wide");
+                if (i > 0 && cells[i].Bounds.X < cells[i - 1].Bounds.Right - 0.5)
+                    problems.Add($"{cells[i].Name} starts at {cells[i].Bounds.X:0.#}, inside {cells[i - 1].Name} (ends {cells[i - 1].Bounds.Right:0.#})");
+            }
+
+            Assert.True(problems.Count == 0, string.Join("; ", problems));
+        }
+        finally
+        {
+            window.Close();
+            lab.SelectedEntry = shown;
+        }
+    }
+
     // How much of a text block's height survives every ancestor that clips, up to the page host
     private static (double Height, string By) VisibleHeight(Visual text, Visual host, out string by)
     {

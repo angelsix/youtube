@@ -188,6 +188,23 @@ public sealed class SizeLadderTests
         });
     }
 
+    /// <summary>The band round a modal page is a gap: it follows spacing, down to nothing.</summary>
+    [AvaloniaTheory]
+    [InlineData(1.0)]
+    [InlineData(0.0)]
+    [InlineData(2.0)]
+    public void Modal_page_band_follows_spacing(double spacing)
+    {
+        var navigation = new NavigationPage { Width = 360, Height = 240 };
+
+        Show(navigation, new DefaultTheme { SpacingScale = spacing }, _ =>
+        {
+            var modal = navigation.GetVisualDescendants().OfType<Avalonia.Controls.Presenters.ContentPresenter>().Single(p => p.Name == "PART_ModalPresenter");
+            // SpacingLg: 8 at the default scale
+            Assert.Equal(new Thickness(8 * spacing), modal.Padding);
+        });
+    }
+
     private static void AssertCentredInside(Visual host, Visual glyph, Window window)
     {
         // Centres mapped point to point, so a rotated glyph (a turned chevron) is measured where it is drawn
