@@ -73,38 +73,24 @@
               Content="{TemplateBinding Content}"
               ContentTemplate="{TemplateBinding ContentTemplate}" />
 
-          <!-- Places the on and off labels beside the switch -->
+          <!-- The switch beside its on and off labels, in their own columns so a label never stretches the track -->
           <Grid
               Grid.Row="1"
               MinWidth="0"
               HorizontalAlignment="Left"
-              VerticalAlignment="Top">
+              VerticalAlignment="Top"
+              ColumnDefinitions="Auto,Auto">
 
-            <Grid.RowDefinitions>
-              <RowDefinition Height="{size:SpacingLg}" />
-              <RowDefinition Height="Auto" />
-              <RowDefinition Height="{size:SpacingLg}" />
-            </Grid.RowDefinitions>
-
-            <Grid.ColumnDefinitions>
-              <ColumnDefinition Width="Auto" />
-              <!-- A GridLength takes no size token (a double there resolves to 0), so the gutter is the presenters' Margin -->
-              <ColumnDefinition Width="Auto" />
-              <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-
-            <!-- Invisible click area covering the whole switch -->
-            <Grid
+            <!-- Invisible click area covering the switch, its spacing bands and its label -->
+            <Border
                 x:Name="SwitchAreaGrid"
-                Grid.RowSpan="3"
-                Grid.ColumnSpan="3"
+                Grid.ColumnSpan="2"
                 TemplatedControl.IsTemplateFocusTarget="True" />
 
             <!-- Label shown when the switch is off; hit-testability follows the checked state -->
             <ContentPresenter
                 x:Name="PART_OffContentPresenter"
-                Grid.RowSpan="3"
-                Grid.Column="2"
+                Grid.Column="1"
                 Margin="{size:Edges Left={size:SpacingXl}}"
                 HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                 VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
@@ -114,66 +100,80 @@
             <!-- Label shown when the switch is on; hit-testability follows the checked state -->
             <ContentPresenter
                 x:Name="PART_OnContentPresenter"
-                Grid.RowSpan="3"
-                Grid.Column="2"
+                Grid.Column="1"
                 Margin="{size:Edges Left={size:SpacingXl}}"
                 HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                 VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                 Content="{TemplateBinding OnContent}"
                 ContentTemplate="{TemplateBinding OnContentTemplate}" />
 
-            <!-- Sizes the track from the knob it holds: two knob-widths side by side, each a dot (a glyph, IconSize)
-                 ringed by the gap (spacing) and the outline (thickness). Control height is only the outline's floor
-                 below, so a low control height never squeezes the track below its knob, and spacing 0 closes the gap
-                 so the dot meets the outline. At the default scale two 20px cells, 40 by 20, the same as the floor -->
-            <StackPanel
-                x:Name="PART_TrackStrut"
-                Grid.Row="1"
-                Orientation="Horizontal"
-                IsHitTestVisible="False">
-              <!-- One knob cell: the dot's smallest size, the gap round it and the outline -->
-              <Border Padding="{size:Edges All={size:ThicknessSmDouble}}">
-                <Border Width="{size:Scaled Value={size:IconSize}, By=10}" Height="{size:Scaled Value={size:IconSize}, By=10}" Margin="{size:Edges All={size:SpacingMd}}" />
-              </Border>
-              <!-- The second knob cell: the room the knob travels into -->
-              <Border Padding="{size:Edges All={size:ThicknessSmDouble}}">
-                <Border Width="{size:Scaled Value={size:IconSize}, By=10}" Height="{size:Scaled Value={size:IconSize}, By=10}" Margin="{size:Edges All={size:SpacingMd}}" />
-              </Border>
-            </StackPanel>
+            <!-- The switch: a spacing band above and below the track, as struts (a GridLength takes no size token).
+                 Panels and a StackPanel, not Grids: the layers overlap, and a nested Grid threw while arranging when the
+                 base size changed live -->
+            <StackPanel Grid.Column="0" VerticalAlignment="Center">
+              <!-- The band above -->
+              <Border Height="{size:SpacingLg}" />
 
-            <!-- The switch's outline: it fills the cell the strut sizes, never smaller than the control-height floor
-                 (40 by 20 at the default scale) -->
-            <Border
-                x:Name="OuterBorder"
-                Grid.Row="1"
-                MinWidth="{size:Scaled Value={size:ControlHeightSm}, By=1.25}"
-                MinHeight="{size:Scaled Value={size:ControlHeightSm}, By=0.625}" />
+              <!-- The track's layers, one over another -->
+              <Panel>
 
-            <!-- The track the knob slides along; unstretched so it fills the cell set by the outline and its margin insets it by the border weight -->
-            <Border
-                x:Name="SwitchKnobBounds"
-                Grid.Row="1" />
+                <!-- The switch is one face built from its knob. The knob is the dot (a face element: control height, never
+                     under a 6px icon-size floor), the gap round it (spacing) and the outline (thickness). The track is two
+                     knobs long. So control height sizes the switch, spacing sizes only the gap, and the dot never changes
+                     with spacing: 40 by 20 with a 10px dot at the default scale, 24 by 12 at spacing 0. Every size comes
+                     from layout, none from another element's Bounds, which lag a layout pass and misplaced the knob -->
+                <StackPanel
+                    x:Name="PART_TrackStrut"
+                   
+                    Orientation="Horizontal"
+                    IsHitTestVisible="False">
+                  <!-- One knob cell -->
+                  <Border Padding="{size:Edges All={size:ThicknessSmDouble}}">
+                    <Border Width="{size:Scaled Value={size:ControlHeightSm}, By=0.3125}" Height="{size:Scaled Value={size:ControlHeightSm}, By=0.3125}" MinWidth="{size:Scaled Value={size:IconSize}, By=6}" MinHeight="{size:Scaled Value={size:IconSize}, By=6}" Margin="{size:Edges All={size:SpacingMd}}" />
+                  </Border>
+                  <!-- The second knob cell: the room the knob travels into -->
+                  <Border Padding="{size:Edges All={size:ThicknessSmDouble}}">
+                    <Border Width="{size:Scaled Value={size:ControlHeightSm}, By=0.3125}" Height="{size:Scaled Value={size:ControlHeightSm}, By=0.3125}" MinWidth="{size:Scaled Value={size:IconSize}, By=6}" MinHeight="{size:Scaled Value={size:IconSize}, By=6}" Margin="{size:Edges All={size:SpacingMd}}" />
+                  </Border>
+                </StackPanel>
 
-            <!-- Positions the knob along the track: a square as tall as the track -->
-            <Canvas
-                x:Name="PART_SwitchKnob"
-                Grid.Row="1"
-                Width="{Binding #OuterBorder.Bounds.Height}"
-                Height="{Binding #OuterBorder.Bounds.Height}"
-                HorizontalAlignment="Left">
+                <!-- The switch's outline: it fills the cell the knob cells size -->
+                <Border
+                    x:Name="OuterBorder"
+                    />
 
-              <!-- The sliding knob: the same square inside the outline. The dot fills it less the gap, so it is 10px at
-                   the default scale, meets the outline at spacing 0, and grows with a taller track -->
-              <Grid x:Name="PART_MovingKnobs" Width="{Binding #OuterBorder.Bounds.Height}" Height="{Binding #OuterBorder.Bounds.Height}">
-                <!-- The outline's inner edge -->
-                <Panel Margin="{size:Edges All={size:ThicknessSmDouble}}">
-                  <!-- Knob fill shown when on -->
-                  <Ellipse x:Name="SwitchKnobOn" Margin="{size:Edges All={size:SpacingMd}}" />
-                  <!-- Knob fill shown when off -->
-                  <Ellipse x:Name="SwitchKnobOff" Margin="{size:Edges All={size:SpacingMd}}" />
+                <!-- The track the knob slides along; unstretched so it fills the cell set by the outline and its margin insets it by the border weight -->
+                <Border
+                    x:Name="SwitchKnobBounds"
+                    />
+
+                <!-- The knob's own cell, one knob wide: an invisible knob sizes it, and the canvas fills it. ToggleSwitch moves
+                     the knob to Canvas.Left = the canvas's width when on, so a one-knob-wide canvas lands it at the far end -->
+                <Panel HorizontalAlignment="Left">
+                  <!-- Sizes the cell: one knob -->
+                  <Border Padding="{size:Edges All={size:ThicknessSmDouble}}" IsHitTestVisible="False">
+                    <Border Width="{size:Scaled Value={size:ControlHeightSm}, By=0.3125}" Height="{size:Scaled Value={size:ControlHeightSm}, By=0.3125}" MinWidth="{size:Scaled Value={size:IconSize}, By=6}" MinHeight="{size:Scaled Value={size:IconSize}, By=6}" Margin="{size:Edges All={size:SpacingMd}}" />
+                  </Border>
+
+                  <!-- Positions the knob along the track -->
+                  <Canvas x:Name="PART_SwitchKnob">
+                    <!-- The sliding knob: the outline's inset, then the gap, then the dot -->
+                    <Panel x:Name="PART_MovingKnobs" Background="Transparent">
+                      <!-- The outline's inner edge -->
+                      <Panel Margin="{size:Edges All={size:ThicknessSmDouble}}">
+                        <!-- Knob fill shown when on -->
+                        <Ellipse x:Name="SwitchKnobOn" Width="{size:Scaled Value={size:ControlHeightSm}, By=0.3125}" Height="{size:Scaled Value={size:ControlHeightSm}, By=0.3125}" MinWidth="{size:Scaled Value={size:IconSize}, By=6}" MinHeight="{size:Scaled Value={size:IconSize}, By=6}" Margin="{size:Edges All={size:SpacingMd}}" />
+                        <!-- Knob fill shown when off -->
+                        <Ellipse x:Name="SwitchKnobOff" Width="{size:Scaled Value={size:ControlHeightSm}, By=0.3125}" Height="{size:Scaled Value={size:ControlHeightSm}, By=0.3125}" MinWidth="{size:Scaled Value={size:IconSize}, By=6}" MinHeight="{size:Scaled Value={size:IconSize}, By=6}" Margin="{size:Edges All={size:SpacingMd}}" />
+                      </Panel>
+                    </Panel>
+                  </Canvas>
                 </Panel>
-              </Grid>
-            </Canvas>
+              </Panel>
+
+              <!-- The band below -->
+              <Border Height="{size:SpacingLg}" />
+            </StackPanel>
           </Grid>
           </Grid>
         </Border>
@@ -190,9 +190,8 @@
       <Setter Property="Margin" Value="{size:Edges}" />
     </Style>
 
-    <Style Selector="^ /template/ Grid#SwitchAreaGrid">
+    <Style Selector="^ /template/ Border#SwitchAreaGrid">
       <Setter Property="Background" Value="Transparent" />
-      <Setter Property="Margin" Value="{size:Edges Top={size:SpacingLg}, Bottom={size:SpacingLg}}" />
     </Style>
 
     <Style Selector="^ /template/ Border#OuterBorder">
