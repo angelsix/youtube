@@ -55,8 +55,9 @@
       <!-- Same axes rotated: the :vertical branch grows upward and rotates the text -->
       <StackPanel Orientation="Horizontal" Spacing="{size:SpacingXxl}">
         <ProgressBar Orientation="Vertical" Value="50" Maximum="100" Width="{size:SpacingLg}" Height="{size:Scaled Value={size:BaseSize}, By=120}" />
-        <!-- Wider face: the rotated percent text needs room to lay out without escaping the track -->
-        <ProgressBar Orientation="Vertical" ShowProgressText="True" Value="50" Maximum="100" Width="{size:Scaled Value={size:BaseSize}, By=40}" Height="{size:Scaled Value={size:BaseSize}, By=120}" />
+        <!-- With its text shown the bar takes the width of the turned text and its padding, so it follows the
+             font size and the spacing; only its length is given here -->
+        <ProgressBar Orientation="Vertical" ShowProgressText="True" Value="50" Maximum="100" Height="{size:Scaled Value={size:BaseSize}, By=120}" />
         <ProgressBar Orientation="Vertical" IsIndeterminate="True" Width="{size:SpacingLg}" Height="{size:Scaled Value={size:BaseSize}, By=120}" />
         <ProgressBar Orientation="Vertical" IsIndeterminate="True" Width="{size:SpacingLg}" Height="{size:Scaled Value={size:BaseSize}, By=120}" theme:Accent.Kind="Warning" />
       </StackPanel>
