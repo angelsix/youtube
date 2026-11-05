@@ -170,8 +170,9 @@
   <ControlTheme x:Key="{x:Type ComboBox}" TargetType="ComboBox">
 
     <!-- Visual defaults -->
-    <!-- Face inset: wide on the left for the text, even top/bottom so a centred value sits true -->
-    <Setter Property="Padding" Value="{size:Edges Left={size:SpacingXxl}, Top={size:SpacingMd}, Bottom={size:SpacingMd}}" />
+    <!-- Face inset: one spacing on every side, so a large spacing setting grows the box evenly. It was 16 across and 4
+         down (48 and 12 at spacing 3). The right edge is the gap between the value and the chevron -->
+    <Setter Property="Padding" Value="{size:Edges All={size:ContentPadding}}" />
     <!-- Focus ring is the default focus ADORNER (outset, concentric, consumes no layout — Rule 19 / task 67).
          Previously nulled so the ring rode on the border bump, which grew the box 2px on focus; the bump is gone,
          so the box keeps its rest size and the adorner carries the 2px ring -->
@@ -308,7 +309,8 @@
       <Setter Property="Data" Value="{icons:ChevronDown}" />
       <Setter Property="Height" Value="{size:IconSizeMd}" />
       <Setter Property="Width" Value="{size:IconSizeMd}" />
-      <Setter Property="Margin" Value="{size:Edges Right={size:SpacingXxl}}" />
+      <!-- The same inset from the right edge as the value has from the left -->
+      <Setter Property="Margin" Value="{size:Edges Right={size:ContentPadding}}" />
       <Setter Property="Foreground" Value="{color:DimTextDefault}" />
     </Style>
 
