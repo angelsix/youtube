@@ -150,7 +150,11 @@ public sealed class SizeLadderTests
         });
     }
 
-    /// <summary>A toggle switch's track is a control face: it grows and shrinks with control height.</summary>
+    /// <summary>
+    /// A toggle switch grows with control height: its dot is a control-height face element, while the gap round the dot
+    /// is spacing, so the track is 40x20 at 1 and 60x30 at 2 (a 20px dot with the same 4px gap), always twice as long
+    /// as it is tall.
+    /// </summary>
     [AvaloniaTheory]
     [InlineData(1.0)]
     [InlineData(2.0)]
@@ -160,10 +164,11 @@ public sealed class SizeLadderTests
 
         Show(toggle, new DefaultTheme { ControlHeightScale = scale }, _ =>
         {
-            // The track is 40x20 at the default scale
+            // The dot (10 x scale), the 4px gap each side and the 1px outline each side
             var track = toggle.GetVisualDescendants().OfType<Border>().Single(b => b.Name == "OuterBorder");
-            Assert.Equal(40 * scale, track.Bounds.Width, 3);
-            Assert.Equal(20 * scale, track.Bounds.Height, 3);
+            var height = 10 * scale + 2 * 4 + 2;
+            Assert.Equal(height, track.Bounds.Height, 3);
+            Assert.Equal(2 * height, track.Bounds.Width, 3);
         });
     }
 
