@@ -37,7 +37,9 @@
            typed value, its left padding and its centring are visible; fixed width matching the calendars above -->
       <controls:CalendarView DisplayAsPicker="True" theme:Accent.Kind="Subtle"
                              SelectedDate="2026-09-18" Width="{size:Scaled Value={size:BaseSize}, By=268}" />
-      <!-- Same picker pinned focused: the concentric focus ring on the frame, centred on its stroke -->
+      <!-- Same picker pinned focused: the concentric focus ring on the frame, centred on its stroke. Captioned, so
+           the ring is never read as a copy of the state -->
+      <TextBlock Text="Picker · Focused" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
       <controls:CalendarView DisplayAsPicker="True" theme:Accent.Kind="Subtle"
                              SelectedDate="2026-09-18" Width="{size:Scaled Value={size:BaseSize}, By=268}" theme:Preview.State="Focused" />
     </StackPanel>

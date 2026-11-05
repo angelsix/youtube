@@ -30,9 +30,9 @@
           </generic:List>
         </AutoCompleteBox.ItemsSource>
       </AutoCompleteBox>
-      <!-- Non-default accent hues ride on the focused boxes so each extra instance also demos a state;
-           pinned Focused so the focus ring (and the FocusColorOnAccents decision, Rule 21) is always shown -->
-      <AutoCompleteBox Width="{size:Scaled Value={size:BaseSize}, By=200}" theme:Accent.Kind="Warning" theme:Preview.State="Focused" PlaceholderText="Warn">
+      <!-- Non-default accent hues at rest: the hue alone, with no copy of the Focused pin, so no focus ring
+           shows on a box nobody focused -->
+      <AutoCompleteBox Width="{size:Scaled Value={size:BaseSize}, By=200}" theme:Accent.Kind="Warning" PlaceholderText="Warn">
         <AutoCompleteBox.ItemsSource>
           <generic:List x:TypeArguments="x:String">
             <x:String>Apple</x:String>
@@ -42,7 +42,7 @@
           </generic:List>
         </AutoCompleteBox.ItemsSource>
       </AutoCompleteBox>
-      <AutoCompleteBox Width="{size:Scaled Value={size:BaseSize}, By=200}" theme:Accent.Kind="Success" theme:Preview.State="Focused" PlaceholderText="Success">
+      <AutoCompleteBox Width="{size:Scaled Value={size:BaseSize}, By=200}" theme:Accent.Kind="Success" PlaceholderText="Success">
         <AutoCompleteBox.ItemsSource>
           <generic:List x:TypeArguments="x:String">
             <x:String>Apple</x:String>
