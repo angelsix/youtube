@@ -1,3 +1,4 @@
+using System;
 using AngelSix.ThemeEngine;
 using Avalonia;
 using Avalonia.Media;
@@ -5,7 +6,7 @@ using Avalonia.Media;
 namespace Avalonia.Themes.Skeleton.Theme;
 
 /// <summary>
-/// The smallest useful theme: one base size, two colours and one font. Every value a control theme reads is a
+/// The smallest useful theme: one base size, a few colours and one font, plus the button's hover and press. Every value a control theme reads is a
 /// public property here, and the engine turns each one into a markup extension: <c>{size:ButtonPadding}</c>,
 /// <c>{color:TextBrush}</c>, <c>{theme:FontFamily}</c>.
 /// </summary>
@@ -28,11 +29,30 @@ public partial class SkeletonTheme
     /// <summary>The one font.</summary>
     public virtual FontFamily FontFamily => new("fonts:Inter#Inter, $Default");
 
-    // Values the control themes read, all derived from the four above
+    /// <summary>The ink a button takes under the pointer.</summary>
+    public virtual Color HoverColor => Color.Parse("#2F6FEB");
+
+    /// <summary>The ink a button takes while pressed.</summary>
+    public virtual Color PressedColor => Color.Parse("#1A3F8F");
+
+    /// <summary>How much a button grows under the pointer.</summary>
+    public virtual double HoverScale => 1.05;
+
+    /// <summary>How much a button shrinks while pressed.</summary>
+    public virtual double PressedScale => 0.95;
+
+    /// <summary>How long a state change takes to ease in.</summary>
+    public virtual TimeSpan StateDuration => TimeSpan.FromMilliseconds(150);
+
+    // Values the control themes read, all derived from the ones above
 
     public virtual SolidColorBrush TextBrush => new(TextColor);
 
     public virtual SolidColorBrush SurfaceBrush => new(SurfaceColor);
+
+    public virtual SolidColorBrush HoverBrush => new(HoverColor);
+
+    public virtual SolidColorBrush PressedBrush => new(PressedColor);
 
     public virtual double FontSize => 14 * BaseSize;
 

@@ -4,8 +4,9 @@
                     xmlns:color="using:AngelSix.ThemeEngine.Colors"
                     xmlns:size="using:AngelSix.ThemeEngine.Sizes">
 
-  <!-- The smallest button: its text inside a border. Every value comes from SkeletonTheme, and the template reads
-       the button's own properties, so an app can still restyle any of them -->
+  <!-- The smallest button: its text inside a border, which grows and takes the hover ink under the pointer and shrinks
+       and takes the pressed ink while pressed. No fill in any state. Every value comes from SkeletonTheme, and the
+       template reads the button's own properties, so an app can still restyle any of them -->
   <ControlTheme x:Key="{x:Type Button}" TargetType="Button">
     <Setter Property="Foreground" Value="{color:TextBrush}" />
     <Setter Property="BorderBrush" Value="{color:TextBrush}" />
@@ -13,6 +14,14 @@
     <Setter Property="Padding" Value="{size:ButtonPadding}" />
     <Setter Property="FontFamily" Value="{theme:FontFamily}" />
     <Setter Property="FontSize" Value="{size:FontSize}" />
+    <!-- Each state change eases in rather than snapping -->
+    <Setter Property="Transitions">
+      <Transitions>
+        <TransformOperationsTransition Property="RenderTransform" Duration="{theme:StateDuration}" />
+        <BrushTransition Property="BorderBrush" Duration="{theme:StateDuration}" />
+        <BrushTransition Property="Foreground" Duration="{theme:StateDuration}" />
+      </Transitions>
+    </Setter>
     <Setter Property="Template">
       <ControlTemplate>
         <ContentPresenter Name="PART_ContentPresenter"
@@ -24,6 +33,20 @@
                           ContentTemplate="{TemplateBinding ContentTemplate}" />
       </ControlTemplate>
     </Setter>
+
+    <!-- Hover: grows, and the border and text take the hover ink -->
+    <Style Selector="^:pointerover">
+      <Setter Property="RenderTransform" Value="{theme:TransformScale Value={size:HoverScale}}" />
+      <Setter Property="BorderBrush" Value="{color:HoverBrush}" />
+      <Setter Property="Foreground" Value="{color:HoverBrush}" />
+    </Style>
+
+    <!-- Pressed: shrinks, and the border and text take the pressed ink -->
+    <Style Selector="^:pressed">
+      <Setter Property="RenderTransform" Value="{theme:TransformScale Value={size:PressedScale}}" />
+      <Setter Property="BorderBrush" Value="{color:PressedBrush}" />
+      <Setter Property="Foreground" Value="{color:PressedBrush}" />
+    </Style>
   </ControlTheme>
 
 </ResourceDictionary>
