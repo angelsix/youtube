@@ -113,12 +113,18 @@
                 BorderThickness="{TemplateBinding BorderThickness}"
                 CornerRadius="{TemplateBinding CornerRadius}"
                 Padding="{TemplateBinding Padding}">
-          <!-- Carries the icon into the face -->
-          <ContentPresenter Name="PART_ContentPresenter"
-                            Content="{TemplateBinding Content}"
-                            Foreground="{TemplateBinding Foreground}"
-                            HorizontalContentAlignment="{theme:ButtonHorizontalContentAlignment}"
-                            VerticalContentAlignment="{theme:ControlVerticalContentAlignment}" />
+          <!-- Locks the icon inside the face: at its natural size it shows as it is, and when the button is
+               confined (the compact pane's fixed width) the icon scales down to the room left inside the
+               padding instead of spilling out and stretching the face. Measured inside a confined width the
+               box keeps the icon square, so the face stays square too -->
+          <Viewbox StretchDirection="DownOnly">
+            <!-- Carries the icon into the face -->
+            <ContentPresenter Name="PART_ContentPresenter"
+                              Content="{TemplateBinding Content}"
+                              Foreground="{TemplateBinding Foreground}"
+                              HorizontalContentAlignment="{theme:ButtonHorizontalContentAlignment}"
+                              VerticalContentAlignment="{theme:ControlVerticalContentAlignment}" />
+          </Viewbox>
         </Border>
       </ControlTemplate>
     </Setter>
@@ -320,9 +326,12 @@
                     </DockPanel>
                     <!-- The compact-mode toggle floats over the pane's top-left corner, so it takes
                          no layout space and never pushes the navigation off the pane's centre.
-                         It paints no fill of its own, so the pane's own surface shows through it -->
+                         It paints no fill of its own, so the pane's own surface shows through it. It is
+                         never wider than the compact pane, so the toggle inside is confined to the pane -->
                     <Border Name="PART_CompactPaneBand"
                             VerticalAlignment="Top"
+                            HorizontalAlignment="Left"
+                            MaxWidth="{Binding #PART_SplitView.CompactPaneLength}"
                             Padding="{size:Edges All={size:SpacingLg}}"
                             IsVisible="False">
                       <!-- Compact-mode toggle: visible only in CompactOverlay/CompactInline. -->
