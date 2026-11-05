@@ -131,48 +131,57 @@
             </Grid>
           </DockPanel>
 
-          <!-- Navigation bar floats above content (ZIndex=1). It holds the page's title, so its height is a floor
-               (BarHeight, a control height) and the padded title sizes it above that (Rule 23): at control height 0
-               the title still shows whole -->
-          <Border Name="PART_NavigationBar"
-                  ZIndex="1"
-                  VerticalAlignment="Top"
-                  ClipToBounds="True"
-                  MinHeight="{TemplateBinding EffectiveBarHeight}">
-            <!-- Places the back button left of the title -->
-            <Grid x:Name="PART_NavBarGrid" ColumnDefinitions="Auto, *, Auto">
-              <!-- Returns to the previous page -->
-              <Button x:Name="PART_BackButton"
-                      Theme="{StaticResource DefaultNavigationBarButton}"
-                      Grid.Column="0"
-                      Background="Transparent"
-                      IsVisible="{TemplateBinding IsBackButtonEffectivelyVisible}"
-                      ToolTip.Tip="{x:Null}">
-                <!-- Overlaps the default arrow and a custom icon -->
-                <Panel Background="Transparent">
-                  <!-- Default back arrow -->
-                  <Path Data="{icons:ChevronLeft}"
-                        x:Name="PART_BackButtonDefaultIcon"
-                        Fill="{color:TextDefault}"
-                        Stretch="Uniform" />
-                  <!-- Custom back icon, when one is supplied -->
-                  <ContentPresenter
-                    x:Name="PART_BackButtonContentPresenter" />
-                </Panel>
-              </Button>
+          <!-- The bar and the edge under it, stacked so the edge always sits at the bar's real bottom. Floats above
+               content (ZIndex=1) -->
+          <StackPanel ZIndex="1" VerticalAlignment="Top">
+            <!-- Navigation bar floats above content (ZIndex=1). It holds the page's title, so its height is a floor
+                 (BarHeight, a control height) and the padded title sizes it above that (Rule 23): at control height 0
+                 the title still shows whole -->
+            <Border Name="PART_NavigationBar"
+                    ClipToBounds="True"
+                    MinHeight="{TemplateBinding EffectiveBarHeight}">
+              <!-- Places the back button left of the title -->
+              <Grid x:Name="PART_NavBarGrid" ColumnDefinitions="Auto, *, Auto">
+                <!-- Returns to the previous page -->
+                <Button x:Name="PART_BackButton"
+                        Theme="{StaticResource DefaultNavigationBarButton}"
+                        Grid.Column="0"
+                        Background="Transparent"
+                        IsVisible="{TemplateBinding IsBackButtonEffectivelyVisible}"
+                        ToolTip.Tip="{x:Null}">
+                  <!-- Overlaps the default arrow and a custom icon -->
+                  <Panel Background="Transparent">
+                    <!-- Default back arrow -->
+                    <Path Data="{icons:ChevronLeft}"
+                          x:Name="PART_BackButtonDefaultIcon"
+                          Fill="{color:TextDefault}"
+                          Stretch="Uniform" />
+                    <!-- Custom back icon, when one is supplied -->
+                    <ContentPresenter
+                      x:Name="PART_BackButtonContentPresenter" />
+                  </Panel>
+                </Button>
 
-              <!-- The page title -->
-              <ContentPresenter Name="PART_Header"
-                                Grid.Column="1"
-                                Content="{Binding CurrentPage?.Header, RelativeSource={RelativeSource TemplatedParent}, FallbackValue={x:Null}}"
-                                ContentTemplate="{Binding CurrentPage?.HeaderTemplate, RelativeSource={RelativeSource TemplatedParent}, FallbackValue={x:Null}}" />
+                <!-- The page title -->
+                <ContentPresenter Name="PART_Header"
+                                  Grid.Column="1"
+                                  Content="{Binding CurrentPage?.Header, RelativeSource={RelativeSource TemplatedParent}, FallbackValue={x:Null}}"
+                                  ContentTemplate="{Binding CurrentPage?.HeaderTemplate, RelativeSource={RelativeSource TemplatedParent}, FallbackValue={x:Null}}" />
 
-              <!-- The command bar across the top -->
-              <ContentPresenter Name="PART_TopCommandBar"
-                                Grid.Column="2"
-                                Content="{Binding CurrentPage?.(NavigationPage.TopCommandBar), RelativeSource={RelativeSource TemplatedParent}, FallbackValue={x:Null}}" />
-            </Grid>
-          </Border>
+                <!-- The command bar across the top -->
+                <ContentPresenter Name="PART_TopCommandBar"
+                                  Grid.Column="2"
+                                  Content="{Binding CurrentPage?.(NavigationPage.TopCommandBar), RelativeSource={RelativeSource TemplatedParent}, FallbackValue={x:Null}}" />
+              </Grid>
+            </Border>
+
+            <!-- The edge under the bar. Shown exactly when Avalonia shows its own shadow strip, which it places at
+                 EffectiveBarHeight from code: 0 at control height 0, so that strip floated up through the title
+                 once the title sized the bar. That strip is kept, and drawn invisible -->
+            <Border Name="PART_BarEdge"
+                    IsHitTestVisible="False"
+                    IsVisible="{Binding #PART_NavBarShadow.IsVisible}" />
+          </StackPanel>
 
           <!-- Nav-bar shadow gradient. Margin.Top is set from code to match EffectiveBarHeight. -->
           <Border Name="PART_NavBarShadow"
@@ -263,9 +272,16 @@
 
     <!-- Strip beneath the bar: a solid role-token edge, not an overlay scrim.
          A hairline, not a band: half the old thickness, from the Thickness ladder -->
-    <Style Selector="^ /template/ Border#PART_NavBarShadow">
+    <Style Selector="^ /template/ Border#PART_BarEdge">
       <Setter Property="Height" Value="{size:ThicknessLgDouble}" />
       <Setter Property="Background" Value="{color:BorderDefault}" />
+    </Style>
+
+    <!-- Avalonia's own strip: positioned from code at EffectiveBarHeight, so it is drawn invisible and PART_BarEdge
+         paints in its place -->
+    <Style Selector="^ /template/ Border#PART_NavBarShadow">
+      <Setter Property="Height" Value="0" />
+      <Setter Property="Opacity" Value="0" />
     </Style>
 
     <!-- Modal scrim -->
