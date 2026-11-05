@@ -14,8 +14,11 @@
       <!-- Caption naming the state shown -->
       <TextBlock Text="Default" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
       <NumericUpDown Width="{size:Scaled Value={size:BaseSize}, By=240}" Minimum="0" Maximum="10" Increment="0.5" Value="5" />
-      <!-- Prefix demo: the unit sits before the number in the leading slot; the clear button stays pinned
-           beside the spinner, so it never drifts as the number grows -->
+      <!-- Clear button class: the cross beside the spinner empties the field -->
+      <TextBlock Text="Clear button" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
+      <NumericUpDown Width="{size:Scaled Value={size:BaseSize}, By=240}" Classes="clearButton" Minimum="0" Maximum="10" Increment="0.5" Value="5" />
+      <!-- Prefix demo: the unit sits before the number in the leading slot; the spinner stays pinned
+           to the field's edge, so it never drifts as the number grows -->
       <TextBlock Text="Prefix · M" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
       <NumericUpDown Width="{size:Scaled Value={size:BaseSize}, By=240}" Minimum="0" Maximum="10" Increment="0.5" Value="5">
         <NumericUpDown.InnerLeftContent>
@@ -237,7 +240,9 @@
                              ShowButtonSpinner="{TemplateBinding ShowButtonSpinner}"
                              ButtonSpinnerLocation="{TemplateBinding ButtonSpinnerLocation}" />
 
-              <!-- Clears the value; one spacing token from the arrows, same height and padding as them -->
+              <!-- Clears the value; one spacing token from the arrows, same height and padding as them. Hidden
+                   unless the field asks for it with the clearButton class, as TextBox does: clearing makes the
+                   value null, which a field bound to a non-nullable number cannot take -->
               <Button Name="PART_ClearButton"
                       DockPanel.Dock="Right"
                       Theme="{StaticResource DefaultNumericUpDownClearButton}"
@@ -295,6 +300,12 @@
          token apart (each carries the SpacingXl inset) -->
     <Style Selector="^ /template/ Button#PART_ClearButton">
       <Setter Property="VerticalAlignment" Value="Stretch" />
+      <Setter Property="IsVisible" Value="False" />
+    </Style>
+
+    <!-- Clear button class: the cross shows only when asked for, and never on a read-only field -->
+    <Style Selector="^.clearButton[IsReadOnly=False] /template/ Button#PART_ClearButton">
+      <Setter Property="IsVisible" Value="True" />
     </Style>
 
     <!-- Hover state: the house outlined-field fill across the whole frame -->
