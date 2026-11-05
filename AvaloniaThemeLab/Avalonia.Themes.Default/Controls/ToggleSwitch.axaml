@@ -107,18 +107,15 @@
                 Content="{TemplateBinding OnContent}"
                 ContentTemplate="{TemplateBinding OnContentTemplate}" />
 
-            <!-- The switch: a spacing band above and below the track, as struts (a GridLength takes no size token).
-                 Panels and a StackPanel, not Grids: the layers overlap, and a nested Grid threw while arranging when the
-                 base size changed live -->
+            <!-- The switch. No band above or below: the header's own margin is the one gap above the track, and the
+                 list the switch sits in spaces the rows. Panels, not Grids: the layers overlap, and a nested Grid threw
+                 while arranging when the base size changed live -->
             <StackPanel Grid.Column="0" VerticalAlignment="Center">
-              <!-- The band above -->
-              <Border Height="{size:SpacingLg}" />
-
               <!-- The track's layers, one over another -->
               <Panel>
 
                 <!-- The switch is one face built from its knob. The knob is the dot (a face element: control height, never
-                     under a 6px icon-size floor), the gap round it (spacing) and the outline (thickness). The track is two
+                     under a 6px base-size floor; icon size plays no part), the gap round it (spacing) and the outline (thickness). The track is two
                      knobs long. So control height sizes the switch, spacing sizes only the gap, and the dot never changes
                      with spacing: 40 by 20 with a 10px dot at the default scale, 24 by 12 at spacing 0. Every size comes
                      from layout, none from another element's Bounds, which lag a layout pass and misplaced the knob -->
@@ -129,11 +126,11 @@
                     IsHitTestVisible="False">
                   <!-- One knob cell -->
                   <Border Padding="{size:Edges All={size:ThicknessSmDouble}}">
-                    <Border Width="{size:Scaled Value={size:ControlHeightSm}, By=0.3125}" Height="{size:Scaled Value={size:ControlHeightSm}, By=0.3125}" MinWidth="{size:Scaled Value={size:IconSize}, By=6}" MinHeight="{size:Scaled Value={size:IconSize}, By=6}" Margin="{size:Edges All={size:SpacingMd}}" />
+                    <Border Width="{size:Scaled Value={size:ControlHeightSm}, By=0.3125}" Height="{size:Scaled Value={size:ControlHeightSm}, By=0.3125}" MinWidth="{size:Scaled Value={size:BaseSize}, By=6}" MinHeight="{size:Scaled Value={size:BaseSize}, By=6}" Margin="{size:Edges All={size:SpacingMd}}" />
                   </Border>
                   <!-- The second knob cell: the room the knob travels into -->
                   <Border Padding="{size:Edges All={size:ThicknessSmDouble}}">
-                    <Border Width="{size:Scaled Value={size:ControlHeightSm}, By=0.3125}" Height="{size:Scaled Value={size:ControlHeightSm}, By=0.3125}" MinWidth="{size:Scaled Value={size:IconSize}, By=6}" MinHeight="{size:Scaled Value={size:IconSize}, By=6}" Margin="{size:Edges All={size:SpacingMd}}" />
+                    <Border Width="{size:Scaled Value={size:ControlHeightSm}, By=0.3125}" Height="{size:Scaled Value={size:ControlHeightSm}, By=0.3125}" MinWidth="{size:Scaled Value={size:BaseSize}, By=6}" MinHeight="{size:Scaled Value={size:BaseSize}, By=6}" Margin="{size:Edges All={size:SpacingMd}}" />
                   </Border>
                 </StackPanel>
 
@@ -152,7 +149,7 @@
                 <Panel HorizontalAlignment="Left">
                   <!-- Sizes the cell: one knob -->
                   <Border Padding="{size:Edges All={size:ThicknessSmDouble}}" IsHitTestVisible="False">
-                    <Border Width="{size:Scaled Value={size:ControlHeightSm}, By=0.3125}" Height="{size:Scaled Value={size:ControlHeightSm}, By=0.3125}" MinWidth="{size:Scaled Value={size:IconSize}, By=6}" MinHeight="{size:Scaled Value={size:IconSize}, By=6}" Margin="{size:Edges All={size:SpacingMd}}" />
+                    <Border Width="{size:Scaled Value={size:ControlHeightSm}, By=0.3125}" Height="{size:Scaled Value={size:ControlHeightSm}, By=0.3125}" MinWidth="{size:Scaled Value={size:BaseSize}, By=6}" MinHeight="{size:Scaled Value={size:BaseSize}, By=6}" Margin="{size:Edges All={size:SpacingMd}}" />
                   </Border>
 
                   <!-- Positions the knob along the track -->
@@ -162,17 +159,14 @@
                       <!-- The outline's inner edge -->
                       <Panel Margin="{size:Edges All={size:ThicknessSmDouble}}">
                         <!-- Knob fill shown when on -->
-                        <Ellipse x:Name="SwitchKnobOn" Width="{size:Scaled Value={size:ControlHeightSm}, By=0.3125}" Height="{size:Scaled Value={size:ControlHeightSm}, By=0.3125}" MinWidth="{size:Scaled Value={size:IconSize}, By=6}" MinHeight="{size:Scaled Value={size:IconSize}, By=6}" Margin="{size:Edges All={size:SpacingMd}}" />
+                        <Ellipse x:Name="SwitchKnobOn" Width="{size:Scaled Value={size:ControlHeightSm}, By=0.3125}" Height="{size:Scaled Value={size:ControlHeightSm}, By=0.3125}" MinWidth="{size:Scaled Value={size:BaseSize}, By=6}" MinHeight="{size:Scaled Value={size:BaseSize}, By=6}" Margin="{size:Edges All={size:SpacingMd}}" />
                         <!-- Knob fill shown when off -->
-                        <Ellipse x:Name="SwitchKnobOff" Width="{size:Scaled Value={size:ControlHeightSm}, By=0.3125}" Height="{size:Scaled Value={size:ControlHeightSm}, By=0.3125}" MinWidth="{size:Scaled Value={size:IconSize}, By=6}" MinHeight="{size:Scaled Value={size:IconSize}, By=6}" Margin="{size:Edges All={size:SpacingMd}}" />
+                        <Ellipse x:Name="SwitchKnobOff" Width="{size:Scaled Value={size:ControlHeightSm}, By=0.3125}" Height="{size:Scaled Value={size:ControlHeightSm}, By=0.3125}" MinWidth="{size:Scaled Value={size:BaseSize}, By=6}" MinHeight="{size:Scaled Value={size:BaseSize}, By=6}" Margin="{size:Edges All={size:SpacingMd}}" />
                       </Panel>
                     </Panel>
                   </Canvas>
                 </Panel>
               </Panel>
-
-              <!-- The band below -->
-              <Border Height="{size:SpacingLg}" />
             </StackPanel>
           </Grid>
           </Grid>

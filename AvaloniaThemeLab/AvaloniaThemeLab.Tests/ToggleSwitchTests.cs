@@ -179,4 +179,44 @@ public sealed class ToggleSwitchTests
             window.Close();
         }
     }
+
+    /// <summary>Icon size has nothing to do with the switch: it was the dot's floor, which outgrew the dot at icon size 3.</summary>
+    [AvaloniaTheory]
+    [InlineData(false)]
+    [InlineData(true)]
+    public void Icon_size_does_not_change_the_switch(bool on)
+    {
+        var standard = Measure(new DefaultTheme(), on);
+        var bigIcons = Measure(new DefaultTheme { IconSizeScale = 3 }, on);
+        Assert.Equal(standard.Track.Size, bigIcons.Track.Size);
+        Assert.Equal(standard.Dot.Size, bigIcons.Dot.Size);
+    }
+
+    /// <summary>The header sits one spacing step above the track, and nothing pads the switch below it.</summary>
+    [AvaloniaTheory]
+    [InlineData(1)]
+    [InlineData(2)]
+    public void The_header_is_one_spacing_step_above_the_track(double spacing)
+    {
+        var toggle = new ToggleSwitch { Content = "Header" };
+        var window = new Window { Content = new StackPanel { Children = { toggle } }, Width = 400, Height = 300 };
+        ThemeRegion.SetTheme(window, new DefaultTheme { SpacingScale = spacing });
+        try
+        {
+            window.Show();
+            Dispatcher.UIThread.RunJobs();
+            window.UpdateLayout();
+            var header = toggle.GetVisualDescendants().OfType<Avalonia.Controls.Presenters.ContentPresenter>().Single(p => p.Name == "PART_ContentPresenter");
+            var outline = toggle.GetVisualDescendants().OfType<Border>().Single(b => b.Name == "OuterBorder");
+            var headerBottom = header.TranslatePoint(new Point(0, header.Bounds.Height), toggle)!.Value.Y;
+            var trackTop = outline.TranslatePoint(default, toggle)!.Value.Y;
+            var trackBottom = trackTop + outline.Bounds.Height;
+            Assert.Equal(8 * spacing, trackTop - headerBottom, 0.5);
+            Assert.Equal(toggle.Bounds.Height - toggle.Padding.Bottom, trackBottom, 0.5);
+        }
+        finally
+        {
+            window.Close();
+        }
+    }
 }
