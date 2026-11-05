@@ -814,6 +814,18 @@ Do **not** branch on the hue yourself in a control file, and do **not** special-
 
 ---
 
+## Rule 22: Each Size Ladder Moves Only What It Names
+
+**Statement:** Hit targets and control faces (buttons, pip cells, strips, grips, splitters) take `ControlHeight` steps. Glyphs (icons, dots, chevrons) take `IconSize` steps. Gaps (padding, margins, spacing, the band round a modal) take `Spacing` steps. Content widths (columns, panes, rails, a split view's width) take `BaseSize` or `ControlMinWidth`, never `Spacing` or `ControlHeight`.
+
+**Why:** a value on the wrong ladder vanishes when an unrelated setting goes to 0: dots sized by spacing disappear at spacing 0, columns sized by spacing collapse, a page header sized by control height disappears.
+
+## Rule 23: A Control-Height Value On Something That Holds Content Is A Floor
+
+**Statement:** an element holding text or an icon takes `MinWidth`/`MinHeight` from a `ControlHeight` token, never a fixed `Width`/`Height`. Fixed sizes stay only on bare faces with no content, and on rows a scroller snaps on. A template `ContentPresenter` binds `HorizontalContentAlignment`/`VerticalContentAlignment` so its content centres, and a control with a hover state paints a background (Transparent if nothing else) so its whole face catches the pointer (AVL035).
+
+**Why:** a fixed size crops its content when the ladder shrinks and lets padding push the content sideways; an unpainted face is hit only over its text, so a growing hover flickers.
+
 ## Reference: Button.axaml (correctly themed control)
 
 The Button control has been fully converted and serves as the reference implementation. Key features:
