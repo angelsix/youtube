@@ -1,3 +1,4 @@
+using System;
 using AngelSix.ThemeEngine;
 using Avalonia;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -726,6 +727,24 @@ public partial class DefaultTheme : ObservableObject
 
     // State visual properties
     [ObservableProperty] public virtual partial double DisabledOpacity { get; set; } = 0.3;
+
+    /// <summary>
+    /// A disabled accented control (a slider) holds a little more than the flat disabled opacity so its fill still
+    /// reads. Capped at 1: an opacity over 1 is refused, and the control would vanish.
+    /// </summary>
+    public virtual double DisabledAccentOpacity => Math.Min(1, DisabledOpacity * 1.4);
+
+    /// <summary>
+    /// A checked, disabled toggle's whole face is the solid fill, so it holds a stronger opacity for its label to
+    /// clear the fill. Capped at 1, as <see cref="DisabledAccentOpacity"/>.
+    /// </summary>
+    public virtual double DisabledCheckedOpacity => Math.Min(1, DisabledOpacity * 2.5);
+
+    /// <summary>
+    /// A placeholder's own fade, on top of its dim ink. It is not a disabled state, so it does not follow
+    /// <see cref="DisabledOpacity"/>: it took DisabledOpacity x 1.667 and passed 1 at 0.6, and every placeholder vanished.
+    /// </summary>
+    public virtual double PlaceholderOpacity => 0.5;
     [ObservableProperty] public virtual partial double PressedScale { get; set; } = 0.98;
 
     /// <summary>

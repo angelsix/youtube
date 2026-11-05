@@ -145,12 +145,12 @@
     <!-- Checked disabled: unlike CheckBox (only its tick-box is filled), a ToggleButton's WHOLE face is the
          solid fill, so the label rides on the vivid fill. The flat {size:DisabledOpacity} fades fill and
          on-fill ink toward each other (converging on the light canvas), dropping the label to ~1.1:1. Holding
-         the face at a stronger-than-flat disabled opacity (the Scaled idiom TextBox and Slider use) restores
+         the face at a stronger-than-flat disabled opacity ({size:DisabledCheckedOpacity}, capped at 1) restores
          the fill's depth so the Light10 label clears the plain-disabled contrast floor in both panes, while
          staying well below the enabled checked state so it still reads as disabled. Hue-independent: opacity
          is pure alpha, so it holds when the hues shift. -->
     <Style Selector="^:checked:disabled">
-      <Setter Property="Opacity" Value="{size:Scaled Value={size:DisabledOpacity}, By=2.5}" />
+      <Setter Property="Opacity" Value="{size:DisabledCheckedOpacity}" />
     </Style>
 
     <!-- ============================================================
