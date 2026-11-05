@@ -107,9 +107,10 @@
         <Panel ClipToBounds="True">
           <!-- Layout root docking the bars around the page -->
           <DockPanel>
-            <!-- Reserves nav-bar height in Inset mode. Invisible in Overlay mode. -->
+            <!-- Reserves nav-bar height in Inset mode. Invisible in Overlay mode. It follows the bar's real height,
+                 so a bar its title makes taller than the floor never covers the page -->
             <Border Name="PART_NavBarSpacer"
-                    Height="{TemplateBinding EffectiveBarHeight}"
+                    Height="{Binding #PART_NavigationBar.Bounds.Height}"
                     IsVisible="False"
                     DockPanel.Dock="Top" />
 
@@ -130,12 +131,14 @@
             </Grid>
           </DockPanel>
 
-          <!-- Navigation bar floats above content (ZIndex=1). -->
+          <!-- Navigation bar floats above content (ZIndex=1). It holds the page's title, so its height is a floor
+               (BarHeight, a control height) and the padded title sizes it above that (Rule 23): at control height 0
+               the title still shows whole -->
           <Border Name="PART_NavigationBar"
                   ZIndex="1"
                   VerticalAlignment="Top"
                   ClipToBounds="True"
-                  Height="{TemplateBinding EffectiveBarHeight}">
+                  MinHeight="{TemplateBinding EffectiveBarHeight}">
             <!-- Places the back button left of the title -->
             <Grid x:Name="PART_NavBarGrid" ColumnDefinitions="Auto, *, Auto">
               <!-- Returns to the previous page -->
@@ -208,9 +211,9 @@
       <Setter Property="CornerRadius" Value="{size:Corners Radius={size:RadiusSm}, Top=True}" />
     </Style>
 
-    <!-- Nav bar grid margin -->
+    <!-- Nav bar grid margin: the side inset, and a spacing step above and below the title -->
     <Style Selector="^ /template/ Grid#PART_NavBarGrid">
-      <Setter Property="Margin" Value="{size:Edges Left={size:SpacingXxl}}" />
+      <Setter Property="Margin" Value="{size:Edges Left={size:SpacingXxl}, Vertical={size:SpacingLg}}" />
     </Style>
 
     <!-- Back button padding and alignment -->

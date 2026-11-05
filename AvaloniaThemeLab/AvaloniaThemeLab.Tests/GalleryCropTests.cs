@@ -18,7 +18,7 @@ namespace AvaloniaThemeLab.Tests;
 /// </summary>
 public sealed class GalleryCropTests
 {
-    public static TheoryData<string> Entries() => ["Expander", "TabControl", "TransitioningContentControl", "Separator", "ManagedFileChooser"];
+    public static TheoryData<string> Entries() => ["Expander", "TabControl", "TransitioningContentControl", "Separator", "ManagedFileChooser", "NavigationPage", "Window"];
 
     [AvaloniaTheory]
     [MemberData(nameof(Entries))]
