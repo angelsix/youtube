@@ -214,7 +214,7 @@
       <Setter Property="Opacity" Value="{size:DisabledOpacity}" />
     </Style>
     <Style Selector="^:focus-visible">
-      <Setter Property="BorderBrush" Value="{color:AccentFocusBorderBrush}" />
+      <Setter Property="BorderBrush" Value="{color:AccentFocusBorder}" />
       <!-- The focus weight equals the row's resting weight (0), so focusing a row never resizes it -->
       <Setter Property="BorderThickness" Value="0" />
     </Style>
@@ -624,7 +624,7 @@
 
     <!-- Focus state: the frame carries the focus ring -->
     <Style Selector="^:focus-visible /template/ Border#PART_FrameBorder">
-      <Setter Property="BorderBrush" Value="{color:AccentFocusBorderBrush}" />
+      <Setter Property="BorderBrush" Value="{color:AccentFocusBorder}" />
       <!-- The focus weight equals the frame's resting weight, so focusing never resizes the frame -->
       <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
     </Style>

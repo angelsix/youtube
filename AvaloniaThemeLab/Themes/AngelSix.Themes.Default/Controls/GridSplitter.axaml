@@ -54,7 +54,7 @@
     <Setter Property="MinWidth" Value="{size:ThicknessXxlDouble}" />
     <Setter Property="MinHeight" Value="{size:ThicknessXxlDouble}" />
     <!-- Filled grip: a solid bar that stands out from the panes it divides. -->
-    <Setter Property="Background" Value="{color:SolidFillDefaultBrush}" />
+    <Setter Property="Background" Value="{color:SolidFillDefault}" />
     <Setter Property="Foreground" Value="{color:TextDefault}" />
     <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
 
@@ -71,12 +71,12 @@
 
     <!-- Hover state: the grip deepens so it reads as grabbable -->
     <Style Selector="^:pointerover:not(:disabled)">
-      <Setter Property="Background" Value="{color:SolidFillHoverBrush}" />
+      <Setter Property="Background" Value="{color:SolidFillHover}" />
     </Style>
 
     <!-- Pressed state: deepest while the pointer holds it -->
     <Style Selector="^:pressed">
-      <Setter Property="Background" Value="{color:SolidFillPressedBrush}" />
+      <Setter Property="Background" Value="{color:SolidFillPressed}" />
     </Style>
 
     <Style Selector="^:disabled">
@@ -85,7 +85,7 @@
 
     <!-- Focus state -->
     <Style Selector="^:focus-visible">
-      <Setter Property="BorderBrush" Value="{color:AccentFocusBorderBrush}" />
+      <Setter Property="BorderBrush" Value="{color:AccentFocusBorder}" />
       <Setter Property="BorderThickness" Value="0" />
     </Style>
   </ControlTheme>

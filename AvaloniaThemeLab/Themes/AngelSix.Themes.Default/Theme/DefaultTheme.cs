@@ -45,41 +45,41 @@ public partial class DefaultTheme : ThemeBase
     // Each role names one stage of the control's own hue, so it follows Accent.Kind and the palette
 
     // Surfaces
-    [AccentRole] internal virtual RampStage BackgroundDefault => RampStage.Light10;
-    [AccentRole] internal virtual RampStage SurfaceBorderless => RampStage.Light9;
-    [AccentRole] internal virtual RampStage HoverBackgroundDefault => RampStage.Light8;
-    [AccentRole] internal virtual RampStage PressedBackgroundDefault => RampStage.Light7;
-    [AccentRole] internal virtual RampStage SelectedBackgroundDefault => RampStage.Light6;
-    [AccentRole] internal virtual RampStage SelectedBackgroundHover => RampStage.Light5;
-    [AccentRole] internal virtual RampStage SelectedBackgroundPressed => RampStage.Light4;
+    [AccentRole] protected internal virtual RampStage BackgroundDefault => RampStage.Light10;
+    [AccentRole] protected internal virtual RampStage SurfaceBorderless => RampStage.Light9;
+    [AccentRole] protected internal virtual RampStage HoverBackgroundDefault => RampStage.Light8;
+    [AccentRole] protected internal virtual RampStage PressedBackgroundDefault => RampStage.Light7;
+    [AccentRole] protected internal virtual RampStage SelectedBackgroundDefault => RampStage.Light6;
+    [AccentRole] protected internal virtual RampStage SelectedBackgroundHover => RampStage.Light5;
+    [AccentRole] protected internal virtual RampStage SelectedBackgroundPressed => RampStage.Light4;
 
     // Text
-    [AccentRole] internal virtual RampStage TextDefault => RampStage.Dark9;
-    [AccentRole] internal virtual RampStage HoverTextDefault => RampStage.Dark7;
-    [AccentRole] internal virtual RampStage DimTextDefault => RampStage.Dark2;
+    [AccentRole] protected internal virtual RampStage TextDefault => RampStage.Dark9;
+    [AccentRole] protected internal virtual RampStage HoverTextDefault => RampStage.Dark7;
+    [AccentRole] protected internal virtual RampStage DimTextDefault => RampStage.Dark2;
 
     /// <summary>Accent-coloured text and marks: a link, a caption, an error message, a tab's selection bar.</summary>
-    [AccentRole] internal virtual RampStage AccentInkDefault => RampStage.Dark3;
+    [AccentRole] protected internal virtual RampStage AccentInkDefault => RampStage.Dark3;
 
     // Lines
-    [AccentRole] internal virtual RampStage BorderDefault => RampStage.Light1;
-    [AccentRole] internal virtual RampStage AccentDividerDefault => RampStage.Light7;
+    [AccentRole] protected internal virtual RampStage BorderDefault => RampStage.Light1;
+    [AccentRole] protected internal virtual RampStage AccentDividerDefault => RampStage.Light7;
 
     /// <summary>The accent's own line and glyph: a frame, a caret, a chevron, a dot, a knob.</summary>
-    [AccentRole] internal virtual RampStage AccentLineDefault => RampStage.Dark1;
+    [AccentRole] protected internal virtual RampStage AccentLineDefault => RampStage.Dark1;
 
     /// <summary>A focused accented control's border while <see cref="FocusColorOnAccents"/> is off.</summary>
     [AccentRole(NeutralHue = "Neutral", FocusColour = nameof(AccentFocus), FocusSwitch = nameof(FocusColorOnAccents))]
-    internal virtual RampStage AccentFocusBorder => RampStage.Dark1;
+    protected internal virtual RampStage AccentFocusBorder => RampStage.Dark1;
 
     // Solid fills: a checked, toggled or starred face; a bright seed (yellow) takes the selected tint instead
-    [AccentRole(BrightStage = nameof(SelectedBackgroundDefault))] internal virtual RampStage SolidFillDefault => RampStage.Dark3;
-    [AccentRole(BrightStage = nameof(SelectedBackgroundHover))] internal virtual RampStage SolidFillHover => RampStage.Dark4;
-    [AccentRole(BrightStage = nameof(SelectedBackgroundPressed))] internal virtual RampStage SolidFillPressed => RampStage.Dark5;
+    [AccentRole(BrightStage = nameof(SelectedBackgroundDefault))] protected internal virtual RampStage SolidFillDefault => RampStage.Dark3;
+    [AccentRole(BrightStage = nameof(SelectedBackgroundHover))] protected internal virtual RampStage SolidFillHover => RampStage.Dark4;
+    [AccentRole(BrightStage = nameof(SelectedBackgroundPressed))] protected internal virtual RampStage SolidFillPressed => RampStage.Dark5;
 
     /// <summary>Ink on a solid fill, picked by contrast against the fill.</summary>
     [AccentRole(ContrastAgainst = nameof(SolidFillDefault), Alternate = nameof(TextDefault))]
-    internal virtual RampStage OnSolidFillInkDefault => RampStage.Light10;
+    protected internal virtual RampStage OnSolidFillInkDefault => RampStage.Light10;
 
     #endregion Roles
 
@@ -114,7 +114,7 @@ public partial class DefaultTheme : ThemeBase
     #region Typography
 
     [FontWeights(Weights = [FontWeight.Normal, FontWeight.Medium, FontWeight.SemiBold, FontWeight.Bold], Labels = ["Regular", "Medium", "SemiBold", "Bold"])]
-    [Observable] public virtual partial FontFamily FontFamily { get; set; } = new("fonts:Inter#Inter, $Default");
+    [Observable] public virtual partial FontFamily FontFamily { get; set; } = AngelSix.ThemeEngine.Fonts.ThemeFonts.Inter;
 
     [SizeScale(Multipliers = [12, 14, 16, 20, 24], Scalable = true)]
     public virtual double FontSize => BaseSize;

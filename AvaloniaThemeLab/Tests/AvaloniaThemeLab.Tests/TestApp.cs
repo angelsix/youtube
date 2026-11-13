@@ -23,7 +23,6 @@ public static class TestApp
     {
         return AppBuilder.Configure<App>()
             .UseSkia()
-            .WithInterFont()
             .UseHeadless(new AvaloniaHeadlessPlatformOptions { UseHeadlessDrawing = false });
     }
 }

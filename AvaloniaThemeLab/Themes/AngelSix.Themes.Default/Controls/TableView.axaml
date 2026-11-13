@@ -13,7 +13,7 @@
       <TableView Width="{size:SurfaceWidthLg}" Height="{size:Scaled 200}" SelectedIndex="1">
         <TableView.Columns>
           <TableViewColumn x:DataType="NativeMenuItem" Header="Command" Binding="{Binding Header}" Width="2*" />
-          <TableViewColumn x:DataType="NativeMenuItem" Header="Shortcut" Binding="{Binding Gesture}" Width="100" />
+          <TableViewColumn x:DataType="NativeMenuItem" Header="Shortcut" Binding="{Binding Gesture}" Width="{size:GridPixels Value={size:Scaled 100}}" />
           <TableViewColumn x:DataType="NativeMenuItem" Header="Does" Binding="{Binding ToolTip}" Width="3*" />
         </TableView.Columns>
         <NativeMenuItem Header="New" Gesture="Ctrl+N" ToolTip="Blank document" />
@@ -35,7 +35,7 @@
       <TableView Width="{size:SurfaceWidthLg}" SelectionMode="Multiple" theme:Accent.Kind="Success">
         <TableView.Columns>
           <TableViewColumn x:DataType="NativeMenuItem" Header="Command" Binding="{Binding Header}" Width="2*" />
-          <TableViewColumn x:DataType="NativeMenuItem" Header="Shortcut" Binding="{Binding Gesture}" Width="100" />
+          <TableViewColumn x:DataType="NativeMenuItem" Header="Shortcut" Binding="{Binding Gesture}" Width="{size:GridPixels Value={size:Scaled 100}}" />
           <TableViewColumn x:DataType="NativeMenuItem" Header="Does" Binding="{Binding ToolTip}" Width="3*" />
         </TableView.Columns>
         <TableViewRow IsSelected="True">
@@ -59,7 +59,7 @@
       <TableView Width="{size:SurfaceWidthLg}" IsEnabled="False" SelectedIndex="0">
         <TableView.Columns>
           <TableViewColumn x:DataType="NativeMenuItem" Header="Command" Binding="{Binding Header}" Width="2*" />
-          <TableViewColumn x:DataType="NativeMenuItem" Header="Shortcut" Binding="{Binding Gesture}" Width="100" />
+          <TableViewColumn x:DataType="NativeMenuItem" Header="Shortcut" Binding="{Binding Gesture}" Width="{size:GridPixels Value={size:Scaled 100}}" />
           <TableViewColumn x:DataType="NativeMenuItem" Header="Does" Binding="{Binding ToolTip}" Width="3*" />
         </TableView.Columns>
         <NativeMenuItem Header="Close" Gesture="Ctrl+W" ToolTip="Close the document" />
@@ -70,7 +70,7 @@
       <TableView Width="{size:SurfaceWidthLg}">
         <TableView.Columns>
           <TableViewColumn x:DataType="NativeMenuItem" Header="Left" Binding="{Binding Header}" Width="*" />
-          <TableViewColumn x:DataType="NativeMenuItem" Header="Centre" Binding="{Binding Gesture}" Width="100" HorizontalContentAlignment="Center" />
+          <TableViewColumn x:DataType="NativeMenuItem" Header="Centre" Binding="{Binding Gesture}" Width="{size:GridPixels Value={size:Scaled 100}}" HorizontalContentAlignment="Center" />
           <TableViewColumn x:DataType="NativeMenuItem" Header="Right" Binding="{Binding ToolTip}" Width="*" HorizontalContentAlignment="Right" />
         </TableView.Columns>
         <NativeMenuItem Header="Bold" Gesture="Ctrl+B" ToolTip="Heavier" />
@@ -80,7 +80,7 @@
       <!-- Fixed narrow columns: a long value ends in an ellipsis inside its own cell -->
       <TableView Width="{size:SurfaceWidthLg}">
         <TableView.Columns>
-          <TableViewColumn x:DataType="NativeMenuItem" Header="Command" Binding="{Binding Header}" Width="140" />
+          <TableViewColumn x:DataType="NativeMenuItem" Header="Command" Binding="{Binding Header}" Width="{size:GridPixels Value={size:Scaled 140}}" />
           <TableViewColumn x:DataType="NativeMenuItem" Header="Does" Binding="{Binding ToolTip}" Width="*" />
         </TableView.Columns>
         <NativeMenuItem Header="Toggle full screen presentation mode" ToolTip="Hide every window edge and fill the display" />
@@ -89,7 +89,7 @@
       <TableView Width="{size:Scaled {size:SurfaceWidthLg}, 1.25}" SelectionMode="Multiple">
         <TableView.Columns>
           <TableViewColumn x:DataType="NativeMenuItem" Header="State" Binding="{Binding Header}" Width="2*" />
-          <TableViewColumn x:DataType="NativeMenuItem" Header="Key" Binding="{Binding Gesture}" Width="120" />
+          <TableViewColumn x:DataType="NativeMenuItem" Header="Key" Binding="{Binding Gesture}" Width="{size:GridPixels Value={size:Scaled 120}}" />
           <TableViewColumn x:DataType="NativeMenuItem" Header="Note" Binding="{Binding ToolTip}" Width="2*" />
         </TableView.Columns>
         <!-- Rest: the row's plain state -->
@@ -139,9 +139,9 @@
       <!-- Resizable columns; the last one right-aligns its header with its numbers -->
       <TableView Width="{size:SurfaceWidthLg}">
         <TableView.Columns>
-          <TableViewColumn x:DataType="NativeMenuItem" Header="Command" Binding="{Binding Header}" Width="140" />
+          <TableViewColumn x:DataType="NativeMenuItem" Header="Command" Binding="{Binding Header}" Width="{size:GridPixels Value={size:Scaled 140}}" />
           <TableViewColumn x:DataType="NativeMenuItem" Header="Shortcut" Binding="{Binding Gesture}" Width="*" />
-          <TableViewColumn x:DataType="NativeMenuItem" Header="Group" Binding="{Binding ToolTip}" Width="80" HorizontalContentAlignment="Right" />
+          <TableViewColumn x:DataType="NativeMenuItem" Header="Group" Binding="{Binding ToolTip}" Width="{size:GridPixels Value={size:Scaled 80}}" HorizontalContentAlignment="Right" />
         </TableView.Columns>
         <NativeMenuItem Header="Zoom in" Gesture="Ctrl+Add" ToolTip="View" />
       </TableView>
@@ -150,7 +150,7 @@
       <TableView Width="{size:SurfaceWidthLg}" CanUserResizeColumns="False">
         <TableView.Columns>
           <TableViewColumn x:DataType="NativeMenuItem" Header="Command" Binding="{Binding Header}" Width="*" />
-          <TableViewColumn x:DataType="NativeMenuItem" Header="Shortcut" Binding="{Binding Gesture}" Width="120" />
+          <TableViewColumn x:DataType="NativeMenuItem" Header="Shortcut" Binding="{Binding Gesture}" Width="{size:GridPixels Value={size:Scaled 120}}" />
         </TableView.Columns>
         <NativeMenuItem Header="Zoom out" Gesture="Ctrl+Subtract" />
       </TableView>
@@ -159,7 +159,7 @@
       <TableView Width="{size:SurfaceWidthLg}" theme:Accent.Kind="Warning">
         <TableView.Columns>
           <TableViewColumn x:DataType="NativeMenuItem" Header="Command" Binding="{Binding Header}" Width="*" />
-          <TableViewColumn x:DataType="NativeMenuItem" Header="Shortcut" Binding="{Binding Gesture}" Width="120" />
+          <TableViewColumn x:DataType="NativeMenuItem" Header="Shortcut" Binding="{Binding Gesture}" Width="{size:GridPixels Value={size:Scaled 120}}" />
         </TableView.Columns>
         <NativeMenuItem Header="Delete" Gesture="Delete" />
       </TableView>

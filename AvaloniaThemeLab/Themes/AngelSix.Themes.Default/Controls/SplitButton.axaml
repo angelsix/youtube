@@ -228,26 +228,26 @@
 
     <!-- Focus state. -->
     <Style Selector="^:focus-visible /template/ Border#RootBorder, ^[(theme|Preview.State)=Focused] /template/ Border#RootBorder">
-      <Setter Property="BorderBrush" Value="{color:AccentFocusBorderBrush}" />
+      <Setter Property="BorderBrush" Value="{color:AccentFocusBorder}" />
       <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
     </Style>
 
     <!-- Checked default: the solid-fill face with the on-fill ink the policy picks for it -->
     <Style Selector="^:checked">
-      <Setter Property="Background" Value="{color:SolidFillDefaultBrush}" />
-      <Setter Property="Foreground" Value="{color:OnSolidFillInkDefaultBrush}" />
+      <Setter Property="Background" Value="{color:SolidFillDefault}" />
+      <Setter Property="Foreground" Value="{color:OnSolidFillInkDefault}" />
     </Style>
 
-    <!-- Checked hover: the solid face steps one stage deeper ({color:SolidFillHoverBrush}). -->
+    <!-- Checked hover: the solid face steps one stage deeper ({color:SolidFillHover}). -->
     <Style Selector="^:checked:pointerover:not(:disabled), ^:checked[(theme|Preview.State)=Hover]:not(:disabled)">
-      <Setter Property="Background" Value="{color:SolidFillHoverBrush}" />
-      <Setter Property="Foreground" Value="{color:OnSolidFillInkDefaultBrush}" />
+      <Setter Property="Background" Value="{color:SolidFillHover}" />
+      <Setter Property="Foreground" Value="{color:OnSolidFillInkDefault}" />
     </Style>
 
-    <!-- Checked pressed: the solid face steps two stages deeper ({color:SolidFillPressedBrush}). -->
+    <!-- Checked pressed: the solid face steps two stages deeper ({color:SolidFillPressed}). -->
     <Style Selector="^:checked:pressed:not(:disabled), ^:checked[(theme|Preview.State)=Pressed]:not(:disabled)">
-      <Setter Property="Background" Value="{color:SolidFillPressedBrush}" />
-      <Setter Property="Foreground" Value="{color:OnSolidFillInkDefaultBrush}" />
+      <Setter Property="Background" Value="{color:SolidFillPressed}" />
+      <Setter Property="Foreground" Value="{color:OnSolidFillInkDefault}" />
     </Style>
 
   </ControlTheme>

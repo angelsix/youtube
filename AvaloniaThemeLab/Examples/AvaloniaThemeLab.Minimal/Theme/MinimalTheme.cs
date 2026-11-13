@@ -23,7 +23,7 @@ public partial class MinimalTheme : ThemeBase
     [AccentHue, ColorRamp(DarkSeed = "#1E1E1E")]
     [Observable] public virtual partial Color AccentSurface { get; set; } = Color.Parse("#FAFAFA");
 
-    #endregion
+    #endregion Palette
 
     #region Roles
 
@@ -42,7 +42,7 @@ public partial class MinimalTheme : ThemeBase
 
     [AccentRole] internal virtual RampStage ButtonPressedBackground => RampStage.Light6;
 
-    #endregion
+    #endregion Roles
 
     #region Sizes
 
@@ -60,7 +60,7 @@ public partial class MinimalTheme : ThemeBase
     [SizeScale(Multipliers = [1, 2], Labels = ["Sm", "Md"], Types = [typeof(Thickness)], TypeSuffixes = [""], Floor = 1)]
     public virtual double Thickness => BaseSize;
 
-    #endregion
+    #endregion Sizes
 
-    public virtual FontFamily FontFamily => new("fonts:Inter#Inter, $Default");
+    public virtual FontFamily FontFamily => AngelSix.ThemeEngine.Fonts.ThemeFonts.Inter;
 }

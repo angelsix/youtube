@@ -3,6 +3,7 @@ using AngelSix.Themes.Default;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Presenters;
+using Avalonia.Controls.Templates;
 using Avalonia.Headless;
 using Avalonia.Headless.XUnit;
 using Avalonia.Layout;
@@ -22,9 +23,13 @@ public sealed class ZoomTests
     private const double Zoom = 2;
     private static readonly Size baseWindow = new(1200, 800);
     private static MainWindow? gallery;
+    private static ZoomClock? clock;
 
     /// <summary>The engine whose dark-region twin follows live theme edits.</summary>
     private static readonly Version darkTwinFollowsEdits = new(1, 23, 0);
+
+    /// <summary>Whether the referenced engine can zoom a dark region live (see <see cref="darkTwinFollowsEdits"/>).</summary>
+    public static bool DarkPaneFollowsLiveEdits => typeof(ThemeContext).Assembly.GetName().Version >= darkTwinFollowsEdits;
 
     /// <summary>Every gallery entry, read off the booted lab so a new control is tested the day it is themed.</summary>
     public static TheoryData<string> Entries()
@@ -34,9 +39,6 @@ public sealed class ZoomTests
             .GetAwaiter().GetResult();
         return [.. names];
     }
-
-    /// <summary>Whether the referenced engine can zoom a dark region live (see <see cref="darkTwinFollowsEdits"/>).</summary>
-    public static bool DarkPaneFollowsLiveEdits => typeof(ThemeContext).Assembly.GetName().Version >= darkTwinFollowsEdits;
 
     [AvaloniaTheory]
     [MemberData(nameof(Entries))]
@@ -124,11 +126,11 @@ public sealed class ZoomTests
             theme.BaseSize = 1;
             window.Width = baseWindow.Width;
             window.Height = baseWindow.Height;
-            var one = ZoomProbe.Shoot(window, Transitions(theme), inScope);
+            var one = SteadyShot(window, theme, inScope);
             theme.BaseSize = Zoom;
             window.Width = baseWindow.Width * Zoom;
             window.Height = baseWindow.Height * Zoom;
-            var two = ZoomProbe.Shoot(window, Transitions(theme), inScope);
+            var two = SteadyShot(window, theme, inScope);
             return ZoomProbe.Compare(one, two, Zoom);
         }
         finally
@@ -138,6 +140,43 @@ public sealed class ZoomTests
             window.Height = baseWindow.Height;
             ZoomProbe.Settle(window, Transitions(theme));
         }
+    }
+
+    // Both shots rest at the same animation phase and the same scroll position: every settle
+    // step pulses the clock a whole loop (so anything started mid-settle finishes too) and
+    // zeroes the scroll offsets, which are where the user left the page, not layout
+    private static Dictionary<string, ElementShot> SteadyShot(MainWindow window, DefaultTheme theme, Func<Visual, bool> inScope)
+    {
+        clock!.AttachEverywhere(window);
+        void Step()
+        {
+            clock.Advance();
+            foreach (var viewer in window.GetVisualDescendants().OfType<ScrollViewer>())
+                viewer.Offset = default;
+        }
+        // Templates apply lazily on first layout: settle before swapping panels so both
+        // shots see the same realised set, not one mid-rebuild
+        ZoomProbe.Settle(window, Transitions(theme), Step);
+        Devirtualize(window);
+        return ZoomProbe.Shoot(window, Transitions(theme), inScope, Step);
+    }
+
+    // A virtualizing panel realises a viewport-dependent set of rows, so the two shots would
+    // compare different element sets; a plain panel realises them all. Realisation is not a size
+    private static void Devirtualize(Visual root)
+    {
+        foreach (var panel in root.GetVisualDescendants().OfType<VirtualizingStackPanel>().ToList())
+        {
+            if (panel.TemplatedParent is ItemsControl items)
+                items.ItemsPanel = new PlainPanelTemplate(panel.Orientation);
+        }
+    }
+
+    private sealed class PlainPanelTemplate(Orientation orientation) : ITemplate<Panel?>
+    {
+        public Panel? Build() => new StackPanel { Orientation = orientation };
+
+        object? ITemplate.Build() => Build();
     }
 
     // One main window for the run, re-pointed at each entry, as the app itself does.
@@ -156,6 +195,8 @@ public sealed class ZoomTests
         {
             Setters = { new Setter(Layoutable.UseLayoutRoundingProperty, false) },
         });
+        clock = new ZoomClock();
+        clock.Attach(gallery);
         gallery.Show();
         return gallery;
     }

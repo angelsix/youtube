@@ -78,9 +78,9 @@
   <ControlTheme x:Key="DefaultScrollBarThumb" TargetType="Thumb">
     <!-- Visual defaults: the thumb is the darker element. -->
     <!-- The thumb takes the control's own hue at the solid-face stages, so an accented bar shows that accent in its thumb. -->
-    <Setter Property="Background" Value="{color:SolidFillDefaultBrush}"/>
+    <Setter Property="Background" Value="{color:SolidFillDefault}"/>
     <Setter Property="Foreground" Value="{color:TextDefault}" />
-    <Setter Property="BorderBrush" Value="{color:SolidFillDefaultBrush}"/>
+    <Setter Property="BorderBrush" Value="{color:SolidFillDefault}"/>
     <Setter Property="BorderThickness" Value="0"/>
     <!-- Collapsed the pill is 8px thick and RadiusSm (6) draws a 4px arc. -->
     <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
@@ -108,12 +108,12 @@
 
     <!-- Hover state: one fill stage deeper than rest, the same stage the arrow takes -->
     <Style Selector="^:pointerover /template/ Border">
-      <Setter Property="Background" Value="{color:SolidFillHoverBrush}" />
+      <Setter Property="Background" Value="{color:SolidFillHover}" />
     </Style>
 
     <!-- Pressed state: deepest fill stage, the same stage the arrow takes -->
     <Style Selector="^:pressed  /template/ Border">
-      <Setter Property="Background" Value="{color:SolidFillPressedBrush}" />
+      <Setter Property="Background" Value="{color:SolidFillPressed}" />
     </Style>
   </ControlTheme>
 
@@ -141,7 +141,7 @@
   <ControlTheme x:Key="DefaultScrollBarLineButton" TargetType="RepeatButton">
     <!-- Visual defaults: the arrow rests on the groove, revealed only when the bar expands -->
     <Setter Property="Background" Value="Transparent"/>
-    <Setter Property="Foreground" Value="{color:SolidFillDefaultBrush}" />
+    <Setter Property="Foreground" Value="{color:SolidFillDefault}" />
     <Setter Property="BorderBrush" Value="Transparent"/>
     <Setter Property="BorderThickness" Value="0"/>
     <Setter Property="CornerRadius" Value="{size:RadiusSm}"/>
@@ -175,12 +175,12 @@
     <!-- Hover state: the outlined column's hover stages of the bar's own hue -->
     <Style Selector="^:pointerover:not(:disabled)">
       <Setter Property="Background" Value="{color:HoverBackgroundDefault}" />
-      <Setter Property="Foreground" Value="{color:SolidFillHoverBrush}" />
+      <Setter Property="Foreground" Value="{color:SolidFillHover}" />
     </Style>
 
     <Style Selector="^:pressed:not(:disabled)">
       <Setter Property="Background" Value="{color:PressedBackgroundDefault}" />
-      <Setter Property="Foreground" Value="{color:SolidFillPressedBrush}" />
+      <Setter Property="Foreground" Value="{color:SolidFillPressed}" />
     </Style>
   </ControlTheme>
 

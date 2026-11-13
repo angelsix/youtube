@@ -141,8 +141,8 @@
     <Setter Property="CaretBrush" Value="{color:AccentLineDefault}" />
     <Setter Property="BorderBrush" Value="{color:BorderDefault}" />
     <!-- Selected text: the filled column (Dark3 fill, Light10 ink), following the hue like every other state. -->
-    <Setter Property="SelectionBrush" Value="{color:SolidFillDefaultBrush}" />
-    <Setter Property="SelectionForegroundBrush" Value="{color:OnSolidFillInkDefaultBrush}" />
+    <Setter Property="SelectionBrush" Value="{color:SolidFillDefault}" />
+    <Setter Property="SelectionForegroundBrush" Value="{color:OnSolidFillInkDefault}" />
     <Setter Property="PlaceholderForeground" Value="{color:DimTextDefault}" />
     <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
     <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
@@ -277,15 +277,16 @@
       <Setter Property="Foreground" Value="{color:DimTextDefault}" />
 
       <Style Selector="^ /template/ Border#PART_BorderElement">
-        <Setter Property="Background" Value="{color:OverlayWeakBrush}" />
-        <Setter Property="BorderBrush" Value="{color:OverlayWeakBrush}" />
+        <!-- An opaque stage, never an overlay: the frame has its own fill, so a translucent state background shows whatever sits behind through it -->
+        <Setter Property="Background" Value="{color:SurfaceBorderless}" />
+        <Setter Property="BorderBrush" Value="{color:BorderDefault}" />
       </Style>
     </Style>
 
     <!-- Focus state -->
     <Style Selector="^:focus, ^[(theme|Preview.State)=Focused]">
       <Style Selector="^ /template/ Border#PART_BorderElement">
-        <Setter Property="BorderBrush" Value="{color:AccentFocusBorderBrush}" />
+        <Setter Property="BorderBrush" Value="{color:AccentFocusBorder}" />
       </Style>
     </Style>
 

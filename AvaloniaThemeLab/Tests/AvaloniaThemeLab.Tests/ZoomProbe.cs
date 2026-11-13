@@ -41,7 +41,7 @@ internal static class ZoomProbe
     ];
 
     /// <summary>Lets bindings, layout and transitions finish so the frame is the settled one.</summary>
-    public static void Settle(TopLevel root, TimeSpan transitions)
+    public static void Settle(TopLevel root, TimeSpan transitions, Action? step = null)
     {
         var clock = System.Diagnostics.Stopwatch.StartNew();
         do
@@ -49,6 +49,7 @@ internal static class ZoomProbe
             Dispatcher.UIThread.RunJobs();
             AvaloniaHeadlessPlatform.ForceRenderTimerTick();
             root.UpdateLayout();
+            step?.Invoke();
             Thread.Sleep(10);
         }
         while (clock.Elapsed < transitions);
@@ -56,13 +57,14 @@ internal static class ZoomProbe
         {
             Dispatcher.UIThread.RunJobs();
             root.UpdateLayout();
+            step?.Invoke();
         }
     }
 
     /// <summary>Records every visible element the scope admits, keyed by its path in the visual tree.</summary>
-    public static Dictionary<string, ElementShot> Shoot(TopLevel root, TimeSpan transitions, Func<Visual, bool> inScope)
+    public static Dictionary<string, ElementShot> Shoot(TopLevel root, TimeSpan transitions, Func<Visual, bool> inScope, Action? step = null)
     {
-        Settle(root, transitions);
+        Settle(root, transitions, step);
         var shots = new Dictionary<string, ElementShot>();
         foreach (var visual in root.GetVisualDescendants())
         {

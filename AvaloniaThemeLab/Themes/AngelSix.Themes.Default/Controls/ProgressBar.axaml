@@ -76,7 +76,7 @@
 
   <ControlTheme x:Key="{x:Type ProgressBar}" TargetType="ProgressBar">
 
-    <Setter Property="Foreground" Value="{color:SolidFillDefaultBrush}" />
+    <Setter Property="Foreground" Value="{color:SolidFillDefault}" />
     <Setter Property="Background" Value="{color:HoverBackgroundDefault}" />
     <Setter Property="BorderBrush" Value="Transparent" />
     <Setter Property="BorderThickness" Value="0" />
@@ -187,13 +187,13 @@
       <Setter Property="Padding" Value="{size:Edges {size:SpacingLg}}" />
     </Style>
     <Style Selector="^ /template/ TextBlock#PART_FillText">
-      <Setter Property="Foreground" Value="{color:OnSolidFillInkDefaultBrush}" />
+      <Setter Property="Foreground" Value="{color:OnSolidFillInkDefault}" />
       <!-- The same padding as the track copy, so the two coincide where they overlap -->
       <Setter Property="Padding" Value="{size:Edges {size:SpacingLg}}" />
     </Style>
     <!-- Centred copy on a vertical face: plain text, no painted box. -->
     <Style Selector="^:vertical /template/ TextBlock#PART_CenterText">
-      <Setter Property="Foreground" Value="{color:OnSolidFillInkDefaultBrush}" />
+      <Setter Property="Foreground" Value="{color:OnSolidFillInkDefault}" />
       <Setter Property="Padding" Value="{size:Edges {size:SpacingSm}}" />
     </Style>
     <Style Selector="^:vertical /template/ LayoutTransformControl#PART_LayoutTransformControl">

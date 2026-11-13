@@ -176,13 +176,13 @@
 
     <!-- Focus state. -->
     <Style Selector="^:focus-visible, ^[(theme|Preview.State)=Focused]">
-      <Setter Property="BorderBrush" Value="{color:AccentFocusBorderBrush}" />
+      <Setter Property="BorderBrush" Value="{color:AccentFocusBorder}" />
       <!-- The focus weight is 0, the weight the pinned focus example has always drawn. -->
       <Setter Property="BorderThickness" Value="0" />
     </Style>
 
     <Style Selector="^:focus-visible /template/ Ellipse#RingEllipse, ^[(theme|Preview.State)=Focused] /template/ Ellipse#RingEllipse">
-      <Setter Property="Stroke" Value="{color:AccentFocusBorderBrush}" />
+      <Setter Property="Stroke" Value="{color:AccentFocusBorder}" />
     </Style>
 
     <Style Selector="^[(theme|Accent.Kind)=Primary], ^[(theme|Accent.Kind)=Success], ^[(theme|Accent.Kind)=Warning], ^[(theme|Accent.Kind)=Info], ^[(theme|Accent.Kind)=Error], ^[(theme|Accent.Kind)=Destructive], ^[(theme|Accent.Kind)=Subtle]">

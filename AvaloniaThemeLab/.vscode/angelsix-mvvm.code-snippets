@@ -1,0 +1,83 @@
+{
+  "vm": {
+    "scope": "csharp",
+    "prefix": "vm",
+    "description": "A view model: an ObservableObject with generated change notification, commands and ResetToDefaults",
+    "body": [
+      "public partial class ${1:Main}ViewModel : ObservableObject",
+      "{",
+      "    $0",
+      "\\}"
+    ]
+  },
+  "vmnotify": {
+    "scope": "csharp",
+    "prefix": "vmnotify",
+    "description": "Change notification for a class that already has a base: [NotifyPropertyChanged] instead of ObservableObject",
+    "body": [
+      "[NotifyPropertyChanged]",
+      "public partial class ${1:MainViewModel}",
+      "{",
+      "    $0",
+      "\\}"
+    ]
+  },
+  "vmproperty": {
+    "scope": "csharp",
+    "prefix": "vmproperty",
+    "description": "An observable property: setting a new value raises PropertyChanged",
+    "body": [
+      "[Observable] public partial ${1:string} ${2:Title} { get; set; \\} = ${3:string.Empty};$0"
+    ]
+  },
+  "vmchanged": {
+    "scope": "csharp",
+    "prefix": "vmchanged",
+    "description": "Reacts to an observable property's new value: the partial hook the generator calls",
+    "body": [
+      "partial void On${1:Title}Changed(${2:string} value)",
+      "{",
+      "    $0",
+      "\\}"
+    ]
+  },
+  "vmcommand": {
+    "scope": "csharp",
+    "prefix": "vmcommand",
+    "description": "A command: [Command] on a private method generates {Name}Command",
+    "body": [
+      "[Command]",
+      "private ${2:void} ${1:Save}() => $0;"
+    ]
+  },
+  "vmcommandparam": {
+    "scope": "csharp",
+    "prefix": "vmcommandparam",
+    "description": "A command with a parameter: generates RelayCommand<T> as {Name}Command",
+    "body": [
+      "[Command]",
+      "private ${2:void} ${1:Open}(${3:string} item) => $0;"
+    ]
+  },
+  "vmasynccommand": {
+    "scope": "csharp",
+    "prefix": "vmasynccommand",
+    "description": "An async command: {Name}Command starts the Task; the Async suffix is dropped from the command's name",
+    "body": [
+      "[Command]",
+      "private async Task ${1:Load}Async()",
+      "{",
+      "    $0",
+      "\\}"
+    ]
+  },
+  "designcontext": {
+    "scope": "xml,axaml,xaml",
+    "prefix": "designcontext",
+    "description": "Design-time data on a view's root: the view model its x:DataType names, from the app's services",
+    "body": [
+      "x:DataType=\"vm:${1:Main}ViewModel\"",
+      "        Design.DataContext=\"{DesignContext\\}\"$0"
+    ]
+  }
+}

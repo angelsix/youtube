@@ -127,7 +127,7 @@
   <ControlTheme x:Key="{x:Type Slider}" TargetType="Slider">
 
     <Setter Property="Background" Value="{color:HoverBackgroundDefault}" />
-    <Setter Property="Foreground" Value="{color:SolidFillDefaultBrush}" />
+    <Setter Property="Foreground" Value="{color:SolidFillDefault}" />
     <Setter Property="BorderThickness" Value="0" />
     <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
     <Setter Property="HorizontalAlignment" Value="{theme:StandardAlignmentHorizontal}" />
@@ -337,7 +337,7 @@
     <Style Selector="^ /template/ Thumb">
       <Setter Property="Width" Value="{size:IconSizeMd}" />
       <Setter Property="Height" Value="{size:IconSizeMd}" />
-      <Setter Property="Background" Value="{color:SolidFillDefaultBrush}" />
+      <Setter Property="Background" Value="{color:SolidFillDefault}" />
       <Setter Property="CornerRadius" Value="{size:RadiusMd}" />
     </Style>
 
@@ -384,20 +384,20 @@
     <!-- Hover state: the thumb steps toward ink, the fill deepens one stage -->
     <Style Selector="^:pointerover, ^[(theme|Preview.State)=Hover]">
       <Style Selector="^ /template/ Thumb">
-        <Setter Property="Background" Value="{color:SolidFillHoverBrush}" />
+        <Setter Property="Background" Value="{color:SolidFillHover}" />
       </Style>
       <Style Selector="^ /template/ RepeatButton#PART_DecreaseButton">
-        <Setter Property="Background" Value="{color:SolidFillHoverBrush}" />
+        <Setter Property="Background" Value="{color:SolidFillHover}" />
       </Style>
     </Style>
 
     <!-- Pressed state: one stage deeper again -->
     <Style Selector="^:pressed, ^[(theme|Preview.State)=Pressed]">
       <Style Selector="^ /template/ Thumb">
-        <Setter Property="Background" Value="{color:SolidFillPressedBrush}" />
+        <Setter Property="Background" Value="{color:SolidFillPressed}" />
       </Style>
       <Style Selector="^ /template/ RepeatButton#PART_DecreaseButton">
-        <Setter Property="Background" Value="{color:SolidFillPressedBrush}" />
+        <Setter Property="Background" Value="{color:SolidFillPressed}" />
       </Style>
     </Style>
 
@@ -409,7 +409,7 @@
     <!-- Focus state -->
     <Style Selector="^:focus-visible, ^[(theme|Preview.State)=Focused]">
       <Style Selector="^ /template/ Thumb">
-        <Setter Property="BorderBrush" Value="{color:AccentFocusBorderBrush}" />
+        <Setter Property="BorderBrush" Value="{color:AccentFocusBorder}" />
         <Setter Property="BorderThickness" Value="0" />
       </Style>
     </Style>

@@ -97,30 +97,30 @@
 
     <!-- Focus state -->
     <Style Selector="^:focus-visible, ^[(theme|Preview.State)=Focused]">
-      <Setter Property="BorderBrush" Value="{color:AccentFocusBorderBrush}" />
+      <Setter Property="BorderBrush" Value="{color:AccentFocusBorder}" />
       <!-- The focus weight is 0, the weight the pinned focus example has always drawn. -->
       <Setter Property="BorderThickness" Value="0" />
     </Style>
 
     <!-- Checked default: the solid-fill face with the on-fill ink the policy picks for it -->
     <Style Selector="^:checked">
-      <Setter Property="Background" Value="{color:SolidFillDefaultBrush}" />
+      <Setter Property="Background" Value="{color:SolidFillDefault}" />
       <Setter Property="BorderBrush" Value="Transparent" />
-      <Setter Property="Foreground" Value="{color:OnSolidFillInkDefaultBrush}" />
+      <Setter Property="Foreground" Value="{color:OnSolidFillInkDefault}" />
     </Style>
 
-    <!-- Checked hover: the solid face steps one stage deeper ({color:SolidFillHoverBrush}). -->
+    <!-- Checked hover: the solid face steps one stage deeper ({color:SolidFillHover}). -->
     <Style Selector="^:checked:pointerover, ^:checked[(theme|Preview.State)=Hover]">
-      <Setter Property="Background" Value="{color:SolidFillHoverBrush}" />
+      <Setter Property="Background" Value="{color:SolidFillHover}" />
       <Setter Property="BorderBrush" Value="Transparent" />
-      <Setter Property="Foreground" Value="{color:OnSolidFillInkDefaultBrush}" />
+      <Setter Property="Foreground" Value="{color:OnSolidFillInkDefault}" />
     </Style>
 
-    <!-- Checked pressed: the solid face steps two stages deeper ({color:SolidFillPressedBrush}). -->
+    <!-- Checked pressed: the solid face steps two stages deeper ({color:SolidFillPressed}). -->
     <Style Selector="^:checked:pressed, ^:checked[(theme|Preview.State)=Pressed]">
-      <Setter Property="Background" Value="{color:SolidFillPressedBrush}" />
+      <Setter Property="Background" Value="{color:SolidFillPressed}" />
       <Setter Property="BorderBrush" Value="Transparent" />
-      <Setter Property="Foreground" Value="{color:OnSolidFillInkDefaultBrush}" />
+      <Setter Property="Foreground" Value="{color:OnSolidFillInkDefault}" />
     </Style>
 
     <Style Selector="^:checked:disabled">
