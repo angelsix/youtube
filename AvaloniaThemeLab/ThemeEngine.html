@@ -370,6 +370,17 @@ theme.AccentPrimary = Color.Parse(<span class="s">"#7C4DFF"</span>);   <span cla
 theme.ResetToDefaults();</code></pre>
   <p>With dependency injection, register it once: <code>services.AddSingleton(DefaultTheme.Current);</code></p>
 
+  <h3>Fonts that register themselves</h3>
+  <p>There is no <code>.WithInterFont()</code> to remember. <code>AngelSix.ThemeEngine.Fonts</code> comes with the engine, embeds Inter (SIL OFL 1.1) and registers it with the app's font manager the first time a typed choice is read:</p>
+  <pre><code><span class="k">using</span> AngelSix.ThemeEngine.Fonts;
+
+<span class="c">// In a theme class — the default theme already does this:</span>
+[Observable] <span class="k">public virtual partial</span> FontFamily FontFamily { <span class="k">get</span>; <span class="k">set</span>; } = ThemeFonts.Inter;
+
+ThemeFonts.Inter    <span class="c">// embedded Inter, falling back to the platform default</span>
+ThemeFonts.System   <span class="c">// the platform's own UI font, with its fallback chain</span></code></pre>
+  <p>The string form keeps working for a theme that prefers it &mdash; <code>new FontFamily("fonts:AngelSix.Inter#Inter, $Default")</code> &mdash; but a string alone does not register the collection: read a <code>ThemeFonts</code> member once first. To use another font entirely, set <code>FontFamily</code> to any family your app ships or the system has; every control reads the token.</p>
+
   <h3>Make it yours without forking</h3>
   <p>Subclass <code>DefaultTheme</code> and change only what differs &mdash; a hue, a token, or one control. See <a href="#extend">Extend the default theme</a>.</p>
 </section>
@@ -719,6 +730,9 @@ theme.ResetToDefaults();</code></pre>
 
     <details class="term" data-kind="attribute"><summary><code>[SizeScale]</code><span class="kind">Attribute</span><span class="short">Builds a ladder of size tokens.</span></summary>
       <div class="body"><code>Multipliers</code> · <code>Labels</code> (default Sm, Md, Lg, Xl, Xxl) · <code>Types</code> and <code>TypeSuffixes</code> · <code>Floor</code> · <code>Ceiling</code> · <code>Scalable</code> · <code>Mode</code> and <code>Offsets</code> for additive steps.</div></details>
+
+    <details class="term" data-kind="class"><summary><code>ThemeFonts</code><span class="kind">Fonts</span><span class="short">Typed font choices that register themselves.</span></summary>
+      <div class="body"><code>ThemeFonts.Inter</code> (embedded, SIL OFL) and <code>ThemeFonts.System</code> (the platform UI font). Reading either registers the package's collection once; the string form <code>fonts:AngelSix.Inter#Inter</code> then resolves too. From <code>AngelSix.ThemeEngine.Fonts</code>, which the engine brings with it.</div></details>
 
     <details class="term" data-kind="attribute"><summary><code>[FontWeights]</code><span class="kind">Attribute</span><span class="short">A weight token per font weight.</span></summary>
       <div class="body">On the <code>FontFamily</code> token: <code>Weights</code> and <code>Labels</code> give <code>{theme:FontWeightBold}</code> and the rest.</div></details>
