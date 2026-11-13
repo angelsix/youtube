@@ -1,0 +1,235 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+                    xmlns:color="using:AngelSix.ThemeEngine.Colors"
+                    xmlns:size="using:AngelSix.ThemeEngine.Sizes"
+                    xmlns:controls="using:AngelSix.ThemeEngine.Controls"
+                    xmlns:default="using:AngelSix.Themes.Default">
+  <DataTemplate x:Key="TabbedPagePreview">
+    <Border Width="{size:Scaled 360}" Height="{size:Scaled 240}">
+      <TabbedPage>
+        <ContentPage Header="Home">
+          <TextBlock Text="Home page" HorizontalAlignment="Center" VerticalAlignment="Center" />
+        </ContentPage>
+        <ContentPage Header="Favorites">
+          <TextBlock Text="Favorites page" HorizontalAlignment="Center" VerticalAlignment="Center" />
+        </ContentPage>
+        <ContentPage Header="Profile" IsEnabled="False">
+          <TextBlock Text="Profile page" HorizontalAlignment="Center" VerticalAlignment="Center" />
+        </ContentPage>
+      </TabbedPage>
+    </Border>
+  </DataTemplate>
+
+  <Design.PreviewWith>
+    <Border>
+      <Border.Styles>
+        <default:DefaultTheme />
+      </Border.Styles>
+
+      <controls:LightDarkPreview Title="TabbedPage" Orientation="Horizontal" ContentTemplate="{StaticResource TabbedPagePreview}" />
+
+    </Border>
+  </Design.PreviewWith>
+
+  <ControlTheme x:Key="TabbedPageTabControlTheme" TargetType="TabControl">
+    <Setter Property="Background" Value="{color:BackgroundDefault}" />
+    <Setter Property="CornerRadius" Value="0" />
+    <Setter Property="BorderThickness" Value="{size:Edges}" />
+    <Setter Property="Padding" Value="{size:Edges}" />
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
+    <Setter Property="Template">
+      <ControlTemplate>
+        <!-- Docks the tab strip against the page -->
+        <DockPanel>
+          <Border Name="PART_TabStrip"
+                  Background="{TemplateBinding Background}"
+                  CornerRadius="{TemplateBinding CornerRadius}"
+                  Margin="0"
+                  Padding="{TemplateBinding Padding}"
+                  DockPanel.Dock="{TemplateBinding TabStripPlacement}">
+            <ItemsPresenter Name="PART_ItemsPresenter">
+              <ItemsPresenter.ItemsPanel>
+                <ItemsPanelTemplate>
+                  <!-- Spreads the tabs evenly across the strip -->
+                  <UniformGrid Rows="1" />
+                </ItemsPanelTemplate>
+              </ItemsPresenter.ItemsPanel>
+            </ItemsPresenter>
+          </Border>
+          <Panel ClipToBounds="True">
+            <ContentPresenter Name="PART_SelectedContentHost2"
+                              HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                              VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                              IsVisible="False" />
+            <ContentPresenter Name="PART_SelectedContentHost"
+                              HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                              VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+          </Panel>
+        </DockPanel>
+      </ControlTemplate>
+    </Setter>
+
+    <Style Selector="^[TabStripPlacement=Left] /template/ ItemsPresenter#PART_ItemsPresenter > UniformGrid,
+           ^[TabStripPlacement=Right] /template/ ItemsPresenter#PART_ItemsPresenter > UniformGrid">
+      <Setter Property="Rows" Value="0" />
+      <Setter Property="Columns" Value="1" />
+    </Style>
+  </ControlTheme>
+
+  <ControlTheme x:Key="TabbedPageTabItemTheme" TargetType="TabItem">
+    <Setter Property="FontSize" Value="{size:FontSizeLg}" />
+    <Setter Property="Background" Value="{color:BackgroundDefault}" />
+    <Setter Property="Foreground" Value="{color:TextDefault}" />
+    <Setter Property="Padding" Value="{size:Edges Horizontal={size:SpacingXxl}}" />
+    <Setter Property="Margin" Value="{size:Edges}" />
+    <Setter Property="MinHeight" Value="{size:ControlHeightMd}" />
+    <Setter Property="CornerRadius" Value="{size:Corners Radius={size:RadiusSm}, Top=True}" />
+    <Setter Property="HorizontalContentAlignment" Value="{theme:StandardAlignmentHorizontal}" />
+    <Setter Property="VerticalContentAlignment" Value="{theme:StandardAlignmentVertical}" />
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
+    <!-- Focus is the tab's own inset border: an outside ring is cut by the strip and page clips -->
+    <Setter Property="FocusAdorner" Value="{x:Null}" />
+    <Setter Property="IndicatorTemplate">
+      <DataTemplate>
+        <!-- Underline filling the pipe slot: the accent's selection indicator, the placement styles set its extent -->
+        <Border Background="{color:AccentInkDefault}"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch" />
+      </DataTemplate>
+    </Setter>
+    <Setter Property="Template">
+      <ControlTemplate>
+        <!-- Outer frame around the tab; the item's padding rides on the header so the pipe can span the whole face -->
+        <Border Name="PART_LayoutRoot"
+                Background="{TemplateBinding Background}"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}"
+                CornerRadius="{TemplateBinding CornerRadius}">
+          <!-- Layout root stacking the pipe under the header -->
+          <Panel>
+            <!-- The face's padding rides on the header, so the pipe can span the whole tab face -->
+            <Border Padding="{TemplateBinding Padding}">
+              <StackPanel Name="PART_HeaderPanel"
+                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
+                <ContentPresenter Name="PART_IconPresenter"
+                                  Content="{TemplateBinding Icon}"
+                                  ContentTemplate="{TemplateBinding IconTemplate}"
+                                  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                  IsVisible="{TemplateBinding Icon, Converter={x:Static ObjectConverters.IsNotNull}}" />
+                <ContentPresenter Name="PART_ContentPresenter"
+                                  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                  HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                  Content="{TemplateBinding Header}"
+                                  ContentTemplate="{TemplateBinding HeaderTemplate}"
+                                  FontFamily="{TemplateBinding FontFamily}"
+                                  FontWeight="{TemplateBinding FontWeight}" />
+              </StackPanel>
+            </Border>
+            <!-- Bar marking the selected tab: spans the whole tab face, hugging the page-side edge -->
+            <ContentPresenter Name="PART_SelectedPipe"
+                              VerticalAlignment="Bottom"
+                              HorizontalAlignment="Stretch"
+                              HorizontalContentAlignment="Stretch"
+                              VerticalContentAlignment="Stretch"
+                              Content="{TemplateBinding DataContext}"
+                              ContentTemplate="{TemplateBinding IndicatorTemplate}"
+                              IsVisible="False" />
+          </Panel>
+        </Border>
+      </ControlTemplate>
+    </Setter>
+
+    <!-- Selected state: semibold label over the hue's underline -->
+    <Style Selector="^:selected">
+      <Setter Property="FontWeight" Value="{theme:FontWeightSemiBold}" />
+    </Style>
+    <Style Selector="^:selected /template/ ContentPresenter#PART_SelectedPipe">
+      <Setter Property="IsVisible" Value="True" />
+    </Style>
+
+    <!-- Placement: the underline sits on the divider, the rounded corners face away from the page. -->
+    <Style Selector="^[TabStripPlacement=Top] /template/ ContentPresenter#PART_SelectedPipe">
+      <!-- Theme Exception: pipe hugs the bottom edge when the strip is on top. -->
+      <Setter Property="VerticalAlignment" Value="Bottom" />
+      <Setter Property="Height" Value="{size:SpacingSm}" />
+    </Style>
+    <Style Selector="^[TabStripPlacement=Bottom]">
+      <!-- The line runs along the top edge here, so the top pair is square and the bottom pair curves -->
+      <Setter Property="CornerRadius" Value="{size:Corners Radius={size:RadiusSm}, Bottom=True}" />
+    </Style>
+    <Style Selector="^[TabStripPlacement=Bottom] /template/ ContentPresenter#PART_SelectedPipe">
+      <!-- Theme Exception: pipe hugs the top edge when the strip is on the bottom. -->
+      <Setter Property="VerticalAlignment" Value="Top" />
+      <Setter Property="Height" Value="{size:SpacingSm}" />
+    </Style>
+    <Style Selector="^[TabStripPlacement=Right]">
+      <Setter Property="CornerRadius" Value="{size:Corners Radius={size:RadiusSm}, Right=True}" />
+    </Style>
+    <Style Selector="^[TabStripPlacement=Right] /template/ ContentPresenter#PART_SelectedPipe">
+      <!-- Theme Exception: pipe hugs the left edge, the page side when the strip is on the right. -->
+      <Setter Property="HorizontalAlignment" Value="Left" />
+      <Setter Property="Width" Value="{size:SpacingSm}" />
+    </Style>
+    <Style Selector="^[TabStripPlacement=Left]">
+      <Setter Property="CornerRadius" Value="{size:Corners Radius={size:RadiusSm}, Left=True}" />
+    </Style>
+    <Style Selector="^[TabStripPlacement=Left] /template/ ContentPresenter#PART_SelectedPipe">
+      <!-- Theme Exception: pipe hugs the right edge, the page side when the strip is on the left. -->
+      <Setter Property="HorizontalAlignment" Value="Right" />
+      <Setter Property="Width" Value="{size:SpacingSm}" />
+    </Style>
+
+    <Style Selector="^:pointerover">
+      <Setter Property="Background" Value="{color:HoverBackgroundDefault}" />
+      <Setter Property="TextElement.Foreground" Value="{color:HoverTextDefault}" />
+    </Style>
+
+    <Style Selector="^:pressed">
+      <Setter Property="Background" Value="{color:PressedBackgroundDefault}" />
+    </Style>
+
+    <Style Selector="^:disabled">
+      <Setter Property="Opacity" Value="{size:DisabledOpacity}" />
+    </Style>
+
+    <!-- Selected state: the selected row's tint. -->
+    <Style Selector="^:selected">
+      <Setter Property="Background" Value="{color:SelectedBackgroundDefault}" />
+    </Style>
+
+    <!-- Focus visible -->
+    <Style Selector="^:focus-visible /template/ Border#PART_LayoutRoot">
+      <Setter Property="BorderBrush" Value="{color:AccentFocusBorderBrush}" />
+      <!-- The focus weight equals the tab's resting weight (0), so focusing a tab never resizes it -->
+      <Setter Property="BorderThickness" Value="0" />
+    </Style>
+
+    <Style Selector="^ /template/ StackPanel#PART_HeaderPanel">
+      <Setter Property="Spacing" Value="{size:SpacingMd}" />
+    </Style>
+    <Style Selector="^ /template/ ContentPresenter#PART_IconPresenter">
+      <Setter Property="Width" Value="{size:IconSizeMd}" />
+      <Setter Property="Height" Value="{size:IconSizeMd}" />
+    </Style>
+  </ControlTheme>
+
+  <ControlTheme x:Key="{x:Type TabbedPage}" TargetType="TabbedPage">
+    <Setter Property="Background" Value="{color:BackgroundDefault}" />
+    <Setter Property="Foreground" Value="{color:TextDefault}" />
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
+    <Setter Property="TabPlacement" Value="Top" />
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Panel Background="{TemplateBinding Background}">
+          <TabControl Name="PART_TabControl"
+                      Theme="{StaticResource TabbedPageTabControlTheme}"
+                      ItemContainerTheme="{StaticResource TabbedPageTabItemTheme}"
+                      HorizontalAlignment="Stretch"
+                      VerticalAlignment="Stretch" />
+        </Panel>
+      </ControlTemplate>
+    </Setter>
+  </ControlTheme>
+</ResourceDictionary>

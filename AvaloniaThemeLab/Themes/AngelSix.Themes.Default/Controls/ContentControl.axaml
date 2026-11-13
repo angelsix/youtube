@@ -1,0 +1,77 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+                    xmlns:controls="using:AngelSix.ThemeEngine.Controls"
+                    xmlns:default="using:AngelSix.Themes.Default"
+                    xmlns:color="using:AngelSix.ThemeEngine.Colors"
+                    xmlns:size="using:AngelSix.ThemeEngine.Sizes">
+  <!-- Design preview: the frame is the ContentControl's own area (its Background/Border*), so the samples set those with tokens. -->
+  <DataTemplate x:Key="ContentControlPreview">
+    <StackPanel Spacing="{size:SpacingXl}" HorizontalAlignment="Left">
+      <!-- Framed sample: the frame is the host's own 320x120 area, painted by its Background/Border*. -->
+      <ContentControl Width="{size:SurfaceWidthMd}" Height="{size:Scaled 120}"
+                      Background="{color:BackgroundDefault}"
+                      BorderBrush="{color:BorderDefault}"
+                      BorderThickness="{size:ThicknessSm}"
+                      CornerRadius="{size:RadiusSm}"
+                      Padding="{size:Edges {size:SpacingLg}}"
+                      HorizontalContentAlignment="Center"
+                      VerticalContentAlignment="Center">
+        <TextBlock Text="With content" />
+      </ContentControl>
+      <!-- Framed sample on a hue: the frame's role tokens answer in the host's accent -->
+      <ContentControl Width="{size:SurfaceWidthMd}" Height="{size:Scaled 120}"
+                      theme:Accent.Kind="Warning"
+                      Background="{color:BackgroundDefault}"
+                      BorderBrush="{color:BorderDefault}"
+                      BorderThickness="{size:ThicknessSm}"
+                      CornerRadius="{size:RadiusSm}"
+                      Padding="{size:Edges {size:SpacingLg}}"
+                      HorizontalContentAlignment="Center"
+                      VerticalContentAlignment="Center">
+        <TextBlock Text="Framed · Warning" Foreground="{color:AccentInkDefault}" />
+      </ContentControl>
+      <!-- Empty sample: no Background set, so the host paints nothing. -->
+      <ContentControl Width="{size:SurfaceWidthMd}" Height="{size:Scaled 120}">
+        <TextBlock Text="&#160;" />
+      </ContentControl>
+    </StackPanel>
+  </DataTemplate>
+
+  <Design.PreviewWith>
+    <Border>
+      <Border.Styles>
+        <default:DefaultTheme />
+      </Border.Styles>
+
+      <controls:LightDarkPreview Title="ContentControl" ContentTemplate="{StaticResource ContentControlPreview}" />
+    </Border>
+  </Design.PreviewWith>
+
+  <!-- Carries the render-style clip and a frame-forwarding template. -->
+  <ControlTheme x:Key="{x:Type ContentControl}" TargetType="ContentControl">
+
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
+
+    <!-- Template: the frame is the control's own area -->
+    <Setter Property="Template">
+      <ControlTemplate>
+        <!-- The frame: painted only when an instance sets Background/Border* -->
+        <Border Background="{TemplateBinding Background}"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}"
+                CornerRadius="{TemplateBinding CornerRadius}"
+                Padding="{TemplateBinding Padding}">
+          <!-- The hosted content, aligned by the host's content alignment -->
+          <ContentPresenter Name="PART_ContentPresenter"
+                            Content="{TemplateBinding Content}"
+                            ContentTemplate="{TemplateBinding ContentTemplate}"
+                            Foreground="{TemplateBinding Foreground}"
+                            HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+        </Border>
+      </ControlTemplate>
+    </Setter>
+
+  </ControlTheme>
+</ResourceDictionary>

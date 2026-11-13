@@ -1,0 +1,297 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="using:AngelSix.ThemeEngine.Controls"
+                    xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+                    xmlns:color="using:AngelSix.ThemeEngine.Colors"
+                    xmlns:size="using:AngelSix.ThemeEngine.Sizes"
+                    xmlns:default="using:AngelSix.Themes.Default">
+  <!-- Design preview: the table as a user meets it, a header over rows that scroll beneath it. -->
+  <DataTemplate x:Key="TableViewPreview">
+    <StackPanel Spacing="{size:SpacingXl}" HorizontalAlignment="Left">
+      <TextBlock Text="Rows scroll under a fixed header" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
+      <!-- A short viewport over more rows than fit, one chosen; the header stays put while the rows scroll -->
+      <TableView Width="{size:SurfaceWidthLg}" Height="{size:Scaled 200}" SelectedIndex="1">
+        <TableView.Columns>
+          <TableViewColumn x:DataType="NativeMenuItem" Header="Command" Binding="{Binding Header}" Width="2*" />
+          <TableViewColumn x:DataType="NativeMenuItem" Header="Shortcut" Binding="{Binding Gesture}" Width="100" />
+          <TableViewColumn x:DataType="NativeMenuItem" Header="Does" Binding="{Binding ToolTip}" Width="3*" />
+        </TableView.Columns>
+        <NativeMenuItem Header="New" Gesture="Ctrl+N" ToolTip="Blank document" />
+        <NativeMenuItem Header="Open" Gesture="Ctrl+O" ToolTip="Open a file" />
+        <NativeMenuItem Header="Save" Gesture="Ctrl+S" ToolTip="Write to disk" />
+        <!-- A row the user cannot pick dims on its own -->
+        <TableViewRow IsEnabled="False">
+          <TableViewRow.DataContext>
+            <NativeMenuItem Header="Print" Gesture="Ctrl+P" ToolTip="No printer" />
+          </TableViewRow.DataContext>
+        </TableViewRow>
+        <NativeMenuItem Header="Find" Gesture="Ctrl+F" ToolTip="Find text" />
+        <NativeMenuItem Header="Replace" Gesture="Ctrl+H" ToolTip="Swap text" />
+        <NativeMenuItem Header="Undo" Gesture="Ctrl+Z" ToolTip="Undo a change" />
+        <NativeMenuItem Header="Redo" Gesture="Ctrl+Y" ToolTip="Redo a change" />
+      </TableView>
+      <TextBlock Text="Selection follows the hue" FontSize="{size:FontSizeSm}" theme:Accent.Kind="Success" Foreground="{color:AccentInkDefault}" />
+      <!-- The whole table in another hue: frame, hairlines and the chosen rows take it -->
+      <TableView Width="{size:SurfaceWidthLg}" SelectionMode="Multiple" theme:Accent.Kind="Success">
+        <TableView.Columns>
+          <TableViewColumn x:DataType="NativeMenuItem" Header="Command" Binding="{Binding Header}" Width="2*" />
+          <TableViewColumn x:DataType="NativeMenuItem" Header="Shortcut" Binding="{Binding Gesture}" Width="100" />
+          <TableViewColumn x:DataType="NativeMenuItem" Header="Does" Binding="{Binding ToolTip}" Width="3*" />
+        </TableView.Columns>
+        <TableViewRow IsSelected="True">
+          <TableViewRow.DataContext>
+            <NativeMenuItem Header="Cut" Gesture="Ctrl+X" ToolTip="Move selection" />
+          </TableViewRow.DataContext>
+        </TableViewRow>
+        <TableViewRow>
+          <TableViewRow.DataContext>
+            <NativeMenuItem Header="Copy" Gesture="Ctrl+C" ToolTip="Copy selection" />
+          </TableViewRow.DataContext>
+        </TableViewRow>
+        <TableViewRow IsSelected="True">
+          <TableViewRow.DataContext>
+            <NativeMenuItem Header="Paste" Gesture="Ctrl+V" ToolTip="Insert copy" />
+          </TableViewRow.DataContext>
+        </TableViewRow>
+      </TableView>
+      <TextBlock Text="Disabled" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
+      <!-- The whole table dims; its chosen row still reads as chosen -->
+      <TableView Width="{size:SurfaceWidthLg}" IsEnabled="False" SelectedIndex="0">
+        <TableView.Columns>
+          <TableViewColumn x:DataType="NativeMenuItem" Header="Command" Binding="{Binding Header}" Width="2*" />
+          <TableViewColumn x:DataType="NativeMenuItem" Header="Shortcut" Binding="{Binding Gesture}" Width="100" />
+          <TableViewColumn x:DataType="NativeMenuItem" Header="Does" Binding="{Binding ToolTip}" Width="3*" />
+        </TableView.Columns>
+        <NativeMenuItem Header="Close" Gesture="Ctrl+W" ToolTip="Close the document" />
+        <NativeMenuItem Header="Quit" Gesture="Ctrl+Q" ToolTip="Quit the app" />
+      </TableView>
+      <TextBlock Text="Left, centred and right columns" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
+      <!-- Each column places its cells' content; the last column draws no hairline against the frame -->
+      <TableView Width="{size:SurfaceWidthLg}">
+        <TableView.Columns>
+          <TableViewColumn x:DataType="NativeMenuItem" Header="Left" Binding="{Binding Header}" Width="*" />
+          <TableViewColumn x:DataType="NativeMenuItem" Header="Centre" Binding="{Binding Gesture}" Width="100" HorizontalContentAlignment="Center" />
+          <TableViewColumn x:DataType="NativeMenuItem" Header="Right" Binding="{Binding ToolTip}" Width="*" HorizontalContentAlignment="Right" />
+        </TableView.Columns>
+        <NativeMenuItem Header="Bold" Gesture="Ctrl+B" ToolTip="Heavier" />
+        <NativeMenuItem Header="Italic" Gesture="Ctrl+I" ToolTip="Slanted" />
+      </TableView>
+      <TextBlock Text="Text longer than its column" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
+      <!-- Fixed narrow columns: a long value ends in an ellipsis inside its own cell -->
+      <TableView Width="{size:SurfaceWidthLg}">
+        <TableView.Columns>
+          <TableViewColumn x:DataType="NativeMenuItem" Header="Command" Binding="{Binding Header}" Width="140" />
+          <TableViewColumn x:DataType="NativeMenuItem" Header="Does" Binding="{Binding ToolTip}" Width="*" />
+        </TableView.Columns>
+        <NativeMenuItem Header="Toggle full screen presentation mode" ToolTip="Hide every window edge and fill the display" />
+      </TableView>
+      <TextBlock Text="Row states" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
+      <TableView Width="{size:Scaled {size:SurfaceWidthLg}, 1.25}" SelectionMode="Multiple">
+        <TableView.Columns>
+          <TableViewColumn x:DataType="NativeMenuItem" Header="State" Binding="{Binding Header}" Width="2*" />
+          <TableViewColumn x:DataType="NativeMenuItem" Header="Key" Binding="{Binding Gesture}" Width="120" />
+          <TableViewColumn x:DataType="NativeMenuItem" Header="Note" Binding="{Binding ToolTip}" Width="2*" />
+        </TableView.Columns>
+        <!-- Rest: the row's plain state -->
+        <TableViewRow>
+          <TableViewRow.DataContext>
+            <NativeMenuItem Header="Default" Gesture="Ctrl+1" ToolTip="At rest" />
+          </TableViewRow.DataContext>
+        </TableViewRow>
+        <!-- Hover: the row's hover fill, pinned -->
+        <TableViewRow theme:Preview.State="Hover">
+          <TableViewRow.DataContext>
+            <NativeMenuItem Header="Hover" Gesture="Ctrl+2" ToolTip="Pointer over" />
+          </TableViewRow.DataContext>
+        </TableViewRow>
+        <!-- Pressed: the row's pressed fill, pinned -->
+        <TableViewRow theme:Preview.State="Pressed">
+          <TableViewRow.DataContext>
+            <NativeMenuItem Header="Pressed" Gesture="Ctrl+3" ToolTip="Button down" />
+          </TableViewRow.DataContext>
+        </TableViewRow>
+        <!-- Selected: the outlined column, a light fill stage of the row's own hue -->
+        <TableViewRow IsSelected="True">
+          <TableViewRow.DataContext>
+            <NativeMenuItem Header="Selected" Gesture="Ctrl+4" ToolTip="Chosen" />
+          </TableViewRow.DataContext>
+        </TableViewRow>
+        <!-- The same rule under another accent kind: the fill takes that hue -->
+        <TableViewRow IsSelected="True" theme:Accent.Kind="Warning">
+          <TableViewRow.DataContext>
+            <NativeMenuItem Header="Selected · Warning" Gesture="Ctrl+5" ToolTip="Chosen, in a hue" />
+          </TableViewRow.DataContext>
+        </TableViewRow>
+        <!-- Disabled: the whole row dims -->
+        <TableViewRow IsEnabled="False">
+          <TableViewRow.DataContext>
+            <NativeMenuItem Header="Disabled" Gesture="Ctrl+6" ToolTip="Unavailable" />
+          </TableViewRow.DataContext>
+        </TableViewRow>
+        <!-- Disabled beats selection, keeping the chosen fill under the dim -->
+        <TableViewRow IsEnabled="False" IsSelected="True">
+          <TableViewRow.DataContext>
+            <NativeMenuItem Header="Disabled + Selected" Gesture="Ctrl+7" ToolTip="Chosen, unavailable" />
+          </TableViewRow.DataContext>
+        </TableViewRow>
+      </TableView>
+      <TextBlock Text="Drag a column edge to resize" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
+      <!-- Resizable columns; the last one right-aligns its header with its numbers -->
+      <TableView Width="{size:SurfaceWidthLg}">
+        <TableView.Columns>
+          <TableViewColumn x:DataType="NativeMenuItem" Header="Command" Binding="{Binding Header}" Width="140" />
+          <TableViewColumn x:DataType="NativeMenuItem" Header="Shortcut" Binding="{Binding Gesture}" Width="*" />
+          <TableViewColumn x:DataType="NativeMenuItem" Header="Group" Binding="{Binding ToolTip}" Width="80" HorizontalContentAlignment="Right" />
+        </TableView.Columns>
+        <NativeMenuItem Header="Zoom in" Gesture="Ctrl+Add" ToolTip="View" />
+      </TableView>
+      <TextBlock Text="Resizing turned off" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
+      <!-- No grips: the header edges are plain hairlines -->
+      <TableView Width="{size:SurfaceWidthLg}" CanUserResizeColumns="False">
+        <TableView.Columns>
+          <TableViewColumn x:DataType="NativeMenuItem" Header="Command" Binding="{Binding Header}" Width="*" />
+          <TableViewColumn x:DataType="NativeMenuItem" Header="Shortcut" Binding="{Binding Gesture}" Width="120" />
+        </TableView.Columns>
+        <NativeMenuItem Header="Zoom out" Gesture="Ctrl+Subtract" />
+      </TableView>
+      <TextBlock Text="Headers follow the hue" FontSize="{size:FontSizeSm}" theme:Accent.Kind="Warning" Foreground="{color:AccentInkDefault}" />
+      <!-- The header text and its hairlines take the table's hue -->
+      <TableView Width="{size:SurfaceWidthLg}" theme:Accent.Kind="Warning">
+        <TableView.Columns>
+          <TableViewColumn x:DataType="NativeMenuItem" Header="Command" Binding="{Binding Header}" Width="*" />
+          <TableViewColumn x:DataType="NativeMenuItem" Header="Shortcut" Binding="{Binding Gesture}" Width="120" />
+        </TableView.Columns>
+        <NativeMenuItem Header="Delete" Gesture="Delete" />
+      </TableView>
+    </StackPanel>
+  </DataTemplate>
+
+  <Orientation x:Key="TableViewPreviewOrientation">Vertical</Orientation>
+
+  <Design.PreviewWith>
+    <Border>
+      <Border.Styles>
+        <default:DefaultTheme />
+      </Border.Styles>
+
+      <controls:LightDarkPreview Title="TableView" Orientation="Vertical" ContentTemplate="{StaticResource TableViewPreview}" />
+
+    </Border>
+  </Design.PreviewWith>
+
+  <ControlTheme x:Key="{x:Type TableView}" TargetType="TableView">
+
+    <!-- Visual defaults: the same outlined container as ListBox -->
+    <Setter Property="Background" Value="{color:BackgroundDefault}" />
+    <Setter Property="Foreground" Value="{color:TextDefault}" />
+    <Setter Property="BorderBrush" Value="{color:BorderDefault}" />
+    <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
+    <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
+    <Setter Property="Padding" Value="{size:Edges {size:SpacingMd}}" />
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
+    <!-- A cell too narrow for its text ends in an ellipsis rather than spilling into the next column -->
+    <Setter Property="TextBlock.TextTrimming" Value="{x:Static TextTrimming.CharacterEllipsis}" />
+
+    <!-- ScrollViewer options: fixed-width columns may run wider than the table, so both bars may show -->
+    <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
+    <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
+    <Setter Property="ScrollViewer.IsScrollChainingEnabled" Value="True" />
+    <Setter Property="ScrollViewer.IsScrollInertiaEnabled" Value="True" />
+
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Border Name="border"
+                ClipToBounds="{TemplateBinding ClipToBounds}"
+                Background="{TemplateBinding Background}"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}"
+                CornerRadius="{TemplateBinding CornerRadius}"
+                Padding="{TemplateBinding Padding}">
+          <!-- Scrolls the rows under the column headers. -->
+          <ScrollViewer Name="PART_ScrollViewer"
+                        Theme="{StaticResource DefaultTableViewScrollViewer}"
+                        CornerRadius="{size:ConcentricCorners Padding={TemplateBinding Padding}, All=True}"
+                        VerticalSnapPointsType="{TemplateBinding (ScrollViewer.VerticalSnapPointsType)}"
+                        HorizontalSnapPointsType="{TemplateBinding (ScrollViewer.HorizontalSnapPointsType)}"
+                        HorizontalScrollBarVisibility="{TemplateBinding (ScrollViewer.HorizontalScrollBarVisibility)}"
+                        VerticalScrollBarVisibility="{TemplateBinding (ScrollViewer.VerticalScrollBarVisibility)}"
+                        IsScrollChainingEnabled="{TemplateBinding (ScrollViewer.IsScrollChainingEnabled)}"
+                        IsScrollInertiaEnabled="{TemplateBinding (ScrollViewer.IsScrollInertiaEnabled)}"
+                        IsDeferredScrollingEnabled="{TemplateBinding (ScrollViewer.IsDeferredScrollingEnabled)}"
+                        BringIntoViewOnFocusChange="{TemplateBinding (ScrollViewer.BringIntoViewOnFocusChange)}">
+            <ItemsPresenter Name="PART_ItemsPresenter"
+                            ItemsPanel="{TemplateBinding ItemsPanel}" />
+          </ScrollViewer>
+        </Border>
+      </ControlTemplate>
+    </Setter>
+
+  </ControlTheme>
+
+  <ControlTheme x:Key="DefaultTableViewScrollViewer" TargetType="ScrollViewer" BasedOn="{StaticResource {x:Type ScrollViewer}}">
+
+    <!-- Template: the stock scroller with a header bar docked above the scrolled rows -->
+    <Setter Property="Template">
+      <ControlTemplate>
+        <!-- Layout root placing the bars beside the header and rows -->
+        <Grid ColumnDefinitions="*,Auto" RowDefinitions="*,Auto">
+          <!-- Header bar over the rows; shares their column so star widths match -->
+          <DockPanel Name="PART_ContentPanel">
+            <!-- The column headers' strip; clips headers scrolled sideways out of view -->
+            <Border Name="PART_HeaderBar" DockPanel.Dock="Top" ClipToBounds="True">
+              <!-- One header per column, following the rows' horizontal offset -->
+              <TableViewColumnHeadersPresenter />
+            </Border>
+            <!-- The scrolling rows; ScrollReveal marks the viewer 'scrolling' while they move. -->
+            <ScrollContentPresenter Name="PART_ContentPresenter"
+                                    controls:ScrollReveal.Apply="True"
+                                    Background="{TemplateBinding Background}"
+                                    CornerRadius="{size:Corners Radius={TemplateBinding CornerRadius}, Bottom=True}"
+                                    HorizontalSnapPointsType="{TemplateBinding HorizontalSnapPointsType}"
+                                    VerticalSnapPointsType="{TemplateBinding VerticalSnapPointsType}"
+                                    HorizontalSnapPointsAlignment="{TemplateBinding HorizontalSnapPointsAlignment}"
+                                    VerticalSnapPointsAlignment="{TemplateBinding VerticalSnapPointsAlignment}"
+                                    Padding="{TemplateBinding Padding}"
+                                    ScrollViewer.IsScrollInertiaEnabled="{TemplateBinding IsScrollInertiaEnabled}">
+              <ScrollContentPresenter.GestureRecognizers>
+                <ScrollGestureRecognizer CanHorizontallyScroll="{Binding CanHorizontallyScroll, ElementName=PART_ContentPresenter}"
+                                         CanVerticallyScroll="{Binding CanVerticallyScroll, ElementName=PART_ContentPresenter}"
+                                         IsScrollInertiaEnabled="{Binding (ScrollViewer.IsScrollInertiaEnabled), ElementName=PART_ContentPresenter}"/>
+              </ScrollContentPresenter.GestureRecognizers>
+            </ScrollContentPresenter>
+          </DockPanel>
+          <ScrollBar Name="PART_HorizontalScrollBar"
+                     Orientation="Horizontal"
+                     AllowAutoHide="{TemplateBinding AllowAutoHide}"
+                     Grid.Row="1"/>
+          <!-- The vertical scrollbar, beside the header and rows -->
+          <ScrollBar Name="PART_VerticalScrollBar"
+                     Orientation="Vertical"
+                     AllowAutoHide="{TemplateBinding AllowAutoHide}"
+                     Grid.Column="1"/>
+          <!-- Fills the corner where the two bars meet -->
+          <Panel x:Name="PART_ScrollBarsSeparator"
+                 Grid.Row="1"
+                 Grid.Column="1"
+                 Opacity="0" />
+        </Grid>
+      </ControlTemplate>
+    </Setter>
+
+    <!-- Header bar: a borderless surface ruled off from the rows by the accent hairline. -->
+    <Style Selector="^ /template/ Border#PART_HeaderBar">
+      <Setter Property="Background" Value="{color:SurfaceBorderless}" />
+      <Setter Property="BorderBrush" Value="{color:AccentDividerDefault}" />
+      <Setter Property="BorderThickness" Value="{size:Edges Bottom={size:ThicknessSmDouble}}" />
+      <Setter Property="Padding" Value="{size:Edges Horizontal={size:ThicknessSmDouble}}" />
+      <Setter Property="CornerRadius" Value="{size:ConcentricCorners Radius={size:RadiusSm}, Thickness={size:ThicknessSm}, Inset={size:Edges All={size:Scaled {size:SpacingMd}, 1.25}}, Top=True}" />
+    </Style>
+
+    <!-- Auto hide mode: the header and rows run under the bars -->
+    <Style Selector="^[AllowAutoHide=True] /template/ DockPanel#PART_ContentPanel">
+      <Setter Property="Grid.ColumnSpan" Value="2" />
+      <Setter Property="Grid.RowSpan" Value="2" />
+    </Style>
+
+  </ControlTheme>
+</ResourceDictionary>

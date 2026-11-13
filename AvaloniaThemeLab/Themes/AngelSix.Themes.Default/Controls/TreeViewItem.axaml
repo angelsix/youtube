@@ -1,0 +1,164 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+                    xmlns:color="using:AngelSix.ThemeEngine.Colors"
+                    xmlns:size="using:AngelSix.ThemeEngine.Sizes"
+                    xmlns:icons="using:AngelSix.ThemeEngine.Icons">
+  <!-- The TreeViewItem theme lives on; its gallery entry does not. -->
+
+  <theme:PreviewShownIn x:Key="TreeViewItemPreviewShownIn"
+                        ShownIn="{x:Type TreeView}"
+                        Reason="A node is met inside the tree that holds it." />
+
+  <ControlTheme x:Key="DefaultTreeViewExpandCollapseChevron" TargetType="ToggleButton">
+    <!-- Face is 24 tall/wide (clears the 24px hit-target floor); the glyph itself stays IconSizeMd -->
+    <Setter Property="Margin" Value="0" />
+    <Setter Property="Width" Value="{size:Scaled {size:IconSizeMd}, 1.5}" />
+    <Setter Property="Height" Value="{size:Scaled {size:IconSizeMd}, 1.5}" />
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
+    <Setter Property="Template">
+      <ControlTemplate>
+        <!-- The chevron: a rounded 90-degree arrow, pointing right when collapsed and down when expanded. -->
+        <Border x:Name="ChevronRotator"
+                Background="Transparent"
+                Width="{size:Scaled {size:IconSizeMd}, 0.75}"
+                Height="{size:Scaled {size:IconSizeMd}, 0.75}"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                RenderTransformOrigin="50%,50%">
+          <Path x:Name="ChevronPath"
+                Fill="{TemplateBinding Foreground}"
+                Stretch="Uniform"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center" />
+        </Border>
+      </ControlTemplate>
+    </Setter>
+
+    <Style Selector="^ /template/ Path#ChevronPath">
+      <Setter Property="Data" Value="{icons:ExpandChevronDown}" />
+    </Style>
+
+    <!-- Collapsed: the arrow points right (the row's content is to the side). -->
+    <Style Selector="^ /template/ Border#ChevronRotator">
+      <Setter Property="RenderTransform">
+        <RotateTransform Angle="-90" />
+      </Setter>
+      <Setter Property="Transitions">
+        <Transitions>
+          <TransformOperationsTransition Property="RenderTransform" Duration="{theme:AnimationFastMs}" />
+        </Transitions>
+      </Setter>
+    </Style>
+
+    <!-- Expanded: the arrow points down (the row's content is below) -->
+    <Style Selector="^:checked /template/ Border#ChevronRotator">
+      <Setter Property="RenderTransform">
+        <RotateTransform Angle="0" />
+      </Setter>
+    </Style>
+  </ControlTheme>
+
+  <ControlTheme x:Key="{x:Type TreeViewItem}" TargetType="TreeViewItem">
+
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="Foreground" Value="{color:TextDefault}" />
+    <Setter Property="BorderBrush" Value="Transparent" />
+    <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
+    <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
+    <Setter Property="Padding" Value="{size:Edges {size:SpacingLg}}" />
+    <!-- A row fills its tree, and so does its content: the highlight and hit area span the row, not the label -->
+    <Setter Property="VerticalAlignment" Value="{theme:StandardAlignmentVertical}" />
+    <!-- Focus is the item's own inset border (below). -->
+    <Setter Property="FocusAdorner" Value="{x:Null}" />
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
+    <!-- HorizontalContentAlignment and VerticalContentAlignment not on TreeViewItem -->
+    <Setter Property="MinHeight" Value="{size:ControlHeightSm}" />
+
+    <Setter Property="Template">
+      <ControlTemplate>
+        <!-- Layout root stacking children under the item -->
+        <StackPanel>
+          <Border Name="PART_LayoutRoot"
+                  Focusable="True"
+                  Background="{TemplateBinding Background}"
+                  BorderBrush="{TemplateBinding BorderBrush}"
+                  BorderThickness="{TemplateBinding BorderThickness}"
+                  CornerRadius="{TemplateBinding CornerRadius}"
+                  MinHeight="{TemplateBinding MinHeight}"
+                  TemplatedControl.IsTemplateFocusTarget="True">
+            <!-- Places the chevron left of the item's label. -->
+            <Grid Name="PART_Header"
+                  ColumnDefinitions="Auto, *">
+              <Panel Name="PART_ExpandCollapseChevronContainer">
+                <ToggleButton Name="PART_ExpandCollapseChevron"
+                              Theme="{StaticResource DefaultTreeViewExpandCollapseChevron}"
+                              Focusable="False"
+                              IsChecked="{TemplateBinding IsExpanded, Mode=TwoWay}" />
+              </Panel>
+              <ContentPresenter Name="PART_HeaderPresenter"
+                                Grid.Column="1"
+                                Focusable="False"
+                                Background="Transparent"
+                                Content="{TemplateBinding Header}"
+                                ContentTemplate="{TemplateBinding HeaderTemplate}"
+                                HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                                VerticalAlignment="{TemplateBinding VerticalAlignment}"
+                                Margin="{size:Edges Right={size:SpacingLg}}" />
+            </Grid>
+          </Border>
+          <ItemsPresenter Name="PART_ItemsPresenter"
+                          IsVisible="{TemplateBinding IsExpanded}"
+                          Margin="{size:Edges Left={size:Scaled {size:IconSizeMd}, 2.375}}"
+                          ItemsPanel="{TemplateBinding ItemsPanel}" />
+        </StackPanel>
+      </ControlTemplate>
+    </Setter>
+
+    <Style Selector="^ /template/ Border#PART_LayoutRoot:pointerover, ^[(theme|Preview.State)=Hover] /template/ Border#PART_LayoutRoot">
+      <Setter Property="Background" Value="{color:HoverBackgroundDefault}" />
+      <Setter Property="BorderBrush" Value="Transparent" />
+    </Style>
+
+    <!-- Pressed state: a deeper stage than hover, as ButtonSpinner presses -->
+    <Style Selector="^:pressed /template/ Border#PART_LayoutRoot:pointerover, ^:pressed[(theme|Preview.State)=Pressed] /template/ Border#PART_LayoutRoot">
+      <Setter Property="Background" Value="{color:PressedBackgroundDefault}" />
+      <Setter Property="BorderBrush" Value="Transparent" />
+    </Style>
+
+    <!-- Disabled state: the whole row fades, selected or not, so a chosen-but-unavailable item still reads as chosen -->
+    <Style Selector="^:disabled">
+      <Setter Property="Opacity" Value="{size:DisabledOpacity}" />
+    </Style>
+
+    <Style Selector="^:selected /template/ Border#PART_LayoutRoot">
+      <Setter Property="Background" Value="{color:SelectedBackgroundDefault}" />
+      <Setter Property="BorderBrush" Value="Transparent" />
+    </Style>
+
+    <Style Selector="^:selected /template/ Border#PART_LayoutRoot:pointerover, ^:selected[(theme|Preview.State)=Hover] /template/ Border#PART_LayoutRoot">
+      <Setter Property="Background" Value="{color:SelectedBackgroundHover}" />
+      <Setter Property="BorderBrush" Value="Transparent" />
+    </Style>
+
+    <Style Selector="^:pressed:selected /template/ Border#PART_LayoutRoot:pointerover, ^:pressed:selected[(theme|Preview.State)=Pressed] /template/ Border#PART_LayoutRoot">
+      <Setter Property="Background" Value="{color:SelectedBackgroundPressed}" />
+      <Setter Property="BorderBrush" Value="Transparent" />
+    </Style>
+
+    <!-- The chevron cell reserves the leading column; a leaf keeps it so its label lines up with its parents'. -->
+    <Style Selector="^ /template/ Panel#PART_ExpandCollapseChevronContainer">
+      <Setter Property="Width" Value="{size:Scaled {size:IconSizeMd}, 2.375}" />
+      <Setter Property="Margin" Value="{size:Edges}" />
+    </Style>
+    <Style Selector="^:empty /template/ ToggleButton#PART_ExpandCollapseChevron">
+      <Setter Property="IsVisible" Value="False" />
+    </Style>
+
+    <!-- Focus state -->
+    <Style Selector="^:focus-visible /template/ Border#PART_LayoutRoot">
+      <Setter Property="BorderBrush" Value="{color:AccentFocusBorderBrush}" />
+      <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
+    </Style>
+  </ControlTheme>
+</ResourceDictionary>

@@ -1,0 +1,46 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+                    xmlns:color="using:AngelSix.ThemeEngine.Colors"
+                    xmlns:icons="using:AngelSix.ThemeEngine.Icons">
+  <!-- The RefreshVisualizer theme lives on; its gallery entry does not. -->
+
+  <theme:PreviewShownIn x:Key="RefreshVisualizerPreviewShownIn"
+                        ShownIn="{x:Type RefreshContainer}"
+                        Reason="The pull indicator is met inside the container that hosts it." />
+
+  <ControlTheme x:Key="{x:Type RefreshVisualizer}"
+                TargetType="RefreshVisualizer">
+    <Setter Property="IsTabStop" Value="False"/>
+    <Setter Property="IsHitTestVisible" Value="False"/>
+    <Setter Property="Background"
+            Value="Transparent"/>
+    <!-- Icon follows the control's accent hue; never a pinned seed. -->
+    <Setter Property="Foreground"
+            Value="{color:AccentLineDefault}"/>
+    <Setter Property="HorizontalAlignment" Value="Center" />
+    <Setter Property="VerticalAlignment" Value="{theme:StandardAlignmentVertical}" />
+    <Setter Property="HorizontalContentAlignment" Value="{theme:StandardAlignmentHorizontal}" />
+    <Setter Property="VerticalContentAlignment" Value="{theme:StandardAlignmentVertical}" />
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Grid Name="PART_Root"
+              Background="{TemplateBinding Background}">
+          <!-- The circular-arrow refresh glyph, centred and sized with the control -->
+          <PathIcon Name="PART_Icon"
+                    Data="{icons:Refresh}"
+                    Width="{TemplateBinding Width}"
+                    Height="{TemplateBinding Height}"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch">
+            <!-- The arrow's own rotation, about its centre. -->
+            <PathIcon.RenderTransform>
+              <RotateTransform />
+            </PathIcon.RenderTransform>
+          </PathIcon>
+        </Grid>
+      </ControlTemplate>
+    </Setter>
+  </ControlTheme>
+</ResourceDictionary>

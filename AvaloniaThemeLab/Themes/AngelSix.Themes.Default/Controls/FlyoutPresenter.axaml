@@ -1,0 +1,77 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+                    xmlns:color="using:AngelSix.ThemeEngine.Colors"
+                    xmlns:size="using:AngelSix.ThemeEngine.Sizes"
+                    xmlns:controls="using:AngelSix.ThemeEngine.Controls"
+                    xmlns:default="using:AngelSix.Themes.Default">
+  <!-- Design preview: the presenter panel holding a little flyout content. -->
+  <DataTemplate x:Key="FlyoutPresenterPreview">
+    <StackPanel Spacing="{size:SpacingXl}" HorizontalAlignment="Left">
+      <!-- One fixed width so the face reads at a realistic flyout size -->
+      <FlyoutPresenter Width="{size:Scaled 240}">
+        <!-- Consistent rhythm between the heading, body and button: SpacingXl, matching the outer preview panel -->
+        <StackPanel Spacing="{size:SpacingXl}">
+          <TextBlock Text="Flyout heading" FontWeight="{theme:FontWeightSemiBold}" />
+          <TextBlock Text="Body copy inside the flyout." />
+          <Button Content="Confirm" />
+        </StackPanel>
+      </FlyoutPresenter>
+    </StackPanel>
+  </DataTemplate>
+
+  <Design.PreviewWith>
+    <Border>
+      <Border.Styles>
+        <default:DefaultTheme />
+      </Border.Styles>
+
+      <controls:LightDarkPreview Title="FlyoutPresenter" ContentTemplate="{StaticResource FlyoutPresenterPreview}" />
+
+    </Border>
+  </Design.PreviewWith>
+
+  <ControlTheme x:Key="{x:Type FlyoutPresenter}" TargetType="FlyoutPresenter">
+    <Setter Property="HorizontalContentAlignment" Value="{theme:StandardAlignmentHorizontal}" />
+    <Setter Property="VerticalContentAlignment" Value="{theme:StandardAlignmentVertical}" />
+    <Setter Property="Background" Value="{color:BackgroundDefault}" />
+    <Setter Property="Foreground" Value="{color:TextDefault}" />
+    <Setter Property="BorderBrush" Value="{color:BorderDefault}" />
+    <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
+    <Setter Property="Padding" Value="{size:Edges {size:SpacingXxl}}" />
+    <Setter Property="MinWidth" Value="{size:Scaled 96}" />
+    <Setter Property="MaxWidth" Value="{size:Scaled 456}" />
+    <Setter Property="MinHeight" Value="{size:ControlHeightMd}" />
+    <Setter Property="MaxHeight" Value="{size:Scaled 758}" />
+    <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
+    <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
+    <Setter Property="CornerRadius" Value="{size:RadiusMd}" />
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Border Name="LayoutRoot"
+                Background="{TemplateBinding Background}"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}"
+                CornerRadius="{TemplateBinding CornerRadius}">
+          <ScrollViewer HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
+                        VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}">
+            <ContentPresenter x:Name="PART_ContentPresenter"
+                              Content="{TemplateBinding Content}"
+                              ContentTemplate="{TemplateBinding ContentTemplate}"
+                              Margin="{TemplateBinding Padding}"
+                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                              HorizontalContentAlignment="Stretch"
+                              VerticalContentAlignment="Stretch" />
+          </ScrollViewer>
+        </Border>
+      </ControlTemplate>
+    </Setter>
+
+    <!-- Scroller: no fill of its own. -->
+    <Style Selector="^ /template/ ScrollViewer">
+      <Setter Property="Background" Value="Transparent" />
+    </Style>
+  </ControlTheme>
+</ResourceDictionary>

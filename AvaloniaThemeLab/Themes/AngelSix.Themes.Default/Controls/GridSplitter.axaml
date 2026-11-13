@@ -1,0 +1,92 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+                    xmlns:color="using:AngelSix.ThemeEngine.Colors"
+                    xmlns:size="using:AngelSix.ThemeEngine.Sizes"
+                    xmlns:controls="using:AngelSix.ThemeEngine.Controls"
+                    xmlns:default="using:AngelSix.Themes.Default">
+  <DataTemplate x:Key="GridSplitterPreview">
+    <StackPanel Spacing="{size:SpacingXl}" HorizontalAlignment="Left">
+      <!-- Overall container: Button's frame radius, outline and surface -->
+      <Border Width="{size:Scaled 360}" Height="{size:Scaled 160}"
+              Background="{color:BackgroundDefault}"
+              BorderBrush="{color:BorderDefault}"
+              BorderThickness="{size:ThicknessSm}"
+              CornerRadius="{size:RadiusSm}">
+        <Grid ColumnDefinitions="*, Auto, *">
+          <!-- Left pane: Button's rest surface, no outline of its own (the container's single outline frames both panes). -->
+          <Border Grid.Column="0"
+                  Background="{color:BackgroundDefault}"
+                  CornerRadius="{size:ConcentricCorners Radius={size:RadiusSm}, Thickness={size:ThicknessSm}, Left=True}">
+            <TextBlock Text="Left pane"
+                       Foreground="{color:TextDefault}"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center" />
+          </Border>
+          <GridSplitter Grid.Column="1" ResizeBehavior="PreviousAndNext" />
+          <!-- Right pane: Button's rest surface, no outline of its own. -->
+          <Border Grid.Column="2"
+                  Background="{color:BackgroundDefault}"
+                  CornerRadius="{size:ConcentricCorners Radius={size:RadiusSm}, Thickness={size:ThicknessSm}, Right=True}">
+            <TextBlock Text="Right pane"
+                       Foreground="{color:TextDefault}"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center" />
+          </Border>
+        </Grid>
+      </Border>
+    </StackPanel>
+  </DataTemplate>
+
+  <Design.PreviewWith>
+    <Border>
+      <Border.Styles>
+        <default:DefaultTheme />
+      </Border.Styles>
+
+      <controls:LightDarkPreview Title="GridSplitter" ContentTemplate="{StaticResource GridSplitterPreview}" />
+
+    </Border>
+  </Design.PreviewWith>
+
+  <ControlTheme x:Key="{x:Type GridSplitter}" TargetType="GridSplitter">
+    <Setter Property="Focusable" Value="True" />
+    <Setter Property="MinWidth" Value="{size:ThicknessXxlDouble}" />
+    <Setter Property="MinHeight" Value="{size:ThicknessXxlDouble}" />
+    <!-- Filled grip: a solid bar that stands out from the panes it divides. -->
+    <Setter Property="Background" Value="{color:SolidFillDefaultBrush}" />
+    <Setter Property="Foreground" Value="{color:TextDefault}" />
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
+
+    <!-- Template: the bar the user grabs to resize the neighbouring panes -->
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Border Name="PART_Grip"
+                Background="{TemplateBinding Background}"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}"
+                CornerRadius="{TemplateBinding CornerRadius}" />
+      </ControlTemplate>
+    </Setter>
+
+    <!-- Hover state: the grip deepens so it reads as grabbable -->
+    <Style Selector="^:pointerover:not(:disabled)">
+      <Setter Property="Background" Value="{color:SolidFillHoverBrush}" />
+    </Style>
+
+    <!-- Pressed state: deepest while the pointer holds it -->
+    <Style Selector="^:pressed">
+      <Setter Property="Background" Value="{color:SolidFillPressedBrush}" />
+    </Style>
+
+    <Style Selector="^:disabled">
+      <Setter Property="Opacity" Value="{size:DisabledOpacity}" />
+    </Style>
+
+    <!-- Focus state -->
+    <Style Selector="^:focus-visible">
+      <Setter Property="BorderBrush" Value="{color:AccentFocusBorderBrush}" />
+      <Setter Property="BorderThickness" Value="0" />
+    </Style>
+  </ControlTheme>
+</ResourceDictionary>

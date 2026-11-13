@@ -1,0 +1,87 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+                    xmlns:size="using:AngelSix.ThemeEngine.Sizes"
+                    xmlns:controls="using:AngelSix.ThemeEngine.Controls"
+                    xmlns:default="using:AngelSix.Themes.Default"
+                    xmlns:icons="using:AngelSix.ThemeEngine.Icons"
+                    xmlns:color="using:AngelSix.ThemeEngine.Colors">
+  <DataTemplate x:Key="PathIconPreview">
+    <StackPanel Orientation="Vertical" Spacing="{size:SpacingXl}">
+      <!-- Sizes: the icon ladder Sm..Xl, each labelled, tops on one baseline so the scale reads as a scale. -->
+      <StackPanel Orientation="Horizontal" Spacing="{size:SpacingXxl}" TextElement.Foreground="{color:AccentInkDefault}">
+        <StackPanel Orientation="Vertical" Spacing="{size:SpacingSm}">
+          <TextBlock Text="Sm" HorizontalAlignment="Center" />
+          <PathIcon Data="{icons:Star}" Width="{size:IconSizeSm}" Height="{size:IconSizeSm}" HorizontalAlignment="Center" />
+        </StackPanel>
+        <StackPanel Orientation="Vertical" Spacing="{size:SpacingSm}">
+          <TextBlock Text="Md" HorizontalAlignment="Center" />
+          <PathIcon Data="{icons:Star}" Width="{size:IconSizeMd}" Height="{size:IconSizeMd}" HorizontalAlignment="Center" />
+        </StackPanel>
+        <StackPanel Orientation="Vertical" Spacing="{size:SpacingSm}">
+          <TextBlock Text="Lg" HorizontalAlignment="Center" />
+          <PathIcon Data="{icons:Star}" Width="{size:IconSizeLg}" Height="{size:IconSizeLg}" HorizontalAlignment="Center" />
+        </StackPanel>
+        <StackPanel Orientation="Vertical" Spacing="{size:SpacingSm}">
+          <TextBlock Text="Xl" HorizontalAlignment="Center" />
+          <PathIcon Data="{icons:Star}" Width="{size:IconSizeXl}" Height="{size:IconSizeXl}" HorizontalAlignment="Center" />
+        </StackPanel>
+      </StackPanel>
+      <!-- Default accent · Primary: an explicit Accent.Kind on the container proves a picked hue reaches the icon. -->
+      <StackPanel Orientation="Horizontal" Spacing="{size:SpacingXxl}">
+        <StackPanel Orientation="Vertical" Spacing="{size:SpacingSm}" theme:Accent.Kind="Primary" TextElement.Foreground="{color:AccentInkDefault}">
+          <TextBlock Text="Default accent · Primary" HorizontalAlignment="Center" />
+          <PathIcon Data="{icons:Star}" Width="{size:IconSizeMd}" Height="{size:IconSizeMd}" HorizontalAlignment="Center" />
+        </StackPanel>
+      </StackPanel>
+      <!-- Accents: the icon sets no Foreground; its container carries the hue and the ink, so the glyph follows it -->
+      <StackPanel Orientation="Horizontal" Spacing="{size:SpacingXxl}">
+        <StackPanel Orientation="Vertical" Spacing="{size:SpacingSm}" theme:Accent.Kind="Primary" TextElement.Foreground="{color:AccentInkDefault}">
+          <TextBlock Text="Primary" HorizontalAlignment="Center" />
+          <PathIcon Data="{icons:Star}" Width="{size:IconSizeMd}" Height="{size:IconSizeMd}" HorizontalAlignment="Center" />
+        </StackPanel>
+        <StackPanel Orientation="Vertical" Spacing="{size:SpacingSm}" theme:Accent.Kind="Warning" TextElement.Foreground="{color:AccentInkDefault}">
+          <TextBlock Text="Warning" HorizontalAlignment="Center" />
+          <PathIcon Data="{icons:Star}" Width="{size:IconSizeMd}" Height="{size:IconSizeMd}" HorizontalAlignment="Center" />
+        </StackPanel>
+        <StackPanel Orientation="Vertical" Spacing="{size:SpacingSm}" theme:Accent.Kind="Success" TextElement.Foreground="{color:AccentInkDefault}">
+          <TextBlock Text="Success" HorizontalAlignment="Center" />
+          <PathIcon Data="{icons:Star}" Width="{size:IconSizeMd}" Height="{size:IconSizeMd}" HorizontalAlignment="Center" />
+        </StackPanel>
+      </StackPanel>
+    </StackPanel>
+  </DataTemplate>
+
+  <Design.PreviewWith>
+    <Border>
+      <Border.Styles>
+        <default:DefaultTheme />
+      </Border.Styles>
+
+      <controls:LightDarkPreview Title="PathIcon" Orientation="Vertical" ContentTemplate="{StaticResource PathIconPreview}" />
+
+    </Border>
+  </Design.PreviewWith>
+
+  <ControlTheme x:Key="{x:Type PathIcon}" TargetType="PathIcon">
+
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="Height" Value="{size:IconSizeMd}" />
+    <Setter Property="Width" Value="{size:IconSizeMd}" />
+    <Setter Property="HorizontalAlignment" Value="{theme:StandardAlignmentHorizontal}" />
+    <Setter Property="VerticalAlignment" Value="{theme:StandardAlignmentVertical}" />
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
+
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Border Background="{TemplateBinding Background}">
+          <!-- Scales the glyph to the requested size -->
+          <Viewbox Height="{TemplateBinding Height}" Width="{TemplateBinding Width}">
+            <Path Fill="{TemplateBinding Foreground}" Data="{TemplateBinding Data}" Stretch="Uniform" />
+          </Viewbox>
+        </Border>
+      </ControlTemplate>
+    </Setter>
+
+  </ControlTheme>
+</ResourceDictionary>

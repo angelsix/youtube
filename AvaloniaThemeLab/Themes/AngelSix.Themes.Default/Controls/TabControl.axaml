@@ -1,0 +1,215 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+                    xmlns:color="using:AngelSix.ThemeEngine.Colors"
+                    xmlns:size="using:AngelSix.ThemeEngine.Sizes"
+                    xmlns:controls="using:AngelSix.ThemeEngine.Controls"
+                    xmlns:default="using:AngelSix.Themes.Default">
+  <!-- Design preview: every state and accent hue composed into one strip, plus Left/Right placements. -->
+  <DataTemplate x:Key="TabControlPreview">
+    <!-- The same gap between examples as TabStrip's preview, so each control stands clear of the next -->
+    <StackPanel Spacing="{size:SpacingLg}">
+      <!-- Item states folded in: every state the TabItem entry showed, pinned as tabs inside real TabControls. -->
+      <Label Content="States" Foreground="{color:DimTextDefault}" FontSize="{size:FontSizeMd}" />
+      <TabControl>
+        <TabItem Header="Home" IsSelected="True">
+          <!-- The open page: a filled card standing off the canvas, sized to the caption pages below. -->
+          <Border Background="{color:BackgroundDefault}"
+                  BorderBrush="{color:BorderDefault}"
+                  BorderThickness="{size:ThicknessSm}"
+                  CornerRadius="{size:RadiusSm}"
+                  MinHeight="{size:ControlHeightLg}">
+            <TextBlock Text="Selected page content" Foreground="{color:TextDefault}"
+                       FontSize="{size:FontSizeMd}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+          </Border>
+        </TabItem>
+        <TabItem Header="Rest">
+          <TextBlock Text="&#160;" MinHeight="{size:ControlHeightLg}" Foreground="{color:TextDefault}" />
+        </TabItem>
+        <TabItem Header="Hover" theme:Preview.State="Hover">
+          <TextBlock Text="&#160;" MinHeight="{size:ControlHeightLg}" Foreground="{color:TextDefault}" />
+        </TabItem>
+        <TabItem Header="Pressed" theme:Preview.State="Pressed">
+          <TextBlock Text="&#160;" MinHeight="{size:ControlHeightLg}" Foreground="{color:TextDefault}" />
+        </TabItem>
+      </TabControl>
+      <TabControl>
+        <TabItem Header="Selected" IsSelected="True">
+          <!-- Caption page at the same content height as the first example's card -->
+          <Border MinHeight="{size:ControlHeightLg}">
+            <TextBlock Text="This tab is selected" Foreground="{color:TextDefault}"
+                       HorizontalAlignment="Center" VerticalAlignment="Center" />
+          </Border>
+        </TabItem>
+        <TabItem Header="Focused" theme:Preview.State="Focused">
+          <TextBlock Text="&#160;" MinHeight="{size:ControlHeightLg}" Foreground="{color:TextDefault}" />
+        </TabItem>
+        <TabItem Header="Off" IsEnabled="False">
+          <TextBlock Text="&#160;" MinHeight="{size:ControlHeightLg}" Foreground="{color:TextDefault}" />
+        </TabItem>
+      </TabControl>
+
+      <!-- Selection variants: selected + hover, and the two accent-coloured selections; the bar follows Accent.Kind. -->
+      <Label Content="Selection variants" Foreground="{color:DimTextDefault}" FontSize="{size:FontSizeMd}" />
+      <WrapPanel Orientation="Horizontal" ItemSpacing="{size:SpacingLg}" LineSpacing="{size:SpacingLg}">
+        <TabControl Width="{size:Scaled 180}">
+          <TabItem Header="Closed">
+            <TextBlock Text="&#160;" MinHeight="{size:ControlHeightLg}" Foreground="{color:TextDefault}" />
+          </TabItem>
+          <TabItem Header="Open" IsSelected="True" theme:Preview.State="Hover">
+            <!-- Caption page at the same content height as the first example's card -->
+            <Border MinHeight="{size:ControlHeightLg}">
+              <TextBlock Text="Open is selected" Foreground="{color:TextDefault}"
+                         HorizontalAlignment="Center" VerticalAlignment="Center" />
+            </Border>
+          </TabItem>
+        </TabControl>
+        <TabControl Width="{size:Scaled 180}">
+          <TabItem Header="Plain">
+            <TextBlock Text="&#160;" MinHeight="{size:ControlHeightLg}" Foreground="{color:TextDefault}" />
+          </TabItem>
+          <TabItem Header="Warn" IsSelected="True" theme:Accent.Kind="Warning">
+            <!-- Caption page at the same content height as the first example's card -->
+            <Border MinHeight="{size:ControlHeightLg}">
+              <TextBlock Text="Warn is selected" Foreground="{color:TextDefault}"
+                         HorizontalAlignment="Center" VerticalAlignment="Center" />
+            </Border>
+          </TabItem>
+        </TabControl>
+        <TabControl Width="{size:Scaled 180}">
+          <TabItem Header="Plain">
+            <TextBlock Text="&#160;" MinHeight="{size:ControlHeightLg}" Foreground="{color:TextDefault}" />
+          </TabItem>
+          <TabItem Header="Ok" IsSelected="True" theme:Accent.Kind="Success">
+            <!-- Caption page at the same content height as the first example's card -->
+            <Border MinHeight="{size:ControlHeightLg}">
+              <TextBlock Text="Ok is selected" Foreground="{color:TextDefault}"
+                         HorizontalAlignment="Center" VerticalAlignment="Center" />
+            </Border>
+          </TabItem>
+        </TabControl>
+        <TabControl Width="{size:Scaled 180}" TabStripPlacement="Bottom">
+          <TabItem Header="Foot">
+            <TextBlock Text="&#160;" MinHeight="{size:ControlHeightLg}" Foreground="{color:TextDefault}" />
+          </TabItem>
+          <TabItem Header="Base" IsSelected="True">
+            <!-- Caption page at the same content height as the first example's card -->
+            <Border MinHeight="{size:ControlHeightLg}">
+              <TextBlock Text="Base is selected" Foreground="{color:TextDefault}"
+                         HorizontalAlignment="Center" VerticalAlignment="Center" />
+            </Border>
+          </TabItem>
+        </TabControl>
+      </WrapPanel>
+
+      <!-- Tabs down the left and down the right, stacked: each names the tab that is open. -->
+      <StackPanel Orientation="Vertical" Spacing="{size:SpacingLg}">
+        <Label Content="Tabs on the left and right" Foreground="{color:DimTextDefault}" FontSize="{size:FontSizeMd}" />
+        <!-- One above the other, each stretched to the pane's width. -->
+        <StackPanel Orientation="Vertical" Spacing="{size:SpacingLg}">
+          <TabControl TabStripPlacement="Left" HorizontalAlignment="Stretch" Height="{size:Scaled 90}">
+            <TabItem Header="First" IsSelected="True">
+              <TextBlock Text="First is open" Foreground="{color:TextDefault}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            </TabItem>
+            <TabItem Header="Second">
+              <TextBlock Text="Second is open" Foreground="{color:TextDefault}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            </TabItem>
+          </TabControl>
+          <TabControl TabStripPlacement="Right" HorizontalAlignment="Stretch" Height="{size:Scaled 90}">
+            <TabItem Header="Third" IsSelected="True">
+              <TextBlock Text="Third is open" Foreground="{color:TextDefault}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            </TabItem>
+            <TabItem Header="Fourth">
+              <TextBlock Text="Fourth is open" Foreground="{color:TextDefault}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            </TabItem>
+          </TabControl>
+        </StackPanel>
+      </StackPanel>
+    </StackPanel>
+  </DataTemplate>
+
+  <Design.PreviewWith>
+    <Border>
+      <Border.Styles>
+        <default:DefaultTheme />
+      </Border.Styles>
+
+      <controls:LightDarkPreview Title="TabControl" Orientation="Vertical" ContentTemplate="{StaticResource TabControlPreview}" />
+
+    </Border>
+  </Design.PreviewWith>
+
+  <ControlTheme x:Key="{x:Type TabControl}" TargetType="TabControl">
+
+    <Setter Property="Background" Value="{color:BackgroundDefault}" />
+    <Setter Property="Foreground" Value="{color:TextDefault}" />
+    <Setter Property="BorderBrush" Value="{color:BorderDefault}" />
+    <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
+    <!-- The container wraps the page alone, so the edge that meets the tab strip stays square (Top placement). -->
+    <Setter Property="CornerRadius" Value="{size:Corners Radius={size:RadiusSm}, Bottom=True}" />
+    <Setter Property="Padding" Value="{size:Edges {size:SpacingLg}}" />
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
+
+    <Setter Property="Template">
+      <ControlTemplate>
+        <!-- Docks the tab strip against the page container -->
+        <DockPanel HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                  VerticalAlignment="{TemplateBinding VerticalAlignment}">
+          <!-- The row of tabs, outside the container: the strip sits directly on the container's edge -->
+          <ItemsPresenter Name="PART_ItemsPresenter"
+                          ItemsPanel="{TemplateBinding ItemsPanel}"
+                          DockPanel.Dock="{TemplateBinding TabStripPlacement}" />
+          <!-- The page container: the border, its rounded corners and the content padding wrap the page alone -->
+          <Border Name="PART_ContentContainer"
+                  BorderBrush="{TemplateBinding BorderBrush}"
+                  BorderThickness="{TemplateBinding BorderThickness}"
+                  CornerRadius="{TemplateBinding CornerRadius}"
+                  Background="{TemplateBinding Background}"
+                  Padding="{TemplateBinding Padding}">
+            <Panel ClipToBounds="True">
+              <ContentPresenter Name="PART_SelectedContentHost2"
+                                HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                IsVisible="False" />
+              <ContentPresenter Name="PART_SelectedContentHost"
+                                HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+            </Panel>
+          </Border>
+        </DockPanel>
+      </ControlTemplate>
+    </Setter>
+
+    <!-- TabStripPlacement orientation: a side strip stacks its tabs down one column. -->
+    <Style Selector="^[TabStripPlacement=Left] /template/ ItemsPresenter#PART_ItemsPresenter > WrapPanel">
+      <Setter Property="Orientation" Value="Vertical" />
+    </Style>
+    <Style Selector="^[TabStripPlacement=Right] /template/ ItemsPresenter#PART_ItemsPresenter > WrapPanel">
+      <Setter Property="Orientation" Value="Vertical" />
+    </Style>
+
+    <!-- Container corners: the pair that meets the tab strip stays square, the far pair keeps the theme radius -->
+    <Style Selector="^[TabStripPlacement=Bottom]">
+      <Setter Property="CornerRadius" Value="{size:Corners Radius={size:RadiusSm}, Top=True}" />
+    </Style>
+    <Style Selector="^[TabStripPlacement=Left]">
+      <Setter Property="CornerRadius" Value="{size:Corners Radius={size:RadiusSm}, Right=True}" />
+    </Style>
+    <Style Selector="^[TabStripPlacement=Right]">
+      <Setter Property="CornerRadius" Value="{size:Corners Radius={size:RadiusSm}, Left=True}" />
+    </Style>
+
+    <Style Selector="^ /template/ ItemsPresenter#PART_ItemsPresenter">
+      <Setter Property="Margin" Value="{size:Edges Top={size:SpacingSm}}" />
+    </Style>
+    <Style Selector="^[TabStripPlacement=Bottom] /template/ ItemsPresenter#PART_ItemsPresenter">
+      <Setter Property="Margin" Value="{size:Edges Bottom={size:SpacingSm}}" />
+    </Style>
+    <Style Selector="^[TabStripPlacement=Left] /template/ ItemsPresenter#PART_ItemsPresenter">
+      <Setter Property="Margin" Value="{size:Edges Left={size:SpacingSm}}" />
+    </Style>
+    <Style Selector="^[TabStripPlacement=Right] /template/ ItemsPresenter#PART_ItemsPresenter">
+      <Setter Property="Margin" Value="{size:Edges Right={size:SpacingSm}}" />
+    </Style>
+  </ControlTheme>
+</ResourceDictionary>

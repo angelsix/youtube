@@ -1,0 +1,80 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+                    xmlns:color="using:AngelSix.ThemeEngine.Colors"
+                    xmlns:size="using:AngelSix.ThemeEngine.Sizes"
+                    xmlns:controls="using:AngelSix.ThemeEngine.Controls"
+                    xmlns:default="using:AngelSix.Themes.Default">
+  <!-- Design preview: inline-rendered with Opacity pinned to 1. -->
+  <DataTemplate x:Key="ToolTipPreview">
+    <StackPanel Spacing="{size:SpacingXxl}" HorizontalAlignment="Left">
+      <ToolTip Opacity="1">Short plain-text tip</ToolTip>
+      <ToolTip Opacity="1">Longer copy that exceeds the themed MaxWidth, so the bubble widens up to its cap and the text wraps rather than clips.</ToolTip>
+      <ToolTip Opacity="1">
+        <StackPanel Spacing="{size:SpacingMd}">
+          <TextBlock FontWeight="Bold">Templated content</TextBlock>
+          <TextBlock>A second line proving arbitrary child layout sits cleanly inside the same styled bubble.</TextBlock>
+        </StackPanel>
+      </ToolTip>
+    </StackPanel>
+  </DataTemplate>
+
+  <Design.PreviewWith>
+    <Border>
+      <Border.Styles>
+        <default:DefaultTheme />
+      </Border.Styles>
+
+      <controls:LightDarkPreview Title="ToolTip" Orientation="Horizontal" ContentTemplate="{StaticResource ToolTipPreview}" />
+
+    </Border>
+  </Design.PreviewWith>
+
+  <ControlTheme x:Key="{x:Type ToolTip}" TargetType="ToolTip">
+    <Setter Property="HorizontalAlignment" Value="{theme:StandardAlignmentHorizontal}" />
+    <Setter Property="VerticalAlignment" Value="{theme:StandardAlignmentVertical}" />
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
+
+    <Setter Property="FontSize" Value="{size:FontSizeSm}" />
+
+    <Setter Property="Background" Value="{color:BackgroundDefault}" />
+    <Setter Property="Foreground" Value="{color:TextDefault}" />
+    <Setter Property="BorderBrush" Value="{color:BorderDefault}" />
+    <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
+    <Setter Property="CornerRadius" Value="{size:RadiusMd}" />
+
+    <Setter Property="Padding" Value="{size:Edges {size:SpacingXl}, {size:SpacingLg}}" />
+    <Setter Property="HorizontalContentAlignment" Value="{theme:StandardAlignmentHorizontal}" />
+    <Setter Property="VerticalContentAlignment" Value="{theme:StandardAlignmentVertical}" />
+    <Setter Property="MaxWidth" Value="{size:SurfaceWidthMd}" />
+
+    <Setter Property="Opacity" Value="0" />
+    <Setter Property="Transitions">
+      <Transitions>
+        <DoubleTransition Property="Opacity" Duration="{theme:AnimationNormalMs}" />
+      </Transitions>
+    </Setter>
+
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Border Name="PART_LayoutRoot"
+                BorderThickness="{TemplateBinding BorderThickness}"
+                Background="{TemplateBinding Background}"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                Padding="{TemplateBinding Padding}"
+                CornerRadius="{TemplateBinding CornerRadius}">
+          <ContentPresenter Name="PART_ContentPresenter"
+                            MaxWidth="{TemplateBinding MaxWidth}"
+                            Content="{TemplateBinding Content}"
+                            ContentTemplate="{TemplateBinding ContentTemplate}"
+                            TextBlock.LetterSpacing="{TemplateBinding LetterSpacing}"
+                            TextBlock.TextWrapping="Wrap"/>
+        </Border>
+      </ControlTemplate>
+    </Setter>
+
+    <Style Selector="^:open">
+      <Setter Property="Opacity" Value="1" />
+    </Style>
+  </ControlTheme>
+</ResourceDictionary>

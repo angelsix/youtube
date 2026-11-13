@@ -1,0 +1,72 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+                    xmlns:color="using:AngelSix.ThemeEngine.Colors"
+                    xmlns:size="using:AngelSix.ThemeEngine.Sizes"
+                    xmlns:controls="using:AngelSix.ThemeEngine.Controls"
+                    xmlns:default="using:AngelSix.Themes.Default">
+  <!-- Design preview: scaffold only. -->
+  <DataTemplate x:Key="ContentPagePreview">
+    <Border Width="{size:Scaled 340}" Height="{size:Scaled 280}">
+      <ContentPage Header="Sample Page">
+        <TextBlock Text="Content goes here"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center" />
+      </ContentPage>
+    </Border>
+  </DataTemplate>
+
+  <Design.PreviewWith>
+    <Border>
+      <Border.Styles>
+        <default:DefaultTheme />
+      </Border.Styles>
+
+      <controls:LightDarkPreview Title="ContentPage" Orientation="Horizontal" ContentTemplate="{StaticResource ContentPagePreview}" />
+    </Border>
+  </Design.PreviewWith>
+
+  <ControlTheme x:Key="{x:Type ContentPage}" TargetType="ContentPage">
+
+    <!-- A page is a surface, not a stage. -->
+    <Setter Property="Background" Value="{color:BackgroundDefault}" />
+    <!-- The outline that makes a near-white surface legible against the canvas, the same role the content containers draw their frame with -->
+    <Setter Property="BorderBrush" Value="{color:BorderDefault}" />
+    <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
+    <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
+    <Setter Property="Foreground" Value="{color:TextDefault}" />
+    <!-- Content alignment lets the child decide (Stretch). -->
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
+
+    <Style Selector="^[IsInNavigationPage=True]">
+      <Setter Property="CornerRadius" Value="{size:Corners Radius={size:RadiusSm}, Bottom=True}" />
+    </Style>
+
+    <Setter Property="Template">
+      <ControlTemplate>
+        <!-- Layout root docking the bars around the content -->
+        <DockPanel>
+          <ContentPresenter Name="PART_TopCommandBar"
+                            DockPanel.Dock="Top"
+                            HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            IsVisible="False" />
+
+          <ContentPresenter Name="PART_BottomCommandBar"
+                            DockPanel.Dock="Bottom"
+                            HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            IsVisible="False" />
+
+          <ContentPresenter Name="PART_ContentPresenter"
+                            HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            Content="{TemplateBinding Content}"
+                            ContentTemplate="{TemplateBinding ContentTemplate}"
+                            CornerRadius="{TemplateBinding CornerRadius}" />
+        </DockPanel>
+      </ControlTemplate>
+    </Setter>
+  </ControlTheme>
+</ResourceDictionary>

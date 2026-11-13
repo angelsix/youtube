@@ -1,0 +1,215 @@
+{
+  "themexml": {
+    "scope": "xml,axaml,xaml",
+    "prefix": "themexml",
+    "description": "Theme engine XML namespaces, on a root element",
+    "body": [
+      "xmlns:theme=\"using:AngelSix.ThemeEngine.Generated\"",
+      "xmlns:color=\"using:AngelSix.ThemeEngine.Colors\"",
+      "xmlns:size=\"using:AngelSix.ThemeEngine.Sizes\"",
+      "xmlns:controls=\"using:AngelSix.ThemeEngine.Controls\"",
+      "xmlns:icons=\"using:AngelSix.ThemeEngine.Icons\"$0"
+    ]
+  },
+  "themecontrol": {
+    "scope": "xml,axaml,xaml",
+    "prefix": "themecontrol",
+    "description": "A control theme file: its preview, the designer preview and the ControlTheme (the preview needs AngelSix.ThemeEngine.Controls)",
+    "body": [
+      "<ResourceDictionary xmlns=\"https://github.com/avaloniaui\"",
+      "                    xmlns:x=\"http://schemas.microsoft.com/winfx/2006/xaml\"",
+      "                    xmlns:theme=\"using:AngelSix.ThemeEngine.Generated\"",
+      "                    xmlns:color=\"using:AngelSix.ThemeEngine.Colors\"",
+      "                    xmlns:size=\"using:AngelSix.ThemeEngine.Sizes\"",
+      "                    xmlns:controls=\"using:AngelSix.ThemeEngine.Controls\"",
+      "                    xmlns:icons=\"using:AngelSix.ThemeEngine.Icons\"",
+      "                    xmlns:local=\"using:${2:MyApp.Theme}\">",
+      "  <DataTemplate x:Key=\"${1:Button}Preview\">",
+      "    <StackPanel Spacing=\"{size:SpacingMd\\}\">",
+      "      <$1 />",
+      "      <$1 theme:Preview.State=\"Hover\" />",
+      "      <$1 theme:Preview.State=\"Pressed\" />",
+      "      <$1 IsEnabled=\"False\" />",
+      "    </StackPanel>",
+      "  </DataTemplate>",
+      "",
+      "  <Design.PreviewWith>",
+      "    <Border>",
+      "      <Border.Styles>",
+      "        <local:${3:MyTheme} />",
+      "      </Border.Styles>",
+      "      <controls:LightDarkPreview Title=\"$1\" ContentTemplate=\"{StaticResource $1Preview\\}\" />",
+      "    </Border>",
+      "  </Design.PreviewWith>",
+      "",
+      "  <ControlTheme x:Key=\"{x:Type $1\\}\" TargetType=\"$1\">",
+      "    <Setter Property=\"Background\" Value=\"{color:AccentBrush Light10\\}\" />",
+      "    <Setter Property=\"Foreground\" Value=\"{color:AccentBrush Dark9\\}\" />",
+      "    <Setter Property=\"BorderBrush\" Value=\"{color:AccentBrush Light1\\}\" />",
+      "    <Setter Property=\"Template\">",
+      "      <ControlTemplate>",
+      "        <Border Name=\"PART_Border\"",
+      "                Background=\"{TemplateBinding Background\\}\"",
+      "                BorderBrush=\"{TemplateBinding BorderBrush\\}\"",
+      "                BorderThickness=\"{TemplateBinding BorderThickness\\}\"",
+      "                CornerRadius=\"{TemplateBinding CornerRadius\\}\">",
+      "          $0",
+      "        </Border>",
+      "      </ControlTemplate>",
+      "    </Setter>",
+      "",
+      "    <Style Selector=\"^:pointerover /template/ Border#PART_Border\">",
+      "      <Setter Property=\"Background\" Value=\"{color:AccentBrush Light8\\}\" />",
+      "    </Style>",
+      "  </ControlTheme>",
+      "</ResourceDictionary>"
+    ]
+  },
+  "themepreview": {
+    "scope": "xml,axaml,xaml",
+    "prefix": "themepreview",
+    "description": "A control's preview: its {Name}Preview template and the designer preview that shows it (needs AngelSix.ThemeEngine.Controls)",
+    "body": [
+      "<DataTemplate x:Key=\"${1:Button}Preview\">",
+      "  <StackPanel Spacing=\"{size:SpacingMd\\}\">",
+      "    <$1 />$0",
+      "    <$1 theme:Preview.State=\"Hover\" />",
+      "    <$1 theme:Preview.State=\"Pressed\" />",
+      "    <$1 IsEnabled=\"False\" />",
+      "  </StackPanel>",
+      "</DataTemplate>",
+      "",
+      "<Design.PreviewWith>",
+      "  <Border>",
+      "    <Border.Styles>",
+      "      <${2:local:MyTheme} />",
+      "    </Border.Styles>",
+      "    <controls:LightDarkPreview Title=\"$1\" ContentTemplate=\"{StaticResource $1Preview\\}\" />",
+      "  </Border>",
+      "</Design.PreviewWith>"
+    ]
+  },
+  "themestate": {
+    "scope": "xml,axaml,xaml",
+    "prefix": "themestate",
+    "description": "A state style inside a ControlTheme: one template part takes another ramp stage",
+    "body": [
+      "<Style Selector=\"^:${1:pointerover} /template/ ${2:Border#PART_Border}\">",
+      "  <Setter Property=\"${3:Background}\" Value=\"{color:AccentBrush ${4:Light8}\\}\" />$0",
+      "</Style>"
+    ]
+  },
+  "themeclass": {
+    "scope": "csharp",
+    "prefix": "themeclass",
+    "description": "A theme: neutral, primary and surface hues, and the size ladders",
+    "body": [
+      "[Theme(FallbackHue = \"Neutral\")]",
+      "public partial class ${1:My}Theme : ThemeBase",
+      "{",
+      "    [AccentHue, ColorRamp(HueAware = true, DarkSeed = \"#D1D1D1\")]",
+      "    [Observable] public virtual partial Color AccentNeutral { get; set; \\} = Color.Parse(\"#2E2E2E\");",
+      "",
+      "    [AccentHue, ColorRamp(HueAware = true)]",
+      "    [Observable] public virtual partial Color AccentPrimary { get; set; \\} = Color.Parse(\"${2:#2F6FEB}\");",
+      "",
+      "    /// <summary>The application canvas.</summary>",
+      "    [AccentHue, ColorRamp(DarkSeed = \"#1E1E1E\")]",
+      "    [Observable] public virtual partial Color AccentSurface { get; set; \\} = Color.Parse(\"#FAFAFA\");",
+      "",
+      "    [SizeScale(Multipliers = [4, 8, 12, 16])]",
+      "    public virtual double Spacing => BaseSize;",
+      "",
+      "    [SizeScale(Multipliers = [4, 8], Types = [typeof(CornerRadius)], TypeSuffixes = [\"\"])]",
+      "    public virtual double Radius => BaseSize;",
+      "",
+      "    [SizeScale(Multipliers = [1, 2], Types = [typeof(Thickness)], TypeSuffixes = [\"\"], Floor = 1)]",
+      "    public virtual double Thickness => BaseSize;",
+      "",
+      "    [SizeScale(Multipliers = [12, 14, 20])]",
+      "    public virtual double FontSize => BaseSize;",
+      "$0",
+      "\\}"
+    ]
+  },
+  "themeaccent": {
+    "scope": "csharp",
+    "prefix": "themeaccent",
+    "description": "An accent hue: one seed colour that becomes a full light and dark ramp, picked with theme:Accent.Kind",
+    "body": [
+      "[AccentHue, ColorRamp(HueAware = true)]",
+      "[Observable] public virtual partial Color Accent${1:Primary} { get; set; \\} = Color.Parse(\"${2:#2F6FEB}\");$0"
+    ]
+  },
+  "themesurface": {
+    "scope": "csharp",
+    "prefix": "themesurface",
+    "description": "The canvas hue: its light seed and the seed its dark palette uses",
+    "body": [
+      "/// <summary>The application canvas.</summary>",
+      "[AccentHue, ColorRamp(DarkSeed = \"${2:#1E1E1E}\")]",
+      "[Observable] public virtual partial Color AccentSurface { get; set; \\} = Color.Parse(\"${1:#FAFAFA}\");$0"
+    ]
+  },
+  "themerole": {
+    "scope": "csharp",
+    "prefix": "themerole",
+    "description": "A role: the ramp stage one part uses, in whichever hue the control wears",
+    "body": [
+      "[AccentRole] internal virtual RampStage ${1:BackgroundDefault} => RampStage.${2:Light10};$0"
+    ]
+  },
+  "themeladder": {
+    "scope": "csharp",
+    "prefix": "themeladder",
+    "description": "A size ladder on BaseSize: {Name}Sm, {Name}Md… and a {Name}Scale to resize it alone",
+    "body": [
+      "[SizeScale(Multipliers = [${2:4, 8, 12, 16}], Scalable = true)]",
+      "public virtual double ${1:Spacing} => BaseSize;$0"
+    ]
+  },
+  "themetoken": {
+    "scope": "csharp",
+    "prefix": "themetoken",
+    "description": "A live token: change it at run time and every control follows",
+    "body": [
+      "[Observable] public virtual partial ${1:double} ${2:HoverScale} { get; set; \\} = ${3:1.05};$0"
+    ]
+  },
+  "themealign": {
+    "scope": "csharp",
+    "prefix": "themealign",
+    "description": "An alignment token: {Name}AlignmentHorizontal and {Name}AlignmentVertical in XAML",
+    "body": [
+      "[Observable] public virtual partial Alignment ${1:Standard}Alignment { get; set; \\} = new(HorizontalAlignment.${2:Left}, VerticalAlignment.${3:Center});$0"
+    ]
+  },
+  "themefont": {
+    "scope": "csharp",
+    "prefix": "themefont",
+    "description": "The theme's font, with a FontWeight token per weight",
+    "body": [
+      "[FontWeights(Weights = [FontWeight.Normal, FontWeight.Medium, FontWeight.SemiBold, FontWeight.Bold], Labels = [\"Regular\", \"Medium\", \"SemiBold\", \"Bold\"])]",
+      "[Observable] public virtual partial FontFamily FontFamily { get; set; \\} = new(\"${1:fonts:Inter#Inter}, \\$Default\");$0"
+    ]
+  },
+  "themegallery": {
+    "scope": "csharp",
+    "prefix": "themegallery",
+    "description": "An icon gallery: every .svg in the folder becomes an {icons:Name}",
+    "body": [
+      "[IconGallery(SvgFolder = \"${2:Icons/Svg}\")]",
+      "public partial class ${1:MyIcons}",
+      "{",
+      "\\}$0"
+    ]
+  },
+  "themeicons": {
+    "scope": "csharp",
+    "prefix": "themeicons",
+    "description": "Hands the theme's icon gallery to {icons:...}",
+    "body": [
+      "public override ${1:MyIcons} Icons => new();$0"
+    ]
+  }
+}

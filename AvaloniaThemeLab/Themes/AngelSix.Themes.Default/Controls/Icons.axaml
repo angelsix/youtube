@@ -1,0 +1,81 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="using:AngelSix.ThemeEngine.Controls"
+                    xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+                    xmlns:color="using:AngelSix.ThemeEngine.Colors"
+                    xmlns:size="using:AngelSix.ThemeEngine.Sizes"
+                    xmlns:default="using:AngelSix.Themes.Default">
+  <!-- Design preview: the whole set, one cell per icon the theme generates. -->
+  <Orientation x:Key="IconsPreviewOrientation">Vertical</Orientation>
+
+  <DataTemplate x:Key="IconsPreview">
+    <controls:Icons />
+  </DataTemplate>
+
+  <Design.PreviewWith>
+    <Border>
+      <Border.Styles>
+        <default:DefaultTheme />
+      </Border.Styles>
+
+      <controls:LightDarkPreview Title="Icons" ContentTemplate="{StaticResource IconsPreview}" />
+
+    </Border>
+  </Design.PreviewWith>
+
+  <!-- One cell of the gallery: the glyph at the everyday icon size, its name beneath it. -->
+  <DataTemplate x:Key="IconsCell" x:DataType="controls:IconEntry">
+    <StackPanel Orientation="Vertical" Spacing="{size:SpacingMd}">
+      <!-- The glyph itself, centred in the cell -->
+      <PathIcon Data="{Binding Geometry}"
+                Width="{size:IconSizeMd}"
+                Height="{size:IconSizeMd}"
+                HorizontalAlignment="Center" />
+      <!-- The icon's name, so a cell can be looked up -->
+      <TextBlock Text="{Binding Name}"
+                 FontSize="{size:FontSizeSm}"
+                 Foreground="{color:DimTextDefault}"
+                 TextAlignment="Center" />
+    </StackPanel>
+  </DataTemplate>
+
+  <ControlTheme x:Key="{x:Type controls:Icons}" TargetType="controls:Icons">
+
+    <Setter Property="Foreground" Value="{color:AccentInkDefault}" />
+    <Setter Property="Background" Value="{color:BackgroundDefault}" />
+    <Setter Property="BorderBrush" Value="{color:BorderDefault}" />
+    <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
+    <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
+    <Setter Property="Padding"
+            Value="{size:Edges Top={size:Scaled {size:SpacingXxl}, 1.5},
+                              Bottom={size:Scaled {size:SpacingXxl}, 1.5},
+                              Left={size:SpacingLg},
+                              Right={size:SpacingLg}}" />
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
+
+    <!-- One cell per icon: the cell template, and the wrapping grid the cells sit in -->
+    <Setter Property="ItemTemplate" Value="{StaticResource IconsCell}" />
+    <Setter Property="ItemsPanel">
+      <ItemsPanelTemplate>
+        <!-- Cells wrap onto a new row when the row is full. -->
+        <WrapPanel ItemSpacing="{size:SpacingMd}"
+                   LineSpacing="{size:Scaled {size:SpacingXxl}, 1.5}"
+                   ItemWidth="{size:Scaled {size:ControlMinWidth}, 2}" />
+      </ItemsPanelTemplate>
+    </Setter>
+
+    <Setter Property="Template">
+      <ControlTemplate>
+        <!-- The frame the icon cells sit in -->
+        <Border Background="{TemplateBinding Background}"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}"
+                CornerRadius="{TemplateBinding CornerRadius}"
+                Padding="{TemplateBinding Padding}">
+          <ItemsPresenter Name="PART_ItemsPresenter" ItemsPanel="{TemplateBinding ItemsPanel}" />
+        </Border>
+      </ControlTemplate>
+    </Setter>
+
+  </ControlTheme>
+</ResourceDictionary>

@@ -1,0 +1,104 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+                    xmlns:color="using:AngelSix.ThemeEngine.Colors"
+                    xmlns:size="using:AngelSix.ThemeEngine.Sizes">
+  <theme:PreviewExcluded x:Key="TextSelectionHandlePreviewExcluded"
+                         Reason="Selection grips appear only under touch input; Avalonia has no public way to show them under a mouse." />
+
+  <GeometryGroup x:Key="TextSelectionHandlePath">
+    <CombinedGeometry>
+      <CombinedGeometry.Geometry1>
+        <RectangleGeometry Rect="0,0,16,16"/>
+      </CombinedGeometry.Geometry1>
+      <CombinedGeometry.Geometry2>
+        <EllipseGeometry Center="16,16"
+                         RadiusX="16"
+                         RadiusY="16"/>
+      </CombinedGeometry.Geometry2>
+    </CombinedGeometry>
+  </GeometryGroup>
+
+  <GeometryGroup x:Key="TextCaretHandlePath">
+    <CombinedGeometry>
+      <CombinedGeometry.Geometry1>
+        <RectangleGeometry Rect="0,0,16,16">
+          <RectangleGeometry.Transform>
+            <TransformGroup >
+              <RotateTransform CenterX="16"
+                               Angle="-45"/>
+            </TransformGroup>
+          </RectangleGeometry.Transform>
+        </RectangleGeometry>
+      </CombinedGeometry.Geometry1>
+      <CombinedGeometry.Geometry2>
+        <EllipseGeometry Center="16,22.7"
+                         RadiusX="16"
+                         RadiusY="16"/>
+      </CombinedGeometry.Geometry2>
+    </CombinedGeometry>
+  </GeometryGroup>
+  <ControlTheme x:Key="{x:Type TextSelectionHandle}"
+                TargetType="TextSelectionHandle">
+    <!-- The grip fill: the same solid accent face as the TextBox selection, so handles and selection agree. -->
+    <Setter Property="Background"
+            Value="{color:SolidFillDefault}" />
+    <Setter Property="HorizontalAlignment"
+            Value="{theme:StandardAlignmentHorizontal}" />
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate>
+          <!-- Layout root stacking the grip over its hit area -->
+          <Grid>
+            <Border x:Name="PART_HitTarget" IsHitTestVisible="True" Background="Transparent">
+              <!-- The grip artwork, filled from the control's own Background so it follows the pane and accent -->
+              <Viewbox Name="PART_HandlePathIcon" Cursor="Arrow">
+                <Path x:Name="PART_GripArtwork"
+                      Data="{DynamicResource TextSelectionHandlePath}"
+                      Fill="{TemplateBinding Background}"
+                      Stroke="{TemplateBinding Background}"
+                      StrokeThickness="{size:Scaled {size:ThicknessSmDouble}, 0.5}"/>
+              </Viewbox>
+            </Border>
+            <!-- The line joining the grip to the caret -->
+            <Border Name="PART_Indicator"
+                    HorizontalAlignment="Center"
+                    Width="{size:ThicknessSmDouble}"
+                    VerticalAlignment="Top"
+                    Height="{size:Scaled {size:SpacingLg}, 0.625}"/>
+          </Grid>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+    <Style Selector="^:caret /template/ Path#PART_GripArtwork">
+      <Setter Property="Data" Value="{DynamicResource TextCaretHandlePath}" />
+    </Style>
+    <Style Selector="^:start /template/ Viewbox#PART_HandlePathIcon">
+      <Setter Property="RenderTransform">
+        <ScaleTransform ScaleX="-1" ScaleY="1"/>
+      </Setter>
+    </Style>
+    <!-- Theme Exception: caret/end/start indicators anchor centre/left/right. -->
+    <Style Selector="^:caret /template/ Border#PART_Indicator">
+      <Setter Property="HorizontalAlignment" Value="Center" />
+    </Style>
+    <Style Selector="^:end /template/ Border#PART_Indicator">
+      <Setter Property="HorizontalAlignment" Value="Left" />
+    </Style>
+    <Style Selector="^:start /template/ Border#PART_Indicator">
+      <Setter Property="HorizontalAlignment" Value="Right" />
+    </Style>
+
+    <Style Selector="^ /template/ Border#PART_HitTarget">
+      <Setter Property="Padding" Value="{size:Edges Bottom={size:SpacingXxl}}" />
+    </Style>
+    <Style Selector="^ /template/ Viewbox#PART_HandlePathIcon">
+      <Setter Property="Height" Value="{size:ControlHeightSm}" />
+    </Style>
+    <!-- The indicator line takes the control's own Background -->
+    <Style Selector="^ /template/ Border#PART_Indicator">
+      <Setter Property="Background" Value="{TemplateBinding Background}" />
+    </Style>
+  </ControlTheme>
+</ResourceDictionary>

@@ -1,0 +1,63 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+                    xmlns:color="using:AngelSix.ThemeEngine.Colors"
+                    xmlns:size="using:AngelSix.ThemeEngine.Sizes">
+  <!-- No design preview: a Window is a TopLevel that opens as its own OS surface. -->
+
+  <theme:PreviewExcluded x:Key="WindowPreviewExcluded"
+                         Reason="A window opens as its own OS surface." />
+
+  <ControlTheme x:Key="{x:Type Window}" TargetType="Window">
+    <!-- Canvas color: SurfaceDefault follows the palette -->
+    <Setter Property="Background" Value="{color:SurfaceDefaultBrush}"/>
+    <!-- The frame is drawn only by a dialog (below); a main window's edge is the OS's -->
+    <Setter Property="BorderBrush" Value="{color:BorderDefault}"/>
+    <Setter Property="BorderThickness" Value="{size:Edges}"/>
+    <Setter Property="TransparencyBackgroundFallback" Value="{color:SurfaceDefaultBrush}" />
+    <Setter Property="TopLevel.SystemBarColor" Value="{color:SurfaceDefaultBrush}"/>
+    <Setter Property="Foreground" Value="{color:AccentBrush Dark8}"/>
+    <Setter Property="FontSize" Value="{size:FontSizeMd}"/>
+    <Setter Property="FontFamily" Value="{theme:FontFamily}" />
+    <Setter Property="FontWeight" Value="{theme:FontWeightRegular}" />
+    <Setter Property="HorizontalAlignment" Value="{theme:StandardAlignmentHorizontal}" />
+    <Setter Property="VerticalAlignment" Value="{theme:StandardAlignmentVertical}" />
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
+    <!-- Content stretches to fill the client area -->
+    <Setter Property="Template">
+      <ControlTemplate>
+        <!-- Layout root stacking the surface behind the content -->
+        <Panel>
+          <!-- Opaque fill used when transparency is unavailable -->
+          <Border Name="PART_TransparencyFallback" IsHitTestVisible="False" />
+          <Border Background="{TemplateBinding Background}" IsHitTestVisible="False" />
+          <!-- Reserves space for the system title bar -->
+          <Panel Background="Transparent" Margin="{TemplateBinding WindowDecorationMargin}" />
+          <!-- Hosts overlays such as tooltips and adorners -->
+          <VisualLayerManager Name="PART_VisualLayerManager">
+            <ContentPresenter Name="PART_ContentPresenter"
+                              ContentTemplate="{TemplateBinding ContentTemplate}"
+                              Content="{TemplateBinding Content}"
+                              Margin="{TemplateBinding Padding}"
+                              HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                              VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
+          </VisualLayerManager>
+          <!-- The window's own frame, drawn over its content -->
+          <Border Name="PART_WindowFrame"
+                  BorderBrush="{TemplateBinding BorderBrush}"
+                  BorderThickness="{TemplateBinding BorderThickness}"
+                  IsHitTestVisible="False" />
+        </Panel>
+      </ControlTemplate>
+    </Setter>
+
+    <!-- Dialog class: a window shown over another reads as a surface, not the canvas. -->
+    <Style Selector="^.dialog">
+      <Setter Property="Background" Value="{color:BackgroundDefault}"/>
+      <!-- The frame is drawn on Windows only. -->
+      <Setter Property="BorderThickness">
+        <OnPlatform Default="{size:Edges}" Windows="{size:ThicknessSm}" />
+      </Setter>
+    </Style>
+  </ControlTheme>
+</ResourceDictionary>

@@ -1,0 +1,693 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="using:System"
+                    xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+                    xmlns:color="using:AngelSix.ThemeEngine.Colors"
+                    xmlns:size="using:AngelSix.ThemeEngine.Sizes"
+                    xmlns:controls="using:AngelSix.ThemeEngine.Controls"
+                    xmlns:default="using:AngelSix.Themes.Default">
+  <!-- Design preview: states driven by the real DPs the theme consumes (placement/display/open/light-dismiss), not Preview.State. -->
+  <DataTemplate x:Key="SplitViewPreview">
+    <!-- StackPanel has no Padding property in Avalonia 12; spacing alone separates the cases -->
+    <StackPanel Orientation="Vertical" Spacing="{size:SpacingXl}">
+
+      <!-- Canonical left drawer: reserved column, open width pushing content aside -->
+      <StackPanel Orientation="Vertical" Spacing="{size:SpacingMd}">
+        <TextBlock Text="Left · Inline · Open" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
+        <SplitView Height="{size:Scaled 96}" Width="{size:Scaled 360}" PanePlacement="Left" DisplayMode="Inline" IsPaneOpen="True"
+                   OpenPaneLength="{size:Scaled 96}" CompactPaneLength="{size:Scaled 40}">
+          <SplitView.Pane>
+            <!-- Nav entries start at the top of the strip, inset by the standard content padding -->
+            <TextBlock Text="NAV" FontWeight="{theme:FontWeightSemiBold}" FontSize="{size:FontSizeSm}"
+                       Margin="{size:Edges {size:SpacingLg}}"
+                       HorizontalAlignment="Left" VerticalAlignment="Top" />
+          </SplitView.Pane>
+          <SplitView.Content>
+            <TextBlock Text="Main content" FontSize="{size:FontSizeMd}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+          </SplitView.Content>
+        </SplitView>
+      </StackPanel>
+
+      <!-- Overlay floats the pane over full-width content. -->
+      <StackPanel Orientation="Vertical" Spacing="{size:SpacingMd}">
+        <TextBlock Text="Left · Overlay · Open · LightDismiss" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
+        <SplitView Height="{size:Scaled 96}" Width="{size:Scaled 360}" PanePlacement="Left" DisplayMode="Overlay" IsPaneOpen="True"
+                   UseLightDismissOverlayMode="True"
+                   OpenPaneLength="{size:Scaled 96}" CompactPaneLength="{size:Scaled 40}">
+          <SplitView.Pane>
+            <!-- Nav entries start at the top of the strip, inset by the standard content padding -->
+            <TextBlock Text="NAV" FontWeight="{theme:FontWeightSemiBold}" FontSize="{size:FontSizeSm}"
+                       Margin="{size:Edges {size:SpacingLg}}"
+                       HorizontalAlignment="Left" VerticalAlignment="Top" />
+          </SplitView.Pane>
+          <SplitView.Content>
+            <TextBlock Text="Main content" FontSize="{size:FontSizeMd}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+          </SplitView.Content>
+        </SplitView>
+      </StackPanel>
+
+      <!-- Compact strip: the compact width holds while the content reclaims the rest of the column -->
+      <StackPanel Orientation="Vertical" Spacing="{size:SpacingMd}">
+        <TextBlock Text="Left · CompactInline · Open" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
+        <SplitView Height="{size:Scaled 96}" Width="{size:Scaled 360}" PanePlacement="Left" DisplayMode="CompactInline" IsPaneOpen="True"
+                   OpenPaneLength="{size:Scaled 96}" CompactPaneLength="{size:Scaled 40}">
+          <SplitView.Pane>
+            <!-- Nav entries start at the top of the strip, inset by the standard content padding -->
+            <TextBlock Text="NAV" FontWeight="{theme:FontWeightSemiBold}" FontSize="{size:FontSizeSm}"
+                       Margin="{size:Edges {size:SpacingLg}}"
+                       HorizontalAlignment="Left" VerticalAlignment="Top" />
+          </SplitView.Pane>
+          <SplitView.Content>
+            <TextBlock Text="Main content" FontSize="{size:FontSizeMd}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+          </SplitView.Content>
+        </SplitView>
+      </StackPanel>
+
+      <StackPanel Orientation="Vertical" Spacing="{size:SpacingMd}">
+        <TextBlock Text="Right · Inline · Open" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
+        <SplitView Height="{size:Scaled 96}" Width="{size:Scaled 360}" PanePlacement="Right" DisplayMode="Inline" IsPaneOpen="True"
+                   OpenPaneLength="{size:Scaled 96}" CompactPaneLength="{size:Scaled 40}">
+          <SplitView.Pane>
+            <!-- Nav entries start at the top of the strip, inset by the standard content padding -->
+            <TextBlock Text="NAV" FontWeight="{theme:FontWeightSemiBold}" FontSize="{size:FontSizeSm}"
+                       Margin="{size:Edges {size:SpacingLg}}"
+                       HorizontalAlignment="Right" VerticalAlignment="Top" />
+          </SplitView.Pane>
+          <SplitView.Content>
+            <TextBlock Text="Main content" FontSize="{size:FontSizeMd}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+          </SplitView.Content>
+        </SplitView>
+      </StackPanel>
+
+      <!-- Top-edge template: horizontal bar reserving a row above content -->
+      <StackPanel Orientation="Vertical" Spacing="{size:SpacingMd}">
+        <TextBlock Text="Top · Inline · Open" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
+        <SplitView Height="{size:Scaled 96}" Width="{size:Scaled 360}" PanePlacement="Top" DisplayMode="Inline" IsPaneOpen="True"
+                   OpenPaneLength="{size:Scaled 48}" CompactPaneLength="{size:Scaled 40}">
+          <SplitView.Pane>
+            <!-- Nav entries start at the left of the bar, inset by the standard content padding -->
+            <TextBlock Text="NAV BAR" FontWeight="{theme:FontWeightSemiBold}" FontSize="{size:FontSizeSm}"
+                       Margin="{size:Edges {size:SpacingLg}}"
+                       HorizontalAlignment="Left" VerticalAlignment="Center" />
+          </SplitView.Pane>
+          <SplitView.Content>
+            <TextBlock Text="Main content" FontSize="{size:FontSizeMd}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+          </SplitView.Content>
+        </SplitView>
+      </StackPanel>
+
+      <!-- Bottom-edge template: horizontal bar reserving a row below content -->
+      <StackPanel Orientation="Vertical" Spacing="{size:SpacingMd}">
+        <TextBlock Text="Bottom · Inline · Open" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
+        <SplitView Height="{size:Scaled 96}" Width="{size:Scaled 360}" PanePlacement="Bottom" DisplayMode="Inline" IsPaneOpen="True"
+                   OpenPaneLength="{size:Scaled 48}" CompactPaneLength="{size:Scaled 40}">
+          <SplitView.Pane>
+            <!-- Nav entries start at the left of the bar, inset by the standard content padding -->
+            <TextBlock Text="NAV BAR" FontWeight="{theme:FontWeightSemiBold}" FontSize="{size:FontSizeSm}"
+                       Margin="{size:Edges {size:SpacingLg}}"
+                       HorizontalAlignment="Left" VerticalAlignment="Center" />
+          </SplitView.Pane>
+          <SplitView.Content>
+            <TextBlock Text="Main content" FontSize="{size:FontSizeMd}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+          </SplitView.Content>
+        </SplitView>
+      </StackPanel>
+
+    </StackPanel>
+  </DataTemplate>
+
+  <Design.PreviewWith>
+    <Border>
+      <Border.Styles>
+        <default:DefaultTheme />
+      </Border.Styles>
+
+      <controls:LightDarkPreview Title="SplitView" Orientation="Horizontal" ContentTemplate="{StaticResource SplitViewPreview}" />
+
+    </Border>
+  </Design.PreviewWith>
+
+  <sys:TimeSpan x:Key="SplitViewPaneAnimationOpenDuration">00:00:00.2</sys:TimeSpan>
+  <sys:TimeSpan x:Key="SplitViewPaneAnimationCloseDuration">00:00:00.1</sys:TimeSpan>
+  <Easing x:Key="SplitViewPaneAnimationEasing">0.1,0.9,0.2,1.0</Easing>
+
+  <ControlTheme x:Key="{x:Type SplitView}" TargetType="SplitView">
+    <Setter Property="OpenPaneLength" Value="{size:SurfaceWidthMd}" />
+    <!-- Pane lengths are content widths: they follow the base size, never the control height -->
+    <Setter Property="CompactPaneLength" Value="{size:Scaled 48}" />
+    <!-- Bordered container: the frame reads like every other boxed control -->
+    <Setter Property="Background" Value="{color:BackgroundDefault}" />
+    <Setter Property="BorderBrush" Value="{color:BorderDefault}" />
+    <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
+    <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
+    <Setter Property="Padding" Value="{size:Edges {size:SpacingLg}}" />
+    <!-- Borderless-surface role: the pane draws no border of its own, so it fills one stage deeper than the rest fill -->
+    <Setter Property="PaneBackground" Value="{color:SurfaceBorderless}" />
+    <Setter Property="Foreground" Value="{color:TextDefault}" />
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
+
+    <Style Selector="^:left">
+      <Setter Property="Template">
+        <ControlTemplate>
+          <!-- Framed container: the rounded outline every other boxed control draws -->
+          <Border Name="Frame"
+                  Background="{TemplateBinding Background}"
+                  BorderBrush="{TemplateBinding BorderBrush}"
+                  BorderThickness="{TemplateBinding BorderThickness}"
+                  CornerRadius="{TemplateBinding CornerRadius}">
+            <!-- Layout root: pane left, content right -->
+            <Grid Name="Container">
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.PaneColumnGridLength}" />
+                <ColumnDefinition Width="*" />
+              </Grid.ColumnDefinitions>
+
+              <!-- The sliding pane down the left edge; its surface follows the frame's curve -->
+              <Panel Name="PART_PaneRoot"
+                     ClipToBounds="True"
+                     HorizontalAlignment="Left"
+                     ZIndex="100">
+                <!-- The pane's raised surface, concentric with the frame's corners -->
+                <Border Name="PaneSurface"
+                        Background="{TemplateBinding PaneBackground}">
+                  <ContentPresenter x:Name="PART_PanePresenter"
+                                    Content="{TemplateBinding Pane}"
+                                    ContentTemplate="{TemplateBinding PaneTemplate}" />
+                </Border>
+                <!-- Hairline divider along the pane's inner edge -->
+                <Rectangle Name="InnerEdgeDivider"
+                           Fill="{color:BorderDefault}"
+                           Width="{size:ThicknessSmDouble}"
+                           HorizontalAlignment="Right" />
+                <!-- Edge line, visible only in high contrast -->
+                <Rectangle Name="HCPaneBorder"
+                           Fill="Transparent"
+                           Width="{size:ThicknessSmDouble}"
+                           HorizontalAlignment="Right"  />
+              </Panel>
+
+              <!-- Layout root stacking the dismiss layer over content -->
+              <Panel Name="ContentRoot" Grid.Column="1">
+                <!-- The main content beside the pane, inset by the standard content padding -->
+                <Border Name="ContentPaddingHost"
+                        Padding="{TemplateBinding Padding}">
+                  <ContentPresenter x:Name="PART_ContentPresenter"
+                                    Content="{TemplateBinding Content}"
+                                    ContentTemplate="{TemplateBinding ContentTemplate}" />
+                </Border>
+                <!-- Catches clicks to close an overlaying pane -->
+                <Rectangle Name="LightDismissLayer"
+                           Fill="Transparent"
+                           IsVisible="False"/>
+              </Panel>
+
+            </Grid>
+          </Border>
+        </ControlTemplate>
+      </Setter>
+
+      <Style Selector="^:overlay">
+        <Style Selector="^ /template/ Panel#PART_PaneRoot">
+          <Setter Property="Width" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.ClosedPaneWidth}" />
+          <Setter Property="Grid.ColumnSpan" Value="2"/>
+          <Setter Property="Grid.Column" Value="0"/>
+        </Style>
+        <Style Selector="^ /template/ Panel#ContentRoot">
+          <Setter Property="Grid.Column" Value="1"/>
+          <Setter Property="Grid.ColumnSpan" Value="2"/>
+        </Style>
+      </Style>
+
+      <Style Selector="^:compactinline">
+        <Style Selector="^ /template/ Panel#PART_PaneRoot">
+          <Setter Property="Grid.ColumnSpan" Value="1"/>
+          <Setter Property="Grid.Column" Value="0"/>
+          <Setter Property="Width" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.ClosedPaneWidth}" />
+        </Style>
+        <Style Selector="^ /template/ Panel#ContentRoot">
+          <Setter Property="Grid.Column" Value="1"/>
+          <Setter Property="Grid.ColumnSpan" Value="1"/>
+        </Style>
+      </Style>
+
+      <Style Selector="^:compactoverlay">
+        <Style Selector="^ /template/ Panel#PART_PaneRoot">
+          <Setter Property="Grid.ColumnSpan" Value="2"/>
+          <Setter Property="Grid.Column" Value="0"/>
+          <Setter Property="Width" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.ClosedPaneWidth}" />
+        </Style>
+        <Style Selector="^ /template/ Panel#ContentRoot">
+          <Setter Property="Grid.Column" Value="1"/>
+          <Setter Property="Grid.ColumnSpan" Value="1"/>
+        </Style>
+      </Style>
+
+      <Style Selector="^:inline">
+        <Style Selector="^ /template/ Panel#PART_PaneRoot">
+          <Setter Property="Grid.ColumnSpan" Value="1"/>
+          <Setter Property="Grid.Column" Value="0"/>
+          <Setter Property="Width" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.ClosedPaneWidth}" />
+        </Style>
+        <Style Selector="^ /template/ Panel#ContentRoot">
+          <Setter Property="Grid.Column" Value="1"/>
+          <Setter Property="Grid.ColumnSpan" Value="1"/>
+        </Style>
+      </Style>
+
+      <!-- The pane's surface rounds only the two corners it touches -->
+      <Style Selector="^ /template/ Border#PaneSurface">
+        <Setter Property="CornerRadius" Value="{size:ConcentricCorners Left=True}" />
+      </Style>
+    </Style>
+
+    <Style Selector="^:right">
+      <Setter Property="Template">
+        <ControlTemplate>
+          <!-- Framed container: the rounded outline every other boxed control draws -->
+          <Border Name="Frame"
+                  Background="{TemplateBinding Background}"
+                  BorderBrush="{TemplateBinding BorderBrush}"
+                  BorderThickness="{TemplateBinding BorderThickness}"
+                  CornerRadius="{TemplateBinding CornerRadius}">
+            <!-- Layout root: content left, pane right -->
+            <Grid Name="Container">
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.PaneColumnGridLength}" />
+              </Grid.ColumnDefinitions>
+
+              <!-- The sliding pane down the right edge; its surface follows the frame's curve -->
+              <Panel Name="PART_PaneRoot"
+                     ClipToBounds="True"
+                     HorizontalAlignment="Right"
+                     ZIndex="100">
+                <!-- The pane's raised surface, concentric with the frame's corners -->
+                <Border Name="PaneSurface"
+                        Background="{TemplateBinding PaneBackground}">
+                  <ContentPresenter x:Name="PART_PanePresenter"
+                                    Content="{TemplateBinding Pane}"
+                                    ContentTemplate="{TemplateBinding PaneTemplate}"/>
+                </Border>
+                <!-- Hairline divider along the pane's inner edge -->
+                <Rectangle Name="InnerEdgeDivider"
+                           Fill="{color:BorderDefault}"
+                           Width="{size:ThicknessSmDouble}"
+                           HorizontalAlignment="Left" />
+                <!-- Edge line, visible only in high contrast -->
+                <Rectangle Name="HCPaneBorder"
+                           Fill="Transparent"
+                           Width="{size:ThicknessSmDouble}" HorizontalAlignment="Left"  />
+              </Panel>
+
+              <!-- Layout root stacking the dismiss layer over content -->
+              <Panel Name="ContentRoot" Grid.Column="0">
+                <!-- The main content beside the pane, inset by the standard content padding -->
+                <Border Name="ContentPaddingHost"
+                        Padding="{TemplateBinding Padding}">
+                  <ContentPresenter x:Name="PART_ContentPresenter"
+                                    Content="{TemplateBinding Content}"
+                                    ContentTemplate="{TemplateBinding ContentTemplate}" />
+                </Border>
+                <!-- Catches clicks to close an overlaying pane -->
+                <Rectangle Name="LightDismissLayer" Fill="Transparent" IsVisible="False"/>
+              </Panel>
+
+            </Grid>
+          </Border>
+        </ControlTemplate>
+      </Setter>
+
+      <Style Selector="^:overlay">
+        <Style Selector="^ /template/ Panel#PART_PaneRoot">
+          <Setter Property="Width" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.ClosedPaneWidth}" />
+          <Setter Property="Grid.ColumnSpan" Value="2"/>
+          <Setter Property="Grid.Column" Value="1"/>
+        </Style>
+        <Style Selector="^ /template/ Panel#ContentRoot">
+          <Setter Property="Grid.Column" Value="0"/>
+          <Setter Property="Grid.ColumnSpan" Value="2"/>
+        </Style>
+      </Style>
+
+      <Style Selector="^:compactinline">
+        <Style Selector="^ /template/ Panel#PART_PaneRoot">
+          <Setter Property="Grid.ColumnSpan" Value="1"/>
+          <Setter Property="Grid.Column" Value="1"/>
+          <Setter Property="Width" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.ClosedPaneWidth}" />
+        </Style>
+        <Style Selector="^ /template/ Panel#ContentRoot">
+          <Setter Property="Grid.Column" Value="0"/>
+          <Setter Property="Grid.ColumnSpan" Value="1"/>
+        </Style>
+      </Style>
+
+      <Style Selector="^:compactoverlay">
+        <Style Selector="^ /template/ Panel#PART_PaneRoot">
+          <Setter Property="Grid.ColumnSpan" Value="2"/>
+          <Setter Property="Grid.Column" Value="1"/>
+          <Setter Property="Width" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.ClosedPaneWidth}" />
+        </Style>
+        <Style Selector="^ /template/ Panel#ContentRoot">
+          <Setter Property="Grid.Column" Value="0"/>
+          <Setter Property="Grid.ColumnSpan" Value="1"/>
+        </Style>
+      </Style>
+
+      <Style Selector="^:inline">
+        <Style Selector="^ /template/ Panel#PART_PaneRoot">
+          <Setter Property="Grid.ColumnSpan" Value="1"/>
+          <Setter Property="Grid.Column" Value="1"/>
+          <Setter Property="Width" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.ClosedPaneWidth}" />
+        </Style>
+        <Style Selector="^ /template/ Panel#ContentRoot">
+          <Setter Property="Grid.Column" Value="0"/>
+          <Setter Property="Grid.ColumnSpan" Value="1"/>
+        </Style>
+      </Style>
+
+      <!-- The pane's surface rounds only the two corners it touches -->
+      <Style Selector="^ /template/ Border#PaneSurface">
+        <Setter Property="CornerRadius" Value="{size:ConcentricCorners Right=True}" />
+      </Style>
+    </Style>
+
+    <Style Selector="^:top">
+      <Setter Property="Template">
+        <ControlTemplate>
+          <!-- Framed container: the rounded outline every other boxed control draws -->
+          <Border Name="Frame"
+                  Background="{TemplateBinding Background}"
+                  BorderBrush="{TemplateBinding BorderBrush}"
+                  BorderThickness="{TemplateBinding BorderThickness}"
+                  CornerRadius="{TemplateBinding CornerRadius}">
+            <!-- Layout root: pane above, content below -->
+            <Grid Name="Container">
+              <Grid.RowDefinitions>
+                <RowDefinition Height="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.PaneRowGridLength}" />
+                <RowDefinition Height="*" />
+              </Grid.RowDefinitions>
+
+              <!-- The sliding pane along the top edge; its surface follows the frame's curve -->
+              <Panel Name="PART_PaneRoot"
+                     ClipToBounds="True"
+                     VerticalAlignment="Top"
+                     ZIndex="100">
+                <!-- The pane's raised surface, concentric with the frame's corners -->
+                <Border Name="PaneSurface"
+                        Background="{TemplateBinding PaneBackground}">
+                  <ContentPresenter x:Name="PART_PanePresenter"
+                                    Content="{TemplateBinding Pane}"
+                                    ContentTemplate="{TemplateBinding PaneTemplate}" />
+                </Border>
+                <!-- Hairline divider along the pane's inner edge -->
+                <Rectangle Name="InnerEdgeDivider"
+                           Fill="{color:BorderDefault}"
+                           Height="{size:ThicknessSmDouble}"
+                           VerticalAlignment="Bottom" />
+                <!-- Edge line, visible only in high contrast -->
+                <Rectangle Name="HCPaneBorder"
+                           Fill="Transparent"
+                           Height="{size:ThicknessSmDouble}"
+                           VerticalAlignment="Bottom"  />
+              </Panel>
+
+              <!-- Layout root stacking the dismiss layer over content -->
+              <Panel Name="ContentRoot" Grid.Row="1">
+                <!-- The main content below the pane, inset by the standard content padding -->
+                <Border Name="ContentPaddingHost"
+                        Padding="{TemplateBinding Padding}">
+                  <ContentPresenter x:Name="PART_ContentPresenter"
+                                    Content="{TemplateBinding Content}"
+                                    ContentTemplate="{TemplateBinding ContentTemplate}" />
+                </Border>
+                <!-- Catches clicks to close an overlaying pane -->
+                <Rectangle Name="LightDismissLayer"
+                           Fill="Transparent"
+                           IsVisible="False"/>
+              </Panel>
+
+            </Grid>
+          </Border>
+        </ControlTemplate>
+      </Setter>
+
+      <Style Selector="^:overlay">
+        <Style Selector="^ /template/ Panel#PART_PaneRoot">
+          <Setter Property="Height" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.ClosedPaneHeight}" />
+          <Setter Property="Grid.RowSpan" Value="1"/>
+          <Setter Property="Grid.Row" Value="0"/>
+        </Style>
+        <Style Selector="^ /template/ Panel#ContentRoot">
+          <Setter Property="Grid.Row" Value="1"/>
+          <Setter Property="Grid.RowSpan" Value="2"/>
+        </Style>
+      </Style>
+
+      <Style Selector="^:compactinline">
+        <Style Selector="^ /template/ Panel#PART_PaneRoot">
+          <Setter Property="Grid.RowSpan" Value="1"/>
+          <Setter Property="Grid.Row" Value="0"/>
+          <Setter Property="Height" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.ClosedPaneHeight}" />
+        </Style>
+        <Style Selector="^ /template/ Panel#ContentRoot">
+          <Setter Property="Grid.Row" Value="1"/>
+          <Setter Property="Grid.RowSpan" Value="1"/>
+        </Style>
+      </Style>
+
+      <Style Selector="^:compactoverlay">
+        <Style Selector="^ /template/ Panel#PART_PaneRoot">
+          <Setter Property="Grid.RowSpan" Value="1"/>
+          <Setter Property="Grid.Row" Value="0"/>
+          <Setter Property="Height" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.ClosedPaneHeight}" />
+        </Style>
+        <Style Selector="^ /template/ Panel#ContentRoot">
+          <Setter Property="Grid.Row" Value="1"/>
+          <Setter Property="Grid.RowSpan" Value="1"/>
+        </Style>
+      </Style>
+
+      <Style Selector="^:inline">
+        <Style Selector="^ /template/ Panel#PART_PaneRoot">
+          <Setter Property="Grid.RowSpan" Value="1"/>
+          <Setter Property="Grid.Row" Value="0"/>
+          <Setter Property="Height" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.ClosedPaneHeight}" />
+        </Style>
+        <Style Selector="^ /template/ Panel#ContentRoot">
+          <Setter Property="Grid.Row" Value="1"/>
+          <Setter Property="Grid.RowSpan" Value="1"/>
+        </Style>
+      </Style>
+
+      <!-- The pane's surface rounds only the two corners it touches -->
+      <Style Selector="^ /template/ Border#PaneSurface">
+        <Setter Property="CornerRadius" Value="{size:ConcentricCorners Top=True}" />
+      </Style>
+    </Style>
+
+    <Style Selector="^:bottom">
+      <Setter Property="Template">
+        <ControlTemplate>
+          <!-- Framed container: the rounded outline every other boxed control draws -->
+          <Border Name="Frame"
+                  Background="{TemplateBinding Background}"
+                  BorderBrush="{TemplateBinding BorderBrush}"
+                  BorderThickness="{TemplateBinding BorderThickness}"
+                  CornerRadius="{TemplateBinding CornerRadius}">
+            <!-- Layout root: content above, pane below -->
+            <Grid Name="Container">
+              <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.PaneRowGridLength}" />
+              </Grid.RowDefinitions>
+
+              <!-- The sliding pane along the bottom edge; its surface follows the frame's curve -->
+              <Panel Name="PART_PaneRoot"
+                     ClipToBounds="True"
+                     VerticalAlignment="Bottom"
+                     ZIndex="100">
+                <!-- The pane's raised surface, concentric with the frame's corners -->
+                <Border Name="PaneSurface"
+                        Background="{TemplateBinding PaneBackground}">
+                  <ContentPresenter x:Name="PART_PanePresenter"
+                                    Content="{TemplateBinding Pane}"
+                                    ContentTemplate="{TemplateBinding PaneTemplate}"/>
+                </Border>
+                <!-- Hairline divider along the pane's inner edge -->
+                <Rectangle Name="InnerEdgeDivider"
+                           Fill="{color:BorderDefault}"
+                           Height="{size:ThicknessSmDouble}"
+                           VerticalAlignment="Top" />
+                <!-- Edge line, visible only in high contrast -->
+                <Rectangle Name="HCPaneBorder"
+                           Fill="Transparent"
+                           Height="{size:ThicknessSmDouble}" VerticalAlignment="Top"  />
+              </Panel>
+
+              <!-- Layout root stacking the dismiss layer over content -->
+              <Panel Name="ContentRoot" Grid.Row="0">
+                <!-- The main content above the pane, inset by the standard content padding -->
+                <Border Name="ContentPaddingHost"
+                        Padding="{TemplateBinding Padding}">
+                  <ContentPresenter x:Name="PART_ContentPresenter"
+                                    Content="{TemplateBinding Content}"
+                                    ContentTemplate="{TemplateBinding ContentTemplate}" />
+                </Border>
+                <!-- Catches clicks to close an overlaying pane -->
+                <Rectangle Name="LightDismissLayer" Fill="Transparent" IsVisible="False"/>
+              </Panel>
+
+            </Grid>
+          </Border>
+        </ControlTemplate>
+      </Setter>
+
+      <Style Selector="^:overlay">
+        <Style Selector="^ /template/ Panel#PART_PaneRoot">
+          <Setter Property="Height" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.ClosedPaneHeight}" />
+          <Setter Property="Grid.RowSpan" Value="2"/>
+          <Setter Property="Grid.Row" Value="1"/>
+        </Style>
+        <Style Selector="^ /template/ Panel#ContentRoot">
+          <Setter Property="Grid.Row" Value="0"/>
+          <Setter Property="Grid.RowSpan" Value="2"/>
+        </Style>
+      </Style>
+
+      <Style Selector="^:compactinline">
+        <Style Selector="^ /template/ Panel#PART_PaneRoot">
+          <Setter Property="Grid.RowSpan" Value="1"/>
+          <Setter Property="Grid.Row" Value="1"/>
+          <Setter Property="Height" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.ClosedPaneHeight}" />
+        </Style>
+        <Style Selector="^ /template/ Panel#ContentRoot">
+          <Setter Property="Grid.Row" Value="0"/>
+          <Setter Property="Grid.RowSpan" Value="1"/>
+        </Style>
+      </Style>
+
+      <Style Selector="^:compactoverlay">
+        <Style Selector="^ /template/ Panel#PART_PaneRoot">
+          <Setter Property="Grid.RowSpan" Value="2"/>
+          <Setter Property="Grid.Row" Value="1"/>
+          <Setter Property="Height" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.ClosedPaneHeight}" />
+        </Style>
+        <Style Selector="^ /template/ Panel#ContentRoot">
+          <Setter Property="Grid.Row" Value="0"/>
+          <Setter Property="Grid.RowSpan" Value="1"/>
+        </Style>
+      </Style>
+
+      <Style Selector="^:inline">
+        <Style Selector="^ /template/ Panel#PART_PaneRoot">
+          <Setter Property="Grid.RowSpan" Value="1"/>
+          <Setter Property="Grid.Row" Value="1"/>
+          <Setter Property="Height" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.ClosedPaneHeight}" />
+        </Style>
+        <Style Selector="^ /template/ Panel#ContentRoot">
+          <Setter Property="Grid.Row" Value="0"/>
+          <Setter Property="Grid.RowSpan" Value="1"/>
+        </Style>
+      </Style>
+
+      <!-- The pane's surface rounds only the two corners it touches -->
+      <Style Selector="^ /template/ Border#PaneSurface">
+        <Setter Property="CornerRadius" Value="{size:ConcentricCorners Bottom=True}" />
+      </Style>
+    </Style>
+
+    <!-- Placement-specific open/closed transitions for horizontal panes (left/right) -->
+    <Style Selector="^:left:open /template/ Panel#PART_PaneRoot">
+      <Setter Property="Transitions">
+        <Transitions>
+          <DoubleTransition Property="Width"
+                            Duration="{StaticResource SplitViewPaneAnimationOpenDuration}"
+                            Easing="{StaticResource SplitViewPaneAnimationEasing}" />
+        </Transitions>
+      </Setter>
+      <Setter Property="Width" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=OpenPaneLength}" />
+    </Style>
+    <Style Selector="^:right:open /template/ Panel#PART_PaneRoot">
+      <Setter Property="Transitions">
+        <Transitions>
+          <DoubleTransition Property="Width"
+                            Duration="{StaticResource SplitViewPaneAnimationOpenDuration}"
+                            Easing="{StaticResource SplitViewPaneAnimationEasing}" />
+        </Transitions>
+      </Setter>
+      <Setter Property="Width" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=OpenPaneLength}" />
+    </Style>
+
+    <Style Selector="^:left:closed /template/ Panel#PART_PaneRoot">
+      <Setter Property="Transitions">
+        <Transitions>
+          <DoubleTransition Property="Width" Duration="{StaticResource SplitViewPaneAnimationCloseDuration}" Easing="{StaticResource SplitViewPaneAnimationEasing}" />
+        </Transitions>
+      </Setter>
+      <Setter Property="Width" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.ClosedPaneWidth}" />
+    </Style>
+    <Style Selector="^:right:closed /template/ Panel#PART_PaneRoot">
+      <Setter Property="Transitions">
+        <Transitions>
+          <DoubleTransition Property="Width" Duration="{StaticResource SplitViewPaneAnimationCloseDuration}" Easing="{StaticResource SplitViewPaneAnimationEasing}" />
+        </Transitions>
+      </Setter>
+      <Setter Property="Width" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.ClosedPaneWidth}" />
+    </Style>
+
+    <!-- Placement-specific open/closed transitions for vertical panes (top/bottom) -->
+    <Style Selector="^:top:open /template/ Panel#PART_PaneRoot">
+      <Setter Property="Transitions">
+        <Transitions>
+          <DoubleTransition Property="Height"
+                            Duration="{StaticResource SplitViewPaneAnimationOpenDuration}"
+                            Easing="{StaticResource SplitViewPaneAnimationEasing}" />
+        </Transitions>
+      </Setter>
+      <Setter Property="Height" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=OpenPaneLength}" />
+    </Style>
+
+    <Style Selector="^:bottom:open /template/ Panel#PART_PaneRoot">
+      <Setter Property="Transitions">
+        <Transitions>
+          <DoubleTransition Property="Height"
+                            Duration="{StaticResource SplitViewPaneAnimationOpenDuration}"
+                            Easing="{StaticResource SplitViewPaneAnimationEasing}" />
+        </Transitions>
+      </Setter>
+      <Setter Property="Height" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=OpenPaneLength}" />
+    </Style>
+
+    <Style Selector="^:top:closed /template/ Panel#PART_PaneRoot">
+      <Setter Property="Transitions">
+        <Transitions>
+          <DoubleTransition Property="Height" Duration="{StaticResource SplitViewPaneAnimationCloseDuration}" Easing="{StaticResource SplitViewPaneAnimationEasing}" />
+        </Transitions>
+      </Setter>
+      <Setter Property="Height" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.ClosedPaneHeight}" />
+    </Style>
+
+    <Style Selector="^:bottom:closed /template/ Panel#PART_PaneRoot">
+      <Setter Property="Transitions">
+        <Transitions>
+          <DoubleTransition Property="Height" Duration="{StaticResource SplitViewPaneAnimationCloseDuration}" Easing="{StaticResource SplitViewPaneAnimationEasing}" />
+        </Transitions>
+      </Setter>
+      <Setter Property="Height" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.ClosedPaneHeight}" />
+    </Style>
+
+    <!-- The scrim dims the content while an overlaying pane is open -->
+    <Style Selector="^:lightDismiss /template/ Rectangle#LightDismissLayer">
+      <!-- The scrim carries the control's own hue, so the content underneath reads as the accent dimmed rather than greyed. -->
+      <Setter Property="Fill" Value="{color:AccentInkDefault}" />
+      <!-- Theme Exception: 0.16 is the theme's OverlayMedium level, the translucency the scrim had before it followed the hue. -->
+      <Setter Property="Opacity" Value="0.16" />
+    </Style>
+    <Style Selector="^:overlay:open /template/ Rectangle#LightDismissLayer">
+      <Setter Property="IsVisible" Value="True"/>
+    </Style>
+    <Style Selector="^:compactoverlay:open /template/ Rectangle#LightDismissLayer">
+      <Setter Property="IsVisible" Value="True"/>
+    </Style>
+  </ControlTheme>
+</ResourceDictionary>

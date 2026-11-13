@@ -1,0 +1,254 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:converters="using:Avalonia.Controls.Converters"
+                    xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+                    xmlns:color="using:AngelSix.ThemeEngine.Colors"
+                    xmlns:size="using:AngelSix.ThemeEngine.Sizes"
+                    xmlns:icons="using:AngelSix.ThemeEngine.Icons"
+                    xmlns:controls="using:AngelSix.ThemeEngine.Controls"
+                    xmlns:default="using:AngelSix.Themes.Default">
+  <!-- Design preview: one vertical column, one fixed width wide enough for the longest label. -->
+  <DataTemplate x:Key="SplitButtonPreview">
+    <StackPanel Spacing="{size:SpacingXl}" HorizontalAlignment="Left">
+      <!-- Every example carries a flyout so a click drops something. -->
+      <SplitButton Width="{size:Scaled 240}" Content="Default">
+        <SplitButton.Flyout>
+          <MenuFlyout Placement="BottomEdgeAlignedLeft">
+            <MenuItem Header="First" />
+            <MenuItem Header="Second" />
+            <MenuItem Header="Third" />
+          </MenuFlyout>
+        </SplitButton.Flyout>
+      </SplitButton>
+      <SplitButton Width="{size:Scaled 240}" theme:Preview.State="Hover" Content="Hover">
+        <SplitButton.Flyout>
+          <MenuFlyout Placement="BottomEdgeAlignedLeft">
+            <MenuItem Header="First" />
+            <MenuItem Header="Second" />
+            <MenuItem Header="Third" />
+          </MenuFlyout>
+        </SplitButton.Flyout>
+      </SplitButton>
+      <SplitButton Width="{size:Scaled 240}" theme:Preview.State="Pressed" Content="Pressed">
+        <SplitButton.Flyout>
+          <MenuFlyout Placement="BottomEdgeAlignedLeft">
+            <MenuItem Header="First" />
+            <MenuItem Header="Second" />
+            <MenuItem Header="Third" />
+          </MenuFlyout>
+        </SplitButton.Flyout>
+      </SplitButton>
+      <SplitButton Width="{size:Scaled 240}" theme:Preview.State="Focused" Content="Focused">
+        <SplitButton.Flyout>
+          <MenuFlyout Placement="BottomEdgeAlignedLeft">
+            <MenuItem Header="First" />
+            <MenuItem Header="Second" />
+            <MenuItem Header="Third" />
+          </MenuFlyout>
+        </SplitButton.Flyout>
+      </SplitButton>
+      <SplitButton Width="{size:Scaled 240}" IsEnabled="False" Content="Disabled" />
+      <ToggleSplitButton Width="{size:Scaled 240}" IsChecked="True" Content="Checked">
+        <ToggleSplitButton.Flyout>
+          <MenuFlyout Placement="BottomEdgeAlignedLeft">
+            <MenuItem Header="First" />
+            <MenuItem Header="Second" />
+            <MenuItem Header="Third" />
+          </MenuFlyout>
+        </ToggleSplitButton.Flyout>
+      </ToggleSplitButton>
+      <ToggleSplitButton Width="{size:Scaled 240}" theme:Accent.Kind="Warning" IsChecked="True" Content="Warn · Checked">
+        <ToggleSplitButton.Flyout>
+          <MenuFlyout Placement="BottomEdgeAlignedLeft">
+            <MenuItem Header="First" />
+            <MenuItem Header="Second" />
+            <MenuItem Header="Third" />
+          </MenuFlyout>
+        </ToggleSplitButton.Flyout>
+      </ToggleSplitButton>
+      <ToggleSplitButton Width="{size:Scaled 240}" IsChecked="True" IsEnabled="False" Content="Checked Off" />
+    </StackPanel>
+  </DataTemplate>
+
+  <Design.PreviewWith>
+    <Border>
+      <Border.Styles>
+        <default:DefaultTheme />
+      </Border.Styles>
+
+      <controls:LightDarkPreview Title="SplitButton" Orientation="Vertical" ContentTemplate="{StaticResource SplitButtonPreview}" />
+
+    </Border>
+  </Design.PreviewWith>
+
+  <converters:CornerRadiusFilterConverter x:Key="SplitButtonRightCornerRadiusFilterConverter" Filter="TopRight, BottomRight" />
+  <converters:CornerRadiusFilterConverter x:Key="SplitButtonLeftCornerRadiusFilterConverter" Filter="TopLeft, BottomLeft" />
+
+  <ControlTheme x:Key="DefaultSplitButtonFace" TargetType="Button">
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
+    <Setter Property="HorizontalAlignment" Value="Stretch" />
+    <Setter Property="VerticalAlignment" Value="Stretch" />
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="BorderThickness" Value="{size:Edges}" />
+    <Setter Property="Template">
+      <ControlTemplate>
+        <ContentPresenter x:Name="PART_ContentPresenter"
+                          Background="{TemplateBinding Background}"
+                          BorderBrush="{TemplateBinding BorderBrush}"
+                          BorderThickness="{TemplateBinding BorderThickness}"
+                          CornerRadius="{TemplateBinding CornerRadius}"
+                          Content="{TemplateBinding Content}"
+                          ContentTemplate="{TemplateBinding ContentTemplate}"
+                          Foreground="{TemplateBinding Foreground}"
+                          Padding="{TemplateBinding Padding}"
+                          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                          VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+      </ControlTemplate>
+    </Setter>
+
+    <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="RecognizesAccessKey" Value="True" />
+    </Style>
+
+    <!-- Hover state: the face alone takes the ramp stage -->
+    <Style Selector="^:pointerover:not(:disabled)">
+      <Setter Property="Background" Value="{color:HoverBackgroundDefault}" />
+      <Setter Property="Foreground" Value="{color:HoverTextDefault}" />
+    </Style>
+
+    <Style Selector="^:pressed:not(:disabled)">
+      <Setter Property="Background" Value="{color:PressedBackgroundDefault}" />
+    </Style>
+  </ControlTheme>
+
+  <ControlTheme x:Key="{x:Type SplitButton}" TargetType="SplitButton">
+
+    <!-- Visual defaults: ButtonSpinner's outlined column -->
+    <Setter Property="Padding" Value="{size:Edges {size:SpacingXl}, {size:SpacingLg}}" />
+    <Setter Property="Background" Value="{color:BackgroundDefault}" />
+    <Setter Property="Foreground" Value="{color:TextDefault}" />
+    <Setter Property="BorderBrush" Value="{color:BorderDefault}" />
+    <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
+    <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
+    <Setter Property="MinHeight" Value="{size:ControlHeightSm}" />
+    <Setter Property="MinWidth" Value="{size:ControlMinWidth}" />
+    <Setter Property="HorizontalAlignment" Value="{theme:StandardAlignmentHorizontal}" />
+    <Setter Property="VerticalAlignment" Value="{theme:StandardAlignmentVertical}" />
+    <Setter Property="HorizontalContentAlignment" Value="{theme:StandardAlignmentHorizontal}" />
+    <Setter Property="VerticalContentAlignment" Value="{theme:StandardAlignmentVertical}" />
+    <Setter Property="KeyboardNavigation.IsTabStop" Value="True" />
+    <Setter Property="Focusable" Value="True" />
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
+
+    <!-- No grow/push transforms: behaves like ComboBox (fill-stage changes only). -->
+
+    <!-- Template: one frame, one radius, a hairline divider between the two halves -->
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Border x:Name="RootBorder"
+                Background="{TemplateBinding Background}"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}"
+                CornerRadius="{TemplateBinding CornerRadius}">
+          <!-- Places the arrow half right of the main one, divided by a hairline -->
+          <Grid ColumnDefinitions="*,Auto,Auto">
+
+            <Button x:Name="PART_PrimaryButton"
+                    Grid.Column="0"
+                    Theme="{StaticResource DefaultSplitButtonFace}"
+                    Foreground="{TemplateBinding Foreground}"
+                    Content="{TemplateBinding Content}"
+                    ContentTemplate="{TemplateBinding ContentTemplate}"
+                    Command="{TemplateBinding Command}"
+                    CommandParameter="{TemplateBinding CommandParameter}"
+                    HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                    VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                    Padding="{TemplateBinding Padding}"
+                    Focusable="False"
+                    KeyboardNavigation.IsTabStop="False" />
+
+            <Border x:Name="SeparatorBorder"
+                    Grid.Column="1"
+                    Background="Transparent"
+                    BorderThickness="{size:Edges Left={size:ThicknessSmDouble}}"
+                    BorderBrush="{TemplateBinding BorderBrush}" />
+
+            <Button x:Name="PART_SecondaryButton"
+                    Grid.Column="2"
+                    Theme="{StaticResource DefaultSplitButtonFace}"
+                    Foreground="{TemplateBinding Foreground}"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    Focusable="False"
+                    KeyboardNavigation.IsTabStop="False">
+              <PathIcon x:Name="PART_DropDownIcon"
+                        Data="{icons:DropDown}" />
+            </Button>
+          </Grid>
+        </Border>
+      </ControlTemplate>
+    </Setter>
+
+    <!-- Corner radius: the halves touching the frame follow its inner curve (concentric corners) -->
+    <Style Selector="^ /template/ Button#PART_PrimaryButton">
+      <Setter Property="MinWidth" Value="{size:ControlHeightSm}" />
+      <Setter Property="CornerRadius" Value="{size:ConcentricCorners Left=True}" />
+    </Style>
+
+    <!-- Hairline divider: the frame's own stroke colour, one pixel wide -->
+    <Style Selector="^ /template/ Border#SeparatorBorder">
+      <Setter Property="Width" Value="{size:BaseSize}" />
+    </Style>
+
+    <!-- Arrow half: sized like the frame's height, glyph centred -->
+    <Style Selector="^ /template/ Button#PART_SecondaryButton">
+      <Setter Property="MinWidth" Value="{size:ControlHeightSm}" />
+      <Setter Property="CornerRadius" Value="{size:ConcentricCorners Right=True}" />
+    </Style>
+
+    <Style Selector="^ /template/ PathIcon#PART_DropDownIcon">
+      <Setter Property="Height" Value="{size:IconSizeMd}" />
+      <Setter Property="Width" Value="{size:IconSizeMd}" />
+    </Style>
+
+    <Style Selector="^:pointerover:not(:disabled), ^[(theme|Preview.State)=Hover]:not(:disabled)">
+      <Setter Property="Background" Value="{color:HoverBackgroundDefault}" />
+      <Setter Property="Foreground" Value="{color:HoverTextDefault}" />
+    </Style>
+
+    <!-- Pressed state: fill-stage change only -->
+    <Style Selector="^:pressed:not(:disabled), ^[(theme|Preview.State)=Pressed]:not(:disabled)">
+      <Setter Property="Background" Value="{color:PressedBackgroundDefault}" />
+    </Style>
+
+    <!-- Disabled state: whole-face dimming, no recoloured fill -->
+    <Style Selector="^:disabled">
+      <Setter Property="Opacity" Value="{size:DisabledOpacity}" />
+    </Style>
+
+    <!-- Focus state. -->
+    <Style Selector="^:focus-visible /template/ Border#RootBorder, ^[(theme|Preview.State)=Focused] /template/ Border#RootBorder">
+      <Setter Property="BorderBrush" Value="{color:AccentFocusBorderBrush}" />
+      <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
+    </Style>
+
+    <!-- Checked default: the solid-fill face with the on-fill ink the policy picks for it -->
+    <Style Selector="^:checked">
+      <Setter Property="Background" Value="{color:SolidFillDefaultBrush}" />
+      <Setter Property="Foreground" Value="{color:OnSolidFillInkDefaultBrush}" />
+    </Style>
+
+    <!-- Checked hover: the solid face steps one stage deeper ({color:SolidFillHoverBrush}). -->
+    <Style Selector="^:checked:pointerover:not(:disabled), ^:checked[(theme|Preview.State)=Hover]:not(:disabled)">
+      <Setter Property="Background" Value="{color:SolidFillHoverBrush}" />
+      <Setter Property="Foreground" Value="{color:OnSolidFillInkDefaultBrush}" />
+    </Style>
+
+    <!-- Checked pressed: the solid face steps two stages deeper ({color:SolidFillPressedBrush}). -->
+    <Style Selector="^:checked:pressed:not(:disabled), ^:checked[(theme|Preview.State)=Pressed]:not(:disabled)">
+      <Setter Property="Background" Value="{color:SolidFillPressedBrush}" />
+      <Setter Property="Foreground" Value="{color:OnSolidFillInkDefaultBrush}" />
+    </Style>
+
+  </ControlTheme>
+</ResourceDictionary>

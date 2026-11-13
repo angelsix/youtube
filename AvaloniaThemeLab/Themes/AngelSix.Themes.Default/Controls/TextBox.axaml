@@ -1,0 +1,381 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+                    xmlns:color="using:AngelSix.ThemeEngine.Colors"
+                    xmlns:size="using:AngelSix.ThemeEngine.Sizes"
+                    xmlns:icons="using:AngelSix.ThemeEngine.Icons"
+                    xmlns:controls="using:AngelSix.ThemeEngine.Controls"
+                    xmlns:sys="using:System"
+                    xmlns:default="using:AngelSix.Themes.Default">
+  <!-- Design preview: every input kind and state in one column. -->
+  <DataTemplate x:Key="TextBoxPreview">
+    <StackPanel Spacing="{size:SpacingLg}" HorizontalAlignment="Left">
+      <TextBox Width="{size:SurfaceWidthSm}" Text="Default" />
+      <TextBox Width="{size:SurfaceWidthSm}" theme:Preview.State="Hover" Text="Hover" />
+      <TextBox Width="{size:SurfaceWidthSm}" theme:Preview.State="Focused" Text="Focused" />
+      <!-- Hue inherits down, so one instance proves both accent and focus together -->
+      <TextBox Width="{size:SurfaceWidthSm}" theme:Accent.Kind="Warning" theme:Preview.State="Focused" Text="Warning · Focused" />
+      <TextBox Width="{size:SurfaceWidthSm}" Text="Error">
+        <DataValidationErrors.Error>
+          <sys:Exception><x:Arguments><x:String>Error</x:String></x:Arguments></sys:Exception>
+        </DataValidationErrors.Error>
+      </TextBox>
+      <TextBox Width="{size:SurfaceWidthSm}" IsEnabled="False" Text="Disabled" />
+      <TextBox Width="{size:SurfaceWidthSm}" IsReadOnly="True" Text="Read only" />
+      <TextBox Width="{size:SurfaceWidthSm}" AcceptsReturn="True" TextWrapping="Wrap" Text="Multiline&#x0a;second line" />
+      <TextBox Width="{size:SurfaceWidthSm}" TextAlignment="Center" Text="Center aligned" />
+      <TextBox Width="{size:SurfaceWidthSm}" PlaceholderText="Empty with placeholder" />
+      <TextBox Width="{size:SurfaceWidthSm}" PlaceholderText="Floating placeholder" UseFloatingPlaceholder="True" />
+      <TextBox Width="{size:SurfaceWidthSm}" PlaceholderText="Floating placeholder" UseFloatingPlaceholder="True" Text="Floated over content" />
+      <TextBox Width="{size:SurfaceWidthSm}" Classes="clearButton" Text="Clear button" />
+      <TextBox Width="{size:SurfaceWidthSm}" PasswordChar="*" Classes="revealPasswordButton" Text="Hidden password" />
+      <TextBox Width="{size:SurfaceWidthSm}" PasswordChar="*" Classes="revealPasswordButton" Text="Reveal password" />
+    </StackPanel>
+  </DataTemplate>
+
+  <Design.PreviewWith>
+    <Border>
+      <Border.Styles>
+        <default:DefaultTheme />
+      </Border.Styles>
+
+      <controls:LightDarkPreview Title="TextBox" ContentTemplate="{StaticResource TextBoxPreview}" />
+
+    </Border>
+  </Design.PreviewWith>
+
+  <MenuFlyout x:Key="DefaultTextBoxContextFlyout" ShowMode="{OnFormFactor Desktop=Standard, Mobile=Transient}">
+    <MenuItem Header="Cut" Command="{Binding $parent[TextBox].Cut}" IsEnabled="{Binding $parent[TextBox].CanCut}" InputGesture="{x:Static TextBox.CutGesture}" />
+    <MenuItem Header="Copy" Command="{Binding $parent[TextBox].Copy}" IsEnabled="{Binding $parent[TextBox].CanCopy}" InputGesture="{x:Static TextBox.CopyGesture}"/>
+    <MenuItem Header="Paste" Command="{Binding $parent[TextBox].Paste}" IsEnabled="{Binding $parent[TextBox].CanPaste}" InputGesture="{x:Static TextBox.PasteGesture}"/>
+  </MenuFlyout>
+  <MenuFlyout x:Key="HorizontalTextBoxContextFlyout" ShowMode="{OnFormFactor Desktop=Standard, Mobile=Transient}" FlyoutPresenterTheme="{StaticResource HorizontalMenuFlyoutPresenter}" ItemContainerTheme="{StaticResource HorizontalMenuItem}">
+    <MenuItem Header="Cut" Command="{Binding $parent[TextBox].Cut}" IsEnabled="{Binding $parent[TextBox].CanCut}" IsVisible="{Binding $parent[TextBox].CanCut}" />
+    <MenuItem Header="Copy" Command="{Binding $parent[TextBox].Copy}" IsEnabled="{Binding $parent[TextBox].CanCopy}" IsVisible="{Binding $parent[TextBox].CanCopy}" />
+    <MenuItem Header="Paste" Command="{Binding $parent[TextBox].Paste}" IsEnabled="{Binding $parent[TextBox].CanPaste}" />
+  </MenuFlyout>
+
+  <!-- Small frameless icon button seated in the field's right edge. -->
+  <ControlTheme x:Key="DefaultGlyphMotion" TargetType="Control">
+    <!-- Resting glyph transform: identity, so the hover and press states below animate from here -->
+    <Style Selector="^ /template/ ContentPresenter#PART_Glyph">
+      <Setter Property="RenderTransformOrigin" Value="50%,50%" />
+      <Setter Property="RenderTransform" Value="none" />
+      <Setter Property="Transitions">
+        <Transitions>
+          <TransformOperationsTransition Property="RenderTransform" Duration="{theme:AnimationFastMs}" />
+        </Transitions>
+      </Setter>
+    </Style>
+    <!-- Hover: the glyph grows ~2px over its 16px rest size. -->
+    <Style Selector="^:pointerover:not(:disabled) /template/ ContentPresenter#PART_Glyph">
+      <Setter Property="RenderTransform" Value="{theme:TransformScale {size:HoverScale}, 1.07757}" />
+    </Style>
+    <!-- Pressed: the glyph dips ~2.5px: 0.98 x 0.84 ~= 0.82. -->
+    <Style Selector="^:pressed:not(:disabled) /template/ ContentPresenter#PART_Glyph">
+      <Setter Property="RenderTransform" Value="{theme:TransformScale {size:PressedScale}, 0.84}" />
+    </Style>
+  </ControlTheme>
+
+  <ControlTheme x:Key="DefaultTextBoxFieldIconButton" TargetType="Button" BasedOn="{StaticResource DefaultGlyphMotion}">
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="Foreground" Value="{color:TextDefault}" />
+    <Setter Property="BorderBrush" Value="Transparent" />
+    <Setter Property="BorderThickness" Value="0" />
+    <Setter Property="Padding" Value="{size:Edges {size:SpacingLg}}" />
+    <Setter Property="HorizontalAlignment" Value="{theme:StandardAlignmentHorizontal}" />
+    <Setter Property="VerticalAlignment" Value="{theme:StandardAlignmentVertical}" />
+    <Setter Property="HorizontalContentAlignment" Value="{theme:ButtonAlignmentHorizontal}" />
+    <Setter Property="VerticalContentAlignment" Value="{theme:ButtonAlignmentVertical}" />
+    <Setter Property="FocusAdorner" Value="{x:Null}" />
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Border Name="PART_Face"
+                Background="{TemplateBinding Background}"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}"
+                CornerRadius="{TemplateBinding CornerRadius}"
+                Padding="{TemplateBinding Padding}">
+          <ContentPresenter Name="PART_Glyph"
+                            Content="{TemplateBinding Content}"
+                            ContentTemplate="{TemplateBinding ContentTemplate}"
+                            Foreground="{TemplateBinding Foreground}"
+                            HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+        </Border>
+      </ControlTemplate>
+    </Setter>
+    <!-- The glyph's grow/shrink is not declared here. -->
+    <!-- Hover: the field's hover fill on the face -->
+    <Style Selector="^:pointerover:not(:disabled)">
+      <Setter Property="Background" Value="{color:HoverBackgroundDefault}" />
+      <Setter Property="Foreground" Value="{color:HoverTextDefault}" />
+      <Setter Property="ZIndex" Value="{size:HoverZIndex}" />
+    </Style>
+    <!-- Pressed: the field's pressed fill on the face -->
+    <Style Selector="^:pressed:not(:disabled)">
+      <Setter Property="Background" Value="{color:PressedBackgroundDefault}" />
+    </Style>
+    <Style Selector="^:disabled">
+      <Setter Property="Opacity" Value="{size:DisabledOpacity}" />
+    </Style>
+  </ControlTheme>
+
+  <!-- Clear button inside the field, on the field-icon-button terms above -->
+  <ControlTheme x:Key="DefaultTextBoxClearButton" TargetType="Button" BasedOn="{StaticResource DefaultTextBoxFieldIconButton}">
+    <Setter Property="CornerRadius" Value="{size:ConcentricCorners Radius={Binding $parent[TextBox].CornerRadius}, Thickness={Binding $parent[TextBox].BorderThickness}, Right=True}" />
+  </ControlTheme>
+
+  <!-- Reveal-password toggle inside the field: the same frameless face, and revealing keeps it frameless. -->
+  <ControlTheme x:Key="DefaultTextBoxRevealButton" TargetType="ToggleButton" BasedOn="{StaticResource DefaultTextBoxFieldIconButton}">
+    <Setter Property="CornerRadius" Value="{size:ConcentricCorners Radius={Binding $parent[TextBox].CornerRadius}, Thickness={Binding $parent[TextBox].BorderThickness}, Right=True}" />
+    <Style Selector="^:checked">
+      <Setter Property="Background" Value="Transparent" />
+    </Style>
+  </ControlTheme>
+
+  <ControlTheme x:Key="{x:Type TextBox}" TargetType="TextBox">
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="Foreground" Value="{color:TextDefault}" />
+    <Setter Property="CaretBrush" Value="{color:AccentLineDefault}" />
+    <Setter Property="BorderBrush" Value="{color:BorderDefault}" />
+    <!-- Selected text: the filled column (Dark3 fill, Light10 ink), following the hue like every other state. -->
+    <Setter Property="SelectionBrush" Value="{color:SolidFillDefaultBrush}" />
+    <Setter Property="SelectionForegroundBrush" Value="{color:OnSolidFillInkDefaultBrush}" />
+    <Setter Property="PlaceholderForeground" Value="{color:DimTextDefault}" />
+    <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
+    <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
+    <Setter Property="MinHeight" Value="{size:ControlHeightSm}" />
+    <Setter Property="MinWidth" Value="{size:ControlMinWidth}" />
+    <Setter Property="Padding" Value="{size:Edges {size:SpacingLg}}" />
+    <Setter Property="HorizontalAlignment" Value="{theme:StandardAlignmentHorizontal}" />
+    <Setter Property="VerticalAlignment" Value="{theme:StandardAlignmentVertical}" />
+    <Setter Property="HorizontalContentAlignment" Value="{theme:StandardAlignmentHorizontal}" />
+    <Setter Property="VerticalContentAlignment" Value="{theme:StandardAlignmentVertical}" />
+    <Setter Property="FocusAdorner" Value="{x:Null}" />
+    <Setter Property="ScrollViewer.IsScrollChainingEnabled" Value="True" />
+    <Setter Property="ContextFlyout" Value="{OnFormFactor Desktop={StaticResource DefaultTextBoxContextFlyout}, Mobile={StaticResource HorizontalTextBoxContextFlyout}}" />
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
+
+    <Setter Property="Template">
+      <ControlTemplate>
+        <!-- Validation error message for the whole control -->
+        <DataValidationErrors>
+          <!-- Rows: optional floating label, then the framed field -->
+          <Grid RowDefinitions="Auto,*">
+            <!-- Label that floats above the field (own row, so it never crowds the text). -->
+            <TextBlock Grid.Row="0"
+                       Name="PART_FloatingPlaceholder"
+                       Foreground="{TemplateBinding PlaceholderForeground}"
+                       Margin="{size:Edges {size:SpacingMd}}"
+                       FontSize="{size:FontSizeSm}"
+                       IsVisible="False"
+                       Text="{TemplateBinding PlaceholderText}" />
+
+            <!-- Single frame border owning the field; content sits inside its stroke -->
+            <Border Grid.Row="1"
+                    Name="PART_BorderElement"
+                    Background="{TemplateBinding Background}"
+                    BorderBrush="{TemplateBinding BorderBrush}"
+                    BorderThickness="{TemplateBinding BorderThickness}"
+                    CornerRadius="{TemplateBinding CornerRadius}"
+                    MinWidth="{TemplateBinding MinWidth}"
+                    MinHeight="{TemplateBinding MinHeight}">
+              <!-- Columns: leading content, text, trailing content -->
+              <Grid ColumnDefinitions="Auto,*,Auto">
+                <!-- Caller content pinned to the field's left edge -->
+                <ContentPresenter Grid.Column="0"
+                                  VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                  Content="{TemplateBinding InnerLeftContent}"/>
+
+                <ScrollViewer Grid.Column="1"
+                              Name="PART_ScrollViewer"
+                              Margin="{TemplateBinding Padding}"
+                              Background="Transparent"
+                              HorizontalScrollBarVisibility="{TemplateBinding (ScrollViewer.HorizontalScrollBarVisibility)}"
+                              VerticalScrollBarVisibility="{TemplateBinding (ScrollViewer.VerticalScrollBarVisibility)}"
+                              IsScrollChainingEnabled="{TemplateBinding (ScrollViewer.IsScrollChainingEnabled)}"
+                              BringIntoViewOnFocusChange="{TemplateBinding (ScrollViewer.BringIntoViewOnFocusChange)}">
+                  <!-- Layout root stacking the prompt behind the text -->
+                  <Panel>
+                    <!-- Prompt shown while the field is empty; it stretches to the slot so TextAlignment operates over the whole field -->
+                    <TextBlock Name="PART_Placeholder"
+                               Foreground="{TemplateBinding PlaceholderForeground}"
+                               Text="{TemplateBinding PlaceholderText}"
+                               TextAlignment="{TemplateBinding TextAlignment}"
+                               TextWrapping="{TemplateBinding TextWrapping}"
+                               HorizontalAlignment="Stretch"
+                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
+                      <TextBlock.IsVisible>
+                        <MultiBinding Converter="{x:Static BoolConverters.And}">
+                          <Binding ElementName="PART_TextPresenter" Path="PreeditText" Converter="{x:Static StringConverters.IsNullOrEmpty}"/>
+                          <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="Text" Converter="{x:Static StringConverters.IsNullOrEmpty}"/>
+                        </MultiBinding>
+                      </TextBlock.IsVisible>
+                    </TextBlock>
+
+                    <TextPresenter Name="PART_TextPresenter"
+                                   Text="{TemplateBinding Text, Mode=TwoWay}"
+                                   CaretBlinkInterval="{TemplateBinding CaretBlinkInterval}"
+                                   CaretIndex="{TemplateBinding CaretIndex}"
+                                   SelectionStart="{TemplateBinding SelectionStart}"
+                                   SelectionEnd="{TemplateBinding SelectionEnd}"
+                                   TextAlignment="{TemplateBinding TextAlignment}"
+                                   TextWrapping="{TemplateBinding TextWrapping}"
+                                   LineHeight="{TemplateBinding LineHeight}"
+                                   LetterSpacing="{TemplateBinding LetterSpacing}"
+                                   PasswordChar="{TemplateBinding PasswordChar}"
+                                   RevealPassword="{TemplateBinding RevealPassword}"
+                                   SelectionBrush="{TemplateBinding SelectionBrush}"
+                                   SelectionForegroundBrush="{TemplateBinding SelectionForegroundBrush}"
+                                   CaretBrush="{TemplateBinding CaretBrush}"
+                                   HorizontalAlignment="Stretch"
+                                   VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                  </Panel>
+                  <ScrollViewer.Styles>
+                    <Style Selector="ScrollContentPresenter#PART_ContentPresenter">
+                      <Setter Property="Cursor" Value="IBeam" />
+                    </Style>
+                  </ScrollViewer.Styles>
+                </ScrollViewer>
+
+                <!-- Caller content pinned to the field's right edge -->
+                <ContentPresenter Grid.Column="2"
+                                  VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                  Content="{TemplateBinding InnerRightContent}"/>
+              </Grid>
+            </Border>
+          </Grid>
+        </DataValidationErrors>
+      </ControlTemplate>
+    </Setter>
+
+    <Style Selector="^ /template/ TextBlock#PART_FloatingPlaceholder">
+      <Setter Property="Cursor" Value="IBeam"/>
+    </Style>
+
+    <Style Selector="^[UseFloatingPlaceholder=true] /template/ TextBlock#PART_FloatingPlaceholder">
+      <Setter Property="IsVisible" Value="True" />
+      <Setter Property="Opacity" Value="0" />
+      <Setter Property="IsHitTestVisible" Value="False" />
+    </Style>
+
+    <Style Selector="^ /template/ TextBlock#PART_Placeholder">
+      <Setter Property="Opacity" Value="{size:PlaceholderOpacity}" />
+    </Style>
+
+    <!-- Hover state: house outlined-field fill across the whole frame -->
+    <Style Selector="^:pointerover, ^[(theme|Preview.State)=Hover]">
+      <Style Selector="^ /template/ Border#PART_BorderElement">
+        <Setter Property="Background" Value="{color:HoverBackgroundDefault}" />
+      </Style>
+    </Style>
+
+    <Style Selector="^:disabled">
+      <Setter Property="Opacity" Value="{size:DisabledOpacity}" />
+      <Setter Property="Foreground" Value="{color:DimTextDefault}" />
+
+      <Style Selector="^ /template/ Border#PART_BorderElement">
+        <Setter Property="Background" Value="{color:OverlayWeakBrush}" />
+        <Setter Property="BorderBrush" Value="{color:OverlayWeakBrush}" />
+      </Style>
+    </Style>
+
+    <!-- Focus state -->
+    <Style Selector="^:focus, ^[(theme|Preview.State)=Focused]">
+      <Style Selector="^ /template/ Border#PART_BorderElement">
+        <Setter Property="BorderBrush" Value="{color:AccentFocusBorderBrush}" />
+      </Style>
+    </Style>
+
+    <Style Selector="^:error /template/ Border#PART_BorderElement">
+      <Setter Property="BorderBrush" Value="{color:AccentErrorBrush}"/>
+    </Style>
+
+    <Style Selector="^:touch-mode">
+      <Setter Property="ContextFlyout" Value="{StaticResource HorizontalTextBoxContextFlyout}" />
+    </Style>
+
+    <Style Selector="^[UseFloatingPlaceholder=true]:not(:empty) /template/ TextBlock#PART_FloatingPlaceholder">
+      <Setter Property="Opacity" Value="1" />
+      <Setter Property="IsHitTestVisible" Value="True" />
+    </Style>
+
+    <Style Selector="^.revealPasswordButton[AcceptsReturn=False][IsReadOnly=False]:not(TextBox:empty)">
+      <Setter Property="InnerRightContent">
+        <Template>
+          <ToggleButton Theme="{StaticResource DefaultTextBoxRevealButton}"
+                        IsChecked="{Binding $parent[TextBox].RevealPassword, Mode=TwoWay}"
+                        ClipToBounds="True">
+            <Panel>
+              <PathIcon Data="{icons:Eye}"
+                        Height="{size:IconSizeMd}" Width="{size:IconSizeMd}"
+                        IsVisible="{Binding !$parent[ToggleButton].IsChecked}"/>
+              <PathIcon Data="{icons:EyeOff}"
+                        Height="{size:IconSizeMd}" Width="{size:IconSizeMd}"
+                        IsVisible="{Binding $parent[ToggleButton].IsChecked}"/>
+            </Panel>
+          </ToggleButton>
+        </Template>
+      </Setter>
+    </Style>
+
+    <!-- Clear button class: persists while there is text (never pops in on focus) -->
+    <Style Selector="^.clearButton[AcceptsReturn=False][IsReadOnly=False]:not(TextBox:empty)">
+      <Setter Property="InnerRightContent">
+        <Template>
+          <Button Theme="{StaticResource DefaultTextBoxClearButton}"
+                  Command="{Binding $parent[TextBox].Clear}"
+                  ClipToBounds="True">
+            <PathIcon Data="{icons:Close}" Height="{size:IconSizeMd}" Width="{size:IconSizeMd}"/>
+          </Button>
+        </Template>
+      </Setter>
+    </Style>
+  </ControlTheme>
+
+  <ControlTheme x:Key="DefaultFramelessDataValidationErrors"
+                TargetType="DataValidationErrors"
+                BasedOn="{StaticResource {x:Type DataValidationErrors}}">
+    <Style Selector="^ /template/ ContentControl#PART_ErrorIndicator">
+      <Setter Property="Margin" Value="{size:Edges {size:SpacingMd}}" />
+    </Style>
+  </ControlTheme>
+
+  <!-- Frameless field: sits inside another control's frame, which draws every state (ComboBox, CalendarView picker) -->
+  <ControlTheme x:Key="DefaultFramelessTextBox"
+                TargetType="TextBox"
+                BasedOn="{StaticResource {x:Type TextBox}}">
+    <Setter Property="BorderThickness" Value="0" />
+    <Setter Property="Background" Value="Transparent" />
+    <!-- One style per state the base theme paints: a comma list holding an always-true branch lost to them (measured) -->
+    <Style Selector="^:pointerover /template/ Border#PART_BorderElement">
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="BorderBrush" Value="Transparent" />
+    </Style>
+    <Style Selector="^[(theme|Preview.State)=Hover] /template/ Border#PART_BorderElement">
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="BorderBrush" Value="Transparent" />
+    </Style>
+    <Style Selector="^:focus /template/ Border#PART_BorderElement">
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="BorderBrush" Value="Transparent" />
+    </Style>
+    <Style Selector="^[(theme|Preview.State)=Focused] /template/ Border#PART_BorderElement">
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="BorderBrush" Value="Transparent" />
+    </Style>
+    <Style Selector="^:disabled /template/ Border#PART_BorderElement">
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="BorderBrush" Value="Transparent" />
+    </Style>
+    <Style Selector="^:error /template/ Border#PART_BorderElement">
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="BorderBrush" Value="Transparent" />
+    </Style>
+    <Style Selector="^ /template/ DataValidationErrors">
+      <Setter Property="Theme" Value="{StaticResource DefaultFramelessDataValidationErrors}" />
+    </Style>
+  </ControlTheme>
+</ResourceDictionary>

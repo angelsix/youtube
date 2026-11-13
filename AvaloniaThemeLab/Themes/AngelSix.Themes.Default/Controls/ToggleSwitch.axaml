@@ -1,0 +1,303 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+                    xmlns:color="using:AngelSix.ThemeEngine.Colors"
+                    xmlns:size="using:AngelSix.ThemeEngine.Sizes"
+                    xmlns:controls="using:AngelSix.ThemeEngine.Controls"
+                    xmlns:default="using:AngelSix.Themes.Default">
+  <!-- Design preview: the shared state row, declared before Design.PreviewWith uses it. -->
+  <DataTemplate x:Key="ToggleSwitchPreview">
+    <StackPanel Spacing="{size:SpacingXl}" HorizontalAlignment="Left">
+      <ToggleSwitch Content="Labels" OffContent="Off" OnContent="On" />
+      <ToggleSwitch Content="On" IsChecked="True" />
+      <ToggleSwitch Content="Hover" theme:Preview.State="Hover" />
+      <ToggleSwitch Content="Pressed" theme:Preview.State="Pressed" IsChecked="True" />
+      <ToggleSwitch Content="Off pressed" theme:Preview.State="Pressed" />
+      <ToggleSwitch Content="Focused" theme:Preview.State="Focused" />
+      <ToggleSwitch Content="Disabled" IsEnabled="False" IsChecked="True" />
+      <ToggleSwitch Content="Warning" theme:Accent.Kind="Warning" IsChecked="True" />
+      <ToggleSwitch Content="Favourite" theme:Accent.Kind="Favourite" IsChecked="True" />
+      <ToggleSwitch Content="Success" theme:Accent.Kind="Success" />
+    </StackPanel>
+  </DataTemplate>
+
+  <Design.PreviewWith>
+    <Border>
+      <Border.Styles>
+        <default:DefaultTheme />
+      </Border.Styles>
+
+      <controls:LightDarkPreview Title="ToggleSwitch" Orientation="Horizontal" ContentTemplate="{StaticResource ToggleSwitchPreview}" />
+
+    </Border>
+  </Design.PreviewWith>
+
+  <ControlTheme x:Key="{x:Type ToggleSwitch}" TargetType="ToggleSwitch">
+    <!-- A switch has no surface: the canvas shows through behind the header and the track -->
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="Foreground" Value="{color:TextDefault}" />
+    <Setter Property="HorizontalAlignment" Value="{theme:StandardAlignmentHorizontal}" />
+    <Setter Property="VerticalAlignment" Value="{theme:StandardAlignmentVertical}" />
+    <Setter Property="HorizontalContentAlignment" Value="{theme:StandardAlignmentHorizontal}" />
+    <Setter Property="VerticalContentAlignment" Value="{theme:StandardAlignmentVertical}" />
+    <Setter Property="Padding" Value="{size:Edges {size:SpacingMd}, {size:SpacingSm}}" />
+    <!-- The resting border weight the track draws at. -->
+    <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
+    <Setter Property="KnobTransitions">
+      <Transitions>
+        <DoubleTransition
+            Easing="CubicEaseOut"
+            Property="Canvas.Left"
+            Duration="{theme:AnimationNormalMs}" />
+      </Transitions>
+    </Setter>
+
+    <Setter Property="Template">
+      <ControlTemplate>
+        <!-- Frame carrying the control's padding; the canvas shows through -->
+        <Border Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}">
+          <!-- Layout root stacking the header above the switch -->
+          <Grid RowDefinitions="Auto,*">
+
+          <ContentPresenter
+              x:Name="PART_ContentPresenter"
+              Grid.Row="0"
+              VerticalAlignment="Top"
+              Content="{TemplateBinding Content}"
+              ContentTemplate="{TemplateBinding ContentTemplate}" />
+
+          <!-- The switch beside its on and off labels, in their own columns so a label never stretches the track -->
+          <Grid
+              Grid.Row="1"
+              MinWidth="0"
+              HorizontalAlignment="Left"
+              VerticalAlignment="Top"
+              ColumnDefinitions="Auto,Auto">
+
+            <!-- Invisible click area covering the switch, its spacing bands and its label -->
+            <Border
+                x:Name="SwitchAreaGrid"
+                Grid.ColumnSpan="2"
+                TemplatedControl.IsTemplateFocusTarget="True" />
+
+            <!-- Label shown when the switch is off; hit-testability follows the checked state -->
+            <ContentPresenter
+                x:Name="PART_OffContentPresenter"
+                Grid.Column="1"
+                Margin="{size:Edges Left={size:SpacingXl}}"
+                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                Content="{TemplateBinding OffContent}"
+                ContentTemplate="{TemplateBinding OffContentTemplate}" />
+
+            <!-- Label shown when the switch is on; hit-testability follows the checked state -->
+            <ContentPresenter
+                x:Name="PART_OnContentPresenter"
+                Grid.Column="1"
+                Margin="{size:Edges Left={size:SpacingXl}}"
+                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                Content="{TemplateBinding OnContent}"
+                ContentTemplate="{TemplateBinding OnContentTemplate}" />
+
+            <StackPanel Grid.Column="0" VerticalAlignment="Center">
+              <Panel>
+
+                <!-- The switch is one face built from its knob. -->
+                <StackPanel
+                    x:Name="PART_TrackStrut"
+                   
+                    Orientation="Horizontal"
+                    IsHitTestVisible="False">
+                  <Border Padding="{size:Edges {size:ThicknessSmDouble}}">
+                    <Border Width="{size:Scaled {size:ControlHeightSm}, 0.3125}" Height="{size:Scaled {size:ControlHeightSm}, 0.3125}" MinWidth="{size:Scaled 6}" MinHeight="{size:Scaled 6}" Margin="{size:Edges {size:SpacingMd}}" />
+                  </Border>
+                  <!-- The second knob cell: the room the knob travels into -->
+                  <Border Padding="{size:Edges {size:ThicknessSmDouble}}">
+                    <Border Width="{size:Scaled {size:ControlHeightSm}, 0.3125}" Height="{size:Scaled {size:ControlHeightSm}, 0.3125}" MinWidth="{size:Scaled 6}" MinHeight="{size:Scaled 6}" Margin="{size:Edges {size:SpacingMd}}" />
+                  </Border>
+                </StackPanel>
+
+                <!-- The switch's outline: it fills the cell the knob cells size -->
+                <Border
+                    x:Name="OuterBorder"
+                    />
+
+                <Border
+                    x:Name="SwitchKnobBounds"
+                    />
+
+                <!-- The knob's own cell, one knob wide: an invisible knob sizes it, and the canvas fills it. -->
+                <Panel HorizontalAlignment="Left">
+                  <!-- Sizes the cell: one knob -->
+                  <Border Padding="{size:Edges {size:ThicknessSmDouble}}" IsHitTestVisible="False">
+                    <Border Width="{size:Scaled {size:ControlHeightSm}, 0.3125}" Height="{size:Scaled {size:ControlHeightSm}, 0.3125}" MinWidth="{size:Scaled 6}" MinHeight="{size:Scaled 6}" Margin="{size:Edges {size:SpacingMd}}" />
+                  </Border>
+
+                  <Canvas x:Name="PART_SwitchKnob">
+                    <!-- The sliding knob: the outline's inset, then the gap, then the dot -->
+                    <Panel x:Name="PART_MovingKnobs" Background="Transparent">
+                      <Panel Margin="{size:Edges {size:ThicknessSmDouble}}">
+                        <Ellipse x:Name="SwitchKnobOn" Width="{size:Scaled {size:ControlHeightSm}, 0.3125}" Height="{size:Scaled {size:ControlHeightSm}, 0.3125}" MinWidth="{size:Scaled 6}" MinHeight="{size:Scaled 6}" Margin="{size:Edges {size:SpacingMd}}" />
+                        <Ellipse x:Name="SwitchKnobOff" Width="{size:Scaled {size:ControlHeightSm}, 0.3125}" Height="{size:Scaled {size:ControlHeightSm}, 0.3125}" MinWidth="{size:Scaled 6}" MinHeight="{size:Scaled 6}" Margin="{size:Edges {size:SpacingMd}}" />
+                      </Panel>
+                    </Panel>
+                  </Canvas>
+                </Panel>
+              </Panel>
+            </StackPanel>
+          </Grid>
+          </Grid>
+        </Border>
+      </ControlTemplate>
+    </Setter>
+
+    <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="RecognizesAccessKey" Value="True" />
+      <Setter Property="Margin" Value="{size:Edges Bottom={size:SpacingLg}}" />
+    </Style>
+
+    <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter:empty">
+      <Setter Property="Margin" Value="{size:Edges}" />
+    </Style>
+
+    <Style Selector="^ /template/ Border#SwitchAreaGrid">
+      <Setter Property="Background" Value="Transparent" />
+    </Style>
+
+    <Style Selector="^ /template/ Border#OuterBorder">
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="BorderBrush" Value="{color:BorderDefault}" />
+      <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
+      <Setter Property="CornerRadius" Value="{size:RadiusMd}" />
+    </Style>
+
+    <!-- The track covers the outline exactly: concentric with its drawn outer edge, from the outline's own tokens. -->
+    <Style Selector="^ /template/ Border#SwitchKnobBounds">
+      <Setter Property="Background" Value="{color:BackgroundDefault}" />
+      <Setter Property="BorderThickness" Value="{size:Edges}" />
+      <Setter Property="CornerRadius" Value="{size:ConcentricCorners Radius={size:RadiusMd}, Thickness={size:ThicknessSm}, Inset={ReflectionBinding Path=Margin, RelativeSource={RelativeSource Self}}, All=True}" />
+    </Style>
+
+    <!-- The knob that rides the on track sits on the solid fill, so it takes the on-solid ink. -->
+    <Style Selector="^ /template/ Ellipse#SwitchKnobOn">
+      <Setter Property="Fill" Value="{color:OnSolidFillInkDefaultBrush}" />
+    </Style>
+
+    <Style Selector="^ /template/ Ellipse#SwitchKnobOff">
+      <Setter Property="Fill" Value="{color:AccentLineDefault}" />
+    </Style>
+
+    <!-- Hover state: the outline keeps Button's constant rest border; only the inner fill steps up -->
+    <Style Selector="^:pointerover /template/ Ellipse#SwitchKnobOn, ^[(theme|Preview.State)=Hover] /template/ Ellipse#SwitchKnobOn">
+      <Setter Property="Fill" Value="{color:OnSolidFillInkDefaultBrush}" />
+    </Style>
+
+    <!-- Off track steps to Button's hover fill; the checked face keeps its own hue ramp -->
+    <Style Selector="^:unchecked:pointerover /template/ Border#SwitchKnobBounds, ^:unchecked[(theme|Preview.State)=Hover] /template/ Border#SwitchKnobBounds">
+      <Setter Property="Background" Value="{color:HoverBackgroundDefault}" />
+    </Style>
+
+    <!-- Pressed state: the outline keeps Button's constant rest border; the off track steps to Button's pressed fill -->
+    <Style Selector="^:unchecked:pressed /template/ Border#SwitchKnobBounds, ^:unchecked[(theme|Preview.State)=Pressed] /template/ Border#SwitchKnobBounds">
+      <Setter Property="Background" Value="{color:PressedBackgroundDefault}" />
+    </Style>
+
+    <Style Selector="^:pressed /template/ Ellipse#SwitchKnobOn, ^[(theme|Preview.State)=Pressed] /template/ Ellipse#SwitchKnobOn">
+      <Setter Property="Fill" Value="{color:OnSolidFillInkDefaultBrush}" />
+    </Style>
+
+    <!-- Disabled state: the whole switch dims under one opacity, checked fill included -->
+    <Style Selector="^:disabled">
+      <Setter Property="Foreground" Value="{color:DimTextDefault}" />
+      <Setter Property="Opacity" Value="{size:DisabledOpacity}" />
+    </Style>
+
+    <!-- Checked state: the track keeps its outline, recoloured to the solid fill so the filled face has no mismatched ring -->
+    <Style Selector="^:checked /template/ Border#OuterBorder">
+      <Setter Property="BorderBrush" Value="{color:SolidFillDefaultBrush}" />
+    </Style>
+
+    <Style Selector="^:checked /template/ Ellipse#SwitchKnobOff">
+      <Setter Property="Opacity" Value="0" />
+    </Style>
+
+    <Style Selector="^:checked /template/ Border#SwitchKnobBounds">
+      <Setter Property="Opacity" Value="1" />
+      <!-- The checked face is a solid fill, brighter than the outlined rest column. -->
+      <Setter Property="Background" Value="{color:SolidFillDefaultBrush}" />
+      <Setter Property="Margin" Value="{size:Edges {size:ThicknessSmDouble}}" />
+    </Style>
+
+    <!-- Checked (on) hover: the solid track steps one stage deeper ({color:SolidFillHoverBrush}). -->
+    <Style Selector="^:checked:pointerover /template/ Border#SwitchKnobBounds, ^:checked[(theme|Preview.State)=Hover] /template/ Border#SwitchKnobBounds">
+      <Setter Property="Background" Value="{color:SolidFillHoverBrush}" />
+    </Style>
+
+    <!-- Checked (on) hover: the outline follows the deepened fill so the ring stays seamless -->
+    <Style Selector="^:checked:pointerover /template/ Border#OuterBorder, ^:checked[(theme|Preview.State)=Hover] /template/ Border#OuterBorder">
+      <Setter Property="BorderBrush" Value="{color:SolidFillHoverBrush}" />
+    </Style>
+
+    <!-- Checked (on) pressed: the solid track steps two stages deeper ({color:SolidFillPressedBrush}) -->
+    <Style Selector="^:checked:pressed /template/ Border#SwitchKnobBounds, ^:checked[(theme|Preview.State)=Pressed] /template/ Border#SwitchKnobBounds">
+      <Setter Property="Background" Value="{color:SolidFillPressedBrush}" />
+    </Style>
+
+    <!-- Checked (on) pressed: the outline follows the deepened fill so the ring stays seamless -->
+    <Style Selector="^:checked:pressed /template/ Border#OuterBorder, ^:checked[(theme|Preview.State)=Pressed] /template/ Border#OuterBorder">
+      <Setter Property="BorderBrush" Value="{color:SolidFillPressedBrush}" />
+    </Style>
+
+    <Style Selector="^:checked /template/ Ellipse#SwitchKnobOn">
+      <Setter Property="Opacity" Value="1" />
+    </Style>
+
+    <Style Selector="^:checked /template/ ContentPresenter#PART_OffContentPresenter">
+      <Setter Property="Opacity" Value="0" />
+      <!-- The hidden label must not eat clicks aimed at the switch -->
+      <Setter Property="IsHitTestVisible" Value="False" />
+    </Style>
+
+    <Style Selector="^:checked /template/ ContentPresenter#PART_OnContentPresenter">
+      <Setter Property="Opacity" Value="1" />
+      <Setter Property="IsHitTestVisible" Value="True" />
+    </Style>
+
+    <Style Selector="^:unchecked /template/ Border#OuterBorder">
+      <Setter Property="Opacity" Value="1" />
+    </Style>
+
+    <Style Selector="^:unchecked /template/ Ellipse#SwitchKnobOff">
+      <Setter Property="Opacity" Value="1" />
+    </Style>
+
+    <Style Selector="^:unchecked /template/ Ellipse#SwitchKnobOn">
+      <Setter Property="Opacity" Value="0" />
+    </Style>
+
+    <!-- The off track is a visible inner fill (Button's rest column), inset by the outline so the border shows. -->
+    <Style Selector="^:unchecked /template/ Border#SwitchKnobBounds">
+      <Setter Property="Opacity" Value="1" />
+      <Setter Property="Margin" Value="{size:Edges {size:ThicknessSmDouble}}" />
+    </Style>
+
+    <Style Selector="^:unchecked /template/ ContentPresenter#PART_OffContentPresenter">
+      <Setter Property="Opacity" Value="1" />
+      <Setter Property="IsHitTestVisible" Value="True" />
+    </Style>
+
+    <Style Selector="^:unchecked /template/ ContentPresenter#PART_OnContentPresenter">
+      <Setter Property="Opacity" Value="0" />
+      <!-- The hidden label must not eat clicks aimed at the switch -->
+      <Setter Property="IsHitTestVisible" Value="False" />
+    </Style>
+
+    <!-- Focus state: the track outline takes the focus colour at the rest weight. -->
+    <Style Selector="^:focus-visible /template/ Border#OuterBorder, ^[(theme|Preview.State)=Focused] /template/ Border#OuterBorder">
+      <Setter Property="BorderBrush" Value="{color:AccentFocusBorderBrush}" />
+      <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
+    </Style>
+  </ControlTheme>
+</ResourceDictionary>

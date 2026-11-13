@@ -1,0 +1,139 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="using:AngelSix.ThemeEngine.Controls"
+                    xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+                    xmlns:color="using:AngelSix.ThemeEngine.Colors"
+                    xmlns:size="using:AngelSix.ThemeEngine.Sizes"
+                    xmlns:default="using:AngelSix.Themes.Default">
+  <!-- Design preview: one row per pane. -->
+  <DataTemplate x:Key="GroupBoxPreview">
+    <StackPanel Orientation="Vertical" Spacing="{size:SpacingXxl}" Width="{size:Scaled 340}">
+      <GroupBox Header="Default">
+        <TextBlock Text="Grouped content" />
+      </GroupBox>
+      <!-- Disabled rides the Warning hue so both axes show in one instance -->
+      <GroupBox Header="Warning · Disabled" theme:Accent.Kind="Warning" IsEnabled="False">
+        <TextBlock Text="Grouped content" />
+      </GroupBox>
+      <GroupBox Header="Success" theme:Accent.Kind="Success">
+        <TextBlock Text="Grouped content" />
+      </GroupBox>
+    </StackPanel>
+  </DataTemplate>
+
+  <Design.PreviewWith>
+    <Border>
+      <Border.Styles>
+        <default:DefaultTheme />
+      </Border.Styles>
+
+      <controls:LightDarkPreview Title="GroupBox" Orientation="Horizontal" ContentTemplate="{StaticResource GroupBoxPreview}" />
+
+    </Border>
+  </Design.PreviewWith>
+
+  <ControlTheme x:Key="{x:Type GroupBox}"
+                TargetType="GroupBox">
+
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="Foreground" Value="{color:TextDefault}" />
+    <Setter Property="BorderBrush" Value="{color:BorderDefault}" />
+    <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
+    <Setter Property="Padding" Value="{size:Edges {size:SpacingMd}}" />
+    <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
+    <Setter Property="HorizontalContentAlignment" Value="{theme:StandardAlignmentHorizontal}" />
+    <Setter Property="VerticalContentAlignment" Value="{theme:StandardAlignmentVertical}" />
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
+
+    <Setter Property="Template">
+      <ControlTemplate>
+        <!-- Layout root: header row over the framed content, with an inset column either side and an inset row below -->
+        <Grid x:Name="RootGrid" ColumnDefinitions="Auto,Auto,*,Auto" RowDefinitions="Auto,Auto,*,Auto">
+          <Border Grid.Row="3" Grid.Column="0" Width="{size:Scaled 6}" Height="{size:Scaled 6}" />
+          <Border Grid.Row="3" Grid.Column="3" Width="{size:Scaled 6}" Height="{size:Scaled 6}" />
+          <!-- Background border, kept apart from the stroke border -->
+          <Border Grid.Row="1"
+                  Grid.RowSpan="3"
+                  Grid.Column="0"
+                  Grid.ColumnSpan="4"
+                  CornerRadius="{TemplateBinding CornerRadius}"
+                  BorderThickness="{TemplateBinding BorderThickness}"
+                  BorderBrush="Transparent"
+                  Background="{TemplateBinding Background}" />
+
+          <!-- Stroke border with opacity mask for the header notch; the notch starts at the header's X -->
+          <Border Grid.Row="1"
+                  Grid.RowSpan="3"
+                  Grid.ColumnSpan="4"
+                  CornerRadius="{TemplateBinding CornerRadius}"
+                  BorderThickness="{TemplateBinding BorderThickness}"
+                  BorderBrush="{TemplateBinding BorderBrush}">
+            <Border.OpacityMask>
+              <MultiBinding Converter="{x:Static controls:GroupBoxNotchMaskConverter.Instance}">
+                <Binding ElementName="Header"
+                         Path="Bounds.X" />
+                <Binding ElementName="Header"
+                         Path="Bounds.Width" />
+                <Binding RelativeSource="{RelativeSource Self}"
+                         Path="Bounds.Width" />
+                <Binding RelativeSource="{RelativeSource Self}"
+                         Path="Bounds.Height" />
+              </MultiBinding>
+            </Border.OpacityMask>
+          </Border>
+
+          <Border x:Name="Header"
+                  Grid.Row="0"
+                  Grid.RowSpan="2"
+                  Grid.Column="1">
+            <ContentPresenter Name="PART_HeaderPresenter"
+                              Content="{TemplateBinding Header}"
+                              ContentTemplate="{TemplateBinding HeaderTemplate}"
+                              FontFamily="{TemplateBinding FontFamily}"
+                              FontWeight="{TemplateBinding FontWeight}"
+                              HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                              VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                              UseLayoutRounding="{TemplateBinding UseLayoutRounding}" />
+          </Border>
+
+          <ContentPresenter Grid.Row="2"
+                            Grid.Column="1"
+                            Grid.ColumnSpan="2"
+                            Name="PART_ContentPresenter"
+                            Content="{TemplateBinding Content}"
+                            ContentTemplate="{TemplateBinding ContentTemplate}"
+                            HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                            UseLayoutRounding="{TemplateBinding UseLayoutRounding}"
+                            Margin="{TemplateBinding Padding}" />
+        </Grid>
+      </ControlTemplate>
+    </Setter>
+
+    <!-- Header padding, and an offset of one corner radius so the notch starts on the frame's straight edge, past its curve -->
+    <Style Selector="^ /template/ Border#Header">
+      <Setter Property="Padding" Value="{size:Edges Horizontal={size:SpacingMd}}" />
+      <Setter Property="Margin" Value="{size:Edges Left={size:RadiusSmDouble}}" />
+    </Style>
+
+    <!-- The header label takes the hue at the hover-text stage, so an accented group box reads as accented while the body stays TextDefault -->
+    <Style Selector="^ /template/ ContentPresenter#PART_HeaderPresenter">
+      <Setter Property="Foreground" Value="{color:HoverTextDefault}" />
+      <Setter Property="FontSize" Value="{size:FontSizeLg}" />
+    </Style>
+
+    <!-- Disabled state: whole-control dimming, like every other control -->
+    <Style Selector="^:disabled">
+      <Setter Property="Opacity" Value="{size:DisabledOpacity}" />
+    </Style>
+
+    <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="RecognizesAccessKey" Value="True" />
+    </Style>
+
+    <Style Selector="^ /template/ ContentPresenter#PART_HeaderPresenter">
+      <Setter Property="RecognizesAccessKey" Value="True" />
+    </Style>
+
+  </ControlTheme>
+</ResourceDictionary>

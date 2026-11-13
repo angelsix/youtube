@@ -1,0 +1,91 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+                    xmlns:color="using:AngelSix.ThemeEngine.Colors"
+                    xmlns:size="using:AngelSix.ThemeEngine.Sizes">
+  <!-- Shown inside the TableView entry, as a table is the only place one is met -->
+  <theme:PreviewShownIn x:Key="TableViewColumnHeaderPreviewShownIn"
+                        ShownIn="{x:Type TableView}"
+                        Reason="Headers are met inside a table; the TableView entry shows resizing, its absence and the header hue." />
+
+  <ControlTheme x:Key="{x:Type TableViewColumnHeader}" TargetType="TableViewColumnHeader">
+
+    <!-- No fill, not even Transparent: a hit-testable header would cover the grip half that overhangs it -->
+    <Setter Property="Background" Value="{x:Null}" />
+    <Setter Property="Foreground" Value="{color:DimTextDefault}" />
+    <Setter Property="FontSize" Value="{size:FontSizeSm}" />
+    <Setter Property="FontWeight" Value="{theme:FontWeightSemiBold}" />
+    <Setter Property="BorderBrush" Value="{color:AccentDividerDefault}" />
+    <Setter Property="BorderThickness" Value="{size:Edges Right={size:ThicknessSmDouble}}" />
+    <Setter Property="MinHeight" Value="{size:ControlHeightSm}" />
+    <Setter Property="Padding" Value="{size:Edges {size:SpacingXl}, {size:SpacingLg}}" />
+    <Setter Property="HorizontalContentAlignment" Value="{theme:StandardAlignmentHorizontal}" />
+    <Setter Property="VerticalContentAlignment" Value="{theme:StandardAlignmentVertical}" />
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
+
+    <Setter Property="Template">
+      <ControlTemplate TargetType="TableViewColumnHeader">
+        <!-- Layout root overlapping the label and its resize grip -->
+        <Panel>
+          <ContentPresenter Name="PART_ContentPresenter"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            Content="{TemplateBinding Content}"
+                            ContentTemplate="{TemplateBinding ContentTemplate}"
+                            Padding="{TemplateBinding Padding}"
+                            HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+          <!-- PART_Resizer: the grip dragged to resize the column -->
+          <Thumb Name="PART_Resizer"
+                 Theme="{StaticResource DefaultTableViewColumnResizer}"
+                 IsEnabled="{Binding Column.CanUserEffectivelyResize, RelativeSource={RelativeSource TemplatedParent}, FallbackValue=False}" />
+        </Panel>
+      </ControlTemplate>
+    </Setter>
+
+    <!-- Last column: the table's frame already closes it -->
+    <Style Selector="^:nth-last-child(1)">
+      <Setter Property="BorderThickness" Value="{size:Edges}" />
+    </Style>
+
+    <!-- Last column: its grip stays inside the column, as there is no next column to straddle -->
+    <Style Selector="^:nth-last-child(1) /template/ Thumb#PART_Resizer">
+      <Setter Property="Margin" Value="{size:Edges}" />
+    </Style>
+
+  </ControlTheme>
+
+  <ControlTheme x:Key="DefaultTableViewColumnResizer" TargetType="Thumb">
+
+    <!-- Visual defaults: an invisible hit strip along the column's right hairline -->
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="Width" Value="{size:Scaled {size:ControlHeightSm}, 0.25}" />
+    <Setter Property="MinWidth" Value="{size:Scaled {size:IconSizeSm}, 0.5}" />
+    <!-- Theme Exception: the grip sits on the column's right edge; no alignment token means "the far edge" -->
+    <Setter Property="HorizontalAlignment" Value="Right" />
+    <Setter Property="Cursor" Value="SizeWestEast" />
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
+
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Border Background="{TemplateBinding Background}" />
+      </ControlTemplate>
+    </Setter>
+
+    <Style Selector="^:pointerover">
+      <Setter Property="Background" Value="{color:HoverBackgroundDefault}" />
+    </Style>
+
+    <Style Selector="^:pressed">
+      <Setter Property="Background" Value="{color:PressedBackgroundDefault}" />
+    </Style>
+
+    <!-- Disabled state: a column that cannot be resized shows no grip and changes no cursor -->
+    <Style Selector="^:disabled">
+      <Setter Property="Cursor" Value="Arrow" />
+      <Setter Property="IsHitTestVisible" Value="False" />
+    </Style>
+
+  </ControlTheme>
+</ResourceDictionary>

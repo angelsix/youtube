@@ -1,0 +1,31 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:AvaloniaThemeLab.Minimal.ViewModels"
+        xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+        xmlns:size="using:AngelSix.ThemeEngine.Sizes"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="560" d:DesignHeight="320"
+        x:Class="AvaloniaThemeLab.Minimal.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Design.DataContext="{DesignContext}"
+        Icon="/Assets/avalonia-logo.ico"
+        Width="560" Height="320"
+        Title="Avalonia Theme Lab Minimal">
+
+    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="{size:SpacingXl}">
+        <TextBlock Text="{Binding Greeting}" FontSize="{size:FontSizeLg}" HorizontalAlignment="Center"/>
+
+        <StackPanel Orientation="Horizontal" Spacing="{size:SpacingMd}" HorizontalAlignment="Center">
+            <Button Content="Dark mode" Command="{Binding ToggleDarkCommand}"/>
+            <Button Content="Bigger" Command="{Binding GrowCommand}"/>
+            <Button Content="Smaller" Command="{Binding ShrinkCommand}"/>
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal" Spacing="{size:SpacingMd}" HorizontalAlignment="Center">
+            <Button Content="Save" theme:Accent.Kind="Primary"/>
+            <Button Content="Delete" theme:Accent.Kind="Danger"/>
+        </StackPanel>
+    </StackPanel>
+
+</Window>

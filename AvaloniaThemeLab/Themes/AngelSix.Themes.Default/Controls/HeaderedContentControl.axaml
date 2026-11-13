@@ -1,0 +1,96 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+                    xmlns:color="using:AngelSix.ThemeEngine.Colors"
+                    xmlns:size="using:AngelSix.ThemeEngine.Sizes"
+                    xmlns:controls="using:AngelSix.ThemeEngine.Controls"
+                    xmlns:default="using:AngelSix.Themes.Default">
+  <!-- Design preview: one row per state. -->
+  <DataTemplate x:Key="HeaderedContentControlPreview">
+    <StackPanel Spacing="{size:SpacingXl}" HorizontalAlignment="Left">
+      <HeaderedContentControl Width="{size:Scaled 280}" Header="Section header" Content="Body content" />
+      <HeaderedContentControl Width="{size:Scaled 280}" theme:Accent.Kind="Warning"
+                              Header="Warning · Section header" Content="Body content" />
+      <HeaderedContentControl Width="{size:Scaled 280}" IsEnabled="False"
+                              Header="Disabled · Section header" Content="Body content" />
+    </StackPanel>
+  </DataTemplate>
+
+  <Design.PreviewWith>
+    <Border>
+      <Border.Styles>
+        <default:DefaultTheme />
+      </Border.Styles>
+
+      <controls:LightDarkPreview Title="HeaderedContentControl" ContentTemplate="{StaticResource HeaderedContentControlPreview}" />
+    </Border>
+  </Design.PreviewWith>
+
+  <ControlTheme x:Key="{x:Type HeaderedContentControl}"
+                TargetType="HeaderedContentControl">
+
+    <Setter Property="Background" Value="{color:BackgroundDefault}" />
+    <Setter Property="Foreground" Value="{color:TextDefault}" />
+    <Setter Property="BorderBrush" Value="{color:BorderDefault}" />
+    <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
+    <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
+    <Setter Property="Padding" Value="{size:Edges {size:SpacingLg}}" />
+    <Setter Property="HorizontalAlignment" Value="{theme:StandardAlignmentHorizontal}" />
+    <Setter Property="VerticalAlignment" Value="{theme:StandardAlignmentVertical}" />
+    <Setter Property="HorizontalContentAlignment" Value="{theme:StandardAlignmentHorizontal}" />
+    <Setter Property="VerticalContentAlignment" Value="{theme:StandardAlignmentVertical}" />
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
+
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Border BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}"
+                CornerRadius="{TemplateBinding CornerRadius}"
+                Background="{TemplateBinding Background}"
+                Padding="{TemplateBinding Padding}">
+          <!-- Stacks the header, its divider and the content -->
+          <Grid RowDefinitions="Auto, Auto, *">
+            <ContentPresenter Name="PART_HeaderPresenter"
+                              Content="{TemplateBinding Header}"
+                              ContentTemplate="{TemplateBinding HeaderTemplate}"
+                              HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                              VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                              Grid.Row="0" />
+            <!-- Hairline separating the header from the body -->
+            <Rectangle Name="PART_HeaderDivider"
+                       Grid.Row="1" />
+            <ContentPresenter Name="PART_ContentPresenter"
+                              ContentTemplate="{TemplateBinding ContentTemplate}"
+                              Content="{TemplateBinding Content}"
+                              VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                              HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                              Grid.Row="2" />
+          </Grid>
+        </Border>
+      </ControlTemplate>
+    </Setter>
+
+    <!-- The header reads as a heading: semi-bold ink at the body size -->
+    <Style Selector="^ /template/ ContentPresenter#PART_HeaderPresenter">
+      <Setter Property="FontWeight" Value="{theme:FontWeightSemiBold}" />
+      <Setter Property="RecognizesAccessKey" Value="True" />
+    </Style>
+
+    <!-- Hairline under the header: one spacing step of air on either side so it never touches the text. -->
+    <Style Selector="^ /template/ Rectangle#PART_HeaderDivider">
+      <Setter Property="Height" Value="{size:ThicknessSmDouble}" />
+      <Setter Property="Fill" Value="{color:AccentDividerDefault}" />
+      <Setter Property="Margin" Value="{size:Edges Top={size:SpacingMd}, Bottom={size:SpacingMd}}" />
+    </Style>
+
+    <!-- Disabled state: whole-control dimming, like every other control -->
+    <Style Selector="^:disabled">
+      <Setter Property="Opacity" Value="{size:DisabledOpacity}" />
+    </Style>
+
+    <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="RecognizesAccessKey" Value="True" />
+    </Style>
+
+  </ControlTheme>
+</ResourceDictionary>

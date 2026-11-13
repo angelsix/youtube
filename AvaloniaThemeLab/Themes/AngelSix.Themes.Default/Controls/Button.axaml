@@ -1,0 +1,158 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+                    xmlns:color="using:AngelSix.ThemeEngine.Colors"
+                    xmlns:size="using:AngelSix.ThemeEngine.Sizes"
+                    xmlns:controls="using:AngelSix.ThemeEngine.Controls"
+                    xmlns:sys="using:System"
+                    xmlns:default="using:AngelSix.Themes.Default"
+                    xmlns:icons="using:AngelSix.ThemeEngine.Icons">
+  <!-- Design preview: content kinds, then states. -->
+  <DataTemplate x:Key="ButtonPreview">
+    <StackPanel Spacing="{size:SpacingXl}" HorizontalAlignment="Left">
+      <StackPanel.Styles>
+        <Style Selector="Button">
+          <Setter Property="HorizontalAlignment" Value="Stretch" />
+        </Style>
+      </StackPanel.Styles>
+      <Button Content="Text" />
+      <Button theme:Icon.Data="{icons:Save}" />
+      <Button theme:Icon.Data="{icons:Save}" Content="Icon and text" />
+      <Button theme:Icon.Data="{icons:Save}" theme:Icon.Placement="Top" Content="Top" />
+      <Button theme:Icon.Data="{icons:Save}" theme:Icon.Placement="Right" Content="Right" />
+      <Button theme:Icon.Data="{icons:Save}" theme:Icon.Placement="Bottom" Content="Bottom" />
+      <Button Content="Default" />
+      <Button theme:Preview.State="Hover" Content="Hover" />
+      <Button theme:Preview.State="Pressed" Content="Pressed" />
+      <Button theme:Preview.State="Focused" Content="Focused" />
+      <Button Content="Disabled" IsEnabled="False" />
+      <Button Content="Error">
+        <DataValidationErrors.Error>
+          <sys:Exception>
+            <x:Arguments>
+              <x:String>Error</x:String>
+            </x:Arguments>
+          </sys:Exception>
+        </DataValidationErrors.Error>
+      </Button>
+    </StackPanel>
+  </DataTemplate>
+
+  <Design.PreviewWith>
+    <Border>
+      <Border.Styles>
+        <default:DefaultTheme />
+      </Border.Styles>
+
+      <controls:LightDarkPreview Title="Button" ContentTemplate="{StaticResource ButtonPreview}" />
+
+    </Border>
+  </Design.PreviewWith>
+
+  <ControlTheme x:Key="{x:Type Button}" TargetType="Button">
+
+    <Setter Property="Background" Value="{color:BackgroundDefault}" />
+    <Setter Property="Foreground" Value="{color:TextDefault}" />
+    <Setter Property="BorderBrush" Value="{color:BorderDefault}" />
+    <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
+    <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
+    <Setter Property="Padding" Value="{size:Edges {size:SpacingXl}, {size:SpacingLg}}" />
+    <Setter Property="HorizontalAlignment" Value="{theme:StandardAlignmentHorizontal}" />
+    <Setter Property="VerticalAlignment" Value="{theme:StandardAlignmentVertical}" />
+    <Setter Property="HorizontalContentAlignment" Value="{theme:ButtonAlignmentHorizontal}" />
+    <Setter Property="VerticalContentAlignment" Value="{theme:ButtonAlignmentVertical}" />
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
+
+    <Setter Property="RenderTransform" Value="none" />
+    <Setter Property="Transitions">
+      <Transitions>
+        <TransformOperationsTransition Property="RenderTransform" Duration="{theme:AnimationFastMs}" />
+      </Transitions>
+    </Setter>
+
+    <Setter Property="Template">
+      <ControlTemplate>
+        <!-- Validation error message under the face while the value is invalid -->
+        <DataValidationErrors>
+          <Border x:Name="PART_Border"
+                  Background="{TemplateBinding Background}"
+                  BorderBrush="{TemplateBinding BorderBrush}"
+                  BorderThickness="{TemplateBinding BorderThickness}"
+                  CornerRadius="{TemplateBinding CornerRadius}"
+                  Padding="{TemplateBinding Padding}">
+            <!-- Content area, overlaying the strut and the icon layout -->
+            <Panel>
+              <!-- Strut: one empty text line, at least a text button's height -->
+              <TextBlock x:Name="PART_Strut" />
+
+              <!-- Fills only with a label: without one, DockPanel drops the icon's trailing gap -->
+              <DockPanel x:Name="PART_IconLayout"
+                         LastChildFill="{TemplateBinding Content, Converter={x:Static ObjectConverters.IsNotNull}}"
+                         HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                         VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
+                <PathIcon x:Name="PART_Icon"
+                          DockPanel.Dock="{TemplateBinding (theme:Icon.Placement)}"
+                          Data="{TemplateBinding (theme:Icon.Data)}"
+                          IsVisible="{TemplateBinding (theme:Icon.Data), Converter={x:Static ObjectConverters.IsNotNull}}"
+                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+
+                <ContentPresenter x:Name="PART_ContentPresenter"
+                                  IsVisible="{TemplateBinding Content, Converter={x:Static ObjectConverters.IsNotNull}}"
+                                  Content="{TemplateBinding Content}"
+                                  ContentTemplate="{TemplateBinding ContentTemplate}"
+                                  HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                  VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+              </DockPanel>
+            </Panel>
+          </Border>
+        </DataValidationErrors>
+      </ControlTemplate>
+    </Setter>
+
+    <Style Selector="^ /template/ ContentPresenter">
+      <Setter Property="RecognizesAccessKey" Value="True" />
+    </Style>
+
+    <!-- Icon gap: the padding on the icon's side -->
+    <Style Selector="^ /template/ DockPanel#PART_IconLayout">
+      <Setter Property="HorizontalSpacing" Value="{Binding Padding.Left, RelativeSource={RelativeSource TemplatedParent}}" />
+      <Setter Property="VerticalSpacing" Value="{Binding Padding.Top, RelativeSource={RelativeSource TemplatedParent}}" />
+    </Style>
+    <Style Selector="^[(theme|Icon.Placement)=Right] /template/ DockPanel#PART_IconLayout">
+      <Setter Property="HorizontalSpacing" Value="{Binding Padding.Right, RelativeSource={RelativeSource TemplatedParent}}" />
+    </Style>
+    <Style Selector="^[(theme|Icon.Placement)=Bottom] /template/ DockPanel#PART_IconLayout">
+      <Setter Property="VerticalSpacing" Value="{Binding Padding.Bottom, RelativeSource={RelativeSource TemplatedParent}}" />
+    </Style>
+
+    <!-- Hover state: opaque ramp stage, not an overlay — translucency would erase the fill -->
+    <Style Selector="^:pointerover, ^[(theme|Preview.State)=Hover]">
+      <Setter Property="Background" Value="{color:HoverBackgroundDefault}" />
+      <Setter Property="Foreground" Value="{color:HoverTextDefault}" />
+      <Setter Property="RenderTransform" Value="{theme:TransformScale {size:HoverScale}}" />
+      <Setter Property="ZIndex" Value="{size:HoverZIndex}" />
+    </Style>
+
+    <Style Selector="^:pressed, ^[(theme|Preview.State)=Pressed]">
+      <Setter Property="RenderTransform" Value="{theme:TransformScale {size:PressedScale}}" />
+      <Setter Property="Background" Value="{color:PressedBackgroundDefault}" />
+    </Style>
+    
+    <Style Selector="^:disabled">
+      <Setter Property="Opacity" Value="{size:DisabledOpacity}" />
+    </Style>
+
+    <!-- Focus state. -->
+    <Style Selector="^:focus-visible /template/ Border#PART_Border, ^[(theme|Preview.State)=Focused] /template/ Border#PART_Border">
+      <Setter Property="BorderBrush" Value="{color:AccentFocusBorderBrush}" />
+      <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
+    </Style>
+
+    <!-- Error state: an error is always the Error hue, so a pinned seed is right here -->
+    <Style Selector="^:error">
+      <Setter Property="BorderBrush" Value="{color:AccentErrorBrush}" />
+    </Style>
+
+  </ControlTheme>
+</ResourceDictionary>

@@ -1,0 +1,435 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+                    xmlns:color="using:AngelSix.ThemeEngine.Colors"
+                    xmlns:size="using:AngelSix.ThemeEngine.Sizes"
+                    xmlns:icons="using:AngelSix.ThemeEngine.Icons"
+                    xmlns:converters="using:Avalonia.Controls.Converters"
+                    xmlns:controls="using:AngelSix.ThemeEngine.Controls"
+                    xmlns:default="using:AngelSix.Themes.Default">
+  <!-- Design preview: one column per pane. -->
+  <DataTemplate x:Key="ExpanderPreview">
+    <!-- Gallery-standard stacked-preview spacing (SpacingXl): the same rhythm every other control's preview uses -->
+    <StackPanel Spacing="{size:SpacingXl}" HorizontalAlignment="Stretch">
+      <Border MinHeight="{size:Scaled {size:ControlHeightLg}, 1.7083}">
+        <Expander Width="{size:Scaled 240}" HorizontalAlignment="Left" VerticalAlignment="Top" Header="Collapsed"
+                  Padding="{size:Edges Left={size:SpacingXxl}, Top={size:SpacingLg}, Right={size:SpacingLg}, Bottom={size:SpacingLg}}">
+          <TextBlock>Content</TextBlock>
+        </Expander>
+      </Border>
+      <Border MinHeight="{size:Scaled {size:ControlHeightLg}, 1.7083}">
+        <Expander Width="{size:Scaled 240}" HorizontalAlignment="Left" VerticalAlignment="Top" Header="Hover" theme:Preview.State="Hover"
+                  Padding="{size:Edges Left={size:SpacingXxl}, Top={size:SpacingLg}, Right={size:SpacingLg}, Bottom={size:SpacingLg}}">
+          <TextBlock>Content</TextBlock>
+        </Expander>
+      </Border>
+      <Border MinHeight="{size:Scaled {size:ControlHeightLg}, 1.7083}">
+        <Expander Width="{size:Scaled 240}" HorizontalAlignment="Left" VerticalAlignment="Top" Header="Pressed" theme:Preview.State="Pressed"
+                  Padding="{size:Edges Left={size:SpacingXxl}, Top={size:SpacingLg}, Right={size:SpacingLg}, Bottom={size:SpacingLg}}">
+          <TextBlock>Content</TextBlock>
+        </Expander>
+      </Border>
+      <!-- Genuinely disabled: IsEnabled=False flows to the header ToggleButton, so a click must not toggle. -->
+      <Border MinHeight="{size:ControlHeightLg}">
+        <Expander Width="{size:Scaled 240}" HorizontalAlignment="Left" VerticalAlignment="Top" IsEnabled="False" Header="Disabled"
+                  Padding="{size:Edges Left={size:SpacingXxl}, Top={size:SpacingLg}, Right={size:SpacingLg}, Bottom={size:SpacingLg}}">
+          <TextBlock>Content</TextBlock>
+        </Expander>
+      </Border>
+      <Border MinHeight="{size:Scaled {size:ControlHeightLg}, 1.7083}">
+        <Expander Width="{size:Scaled 240}" HorizontalAlignment="Left" VerticalAlignment="Top" Header="Success Expanded" IsExpanded="True" theme:Accent.Kind="Success"
+                  Padding="{size:Edges Left={size:SpacingXxl}, Top={size:SpacingLg}, Right={size:SpacingLg}, Bottom={size:SpacingLg}}">
+          <TextBlock>Content</TextBlock>
+        </Expander>
+      </Border>
+      <Border MinHeight="{size:Scaled {size:ControlHeightLg}, 1.7083}">
+        <Expander Width="{size:Scaled 240}" HorizontalAlignment="Left" VerticalAlignment="Top" Header="Expanded" IsExpanded="True"
+                  Padding="{size:Edges Left={size:SpacingXxl}, Top={size:SpacingLg}, Right={size:SpacingLg}, Bottom={size:SpacingLg}}">
+          <TextBlock>Content</TextBlock>
+        </Expander>
+      </Border>
+      <!-- Up reveals its body above the header, so the Bottom alignment parks the header at the frame's foot -->
+      <Border MinHeight="{size:Scaled {size:ControlHeightLg}, 1.7083}">
+        <Expander Width="{size:Scaled 240}" HorizontalAlignment="Left" VerticalAlignment="Bottom" ExpandDirection="Up" Header="Up · Warning" IsExpanded="True" theme:Accent.Kind="Warning"
+                  Padding="{size:Edges Left={size:SpacingXxl}, Top={size:SpacingLg}, Right={size:SpacingLg}, Bottom={size:SpacingLg}}">
+          <TextBlock>Content</TextBlock>
+        </Expander>
+      </Border>
+      <!-- Left unfolds sideways beside its header; the frame is header-height so it stays 48px tall open and closed. -->
+      <Border MinHeight="{size:ControlHeightLg}">
+        <Expander Width="{size:Scaled 240}" HorizontalAlignment="Left" VerticalAlignment="Top" ExpandDirection="Left" Header="Left" IsExpanded="True"
+                  Padding="{size:Edges Left={size:SpacingXxl}, Top={size:SpacingLg}, Right={size:SpacingLg}, Bottom={size:SpacingLg}}">
+          <TextBlock>More content</TextBlock>
+        </Expander>
+      </Border>
+      <!-- Right completes the directions; it reads as a resting header, consistent with the rows above -->
+      <Border MinHeight="{size:ControlHeightLg}">
+        <Expander Width="{size:Scaled 240}" HorizontalAlignment="Left" VerticalAlignment="Top" ExpandDirection="Right" Header="Right"
+                  Padding="{size:Edges Left={size:SpacingXxl}, Top={size:SpacingLg}, Right={size:SpacingLg}, Bottom={size:SpacingLg}}">
+          <TextBlock>More content</TextBlock>
+        </Expander>
+      </Border>
+    </StackPanel>
+  </DataTemplate>
+
+  <Design.PreviewWith>
+    <Border>
+      <Border.Styles>
+        <default:DefaultTheme />
+      </Border.Styles>
+
+      <controls:LightDarkPreview Title="Expander" Orientation="Horizontal" ContentTemplate="{StaticResource ExpanderPreview}" />
+
+    </Border>
+  </Design.PreviewWith>
+
+  <converters:CornerRadiusFilterConverter x:Key="TopCornerRadiusFilterConverter" Filter="TopLeft, TopRight" />
+  <converters:CornerRadiusFilterConverter x:Key="RightCornerRadiusFilterConverter" Filter="TopRight, BottomRight" />
+  <converters:CornerRadiusFilterConverter x:Key="BottomCornerRadiusFilterConverter" Filter="BottomLeft, BottomRight" />
+  <converters:CornerRadiusFilterConverter x:Key="LeftCornerRadiusFilterConverter" Filter="TopLeft, BottomLeft" />
+
+  <!-- Header content alignment resources removed — use theme tokens directly in sub-theme -->
+
+  <ControlTheme x:Key="DefaultExpanderToggleButtonTheme" TargetType="ToggleButton">
+
+    <Setter Property="Background" Value="{color:BackgroundDefault}" />
+    <Setter Property="BorderBrush" Value="{color:BorderDefault}" />
+    <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
+    <Setter Property="Padding" Value="{size:Edges Left={size:SpacingXxl}}" />
+    <Setter Property="HorizontalContentAlignment" Value="{theme:StandardAlignmentHorizontal}" />
+    <Setter Property="VerticalContentAlignment" Value="{theme:StandardAlignmentVertical}" />
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
+
+    <Setter Property="Transitions">
+      <Transitions>
+        <TransformOperationsTransition Property="RenderTransform" Duration="{theme:AnimationFastMs}" />
+      </Transitions>
+    </Setter>
+
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Border x:Name="ToggleButtonBackground"
+                CornerRadius="{TemplateBinding CornerRadius}"
+                Background="{TemplateBinding Background}"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}">
+          <!-- Places the chevron beside the header text -->
+          <Grid x:Name="ToggleButtonGrid"
+                ColumnDefinitions="*,Auto">
+            <ContentPresenter x:Name="PART_ContentPresenter"
+                              Content="{TemplateBinding Content}"
+                              ContentTemplate="{TemplateBinding ContentTemplate}"
+                              HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                              VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                              Foreground="{TemplateBinding Foreground}"
+                              Margin="{TemplateBinding Padding}" />
+            <!-- Chevron button (glyph and states set via ^ /template/ styles) -->
+            <Border x:Name="ExpandCollapseChevronBorder"
+                    Grid.Column="1"
+                    RenderTransformOrigin="50%,50%">
+              <!-- The chevron pointing at the expanded direction. -->
+              <Border.RenderTransform>
+                <RotateTransform />
+              </Border.RenderTransform>
+              <PathIcon x:Name="ExpandCollapseChevron"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        RenderTransformOrigin="50%,50%" />
+            </Border>
+          </Grid>
+        </Border>
+      </ControlTemplate>
+    </Setter>
+
+    <Style Selector="^ /template/ Border#ExpandCollapseChevronBorder">
+      <Setter Property="MinWidth" Value="{size:ControlHeightSm}" />
+      <Setter Property="MinHeight" Value="{size:ControlHeightSm}" />
+      <Setter Property="Margin" Value="{size:Edges Left={size:SpacingXxl}, Right={size:SpacingXl}}" />
+      <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
+      <Setter Property="BorderBrush" Value="Transparent" />
+      <Setter Property="BorderThickness" Value="0" />
+      <Setter Property="Background" Value="Transparent" />
+    </Style>
+
+    <Style Selector="^ /template/ PathIcon#ExpandCollapseChevron">
+      <Setter Property="Width" Value="{size:Scaled {size:IconSizeMd}, 0.75}" />
+      <Setter Property="Height" Value="{size:Scaled {size:IconSizeMd}, 0.75}" />
+      <!-- Grow/shrink glide: the hover grow and pressed shrink unwind as well as play -->
+      <Setter Property="Transitions">
+        <Transitions>
+          <TransformOperationsTransition Property="RenderTransform" Duration="{theme:AnimationFastMs}" />
+        </Transitions>
+      </Setter>
+    </Style>
+
+    <!-- Chevron spin, expanding: rotates 0 -> 180 over the fast beat. -->
+    <Style Selector="^[Tag=expanded] /template/ Border#ExpandCollapseChevronBorder">
+      <Style.Animations>
+        <Animation FillMode="Both" Duration="{theme:AnimationFastMs}">
+          <KeyFrame Cue="0%">
+            <Setter Property="RotateTransform.Angle" Value="0" />
+          </KeyFrame>
+          <KeyFrame Cue="100%">
+            <Setter Property="RotateTransform.Angle" Value="180" />
+          </KeyFrame>
+        </Animation>
+      </Style.Animations>
+    </Style>
+
+    <!-- Chevron spin, collapsing: the mirror rotation 180 -> 0, so both ways animate the same -->
+    <Style Selector="^[Tag=collapsed] /template/ Border#ExpandCollapseChevronBorder">
+      <Style.Animations>
+        <Animation FillMode="Both" Duration="{theme:AnimationFastMs}">
+          <KeyFrame Cue="0%">
+            <Setter Property="RotateTransform.Angle" Value="180" />
+          </KeyFrame>
+          <KeyFrame Cue="100%">
+            <Setter Property="RotateTransform.Angle" Value="0" />
+          </KeyFrame>
+        </Animation>
+      </Style.Animations>
+    </Style>
+
+    <!-- Chevron hover: grows like Button's face (live pointerover and the pinned Hover example). -->
+    <Style Selector="^:pointerover /template/ PathIcon#ExpandCollapseChevron, ^[(theme|Preview.State)=Hover] /template/ PathIcon#ExpandCollapseChevron">
+      <Setter Property="RenderTransform" Value="{theme:TransformScale {size:HoverScale}}" />
+    </Style>
+
+    <!-- Chevron pressed: shrinks like Button's face (live pressed and the pinned Pressed example). -->
+    <Style Selector="^:pressed /template/ PathIcon#ExpandCollapseChevron, ^[(theme|Preview.State)=Pressed] /template/ PathIcon#ExpandCollapseChevron">
+      <Setter Property="RenderTransform" Value="{theme:TransformScale {size:PressedScale}}" />
+    </Style>
+
+    <Style Selector="^:pointerover /template/ Border#ToggleButtonBackground, ^[(theme|Preview.State)=Hover] /template/ Border#ToggleButtonBackground">
+      <Setter Property="Background" Value="{color:HoverBackgroundDefault}" />
+      <Setter Property="BorderBrush" Value="{color:BorderDefault}" />
+    </Style>
+
+    <Style Selector="^:pressed /template/ Border#ToggleButtonBackground, ^[(theme|Preview.State)=Pressed] /template/ Border#ToggleButtonBackground">
+      <Setter Property="Background" Value="{color:PressedBackgroundDefault}" />
+      <Setter Property="BorderBrush" Value="{color:BorderDefault}" />
+    </Style>
+
+    <Style Selector="^:disabled /template/ Border#ToggleButtonBackground">
+      <Setter Property="Opacity" Value="{size:DisabledOpacity}" />
+    </Style>
+
+  </ControlTheme>
+
+  <ControlTheme x:Key="DefaultExpanderToggleButtonUpTheme" TargetType="ToggleButton" BasedOn="{StaticResource DefaultExpanderToggleButtonTheme}">
+    <Style Selector="^ /template/ PathIcon#ExpandCollapseChevron">
+      <Setter Property="Data" Value="{icons:ExpandChevronUp}" />
+    </Style>
+  </ControlTheme>
+
+  <ControlTheme x:Key="DefaultExpanderToggleButtonDownTheme" TargetType="ToggleButton" BasedOn="{StaticResource DefaultExpanderToggleButtonTheme}">
+    <!-- Chevron glyph: the theme's square expand/collapse arrow -->
+    <Style Selector="^ /template/ PathIcon#ExpandCollapseChevron">
+      <Setter Property="Data" Value="{icons:ExpandChevronDown}" />
+    </Style>
+  </ControlTheme>
+
+  <ControlTheme x:Key="DefaultExpanderToggleButtonLeftTheme" TargetType="ToggleButton" BasedOn="{StaticResource DefaultExpanderToggleButtonTheme}">
+    <!-- Chevron glyph: the theme's square expand/collapse arrow -->
+    <Style Selector="^ /template/ PathIcon#ExpandCollapseChevron">
+      <Setter Property="Data" Value="{icons:ExpandChevronLeft}" />
+    </Style>
+  </ControlTheme>
+
+  <ControlTheme x:Key="DefaultExpanderToggleButtonRightTheme" TargetType="ToggleButton" BasedOn="{StaticResource DefaultExpanderToggleButtonTheme}">
+    <!-- Chevron glyph: the theme's square expand/collapse arrow -->
+    <Style Selector="^ /template/ PathIcon#ExpandCollapseChevron">
+      <Setter Property="Data" Value="{icons:ExpandChevronRight}" />
+    </Style>
+  </ControlTheme>
+
+  <ControlTheme x:Key="{x:Type Expander}" TargetType="Expander">
+
+    <Setter Property="IsTabStop" Value="False" />
+    <Setter Property="MinWidth" Value="{size:ControlMinWidth}" />
+    <Setter Property="MinHeight" Value="{size:ControlHeightLg}" />
+    <Setter Property="Background" Value="{color:BackgroundDefault}" />
+    <Setter Property="Foreground" Value="{color:TextDefault}" />
+    <Setter Property="BorderBrush" Value="{color:BorderDefault}" />
+    <Setter Property="BorderThickness" Value="{size:Edges Left={size:BaseSize}, Right={size:BaseSize}, Bottom={size:BaseSize}}" />
+    <Setter Property="Padding" Value="{size:SpacingLg}" />
+    <Setter Property="HorizontalAlignment" Value="{theme:StandardAlignmentHorizontal}" />
+    <Setter Property="VerticalAlignment" Value="{theme:StandardAlignmentVertical}" />
+    <Setter Property="HorizontalContentAlignment" Value="{theme:StandardAlignmentHorizontal}" />
+    <Setter Property="VerticalContentAlignment" Value="{theme:StandardAlignmentVertical}" />
+    <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
+
+    <Setter Property="Template">
+      <ControlTemplate>
+        <!-- Layout root docking the header against the content. -->
+        <DockPanel MinWidth="{TemplateBinding MinWidth}"
+                   MaxWidth="{TemplateBinding MaxWidth}">
+          <!-- The header, clicked to expand or collapse. -->
+          <ToggleButton x:Name="ExpanderHeader"
+                        ZIndex="1"
+                        MinHeight="{TemplateBinding MinHeight}"
+                        CornerRadius="{TemplateBinding CornerRadius}"
+                        IsEnabled="{TemplateBinding IsEnabled}"
+                        Content="{TemplateBinding Header}"
+                        ContentTemplate="{TemplateBinding HeaderTemplate}"
+                        IsChecked="{TemplateBinding IsExpanded, Mode=TwoWay}" />
+          <!-- Zero floors: the card must fold flat when collapsed. -->
+          <Border x:Name="ExpanderContent"
+                  IsVisible="{TemplateBinding IsExpanded, Mode=TwoWay}"
+                  ClipToBounds="True"
+                  Background="{TemplateBinding Background}"
+                  BorderBrush="{TemplateBinding BorderBrush}"
+                  BorderThickness="{TemplateBinding BorderThickness}"
+                  MinHeight="0"
+                  MinWidth="0"
+                  MaxWidth="0"
+                  MaxHeight="0"
+                  Opacity="0"
+                  HorizontalAlignment="Stretch"
+                  VerticalAlignment="Stretch"
+                  Padding="{TemplateBinding Padding}">
+            <ContentPresenter x:Name="PART_ContentPresenter"
+                              Content="{TemplateBinding Content}"
+                              ContentTemplate="{TemplateBinding ContentTemplate}"
+                              Foreground="{TemplateBinding Foreground}"
+                              HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                              VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+          </Border>
+        </DockPanel>
+      </ControlTemplate>
+    </Setter>
+
+    <Style Selector="^ /template/ Border#ExpanderContent">
+      <Setter Property="Transitions">
+        <Transitions>
+          <DoubleTransition Property="MaxWidth" Duration="{theme:AnimationFastMs}" />
+          <DoubleTransition Property="MaxHeight" Duration="{theme:AnimationFastMs}" />
+          <DoubleTransition Property="Opacity" Duration="{theme:AnimationFastMs}" />
+        </Transitions>
+      </Setter>
+    </Style>
+
+    <!-- Reveal extents: expanded opens the card to its natural size, collapsed folds it flat. -->
+    <Style Selector="^:expanded /template/ Border#ExpanderContent">
+      <Setter Property="MinWidth" Value="0" />
+      <Setter Property="MinHeight" Value="0" />
+      <Setter Property="MaxWidth" Value="{size:Scaled 1000}" />
+      <Setter Property="MaxHeight" Value="{size:Scaled 1000}" />
+      <Setter Property="Opacity" Value="1" />
+    </Style>
+    <Style Selector="^:not(:expanded) /template/ Border#ExpanderContent">
+      <Setter Property="MinWidth" Value="0" />
+      <Setter Property="MinHeight" Value="0" />
+      <Setter Property="MaxWidth" Value="0" />
+      <Setter Property="MaxHeight" Value="0" />
+      <Setter Property="Opacity" Value="0" />
+    </Style>
+    <!-- Anchor per direction: the card hugs the header's revealing edge -->
+    <Style Selector="^:down /template/ Border#ExpanderContent">
+      <Setter Property="VerticalAlignment" Value="Top" />
+    </Style>
+    <Style Selector="^:up /template/ Border#ExpanderContent">
+      <Setter Property="VerticalAlignment" Value="Bottom" />
+    </Style>
+    <!-- The sideways directions fill the slot beside the header instead of hugging it. -->
+    <Style Selector="^:left /template/ Border#ExpanderContent">
+    </Style>
+    <Style Selector="^:right /template/ Border#ExpanderContent">
+    </Style>
+
+    <Style Selector="^ /template/ ToggleButton#ExpanderHeader:pressed">
+      <Setter Property="RenderTransform" Value="{x:Null}" />
+    </Style>
+
+    <!-- Pinned preview states: the attribute sits on the Expander, so steer the header through its own properties. -->
+    <Style Selector="^[(theme|Preview.State)=Hover] /template/ ToggleButton#ExpanderHeader">
+      <Setter Property="Background" Value="{color:HoverBackgroundDefault}" />
+      <Setter Property="BorderBrush" Value="{color:BorderDefault}" />
+    </Style>
+    <Style Selector="^[(theme|Preview.State)=Pressed] /template/ ToggleButton#ExpanderHeader">
+      <Setter Property="Background" Value="{color:PressedBackgroundDefault}" />
+      <Setter Property="BorderBrush" Value="{color:BorderDefault}" />
+    </Style>
+
+    <Style Selector="^:left /template/ ToggleButton#ExpanderHeader, ^:right /template/ ToggleButton#ExpanderHeader">
+    </Style>
+
+    <Style Selector="^:expanded /template/ ToggleButton#ExpanderHeader">
+      <Setter Property="Tag" Value="expanded" />
+    </Style>
+
+    <Style Selector="^:not(:expanded) /template/ ToggleButton#ExpanderHeader">
+      <Setter Property="CornerRadius" Value="{Binding $parent[Expander].CornerRadius}" />
+      <Setter Property="Tag" Value="collapsed" />
+    </Style>
+
+    <Style Selector="^:expanded:up /template/ ToggleButton#ExpanderHeader">
+      <Setter Property="CornerRadius" Value="{TemplateBinding CornerRadius, Converter={StaticResource BottomCornerRadiusFilterConverter}}" />
+    </Style>
+    <Style Selector="^:expanded:up /template/ Border#ExpanderContent">
+      <Setter Property="CornerRadius" Value="{TemplateBinding CornerRadius, Converter={StaticResource TopCornerRadiusFilterConverter}}" />
+    </Style>
+
+    <Style Selector="^:expanded:down /template/ ToggleButton#ExpanderHeader">
+      <Setter Property="CornerRadius" Value="{TemplateBinding CornerRadius, Converter={StaticResource TopCornerRadiusFilterConverter}}" />
+    </Style>
+    <Style Selector="^:expanded:down /template/ Border#ExpanderContent">
+      <Setter Property="CornerRadius" Value="{TemplateBinding CornerRadius, Converter={StaticResource BottomCornerRadiusFilterConverter}}" />
+    </Style>
+
+    <Style Selector="^:expanded:left /template/ ToggleButton#ExpanderHeader">
+      <Setter Property="CornerRadius" Value="{TemplateBinding CornerRadius, Converter={StaticResource RightCornerRadiusFilterConverter}}" />
+    </Style>
+    <Style Selector="^:expanded:left /template/ Border#ExpanderContent">
+      <Setter Property="CornerRadius" Value="{TemplateBinding CornerRadius, Converter={StaticResource LeftCornerRadiusFilterConverter}}" />
+    </Style>
+
+    <Style Selector="^:expanded:right /template/ ToggleButton#ExpanderHeader">
+      <Setter Property="CornerRadius" Value="{TemplateBinding CornerRadius, Converter={StaticResource LeftCornerRadiusFilterConverter}}" />
+    </Style>
+    <Style Selector="^:expanded:right /template/ Border#ExpanderContent">
+      <Setter Property="CornerRadius" Value="{TemplateBinding CornerRadius, Converter={StaticResource RightCornerRadiusFilterConverter}}" />
+    </Style>
+
+    <Style Selector="^:left /template/ ToggleButton#ExpanderHeader">
+      <Setter Property="DockPanel.Dock" Value="Right" />
+    </Style>
+    <Style Selector="^:up /template/ ToggleButton#ExpanderHeader">
+      <Setter Property="DockPanel.Dock" Value="Bottom" />
+    </Style>
+    <Style Selector="^:right /template/ ToggleButton#ExpanderHeader">
+      <Setter Property="DockPanel.Dock" Value="Left" />
+    </Style>
+    <Style Selector="^:down /template/ ToggleButton#ExpanderHeader">
+      <Setter Property="DockPanel.Dock" Value="Top" />
+    </Style>
+
+    <Style Selector="^:left /template/ ToggleButton#ExpanderHeader">
+      <Setter Property="Theme" Value="{DynamicResource DefaultExpanderToggleButtonLeftTheme}" />
+    </Style>
+    <Style Selector="^:up /template/ ToggleButton#ExpanderHeader">
+      <Setter Property="Theme" Value="{DynamicResource DefaultExpanderToggleButtonUpTheme}" />
+    </Style>
+    <Style Selector="^:right /template/ ToggleButton#ExpanderHeader">
+      <Setter Property="Theme" Value="{DynamicResource DefaultExpanderToggleButtonRightTheme}" />
+    </Style>
+    <Style Selector="^:down /template/ ToggleButton#ExpanderHeader">
+      <Setter Property="Theme" Value="{DynamicResource DefaultExpanderToggleButtonDownTheme}" />
+    </Style>
+
+    <Style Selector="^:left /template/ Border#ExpanderContent">
+      <Setter Property="BorderThickness" Value="{size:Edges Left={size:BaseSize}, Top={size:BaseSize}, Bottom={size:BaseSize}}" />
+    </Style>
+    <Style Selector="^:up /template/ Border#ExpanderContent">
+      <Setter Property="BorderThickness" Value="{size:Edges Left={size:BaseSize}, Top={size:BaseSize}, Right={size:BaseSize}}" />
+    </Style>
+    <Style Selector="^:right /template/ Border#ExpanderContent">
+      <Setter Property="BorderThickness" Value="{size:Edges Top={size:BaseSize}, Right={size:BaseSize}, Bottom={size:BaseSize}}" />
+    </Style>
+    <Style Selector="^:down /template/ Border#ExpanderContent">
+      <Setter Property="BorderThickness" Value="{size:Edges Left={size:BaseSize}, Right={size:BaseSize}, Bottom={size:BaseSize}}" />
+    </Style>
+
+  </ControlTheme>
+</ResourceDictionary>

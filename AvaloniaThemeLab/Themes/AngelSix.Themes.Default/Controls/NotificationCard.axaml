@@ -1,0 +1,174 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+                    xmlns:color="using:AngelSix.ThemeEngine.Colors"
+                    xmlns:size="using:AngelSix.ThemeEngine.Sizes"
+                    xmlns:icons="using:AngelSix.ThemeEngine.Icons"
+                    xmlns:controls="using:AngelSix.ThemeEngine.Controls"
+                    xmlns:default="using:AngelSix.Themes.Default">
+  <!-- Design preview: the Normal card, then one card per NotificationType severity. -->
+  <DataTemplate x:Key="NotificationCardPreview">
+    <StackPanel Orientation="Vertical" Spacing="{size:SpacingXl}">
+      <NotificationCard Classes="normal" Content="Normal" />
+      <NotificationCard NotificationType="Information" Content="Information" />
+      <NotificationCard NotificationType="Success" Content="Success" />
+      <NotificationCard NotificationType="Warning" Content="Warning" />
+      <NotificationCard NotificationType="Error" Content="Error" />
+    </StackPanel>
+  </DataTemplate>
+
+  <Design.PreviewWith>
+    <Border>
+      <Border.Styles>
+        <default:DefaultTheme />
+      </Border.Styles>
+
+      <controls:LightDarkPreview Title="NotificationCard" Orientation="Vertical" ContentTemplate="{StaticResource NotificationCardPreview}" />
+
+    </Border>
+  </Design.PreviewWith>
+
+  <ControlTheme x:Key="{x:Type NotificationCard}" TargetType="NotificationCard">
+    <Setter Property="UseLayoutRounding" Value="True"/>
+    <Setter Property="Width" Value="{size:SurfaceWidthMd}"/>
+    <Setter Property="RenderTransformOrigin" Value="50%,75%"/>
+    <Setter Property="BorderBrush" Value="{color:BorderDefault}" />
+    <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
+    <Setter Property="Background" Value="{color:BackgroundDefault}" />
+    <Setter Property="Foreground" Value="{color:TextDefault}" />
+    <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
+    <Setter Property="HorizontalAlignment" Value="{theme:StandardAlignmentHorizontal}" />
+    <Setter Property="VerticalAlignment" Value="{theme:StandardAlignmentVertical}" />
+    <Setter Property="HorizontalContentAlignment" Value="{theme:StandardAlignmentHorizontal}" />
+    <Setter Property="VerticalContentAlignment" Value="{theme:StandardAlignmentVertical}" />
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
+    <Setter Property="Template">
+      <ControlTemplate>
+        <!-- Carries the dismiss transform while the card is closing -->
+        <LayoutTransformControl Name="PART_LayoutTransformControl" UseRenderTransform="True">
+          <!-- Layout root stacking the shadow behind the card -->
+          <Panel>
+            <Border x:Name="PART_ShadowBorder"
+                    CornerRadius="{TemplateBinding CornerRadius}"
+                    IsHitTestVisible="False"/>
+            <Border x:Name="PART_OuterBorder"
+                    CornerRadius="{TemplateBinding CornerRadius}">
+              <!-- The card surface: no local clip, so the theme's web-style ControlClipToBounds governs and a child growing past the edge is not cut -->
+              <Border Background="{TemplateBinding Background}"
+                      BorderBrush="{TemplateBinding BorderBrush}"
+                      BorderThickness="{TemplateBinding BorderThickness}"
+                      CornerRadius="{TemplateBinding CornerRadius}">
+                <!-- Bar on top, then the message beside a dismiss control in its corner -->
+                <Grid RowDefinitions="Auto,*" ColumnDefinitions="*,Auto">
+                  <!-- Color bar marking the notification type; a Border so its top corners can follow the frame's curve -->
+                  <Border x:Name="PART_HeaderBar" Grid.Row="0" Grid.ColumnSpan="2" />
+                  <ContentPresenter Name="PART_ContentPresenter" Grid.Row="1" Grid.Column="0" Content="{TemplateBinding Content}" />
+                  <!-- Dismisses the card when clicked; sits in the body's top-right corner, inset from the frame by a spacing token -->
+                  <Button Name="PART_CloseButton" Grid.Row="1" Grid.Column="1"
+                          NotificationCard.CloseOnClick="True">
+                    <PathIcon Data="{icons:Close}" />
+                  </Button>
+                </Grid>
+              </Border>
+            </Border>
+          </Panel>
+        </LayoutTransformControl>
+      </ControlTemplate>
+    </Setter>
+
+    <!-- Entrance: fades the card in while it rises and settles onto its resting scale -->
+    <ControlTheme.Animations>
+      <Animation Duration="0:0:0.45" Easing="QuadraticEaseIn" FillMode="Forward">
+        <KeyFrame Cue="0%">
+          <Setter Property="Opacity" Value="0"/>
+          <Setter Property="TranslateTransform.Y" Value="20"/>
+          <Setter Property="ScaleTransform.ScaleX" Value="0.85"/>
+          <Setter Property="ScaleTransform.ScaleY" Value="0.85"/>
+        </KeyFrame>
+        <KeyFrame Cue="30%">
+          <Setter Property="TranslateTransform.Y" Value="-20"/>
+        </KeyFrame>
+        <KeyFrame Cue="100%">
+          <Setter Property="Opacity" Value="1"/>
+          <Setter Property="TranslateTransform.Y" Value="0"/>
+          <Setter Property="ScaleTransform.ScaleX" Value="1"/>
+          <Setter Property="ScaleTransform.ScaleY" Value="1"/>
+        </KeyFrame>
+      </Animation>
+    </ControlTheme.Animations>
+
+    <!-- Closing: scales and slides the card out as it is dismissed -->
+    <Style Selector="^[IsClosing=true] /template/ LayoutTransformControl#PART_LayoutTransformControl">
+      <Setter Property="RenderTransformOrigin" Value="50%,0%"/>
+      <Style.Animations>
+        <Animation Duration="0:0:0.75" Easing="QuadraticEaseOut" FillMode="Forward">
+          <KeyFrame Cue="0%">
+            <Setter Property="TranslateTransform.X" Value="0"/>
+            <Setter Property="ScaleTransform.ScaleY" Value="1"/>
+          </KeyFrame>
+          <KeyFrame Cue="70%">
+            <Setter Property="TranslateTransform.X" Value="800"/>
+            <Setter Property="ScaleTransform.ScaleY" Value="1"/>
+          </KeyFrame>
+          <KeyFrame Cue="100%">
+            <Setter Property="ScaleTransform.ScaleY" Value="0"/>
+            <Setter Property="TranslateTransform.X" Value="800"/>
+          </KeyFrame>
+        </Animation>
+      </Style.Animations>
+    </Style>
+
+    <Style Selector="^[IsClosing=true]">
+      <Style.Animations>
+        <Animation Duration="0:0:1.25" Easing="QuadraticEaseOut" FillMode="Forward">
+          <KeyFrame Cue="100%">
+            <Setter Property="IsClosed" Value="True"/>
+          </KeyFrame>
+        </Animation>
+      </Style.Animations>
+    </Style>
+
+    <Style Selector="^ /template/ Border#PART_ShadowBorder">
+      <Setter Property="Background" Value="{color:OverlayMediumBrush}" />
+      <Setter Property="Margin" Value="{size:Edges Left={size:SpacingLg}, Top={size:SpacingLg}, Right={size:SpacingLg}, Bottom={size:SpacingXxl}}" />
+    </Style>
+
+    <!-- Outer border margin (offset from edge for shadow visibility) -->
+    <Style Selector="^ /template/ Border#PART_OuterBorder">
+      <Setter Property="Margin" Value="{size:Edges Left={size:SpacingLg}, Top={size:SpacingLg}, Right={size:SpacingLg}, Bottom={size:SpacingXxl}}" />
+    </Style>
+
+    <!-- Header bar: the coloured band marking the notification type, tinted by the card's hue. -->
+    <Style Selector="^ /template/ Border#PART_HeaderBar">
+      <Setter Property="Height" Value="{size:ThicknessXxlDouble}" />
+      <Setter Property="Background" Value="{color:AccentBrush Light2}" />
+      <Setter Property="CornerRadius" Value="{size:ConcentricCorners Top=True}" />
+    </Style>
+
+    <!-- Message: padded a step further in than the default content padding, so the text sits inside the card rather than on its edge. -->
+    <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Padding" Value="{size:Edges {size:SpacingXl}}" />
+      <Setter Property="VerticalContentAlignment" Value="{theme:StandardAlignmentVertical}" />
+    </Style>
+
+    <Style Selector="^ /template/ Button#PART_CloseButton">
+      <!-- Theme Exception: Top pins the button to the top-right corner; an edge-hugging alignment has no theme token -->
+      <Setter Property="VerticalAlignment" Value="Top" />
+      <Setter Property="Margin" Value="{size:Edges {size:SpacingXl}}" />
+    </Style>
+
+    <!-- Hue overrides: Information, Success, Warning and Error each pin their hue, so the bar, border and text follow from one block. -->
+    <Style Selector="^:information:not(.normal)">
+      <Setter Property="theme:Accent.Kind" Value="Primary" />
+    </Style>
+    <Style Selector="^:success">
+      <Setter Property="theme:Accent.Kind" Value="Success" />
+    </Style>
+    <Style Selector="^:warning">
+      <Setter Property="theme:Accent.Kind" Value="Warning" />
+    </Style>
+    <Style Selector="^:error">
+      <Setter Property="theme:Accent.Kind" Value="Error" />
+    </Style>
+  </ControlTheme>
+</ResourceDictionary>

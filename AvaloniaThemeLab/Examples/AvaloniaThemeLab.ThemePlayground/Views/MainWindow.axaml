@@ -1,0 +1,74 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:size="using:AngelSix.ThemeEngine.Sizes"
+        xmlns:color="using:AngelSix.ThemeEngine.Colors"
+        xmlns:controls="using:AngelSix.ThemeEngine.Controls"
+        xmlns:converters="using:AvaloniaThemeLab.ThemePlayground.ValueConverters"
+        xmlns:vm="using:AvaloniaThemeLab.ThemePlayground.ViewModels"
+        xmlns:views="using:AvaloniaThemeLab.ThemePlayground.Views"
+        mc:Ignorable="d"
+        x:Class="AvaloniaThemeLab.ThemePlayground.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Design.DataContext="{DesignContext}"
+        Title="AvaloniaThemeLab.ThemePlayground"
+        Width="1200" Height="800">
+  <!-- Per-preview options the theme files key beside their {Name}Preview template. -->
+  <Window.Resources>
+    <converters:PreviewOrientationConverter x:Key="PreviewOrientationConverter" />
+  </Window.Resources>
+  <Window.Styles>
+    <!-- The page's inset inside its viewer is the page's Margin: a viewer's Padding is left out of its scroll extent -->
+    <Style Selector="ScrollViewer#PageHost > :is(ContentControl)">
+      <Setter Property="Margin" Value="{size:Edges {size:SpacingMd}}" />
+    </Style>
+  </Window.Styles>
+  <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,*"
+        ColumnSpacing="{size:SpacingXxl}" RowSpacing="{size:SpacingXxl}" Margin="{size:Edges {size:SpacingXxl}}">
+    <TextBox Grid.Row="0" Grid.Column="0" Text="{Binding SearchText}" PlaceholderText="Search controls"
+             HorizontalAlignment="Stretch" />
+    <ListBox Grid.Row="1" Grid.Column="0" Width="{size:SurfaceWidthSm}"
+             ItemsSource="{Binding Catalogue.Entries}" SelectedItem="{Binding SelectedEntry}">
+      <!-- One template for every entry kind (both derive GalleryEntryViewModel.Name). -->
+      <ListBox.ItemTemplate>
+        <DataTemplate DataType="vm:GalleryEntryViewModel" x:DataType="vm:GalleryEntryViewModel">
+          <TextBlock Text="{Binding Name}" />
+        </DataTemplate>
+      </ListBox.ItemTemplate>
+    </ListBox>
+    <!-- Every preview's SelectedAccent binds to its SelectedItem, so one pick styles the whole application -->
+    <DockPanel Grid.Row="0" Grid.Column="1" HorizontalSpacing="{size:SpacingXl}">
+      <!-- Opens the live theme editor over this window -->
+      <Button DockPanel.Dock="Right" Content="Settings" Command="{Binding OpenSettingsCommand}" />
+      <ListBox x:Name="AccentPicker" DockPanel.Dock="Right"
+               Theme="{StaticResource LightDarkPreviewSwatches}"
+               ItemsSource="{x:Static vm:MainWindowViewModel.AccentChoices}"
+               SelectedItem="{Binding SelectedAccent, Mode=TwoWay}">
+        <!-- Each header swatch paints its hue's list-row pressed fill. -->
+        <ListBox.Styles>
+          <Style Selector="ListBoxItem">
+            <Setter Property="Background" Value="{color:PressedBackgroundDefault}" />
+          </Style>
+        </ListBox.Styles>
+      </ListBox>
+      <!-- Tracks ShownEntry (not SelectedEntry) so the title changes at the same instant the page does -->
+      <TextBlock Text="{Binding ShownEntry?.Name}" />
+    </DockPanel>
+    <!-- Bound to ShownEntry, not SelectedEntry: the sidebar selects on pointer press, so a clicked row flips SelectedEntry mid-click. -->
+    <ScrollViewer x:Name="PageHost" Grid.Row="1" Grid.Column="1" Content="{Binding ShownEntry}">
+      <ScrollViewer.DataTemplates>
+        <!-- Control shown by its theme preview: light and dark halves side by side, each preview centred in its half. -->
+        <DataTemplate DataType="vm:ControlEntryViewModel" x:DataType="vm:ControlEntryViewModel">
+          <!-- Orientation comes from each control's own theme file ({Name}PreviewOrientation,) -->
+          <controls:LightDarkPreview Title="{Binding Name}"
+                                      Orientation="{Binding ControlType, Converter={StaticResource PreviewOrientationConverter}}"
+                                     HorizontalContentAlignment="Center"
+                                     SelectedAccent="{Binding SelectedItem, ElementName=AccentPicker, Mode=TwoWay}"
+                                     ContentTemplate="{Binding ControlType, Converter={StaticResource PreviewTemplateConverter}}" />
+        </DataTemplate>
+        <views:ViewLocator />
+      </ScrollViewer.DataTemplates>
+    </ScrollViewer>
+  </Grid>
+</Window>

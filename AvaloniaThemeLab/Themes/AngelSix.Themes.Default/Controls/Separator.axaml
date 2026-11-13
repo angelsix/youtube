@@ -1,0 +1,54 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+                    xmlns:color="using:AngelSix.ThemeEngine.Colors"
+                    xmlns:size="using:AngelSix.ThemeEngine.Sizes"
+                    xmlns:controls="using:AngelSix.ThemeEngine.Controls"
+                    xmlns:default="using:AngelSix.Themes.Default">
+  <!-- Design preview: a horizontal rule stretched across the pane, and a vertical rule dividing two items in a row. -->
+  <DataTemplate x:Key="SeparatorPreview">
+    <StackPanel Spacing="{size:SpacingXl}" HorizontalAlignment="Left">
+      <Separator />
+      <!-- A vertical rule dividing two items in a row: the grid cell stretches it to the row's height -->
+      <Grid ColumnDefinitions="*, Auto, *" MinHeight="{size:ControlHeightMd}">
+        <Label Content="First item" Grid.Column="0" />
+        <!-- A vertical rule: its length runs down the row, so the instance names it here -->
+        <Separator Grid.Column="1"
+                   Margin="{size:Edges {size:SpacingSm}}"
+                   Width="{size:ThicknessSmDouble}"
+                   MinHeight="{size:ControlHeightMd}" />
+        <Label Content="Second item" Grid.Column="2" />
+      </Grid>
+    </StackPanel>
+  </DataTemplate>
+
+  <Design.PreviewWith>
+    <Border>
+      <Border.Styles>
+        <default:DefaultTheme />
+      </Border.Styles>
+
+      <controls:LightDarkPreview Title="Separator" ContentTemplate="{StaticResource SeparatorPreview}" />
+
+    </Border>
+  </Design.PreviewWith>
+
+  <ControlTheme x:Key="{x:Type Separator}" TargetType="Separator">
+    <!-- Visual defaults: a divider stays neutral whatever the enclosing hue -->
+    <Setter Property="Background" Value="{color:NeutralDark1Brush}" />
+    <Setter Property="Foreground" Value="{color:TextDefault}" />
+    <Setter Property="Focusable" Value="False" />
+    <Setter Property="Height" Value="{size:ThicknessSmDouble}" />
+    <Setter Property="Margin" Value="{size:Edges {size:SpacingXxl}, {size:SpacingMd}}" />
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
+
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Border BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}"
+                CornerRadius="{TemplateBinding CornerRadius}"
+                Background="{TemplateBinding Background}" />
+      </ControlTemplate>
+    </Setter>
+  </ControlTheme>
+</ResourceDictionary>

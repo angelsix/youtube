@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>AngelSix.Themes.Default — Control Theme Rules</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --paper: oklch(0.965 0.018 85);
+    --paper-deep: oklch(0.945 0.024 82);
+    --card: oklch(0.988 0.01 88);
+    --ink: oklch(0.22 0.025 50);
+    --ink-soft: oklch(0.48 0.03 55);
+    --rule: oklch(0.22 0.025 50 / 14%);
+    --teal: oklch(0.5 0.085 175);
+    --teal-wash: oklch(0.93 0.035 175);
+    --moss: oklch(0.55 0.12 140);
+    --amber: oklch(0.9 0.06 95);
+    --vermilion: oklch(0.52 0.2 25);
+    --code: oklch(0.955 0.02 85);
+    --shadow: 3px 3px 0 0 oklch(0.22 0.025 50 / 85%);
+    --shadow-lift: 5px 5px 0 0 oklch(0.22 0.025 50 / 90%);
+    --radius: 14px;
+    --sans: "Bricolage Grotesque", ui-sans-serif, system-ui, sans-serif;
+    --mono: "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; scroll-padding-top: 24px; scrollbar-width: thin; scrollbar-color: var(--ink-soft) transparent; }
+  /* scrollbars */
+  ::-webkit-scrollbar { width: 8px; height: 8px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--ink-soft); border-radius: 999px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--ink); }
+  ::-webkit-scrollbar-corner { background: transparent; }
+  body {
+    margin: 0; color: var(--ink); font: 16px/1.65 var(--sans); -webkit-font-smoothing: antialiased;
+    background-color: var(--paper);
+    background-image:
+      radial-gradient(circle at 12% 8%, oklch(0.94 0.035 82 / 70%) 0, transparent 38vw),
+      radial-gradient(circle at 88% 30%, oklch(0.945 0.03 95 / 55%) 0, transparent 42vw),
+      radial-gradient(circle at 40% 92%, oklch(0.935 0.035 78 / 50%) 0, transparent 45vw);
+    background-attachment: fixed;
+  }
+  a { color: var(--teal); text-underline-offset: 3px; }
+  code { font-variant-ligatures: none; font-family: var(--mono); font-size: 0.86em; background: var(--code); border: 1px solid var(--rule); border-radius: 6px; padding: 1px 6px; }
+  pre { position: relative; margin: 14px 0; padding: 14px 16px; background: var(--code); border: 1.5px solid var(--ink); border-radius: 10px; overflow-x: auto; }
+  pre code { background: none; border: 0; padding: 0; font-size: 13px; line-height: 1.6; white-space: pre; }
+  .copy { position: absolute; top: 8px; right: 8px; font: 600 11px var(--sans); letter-spacing: .04em; text-transform: uppercase;
+          background: var(--card); color: var(--ink); border: 1.5px solid var(--ink); border-radius: 8px; padding: 3px 9px; cursor: pointer; box-shadow: 2px 2px 0 0 var(--ink); opacity: 0; transition: opacity .15s; }
+  pre:hover .copy, .copy:focus-visible { opacity: 1; }
+  .copy:active { transform: translate(1px, 1px); box-shadow: 1px 1px 0 0 var(--ink); }
+  .k { color: oklch(0.45 0.12 300); } .s { color: oklch(0.5 0.12 145); } .c { color: var(--ink-soft); font-style: italic; } .t { color: var(--teal); }
+
+  /* layout */
+  .shell { display: grid; grid-template-columns: 260px minmax(0, 1fr); gap: 40px; max-width: 1240px; margin: 0 auto; padding: 32px 24px 96px; }
+  nav.toc { position: sticky; top: 24px; align-self: start; max-height: calc(100vh - 48px); overflow-y: auto;
+            background: var(--card); border: 1.5px solid var(--ink); border-radius: var(--radius); box-shadow: var(--shadow); padding: 18px 14px; }
+  nav.toc .brand { font-weight: 700; font-size: 17px; letter-spacing: -.01em; padding: 0 8px 12px; border-bottom: 1.5px dashed var(--rule); margin-bottom: 10px; }
+  nav.toc .brand small { display: block; font-weight: 400; color: var(--ink-soft); font-size: 13px; }
+  nav.toc a { display: block; color: var(--ink); text-decoration: none; padding: 5px 8px; border-radius: 8px; font-size: 14.5px; }
+  nav.toc a.sub { padding-left: 22px; font-size: 13.5px; color: var(--ink-soft); }
+  nav.toc a:hover { background: var(--paper-deep); }
+  nav.toc a.active { background: var(--teal-wash); color: var(--ink); font-weight: 600; }
+  main { min-width: 0; }
+
+  /* masthead */
+  header.mast { grid-column: 1 / -1; padding: 28px 4px 6px; border-bottom: 1.5px solid var(--ink); margin-bottom: 4px; display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
+  header.mast .mark { font: 600 13px var(--sans); letter-spacing: .14em; text-transform: uppercase; color: var(--teal); margin: 0 0 6px; }
+  header.mast h1 { font-size: clamp(48px, 7vw, 92px); line-height: .95; letter-spacing: -.035em; margin: 0; }
+  header.mast h1 span { color: var(--teal); }
+  header.mast p { font-size: 19px; color: var(--ink-soft); margin: 12px 0 0; max-width: 46ch; }
+  header.mast .tags { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; padding-bottom: 6px; }
+  header.mast .tag { font: 600 13px var(--mono); border: 1.5px solid var(--ink); border-radius: 999px; padding: 4px 12px; background: var(--card); box-shadow: 2px 2px 0 0 var(--ink); white-space: nowrap; }
+
+  .docs { display: flex; gap: 8px; margin-top: 14px; flex-wrap: wrap; }
+  .docs a { font: 600 13px var(--sans); color: var(--ink); text-decoration: none; border: 1.5px solid var(--ink); border-radius: 999px; padding: 4px 12px; background: var(--card); box-shadow: 2px 2px 0 0 var(--ink); }
+  .docs a.here { background: var(--ink); color: var(--paper); }
+
+  /* sections */
+  section.page { background: var(--card); border: 1.5px solid var(--ink); border-radius: var(--radius); box-shadow: var(--shadow); padding: 34px 40px; margin-bottom: 32px; }
+  .eyebrow { font: 600 12px var(--sans); letter-spacing: .12em; text-transform: uppercase; color: var(--teal); margin: 0 0 4px; }
+  h1 { font-size: 44px; line-height: 1.05; letter-spacing: -.025em; margin: 0 0 12px; }
+  h2 { font-size: 30px; letter-spacing: -.02em; margin: 0 0 8px; line-height: 1.15; }
+  h3 { font-size: 20px; margin: 30px 0 6px; letter-spacing: -.01em; }
+  h3 .n { display: inline-flex; width: 28px; height: 28px; align-items: center; justify-content: center; margin-right: 10px; border: 1.5px solid var(--ink); border-radius: 50%; font-size: 14px; background: var(--amber); vertical-align: 2px; }
+  .lede { font-size: 18.5px; color: var(--ink-soft); margin: 0 0 18px; max-width: 64ch; }
+  p, li { max-width: 72ch; }
+  hr { border: 0; border-top: 1.5px dashed var(--rule); margin: 30px 0; }
+
+  .note { border: 1.5px solid var(--ink); border-radius: 10px; padding: 12px 16px; margin: 16px 0; background: var(--paper-deep); }
+  .note.why { background: var(--teal-wash); }
+  .note.warn { background: oklch(0.95 0.04 60); }
+  .note b:first-child { display: block; font-size: 12px; letter-spacing: .1em; text-transform: uppercase; margin-bottom: 2px; }
+
+  /* comparison */
+  table.compare th[scope="row"] { background: none; text-transform: none; letter-spacing: 0; font-size: 15px; font-weight: 600; width: 22%; }
+  table.compare thead th:nth-child(3) { color: var(--moss); }
+  table.compare thead th:nth-child(2) { color: var(--vermilion); }
+  table.compare td { font-size: 15px; }
+  table.compare td.no { color: var(--ink-soft); }
+  table.compare td.no s { text-decoration-color: oklch(0.52 0.2 25 / 55%); text-decoration-thickness: 1.5px; }
+  table.compare td.yes { font-weight: 600; background: oklch(0.96 0.03 145 / 55%); }
+  table.compare .mk { display: inline-grid; place-items: center; width: 22px; height: 22px; margin-right: 10px; border-radius: 50%; border: 1.5px solid var(--ink); font-size: 12px; font-weight: 700; vertical-align: 1px; }
+  table.compare td.no .mk { background: oklch(0.93 0.05 25); color: var(--vermilion); }
+  table.compare td.yes .mk { background: oklch(0.9 0.08 145); color: oklch(0.38 0.1 145); }
+
+  /* steps */
+  ol.steps { list-style: none; padding: 0; margin: 18px 0; counter-reset: s; }
+  ol.steps > li { counter-increment: s; position: relative; padding: 0 0 18px 52px; max-width: none; }
+  ol.steps > li::before { content: counter(s); position: absolute; left: 0; top: 0; width: 34px; height: 34px; display: grid; place-items: center;
+                          border: 1.5px solid var(--ink); border-radius: 50%; background: var(--amber); font-weight: 700; box-shadow: 2px 2px 0 0 var(--ink); }
+  ol.steps > li:not(:last-child)::after { content: ""; position: absolute; left: 17px; top: 38px; bottom: 4px; border-left: 1.5px dashed var(--rule); }
+  ol.steps > li > strong { display: block; font-size: 17px; }
+  ol.steps label { cursor: pointer; }
+  ol.steps input { accent-color: var(--teal); margin-right: 6px; transform: scale(1.15); }
+
+  /* pipeline */
+  .flow { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin: 20px 0 8px; }
+  .flow div { border: 1.5px solid var(--ink); border-radius: 12px; padding: 10px 12px; background: var(--paper-deep); font-size: 13.5px; line-height: 1.4; position: relative; }
+  .flow div b { display: block; font-size: 14.5px; }
+  .flow div:not(:last-child)::after { content: "→"; position: absolute; right: -10px; top: 50%; transform: translate(50%, -50%); font-weight: 700; }
+
+  /* table */
+  table { width: 100%; border-collapse: separate; border-spacing: 0; margin: 14px 0; font-size: 14.5px; border: 1.5px solid var(--ink); border-radius: 10px; overflow: hidden; }
+  th, td { text-align: left; padding: 9px 12px; vertical-align: top; border-bottom: 1px solid var(--rule); }
+  th { background: var(--paper-deep); font-size: 12.5px; letter-spacing: .06em; text-transform: uppercase; }
+  tr:last-child td { border-bottom: 0; }
+
+  /* ramp swatch */
+  .ramp { display: flex; border: 1.5px solid var(--ink); border-radius: 10px; overflow: hidden; margin: 14px 0 4px; }
+  .ramp span { flex: 1; height: 38px; position: relative; }
+  .ramp span.seed { outline: 2px solid var(--ink); outline-offset: -4px; }
+  .ramp-labels { display: flex; justify-content: space-between; font: 12px var(--mono); color: var(--ink-soft); margin-bottom: 14px; }
+
+  /* precedence ladder */
+  .ladder { display: grid; gap: 8px; margin: 14px 0; }
+  .ladder > div { display: grid; grid-template-columns: 52px 150px minmax(0, 1fr); align-items: center; gap: 14px; border: 1.5px solid var(--ink); border-radius: 10px; padding: 8px 12px; background: var(--card); }
+  .ladder .p { font: 700 18px var(--mono); text-align: center; border: 1.5px solid var(--ink); border-radius: 8px; background: var(--amber); padding: 2px 0; }
+  .ladder b { display: block; font-size: 15px; } .ladder small { color: var(--ink-soft); font-size: 13px; }
+  .ladder code { font-size: 12.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; }
+  .ladder .win .p { background: var(--teal-wash); }
+  .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 14px 0; }
+  .pair > div { border: 1.5px solid var(--ink); border-radius: 12px; padding: 12px 14px; }
+  .pair .bad { background: oklch(0.96 0.03 25); } .pair .good { background: oklch(0.96 0.03 145); }
+  .pair h4 { margin: 0 0 4px; font-size: 15px; }
+  .pair p { font-size: 14.5px; margin: 6px 0 0; }
+
+  /* glossary */
+  .search { display: flex; gap: 10px; align-items: center; margin: 14px 0 18px; }
+  .search input { flex: 1; font: 16px var(--sans); padding: 10px 14px; border: 1.5px solid var(--ink); border-radius: 10px; background: var(--paper); box-shadow: 2px 2px 0 0 var(--ink); }
+  .search input:focus { outline: 2px solid var(--teal); outline-offset: 2px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+  .chip { font: 600 13px var(--sans); border: 1.5px solid var(--ink); border-radius: 999px; padding: 3px 12px; background: var(--card); cursor: pointer; }
+  .chip.on { background: var(--ink); color: var(--paper); }
+  .gloss { display: grid; gap: 10px; }
+  details.term { border: 1.5px solid var(--ink); border-radius: 10px; background: var(--card); }
+  details.term[open] { box-shadow: var(--shadow); }
+  details.term summary { cursor: pointer; list-style: none; padding: 10px 14px; display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap; }
+  details.term summary::-webkit-details-marker { display: none; }
+  details.term summary::before { content: "+"; font-weight: 700; width: 12px; }
+  details.term[open] summary::before { content: "−"; }
+  details.term summary code { font-weight: 600; font-size: .92em; }
+  details.term summary .kind { font-size: 11.5px; text-transform: uppercase; letter-spacing: .08em; color: var(--ink-soft); margin-left: auto; }
+  details.term summary .short { color: var(--ink-soft); font-size: 14.5px; flex-basis: 100%; padding-left: 22px; }
+  details.term .body { padding: 0 16px 14px 36px; font-size: 15px; }
+  details.term .body pre { margin: 10px 0 4px; }
+  .empty { display: none; color: var(--ink-soft); }
+
+  footer { text-align: center; color: var(--ink-soft); font-size: 13px; }
+
+  @media (max-width: 920px) {
+    header.mast .tags { align-items: flex-start; flex-direction: row; flex-wrap: wrap; }
+    .shell { grid-template-columns: 1fr; }
+    nav.toc { position: static; max-height: none; }
+    section.page { padding: 24px 20px; }
+    .flow, .pair { grid-template-columns: 1fr; }
+    .ladder > div { grid-template-columns: 44px 1fr; }
+    .ladder code { grid-column: 1 / -1; }
+    .flow div:not(:last-child)::after { content: "↓"; right: 50%; top: auto; bottom: -14px; transform: translate(50%, 0); }
+    h1 { font-size: 34px; }
+  }
+
+  .docs { display: flex; gap: 8px; margin-top: 14px; flex-wrap: wrap; }
+  .docs a { font: 600 13px var(--sans); color: var(--ink); text-decoration: none; border: 1.5px solid var(--ink); border-radius: 999px; padding: 4px 12px; background: var(--card); box-shadow: 2px 2px 0 0 var(--ink); }
+  .docs a.here { background: var(--ink); color: var(--paper); }
+  nav.toc .group { font: 600 11px var(--sans); letter-spacing: .12em; text-transform: uppercase; color: var(--ink-soft); padding: 12px 8px 4px; }
+  nav.toc a { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding-top: 4px; padding-bottom: 4px; }
+  nav.toc a .num { display: inline-grid; place-items: center; width: 24px; height: 20px; margin-right: 8px; font: 600 11px var(--mono); color: var(--ink); background: var(--paper-deep); border: 1px solid var(--rule); border-radius: 6px; vertical-align: 1px; }
+  nav.toc a.active .num { background: var(--card); border-color: var(--ink); }
+  nav.toc .group { border-top: 1px dashed var(--rule); margin-top: 6px; }
+  nav.toc .filter + .group { border-top: 0; margin-top: 0; }
+  section.page h2 .badge { display: inline-block; font: 700 13px var(--mono); letter-spacing: .04em; vertical-align: 6px; margin-right: 10px; border: 1.5px solid var(--ink); border-radius: 8px; padding: 2px 9px; background: var(--amber); box-shadow: 2px 2px 0 0 var(--ink); }
+  .statement { border: 1.5px solid var(--ink); border-left: 6px solid var(--teal); border-radius: 10px; padding: 12px 16px; margin: 14px 0; background: var(--card); font-size: 16.5px; }
+  .statement > b:first-child, .field > b:first-child { display: block; font-size: 11.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--teal); margin-bottom: 2px; }
+  .field { margin: 14px 0; }
+  .field > b:first-child { color: var(--ink-soft); }
+  .note.warn > b:first-child { color: var(--vermilion); }
+  section.page h3 { font-size: 18px; }
+  section.page h4 { font-size: 15.5px; margin: 20px 0 4px; }
+  ul ul, ol ul { margin: 4px 0; }
+  li { margin: 3px 0; }
+  .filter { margin: 0 0 14px; }
+  .filter input { width: 100%; font: 15px var(--sans); padding: 9px 12px; border: 1.5px solid var(--ink); border-radius: 10px; background: var(--paper); }
+  .filter input:focus { outline: 2px solid var(--teal); outline-offset: 2px; }
+  .hidden { display: none !important; }
+</style>
+</head>
+<body>
+<div class="shell">
+
+<header class="mast">
+  <div>
+    <p class="mark">AngelSix Theme Engine · Default theme</p>
+    <h1>Theme <span>Rules</span></h1>
+    <p>How every control theme in the default theme is written, and why. Read the philosophy first; it decides the cases no rule covers.</p>
+    <div class="docs"><a href="ThemeEngine.html">Guide</a><a href="ThemePhilosophy.html">Philosophy</a><a href="ThemeRules.html" class="here">Rules</a></div>
+  </div>
+</header>
+
+<nav class="toc" aria-label="Contents">
+  <div class="brand">Contents</div>
+  <div class="filter"><input id="rule-filter" type="search" placeholder="Filter rules…" aria-label="Filter rules" /></div>
+    <div class="group">Foundations</div>
+  <a href="#purpose-overview">Overview</a>
+  <a href="#the-rules">How rules are written</a>
+  <a href="#known-gotchas-properties-not-all-controls-expose">Gotchas</a>
+  <a href="#hard-coded-values-what-is-and-isn-t-allowed">Hard-coded values</a>
+  <div class="group">Tokens</div>
+  <a href="#rule-1" class="rule-link"><span class="num">1</span>Bind to tokens</a>
+  <a href="#rule-5" class="rule-link"><span class="num">5</span>Fewest tokens</a>
+  <a href="#rule-10" class="rule-link"><span class="num">10</span>Compose, don't inline</a>
+  <a href="#rule-22" class="rule-link"><span class="num">22</span>Ladders stay separate</a>
+  <a href="#rule-23" class="rule-link"><span class="num">23</span>Heights are floors</a>
+  <div class="group">Templates</div>
+  <a href="#rule-2" class="rule-link"><span class="num">2</span>TemplateBinding only</a>
+  <a href="#rule-3" class="rule-link"><span class="num">3</span>Theme values in templates</a>
+  <a href="#rule-4" class="rule-link"><span class="num">4</span>Expose every visual</a>
+  <a href="#rule-7" class="rule-link"><span class="num">7</span>Named sub-themes</a>
+  <a href="#rule-15" class="rule-link"><span class="num">15</span>Name the parts</a>
+  <div class="group">Layout</div>
+  <a href="#rule-6" class="rule-link"><span class="num">6</span>Font, alignment, padding</a>
+  <a href="#rule-12" class="rule-link"><span class="num">12</span>Alignment tokens</a>
+  <a href="#rule-18" class="rule-link"><span class="num">18</span>Draw like the web</a>
+  <a href="#rule-19" class="rule-link"><span class="num">19</span>Follow the curve</a>
+  <div class="group">Colour & state</div>
+  <a href="#rule-11" class="rule-link"><span class="num">11</span>State style order</a>
+  <a href="#rule-13" class="rule-link"><span class="num">13</span>Inherited properties</a>
+  <a href="#rule-16" class="rule-link"><span class="num">16</span>Bind to the hue</a>
+  <a href="#rule-21" class="rule-link"><span class="num">21</span>Focus ring colour</a>
+  <div class="group">Files & comments</div>
+  <a href="#rule-8" class="rule-link"><span class="num">8</span>Comments say why</a>
+  <a href="#rule-9" class="rule-link"><span class="num">9</span>No dead code</a>
+  <a href="#rule-14" class="rule-link"><span class="num">14</span>Theme Exception marker</a>
+  <a href="#rule-17" class="rule-link"><span class="num">17</span>Generated style classes</a>
+  <a href="#rule-20" class="rule-link"><span class="num">20</span>Preview sample data</a>
+  <div class="group">Reference</div>
+  <a href="#reference-button-axaml-correctly-themed-control">Button example</a>
+  <a href="#reference-size-tokens-in-the-wrong-slot">Size tokens in the wrong slot</a>
+  <a href="#current-token-inventory-defaulttheme-cs">Token inventory</a>
+</nav>
+
+<main>
+<section class="page" id="purpose-overview">
+  <p class="eyebrow">Theme rules</p>
+  <h2>Purpose &amp; Overview</h2>
+<p>Read <a href="ThemePhilosophy.html">ThemePhilosophy.html</a> first: it says why these rules exist and what they protect, which is how to decide a case no rule covers.</p>
+<p>File paths in these rules (<code>Controls/Button.axaml</code>, <code>Theme/DefaultTheme.cs</code>) are relative to <code>Themes/AngelSix.Themes.Default</code>.</p>
+<p>Avalonia's stock control themes grew organically over years, accumulating legacy patterns, duplicated resources, hard-coded values, and inconsistent styling approaches. The result is a system where restyling even a single control often requires digging through multiple layers of templates, resources, and base themes — and where a global design change (e.g. switching from light to dark, or updating the border radius across all controls) means touching dozens of files individually.</p>
+<h3 id="the-token-system">The Token System</h3>
+<p>This Default theme replaces that with a <b>token-based architecture</b>. A single <code>DefaultTheme.cs</code> class defines every design decision — colors, spacing, type scale, corner radii, control heights, thicknesses — as named tokens. These tokens are exposed as markup extensions in three namespaces, chosen by the C# type of the property they wrap: paint types (<code>Color</code>, anything implementing <code>IBrush</code>) become <code>{color:...}</code> (<code>{color:AccentBrush Light10}</code>), numeric and geometric types (<code>double</code>, <code>Thickness</code>, <code>CornerRadius</code>, ...) become <code>{size:...}</code> (<code>{size:SpacingMd}</code>, <code>{size:RadiusSm}</code>), and everything else stays <code>{theme:...}</code> (<code>{theme:FontFamily}</code>, <code>{theme:StandardAlignmentHorizontal}</code>). Any control theme can reference all three. Every themed file declares the three prefixes on its root element, the two newer ones sitting beside the original <code>theme</code> declaration:</p>
+<pre><code>&lt;<span class="t">ResourceDictionary</span> xmlns=<span class="s">&quot;https://github.com/avaloniaui&quot;</span>
+                    xmlns:theme=<span class="s">&quot;using:AngelSix.ThemeEngine.Generated&quot;</span>
+                    xmlns:color=<span class="s">&quot;using:AngelSix.ThemeEngine.Colors&quot;</span>
+                    xmlns:size=<span class="s">&quot;using:AngelSix.ThemeEngine.Sizes&quot;</span>&gt;</code></pre>
+<div class="note"><b>Spelling is American, everywhere.</b>The paint namespace is <code>AngelSix.ThemeEngine.Colors</code>, the prefix is <code>{color:...}</code>, and the ramp attribute is <code>[ColorRamp]</code> — never <code>Colours</code> / <code>colour</code> / <code>[ColourRamp]</code>. The British forms do not resolve; and beyond compiling, the rest of the ecosystem (Avalonia's own <code>Color</code> type, the generated member names, every downstream theme) spells it <code>color</code>, so mixing in a <code>colour</code> reads as a mistake even where it happens to work. When you write a new themed file, declare the namespaces with the <code>themexml</code> snippet: type it on the root element and press Tab.</div>
+<p>The effect is transformative:</p>
+<ul><li><b>Clean, concise XAML syntax.</b> Instead of referencing resources through string-based keys (<code>{StaticResource MyColor}</code>) with no compile-time checking, you write <code>{color:AccentBrush Light10}</code>, <code>{size:SpacingMd}</code>, <code>{size:RadiusSm}</code>. This is valid XAML that the AngelSix.ThemeEngine source generator understands directly.</li><li><b>Full IntelliSense.</b> Because the theme tokens are generated by a Roslyn source generator from the <code>[Theme]</code>-attributed class, your IDE knows every token exists. No more memorising resource key strings or wondering if a key is misspelled — the tokens appear in autocomplete as you type.</li><li><b>Instant compilation feedback.</b> A mistyped or removed token becomes a compile error, not a silent runtime fallback to a default value. This catches breaking changes the moment you rebuild, not when you run the app and notice something looks wrong.</li><li><b>A theme is a single C# class.</b> To create a dark variant, you subclass <code>DefaultTheme</code> and override the hue you want to change (e.g. <code>AccentNeutral</code>). That's it — every control in the library picks up the new values automatically.</li><li><b>No more hunting through XAML for hard-coded colors.</b> Every visual value flows from a named token with a clear purpose.</li><li><b>Design consistency is enforced by the type system.</b> You can't accidentally use slightly-different greys in two controls because there's only one <code>Dark3</code> stage per hue.</li><li><b>Consumer apps can further customise</b> by subclassing <code>DefaultTheme</code> themselves, or by setting individual properties on controls through normal styling — because every property is exposed as a theme-backed setter (Rule 1) and uses <code>TemplateBinding</code> inside templates (Rule 2) so consumer styles have proper precedence.</li></ul>
+<h3 id="why-rules">Why Rules?</h3>
+<p>A token system only works if every control plays by the same rules. If one control hard-codes a color in its template, it silently bypasses the theme and breaks the promise that "changing the theme restyles everything." If another control uses <code>{theme:...}</code> inside a ControlTemplate instead of <code>TemplateBinding</code>, consumers can no longer override that value through normal styles because of Avalonia's style precedence.</p>
+<p>These rules exist to <b>codify the architecture</b> so that every control file is predictable, consistent, and themable — and so that new contributors can produce correct control themes without needing to understand every nuance of Avalonia's styling system.</p>
+</section>
+<section class="page" id="the-rules">
+  <p class="eyebrow">Theme rules</p>
+  <h2>The Rules</h2>
+<p>Every rule includes a justification so the reasoning is clear and auditable.</p>
+</section>
+<section class="page" id="known-gotchas-properties-not-all-controls-expose">
+  <p class="eyebrow">Theme rules</p>
+  <h2>Known Gotchas — Properties Not All Controls Expose</h2>
+<p>Some properties that are always part of the common setter checklist (Rule 4) do not exist on certain controls. Adding them as <code>Setter</code> statements causes <code>AVLN2000</code> at build time because the property isn't declared on the control's class in Avalonia's API surface.</p>
+<div class="field"><b>Known offenders</b></div>
+<table><tr><th>Property</th><th>Missing On</th><th>Workaround</th></tr><tr><td><code>HorizontalContentAlignment</code>, <code>VerticalContentAlignment</code></td><td><code>AutoCompleteBox</code></td><td>The inner <code>TextBox</code> in the template already uses its natural alignment and stretches to fill the grid cell. The control simply doesn't expose these for styling; do NOT add them as setters.</td></tr><tr><td><code>MinWidth</code>, <code>MinHeight</code></td><td><code>AutoCompleteBox</code> (no <code>MinWidth</code>)</td><td>Size constraints must be set on the <code>TextBox</code> element inside the template via <code>^ /template/</code> style, or on the grid root.</td></tr></table>
+<div class="field"><b>Rule of thumb</b>If a build-time <code>AVLN2000</code> says a property "cannot be resolved" on the control type, check the Avalonia API for that control — don't assume it's a misspelling. Remove the setter and (if the inner element needs the value) push it down to a <code>^ /template/</code> style instead.</div>
+</section>
+<section class="page" id="hard-coded-values-what-is-and-isn-t-allowed">
+  <p class="eyebrow">Theme rules</p>
+  <h2>Hard-Coded Values — What Is and Isn't Allowed</h2>
+<div class="statement"><b>Statement</b>Every color, font family, font size, and font weight on a UI surface flows from a theme token. Hard-coded values are <b>not</b> the default — they are restricted to a small, closed list of exemptions. When you encounter a hard-coded color or font value, replace it with the most suitable theme token. Do not preserve the exact pixel value; pick the token that matches the control's visual role.</div>
+<div class="note"><b>Before you fix one, check the line above it.</b>A hard-coded value preceded by a <code>Theme Exception:</code> comment is a deliberate, reviewed deviation and must be left exactly as it is — see <b>Rule 14</b>.</div>
+<h3 id="violations-these-are-never-allowed-on-ui-elements">Violations — These Are Never Allowed on UI Elements</h3>
+<p>The following patterns are <b>explicit violations</b>. If you see any of them on a UI element (not icon artwork), it must be fixed:</p>
+<table><tr><th>Violation</th><th>Example</th><th>Fix</th></tr><tr><td><b><code>LinearGradientBrush</code> / <code>RadialGradientBrush</code> with hardcoded stops</b></td><td><code>&lt;GradientStop Offset=&quot;0&quot; Color=&quot;#4F000000&quot;/&gt;</code></td><td>Every <code>GradientStop.Color</code> must use a theme token: <code>Color=&quot;{color:AccentNeutral}&quot;</code> (with opacity on the brush or stop)</td></tr><tr><td><b><code>SolidColorBrush</code> with hardcoded hex</b></td><td><code>&lt;SolidColorBrush Color=&quot;#FF797774&quot;/&gt;</code></td><td>Use a colour token: <code>Color=&quot;{color:AccentNeutral}&quot;</code></td></tr><tr><td><b><code>BoxShadow</code> with any hardcoded color</b></td><td><code>BoxShadow=&quot;0 6 8 0 #4F000000&quot;</code></td><td>Replace with a <code>Border</code> element behind the target using <code>Background=&quot;{color:OverlayWeakBrush}&quot;</code> (or another overlay brush). See <a href="#shadow-theming">Shadow Theming</a> below.</td></tr><tr><td><b>Any <code>#RRGGBB</code> or <code>#AARRGGBB</code> hex on a UI element</b></td><td><code>Fill=&quot;#FF000000&quot;</code>, <code>Stroke=&quot;#80FFFFFF&quot;</code></td><td>Replace with the appropriate theme brush token</td></tr></table>
+<div class="note"><b>Avalonia caveat:</b><code>GradientStop</code> has no <code>Opacity</code> property — attempting <code>&lt;GradientStop Opacity=&quot;0.05&quot;/&gt;</code> produces <code>AVLN2000</code>. Use a themed brush with built-in opacity (e.g., <code>{color:OverlayWeakBrush}</code>) instead, or encode the alpha in the color itself via a token.</div>
+<h3 id="exemptions-closed-list">Exemptions — Closed List</h3>
+<p>Only the following categories are exempt from theming. <b>No other exemptions exist.</b> If a value does not fall into one of these categories, it must be themed:</p>
+<table><tr><th>Exemption</th><th>Example</th><th>Why</th></tr><tr><td><b>Icon artwork</b></td><td><code>GeometryDrawing Brush=&quot;#FF797774&quot;</code> inside <code>DrawingGroup</code> resources</td><td>Intrinsic drawn graphics — these are images, not UI surfaces. <b>Note:</b> icon artwork should be moved into <code>ThemeIconGallery.cs</code> or a shared icon resource file; hardcoded icons in control themes are a code smell</td></tr><tr><td><b><code>StrokeDashArray</code> values</b></td><td><code>StrokeDashArray=&quot;3, 2, 6, 2&quot;</code></td><td>Structural pattern definition, not a color</td></tr><tr><td><b>Animation keyframe trajectory values</b></td><td><code>TranslateTransform.Y=&quot;800&quot;</code> in closing animations</td><td>Motion parameters, not visual properties</td></tr><tr><td><b>Structural layout values</b></td><td><code>RowDefinitions=&quot;*, Auto&quot;</code>, <code>ColumnDefinitions=&quot;Auto, *&quot;</code>, <code>Grid.Row=&quot;1&quot;</code></td><td>Layout geometry, not visual style. Proportions (<code>*</code>), <code>Auto</code> and positions only, never a pixel size (below)</td></tr></table>
+<p><b>A fixed pixel size is not structural.</b> <code>BaseSize</code> is a zoom: at <code>BaseSize</code> 2 in a window twice the size every element must land at exactly twice its bounds, and one pixel line (<code>ColumnDefinitions=&quot;64,64,64,8&quot;</code>, <code>&quot;*,32&quot;</code>, <code>MinWidth=&quot;160&quot;</code>) keeps its size and moves everything after and inside it. So the structural exemption covers proportions, <code>Auto</code> and positions, and a size takes a token or <code>{size:Scaled n}</code>, chosen to equal the old literal at <code>BaseSize</code> 1 so the default picture does not move. A grid line cannot take a token: a <code>{size:}</code> double on <code>ColumnDefinition.Width</code> or <code>RowDefinition.Height</code> fails silently (measured: the plain token lands as <code>Auto</code>, a <code>Scaled</code> one leaves the default <code>1*</code>, and neither moves at <code>BaseSize</code> 2). Make the line <code>Auto</code> and size the element in it from a token, or let a <code>UniformGrid</code> with a token width and height divide its cells. <code>AvaloniaThemeLab.Tests/ZoomTests</code> is the check; zero stays fine, because 0 x 2 = 0.</p>
+<div class="note"><b>Current icon artwork in ManagedFileChooser.axaml:</b>The file/folder/volume DrawingGroup icons are Avalonia's stock file picker assets. They are correctly exempted as icon artwork but should be extracted to a shared resource file when Avalonia supports <code>ResourceDictionary.Source</code> in merged dictionaries.</div>
+<h3 id="colors-hues-and-stages">Colors: hues and stages</h3>
+<p>Every color is a <b>hue</b> with a ramp: the hue itself, plus ten evenly-spaced stages either side, the outermost at 97% so no two hues end on the same color. <code>Light1..10</code> recede towards the canvas and <code>Dark1..10</code> advance towards the ink. In the light palette that is white and black. In the dark palette the Light stages travel towards the canvas (the <code>Surface</code> hue's <code>DarkSeed</code>, <code>#222222</code>), keeping the colorfulness of their light twin, and the Dark stages travel towards white.</p>
+<p><b>Stage N is one lightness in every hue.</b> Neutral and the eight chromatic hues carry <code>[ColorRamp(HueAware = true)]</code>: each stage sits at a fixed OKLCH lightness, stepping from L 0.60 towards white, black or the canvas, and the seed gives only hue and chroma (chroma is reduced where sRGB cannot show it). So <code>Dark3</code> is 5.19-8.16:1 on the light canvas and 6.0-6.6:1 on the dark one whatever <code>Accent.Kind</code> says, and a role pinned to a stage means the same thing in every hue. The light palette's hued ink stages (Dark3-Dark7 for the eight chromatic hues) are declared in <code>DefaultTheme.cs</code>: each keeps its OKLCH hue, gains a little lightness (+0.03 at Dark3 tapering to +0.005 at Dark7) and takes full gamut chroma, so light-theme accents read vibrant instead of near-black. Solid (checked, filled, selected) faces use four roles pinned to real ramp stages, the same in both palettes: <code>SolidFillDefault</code> = <code>Dark3</code>, <code>SolidFillHover</code> = <code>Dark4</code>, <code>SolidFillPressed</code> = <code>Dark5</code>, with <code>OnSolidFillInkDefault</code> = <code>Light10</code> for the glyph or text on them. <code>Dark3</code> is the most vivid stage that still carries <code>Light10</code> text at 4.5:1 in every hue (worst 5.11:1 light, 5.84:1 dark); stepping hover and pressed lighter instead fails 4.5:1 in dark. The dark palette still comes from the engine untouched, and Neutral is unchanged. A downstream theme overriding those stages must keep the <code>IsDark</code> delegation to the engine ramp, or it changes the dark palette too. The seed itself (<code>Accent{Hue}</code>) is unchanged. <code>Surface</code> stays off: its stages are the canvas's own tints. A downstream theme overriding a seed must repeat <code>HueAware = true</code>, or that hue's stages drift back to per-seed lightness.</p>
+<p>Control themes never name a hue. They use the hue-agnostic extension, and <code>Accent.Kind</code> decides which hue answers:</p>
+<pre><code>&lt;<span class="t">Setter</span> Property=<span class="s">&quot;Background&quot;</span>  Value=<span class="s">&quot;{color:AccentBrush Light10}&quot;</span> /&gt;
+&lt;<span class="t">Setter</span> Property=<span class="s">&quot;Foreground&quot;</span>  Value=<span class="s">&quot;{color:AccentBrush Dark9}&quot;</span> /&gt;
+&lt;<span class="t">Setter</span> Property=<span class="s">&quot;BorderBrush&quot;</span> Value=<span class="s">&quot;{color:AccentBrush Light1}&quot;</span> /&gt;
+&lt;<span class="t">Style</span> Selector=<span class="s">&quot;^:pointerover&quot;</span>&gt;
+  &lt;<span class="t">Setter</span> Property=<span class="s">&quot;Background&quot;</span> Value=<span class="s">&quot;{color:AccentBrush Light8}&quot;</span> /&gt;
+&lt;/<span class="t">Style</span>&gt;</code></pre>
+<p>One block serves a plain control, <code>Accent.Kind=&quot;Warning&quot;</code> and <code>Accent.Kind=&quot;Brand&quot;</code> alike. There is no <code>.accent</code> class — setting <code>Accent.Kind</code> is the opt-in, and it <b>inherits</b>, so a hue set on a panel reaches everything beneath it. A control that must stay neutral inside a tinted region says <code>Accent.Kind=&quot;Neutral&quot;</code> explicitly.</p>
+<p><b>The seed is the ink, not the fill.</b> A hue's base value is its text and border color; fills are light stages of it. That is why <code>AccentNeutral</code> is <code>#2E2E2E</code> rather than a near-white, and why its dark seed is the reflection <code>#D1D1D1</code>: in the dark palette the ink is light.</p>
+<table><tr><th>Role</th><th>Outlined control</th><th>Filled control (selected, checked)</th></tr><tr><td>Fill</td><td><code>Light10</code></td><td><code>Dark3</code></td></tr><tr><td>Hover</td><td><code>Light8</code></td><td><code>Dark4</code></td></tr><tr><td>Pressed</td><td><code>Light7</code></td><td><code>Dark5</code></td></tr><tr><td>Text</td><td><code>Dark9</code></td><td><code>Light10</code></td></tr><tr><td>Border</td><td><code>Light1</code></td><td>—</td></tr><tr><td>Hover text</td><td><code>Dark7</code></td><td>—</td></tr><tr><td>Dim text</td><td><code>Dark2</code></td><td>—</td></tr></table>
+<p>Both columns are measured on the live build across all nine hue-aware hues. Filled: the fill is 6.0:1 or more against the canvas and its <code>Light10</code> text 5.84:1 or more (worst Error, dark; hover 6.72, pressed 7.72). Outlined: text 13.6:1 or more, dim text 6.0:1 or more, the <code>Light1</code> border 3.16:1 or more (Success, light), the non-text minimum. Before the ramps were hue-aware the same stages ranged from 1.39:1 to 18:1 across hues, which is why the fill used to sit at <code>Dark6</code>. A fill must be a stage, never the seed (<code>{color:AccentPrimaryBrush}</code>): the seed does not move with the palette while the text on it does, so text on a seed fill drops to 2.0-2.65:1 in dark. ToggleButton and SplitButton (and CommandBar's checked toggles) apply it: a checked item fills with its own <code>Accent.Kind</code> hue, so a Warning toggle checks in Warning, never in Primary. Icons on the fill take the same <code>Light10</code>, because a PathIcon inherits its container's Foreground (Rule 13). A checked toggle that is also disabled keeps its filled face under the whole-control <code>{size:DisabledOpacity}</code> dim, like every other disabled control: a disabled control left at full opacity is refused by the AVLG045 gate, so the earlier "drop the fill and show <code>DimTextDefault</code> at full opacity" form is retired. Glyphs on a checked <code>Dark1</code> fill (check marks, radio dots) are non-text: <code>Light10</code> on <code>Dark1</code> is 4.32:1 at worst (Error, dark), above the 3:1 they need. Do not put text on <code>Dark1</code>; it is 4.46:1 on the dark canvas in Error.</p>
+<p><b>A surface with no border uses <code>{color:SurfaceBorderless}</code></b>. The rest fill <code>{color:BackgroundDefault}</code> (Light10) reads as a surface only when a border outlines it; without one it nearly vanishes into the canvas. So a borderless surface (a panel, card or host that draws no border of its own) fills with <code>SurfaceBorderless</code> (Light9): one stage deeper than the rest fill and one lighter than the hover fill (<code>HoverBackgroundDefault</code>, Light8), so it never competes with an interaction state. It follows the control's own hue like every role. A bordered surface keeps <code>BackgroundDefault</code>. Never copy the stage by hand: one role means changing it once changes every borderless surface. <code>EmbeddableControlRoot</code> is the first user.</p>
+<p><b>Selected list rows are outlined, not filled</b>. ComboBoxItem, ListBoxItem and TreeViewItem show selection the way ButtonSpinner shows state: a light fill stage of the row's own hue with <code>{color:TextDefault}</code> text. Selected <code>{color:SelectedBackgroundDefault}</code> (Light6), selected and hovered <code>{color:SelectedBackgroundHover}</code> (Light5), selected and pressed <code>{color:SelectedBackgroundPressed}</code> (Light4), no border (the row's focus uses its own inset border, Rule 21). A disabled row, selected or not, takes the whole-row <code>{size:DisabledOpacity}</code> like any other control. <code>ComboBoxItem.axaml</code> is the reference; the other two copy its selected styles. The filled column above stays for toggles.</p>
+<p><b>Those two conventions are inverses and must not be mixed.</b> A filled control that takes the outlined assignments becomes near-white text on a near-white fill — invisible, with nothing to see in a diff.</p>
+<p><b>The dim role and the accent role are different colours</b>. <code>DimTextDefault</code> is Dark2 and <code>AccentInkDefault</code> is Dark3, so a caption and an accent label are never the same colour. The stage is NOT "one step deeper" than the accent's, because the two palettes' ink ladders run in opposite directions: in the light palette the ink profile's band starts AT Dark3, so Dark3 is the lightest, most saturated ink there and Dark4 is DARKER and heavier — a dim role at Dark4 would be louder than the accent label in every hue. Dark2 is quieter than the accent ink in the dark palette in every hue and for the neutral hue in both. Measured: 15.0-27.7 RGB units apart, against 0.0 before.</p>
+<p><b>Stage names are roles, not directions</b> — <code>Dark</code> stages are ink, <code>Light</code> stages are fill. The dark palette builds each ramp as <code>ThemeColorRamp(seed, mirror: true, stages, canvas)</code>, so <code>Dark9</code> stays the readable ink and <code>Light10</code> the rest fill in both. Never branch on light/dark in a control theme. A ramp that must keep the pre-1.19 dark direction (Light stages towards black) says <code>[ColorRamp(InvertRamp = true)]</code>; none in this theme does.</p>
+<p><b>Declaring a hue is all-or-nothing.</b> The hues carry <code>[AccentHue]</code>, which puts the generator in explicit mode: any hue <em>anywhere</em>, including in a downstream theme, must then carry it too or it silently drops out of the <code>AccentKind</code> enum. <code>AccentFocus</code> deliberately lacks it — it is a role color, reached as <code>{color:AccentFocusBrush}</code>, not a hue a control can <em>be</em>. Borders use <code>{color:BorderDefault}</code>, which follows the control's hue.</p>
+<p><b>An automatic dark counterpart is not always wanted.</b> Mirroring gives every hue a sensible dark twin, but some seeds should simply become a different color in a dark palette rather than a mirror of themselves. <code>ColorRamp.DarkSeed</code> supplies that literal:</p>
+<pre><code>[AccentHue] [ColorRamp(DarkSeed = <span <span class="k">class</span>="s">&quot;#ff0000&quot;</span>)] <span class="k">public</span> <span class="k">virtual</span> Color AccentSurface =&gt; Color.Parse(<span <span class="k">class</span>="s">&quot;#fdfdfd&quot;</span>);</code></pre>
+<p>In a dark palette the whole ramp re-centres on <code>#ff0000</code> — every stage, overlay and accent role derives off it, mirrored as usual — and the generator adds an effective-seed token <code>{Hue}Seed</code> (<code>{color:SurfaceSeed}</code> here): the raw seed when light, the <code>DarkSeed</code> value when dark. Fail-soft: a malformed hex is diagnostic ASTE035 and ignored; a valid hex with no <code>IsDark</code> property is ASTE037 and likewise ignored. A downstream theme overriding the seed must repeat the attribute including <code>DarkSeed</code>, or it loses the re-centring.</p>
+<p><b>A downstream hue must supply the full stage set.</b> <code>AccentBrushResolver</code> returns <code>UnsetValue</code> for a stage a theme does not define, so a partial hue renders with no fill and no border rather than erroring. Build it on <code>ColorRamp</code> like the built-in hues.</p>
+<p><b>Neutral is reachable directly, and that is a different statement.</b> <code>{color:AccentBrush Dark1}</code> follows whatever <code>Accent.Kind</code> the control carries; <code>{color:NeutralDark1Brush}</code> is always the neutral ramp. The <code>Neutral*</code> family exists for the parts of an accented control that must <em>not</em> take the hue — a caret, a disabled label, a divider, a scrollbar groove.</p>
+<table><tr><th>You mean</th><th>Use</th></tr><tr><td>"this follows the control's hue"</td><td><code>{color:AccentBrush Dark1}</code></td></tr><tr><td>"this is neutral, whatever the hue"</td><td><code>{color:NeutralDark1Brush}</code></td></tr></table>
+<p>On a control with no <code>Accent.Kind</code> the two render identically today, which is exactly the trap: they are <b>not interchangeable spellings</b>. Reaching for <code>AccentBrush</code> where you meant neutral produces a control that silently recolors the moment it lands inside a tinted region — and <code>Kind</code> inherits, so that can happen far from the file you are editing. Pick the one that states the intent.</p>
+<p><b>Stage properties have no markup extension.</b> The generator suppresses them, because <code>{color:AccentBrush Dark2}</code> already reaches every one and ~460 entries make IntelliSense unusable. Only the base <code>Accent{Hue}</code> and <code>Accent{Hue}Brush</code> are emitted. There is no color-valued equivalent of <code>AccentBrush</code>, so a <code>GradientStop</code> or <code>Pen</code> can only reach a hue's base.</p>
+<h3 id="accent-roles-named-stages-for-recurring-assignments">Accent Roles — Named Stages for Recurring Assignments</h3>
+<p>Where the same stage recurs as a <em>semantic</em> assignment (outlined text ink, rest fill, border, hover, pressed), prefer the role token over the raw stage:</p>
+<table><tr><th>You mean</th><th>Use</th><th>Raw equivalent</th></tr><tr><td>solid (checked/filled) face fill</td><td><code>{color:SolidFillDefault}</code> (hover <code>SolidFillHover</code>, pressed <code>SolidFillPressed</code>)</td><td><code>{color:AccentBrush Dark3}</code> (<code>Dark4</code>, <code>Dark5</code>)</td></tr><tr><td>glyph, icon or text on a solid face</td><td><code>{color:OnSolidFillInkDefault}</code></td><td><code>{color:AccentBrush Light10}</code></td></tr><tr><td>outlined-control text ink</td><td><code>{color:TextDefault}</code></td><td><code>{color:AccentBrush Dark9}</code></td></tr><tr><td>outlined-control border, and a container outline (ListBox, TreeView, ItemsControl, ScrollViewer)</td><td><code>{color:BorderDefault}</code></td><td><code>{color:AccentBrush Light1}</code></td></tr><tr><td>outlined-control rest fill</td><td><code>{color:BackgroundDefault}</code></td><td><code>{color:AccentBrush Light10}</code></td></tr><tr><td>outlined-control hover fill</td><td><code>{color:HoverBackgroundDefault}</code></td><td><code>{color:AccentBrush Light8}</code></td></tr><tr><td>outlined-control hover text</td><td><code>{color:HoverTextDefault}</code></td><td><code>{color:AccentBrush Dark7}</code></td></tr><tr><td>outlined-control pressed fill</td><td><code>{color:PressedBackgroundDefault}</code></td><td><code>{color:AccentBrush Light7}</code></td></tr><tr><td>dimmed text (placeholders, captions, disabled text)</td><td><code>{color:DimTextDefault}</code></td><td><code>{color:AccentBrush Dark2}</code> — follows the hue, safe only because the ramps are hue-aware</td></tr><tr><td><b>accent-coloured text</b> (a coloured label, a link, a coloured caption)</td><td><code>{color:AccentInkDefault}</code></td><td><code>{color:AccentBrush Dark3}</code></td></tr><tr><td><b>the accent's own hairline</b> (an accented control's frame, a caret, a day-marker dot)</td><td><code>{color:AccentLineDefault}</code></td><td><code>{color:AccentBrush Dark1}</code></td></tr><tr><td><b>an accent glyph or mark</b> (a chevron, a pip, a spinner, a knob)</td><td><code>{color:AccentLineDefault}</code></td><td><code>{color:AccentBrush Dark1}</code></td></tr><tr><td><b>the accent selection bar</b> (the tab pipe, the page underline)</td><td><code>{color:AccentInkDefault}</code></td><td><code>{color:AccentBrush Dark3}</code></td></tr><tr><td><b>a soft coloured accent band</b> (a notification's header strip)</td><td><code>{color:AccentBrush Light2}</code></td><td><code>{color:AccentBrush Light2}</code></td></tr><tr><td><b>the accent hairline</b> (a divider, a tick mark)</td><td><code>{color:AccentDividerDefault}</code></td><td><code>{color:AccentBrush Light7}</code></td></tr><tr><td><b>a selected row's tint</b></td><td><code>{color:SelectedBackgroundDefault}</code> (hover <code>SelectedBackgroundHover</code>, pressed <code>SelectedBackgroundPressed</code>)</td><td><code>{color:AccentBrush Light6}</code> (<code>Light5</code>, <code>Light4</code>)</td></tr></table>
+<p>Roles are declared as properties of the theme class — <code>[AccentRole] internal virtual RampStage TextDefault =&gt; RampStage.Dark9;</code> — where the stage is picked from the closed <code>RampStage</code> enum (<code>Base</code>, <code>Light1..20</code>, <code>Dark1..20</code>), so completion offers every legal stage and a typo cannot compile. They resolve through the <b>same accent machinery</b> as <code>AccentBrush</code>: the hue still comes from the target control (<code>Accent.Kind</code> inherits down into template parts), scoped regions still mirror the ramp, and the brush is read off the live theme at render time. A role never freezes a color — it pins only the <em>stage</em>, so retuning "all outlined text globally" is editing one <code>RampStage</code> value in <code>DefaultTheme.cs</code> and rebuilding. Deliberate deviations keep the raw spelling: <code>Window</code>'s <code>Dark8</code>, and the filled-control assignments in the table above. If a site uses a raw stage that matches a role but means something different, leave it raw — the role name would lie.</p>
+<h3 id="shorthand-drop-the-brush-suffix-where-it-is-redundant">Shorthand: drop the <code>Brush</code> suffix where it is redundant</h3>
+<p>Each paint token has two spellings — <code>{color:X}</code> and <code>{color:XBrush}</code> — and they are <b>not always interchangeable</b>. Which one you may use depends on what the bare form actually reads:</p>
+<table><tr><th>Token family</th><th>Bare form reads</th><th>In a paint slot (<code>Background</code>, <code>Foreground</code>, …)</th><th>In a <code>Color</code> slot (<code>GradientStop.Color</code>, <code>SolidColorBrush.Color</code>)</th></tr><tr><td><b>Roles</b> (<code>TextDefault</code>, <code>DimTextDefault</code>, …)</td><td>the <code>…Brush</code> member itself — identical to the suffixed form</td><td>✅ <b>Write the bare form.</b> The suffix is pure noise; <code>{color:TextDefaultBrush}</code> is banned.</td><td>❌ Both spellings hand back a brush, not a color. Reach a plain token instead (<code>{color:AccentNeutral}</code>).</td></tr><tr><td><b>Plain tokens</b> (<code>AccentPrimary</code>, <code>SurfaceDefault</code>, <code>NeutralDark1</code>, …)</td><td>the <code>Color</code> member — a <em>different type</em></td><td>❌ <b>Keep the <code>Brush</code> suffix.</b> A <code>Color</code> cannot be seated in an <code>IBrush</code> property — the renderer throws <code>InvalidCastException</code> (verified against the live pipeline). It fails loudly, so you will never ship it unnoticed, but there is no scenario where the bare form helps here.</td><td>✅ <b>Write the bare form.</b> This is its home: <code>Color=&quot;{color:AccentNeutral}&quot;</code>.</td></tr><tr><td><b>Overlay tints</b> (<code>OverlayWeakBrush</code>, …)</td><td><em>no bare form exists</em></td><td>Keep the suffix — it is the only form.</td><td>Same.</td></tr></table>
+<p>House rule: <b>bare by default wherever a bare form exists and the slot accepts it; the <code>Brush</code> suffix survives only where it is load-bearing</b> — plain tokens feeding paint properties, and overlays everywhere. The positional <code>AccentBrush</code> extension (<code>{color:AccentBrush Dark1}</code>) is already minimal; never append a stage to a role or plain token.</p>
+<div class="note"><b>Never use an <code>Overlay*</code> brush as a <code>Background</code> for a state.</b><code>Background</code> is a single property, so a translucent value <em>replaces</em> the fill rather than layering over it, and whatever is behind the control shows through. It reads correctly only while the control and the page are the same color. Overlays are for shadows and scrims, drawn as their own <code>Border</code> behind the target — see below.</div>
+<h3 id="shadow-theming">Shadow Theming</h3>
+<p>Shadows <b>must</b> change with the theme. A dark theme needs white-tinted shadows (to lift against dark surfaces), while a light theme needs black-tinted shadows. Hardcoded black shadows in a dark theme produce invisible or muddy results.</p>
+<div class="field"><b>The mechanism</b><code>AccentNeutralDark10</code> is the far end of the neutral ramp, which the mirrored dark ramp turns into a near-white lift automatically. The derived brushes apply opacity automatically:</div>
+<table><tr><th>Token</th><th>Opacity</th><th>Use</th></tr><tr><td><code>{color:OverlayWeakBrush}</code></td><td>8%</td><td>Subtle depth, card shadows, hover lifts</td></tr><tr><td><code>{color:OverlayMediumBrush}</code></td><td>16%</td><td>Standard elevation, dropdown panels</td></tr><tr><td><code>{color:OverlayStrongBrush}</code></td><td>32%</td><td>High elevation, modals, focused elements</td></tr></table>
+<div class="field"><b>How to theme each shadow type</b></div>
+<ul><li><b><code>BoxShadow</code> strings</b> (e.g. <code>BoxShadow=&quot;0 6 8 0 #4F000000&quot;</code>): Avalonia's <code>BoxShadow</code> is a string property and cannot be data-bound to theme tokens. <b>Replace the <code>BoxShadow</code> entirely</b> with a <code>Border</code> element positioned behind the target element: ``<code>xml &lt;!-- Shadow layer (behind the card) --&gt; &lt;Border Background=&quot;{color:OverlayWeakBrush}&quot; CornerRadius=&quot;{size:RadiusMd}&quot; Margin=&quot;0, 0, -4, -4&quot; ClipToBounds=&quot;False&quot;/&gt; &lt;!-- Main card content --&gt; &lt;Border Background=&quot;{color:AccentBrush Light10}&quot; CornerRadius=&quot;{size:RadiusMd}&quot;&gt; ... &lt;/Border&gt; </code>``</li><li><b>Gradient shadows</b> (<code>LinearGradientBrush</code>, <code>RadialGradientBrush</code>): every <code>GradientStop.Color</code> takes a colour token (<code>Color=&quot;{color:AccentNeutral}&quot;</code>). A stop has no <code>Opacity</code>, so a fade that must invert between light and dark is better drawn as a <code>Border</code> with <code>{color:OverlayWeakBrush}</code>.</li><li><b><code>SolidColorBrush</code> shadow resources</b>: use a colour token, <code>Color=&quot;{color:AccentNeutral}&quot;</code>, never <code>Color=&quot;#...&quot;</code>.</li></ul>
+<h3 id="judgement-test">Judgement Test</h3>
+<p>When you find any hard-coded color value, apply this test <b>before</b> deciding whether it is exempt:</p>
+<div class="note"><b>❓ "If the user swaps to a dark theme or a colorful accent theme, would this value need to change?"</b>- <b>Yes</b> → This is a <b>violation</b>. No exemption applies. Replace with the most suitable theme token. - <b>No</b> → Does it fall into one of the four closed exemption categories above? If yes, it is allowed. If no, theme it anyway.</div>
+</section>
+<section class="page rule" id="rule-1">
+  <p class="eyebrow">Rule</p>
+  <h2><span class="badge">Rule 1</span>All Control Theme Setters Must Bind to Theme Tokens</h2>
+<div class="statement"><b>Statement</b>Every <code>Setter</code> at the <code>ControlTheme</code> level (i.e. direct children of the <code>&lt;ControlTheme&gt;</code> element) that sets a visual property MUST source its value from a theme token (<code>{color:…}</code>, <code>{size:…}</code> or <code>{theme:…}</code>) or a <code>{StaticResource}</code> defined within the same file. No hard-coded colors, sizes, brushes, or thicknesses at the ControlTheme level.</div>
+<div class="note why"><b>Justification</b>This is the foundational rule. The entire purpose of the token system is that visual properties flow from a single source of truth (the theme class) into every control. A hard-coded value at the ControlTheme level defeats this: it cannot be overridden by a theme swap and must be hunted down and edited manually. By binding every setter to a theme token, we ensure that a consumer can change the theme (e.g. light → dark, or swap in a custom <code>DefaultTheme</code> subclass) and have the entire controls library re-style without touching individual control XAML files.</div>
+<div class="field"><b>Exceptions</b>Logical, non-visual property values that are genuinely intrinsic to the control's behaviour (e.g. <code>ClickMode=&quot;Release&quot;</code>, <code>Focusable=&quot;True&quot;</code>, <code>RecognizesAccessKey=&quot;True&quot;</code>). Also structural properties like <code>RowDefinitions</code> and <code>ColumnDefinitions</code> in templates which define layout structure, not visual style, as long as their lines are proportions or <code>Auto</code>: a pixel line is a size and takes a token (see the exemptions above).</div>
+</section>
+<section class="page rule" id="rule-2">
+  <p class="eyebrow">Rule</p>
+  <h2><span class="badge">Rule 2</span>Inside a ControlTemplate, Use Only TemplateBinding</h2>
+<div class="statement"><b>Statement</b>Within a <code>&lt;ControlTemplate&gt;</code>, every property that connects to the control's own styled properties MUST use <code>{TemplateBinding Property}</code>. Never use a theme token (<code>{color:…}</code>, <code>{size:…}</code>, <code>{theme:…}</code>), <code>{StaticResource}</code>, or hard-coded values inside a ControlTemplate.</div>
+<div class="note why"><b>Justification</b>Avalonia's style precedence means that if a value is set directly on an element inside a ControlTemplate (even via a theme markup extension), it takes higher precedence than a consumer's style that targets the same property. The consumer would then be unable to override that value through normal styling. <code>TemplateBinding</code> preserves the link to the control's property, which the consumer <em>can</em> style through the ControlTheme's setters (Rule 1) or through styles that target the control itself.</div>
+<div class="note"><b>Reference example</b>The Button control uses TemplateBinding in its ControlTemplate for <code>Background</code>, <code>BorderBrush</code>, <code>BorderThickness</code>, <code>CornerRadius</code>, <code>Content</code>, <code>ContentTemplate</code>, <code>Padding</code>, <code>HorizontalContentAlignment</code>, and <code>VerticalContentAlignment</code> — all <code>{TemplateBinding ...}</code>.</div>
+</section>
+<section class="page rule" id="rule-3">
+  <p class="eyebrow">Rule</p>
+  <h2><span class="badge">Rule 3</span>When Theme Values Are Needed Inside a ControlTemplate, Break Out to a Style on the Control's Theme</h2>
+<div class="statement"><b>Statement</b>If a visual value must come from the theme but cannot be routed through a <code>TemplateBinding</code> (because no suitable property exists on the control, or the value needs to change based on pseudo-class state), define a <code>&lt;Style&gt;</code> that targets the inner element using the <code>^ /template/ ElementName</code> selector pattern, and use the theme token there, NOT inside the ControlTemplate markup itself.</div>
+<div class="note why"><b>Justification</b>A style applied via the ControlTheme's <code>Style</code> children targets the visual tree <em>from the outside</em> and respects style precedence correctly. This means a consumer <em>can</em> override it with a higher-specificity style if needed. It also keeps the ControlTemplate itself "dumb" — a pure binding surface — which makes it easier to read and maintain.</div>
+<div class="note"><b>Reference example</b>Button's <code>^:pointerover</code> and <code>^:pressed</code> styles set <code>{color:HoverBackgroundDefault}</code> and <code>{color:PressedBackgroundDefault}</code>: setters on the Button's ControlTheme, not inside the template. CalendarView uses <code>^ /template/</code> styles the same way for its inner parts.</div>
+</section>
+<section class="page rule" id="rule-4">
+  <p class="eyebrow">Rule</p>
+  <h2><span class="badge">Rule 4</span>Every Visual Property on the Control Should Be Exposed as a Setter in the ControlTheme</h2>
+<div class="statement"><b>Statement</b>If a visual aspect of a control can be styled (color, thickness, corner radius, font, padding, alignment, etc.), it SHOULD have a corresponding <code>Setter</code> at the ControlTheme level that maps to a theme token. Do not bury visual constants inside the template or in inner styles.</div>
+<div class="note why"><b>Justification</b>This is the corollary of Rule 2: if a property isn't surfaced as a Setter on the ControlTheme, then <code>{TemplateBinding}</code> has nothing to bind to, and the control becomes unstylable for that property. Exposing properties at the theme level is the contract that enables Rule 2 to work.</div>
+<div class="note"><b>Carve-out — inherited properties (Rule 13).</b><code>Foreground</code> and the <code>Font*</code> properties inherit. For those, setting the ambient value here does not make the control stylable — it makes it <em>unstylable from the outside</em>, because a setter outranks inheritance. Declare them at the roots and only re-declare where the value differs. See Rule 13 before adding <code>Foreground</code> or <code>Font*</code> to the list below.</div>
+<div class="field"><b>Checklist of common properties that should always be exposed</b></div>
+<ul><li><code>Background</code></li><li><code>Foreground</code></li><li><code>BorderBrush</code></li><li><code>BorderThickness</code></li><li><code>CornerRadius</code></li><li><code>Padding</code></li><li><code>FontFamily</code>, <code>FontSize</code>, <code>FontWeight</code></li><li><code>HorizontalAlignment</code>, <code>VerticalAlignment</code></li><li><code>HorizontalContentAlignment</code>, <code>VerticalContentAlignment</code> — these are especially important because they control how content is positioned inside the control. If omitted, they fall through to the control's base-class default (often <code>Stretch</code>/<code>Center</code>), which may not match what the theme expects. Always bind them to the alignment tokens (<code>StandardAlignment</code>, or <code>ButtonAlignment</code> for a control you press; see Rule 12) so the theme's layout intent is honoured everywhere.</li><li><code>MinHeight</code>, <code>MinWidth</code> (or <code>ControlHeightSm</code>/<code>ControlMinWidth</code> tokens)</li><li><code>RenderTransform</code> / <code>Transitions</code> — for state animations, use <code>{theme:TransformScale {size:HoverScale}}</code> on hover and <code>{theme:TransformScale {size:PressedScale}}</code> on press, never one token scaled into the other</li><li><code>Opacity</code> (for disabled states, use <code>{size:DisabledOpacity}</code>)</li></ul>
+</section>
+<section class="page rule" id="rule-5">
+  <p class="eyebrow">Rule</p>
+  <h2><span class="badge">Rule 5</span>Use the Smallest Viable Token Set — Manipulate, Don't Proliferate</h2>
+<div class="statement"><b>Statement</b>Do NOT add new theme tokens to <code>DefaultTheme.cs</code> for every control's unique requirement. Instead, compose and manipulate existing tokens (e.g. apply opacity, combine via overlays, use different shade variants) to achieve the desired appearance. Add a new token only when the same value would be genuinely useful across multiple controls and is a fundamental design dimension.</div>
+<div class="note why"><b>Justification</b>A token system that mirrors every control's idiosyncrasies becomes as complex and hard to maintain as the old system it replaces. The power of tokens comes from a small, consistent vocabulary that designers and themers can learn once. If every control needs unique tokens, the system has failed.</div>
+<div class="field"><b>Patterns for manipulating existing tokens</b></div>
+<ul><li>Use the role stages for states (<code>HoverBackgroundDefault</code>, <code>PressedBackgroundDefault</code>, <code>SelectedBackgroundDefault</code>) instead of adding per-control colours.</li><li>Use stages (<code>{color:AccentBrush Light6}</code>, or the <code>PressedBackgroundDefault</code> role) for press-depth instead of separate press colors.</li><li>Use <code>{color:OverlayWeakBrush}</code> / <code>OverlayMediumBrush</code> / <code>OverlayStrongBrush</code> for shadows and scrims only, never as a state's <code>Background</code>.</li><li>Use <code>{size:Scaled X}</code> (X × <code>BaseSize</code>) for position/size adjustments instead of a new token; <code>{size:Scaled {size:IconSizeMd}, X}</code> scales another token.</li><li>For accent disabled opacity, use <code>{size:DisabledOpacityAccent}</code>, the disabled-opacity ladder's accent step (accent colors are naturally lighter so need higher disabled opacity).</li><li><code>StrokeDashArray</code> is a <b>specific visual choice</b>, not a theme token — hard-code it in the template with an explaining comment.</li></ul>
+</section>
+<section class="page rule" id="rule-6">
+  <p class="eyebrow">Rule</p>
+  <h2><span class="badge">Rule 6</span>Font Family, Alignment, and Padding Must Be Themed, Not Hard-Coded</h2>
+<div class="statement"><b>Statement</b><code>FontFamily</code>, <code>HorizontalAlignment</code>, <code>VerticalAlignment</code>, <code>HorizontalContentAlignment</code>, <code>VerticalContentAlignment</code>, and <code>Padding</code> must be set via theme tokens at the ControlTheme level, not hard-coded in the template or left as default values. The one exception is when the control's natural behaviour demands a specific alignment (e.g. a Calendar header button left-aligned for the month/year label, center-aligned for nav arrows).</div>
+<div class="note why"><b>Justification</b>These properties fundamentally affect how a control integrates into an application's layout. If they are hard-coded inside the template, applications cannot achieve a consistent typographic and spacing rhythm across controls built from different themes. Exposing them as theme-bindable setters gives the themer full control over the app's visual harmony.</div>
+<p>For <code>Padding</code> specifically, use the shared content-padding tokens rather than raw spacing steps: default content padding is <code>{size:SpacingLg}</code> (derived from the spacing ladder's default step), and button-like faces (Button, RepeatButton, ToggleButton, SplitButton, DropDownButton, HyperlinkButton) step their horizontal edges up with <code>{size:SpacingXl}</code>, leaving vertical edges on <code>{size:SpacingLg}</code>. HyperlinkButton takes Button's padding too.</p>
+</section>
+<section class="page rule" id="rule-7">
+  <p class="eyebrow">Rule</p>
+  <h2><span class="badge">Rule 7</span>Named Sub-Themes for Internal Controls Use <code>{StaticResource}</code> Lookup</h2>
+<div class="statement"><b>Statement</b>When a control's template uses a sub-control that needs its own theme (e.g. a <code>Button</code> inside a <code>CalendarView</code>), define a named <code>ControlTheme</code> (e.g. <code>x:Key=&quot;DefaultCalendarViewNavButton&quot;</code>) in the same file and reference it via <code>Theme=&quot;{StaticResource ...}&quot;</code>. Do NOT use inline styling of the sub-control's inner parts for structural theming.</div>
+<div class="note why"><b>Justification</b>Named sub-themes allow the sub-control's appearance to be cleanly separated from its parent and, critically, allow the sub-theme itself to follow Rules 1-6. The parent can then compose multiple sub-themes without duplicating template code.</div>
+</section>
+<section class="page rule" id="rule-8">
+  <p class="eyebrow">Rule</p>
+  <h2><span class="badge">Rule 8</span>Comments Explain Why, in One Line — Never What, Never History</h2>
+<div class="statement"><b>Statement</b>Most code needs no comment. Write one only when the code cannot say something a future reader needs: a constraint, a workaround, or a value that looks wrong but is right. Then:</div>
+<ul><li><b>One line, one sentence.</b> If the reason needs more, it belongs in this document, not in the file.</li><li><b>Say why, never what.</b> <code>Background</code>, <code>Padding</code>, a named <code>PART_</code> or a ramp stage already say what they are. A comment that restates the next line is noise.</li><li><b>No history.</b> No "used to", "was changed", "previously", "now", version numbers, dates or before/after stories. Git holds the history; the comment describes the code as it is.</li><li><b>Nothing personal or internal.</b> No task or plan numbers, no names, no decisions attributed to anyone, no tool or session references. This is a public repository.</li><li><b>No section labels or headings.</b> <code>&lt;!-- Hover state --&gt;</code> above <code>^:pointerover</code> adds length, not meaning.</li><li><b>XML docs on public API:</b> a one-sentence <code>&lt;summary&gt;</code>, plus <code>&lt;param&gt;</code>/<code>&lt;returns&gt;</code> where the name is not enough. No <code>&lt;remarks&gt;</code> essays.</li><li><b><code>Theme Exception:</code></b> (Rule 14) is the one required marker, and it follows the same one-line limit.</li></ul>
+<div class="field"><b>Good</b></div>
+<pre><code><span class="c">&lt;!-- Transparent, not unset: an element with no background is not hit-testable --&gt;</span>
+&lt;<span class="t">Setter</span> Property=<span class="s">&quot;Background&quot;</span> Value=<span class="s">&quot;Transparent&quot;</span> /&gt;</code></pre>
+<div class="field"><b>Bad</b></div>
+<pre><code><span class="c">&lt;!-- Hover state --&gt;</span>
+<span class="c">&lt;!-- The face takes the hover fill, which used to be an overlay until the 1.22 engine --&gt;</span></code></pre>
+</section>
+<section class="page rule" id="rule-9">
+  <p class="eyebrow">Rule</p>
+  <h2><span class="badge">Rule 9</span>No Copied Headers or Dead Code</h2>
+<div class="statement"><b>Statement</b>No copyright headers carried over from other projects, no commented-out code, and no "TODO: investigate" notes. Delete code that is not used.</div>
+</section>
+<section class="page rule" id="rule-10">
+  <p class="eyebrow">Rule</p>
+  <h2><span class="badge">Rule 10</span>Theme Engine Extensions — Compose Tokens, Don't Inline Them</h2>
+<div class="statement"><b>Statement</b>When a theme token's value needs to be transformed (e.g. <code>double</code> → <code>TransformOperations</code> for <code>RenderTransform</code>, or <code>CornerRadius</code> → individual <code>double</code> corners for <code>Shape.RadiusX/Y</code>), add a hand-written markup extension to the <code>AngelSix.ThemeEngine</code> runtime library, in the namespace matching the type it produces (<code>AngelSix.ThemeEngine.Sizes</code> for numeric/geometric results, <code>AngelSix.ThemeEngine.Colors</code> for paints, <code>AngelSix.ThemeEngine.Generated</code> for everything else), following the pattern of existing extensions. Do NOT inline the transformation in the control's XAML or create control-specific converters.</div>
+<div class="field"><b>Known extensions and their syntax</b></div>
+<table><tr><th>Extension</th><th>Syntax</th><th>Purpose</th></tr><tr><td><code>Edges</code></td><td><code>{size:Edges {size:Token}}</code>, <code>{size:Edges {size:H}, {size:V}}</code>, or <code>Left=</code>/<code>Top=</code>/<code>Right=</code>/<code>Bottom=</code> by name</td><td>Compose a <code>Thickness</code> from spacing tokens</td></tr><tr><td><code>Scaled</code></td><td><code>{size:Scaled X}</code>, or <code>{size:Scaled {size:Token}, X}</code></td><td>X × <code>BaseSize</code>, or X × another token</td></tr><tr><td><code>Corners</code></td><td><code>{size:Corners Radius={size:RadiusSm}, Top=True}</code></td><td>Apply a <code>CornerRadius</code> to selected corners only</td></tr><tr><td><code>TransformScale</code></td><td><code>{theme:TransformScale {size:PressedScale}}</code></td><td>Wrap a double token into a <code>TransformOperations</code> for <code>RenderTransform</code></td></tr><tr><td><code>AccentBrush</code></td><td><code>{color:AccentBrush}</code> / <code>{color:AccentBrush Dark1}</code></td><td>Resolve an accent brush against the hue the target control carries (see Rule 16)</td></tr><tr><td><code>ConcentricCorners</code></td><td><code>{size:ConcentricCorners Left=True}</code> (the template's own <code>CornerRadius</code> and <code>BorderThickness</code>; set <code>Radius=</code> for any other)</td><td>The radius of a part inside (or around) a rounded frame that follows the frame's curve (see Rule 19)</td></tr><tr><td><code>AccentColor</code></td><td><code>{color:AccentColor}</code> / <code>{color:AccentColor Dark3}</code></td><td>The <code>Color</code> twin of <code>AccentBrush</code>, for a <code>Color</code> slot a brush cannot fill</td></tr></table>
+<p>All ship in the <code>AngelSix.ThemeEngine</code> package. A new one goes into the engine, not into a theme.</p>
+<p><b>What lives where.</b> This theme holds only what makes it this particular look: <code>Theme/DefaultTheme.cs</code> (the tokens, and the class an app includes as <code>&lt;DefaultTheme /&gt;</code>), <code>Theme/DefaultThemeStyles.axaml</code> (the few app-wide rules a ControlTheme cannot hold; loaded automatically, like the control files), <code>Icons/</code> (its icon set), <code>Controls/*.axaml</code> (the ControlThemes, each with its <code>{Name}Preview</code> template and the <code>Design.PreviewWith</code> that shows it in the designer; the playground's gallery shows the same template), and <code>Design/</code> (sample data a few previews bind to). Anything a different theme would need just as much belongs in the engine: markup extensions and gallery markers in <code>AngelSix.ThemeEngine</code> (<code>{size:ConcentricCorners}</code>, <code>{color:AccentColor}</code>, <code>theme:Icon.Data</code>, <code>theme:PreviewShownIn</code>, <code>theme:PreviewExcluded</code>), and control types, behaviours and converters in <code>AngelSix.ThemeEngine.Controls</code> (<code>controls:LightDarkPreview</code>, <code>controls:Icons</code>, <code>controls:ColorSample</code>, <code>controls:LabelPairing</code>, <code>controls:ScrollReveal</code>, <code>controls:PickerPopupAlignment</code>, <code>controls:WheelSnap</code>, and the <code>FlyoutPlacementTargetWidth</code>, <code>GroupBoxNotchMask</code>, <code>PipsPagerStripExtent</code> and <code>ValidationErrorMessage</code> converters), whose look stays here in <code>Controls/*.axaml</code> exactly as <code>CalendarView</code>'s does. If you find yourself writing C# in this theme that never names <code>DefaultTheme</code>, it probably belongs in the engine.</p>
+</section>
+<section class="page rule" id="rule-11">
+  <p class="eyebrow">Rule</p>
+  <h2><span class="badge">Rule 11</span>State Style Ordering Convention</h2>
+<div class="statement"><b>Statement</b>State styles within a ControlTheme should appear in this order for consistency across all controls:</div>
+<ol><li>Template (the structural layout)</li><li>Named sub-element styles (e.g. <code>^ /template/ ContentPresenter</code>)</li><li>Default hover state (<code>^:pointerover</code>)</li><li>Default pressed state (<code>^:pressed</code>)</li><li>Default disabled state (<code>^:disabled</code>)</li><li>Focus state (<code>^:focus-visible</code>)</li><li>Hue-specific overrides, if any (a control that must pin one hue regardless of <code>Accent.Kind</code>)</li><li>Any additional class or nested styles</li></ol>
+<p>This order ensures that more specific styles (accent) come after the defaults they build upon, and that the template is always first since it defines the visual tree that everything else targets.</p>
+</section>
+<section class="page rule" id="rule-12">
+  <p class="eyebrow">Rule</p>
+  <h2><span class="badge">Rule 12</span>Where a Control and Its Content Sit Comes From the Two Alignment Tokens</h2>
+<div class="statement"><b>Statement</b>The theme has two alignment tokens, each a horizontal and vertical pair:</div>
+<table><tr><th>Token</th><th>Default</th><th>What it places</th></tr><tr><td><code>StandardAlignment</code></td><td>Left, Center</td><td>Everything that isn't pressed: where a control sits in its row, and where its text and content sit inside it</td></tr><tr><td><code>ButtonAlignment</code></td><td>Center, Center</td><td>The content of anything pressed: buttons, toggles, tabs, menu items, spinner arrows</td></tr></table>
+<p>XAML reads each half on its own: <code>{theme:StandardAlignmentHorizontal}</code>, <code>{theme:StandardAlignmentVertical}</code>, <code>{theme:ButtonAlignmentHorizontal}</code>, <code>{theme:ButtonAlignmentVertical}</code>.</p>
+<p>Inside a <code>&lt;ControlTheme&gt;</code>, a setter for the control's own <code>HorizontalAlignment</code>, <code>VerticalAlignment</code>, <code>HorizontalContentAlignment</code> or <code>VerticalContentAlignment</code> MUST use one of these, never a literal.</p>
+<div class="note why"><b>Justification</b>These are the theme's layout choices. A theme that wants every label centred, or every button's content on the left, changes one token and every control follows. A literal in a ControlTheme blocks that.</div>
+<div class="field"><b>Picking the token</b>pick by what the control is, not by the value you want. A control you press (Button, RepeatButton, ToggleButton, SplitButton, DropDownButton, HyperlinkButton, TabItem, MenuItem) binds <code>ButtonAlignment</code> for its content. Everything else binds <code>StandardAlignment</code>, including a check box or radio button, whose content is a label beside a glyph.</div>
+<div class="field"><b>What stays literal</b></div>
+<ul><li><b>Stretch.</b> Stretch is Avalonia's default, so a ControlTheme does not set it at all. A control that needs to fill its slot is left unset; there is no stretch token.</li><li><b>Template parts.</b> Where a part sits inside a template (a chevron on the right, a header at the top, a thumb centred in its track) is the control's anatomy, not a theme choice. Those literals stay.</li><li><b><code>Theme Exception:</code></b> A literal on the control itself that must not follow the tokens is marked with a reason; see Rule 14.</li></ul>
+<div class="field"><b>How to detect</b>a <code>&lt;Setter Property=&quot;...Alignment&quot;</code> on the ControlTheme's own target (not a <code>/template/</code> part) whose <code>Value</code> is a bare string other than one marked by Rule 14.</div>
+<div class="field"><b>How to fix</b></div>
+<table><tr><th>Hard-coded value</th><th>Theme token</th></tr><tr><td><code>HorizontalAlignment=&quot;Left&quot;</code></td><td><code>{theme:StandardAlignmentHorizontal}</code></td></tr><tr><td><code>VerticalAlignment=&quot;Center&quot;</code></td><td><code>{theme:StandardAlignmentVertical}</code></td></tr><tr><td><code>HorizontalContentAlignment=&quot;Left&quot;</code></td><td><code>{theme:StandardAlignmentHorizontal}</code></td></tr><tr><td><code>VerticalContentAlignment=&quot;Center&quot;</code></td><td><code>{theme:StandardAlignmentVertical}</code></td></tr><tr><td><code>HorizontalContentAlignment=&quot;Center&quot;</code> on a pressed control</td><td><code>{theme:ButtonAlignmentHorizontal}</code></td></tr><tr><td><code>VerticalContentAlignment=&quot;Center&quot;</code> on a pressed control</td><td><code>{theme:ButtonAlignmentVertical}</code></td></tr><tr><td><code>HorizontalAlignment=&quot;Stretch&quot;</code>, <code>VerticalAlignment=&quot;Stretch&quot;</code></td><td>delete the setter</td></tr></table>
+</section>
+<section class="page rule" id="rule-13">
+  <p class="eyebrow">Rule</p>
+  <h2><span class="badge">Rule 13</span>Inherited Properties Are Declared Once at the Root and Only Re-Declared Where They Differ</h2>
+<div class="statement"><b>Statement</b><code>Foreground</code>, <code>FontFamily</code>, <code>FontSize</code>, <code>FontWeight</code>, <code>FontStyle</code> and <code>FlowDirection</code> are <b>inherited</b> properties — a value set on a control flows down to every descendant automatically. The theme establishes these once, at the roots (<code>Window</code>, <code>PopupRoot</code>, <code>EmbeddableControlRoot</code>, <code>OverlayPopupHost</code>, and <code>LightDarkPreview</code>, which is the root of a design preview because a preview has no themed window above it). <code>ThemeVariantScope</code> is not a root: this theme has no theme for it. A ControlTheme should then set an inherited property <b>only when its value differs from what the control would inherit</b>. If the value would be the same, leave it unset and let it flow.</div>
+<p>This is the one deliberate carve-out from Rule 4. Rule 4 exists so nothing is hard-coded and everything is themeable; for inherited properties that goal is already met at the root, and re-declaring the same value at every control actively breaks the theme.</p>
+<div class="note why"><b>Justification</b>Inheritance is the <b>lowest</b> priority band in Avalonia (<code>Inherited</code> = 4). Any value that is actually set — a plain ControlTheme setter at <code>Style</code> (3), a <code>{TemplateBinding}</code> at <code>Template</code> (2), a pseudo-class style at <code>StyleTrigger</code> (1) — beats it. So a setter does not merely "state the default": it <b>permanently pins the property</b>, and every ancestor's value, including that ancestor's state and class styles, is blocked from ever reaching the control. The property becomes unreachable from the outside.</div>
+<p>Concretely: a control that pins <code>Foreground</code> cannot participate in an accent container, a selected row, a hover state, or a disabled parent, because none of those values can reach it. The container's state style fires, the container's own foreground changes, and the pinned descendant stays exactly as it was.</p>
+<div class="field"><b>Reference violation (the case that produced this rule)</b><code>PathIcon</code> set <code>Foreground</code> to <code>{color:AccentBrush Dark1}</code> in its visual defaults. Every icon in the library was therefore nailed to the neutral color. When <code>ButtonSpinner</code> set <code>Foreground</code> to <code>{color:AccentPrimaryDark1Brush}</code> on its spinner buttons for hover, the chevron glyph did not change — the icon's own setter (priority 3) outranked the inherited value (priority 4). The fix was to delete the setter, not to add a louder override in <code>ButtonSpinner</code>. One deletion made every <code>PathIcon</code> in the library accent-aware, state-aware and dark-variant-aware at once, because they all now resolve through their container.</div>
+<p>Note the shape of the trap: the wrong fix (push the color down from each container that needs it) appears to work for the control in front of you and has to be repeated forever. The right fix (stop blocking inheritance) is a deletion.</p>
+<div class="field"><b>When you SHOULD set an inherited property</b></div>
+<table><tr><th>Case</th><th>Example</th></tr><tr><td>The control is a root/scope establishing the baseline</td><td><code>Window</code>, <code>PopupRoot</code>, <code>EmbeddableControlRoot</code> set <code>Foreground</code>, <code>FontFamily</code>, <code>FontSize</code>, <code>FontWeight</code></td></tr><tr><td>The value genuinely differs from the ambient one</td><td><code>ToolTip</code> → <code>{size:FontSizeSm}</code>, <code>TabItem</code> → <code>{size:FontSizeLg}</code>, <code>GroupBox</code> → <code>{size:FontSizeLg}</code></td></tr><tr><td>The control's identity carries a color</td><td><code>ProgressBar</code> → <code>{color:AccentBrush Dark3}</code> fill over a <code>{color:AccentBrush Light8}</code> track, its text drawn twice (<code>{color:AccentBrush Light10}</code> clipped to the fill, <code>{color:TextDefault}</code> over the track) so it reads on both; <code>HyperlinkButton</code> → <code>theme:Accent.Kind=&quot;Primary&quot;</code> + <code>{color:AccentBrush Dark3}</code></td></tr><tr><td>The control must contrast with its own background</td><td>A selected item on an accent fill → <code>{color:AccentBrush Light10}</code></td></tr><tr><td>A <b>state or class</b> style changes it</td><td><code>^:disabled</code> → <code>{color:DimTextDefault}</code>, <code>^:pointerover</code> → <code>{color:AccentBrush Dark1}</code></td></tr></table>
+<div class="field"><b>When you SHOULD NOT</b></div>
+<ul><li><b>Exception: <code>Foreground</code> must be restated.</b> It inherits as an already-resolved value, not as a re-evaluating binding, so a control without its own setter wears the Window's neutral ink and <code>Accent.Kind</code> never reaches it. Every themed control sets <code>Foreground</code> explicitly.</li><li>Restating the ambient value in a control's visual defaults — <code>Foreground=&quot;{color:AccentBrush Dark1}&quot;</code>, <code>FontFamily=&quot;{theme:FontFamily}&quot;</code>, <code>FontSize=&quot;{size:FontSizeMd}&quot;</code>, <code>FontWeight=&quot;{theme:FontWeightRegular}&quot;</code> on a control that sits inside a themed root. This is the common case and it is always wrong.</li><li>Any decoration or content-rendering element that has no color identity of its own — icons, glyphs, presenters, adorners. These exist to be colored by their container.</li><li>A named sub-theme for a part inside another control's template (<code>DefaultXxxButton</code>) restating what its host already provides.</li></ul>
+<div class="field"><b>How to detect</b>For every <code>&lt;Setter&gt;</code> on an inherited property that sits in a ControlTheme's <em>visual defaults</em> (not inside a <code>&lt;Style&gt;</code>), ask: <em>if I delete this, what color/font does the control get?</em> If the answer is "the same one", it must be deleted. If you cannot answer without running the app, the property is being set in more places than it should be.</div>
+<div class="field"><b>How to test</b>Put the control inside a container that sets the property to something obviously different (<code>&lt;Border Foreground=&quot;Red&quot;&gt;</code>), or inside a container that sets <code>Accent.Kind</code>. If the control does not follow, something in its ancestry is pinning the value.</div>
+<div class="field"><b>Related</b>this is the same class of failure as Rule 2 — a value assigned at a priority the outside world cannot reach. Rule 2 is about <code>{TemplateBinding}</code> being wrapped so it becomes <code>LocalValue</code>; this rule is about a setter blocking <code>Inherited</code>. Both are "the override silently does nothing" bugs, and neither is visible in a green build.</div>
+</section>
+<section class="page rule" id="rule-14">
+  <p class="eyebrow">Rule</p>
+  <h2><span class="badge">Rule 14</span><code>Theme Exception:</code> Marks a Deliberate Deviation — Never "Fix" What It Guards</h2>
+<div class="statement"><b>Statement</b>A comment whose text begins with exactly <code>Theme Exception:</code> marks the line below it as a <b>known, reviewed deviation</b> from a rule in this document. Do not change that value, do not replace it with a theme token, do not delete the marker. This overrides every other rule here.</div>
+<p>The marker must state <em>why</em> in the same comment. A bare <code>Theme Exception:</code> with no reason is not a valid exception — it is a hard-coded value wearing a label, and should be challenged.</p>
+<pre><code><span class="c">&lt;!-- Theme Exception: Stretch required to make spinner button hover effects full height --&gt;</span>
+&lt;<span class="t">Setter</span> Property=<span class="s">&quot;VerticalAlignment&quot;</span> Value=<span class="s">&quot;Stretch&quot;</span> /&gt;</code></pre>
+<div class="note why"><b>Justification</b>Most rules here are pattern-matchable — "an alignment setter with a bare string is a violation" (Rule 12), "a <code>Foreground</code> setter restating the ambient value is a violation" (Rule 13). That is exactly what makes them enforceable, and exactly what makes them dangerous: a reader or an agent sweeping the library will find a legitimate deviation, recognise the pattern, and "correct" it. The value looks wrong in isolation and is right in context. Without a marker the reason lives only in whoever's head wrote it, and the fix gets silently undone — usually with a green build, because these are visual regressions.</div>
+<p>The marker converts an invisible intention into a checkable fact. It also makes the deviations auditable: <code>grep -rn &quot;Theme Exception&quot; Controls/</code> lists every place the theme knowingly departs from its own rules, which is a far more useful review artefact than a clean-looking file that quietly disagrees with the docs.</p>
+<div class="field"><b>Scope</b>a marker guards the <b>single setter or element immediately below it</b>. To cover a block, either mark each line or say so explicitly in the comment (<code>Theme Exception: ... — applies to all four setters in this style</code>).</div>
+<div class="field"><b>If you believe an exception is wrong</b>say so, don't edit it. Raise it with the reason you disagree. The marker means someone hit a real problem and chose this deliberately; the burden is on the challenger to show the original reason no longer holds.</div>
+<div class="field"><b>When writing a new one</b>exhaust the themed route first. An exception is for values that are structural or intrinsic to the control's mechanics — a full-height hit area, a positional class like <code>TopLeft</code>, an indeterminate progress bar's travel — not for "the token didn't look quite right", which is a request to change the token.</div>
+<div class="field"><b>Tooling note</b>nothing checks the alignment-token or inherited-property rules automatically today; the marker binds readers. Any check added for them later must skip a setter preceded by a <code>Theme Exception:</code> comment, or it will produce exactly the false positives this rule exists to prevent.</div>
+<div class="note"><b>Reference example</b><code>Controls/ButtonSpinner.axaml</code>: <code>VerticalAlignment=&quot;Stretch&quot;</code> on the spinner's RepeatButton sub-theme. The literal is required so the chevron buttons fill the control's height and their hover fills the full edge-to-edge area rather than a centred band.</div>
+</section>
+<section class="page rule" id="rule-15">
+  <p class="eyebrow">Rule</p>
+  <h2><span class="badge">Rule 15</span>Template Parts Are Named, Not Narrated</h2>
+<div class="statement"><b>Statement</b>Inside a <code>ControlTemplate</code>, give every element the template code or styles refer to a <code>Name</code> that says what it is (<code>PART_TextBox</code>, <code>PART_SuggestionList</code>). A good name replaces the comment. Add a one-line comment (Rule 8) only where an element's presence is not obvious: an element that exists purely to clip, to measure, or to work around a framework limitation.</div>
+<div class="note"><b>Reference example</b><code>Controls/AutoCompleteBox.axaml</code>.</div>
+</section>
+<section class="page rule" id="rule-16">
+  <p class="eyebrow">Rule</p>
+  <h2><span class="badge">Rule 16</span>Accent Styles Bind to the Hue, Never to a Named Accent</h2>
+<div class="statement"><b>Statement</b>Bind colors with <code>{color:AccentBrush Stage}</code>, never with a specific hue like <code>{color:AccentPrimaryBrush}</code>. One block then serves every hue instead of being copy-pasted per color. Pin a hue only where the meaning demands it — a focus ring is always <code>{color:AccentFocusBorder}</code>, which resolves to <code>{color:AccentFocusBrush}</code> on neutral controls and, while <code>FocusColorOnAccents</code> is off, to the control's own hue (Rule 21).</div>
+<div class="note why"><b>Why</b><code>{color:AccentBrush}</code> resolves <code>Accent{Hue}{Shade}Brush</code> at runtime, against whichever hue the <em>target control</em> is carrying. Naming <code>AccentPrimaryBrush</code> pins the block to one accent, so supporting warning, success and the rest means duplicating thirty lines apiece — the exact problem the extension exists to remove.</div>
+<div class="field"><b>Correct</b></div>
+<pre><code>&lt;<span class="t">Style</span> Selector=<span class="s">&quot;^:pointerover&quot;</span>&gt;
+  &lt;<span class="t">Setter</span> Property=<span class="s">&quot;Foreground&quot;</span> Value=<span class="s">&quot;{color:AccentBrush}&quot;</span> /&gt;
+  &lt;<span class="t">Setter</span> Property=<span class="s">&quot;BorderBrush&quot;</span> Value=<span class="s">&quot;{color:AccentBrush}&quot;</span> /&gt;
+&lt;/<span class="t">Style</span>&gt;
+
+&lt;<span class="t">Style</span> Selector=<span class="s">&quot;^:pointerover, ^.previewHover&quot;</span>&gt;
+  &lt;<span class="t">Setter</span> Property=<span class="s">&quot;Background&quot;</span> Value=<span class="s">&quot;{color:AccentBrush Light8}&quot;</span> /&gt;
+  &lt;<span class="t">Setter</span> Property=<span class="s">&quot;Foreground&quot;</span> Value=<span class="s">&quot;{color:AccentBrush Dark1}&quot;</span> /&gt;
+&lt;/<span class="t">Style</span>&gt;
+
+<span class="c">&lt;!-- Template parts too: Accent.Kind inherits, so the chevrons resolve the same hue --&gt;</span>
+&lt;<span class="t">Style</span> Selector=<span class="s">&quot;^ /template/ RepeatButton:pointerover:not(:disabled)&quot;</span>&gt;
+  &lt;<span class="t">Setter</span> Property=<span class="s">&quot;Background&quot;</span> Value=<span class="s">&quot;{color:AccentBrush Light8}&quot;</span> /&gt;
+  &lt;<span class="t">Setter</span> Property=<span class="s">&quot;Foreground&quot;</span> Value=<span class="s">&quot;{color:AccentBrush Dark1}&quot;</span> /&gt;
+&lt;/<span class="t">Style</span>&gt;</code></pre>
+<div class="field"><b>Not</b></div>
+<pre><code><span class="c">&lt;!-- Bad: pinned to one hue; needs a full copy for every other accent --&gt;</span>
+&lt;<span class="t">Style</span> Selector=<span class="s">&quot;^:pointerover&quot;</span>&gt;
+  &lt;<span class="t">Setter</span> Property=<span class="s">&quot;Foreground&quot;</span> Value=<span class="s">&quot;{color:AccentPrimaryBrush}&quot;</span> /&gt;
+&lt;/<span class="t">Style</span>&gt;</code></pre>
+<div class="field"><b>Shades</b>the argument is the text between hue and <code>Brush</code> — <code>{color:AccentBrush Dark2}</code> resolves <code>Accent{Hue}Dark2Brush</code>. Available shades are whatever the theme's <code>Accent{Hue}{Shade}Brush</code> properties establish (currently <code>Base</code>, <code>Light1..10</code>, <code>Dark1..10</code>, and on Neutral <code>OverlayWeak</code>, <code>OverlayMedium</code>, <code>OverlayStrong</code>). A hue with no such property falls through to the un-accented setter rather than throwing.</div>
+<p><b>Two separate decisions.</b> <code>theme:Accent.Kind</code> picks the hue and <b>inherits</b> — that is what carries it into template parts, and what lets a container tint everything beneath it. There is no separate accent class: a control's hue is the only switch, and a control that must stay neutral inside a tinted panel says <code>Accent.Kind=&quot;Neutral&quot;</code>.</p>
+<p><b>Adding a hue</b> is a theme edit only: add a <code>[AccentHue, ColorRamp]</code> colour <code>Accent{Hue}</code> (the <code>themeaccent</code> snippet) and the engine generates its ramp and brushes; <code>theme:Accent.Kind=&quot;{Hue}&quot;</code> compiles with IntelliSense. There is no enum to maintain. If the build warns <b>ASTE001</b>, the new name starts with an existing hue's name and inference cannot tell hue from shade; mark every hue <code>[AccentHue]</code>.</p>
+<p><b>Never add a theme property named <code>AccentBrush</code>, <code>Accent</code>, <code>AccentKind</code> or <code>AccentVariant</code></b> — the generator emits classes of those names, and the collision is a bare <code>CS0101</code> pointing at generated files rather than at the property you just added.</p>
+<div class="note"><b>Reference example</b><code>Controls/ButtonSpinner.axaml</code>. The one pinned hue in Button is its validation-error border, which is always <code>Error</code>.</div>
+</section>
+<section class="page rule" id="rule-17">
+  <p class="eyebrow">Rule</p>
+  <h2><span class="badge">Rule 17</span>Style Class Declarations Are Generated — Don't Hand-Edit Them</h2>
+<div class="statement"><b>Statement</b>A class a ControlTheme styles as <code>^.someClass</code> is invisible to the IDE, so <code>Classes=&quot;someClass&quot;</code> on a control is reported as unknown. The engine can declare those classes for you: set <code>&lt;GenerateStyleClassDeclarations&gt;true&lt;/GenerateStyleClassDeclarations&gt;</code> in the theme's project, and every build writes <code>StyleClasses.axaml</code> from the project's ControlThemes. Never edit that file by hand; it is rewritten whole.</div>
+<div class="note why"><b>Why</b>Rider cannot resolve classes declared as <code>^.name</code> inside a ControlTheme: <code>^</code> only means the control through the enclosing ControlTheme's key, inside a <code>ResourceDictionary</code> reached through a merge. The generated file is a <code>Styles</code> collection of empty, type-qualified styles (<code>Button.hero</code>), which set nothing and change no precedence, but give the analyser something to find.</div>
+<p><b>The app includes it,</b> next to the theme, because an analyser reading <code>App.axaml</code> cannot follow <code>&lt;DefaultTheme /&gt;</code> into the theme's files:</p>
+<pre><code>&lt;<span class="t">Application.Styles</span>&gt;
+    &lt;<span class="t">DefaultTheme</span> /&gt;
+    &lt;<span class="t">StyleInclude</span> Source=<span class="s">&quot;avares://AngelSix.Themes.Default/StyleClasses.axaml&quot;</span> /&gt;
+&lt;/<span class="t">Application.Styles</span>&gt;</code></pre>
+<p>The default theme does not turn this on today, so it ships no <code>StyleClasses.axaml</code>; turning it on is a choice for a theme that wants its classes known to the editor.</p>
+<p><b>Only ControlTheme-nested classes need declaring.</b> A top-level selector like <code>&lt;Style Selector=&quot;Button.hero&quot;&gt;</code> in a <code>Styles</code> file is visible to the analyser as it stands.</p>
+<p><code>Examples/AvaloniaThemeLab.ThemePlayground/Theme/BrandControls.axaml</code> is the worked example of the consumer side: it layers <code>.hero</code> and <code>.quiet</code> over the theme's Button with plain top-level selectors, needs no declarations of its own, and reads <code>{color:AccentBrush}</code> so one class serves every hue. It is deliberately not a <code>ControlTheme</code>, so a brand button keeps the theme's template and states. An app-level <code>Style</code> outranks a <code>ControlTheme</code> style, so a setter like <code>Background</code> on <code>Button.hero</code> also wins during <code>:pointerover</code> unless the state is restated, and <code>BrandControls.axaml</code> restates them.</p>
+</section>
+<section class="page rule" id="rule-18">
+  <p class="eyebrow">Rule</p>
+  <h2><span class="badge">Rule 18</span>Controls Draw Like the Web — Clip Only Where a Part Is a Viewport</h2>
+<div class="statement"><b>Statement</b><code>WebRenderStyle</code> in <code>DefaultTheme</code> (on by default) makes the theme draw the way a browser does. Two tokens carry it, and a control theme uses the tokens, never the toggle:</div>
+<table><tr><th>Token</th><th>On</th><th>Off</th><th>Used by</th></tr><tr><td><code>{theme:ControlClipToBounds}</code> (<code>bool</code>)</td><td><code>false</code></td><td><code>true</code></td><td>a <code>ClipToBounds</code> setter in the visual defaults of every ControlTheme whose target is a <code>TemplatedControl</code></td></tr><tr><td><code>{size:HoverZIndex}</code> (<code>int</code>)</td><td><code>1</code></td><td><code>0</code></td><td>any state that grows a control, beside its <code>RenderTransform</code> (Button's <code>^:pointerover</code>)</td></tr></table>
+<p>A subclass turns it off with <code>public override bool WebRenderStyle =&gt; false;</code>, and Avalonia's defaults come back: every templated control clips to its own bounds and nothing is lifted.</p>
+<p><b>It is a setter like every other theme value, so it can be overridden the same way.</b> Every ControlTheme for a <code>TemplatedControl</code> carries <code>&lt;Setter Property=&quot;ClipToBounds&quot; Value=&quot;{theme:ControlClipToBounds}&quot; /&gt;</code> with its other visual defaults. A consumer's own ControlTheme (BasedOn this one or not), a Style, or a local value all beat it, exactly as they beat the theme's <code>Background</code>. A new ControlTheme for a templated control adds the setter too. A theme <code>BasedOn</code> another inherits it and doesn't repeat it. ContentControl gets its template from code (<code>ContentControl.cs:48</code>), so it has a ControlTheme here that carries only this setter.</p>
+<p><b>Pages: one narrow Style.</b> A ControlTheme is found by exact type (<code>StyleKey</code> defaults to <code>GetType()</code>, <code>StyledElement.cs:299,667</code>), so no theme reaches an app's pages: every page is its own <code>MyPage : UserControl</code> subclass. <code>Theme/DefaultThemeStyles.axaml</code> therefore adds one Style, <code>:is(UserControl)</code>, carrying the same token, and every page follows the toggle. A page's local <code>ClipToBounds</code>, or a consumer Style nearer the page, still beats it.</p>
+<p><b>A custom templated control with no theme of its own keeps Avalonia's clip.</b> No theme setter or page style reaches it, and that is accepted: such a control needs its own ControlTheme anyway, and that theme carries the setter like every other.</p>
+<div class="field"><b>Deliberate exceptions</b>PipsPager's item theme sets <code>ClipToBounds=&quot;False&quot;</code>, because its pips draw past their slots in both states. TransitioningContentControl clips its template's root panel locally, because its slide must stay inside it.</div>
+<div class="note why"><b>Why</b>Avalonia clips every <code>TemplatedControl</code> to its own bounds (<code>TemplatedControl.cs:130</code>), so a page, a card or any <code>ContentControl</code> cuts a hover grow at its edge. The web's default is <code>overflow: visible</code>; only a box that asks to clip does. Paint order is the other half: a later sibling paints over an earlier one, and <code>ZIndex</code> reorders siblings of one parent only, so a grown control needs <code>ZIndex</code> to paint over the neighbour it overlaps.</div>
+<div class="field"><b>Where the clip stays</b></div>
+<ul><li><b>Scroll viewports.</b> <code>ScrollContentPresenter</code> is not a <code>TemplatedControl</code> and clips by itself, so scrolled content never draws over a header. A grow at the very edge of a viewport is still cut there, as on the web.</li><li><b>A template part that is a viewport</b> says so with a local <code>ClipToBounds=&quot;True&quot;</code>, which no setter or style can remove: TransitioningContentControl's root panel (its slide would otherwise draw over its neighbours), TextBox, SplitView, NavigationPage, TabControl, ProgressBar, DropDownButton, CommandBar, CalendarView and NotificationCard.</li></ul>
+<div class="field"><b>What follows from it</b></div>
+<ul><li>Content larger than its control is no longer cropped and will show over its neighbours. Clip that one place on purpose; never add margin to "make room".</li><li>Hit-testing follows the drawn pixels: a grown control takes the pointer over the area it covers. Keep grows modest.</li><li>A floating element that must escape every container goes on the AdornerLayer with <code>IsClipEnabled=&quot;False&quot;</code>, or in a Popup.</li></ul>
+<p><b>Measured</b> (Avalonia 12.0.1): a hovered Button in the top-left corner of a page <code>UserControl</code> is drawn on all four sides with the toggle on and cut by the page (left 4.84px, top 0.85px) with it off; its bottom edge paints over the next button only while <code>HoverZIndex</code> is 1; a scroll viewport still masks scrolled-off rows; and a TransitioningContentControl <code>PageSlide</code> stays inside its bounds at 75, 150 and 225ms.</p>
+</section>
+<section class="page rule" id="rule-19">
+  <p class="eyebrow">Rule</p>
+  <h2><span class="badge">Rule 19</span>Nothing Inside a Rounded Frame Paints Past Its Curve — Parts Follow It, Frames Don't Clip</h2>
+<div class="statement"><b>Statement</b>A part that paints (a fill, a stroke, a ring) and touches a rounded frame's corner takes a radius <b>concentric</b> with the frame, from <code>{size:ConcentricCorners}</code>, on exactly the corners it touches. A rounded frame never relies on <code>ClipToBounds</code> to hide what its children paint.</div>
+<div class="field"><b>Why (Avalonia 12.0.1)</b>a Border's <code>CornerRadius</code> is the <em>middle</em> of its stroke ("the corner radius is defined to be the middle of the stroke", <code>GeometryBuilder.cs</code>; <code>BorderRenderHelper</code> strokes the rect deflated by t/2 with the full radius). So the stroke's drawn outer edge is radius r + t/2 at the bounds and its inner edge, where children are arranged, is r − t/2 at inset t. A square child, or one given the frame's own r, paints over the stroke at every corner. <code>ClipToBounds</code> on a Border clips to <code>RoundedRect(bounds, r)</code> (<code>BorderVisual.cs</code>): the <em>outer</em> box at r, which is tighter than the frame's own stroke (it shaves its outer anti-aliasing) and still lets a child cover the stroke. The web clips <code>overflow: hidden</code> children to the padding box at the inner radius; Avalonia has no such clip, so the part carries the shape itself.</div>
+<div class="field"><b>The helper</b>for a part whose bounds sit <code>d</code> inside the frame's bounds and which strokes its own outline <code>T</code> wide, <code>ConcentricCorners</code> returns <code>r + t/2 − d − T/2</code> per selected corner (0 where the frame is square). <code>Inset</code> defaults to the frame's <code>Thickness</code>, the common case of a child inside the frame (giving r − t/2). A part at the frame's own bounds passes <code>Inset</code> = its Margin (0), and a ring outside passes its negative Margin. It reads <code>TemplateBinding</code>s, so a restyled CornerRadius or BorderThickness is followed.</div>
+<div class="field"><b>Where it is used</b></div>
+<ul><li><b>ButtonSpinner</b>: the value presenter and the outer spinner button take the inner curve on the side they touch (both sides swap under <code>:left</code>; all four corners when <code>ShowButtonSpinner</code> is false). This replaces the old <code>{size:Corners}</code> workaround, which gave the button the frame's own r.</li><li><b>Focus ring</b> (<code>AdornerLayer.axaml</code>): the default focus adorner is outset around the control by its own width plus the halo's, and both of its rings are concentric with the focused control. They read the control through <code>AdornerLayer.AdornedElement</code>, which Avalonia sets to the focus target (<code>Control.cs</code> <code>OnGotFocus</code>). It was a square ring drawn inside the control's bounds.</li><li><b>ToggleSwitch</b>: the checked track covers the outline exactly, so it takes the outline's drawn outer edge (inset 0).</li><li><b>A fill that should sit inside a sibling frame</b> uses Avalonia's own inner-edge geometry, <code>BackgroundSizing=&quot;InnerBorderEdge&quot;</code> (ComboBox's focus highlight).</li><li><b>A field inside another control's frame</b> uses the <code>DefaultFramelessTextBox</code> sub-theme from TextBox.axaml (Rule 7; no border, no fill in any state): the editable ComboBox and the CalendarView picker. It replaces CalendarView's private <code>DefaultCalendarViewTextBox</code>, which covered focus and disabled but not hover.</li><li><b>Items inside a popup or list container</b> (ComboBoxItem in the drop-down, MenuItem in ContextMenu, MenuFlyoutPresenter and every submenu) are concentric with the container even though they don't touch its corners: the item radius is the container's radius minus its padding and border, <code>ConcentricCorners</code> with <code>Inset</code> = the container's padding plus thickness, so the item's curve runs parallel to the container's.</li><li><b>A part that doesn't need its own fill</b> has none (TreeView's scroller), and a frame that must mask content clips on an inner panel, not on itself (DropDownButton).</li></ul>
+<p><b>Measured</b> with a supersampled corner check against Avalonia's stroke geometry, every crawler state, light and dark, at scale 1 and 2. OUT is pixels past the outer arc and RING is pixels of the stroke painted over; the second figure is scale 2. Before → after: ButtonSpinner RING 464/6154 → 0/0, ComboBox RING 2922/23938 → 0/0, CalendarView OUT 72/384 → 0/0, and the focus state of every focusable rounded control (e.g. Button RING 824/4256 → 0/0).</p>
+</section>
+<section class="page rule" id="rule-20">
+  <p class="eyebrow">Rule</p>
+  <h2><span class="badge">Rule 20</span>Design Previews May Carry Literal Sample Data — Everything Else Stays Bound</h2>
+<div class="statement"><b>Statement</b>Inside a designer preview, sample <em>data</em> may be hard-coded. A preview is a design-time fixture with no view model behind it, so its job is to show the control's visual states at a glance — and binding sample data to a view model would obscure exactly the states being previewed. This relaxation applies <b>only</b> to a control file's <code>&lt;DataTemplate x:Key=&quot;*Preview&quot;&gt;</code> templates and its <code>&lt;Design.PreviewWith&gt;</code> block. Everywhere else — control templates, ControlTheme setters, the lab app — the rules stand unchanged.</div>
+<div class="field"><b>House pattern</b>each preview lives at the top of its own control file. <code>Controls/Button.axaml</code> declares a keyed <code>&lt;DataTemplate x:Key=&quot;ButtonPreview&quot;&gt;</code> holding the content variants and the interactive states (via <code>theme:Preview.State</code>), then a <code>&lt;Design.PreviewWith&gt;</code> block that shows it through <code>&lt;controls:LightDarkPreview&gt;</code> with <code>&lt;default:DefaultTheme /&gt;</code> applied, so the designer draws the control as you edit its ControlTheme. The playground's gallery shows the same template, so there is one preview per control. Sample data a preview binds to lives in <code>Design/</code>. A themed control with no preview must say why with a <code>theme:PreviewShownIn</code> or <code>theme:PreviewExcluded</code> marker in its file, or the gallery flags it.</div>
+<div class="field"><b>Relaxed inside previews — literal sample data is allowed</b></div>
+<table><tr><th>Kind</th><th>Example</th></tr><tr><td>Strings</td><td><code>Content=&quot;Save&quot;</code>, <code>PlaceholderText=&quot;Default&quot;</code></td></tr><tr><td>Collections</td><td><code>ItemsSource</code> set to a generic list (<code>Controls/AutoCompleteBox.axaml</code>)</td></tr><tr><td>Dates, URLs, enum values</td><td>any literal standing in for bound data</td></tr></table>
+<div class="field"><b>Not relaxed, even inside previews — styling still flows from tokens</b></div>
+<table><tr><th>Still forbidden</th><th>Why</th></tr><tr><td>Literal hex colours or brushes</td><td>Same reason as everywhere else — a preview that ignores the theme hides what a theme swap does to the control</td></tr><tr><td>Literal pixel dimensions</td><td>Use <code>{size:...}</code> (spacing, radii, thicknesses), or <code>{size:Scaled 200}</code> for a sample size no token names</td></tr><tr><td>Hand-rolled control templates</td><td>A preview shows the ControlTheme's template; drawing one inline previews nothing real</td></tr><tr><td>New resource keys that leak outside the preview</td><td>A key referenced beyond the preview escapes this rule's scope and pollutes the dictionary</td></tr></table>
+<p><b>Numbers are no longer sample data.</b> The relaxation once let a preview instance carry <code>Width=&quot;200&quot;</code>. It is withdrawn: a preview's sizes come from tokens or <code>{size:Scaled n}</code>, because <code>BaseSize</code> is a zoom and the gallery must zoom with it. A literal width keeps its control, and everything laid out after it, at the 1x size while the rest of the pane doubles; <code>ZoomTests</code> names it as the root. <code>By</code> equals the old literal, so the preview is unchanged at <code>BaseSize</code> 1.</p>
+<p><b>Stacked panes per control — the <code>{Name}PreviewOrientation</code> key.</b> The playground's gallery (<code>Examples/AvaloniaThemeLab.ThemePlayground/Views/MainWindow.axaml</code>) wraps every control's preview in a <code>LightDarkPreview</code>, side by side by default; a preview file's <code>Design.PreviewWith</code> never reaches the gallery, so a control asks for stacked panes another way: beside its <code>&lt;DataTemplate x:Key=&quot;{Name}Preview&quot;&gt;</code>, a preview file may declare</p>
+<pre><code>&lt;<span class="t">Orientation</span> x:Key=<span class="s">&quot;{Name}PreviewOrientation&quot;</span>&gt;Vertical&lt;/<span class="t">Orientation</span>&gt;</code></pre>
+<p>and the gallery looks it up by name (the same convention as the <code>{Name}Preview</code> template, via <code>PreviewOrientationConverter</code>). Present and <code>Vertical</code> → the two panes stack top over bottom; absent (or any other value) → the default <code>Horizontal</code>. Declare the key in the control's preview file, next to its preview template, exactly like the template itself. First user: Carousel.</p>
+<div class="field"><b>Review stance</b>if a future rule feels like it needs relaxing for previews, relax it explicitly here with a one-line rationale rather than silently deviating. A deviation nobody wrote down is indistinguishable from a mistake.</div>
+</section>
+<section class="page rule" id="rule-21">
+  <p class="eyebrow">Rule</p>
+  <h2><span class="badge">Rule 21</span>The Focus Ring Is Magenta Only on Neutral Controls — Accented Controls Keep Their Own Hue</h2>
+<p><b>Focus never changes a control's size</b>. The focus state sets the border's weight to the control's RESTING weight, so a focused control's border box keeps exactly its rest size (thickening it to <code>ThicknessMd</code> grew auto-sized controls by 2px, shifted layout and broke the state-pass restore, AVLG030). The focus weight is carried by the default focus adorner (<code>AdornerLayer.axaml</code>): a 2px <code>{color:AccentFocusBrush}</code> ring with a thin light halo, drawn concentrically OUTSIDE the control (Rule 19), so it consumes no layout. The control's own border still takes the focus colour below. A control must not null its <code>FocusAdorner</code> unless it draws an equivalent outset ring itself. A pinned <code>Preview.State=&quot;Focused&quot;</code> example shows only the focus-colour border, because the outset ring belongs to real keyboard focus.</p>
+<div class="statement"><b>Statement</b>A focused control announces itself at its RESTING border weight in a colour decided by the theme's <code>FocusColorOnAccents</code> switch (default <b>false</b>) and the control's effective hue:</div>
+<table><tr><th>Target</th><th>Switch off (default)</th><th>Switch on</th></tr><tr><td>Neutral (no chromatic hue above it)</td><td><code>{color:AccentFocusBrush}</code> (magenta)</td><td><code>{color:AccentFocusBrush}</code> (magenta)</td></tr><tr><td>Non-neutral (Warning, Success, …)</td><td><b>its own hue</b> at the focus-border stage</td><td><code>{color:AccentFocusBrush}</code> (magenta)</td></tr></table>
+<p>So with the default, a Warn or Success control that gains keyboard focus keeps its own amber/green border, in a darker stage at the same weight (Dark1, the accent's own hairline stage, against the Light1 rest border), instead of turning magenta; only neutral controls borrow the dedicated focus colour. Setting <code>FocusColorOnAccents</code> to <code>true</code> makes every focused control magenta.</p>
+<p><b>The mechanism — use the tokens, never the toggle.</b> A control theme writes the focus state exactly as it always did, but pointed at the theme's own role token:</p>
+<pre><code><span class="c">&lt;!-- Focus state --&gt;</span>
+&lt;<span class="t">Style</span> Selector=<span class="s">&quot;^:focus-visible, ^[(theme|Preview.State)=Focused]&quot;</span>&gt;
+  &lt;<span class="t">Setter</span> Property=<span class="s">&quot;BorderBrush&quot;</span> Value=<span class="s">&quot;{color:AccentFocusBorder}&quot;</span> /&gt;
+  &lt;<span class="t">Setter</span> Property=<span class="s">&quot;BorderThickness&quot;</span> Value=<span class="s">&quot;{size:ThicknessSm}&quot;</span> /&gt;
+&lt;/<span class="t">Style</span>&gt;</code></pre>
+<p>(<code>xmlns:color=&quot;using:AngelSix.ThemeEngine.Colors&quot;</code> is already on every control file.) <code>{color:AccentFocusBorder}</code> resolves, against the element that receives the setter, to <code>AccentFocusBrush</code> when the target is neutral <b>or</b> the switch is on, and to the target's own <code>Accent{Hue}{Stage}Brush</code> otherwise — where <code>{Stage}</code> is the value of the <code>AccentFocusBorder</code> role <b>read off the resolved theme instance at render time</b> (currently <code>Dark1</code>, so <code>AccentWarningDark1Brush</code>), never hard-coded. Both the switch and the stage are read off the <em>resolved</em> theme instance (honouring a scoped region, exactly like the engine's own converters), so every focused accented control changes at once from one value:</p>
+<pre><code>theme.FocusColorOnAccents = <span class="k">true</span>;   <span <span class="k">class</span>="c">// every focused control magenta</span>
+<span <span class="k">class</span>="c">// or, in the theme&#x27;s own <span class="k">class</span>, move the role&#x27;s stage:</span>
+[AccentRole(NeutralHue = <span <span class="k">class</span>="s">&quot;Neutral&quot;</span>, FocusColour = nameof(AccentFocus), FocusSwitch = nameof(FocusColorOnAccents))]
+<span class="k">internal</span> <span class="k">virtual</span> RampStage AccentFocusBorder =&gt; RampStage.Dark5;</code></pre>
+<p>Do <b>not</b> branch on the hue yourself in a control file, and do <b>not</b> special-case the focus colour per accent — that is what this rule centralises. The decision is DECLARED, not computed: the <code>AccentFocusBorder</code> role carries the engine's FOCUS HUE SWITCH policy (<code>NeutralHue = &quot;Neutral&quot;</code>, <code>FocusColour = nameof(AccentFocus)</code>, <code>FocusSwitch = nameof(FocusColorOnAccents)</code>), and the engine resolves it per hue, inside its own reactive binding — so a change of <code>Accent.Kind</code> re-resolves the focus colour with no other trigger. The C# helper (<code>Theme/FocusBrush.cs</code>, now deleted) resolved the hue once through a Self binding, which is why a focused control kept the old accent's focus colour until it was clicked. The stage lives in <code>DefaultTheme.AccentFocusBorder</code>. To change the accented-focus stage, move <code>AccentFocusBorder</code>; to change the policy, flip <code>FocusColorOnAccents</code>. Moving the role measurably moves the ring: with <code>AccentFocusBorder = Dark5</code> a focused Warning box draws <code>#FF3F2D00</code> light / <code>#FFDEB65E</code> dark instead of <code>#FF9C5F00</code> / <code>#FFC37800</code>, while a focused neutral box stays <code>#FFBF4AF9</code> in both panes.</p>
+<div class="field"><b>Why a converter and not a selector</b>the choice depends on two things at once — the theme boolean and the control's inherited <code>theme:Accent.Kind</code> — and the latter does not reliably reach a template part as an inheritable value in this host. <code>FocusBrush</code> therefore resolves the OWNING CONTROL first (a template part walks <code>TemplatedParent</code> up to the outermost templated control the focus style attaches to) and then climbs the visual ancestry from there, stopping at the first element whose effective hue is set — which is also how the engine's own <code>{color:AccentBrush}</code> behaves. Measured agreement: a focused Warning box's border equals the engine-native <code>{color:AccentBrush Dark1}</code> on a sibling in the same pane, light and dark (light <code>#FF9C5F00</code>, dark <code>#FFC37800</code>); a focused neutral box is <code>#FFBF4AF9</code> (AccentFocus) in both panes.</div>
+<p><b>Known limits.</b> Two behaviours are measured, not assumed:</p>
+<ol><li><b>Liveness:</b> the binding re-evaluates each time the focus state applies, so a hue change while a control stays focused shows on the next focus.</li><li><b>Explicit Neutral inside a tinted region:</b> the engine erases an explicit <code>Accent.Kind=&quot;Neutral&quot;</code> assigned on an element inside a coloured region — assigning the default stores no local value, so at runtime <code>GetHue</code> reports the REGION'S hue and <code>IsSet(HueProperty)</code> is false (measured: a focused box pinned <code>Neutral</code> inside a <code>Warning</code> StackPanel reads <code>Name==&quot;Warning&quot;</code>, <code>IsSet==false</code>; the identical box at top level reads <code>Name==&quot;Neutral&quot;</code>). A deliberately-neutral control inside a tinted region therefore takes the region's hue for its focus border until the engine preserves such assignments; the escape hatch is to wrap the control in its own untinted container.</li></ol>
+<div class="field"><b>Accessibility floor</b>a focused accented control must still differ visibly from its resting state — hence the darker Dark1 border, never a focus state identical to rest.</div>
+</section>
+<section class="page rule" id="rule-22">
+  <p class="eyebrow">Rule</p>
+  <h2><span class="badge">Rule 22</span>Each Size Ladder Moves Only What It Names</h2>
+<div class="statement"><b>Statement</b>Hit targets and control faces (buttons, pip cells, strips, grips, splitters) take <code>ControlHeight</code> steps. Glyphs (icons, dots, chevrons) take <code>IconSize</code> steps. Gaps (padding, margins, spacing, the band round a modal) take <code>Spacing</code> steps. Content widths (columns, panes, rails, a split view's width) take <code>BaseSize</code> or <code>ControlMinWidth</code>, never <code>Spacing</code> or <code>ControlHeight</code>.</div>
+<div class="note why"><b>Why</b>a value on the wrong ladder vanishes when an unrelated setting goes to 0: dots sized by spacing disappear at spacing 0, columns sized by spacing collapse, a page header sized by control height disappears.</div>
+</section>
+<section class="page rule" id="rule-23">
+  <p class="eyebrow">Rule</p>
+  <h2><span class="badge">Rule 23</span>A Control-Height Value On Something That Holds Content Is A Floor</h2>
+<div class="statement"><b>Statement</b>an element holding text or an icon takes <code>MinWidth</code>/<code>MinHeight</code> from a <code>ControlHeight</code> token, never a fixed <code>Width</code>/<code>Height</code>. Fixed sizes stay only on bare faces with no content, and on rows a scroller snaps on. A template <code>ContentPresenter</code> binds <code>HorizontalContentAlignment</code>/<code>VerticalContentAlignment</code> so its content centres, and a control with a hover state paints a background (Transparent if nothing else) so its whole face catches the pointer (AVL035).</div>
+<div class="note why"><b>Why</b>a fixed size crops its content when the ladder shrinks and lets padding push the content sideways; an unpainted face is hit only over its text, so a growing hover flickers.</div>
+</section>
+<section class="page" id="reference-button-axaml-correctly-themed-control">
+  <p class="eyebrow">Theme rules</p>
+  <h2>Reference: Button.axaml (correctly themed control)</h2>
+<p>Button is the reference implementation. Key features:</p>
+<ul><li>Every visual setter bound to a theme token (Rule 1)</li><li><code>TemplateBinding</code> only inside the template (Rule 2)</li><li>Alignment and padding exposed as theme-bound setters (Rules 4, 6 and 12)</li><li>No ambient <code>Font*</code> in its visual defaults; <code>Foreground</code> is restated, as Rule 13 requires, and the state styles change it where it differs</li><li>State styles in order: hover, pressed, disabled, focus, validation error (Rule 11)</li><li>Comments only where the reason is not obvious, one line each (Rule 8)</li><li>Press animation: <code>{theme:TransformScale {size:PressedScale}}</code></li><li>Disabled opacity: <code>{size:DisabledOpacity}</code></li><li>Focus state: <code>BorderBrush=&quot;{color:AccentFocusBorder}&quot;</code> at the resting <code>BorderThickness</code> (Rule 21)</li><li>Designer preview: content variants (text, icon, icon placements), then Default, Hover, Pressed, Focused, Disabled and Error</li><li>Icons are template parts, not content: <code>&lt;Button theme:Icon.Data=&quot;{icons:Save}&quot; Content=&quot;Save&quot; /&gt;</code>, with <code>theme:Icon.Placement</code> <code>Left</code> (default), <code>Top</code>, <code>Right</code> or <code>Bottom</code></li><li>The face is <code>PART_Border</code> (fill, border, padding); a theme that restyles the face targets <code>^ /template/ Border#PART_Border</code>, not the <code>ContentPresenter</code>, which carries only the label</li><li>The icon gap is the button's <code>Padding</code> on the icon's side, applied only between an icon and a label; an icon-only button has none</li><li><code>PART_Strut</code> is an empty <code>TextBlock</code>: one zero-width line of the button's own font, so an icon-only button is exactly as tall as a text button</li></ul>
+<p>See <code>Controls/Button.axaml</code> for the full implementation.</p>
+</section>
+<section class="page" id="reference-size-tokens-in-the-wrong-slot">
+  <p class="eyebrow">Theme rules</p>
+  <h2>Reference: Size Tokens in the Wrong Slot</h2>
+<p>a size token seats itself in a slot of the <em>wrong CLR type</em> without any error — Avalonia converts what it cannot convert to <b>0</b>, so the part simply does not render. Two ladders carry a twin for each reason:</p>
+<table><tr><th>Slot</th><th>Wrong spelling (renders 0)</th><th>Right spelling</th></tr><tr><td><code>Shape.RadiusX</code> / <code>RadiusY</code> (a <code>double</code>)</td><td><code>{size:RadiusSm}</code> (a <code>CornerRadius</code>)</td><td><code>{size:RadiusSmDouble}</code></td></tr><tr><td><code>Width</code>, <code>Height</code>, <code>StrokeThickness</code>, any other <code>double</code> slot fed by the thickness ladder</td><td><code>{size:ThicknessSm}</code> (a <code>Thickness</code>)</td><td><code>{size:ThicknessSmDouble}</code></td></tr></table>
+<p>A <code>Thickness</code> token stays right wherever the property takes a <code>Thickness</code> (<code>BorderThickness</code>, <code>Margin</code>, <code>Padding</code>, <code>Edges</code>, <code>ConcentricCorners</code>'s <code>Thickness=</code>); only when the value feeds a plain number does the <code>…Double</code> twin take over. A green build proves nothing here — the failure is visual, caught only by measuring the rendered bounds.</p>
+<div class="field"><b>Before adding a token</b>add one only when the same value is genuinely useful across several controls and is a real design dimension. Work with the existing tokens first (Rule 5).</div>
+</section>
+<section class="page" id="current-token-inventory-defaulttheme-cs">
+  <p class="eyebrow">Theme rules</p>
+  <h2>Current token inventory (DefaultTheme.cs)</h2>
+<p>The file is laid out in the same order: Palette, Roles, Sizes, Typography, Motion, States, Behaviour, Alignment.</p>
+<table><tr><th>Section</th><th>Tokens</th></tr><tr><td><b>Palette</b></td><td>One seed per hue: <code>AccentNeutral</code>, <code>AccentPrimary</code>, <code>AccentSuccess</code>, <code>AccentWarning</code>, <code>AccentFavourite</code>, <code>AccentError</code>, <code>AccentInfo</code>, <code>AccentDestructive</code>, <code>AccentSubtle</code>, and <code>AccentSurface</code> (the canvas). The engine derives <code>Light1..10</code> / <code>Dark1..10</code> for each; the light palette's ink stages come from the theme's <code>InkProfile</code>. <code>AccentFocus</code> is the focus ring and is not a hue. <code>SurfaceDefault</code> is the canvas for the current palette. <code>IsDark</code> (from <code>ThemeBase</code>) switches palette</td></tr><tr><td><b>Roles</b></td><td>Surfaces: <code>BackgroundDefault</code> (Light10), <code>SurfaceBorderless</code> (Light9), <code>HoverBackgroundDefault</code> (Light8), <code>PressedBackgroundDefault</code> (Light7), <code>SelectedBackgroundDefault</code> / <code>Hover</code> / <code>Pressed</code> (Light6/5/4). Text: <code>TextDefault</code> (Dark9), <code>HoverTextDefault</code> (Dark7), <code>DimTextDefault</code> (Dark2), <code>AccentInkDefault</code> (Dark3). Lines: <code>BorderDefault</code> (Light1), <code>AccentDividerDefault</code> (Light7), <code>AccentLineDefault</code> (Dark1), <code>AccentFocusBorder</code> (Dark1, focus policy). Solid fills: <code>SolidFillDefault</code> / <code>Hover</code> / <code>Pressed</code> (Dark3/4/5; a bright seed takes the selected tint) and <code>OnSolidFillInkDefault</code> (picked by contrast)</td></tr><tr><td><b>Sizes</b></td><td><code>BaseSize</code> scales everything. Ladders: <code>Spacing</code> (Sm 2 … Xxl 16), <code>ControlHeight</code> (Sm 32, Md 40, Lg 48), <code>Radius</code> (Sm 6 … Xl 32, with <code>…Double</code> twins), <code>Thickness</code> (Sm 1 … Xxl 6, with <code>…Double</code> twins, never below 1px), <code>IconSize</code> (Sm 12 … Xl 32), <code>SurfaceWidth</code> (Sm 256, Md 320, Lg 384). Each scalable ladder also gets a generated <code>{Name}Scale</code> (1.0) for resizing it alone. <code>ControlMinWidth</code> (64)</td></tr><tr><td><b>Typography</b></td><td><code>FontFamily</code>, <code>FontWeightRegular</code> / <code>Medium</code> / <code>SemiBold</code> / <code>Bold</code>, <code>FontSize</code> ladder (Sm 12 … Xxl 24)</td></tr><tr><td><b>Motion</b></td><td><code>AnimationFastMs</code> (75), <code>AnimationNormalMs</code> (150), <code>AnimationSlowMs</code> (300), <code>HoverScale</code> (1.0486), <code>PressedScale</code> (0.98)</td></tr><tr><td><b>States</b></td><td><code>DisabledOpacity</code> (0.3) with <code>DisabledOpacityAccent</code> and <code>DisabledOpacityChecked</code> (×1.4 and ×2.5, capped at 1), <code>PlaceholderOpacity</code> (0.5)</td></tr><tr><td><b>Behaviour</b></td><td><code>WebRenderStyle</code> (true), giving <code>ControlClipToBounds</code> and <code>HoverZIndex</code>; <code>FocusColorOnAccents</code> (false)</td></tr><tr><td><b>Alignment</b></td><td><code>StandardAlignment</code> (Left, Center), <code>ButtonAlignment</code> (Center, Center); XAML reads each as <code>{Name}Horizontal</code> and <code>{Name}Vertical</code></td></tr><tr><td><b>Generated</b></td><td>Every <code>Color</code> gets a <code>…Brush</code>; Neutral also gets <code>Neutral*</code> aliases; <code>OverlayWeakBrush</code> / <code>Medium</code> / <code>Strong</code> (8/16/32%) for shadows and scrims</td></tr><tr><td><b>Live editing</b></td><td>Tokens are <code>[Observable]</code>, so the app's one theme is edited by setting them and everything follows; <code>ResetToDefaults()</code> restores every token and ladder scale</td></tr></table>
+</section>
+<footer>AngelSix Theme Engine · Avalonia 12</footer>
+</main>
+</div>
+
+<script>
+  document.querySelectorAll('pre').forEach(pre => {
+    const button = document.createElement('button');
+    button.className = 'copy'; button.type = 'button'; button.textContent = 'Copy';
+    button.addEventListener('click', () => navigator.clipboard.writeText(pre.querySelector('code').innerText).then(() => {
+      button.textContent = 'Copied'; setTimeout(() => button.textContent = 'Copy', 1200);
+    }));
+    pre.appendChild(button);
+  });
+
+  const links = [...document.querySelectorAll('nav.toc a')];
+  const targets = links.map(a => document.querySelector(a.getAttribute('href')));
+  const mark = () => {
+    let current = targets[0];
+    for (const t of targets) if (t && !t.classList.contains('hidden') && t.getBoundingClientRect().top < 120) current = t;
+    links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + current.id));
+  };
+  document.addEventListener('scroll', mark, { passive: true });
+  mark();
+  links.forEach(a => a.addEventListener('click', () => setTimeout(() => links.forEach(l => l.classList.toggle('active', l === a)), 0)));
+
+  const filter = document.getElementById('rule-filter');
+  if (filter) filter.addEventListener('input', () => {
+    const q = filter.value.trim().toLowerCase();
+    document.querySelectorAll('section.page.rule').forEach(s => s.classList.toggle('hidden', q && !s.textContent.toLowerCase().includes(q)));
+    document.querySelectorAll('nav.toc a.rule-link').forEach(a => {
+      const s = document.querySelector(a.getAttribute('href'));
+      a.classList.toggle('hidden', s.classList.contains('hidden'));
+    });
+  });
+</script>
+</body>
+</html>

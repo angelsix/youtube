@@ -1,0 +1,38 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <RootNamespace>AngelSix.Themes.Default</RootNamespace>
+
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <PackageId>AngelSix.Themes.Default</PackageId>
+        <Version>1.0.0</Version>
+        <Authors>AngelSix</Authors>
+        <Company>AngelSix</Company>
+        <Description>A complete Avalonia 12 theme built on AngelSix.ThemeEngine: every control styled from one token class, light and dark from the same palette, accent hues per control. Replace &lt;FluentTheme /&gt; with &lt;DefaultTheme /&gt; in App.axaml. Subclass DefaultTheme to change any value.</Description>
+        <PackageTags>avalonia;theme;themes;styles;design-tokens;dark-mode</PackageTags>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <None Include="README.md" Pack="true" PackagePath="\" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Avalonia" Version="12.1.6"/>
+        <PackageReference Include="AngelSix.ThemeEngine.Controls" Version="2.0.0"/>
+        <PackageReference Include="Avalonia.Controls.ColorPicker" Version="12.1.6"/>
+
+        <PackageReference Include="AngelSix.ThemeEngine" Version="2.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Include="Icons/Svg/Categories.md" />
+    </ItemGroup>
+
+</Project>

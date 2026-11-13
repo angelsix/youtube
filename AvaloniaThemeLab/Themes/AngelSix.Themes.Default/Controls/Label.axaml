@@ -1,0 +1,85 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="using:AngelSix.ThemeEngine.Controls"
+                    xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+                    xmlns:color="using:AngelSix.ThemeEngine.Colors"
+                    xmlns:size="using:AngelSix.ThemeEngine.Sizes"
+                    xmlns:default="using:AngelSix.Themes.Default">
+  <!-- Design preview: the states Button shows, plus what makes it a Label. -->
+  <DataTemplate x:Key="LabelPreview">
+    <StackPanel Spacing="{size:SpacingXl}" HorizontalAlignment="Left">
+      <Label Width="{size:Scaled 200}" Content="_File" />
+      <!-- The paired example: the Label names the field through Target, and the theme pulls the two together -->
+      <StackPanel Spacing="{size:SpacingMd}" HorizontalAlignment="Left">
+        <Label Width="{size:Scaled 200}" Content="Paired with a field" Target="FieldInput" />
+        <TextBox Width="{size:Scaled 200}" x:Name="FieldInput" PlaceholderText="Type here" />
+      </StackPanel>
+      <!-- The same pairing with no Target at all. -->
+      <StackPanel Spacing="{size:SpacingMd}" HorizontalAlignment="Left">
+        <Label Width="{size:Scaled 200}" Content="Detected without a Target" />
+        <TextBox Width="{size:Scaled 200}" PlaceholderText="Type here" />
+      </StackPanel>
+      <Label Width="{size:Scaled 200}" theme:Accent.Kind="Success" Content="Success" />
+      <Label Width="{size:Scaled 200}" theme:Accent.Kind="Warning" Content="Warning" />
+      <Label Width="{size:Scaled 200}" theme:Accent.Kind="Info" Content="Info" />
+      <Label Width="{size:Scaled 200}" theme:Accent.Kind="Destructive" Content="Destructive" />
+      <Label Width="{size:Scaled 200}" theme:Accent.Kind="Subtle" Content="Subtle" />
+      <Label Width="{size:Scaled 200}" Content="Disabled" IsEnabled="False" />
+    </StackPanel>
+  </DataTemplate>
+
+  <Design.PreviewWith>
+    <Border>
+      <Border.Styles>
+        <default:DefaultTheme />
+      </Border.Styles>
+
+      <controls:LightDarkPreview Title="Label" ContentTemplate="{StaticResource LabelPreview}" />
+    </Border>
+  </Design.PreviewWith>
+
+  <ControlTheme x:Key="{x:Type Label}" TargetType="Label">
+
+    <!-- Visual defaults: a neutral Label is body text (TextDefault, like every control's text). -->
+    <Setter Property="Foreground" Value="{color:TextDefault}" />
+    <Style Selector="^[(theme|Accent.Kind)=Primary], ^[(theme|Accent.Kind)=Success], ^[(theme|Accent.Kind)=Warning], ^[(theme|Accent.Kind)=Info], ^[(theme|Accent.Kind)=Error], ^[(theme|Accent.Kind)=Destructive], ^[(theme|Accent.Kind)=Subtle]">
+      <Setter Property="Foreground" Value="{color:AccentInkDefault}" />
+    </Style>
+    <Setter Property="Padding" Value="{size:Edges {size:SpacingLg}}" />
+    <!-- Pairing detection: the Label names the field under it, and the theme pulls the two together. -->
+    <Setter Property="(controls:LabelPairing.Apply)" Value="True" />
+    <Setter Property="HorizontalAlignment" Value="{theme:StandardAlignmentHorizontal}" />
+    <Setter Property="VerticalAlignment" Value="{theme:StandardAlignmentVertical}" />
+    <Setter Property="HorizontalContentAlignment" Value="{theme:StandardAlignmentHorizontal}" />
+    <Setter Property="VerticalContentAlignment" Value="{theme:StandardAlignmentVertical}" />
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
+
+    <Setter Property="Template">
+      <ControlTemplate>
+        <ContentPresenter Name="PART_ContentPresenter"
+                          Background="{TemplateBinding Background}"
+                          BorderBrush="{TemplateBinding BorderBrush}"
+                          BorderThickness="{TemplateBinding BorderThickness}"
+                          CornerRadius="{TemplateBinding CornerRadius}"
+                          ContentTemplate="{TemplateBinding ContentTemplate}"
+                          Content="{TemplateBinding Content}"
+                          Padding="{TemplateBinding Padding}"
+                          VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" />
+      </ControlTemplate>
+    </Setter>
+
+    <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="RecognizesAccessKey" Value="True" />
+    </Style>
+
+    <!-- Paired with a field: the Label names the text box directly under it, so the two read as one unit. -->
+    <Style Selector="^:paired">
+      <Setter Property="Padding" Value="{size:Edges Top={size:SpacingLg}, Left={size:SpacingLg}, Right={size:SpacingLg}}" />
+    </Style>
+
+    <Style Selector="^:disabled">
+      <Setter Property="Opacity" Value="{size:DisabledOpacity}" />
+    </Style>
+  </ControlTheme>
+</ResourceDictionary>

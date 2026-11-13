@@ -1,0 +1,520 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+                    xmlns:color="using:AngelSix.ThemeEngine.Colors"
+                    xmlns:size="using:AngelSix.ThemeEngine.Sizes"
+                    xmlns:icons="using:AngelSix.ThemeEngine.Icons"
+                    xmlns:controls="using:AngelSix.ThemeEngine.Controls"
+                    xmlns:default="using:AngelSix.Themes.Default">
+  <DataTemplate x:Key="CommandBarPreview">
+    <StackPanel Orientation="Vertical" Spacing="{size:SpacingXl}">
+      <!-- Standard bar: rest, hover, separator, checked (default accent), disabled -->
+      <CommandBar>
+        <CommandBarButton Label="Rest">
+          <CommandBarButton.Icon>
+            <PathIcon Data="{icons:Plus}" />
+          </CommandBarButton.Icon>
+        </CommandBarButton>
+        <CommandBarButton Label="Hover" theme:Preview.State="Hover">
+          <CommandBarButton.Icon>
+            <PathIcon Data="{icons:Save}" />
+          </CommandBarButton.Icon>
+        </CommandBarButton>
+        <CommandBarSeparator />
+        <!-- Narrow 64px faces: short state words here; the full spellings sit in the auto-width bars below -->
+        <CommandBarToggleButton Label="On" IsChecked="True">
+          <CommandBarToggleButton.Icon>
+            <PathIcon Data="{icons:Checkmark}" />
+          </CommandBarToggleButton.Icon>
+        </CommandBarToggleButton>
+        <CommandBarButton Label="Off" IsEnabled="False">
+          <CommandBarButton.Icon>
+            <PathIcon Data="{icons:Close}" />
+          </CommandBarButton.Icon>
+        </CommandBarButton>
+      </CommandBar>
+      <!-- LabelPosition=Right: icon beside label, auto-width items; pressed and a neutral checked face -->
+      <CommandBar DefaultLabelPosition="Right">
+        <CommandBarButton Label="Undo">
+          <CommandBarButton.Icon>
+            <PathIcon Data="{icons:ArrowLeft}" />
+          </CommandBarButton.Icon>
+        </CommandBarButton>
+        <CommandBarButton Label="Pressed" theme:Preview.State="Pressed">
+          <CommandBarButton.Icon>
+            <PathIcon Data="{icons:ArrowRight}" />
+          </CommandBarButton.Icon>
+        </CommandBarButton>
+        <CommandBarSeparator />
+        <CommandBarToggleButton Label="Done" IsChecked="True">
+          <CommandBarToggleButton.Icon>
+            <PathIcon Data="{icons:Checkmark}" />
+          </CommandBarToggleButton.Icon>
+        </CommandBarToggleButton>
+      </CommandBar>
+      <!-- Favourite example: the star carries the new Favourite hue and its label says so -->
+      <CommandBar DefaultLabelPosition="Right">
+        <CommandBarToggleButton Label="Favourite" theme:Accent.Kind="Favourite" IsChecked="True">
+          <CommandBarToggleButton.Icon>
+            <PathIcon Data="{icons:Star}" />
+          </CommandBarToggleButton.Icon>
+        </CommandBarToggleButton>
+        <CommandBarToggleButton Label="Not Favourite" theme:Accent.Kind="Favourite">
+          <CommandBarToggleButton.Icon>
+            <PathIcon Data="{icons:Star}" />
+          </CommandBarToggleButton.Icon>
+        </CommandBarToggleButton>
+      </CommandBar>
+      <!-- Compact hides labels; the reload icon and a checked face prove generic accent resolution incl. non-default hue -->
+      <CommandBar DefaultLabelPosition="Collapsed">
+        <CommandBarButton>
+          <CommandBarButton.Icon>
+            <PathIcon Data="{icons:Minus}" />
+          </CommandBarButton.Icon>
+        </CommandBarButton>
+        <CommandBarButton>
+          <CommandBarButton.Icon>
+            <PathIcon Data="{icons:Refresh}" />
+          </CommandBarButton.Icon>
+        </CommandBarButton>
+        <CommandBarSeparator />
+        <CommandBarToggleButton theme:Accent.Kind="Success" IsChecked="True">
+          <CommandBarToggleButton.Icon>
+            <PathIcon Data="{icons:Checkmark}" />
+          </CommandBarToggleButton.Icon>
+        </CommandBarToggleButton>
+      </CommandBar>
+      <!-- Favourite toggle states: the outlined ramp (unchecked) and the filled column (checked) -->
+      <CommandBar DefaultLabelPosition="Right">
+        <CommandBarToggleButton Label="Unfavoured" theme:Accent.Kind="Favourite">
+          <CommandBarToggleButton.Icon>
+            <PathIcon Data="{icons:Star}" />
+          </CommandBarToggleButton.Icon>
+        </CommandBarToggleButton>
+        <CommandBarToggleButton Label="Favoured" theme:Accent.Kind="Favourite" IsChecked="True">
+          <CommandBarToggleButton.Icon>
+            <PathIcon Data="{icons:Star}" />
+          </CommandBarToggleButton.Icon>
+        </CommandBarToggleButton>
+      </CommandBar>
+      <!-- Favourite toggle states: the hover ramp and the checked disabled face -->
+      <CommandBar DefaultLabelPosition="Right">
+        <CommandBarToggleButton Label="Favouring" theme:Accent.Kind="Favourite" theme:Preview.State="Hover">
+          <CommandBarToggleButton.Icon>
+            <PathIcon Data="{icons:Star}" />
+          </CommandBarToggleButton.Icon>
+        </CommandBarToggleButton>
+        <CommandBarToggleButton Label="Locked" theme:Accent.Kind="Favourite" IsChecked="True" IsEnabled="False">
+          <CommandBarToggleButton.Icon>
+            <PathIcon Data="{icons:Star}" />
+          </CommandBarToggleButton.Icon>
+        </CommandBarToggleButton>
+      </CommandBar>
+    </StackPanel>
+  </DataTemplate>
+
+  <Design.PreviewWith>
+    <Border>
+      <Border.Styles>
+        <default:DefaultTheme />
+      </Border.Styles>
+
+      <controls:LightDarkPreview Title="CommandBar" Orientation="Horizontal" ContentTemplate="{StaticResource CommandBarPreview}" />
+    </Border>
+  </Design.PreviewWith>
+
+  <!-- The declared reason the bar's own parts have no gallery entries of their own. -->
+
+  <theme:PreviewShownIn x:Key="CommandBarButtonPreviewShownIn"
+                        ShownIn="{x:Type CommandBar}"
+                        Reason="A bar button is met inside the bar that holds it." />
+
+  <theme:PreviewShownIn x:Key="CommandBarToggleButtonPreviewShownIn"
+                        ShownIn="{x:Type CommandBar}"
+                        Reason="A bar toggle is met inside the bar that holds it." />
+
+  <theme:PreviewShownIn x:Key="CommandBarSeparatorPreviewShownIn"
+                        ShownIn="{x:Type CommandBar}"
+                        Reason="A bar separator is met inside the bar that holds it." />
+
+  <ControlTheme x:Key="{x:Type CommandBarButton}" TargetType="CommandBarButton">
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="Foreground" Value="{color:TextDefault}" />
+    <Setter Property="BorderBrush" Value="Transparent" />
+    <Setter Property="BorderThickness" Value="0" />
+    <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
+    <Setter Property="Padding" Value="{size:Edges {size:SpacingLg}, {size:SpacingMd}}" />
+    <!-- A floor, not a width. -->
+    <Setter Property="MinWidth" Value="{size:Scaled {size:ControlHeightSm}, 2}" />
+    <Setter Property="MinHeight" Value="{size:ControlHeightMd}" />
+    <Setter Property="HorizontalContentAlignment" Value="{theme:ButtonAlignmentHorizontal}" />
+    <Setter Property="VerticalContentAlignment" Value="{theme:ButtonAlignmentVertical}" />
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
+    <Setter Property="RenderTransform" Value="none" />
+    <Setter Property="Transitions">
+      <Transitions>
+        <TransformOperationsTransition Property="RenderTransform" Duration="{theme:AnimationFastMs}" />
+      </Transitions>
+    </Setter>
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Border x:Name="PART_Border"
+                Background="{TemplateBinding Background}"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}"
+                CornerRadius="{TemplateBinding CornerRadius}"
+                Padding="{TemplateBinding Padding}">
+          <StackPanel x:Name="PART_LayoutRoot"
+                      HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
+            <ContentPresenter x:Name="PART_IconPresenter"
+                              Content="{TemplateBinding Icon}"
+                              Foreground="{TemplateBinding Foreground}"
+                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" />
+            <!-- The command's label, trimmed when too long -->
+            <TextBlock x:Name="PART_Label"
+                       Text="{TemplateBinding Label}"
+                       Foreground="{TemplateBinding Foreground}"
+                       HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                       TextTrimming="CharacterEllipsis" />
+          </StackPanel>
+        </Border>
+      </ControlTemplate>
+    </Setter>
+
+    <Style Selector="^ /template/ StackPanel#PART_LayoutRoot">
+      <Setter Property="Spacing" Value="{size:SpacingMd}" />
+    </Style>
+    <Style Selector="^ /template/ TextBlock#PART_Label">
+      <Setter Property="FontSize" Value="{size:FontSizeSm}" />
+    </Style>
+
+    <Style Selector="^:pointerover, ^[(theme|Preview.State)=Hover]">
+      <Setter Property="Background" Value="{color:HoverBackgroundDefault}" />
+      <Setter Property="Foreground" Value="{color:HoverTextDefault}" />
+    </Style>
+
+    <Style Selector="^:pressed, ^[(theme|Preview.State)=Pressed]">
+      <Setter Property="RenderTransform" Value="{theme:TransformScale {size:PressedScale}}" />
+      <Setter Property="Background" Value="{color:PressedBackgroundDefault}" />
+    </Style>
+
+    <Style Selector="^:disabled">
+      <Setter Property="Opacity" Value="{size:DisabledOpacity}" />
+    </Style>
+
+    <Style Selector="^:focus-visible, ^[(theme|Preview.State)=Focused]">
+      <Setter Property="BorderBrush" Value="{color:AccentFocusBorderBrush}" />
+      <Setter Property="BorderThickness" Value="0" />
+    </Style>
+
+    <!-- Compact: hide label, reduce width -->
+    <Style Selector="^[IsCompact=True]">
+      <Setter Property="MinWidth" Value="{size:ControlHeightMd}" />
+    </Style>
+    <Style Selector="^[IsCompact=True] /template/ TextBlock#PART_Label">
+      <Setter Property="IsVisible" Value="False" />
+    </Style>
+
+    <!-- LabelPosition=Right: horizontal layout, auto-width -->
+    <Style Selector="^[LabelPosition=Right]">
+      <Setter Property="MinWidth" Value="{size:ControlHeightMd}" />
+    </Style>
+    <Style Selector="^[LabelPosition=Right] /template/ StackPanel#PART_LayoutRoot">
+      <Setter Property="Orientation" Value="Horizontal" />
+    </Style>
+    <Style Selector="^[LabelPosition=Right] /template/ ContentPresenter#PART_IconPresenter">
+      <Setter Property="VerticalAlignment" Value="{theme:StandardAlignmentVertical}" />
+    </Style>
+    <Style Selector="^[LabelPosition=Right] /template/ TextBlock#PART_Label">
+      <Setter Property="VerticalAlignment" Value="{theme:StandardAlignmentVertical}" />
+    </Style>
+
+    <!-- IsInOverflow: full-width horizontal layout -->
+    <Style Selector="^[IsInOverflow=True]">
+      <Setter Property="HorizontalContentAlignment" Value="{theme:StandardAlignmentHorizontal}" />
+      <Setter Property="MinHeight" Value="{size:ControlHeightMd}" />
+    </Style>
+    <Style Selector="^[IsInOverflow=True] /template/ StackPanel#PART_LayoutRoot">
+      <Setter Property="Orientation" Value="Horizontal" />
+    </Style>
+  </ControlTheme>
+
+  <ControlTheme x:Key="{x:Type CommandBarToggleButton}" TargetType="CommandBarToggleButton">
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="Foreground" Value="{color:TextDefault}" />
+    <Setter Property="BorderBrush" Value="Transparent" />
+    <Setter Property="BorderThickness" Value="0" />
+    <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
+    <Setter Property="Padding" Value="{size:Edges {size:SpacingLg}, {size:SpacingMd}}" />
+    <!-- A floor, not a width. -->
+    <Setter Property="MinWidth" Value="{size:Scaled {size:ControlHeightSm}, 2}" />
+    <Setter Property="MinHeight" Value="{size:ControlHeightMd}" />
+    <Setter Property="HorizontalContentAlignment" Value="{theme:ButtonAlignmentHorizontal}" />
+    <Setter Property="VerticalContentAlignment" Value="{theme:ButtonAlignmentVertical}" />
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
+    <Setter Property="RenderTransform" Value="none" />
+    <Setter Property="Transitions">
+      <Transitions>
+        <TransformOperationsTransition Property="RenderTransform" Duration="{theme:AnimationFastMs}" />
+      </Transitions>
+    </Setter>
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Border x:Name="PART_Border"
+                Background="{TemplateBinding Background}"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}"
+                CornerRadius="{TemplateBinding CornerRadius}"
+                Padding="{TemplateBinding Padding}">
+          <StackPanel x:Name="PART_LayoutRoot"
+                      HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
+            <ContentPresenter x:Name="PART_IconPresenter"
+                              Content="{TemplateBinding Icon}"
+                              Foreground="{TemplateBinding Foreground}"
+                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" />
+            <!-- The command's label, trimmed when too long -->
+            <TextBlock x:Name="PART_Label"
+                       Text="{TemplateBinding Label}"
+                       Foreground="{TemplateBinding Foreground}"
+                       HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                       TextTrimming="CharacterEllipsis" />
+          </StackPanel>
+        </Border>
+      </ControlTemplate>
+    </Setter>
+
+    <Style Selector="^ /template/ StackPanel#PART_LayoutRoot">
+      <Setter Property="Spacing" Value="{size:SpacingMd}" />
+    </Style>
+    <Style Selector="^ /template/ TextBlock#PART_Label">
+      <Setter Property="FontSize" Value="{size:FontSizeSm}" />
+    </Style>
+
+    <!-- Hover: the outlined ramp one stage deeper than rest, never a hue -->
+    <Style Selector="^:pointerover, ^[(theme|Preview.State)=Hover]">
+      <Setter Property="Background" Value="{color:HoverBackgroundDefault}" />
+      <Setter Property="Foreground" Value="{color:HoverTextDefault}" />
+    </Style>
+
+    <Style Selector="^:pressed, ^[(theme|Preview.State)=Pressed]">
+      <Setter Property="RenderTransform" Value="{theme:TransformScale {size:PressedScale}}" />
+      <Setter Property="Background" Value="{color:PressedBackgroundDefault}" />
+    </Style>
+
+    <!-- Disabled: whole-face dimming, no recoloured fill -->
+    <Style Selector="^:disabled">
+      <Setter Property="Opacity" Value="{size:DisabledOpacity}" />
+    </Style>
+
+    <!-- Focus -->
+    <Style Selector="^:focus-visible, ^[(theme|Preview.State)=Focused]">
+      <Setter Property="BorderBrush" Value="{color:AccentFocusBorderBrush}" />
+      <Setter Property="BorderThickness" Value="0" />
+    </Style>
+
+    <!-- ============================================================ Checked column (filled): the item's own hue. -->
+
+    <Style Selector="^:checked">
+      <Setter Property="Background" Value="{color:SolidFillDefaultBrush}" />
+      <Setter Property="BorderBrush" Value="Transparent" />
+      <Setter Property="Foreground" Value="{color:OnSolidFillInkDefaultBrush}" />
+    </Style>
+
+    <!-- Checked hover: the solid face steps one stage deeper ({color:SolidFillHoverBrush}). -->
+    <Style Selector="^:checked:pointerover, ^:checked[(theme|Preview.State)=Hover]">
+      <Setter Property="Background" Value="{color:SolidFillHoverBrush}" />
+      <Setter Property="BorderBrush" Value="Transparent" />
+      <Setter Property="Foreground" Value="{color:OnSolidFillInkDefaultBrush}" />
+    </Style>
+
+    <!-- Checked pressed: the solid face steps two stages deeper ({color:SolidFillPressedBrush}). -->
+    <Style Selector="^:checked:pressed, ^:checked[(theme|Preview.State)=Pressed]">
+      <Setter Property="Background" Value="{color:SolidFillPressedBrush}" />
+      <Setter Property="BorderBrush" Value="Transparent" />
+      <Setter Property="Foreground" Value="{color:OnSolidFillInkDefaultBrush}" />
+    </Style>
+
+    <!-- Compact: hide label, reduce width -->
+    <Style Selector="^[IsCompact=True]">
+      <Setter Property="MinWidth" Value="{size:ControlHeightMd}" />
+    </Style>
+    <Style Selector="^[IsCompact=True] /template/ TextBlock#PART_Label">
+      <Setter Property="IsVisible" Value="False" />
+    </Style>
+
+    <!-- LabelPosition=Right: horizontal layout, auto-width -->
+    <Style Selector="^[LabelPosition=Right]">
+      <Setter Property="MinWidth" Value="{size:ControlHeightMd}" />
+    </Style>
+    <Style Selector="^[LabelPosition=Right] /template/ StackPanel#PART_LayoutRoot">
+      <Setter Property="Orientation" Value="Horizontal" />
+    </Style>
+    <Style Selector="^[LabelPosition=Right] /template/ ContentPresenter#PART_IconPresenter">
+      <Setter Property="VerticalAlignment" Value="{theme:StandardAlignmentVertical}" />
+    </Style>
+    <Style Selector="^[LabelPosition=Right] /template/ TextBlock#PART_Label">
+      <Setter Property="VerticalAlignment" Value="{theme:StandardAlignmentVertical}" />
+    </Style>
+
+    <!-- IsInOverflow: full-width horizontal layout -->
+    <Style Selector="^[IsInOverflow=True]">
+      <Setter Property="HorizontalContentAlignment" Value="{theme:StandardAlignmentHorizontal}" />
+      <Setter Property="MinHeight" Value="{size:ControlHeightMd}" />
+    </Style>
+    <Style Selector="^[IsInOverflow=True] /template/ StackPanel#PART_LayoutRoot">
+      <Setter Property="Orientation" Value="Horizontal" />
+    </Style>
+  </ControlTheme>
+
+  <ControlTheme x:Key="{x:Type CommandBarSeparator}" TargetType="CommandBarSeparator">
+    <Setter Property="Width" Value="{size:ThicknessSmDouble}" />
+    <Setter Property="MinHeight" Value="{size:ControlHeightSm}" />
+    <!-- The separator carries no horizontal margin of its own. -->
+    <Setter Property="Margin" Value="{size:Edges Vertical={size:SpacingMd}}" />
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Border x:Name="PART_SeparatorBorder"
+                Width="{TemplateBinding Width}"
+                Height="{TemplateBinding Height}"
+                MinHeight="{TemplateBinding MinHeight}" />
+      </ControlTemplate>
+    </Setter>
+
+    <Style Selector="^ /template/ Border#PART_SeparatorBorder">
+      <Setter Property="Background" Value="{color:PressedBackgroundDefault}" />
+    </Style>
+
+    <!-- IsInOverflow: horizontal separator -->
+    <Style Selector="^[IsInOverflow=True]">
+      <Setter Property="Width" Value="NaN" />
+      <Setter Property="Height" Value="{size:ThicknessSmDouble}" />
+      <Setter Property="MinHeight" Value="0" />
+      <Setter Property="Margin" Value="{size:Edges {size:SpacingMd}}" />
+    </Style>
+  </ControlTheme>
+
+  <ControlTheme x:Key="DefaultCommandBarOverflowButton"
+                TargetType="Button"
+                BasedOn="{StaticResource {x:Type Button}}">
+    <Style Selector="^ /template/ Border#PART_Border">
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="CornerRadius" Value="0" />
+    </Style>
+
+    <Style Selector="^:pointerover /template/ Border#PART_Border">
+      <Setter Property="Background" Value="{color:HoverBackgroundDefault}" />
+    </Style>
+
+    <Style Selector="^:pressed /template/ Border#PART_Border">
+      <Setter Property="Background" Value="{color:PressedBackgroundDefault}" />
+    </Style>
+  </ControlTheme>
+
+  <ControlTheme x:Key="{x:Type CommandBar}" TargetType="CommandBar">
+    <!-- Frame: the fill and the border are the same box, so nothing paints beside the frame -->
+    <Setter Property="Background" Value="{color:BackgroundDefault}" />
+    <Setter Property="BorderBrush" Value="{color:BorderDefault}" />
+    <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
+    <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
+    <Setter Property="Foreground" Value="{color:TextDefault}" />
+    <Setter Property="MinHeight" Value="{size:ControlHeightLg}" />
+    <Setter Property="Padding" Value="{size:Edges {size:SpacingMd}}" />
+    <Setter Property="ItemWidthBottom" Value="{size:Scaled {size:ControlHeightMd}, 2}" />
+    <Setter Property="ItemWidthRight" Value="{size:Scaled {size:ControlHeightMd}, 2.5}" />
+    <Setter Property="ItemWidthCollapsed" Value="{size:ControlHeightMd}" />
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Border Background="{TemplateBinding Background}"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}"
+                CornerRadius="{TemplateBinding CornerRadius}"
+                Padding="{TemplateBinding Padding}"
+                MinHeight="{TemplateBinding MinHeight}">
+          <!-- Layout root stacking the bar and its overflow -->
+          <Panel>
+            <!-- Places content left, commands and overflow right -->
+            <DockPanel KeyboardNavigation.TabNavigation="Cycle">
+              <Button x:Name="PART_OverflowButton"
+                      DockPanel.Dock="Right"
+                      VerticalAlignment="Stretch"
+                      IsVisible="{TemplateBinding IsOverflowButtonVisible}">
+                <!-- The three dots opening the overflow menu -->
+                <PathIcon x:Name="PART_OverflowIcon"
+                          Data="{icons:MoreHorizontal}" />
+              </Button>
+
+              <ContentPresenter x:Name="PART_ContentPresenter"
+                                Content="{TemplateBinding Content}"
+                                DockPanel.Dock="Left"
+                                VerticalAlignment="Center" />
+
+              <ItemsControl x:Name="PART_PrimaryCommands"
+                            ItemsSource="{Binding VisiblePrimaryCommands, RelativeSource={RelativeSource TemplatedParent}}"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Stretch"
+                            ClipToBounds="True"
+                            Background="Transparent"
+                            BorderBrush="Transparent"
+                            BorderThickness="0"
+                            CornerRadius="0">
+                <ItemsControl.ItemsPanel>
+                  <ItemsPanelTemplate>
+                    <!-- Lays the visible commands out in a row. -->
+                    <StackPanel x:Name="PART_PrimaryPanel" Orientation="Horizontal" Spacing="{size:SpacingLg}" />
+                  </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+              </ItemsControl>
+            </DockPanel>
+
+            <Popup x:Name="PART_OverflowPopup"
+                   IsOpen="{TemplateBinding IsOpen, Mode=TwoWay}"
+                   PlacementTarget="{Binding #PART_OverflowButton}"
+                   Placement="Bottom"
+                   IsLightDismissEnabled="True"
+                   WindowManagerAddShadowHint="True">
+              <Border x:Name="PART_OverflowBorder">
+                <!-- Commands that did not fit on the bar -->
+                <ItemsControl x:Name="PART_OverflowPresenter"
+                              ItemsSource="{Binding OverflowItems, RelativeSource={RelativeSource TemplatedParent}}">
+                  <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                      <StackPanel x:Name="PART_OverflowPanel" Spacing="{size:SpacingSm}" />
+                    </ItemsPanelTemplate>
+                  </ItemsControl.ItemsPanel>
+                </ItemsControl>
+              </Border>
+            </Popup>
+          </Panel>
+        </Border>
+      </ControlTemplate>
+    </Setter>
+
+    <Style Selector="^ /template/ Button#PART_OverflowButton">
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="BorderThickness" Value="0" />
+      <Setter Property="Padding" Value="{size:Edges Left={size:SpacingXxl}, Right={size:SpacingXxl}}" />
+      <Setter Property="MinWidth" Value="{size:ControlHeightMd}" />
+      <Setter Property="FontSize" Value="{size:IconSizeMd}" />
+      <Setter Property="Theme" Value="{StaticResource DefaultCommandBarOverflowButton}" />
+    </Style>
+
+    <Style Selector="^ /template/ PathIcon#PART_OverflowIcon">
+      <Setter Property="Width" Value="{size:IconSizeMd}" />
+      <Setter Property="Height" Value="{size:IconSizeMd}" />
+    </Style>
+
+    <Style Selector="^ /template/ Border#PART_OverflowBorder">
+      <Setter Property="Background" Value="{color:BackgroundDefault}" />
+      <Setter Property="BorderBrush" Value="{color:BorderDefault}" />
+      <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
+      <Setter Property="CornerRadius" Value="{size:RadiusMd}" />
+      <Setter Property="Padding" Value="{size:Edges {size:SpacingMd}}" />
+      <Setter Property="MinWidth" Value="{size:Scaled {size:ControlMinWidth}, 2.5}" />
+    </Style>
+
+  </ControlTheme>
+</ResourceDictionary>

@@ -1,0 +1,89 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+                    xmlns:color="using:AngelSix.ThemeEngine.Colors"
+                    xmlns:size="using:AngelSix.ThemeEngine.Sizes">
+  <!-- The item theme has no gallery entry of its own. -->
+
+  <theme:PreviewShownIn x:Key="ComboBoxItemPreviewShownIn"
+                        ShownIn="{x:Type ComboBox}"
+                        Reason="A drop-down row is met inside the drop-down that holds it." />
+
+  <ControlTheme x:Key="{x:Type ComboBoxItem}" TargetType="ComboBoxItem">
+
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="Foreground" Value="{color:TextDefault}" />
+    <Setter Property="BorderBrush" Value="Transparent" />
+    <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
+    <!-- Parallel to the drop-down's curved frame. -->
+    <Setter Property="CornerRadius" Value="{size:ConcentricCorners Radius={size:RadiusMd}, Thickness={size:ThicknessSm}, Inset={size:Edges All={size:Scaled {size:SpacingMd}, 1.25}}, All=True}" />
+    <Setter Property="MinHeight" Value="{size:ControlHeightSm}" />
+    <Setter Property="Padding" Value="{size:Edges {size:SpacingXxl}, {size:SpacingLg}}" />
+    <!-- A row in a drop-down fills the list's width, and so does its content. -->
+    <Setter Property="HorizontalContentAlignment" Value="{theme:StandardAlignmentHorizontal}" />
+    <Setter Property="VerticalAlignment" Value="{theme:StandardAlignmentVertical}" />
+    <Setter Property="VerticalContentAlignment" Value="{theme:StandardAlignmentVertical}" />
+    <!-- Focus is the item's own inset border (below). -->
+    <Setter Property="FocusAdorner" Value="{x:Null}" />
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
+
+    <Setter Property="Template">
+      <ControlTemplate>
+        <!-- The item's label; its corners are the item's own concentric radius, carried straight through -->
+        <ContentPresenter Name="PART_ContentPresenter"
+                          Background="{TemplateBinding Background}"
+                          BorderBrush="{TemplateBinding BorderBrush}"
+                          BorderThickness="{TemplateBinding BorderThickness}"
+                          CornerRadius="{TemplateBinding CornerRadius}"
+                          Content="{TemplateBinding Content}"
+                          ContentTemplate="{TemplateBinding ContentTemplate}"
+                          Foreground="{TemplateBinding Foreground}"
+                          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                          Padding="{TemplateBinding Padding}"
+                          VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+      </ControlTemplate>
+    </Setter>
+
+    <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter,
+                     ^[(theme|Preview.State)=Hover] /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="{color:HoverBackgroundDefault}" />
+      <Setter Property="BorderBrush" Value="Transparent" />
+    </Style>
+
+    <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter,
+                     ^[(theme|Preview.State)=Pressed] /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="{color:PressedBackgroundDefault}" />
+      <Setter Property="BorderBrush" Value="Transparent" />
+    </Style>
+
+    <!-- Disabled state: the whole row fades, selected or not, so a chosen-but-unavailable item still reads as chosen -->
+    <Style Selector="^:disabled">
+      <Setter Property="Opacity" Value="{size:DisabledOpacity}" />
+    </Style>
+
+    <Style Selector="^:selected /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="{color:SelectedBackgroundDefault}" />
+      <Setter Property="BorderBrush" Value="Transparent" />
+    </Style>
+
+    <Style Selector="^:selected:pointerover /template/ ContentPresenter#PART_ContentPresenter,
+                     ^:selected[(theme|Preview.State)=Hover] /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="{color:SelectedBackgroundHover}" />
+      <Setter Property="BorderBrush" Value="Transparent" />
+    </Style>
+
+    <Style Selector="^:selected:pressed /template/ ContentPresenter#PART_ContentPresenter,
+                     ^:selected[(theme|Preview.State)=Pressed] /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="{color:SelectedBackgroundPressed}" />
+      <Setter Property="BorderBrush" Value="Transparent" />
+    </Style>
+
+    <!-- Focus state. -->
+    <Style Selector="^:focus-visible /template/ ContentPresenter#PART_ContentPresenter,
+                     ^:selected:focus-visible /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="BorderBrush" Value="{color:AccentFocusBorderBrush}" />
+      <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
+    </Style>
+
+  </ControlTheme>
+</ResourceDictionary>

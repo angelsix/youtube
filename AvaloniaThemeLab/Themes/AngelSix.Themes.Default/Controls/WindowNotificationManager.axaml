@@ -1,0 +1,82 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+                    xmlns:color="using:AngelSix.ThemeEngine.Colors"
+                    xmlns:size="using:AngelSix.ThemeEngine.Sizes"
+                    x:DataType="WindowNotificationManager">
+  <!-- No design preview: notifications enter only via Show(), which needs a live TopLevel host. -->
+
+  <theme:PreviewExcluded x:Key="WindowNotificationManagerPreviewExcluded"
+                         Reason="The manager is fed by Show() on a live TopLevel." />
+
+  <ControlTheme x:Key="{x:Type WindowNotificationManager}" TargetType="WindowNotificationManager">
+    <Setter Property="Margin" Value="0 0" />
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
+    <Setter Property="Template">
+      <ControlTemplate>
+        <ReversibleStackPanel Name="PART_Items">
+          <ReversibleStackPanel.DataTemplates>
+            <DataTemplate DataType="INotification">
+              <!-- One notification: its title above its message -->
+              <StackPanel
+                  Margin="{size:Edges {size:SpacingXxl}}"
+                  Spacing="{size:SpacingXl}"
+                  TextElement.Foreground="{color:AccentInkDefault}">
+                <TextBlock Text="{Binding Title}"
+                           FontWeight="{theme:FontWeightSemiBold}" />
+                <TextBlock MaxHeight="{size:Scaled 80}"
+                           Text="{Binding Message}"
+                           TextWrapping="Wrap"
+                           Margin="{size:Edges Right={size:SpacingXxl}}" />
+              </StackPanel>
+            </DataTemplate>
+            <DataTemplate DataType="x:String">
+              <TextBlock Text="{Binding}"
+                         Margin="{size:Edges {size:SpacingXxl}}"
+                         Foreground="{color:AccentInkDefault}" />
+            </DataTemplate>
+          </ReversibleStackPanel.DataTemplates>
+        </ReversibleStackPanel>
+      </ControlTemplate>
+    </Setter>
+
+    <!-- Theme Exception::topleft is literal placement; both setters. -->
+    <Style Selector="^:topleft /template/ ReversibleStackPanel#PART_Items">
+      <Setter Property="VerticalAlignment" Value="Top" />
+      <Setter Property="HorizontalAlignment" Value="Left" />
+    </Style>
+
+    <!-- Theme Exception::topright is literal placement; both setters. -->
+    <Style Selector="^:topright /template/ ReversibleStackPanel#PART_Items">
+      <Setter Property="VerticalAlignment" Value="Top" />
+      <Setter Property="HorizontalAlignment" Value="Right" />
+    </Style>
+
+    <!-- Theme Exception::topcenter is literal placement; both setters. -->
+    <Style Selector="^:topcenter /template/ ReversibleStackPanel#PART_Items">
+      <Setter Property="VerticalAlignment" Value="Top" />
+      <Setter Property="HorizontalAlignment" Value="Center" />
+    </Style>
+
+    <!-- Theme Exception::bottomleft is literal placement; both setters. -->
+    <Style Selector="^:bottomleft /template/ ReversibleStackPanel#PART_Items">
+      <Setter Property="ReverseOrder" Value="True" />
+      <Setter Property="VerticalAlignment" Value="Bottom" />
+      <Setter Property="HorizontalAlignment" Value="Left" />
+    </Style>
+
+    <!-- Theme Exception::bottomright is literal placement; both setters. -->
+    <Style Selector="^:bottomright /template/ ReversibleStackPanel#PART_Items">
+      <Setter Property="ReverseOrder" Value="True" />
+      <Setter Property="VerticalAlignment" Value="Bottom" />
+      <Setter Property="HorizontalAlignment" Value="Right" />
+    </Style>
+
+    <!-- Theme Exception::bottomcenter is literal placement; both setters. -->
+    <Style Selector="^:bottomcenter /template/ ReversibleStackPanel#PART_Items">
+      <Setter Property="ReverseOrder" Value="True" />
+      <Setter Property="VerticalAlignment" Value="Bottom" />
+      <Setter Property="HorizontalAlignment" Value="Center" />
+    </Style>
+  </ControlTheme>
+</ResourceDictionary>

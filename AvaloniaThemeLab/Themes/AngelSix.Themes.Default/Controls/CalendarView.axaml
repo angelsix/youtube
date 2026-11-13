@@ -1,0 +1,498 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="using:AngelSix.ThemeEngine.Controls"
+                    xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+                    xmlns:color="using:AngelSix.ThemeEngine.Colors"
+                    xmlns:size="using:AngelSix.ThemeEngine.Sizes"
+                    xmlns:icons="using:AngelSix.ThemeEngine.Icons"
+                    xmlns:media="clr-namespace:Avalonia.Media;assembly=Avalonia.Base"
+                    xmlns:default="using:AngelSix.Themes.Default"
+                    xmlns:design="using:AngelSix.Themes.Default.Design">
+  <!-- Design preview: the shared state column, declared before Design.PreviewWith uses it. -->
+  <DataTemplate x:Key="CalendarViewPreview">
+    <!-- Standard stacked-preview spacing (the SpacingXl every other stacked preview uses) -->
+    <StackPanel Spacing="{size:SpacingXl}" HorizontalAlignment="Left">
+      <controls:CalendarView HorizontalAlignment="Stretch" />
+
+      <!-- One calendar carries every dense option at once. -->
+      <controls:CalendarView x:DataType="design:CalendarViewDesignModel"
+                             theme:Accent.Kind="Primary"
+                             IsWeekNumberVisible="True"
+                             SelectedDate="2026-09-18"
+                             RangeStart="2026-09-14"
+                             RangeEnd="2026-09-25"
+                             DataContext="{x:Static design:CalendarViewDesignData.Sample}"
+                             Events="{Binding Events}" />
+      <!-- Picker chrome is a distinct surface (inline root, hover/focus rings). -->
+      <controls:CalendarView DisplayAsPicker="True" theme:Accent.Kind="Subtle"
+                             SelectedDate="2026-09-18" Width="{size:Scaled 268}" />
+      <!-- Same picker pinned focused: the concentric focus ring on the frame, centred on its stroke. -->
+      <TextBlock Text="Picker · Focused" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
+      <controls:CalendarView DisplayAsPicker="True" theme:Accent.Kind="Subtle"
+                             SelectedDate="2026-09-18" Width="{size:Scaled 268}" theme:Preview.State="Focused" />
+    </StackPanel>
+  </DataTemplate>
+
+  <Design.PreviewWith>
+    <Border>
+      <Border.Styles>
+        <default:DefaultTheme />
+      </Border.Styles>
+
+      <controls:LightDarkPreview Title="CalendarView" ContentTemplate="{StaticResource CalendarViewPreview}" />
+
+    </Border>
+  </Design.PreviewWith>
+
+  <!-- The declared reason the day cell has no gallery entry of its own. -->
+
+  <theme:PreviewShownIn x:Key="CalendarViewCellPreviewShownIn"
+                        ShownIn="{x:Type controls:CalendarView}"
+                        Reason="A day cell is met inside the calendar that holds it." />
+
+  <ControlTheme x:Key="DefaultCalendarViewNavButton" TargetType="Button">
+
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="Foreground" Value="{color:TextDefault}" />
+    <Setter Property="BorderBrush" Value="Transparent" />
+    <Setter Property="BorderThickness" Value="0" />
+    <Setter Property="Padding" Value="{size:Edges {size:SpacingLg}}" />
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
+    <!-- A chevron centred in its button, not at the theme-wide Left content alignment -->
+    <Setter Property="HorizontalContentAlignment" Value="Center" />
+    <Setter Property="VerticalContentAlignment" Value="{theme:StandardAlignmentVertical}" />
+
+    <!-- Press animation: rest transform none, tweened over the fast duration (same tokens as Button) -->
+    <Setter Property="RenderTransform" Value="none" />
+    <Setter Property="Transitions">
+      <Transitions>
+        <TransformOperationsTransition Property="RenderTransform" Duration="{theme:AnimationFastMs}" />
+      </Transitions>
+    </Setter>
+
+    <Setter Property="Template">
+      <ControlTemplate>
+        <!-- The header label or a nav arrow -->
+        <ContentPresenter Name="PART_ContentPresenter"
+                          Background="{TemplateBinding Background}"
+                          Content="{TemplateBinding Content}"
+                          Margin="{TemplateBinding Padding}"
+                          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                          VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+      </ControlTemplate>
+    </Setter>
+
+    <!-- Chevron arrows only (the.navarrow class): the header label and the picker arrow keep their rest size. -->
+    <Style Selector="^.navarrow:pointerover">
+      <Setter Property="RenderTransform" Value="{theme:TransformScale {size:HoverScale}}" />
+      <Setter Property="ZIndex" Value="{size:HoverZIndex}" />
+    </Style>
+
+    <!-- Pressed state: the chevron shrinks (Button's press) -->
+    <Style Selector="^.navarrow:pressed">
+      <Setter Property="RenderTransform" Value="{theme:TransformScale {size:PressedScale}}" />
+    </Style>
+
+    <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Foreground" Value="{color:DimTextDefault}" />
+    </Style>
+
+    <Style Selector="^:disabled">
+      <Setter Property="Opacity" Value="{size:DisabledOpacity}" />
+    </Style>
+  </ControlTheme>
+
+  <ControlTheme x:Key="DefaultCalendarMarkerStrip" TargetType="ItemsControl">
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
+    <Setter Property="Template">
+      <ControlTemplate>
+        <!-- The dots themselves, no chrome at all -->
+        <ItemsPresenter Name="PART_ItemsPresenter"
+                        ItemsPanel="{TemplateBinding ItemsPanel}" />
+      </ControlTemplate>
+    </Setter>
+  </ControlTheme>
+
+  <ControlTheme x:Key="{x:Type controls:CalendarViewCell}" TargetType="controls:CalendarViewCell">
+
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="Foreground" Value="{color:TextDefault}" />
+    <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
+    <Setter Property="MinWidth" Value="{size:ControlHeightSm}" />
+    <Setter Property="MinHeight" Value="{size:ControlHeightSm}" />
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
+    <!-- A day, month or year sits in the middle of its cell and its selection disc, whatever the theme-wide content alignment is. -->
+    <Setter Property="HorizontalContentAlignment" Value="Center" />
+    <Setter Property="VerticalContentAlignment" Value="{theme:StandardAlignmentVertical}" />
+    <Setter Property="FontSize" Value="{size:FontSizeMd}" />
+    <Setter Property="FontFeatures">
+      <media:FontFeatureCollection>
+        <media:FontFeature Tag="tnum" Value="1" />
+      </media:FontFeatureCollection>
+    </Setter>
+    <!-- Tracking subtracts equally from both weights, so the pair keeps snapping to one shared box and the weight-stability guarantee survives. -->
+    <Setter Property="LetterSpacing" Value="{size:Scaled {size:FontSize}, -0.5}" />
+
+    <Setter Property="Template">
+      <ControlTemplate>
+        <!-- Layout root: the filled cell plus a constant-footprint selection/focus ring laid over it -->
+        <Panel>
+          <Border Name="Fill"
+                  Background="{TemplateBinding Background}"
+                  CornerRadius="{TemplateBinding CornerRadius}"
+                  ClipToBounds="True">
+            <!-- Overlays the label and its marker dots -->
+            <Panel>
+              <!-- The day number, month or year label -->
+              <ContentPresenter Name="PART_ContentPresenter"
+                                Content="{TemplateBinding Content}"
+                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+              <!-- Row of event dots along the cell's bottom edge -->
+              <ItemsControl Name="MarkerStrip"
+                            Theme="{StaticResource DefaultCalendarMarkerStrip}"
+                            ItemsSource="{TemplateBinding Markers}"
+                            IsHitTestVisible="False"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Bottom">
+                <ItemsControl.ItemsPanel>
+                  <ItemsPanelTemplate>
+                    <StackPanel Orientation="Horizontal" Spacing="{size:SpacingSm}" />
+                  </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                  <DataTemplate>
+                    <!-- Small enough that a selected day's concentric ring never touches the dot -->
+                    <Ellipse Width="{size:SpacingMd}"
+                             Height="{size:SpacingMd}"
+                             Fill="{Binding}" />
+                  </DataTemplate>
+                </ItemsControl.ItemTemplate>
+              </ItemsControl>
+            </Panel>
+          </Border>
+          <Border Name="SelectionRing"
+                  Margin="{size:ThicknessSm}"
+                  IsVisible="False"
+                  IsHitTestVisible="False"
+                  Background="Transparent"
+                  BorderThickness="{size:ThicknessMd}"
+                  CornerRadius="{size:ConcentricCorners Radius={TemplateBinding CornerRadius}, Stroke={size:ThicknessMd}, All=True}" />
+        </Panel>
+      </ControlTemplate>
+    </Setter>
+
+    <!-- Fill spacing: inset by default so day cells read as separate squares -->
+    <Style Selector="^ /template/ Border#Fill">
+      <Setter Property="Margin" Value="{size:ThicknessSm}" />
+    </Style>
+
+    <Style Selector="^ /template/ ItemsControl#MarkerStrip">
+      <Setter Property="Margin" Value="{size:Edges Bottom={size:SpacingMd}}" />
+    </Style>
+
+    <Style Selector="^:pointerover /template/ Border#Fill">
+      <Setter Property="Background" Value="{color:HoverBackgroundDefault}" />
+    </Style>
+
+    <Style Selector="^:inactive /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Foreground" Value="{color:DimTextDefault}" />
+    </Style>
+
+    <Style Selector="^:today /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Foreground" Value="{color:AccentInkDefault}" />
+      <Setter Property="FontWeight" Value="{theme:FontWeightSemiBold}" />
+    </Style>
+
+    <Style Selector="^:preview /template/ Border#Fill">
+      <Setter Property="Background" Value="{color:SurfaceBorderless}" />
+      <Setter Property="Margin" Value="{size:Edges Vertical={size:ThicknessSm}}" />
+      <Setter Property="CornerRadius" Value="0" />
+    </Style>
+
+    <Style Selector="^:in-range /template/ Border#Fill">
+      <Setter Property="Background" Value="{color:HoverBackgroundDefault}" />
+      <Setter Property="Margin" Value="{size:Edges Vertical={size:ThicknessSm}}" />
+      <Setter Property="CornerRadius" Value="0" />
+    </Style>
+
+    <!-- Keyboard focus state: reveal the concentric outline ring (the fill keeps its zero border) -->
+    <Style Selector="^:day-focused /template/ Border#SelectionRing">
+      <Setter Property="IsVisible" Value="True" />
+      <Setter Property="BorderBrush" Value="{color:AccentFocusBrush}" />
+    </Style>
+
+    <!-- Selected state: tint the fill and reveal the concentric outline ring -->
+    <Style Selector="^:selected">
+      <Style Selector="^ /template/ Border#Fill">
+        <Setter Property="Background" Value="{color:HoverBackgroundDefault}" />
+      </Style>
+      <Style Selector="^ /template/ Border#SelectionRing">
+        <Setter Property="IsVisible" Value="True" />
+        <Setter Property="BorderBrush" Value="{color:DimTextDefault}" />
+      </Style>
+      <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Foreground" Value="{color:HoverTextDefault}" />
+        <Setter Property="FontWeight" Value="{theme:FontWeightSemiBold}" />
+      </Style>
+    </Style>
+
+    <Style Selector="^:blackout">
+      <Setter Property="Opacity" Value="{size:DisabledOpacity}" />
+      <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Foreground" Value="{color:DimTextDefault}" />
+      </Style>
+      <Style Selector="^:pointerover /template/ Border#Fill">
+        <Setter Property="Background" Value="Transparent" />
+      </Style>
+    </Style>
+
+    <Style Selector="^.title">
+      <Setter Property="IsHitTestVisible" Value="False" />
+      <Setter Property="FontSize" Value="{size:FontSizeSm}" />
+      <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Foreground" Value="{color:DimTextDefault}" />
+      </Style>
+    </Style>
+
+    <Style Selector="^.zoom">
+      <Setter Property="MinHeight" Value="{size:ControlHeightMd}" />
+    </Style>
+  </ControlTheme>
+
+  <ControlTheme x:Key="{x:Type controls:CalendarView}" TargetType="controls:CalendarView">
+
+    <Setter Property="Background" Value="{color:BackgroundDefault}" />
+    <Setter Property="Foreground" Value="{color:TextDefault}" />
+    <Setter Property="BorderBrush" Value="{color:BorderDefault}" />
+    <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
+    <Setter Property="CornerRadius" Value="{size:RadiusMd}" />
+    <Setter Property="Padding" Value="{size:Edges {size:SpacingLg}}" />
+    <Setter Property="MinWidth" Value="{size:ControlMinWidth}" />
+    <Setter Property="HorizontalAlignment" Value="{theme:StandardAlignmentHorizontal}" />
+    <Setter Property="VerticalAlignment" Value="{theme:StandardAlignmentVertical}" />
+    <!-- The frame already paints the header's area. -->
+    <Setter Property="HeaderBackground" Value="Transparent" />
+    <Setter Property="MarkerBrush" Value="{color:AccentLineDefault}" />
+    <Setter Property="Focusable" Value="True" />
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
+
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Panel>
+          <Border Name="InlineRoot"
+                  Background="{TemplateBinding Background}"
+                  BorderBrush="{TemplateBinding BorderBrush}"
+                  BorderThickness="{TemplateBinding BorderThickness}"
+                  CornerRadius="{TemplateBinding CornerRadius}"
+                  Padding="{TemplateBinding Padding}">
+            <!-- Rows: header, then the active presentation -->
+            <Grid RowDefinitions="Auto,*">
+              <!-- Header row: month label left, arrows right -->
+              <Border Background="{TemplateBinding HeaderBackground}"
+                      CornerRadius="{size:ConcentricCorners Padding={TemplateBinding Padding}, Top=True}">
+                <Grid ColumnDefinitions="*,Auto,Auto">
+                  <!-- Zooms out from month to year to decade -->
+                  <Button Name="PART_HeaderButton"
+                          Theme="{StaticResource DefaultCalendarViewNavButton}"
+                          Foreground="{TemplateBinding Foreground}"
+                          Content="{TemplateBinding HeaderText}" />
+                  <!-- Goes to the previous month, year or decade -->
+                  <Button Name="PART_PreviousButton"
+                          Classes="navarrow"
+                          Grid.Column="1"
+                          Theme="{StaticResource DefaultCalendarViewNavButton}"
+                          Foreground="{TemplateBinding Foreground}">
+                    <PathIcon Name="PreviousArrow"
+                              Data="{icons:ChevronLeft}"
+                              HorizontalAlignment="{theme:StandardAlignmentHorizontal}"
+                              VerticalAlignment="{theme:StandardAlignmentVertical}" />
+                  </Button>
+                  <!-- Goes to the next month, year or decade -->
+                  <Button Name="PART_NextButton"
+                          Classes="navarrow"
+                          Grid.Column="2"
+                          Theme="{StaticResource DefaultCalendarViewNavButton}"
+                          Foreground="{TemplateBinding Foreground}">
+                    <PathIcon Name="NextArrow"
+                              Data="{icons:ChevronRight}"
+                              HorizontalAlignment="{theme:StandardAlignmentHorizontal}"
+                              VerticalAlignment="{theme:StandardAlignmentVertical}" />
+                  </Button>
+                </Grid>
+              </Border>
+              <!-- Month and zoom presentations overlaid; swapped by the styles below -->
+              <Panel Grid.Row="1">
+                 <!-- Month grid: gutter column + seven day columns. -->
+                <Grid Name="PART_MonthBody"
+                      ColumnDefinitions="Auto,*,*,*,*,*,*,*"
+                      RowDefinitions="Auto,*,*,*,*,*,*">
+                  <!-- Holds the week-number gutter's width while the engine hides its labels outside month view. -->
+                  <Border Name="GutterSpacer"
+                          Grid.RowSpan="6" Grid.Row="1" Grid.Column="0"
+                          IsHitTestVisible="False"
+                          Background="Transparent" />
+                  <TextBlock Classes="weeknumber" Grid.Row="1" Grid.Column="0" Focusable="False" />
+                  <TextBlock Classes="weeknumber" Grid.Row="2" Grid.Column="0" Focusable="False" />
+                  <TextBlock Classes="weeknumber" Grid.Row="3" Grid.Column="0" Focusable="False" />
+                  <TextBlock Classes="weeknumber" Grid.Row="4" Grid.Column="0" Focusable="False" />
+                  <TextBlock Classes="weeknumber" Grid.Row="5" Grid.Column="0" Focusable="False" />
+                  <TextBlock Classes="weeknumber" Grid.Row="6" Grid.Column="0" Focusable="False" />
+                </Grid>
+                <!-- The grid of months or years when zoomed out -->
+                <UniformGrid Name="PART_ZoomGrid"
+                             Columns="4" />
+              </Panel>
+            </Grid>
+          </Border>
+
+          <!-- The picker presentation: text box and open button -->
+          <Border Name="PickerRoot"
+                  Background="{TemplateBinding Background}"
+                  BorderBrush="{TemplateBinding BorderBrush}"
+                  BorderThickness="{TemplateBinding BorderThickness}"
+                  CornerRadius="{TemplateBinding CornerRadius}"
+                  MinHeight="{size:ControlHeightSm}"
+                  IsVisible="False">
+            <!-- Places the open button right of the text -->
+            <Grid ColumnDefinitions="*,Auto">
+              <!-- The date, typed or filled from the calendar -->
+              <!-- Frameless: the picker's own frame draws every state -->
+              <TextBox Name="PART_TextBox"
+                       Theme="{StaticResource DefaultFramelessTextBox}"
+                       Foreground="{TemplateBinding Foreground}"
+                       VerticalAlignment="{theme:StandardAlignmentVertical}" />
+              <Button Name="PART_PickerButton"
+                      Grid.Column="1"
+                      Theme="{StaticResource DefaultCalendarViewNavButton}"
+                      Foreground="{TemplateBinding Foreground}"
+                      Focusable="False">
+                <PathIcon Name="PickerArrow"
+                            Data="{icons:ChevronDown}"
+                            HorizontalAlignment="{theme:StandardAlignmentHorizontal}"
+                            VerticalAlignment="{theme:StandardAlignmentVertical}" />
+              </Button>
+            </Grid>
+          </Border>
+
+          <Border Name="InlineFocusRing"
+                  IsVisible="False"
+                  IsHitTestVisible="False"
+                  Background="Transparent"
+                  BorderBrush="{color:AccentFocusBrush}"
+                  BorderThickness="{size:ThicknessMd}"
+                  Margin="{size:ThicknessSm}"
+                  CornerRadius="{size:ConcentricCorners Radius={TemplateBinding CornerRadius}, Stroke={size:ThicknessMd}, All=True}" />
+          <!-- Focus outline for the picker frame, revealed on:picker:focus-within. -->
+          <Border Name="PickerFocusRing"
+                  IsVisible="False"
+                  IsHitTestVisible="False"
+                  Background="Transparent"
+                  BorderBrush="{color:AccentFocusBrush}"
+                  BorderThickness="{size:ThicknessMd}"
+                  CornerRadius="{size:ConcentricCorners Inset={ReflectionBinding Path=Margin, RelativeSource={RelativeSource Self}}, Stroke={size:ThicknessMd}, All=True}" />
+
+          <!-- The calendar shown when picking from the text box -->
+          <Popup Name="PART_Popup"
+                 PlacementTarget="{TemplateBinding}"
+                 IsLightDismissEnabled="True">
+            <!-- The same control, inline, driving the same selection -->
+            <controls:CalendarView Name="PopupCalendar"
+                                   DisplayAsPicker="False"
+                                   SelectionMode="{TemplateBinding SelectionMode}"
+                                   FirstDayOfWeek="{TemplateBinding FirstDayOfWeek}"
+                                   IsTodayHighlighted="{TemplateBinding IsTodayHighlighted}"
+                                   MinDate="{TemplateBinding MinDate}"
+                                   MaxDate="{TemplateBinding MaxDate}"
+                                   IsDateDisabled="{TemplateBinding IsDateDisabled}"
+                                   Markers="{TemplateBinding Markers}"
+                                   Events="{TemplateBinding Events}"
+                                   IsWeekNumberVisible="{TemplateBinding IsWeekNumberVisible}"
+                                   WeekNumberRule="{TemplateBinding WeekNumberRule}"
+                                   SelectedDate="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=SelectedDate, Mode=TwoWay}"
+                                   RangeStart="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=RangeStart, Mode=TwoWay}"
+                                   RangeEnd="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=RangeEnd, Mode=TwoWay}" />
+          </Popup>
+        </Panel>
+      </ControlTemplate>
+    </Setter>
+
+    <Style Selector="^ /template/ Button#PART_HeaderButton">
+      <Setter Property="FontSize" Value="{size:FontSizeLg}" />
+      <Setter Property="FontWeight" Value="{theme:FontWeightSemiBold}" />
+    </Style>
+
+    <!-- Picker text box: MinWidth sized off the date typeface; content padding matches every other field -->
+    <Style Selector="^ /template/ TextBox#PART_TextBox">
+      <Setter Property="Padding" Value="{size:Edges {size:SpacingLg}, {size:SpacingMd}}" />
+      <Setter Property="MinWidth" Value="{size:Scaled {size:FontSizeMd}, 8}" />
+    </Style>
+
+    <!-- Zoom grid: invisible in month view; hit-testing off so it steals no clicks -->
+    <Style Selector="^ /template/ UniformGrid#PART_ZoomGrid">
+      <Setter Property="Opacity" Value="0" />
+      <Setter Property="IsHitTestVisible" Value="False" />
+    </Style>
+
+    <!-- Zoomed-out views: swap to the zoom grid without collapsing the month block -->
+    <Style Selector="^:year, ^:decade">
+      <Style Selector="^ /template/ UniformGrid#PART_ZoomGrid">
+        <Setter Property="Opacity" Value="1" />
+        <Setter Property="IsHitTestVisible" Value="True" />
+      </Style>
+      <Style Selector="^ /template/ Grid#PART_MonthBody">
+        <Setter Property="Opacity" Value="0" />
+        <Setter Property="IsHitTestVisible" Value="False" />
+      </Style>
+    </Style>
+
+    <!-- Week number labels: static template parts, styled like any other themed node -->
+    <Style Selector="^ /template/ TextBlock.weeknumber">
+      <Setter Property="FontSize" Value="{size:FontSizeSm}" />
+      <Setter Property="FontWeight" Value="{theme:FontWeightBold}" />
+      <Setter Property="Foreground" Value="{color:AccentInkDefault}" />
+      <!-- Theme Exception: Centres the week number in its gutter column. -->
+      <Setter Property="HorizontalAlignment" Value="Center" />
+      <Setter Property="VerticalAlignment" Value="{theme:StandardAlignmentVertical}" />
+      <Setter Property="Margin" Value="{size:Edges Left={size:SpacingSm}}" />
+    </Style>
+
+    <!-- Gutter width once week numbers switch on -->
+    <Style Selector="^:hasweeknumbers /template/ TextBlock.weeknumber">
+      <Setter Property="MinWidth" Value="{size:Scaled {size:FontSizeSm}, 2}" />
+    </Style>
+
+    <Style Selector="^:hasweeknumbers /template/ Border#GutterSpacer">
+      <Setter Property="MinWidth" Value="{size:Scaled {size:FontSizeSm}, 2}" />
+      <Setter Property="Margin" Value="{size:Edges Left={size:SpacingSm}}" />
+    </Style>
+
+    <Style Selector="^:picker">
+      <Style Selector="^ /template/ Border#InlineRoot">
+        <Setter Property="IsVisible" Value="False" />
+      </Style>
+      <Style Selector="^ /template/ Border#PickerRoot">
+        <Setter Property="IsVisible" Value="True" />
+      </Style>
+    </Style>
+
+    <Style Selector="^:picker:pointerover /template/ Border#PickerRoot">
+      <Setter Property="BorderBrush" Value="{color:BorderDefault}" />
+      <Setter Property="Background" Value="{color:HoverBackgroundDefault}" />
+    </Style>
+
+    <Style Selector="^:disabled">
+      <Setter Property="Opacity" Value="{size:DisabledOpacity}" />
+    </Style>
+
+    <!-- Focus state: reveal the inline card's concentric outline; the frame keeps its rest thickness -->
+    <Style Selector="^:focus-visible /template/ Border#InlineFocusRing">
+      <Setter Property="IsVisible" Value="True" />
+    </Style>
+
+    <!-- Picker focus state: reveal the picker frame's concentric outline; the frame keeps its rest thickness. -->
+    <Style Selector="^:picker:focus-within /template/ Border#PickerFocusRing, ^[(theme|Preview.State)=Focused] /template/ Border#PickerFocusRing">
+      <Setter Property="IsVisible" Value="True" />
+    </Style>
+  </ControlTheme>
+</ResourceDictionary>

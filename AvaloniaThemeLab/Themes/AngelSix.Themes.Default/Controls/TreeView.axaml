@@ -1,0 +1,115 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+                    xmlns:color="using:AngelSix.ThemeEngine.Colors"
+                    xmlns:size="using:AngelSix.ThemeEngine.Sizes"
+                    xmlns:controls="using:AngelSix.ThemeEngine.Controls"
+                    xmlns:default="using:AngelSix.Themes.Default">
+  <!-- Design preview: the node states live inside the tree, the way a user meets them. -->
+  <DataTemplate x:Key="TreeViewPreview">
+    <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto"
+          RowSpacing="{size:SpacingXl}"
+          HorizontalAlignment="Left">
+      <TextBlock Grid.Row="0" Text="Node states" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
+      <!-- Every state a node can be in, pinned inside one real tree. -->
+      <TreeView Grid.Row="1" Width="{size:Scaled 240}" SelectionMode="Multiple">
+        <!-- Open node: the collapse chevron, and it hosts the state samples beneath -->
+        <TreeViewItem Header="Open - expanded" IsExpanded="True">
+          <!-- Closed node with a child: the expand chevron; its leaf child hits:empty (no chevron) -->
+          <TreeViewItem Header="Closed - has child">
+            <TreeViewItem Header="Leaf - empty" />
+          </TreeViewItem>
+          <!-- Rest: the node's plain state -->
+          <TreeViewItem Header="Default" />
+          <!-- Hover: the hover fill, pinned -->
+          <TreeViewItem Header="Hovered" theme:Preview.State="Hover" />
+          <!-- Pressed: the pressed fill, pinned -->
+          <TreeViewItem Header="Pressed" theme:Preview.State="Pressed" />
+          <!-- Selected: the outlined column, a light fill stage of the row's own hue -->
+          <TreeViewItem Header="Selected" IsSelected="True" />
+          <!-- The same rule under another accent kind: the fill takes that hue -->
+          <TreeViewItem Header="Selected · Warning" IsSelected="True" theme:Accent.Kind="Warning" />
+          <!-- Selected with a child: the chevron sits on the accent fill -->
+          <TreeViewItem Header="Selected - has child" IsSelected="True">
+            <TreeViewItem Header="Child" />
+          </TreeViewItem>
+          <!-- Disabled: the whole row dims -->
+          <TreeViewItem Header="Disabled" IsEnabled="False" />
+          <!-- Disabled beats selection, keeping the chosen fill under the dim -->
+          <TreeViewItem Header="Disabled + Selected" IsEnabled="False" IsSelected="True" />
+        </TreeViewItem>
+      </TreeView>
+      <!-- The caption names the hue the example below carries, so it takes that hue. -->
+      <TextBlock Grid.Row="2" Text="Selection follows the hue" FontSize="{size:FontSizeSm}" theme:Accent.Kind="Warning" Foreground="{color:AccentInkDefault}" />
+      <!-- A chosen node takes the tree's own hue -->
+      <TreeView Grid.Row="3" Width="{size:Scaled 240}" SelectionMode="Multiple" theme:Accent.Kind="Warning">
+        <TreeViewItem Header="First" IsSelected="True" />
+        <TreeViewItem Header="Second" />
+        <TreeViewItem Header="Third" IsSelected="True" />
+      </TreeView>
+      <TextBlock Grid.Row="4" Text="Whole tree unavailable" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
+      <!-- The frame and every row fade together under the disabled dim -->
+      <TreeView Grid.Row="5" Width="{size:Scaled 240}" IsEnabled="False">
+        <TreeViewItem Header="Unavailable" />
+        <TreeViewItem Header="Unreachable" />
+      </TreeView>
+    </Grid>
+  </DataTemplate>
+
+  <Design.PreviewWith>
+    <Border>
+      <Border.Styles>
+        <default:DefaultTheme />
+      </Border.Styles>
+
+      <controls:LightDarkPreview Title="TreeView" Orientation="Horizontal" ContentTemplate="{StaticResource TreeViewPreview}" />
+    </Border>
+  </Design.PreviewWith>
+
+  <ControlTheme x:Key="{x:Type TreeView}" TargetType="TreeView">
+
+    <Setter Property="Background" Value="{color:BackgroundDefault}" />
+    <Setter Property="Foreground" Value="{color:TextDefault}" />
+    <Setter Property="BorderBrush" Value="{color:BorderDefault}" />
+    <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
+    <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
+    <Setter Property="Padding" Value="{size:Edges {size:SpacingMd}}" />
+    <Setter Property="HorizontalAlignment" Value="{theme:StandardAlignmentHorizontal}" />
+    <Setter Property="VerticalAlignment" Value="{theme:StandardAlignmentVertical}" />
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
+
+    <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
+    <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
+    <Setter Property="ScrollViewer.IsScrollChainingEnabled" Value="True" />
+
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Border Background="{TemplateBinding Background}"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}"
+                CornerRadius="{TemplateBinding CornerRadius}"
+                Padding="{TemplateBinding Padding}">
+          <ScrollViewer HorizontalScrollBarVisibility="{TemplateBinding (ScrollViewer.HorizontalScrollBarVisibility)}"
+                        VerticalScrollBarVisibility="{TemplateBinding (ScrollViewer.VerticalScrollBarVisibility)}"
+                        IsScrollChainingEnabled="{TemplateBinding (ScrollViewer.IsScrollChainingEnabled)}"
+                        IsDeferredScrollingEnabled="{TemplateBinding (ScrollViewer.IsDeferredScrollingEnabled)}"
+                        BringIntoViewOnFocusChange="{TemplateBinding (ScrollViewer.BringIntoViewOnFocusChange)}">
+            <ItemsPresenter Name="PART_ItemsPresenter"
+                            ItemsPanel="{TemplateBinding ItemsPanel}" />
+          </ScrollViewer>
+        </Border>
+      </ControlTemplate>
+    </Setter>
+
+    <!-- Scroller: no fill of its own; the frame paints it, and a square fill inside covers the frame's corners -->
+    <Style Selector="^ /template/ ScrollViewer">
+      <Setter Property="Background" Value="Transparent" />
+    </Style>
+
+    <!-- Disabled state: the whole tree fades, frame and rows together, as ButtonSpinner disables -->
+    <Style Selector="^:disabled">
+      <Setter Property="Opacity" Value="{size:DisabledOpacity}" />
+    </Style>
+
+  </ControlTheme>
+</ResourceDictionary>

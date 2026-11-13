@@ -1,0 +1,235 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+                    xmlns:color="using:AngelSix.ThemeEngine.Colors"
+                    xmlns:size="using:AngelSix.ThemeEngine.Sizes"
+                    xmlns:controls="using:AngelSix.ThemeEngine.Controls"
+                    xmlns:default="using:AngelSix.Themes.Default">
+  <!-- Design preview: the pull indicator lives inside the container that hosts it. -->
+  <DataTemplate x:Key="RefreshContainerPreview">
+    <UniformGrid Columns="2" ColumnSpacing="{size:SpacingXl}">
+      <StackPanel Spacing="{size:SpacingXl}" HorizontalAlignment="Left">
+        <TextBlock Text="Real use · pull to refresh" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
+        <!-- The pull is touch or pen only, so the gallery can never start one. -->
+        <TextBlock Width="{size:Scaled 190}"
+                   Text="Pull is touch or pen only — the arrow loops its real cycle."
+                   FontSize="{size:FontSizeSm}"
+                   Opacity="0.7"
+                   TextWrapping="Wrap" />
+        <!-- Real use: a fixed-size container wrapping a short scrollable list that fills the frame. -->
+        <RefreshContainer Width="{size:Scaled 190}" Height="{size:Scaled 160}" HorizontalContentAlignment="Stretch" ClipToBounds="True">
+          <!-- Uses the container's own themed default visualizer. -->
+          <RefreshContainer.Styles>
+            <!-- Clamp the default visualizer's box to the everyday glyph. -->
+            <Style Selector="RefreshVisualizer">
+              <Setter Property="MaxWidth" Value="{size:IconSizeMd}" />
+              <Setter Property="MaxHeight" Value="{size:IconSizeMd}" />
+            </Style>
+            <Style Selector="PathIcon">
+              <Setter Property="MaxWidth" Value="{size:IconSizeMd}" />
+              <Setter Property="MaxHeight" Value="{size:IconSizeMd}" />
+            </Style>
+            <!-- This style runs the arrow through its real cycle on its own. -->
+            <Style Selector="PathIcon#PART_Icon">
+              <Style.Animations>
+                <Animation IterationCount="1000" Duration="0:0:3.2" FillMode="Both">
+                  <!-- Pull: the arrow turns with the pull, one full turn as the content comes down -->
+                  <KeyFrame Cue="0%">
+                    <Setter Property="RotateTransform.Angle" Value="0" />
+                  </KeyFrame>
+                  <KeyFrame Cue="30%">
+                    <Setter Property="RotateTransform.Angle" Value="360" />
+                  </KeyFrame>
+                  <!-- Refreshing: the arrow spins, as it does while the refresh runs -->
+                  <KeyFrame Cue="85%">
+                    <Setter Property="RotateTransform.Angle" Value="1080" />
+                  </KeyFrame>
+                  <!-- Return: the arrow settles back at rest (1080 degrees is three full turns, so the pose at the end is the resting pose again) -->
+                  <KeyFrame Cue="100%">
+                    <Setter Property="RotateTransform.Angle" Value="1080" />
+                  </KeyFrame>
+                </Animation>
+              </Style.Animations>
+            </Style>
+          </RefreshContainer.Styles>
+          <ScrollViewer>
+            <!-- Inset lives on the content's Margin, never the viewer's Padding, so the last row scrolls fully into view -->
+            <StackPanel Spacing="{size:SpacingMd}" Margin="{size:Edges {size:SpacingMd}}">
+              <TextBlock Text="First" />
+              <TextBlock Text="Second" />
+              <TextBlock Text="Third" />
+              <TextBlock Text="Fourth" />
+              <TextBlock Text="Fifth" />
+              <TextBlock Text="Sixth" />
+              <TextBlock Text="Seventh" />
+              <TextBlock Text="Eighth" />
+            </StackPanel>
+          </ScrollViewer>
+        </RefreshContainer>
+        <TextBlock Text="Indicator in the spinner slot" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
+        <!-- The indicator in a real container, at the everyday glyph size. -->
+        <RefreshContainer Width="{size:Scaled 190}" Height="{size:Scaled 120}" PullDirection="BottomToTop" ClipToBounds="True">
+          <!-- Same themed default visualizer as above, clamped to the everyday glyph on the instance for the same reason. -->
+          <RefreshContainer.Styles>
+            <Style Selector="RefreshVisualizer">
+              <Setter Property="MaxWidth" Value="{size:IconSizeMd}" />
+              <Setter Property="MaxHeight" Value="{size:IconSizeMd}" />
+            </Style>
+            <Style Selector="PathIcon">
+              <Setter Property="MaxWidth" Value="{size:IconSizeMd}" />
+              <Setter Property="MaxHeight" Value="{size:IconSizeMd}" />
+            </Style>
+          </RefreshContainer.Styles>
+          <ScrollViewer>
+            <!-- Inset lives on the content's Margin, never the viewer's Padding, so the last row scrolls fully into view -->
+            <StackPanel Spacing="{size:SpacingMd}" Margin="{size:Edges {size:SpacingMd}}">
+              <TextBlock Text="Pull up to refresh" />
+            </StackPanel>
+          </ScrollViewer>
+        </RefreshContainer>
+      </StackPanel>
+      <StackPanel Spacing="{size:SpacingXl}" HorizontalAlignment="Left">
+        <TextBlock Text="Live control · idle (16px)" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
+        <!-- The live control at its native resting size. -->
+        <Border Width="{size:Scaled 190}"
+                Height="{size:Scaled {size:IconSizeMd}, 3}"
+                Padding="{size:Edges {size:SpacingLg}}"
+                ClipToBounds="True"
+                Background="{color:BackgroundDefault}"
+                BorderBrush="{color:BorderDefault}"
+                BorderThickness="{size:ThicknessSm}"
+                CornerRadius="{size:RadiusSm}">
+          <Grid Width="{size:IconSizeMd}" Height="{size:IconSizeMd}" HorizontalAlignment="Center"
+                VerticalAlignment="Center">
+            <Grid.RenderTransform>
+              <TranslateTransform X="0" Y="16" />
+            </Grid.RenderTransform>
+            <RefreshVisualizer Width="{size:IconSizeMd}"
+                               Height="{size:IconSizeMd}"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center" />
+          </Grid>
+        </Border>
+        <TextBlock Text="Live control · 48px" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
+        <!-- The same live control enlarged: the arrow grows with the control. -->
+        <Border Width="{size:Scaled 190}"
+                Height="{size:Scaled {size:ControlHeightLg}, 3}"
+                Padding="{size:Edges {size:SpacingLg}}"
+                ClipToBounds="True"
+                Background="{color:BackgroundDefault}"
+                BorderBrush="{color:BorderDefault}"
+                BorderThickness="{size:ThicknessSm}"
+                CornerRadius="{size:RadiusSm}">
+          <Grid Width="{size:ControlHeightLg}" Height="{size:ControlHeightLg}" HorizontalAlignment="Center"
+                VerticalAlignment="Center">
+            <Grid.RenderTransform>
+              <TranslateTransform X="0" Y="48" />
+            </Grid.RenderTransform>
+            <RefreshVisualizer Width="{size:ControlHeightLg}"
+                               Height="{size:ControlHeightLg}"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center" />
+          </Grid>
+        </Border>
+        <TextBlock Text="Follows the accent" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
+        <!-- The arrow takes the control's own hue: two accents side by side. -->
+        <Border Width="{size:Scaled 190}"
+                Height="{size:Scaled {size:ControlHeightLg}, 3}"
+                Padding="{size:Edges {size:SpacingLg}}"
+                ClipToBounds="True"
+                Background="{color:BackgroundDefault}"
+                BorderBrush="{color:BorderDefault}"
+                BorderThickness="{size:ThicknessSm}"
+                CornerRadius="{size:RadiusSm}">
+          <StackPanel Orientation="Horizontal" Spacing="{size:SpacingLg}" HorizontalAlignment="Center"
+                      VerticalAlignment="Center">
+            <!-- Visual area: the icon's nominal square -->
+            <Grid Width="{size:ControlHeightLg}" Height="{size:ControlHeightLg}">
+              <Grid.RenderTransform>
+                <TranslateTransform X="0" Y="48" />
+              </Grid.RenderTransform>
+              <RefreshVisualizer Width="{size:ControlHeightLg}"
+                                 Height="{size:ControlHeightLg}"
+                                 HorizontalAlignment="Center"
+                                 VerticalAlignment="Center"
+                                 theme:Accent.Kind="Warning" />
+            </Grid>
+            <!-- Visual area: the icon's nominal square -->
+            <Grid Width="{size:ControlHeightLg}" Height="{size:ControlHeightLg}">
+              <Grid.RenderTransform>
+                <TranslateTransform X="0" Y="48" />
+              </Grid.RenderTransform>
+              <RefreshVisualizer Width="{size:ControlHeightLg}"
+                                 Height="{size:ControlHeightLg}"
+                                 HorizontalAlignment="Center"
+                                 VerticalAlignment="Center"
+                                 theme:Accent.Kind="Success" />
+            </Grid>
+          </StackPanel>
+        </Border>
+      </StackPanel>
+    </UniformGrid>
+  </DataTemplate>
+
+  <Design.PreviewWith>
+    <Border>
+      <Border.Styles>
+        <default:DefaultTheme />
+      </Border.Styles>
+
+      <controls:LightDarkPreview Title="RefreshContainer" ContentTemplate="{StaticResource RefreshContainerPreview}" />
+
+    </Border>
+  </Design.PreviewWith>
+
+  <ControlTheme x:Key="{x:Type RefreshContainer}"
+                TargetType="RefreshContainer">
+
+    <Setter Property="Background" Value="{color:BackgroundDefault}" />
+    <Setter Property="Foreground" Value="{color:TextDefault}" />
+    <Setter Property="BorderBrush" Value="{color:BorderDefault}" />
+    <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
+    <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
+    <Setter Property="Padding" Value="{size:Edges {size:SpacingLg}}" />
+    <Setter Property="HorizontalContentAlignment" Value="{theme:StandardAlignmentHorizontal}" />
+    <Setter Property="VerticalContentAlignment" Value="{theme:StandardAlignmentVertical}" />
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
+
+    <Setter Property="Template">
+      <ControlTemplate>
+        <!-- Layout root stacking the spinner over the content; clips the idle-raised visualizer to the frame -->
+        <Grid ClipToBounds="True">
+          <ContentPresenter Name="PART_ContentPresenter"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="{TemplateBinding CornerRadius}"
+                            ContentTemplate="{TemplateBinding ContentTemplate}"
+                            Content="{TemplateBinding Content}"
+                            Padding="{TemplateBinding Padding}"
+                            VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                            HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" />
+          <!-- The pull-to-refresh spinner, sized by the part style below -->
+          <Grid Name="PART_RefreshVisualizerPresenter" />
+        </Grid>
+      </ControlTemplate>
+    </Setter>
+
+    <!-- Spinner slot: centred over the content, raised only while refreshing. -->
+    <Style Selector="^ /template/ Grid#PART_RefreshVisualizerPresenter">
+      <Setter Property="Width" Value="{size:ControlHeightLg}" />
+      <Setter Property="Height" Value="{size:ControlHeightLg}" />
+      <Setter Property="HorizontalAlignment" Value="Center" />
+      <Setter Property="Margin" Value="{size:Edges {size:SpacingLg}}" />
+    </Style>
+
+    <!-- The container's own themed default visualizer self-sizes to the pull dimension (100px). -->
+    <Style Selector="^ /template/ Grid#PART_RefreshVisualizerPresenter RefreshVisualizer">
+      <Setter Property="MaxWidth" Value="{size:IconSizeMd}" />
+      <Setter Property="MaxHeight" Value="{size:IconSizeMd}" />
+      <!-- Theme Exception: the indicator is a lone glyph in the middle of its slot, so it is centred there. -->
+      <Setter Property="HorizontalAlignment" Value="Center" />
+    </Style>
+
+  </ControlTheme>
+</ResourceDictionary>

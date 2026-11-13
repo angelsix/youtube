@@ -1,0 +1,193 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+                    xmlns:color="using:AngelSix.ThemeEngine.Colors"
+                    xmlns:size="using:AngelSix.ThemeEngine.Sizes"
+                    xmlns:controls="using:AngelSix.ThemeEngine.Controls"
+                    xmlns:default="using:AngelSix.Themes.Default">
+  <!-- Design preview: a switchable group plus every interaction state and accent hue. -->
+  <DataTemplate x:Key="RadioButtonPreview">
+    <StackPanel Spacing="{size:SpacingXl}">
+      <StackPanel Spacing="{size:SpacingXl}">
+        <RadioButton Content="Choice One" />
+        <RadioButton IsChecked="True" Content="Choice Two" />
+        <RadioButton Content="Choice Three" />
+      </StackPanel>
+      <!-- Each pinned example sits alone in its own parent (no GroupName), so it holds its intended state in both panes -->
+      <Panel>
+        <RadioButton Content="Unselected" />
+      </Panel>
+      <Panel>
+        <RadioButton theme:Preview.State="Hover" Content="Hover" />
+      </Panel>
+      <Panel>
+        <RadioButton IsChecked="True" Content="Selected" />
+      </Panel>
+      <Panel>
+        <RadioButton theme:Preview.State="Pressed" IsChecked="True" Content="Pressed" />
+      </Panel>
+      <Panel>
+        <RadioButton theme:Preview.State="Focused" IsChecked="True" Content="Focused" />
+      </Panel>
+      <Panel>
+        <RadioButton IsEnabled="False" Content="Disabled" />
+      </Panel>
+      <!-- Hues tint the AccentBrush-driven ring and dot; combine them with states instead of repeating rows -->
+      <Panel>
+        <RadioButton theme:Accent.Kind="Warning" Content="Warning" />
+      </Panel>
+      <Panel>
+        <RadioButton theme:Accent.Kind="Success" theme:Preview.State="Focused" IsChecked="True" Content="Success + Focused" />
+      </Panel>
+      <Panel>
+        <RadioButton theme:Accent.Kind="Warning" IsChecked="True" IsEnabled="False" Content="Warning Disabled" />
+      </Panel>
+    </StackPanel>
+  </DataTemplate>
+
+  <Design.PreviewWith>
+    <Border>
+      <Border.Styles>
+        <default:DefaultTheme />
+      </Border.Styles>
+
+      <controls:LightDarkPreview Title="RadioButton" Orientation="Horizontal" ContentTemplate="{StaticResource RadioButtonPreview}" />
+
+    </Border>
+  </Design.PreviewWith>
+
+  <ControlTheme x:Key="{x:Type RadioButton}" TargetType="RadioButton">
+
+    <!-- Visual defaults: no background in any state, so the face wash is transparent throughout -->
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="Foreground" Value="{color:TextDefault}" />
+    <Setter Property="BorderBrush" Value="{color:TextDefault}" />
+    <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
+    <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
+    <Setter Property="MinHeight" Value="{size:ControlHeightSm}" />
+    <Setter Property="Padding" Value="{size:Edges Left={size:SpacingLg}}" />
+    <Setter Property="MinWidth" Value="{size:ControlMinWidth}" />
+    <Setter Property="HorizontalAlignment" Value="{theme:StandardAlignmentHorizontal}" />
+    <Setter Property="VerticalAlignment" Value="{theme:StandardAlignmentVertical}" />
+    <Setter Property="HorizontalContentAlignment" Value="{theme:StandardAlignmentHorizontal}" />
+    <Setter Property="VerticalContentAlignment" Value="{theme:StandardAlignmentVertical}" />
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
+
+    <!-- Press animation: the whole control scales about its centre, ring and label together -->
+    <Setter Property="RenderTransform" Value="none" />
+    <Setter Property="RenderTransformOrigin" Value="50%,50%" />
+    <Setter Property="Transitions">
+      <Transitions>
+        <TransformOperationsTransition Property="RenderTransform" Duration="{theme:AnimationFastMs}" />
+      </Transitions>
+    </Setter>
+
+    <Setter Property="Template">
+      <ControlTemplate TargetType="RadioButton">
+        <!-- Layout root placing the circle beside its label -->
+        <Grid x:Name="RootGrid" ColumnDefinitions="Auto,*">
+
+          <!-- Click-area wash: the button-like face that steps through the hover and pressed stages -->
+          <Border x:Name="PART_Border"
+                  Grid.ColumnSpan="2"
+                  Background="{TemplateBinding Background}"
+                  CornerRadius="{TemplateBinding CornerRadius}" />
+
+          <Grid x:Name="PART_CheckBoxGrid"
+                Grid.Column="0"
+                VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
+
+            <!-- The ring: hollow, its stroke rides the control's border brush -->
+            <Ellipse x:Name="RingEllipse"
+                     Fill="Transparent"
+                     Stroke="{TemplateBinding BorderBrush}"
+                     UseLayoutRounding="False" />
+
+            <!-- The solid centre dot revealed when selected -->
+            <Ellipse x:Name="DotEllipse"
+                     Opacity="0"
+                     UseLayoutRounding="False" />
+          </Grid>
+
+          <ContentPresenter x:Name="PART_ContentPresenter"
+                            Grid.Column="1"
+                            Margin="{TemplateBinding Padding}"
+                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                            Content="{TemplateBinding Content}"
+                            ContentTemplate="{TemplateBinding ContentTemplate}"
+                            Foreground="{TemplateBinding Foreground}" />
+        </Grid>
+      </ControlTemplate>
+    </Setter>
+
+    <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="RecognizesAccessKey" Value="True" />
+    </Style>
+
+    <!-- Indicator size: pinned to the icon square so the dot inset never resizes the ring -->
+    <Style Selector="^ /template/ Grid#PART_CheckBoxGrid">
+      <Setter Property="Width" Value="{size:IconSizeMd}" />
+      <Setter Property="Height" Value="{size:IconSizeMd}" />
+    </Style>
+
+    <!-- The ring fills the indicator square and carries its rest stroke weight -->
+    <Style Selector="^ /template/ Ellipse#RingEllipse">
+      <Setter Property="Width" Value="{size:IconSizeMd}" />
+      <Setter Property="Height" Value="{size:IconSizeMd}" />
+      <Setter Property="StrokeThickness" Value="{size:ThicknessSmDouble}" />
+    </Style>
+
+    <!-- The dot: large enough to read, small enough to leave a clear transparent gap inside the ring -->
+    <Style Selector="^ /template/ Ellipse#DotEllipse">
+      <Setter Property="Width" Value="{size:Scaled {size:IconSizeMd}, 0.55}" />
+      <Setter Property="Height" Value="{size:Scaled {size:IconSizeMd}, 0.55}" />
+    </Style>
+
+    <Style Selector="^:pointerover, ^[(theme|Preview.State)=Hover]">
+      <Setter Property="Foreground" Value="{color:HoverTextDefault}" />
+      <Setter Property="BorderBrush" Value="{color:HoverTextDefault}" />
+      <Setter Property="RenderTransform" Value="{theme:TransformScale {size:HoverScale}}" />
+      <Setter Property="ZIndex" Value="{size:HoverZIndex}" />
+    </Style>
+
+    <!-- Pressed state: the whole control sinks about its centre, ring and label together -->
+    <Style Selector="^:pressed, ^[(theme|Preview.State)=Pressed]">
+      <Setter Property="RenderTransform" Value="{theme:TransformScale {size:PressedScale}, 1}" />
+      <Setter Property="BorderBrush" Value="{color:HoverTextDefault}" />
+    </Style>
+
+    <Style Selector="^:checked">
+      <Setter Property="BorderBrush" Value="{color:TextDefault}" />
+
+      <Style Selector="^ /template/ Ellipse#DotEllipse">
+        <Setter Property="Fill" Value="{color:AccentLineDefault}" />
+        <Setter Property="Opacity" Value="1" />
+      </Style>
+    </Style>
+
+    <Style Selector="^:disabled">
+      <Setter Property="Opacity" Value="{size:DisabledOpacity}" />
+    </Style>
+
+    <Style Selector="^:disabled /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Foreground" Value="{color:DimTextDefault}" />
+    </Style>
+
+    <!-- Focus state. -->
+    <Style Selector="^:focus-visible, ^[(theme|Preview.State)=Focused]">
+      <Setter Property="BorderBrush" Value="{color:AccentFocusBorderBrush}" />
+      <!-- The focus weight is 0, the weight the pinned focus example has always drawn. -->
+      <Setter Property="BorderThickness" Value="0" />
+    </Style>
+
+    <Style Selector="^:focus-visible /template/ Ellipse#RingEllipse, ^[(theme|Preview.State)=Focused] /template/ Ellipse#RingEllipse">
+      <Setter Property="Stroke" Value="{color:AccentFocusBorderBrush}" />
+    </Style>
+
+    <Style Selector="^[(theme|Accent.Kind)=Primary], ^[(theme|Accent.Kind)=Success], ^[(theme|Accent.Kind)=Warning], ^[(theme|Accent.Kind)=Info], ^[(theme|Accent.Kind)=Error], ^[(theme|Accent.Kind)=Destructive], ^[(theme|Accent.Kind)=Subtle]">
+      <Setter Property="Foreground" Value="{color:AccentInkDefault}" />
+    </Style>
+
+  </ControlTheme>
+</ResourceDictionary>

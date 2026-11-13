@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Theme philosophy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --paper: oklch(0.965 0.018 85);
+    --paper-deep: oklch(0.945 0.024 82);
+    --card: oklch(0.988 0.01 88);
+    --ink: oklch(0.22 0.025 50);
+    --ink-soft: oklch(0.48 0.03 55);
+    --rule: oklch(0.22 0.025 50 / 14%);
+    --teal: oklch(0.5 0.085 175);
+    --teal-wash: oklch(0.93 0.035 175);
+    --moss: oklch(0.55 0.12 140);
+    --amber: oklch(0.9 0.06 95);
+    --vermilion: oklch(0.52 0.2 25);
+    --code: oklch(0.955 0.02 85);
+    --shadow: 3px 3px 0 0 oklch(0.22 0.025 50 / 85%);
+    --shadow-lift: 5px 5px 0 0 oklch(0.22 0.025 50 / 90%);
+    --radius: 14px;
+    --sans: "Bricolage Grotesque", ui-sans-serif, system-ui, sans-serif;
+    --mono: "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; scroll-padding-top: 24px; scrollbar-width: thin; scrollbar-color: var(--ink-soft) transparent; }
+  /* scrollbars */
+  ::-webkit-scrollbar { width: 8px; height: 8px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--ink-soft); border-radius: 999px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--ink); }
+  ::-webkit-scrollbar-corner { background: transparent; }
+  body {
+    margin: 0; color: var(--ink); font: 16px/1.65 var(--sans); -webkit-font-smoothing: antialiased;
+    background-color: var(--paper);
+    background-image:
+      radial-gradient(circle at 12% 8%, oklch(0.94 0.035 82 / 70%) 0, transparent 38vw),
+      radial-gradient(circle at 88% 30%, oklch(0.945 0.03 95 / 55%) 0, transparent 42vw),
+      radial-gradient(circle at 40% 92%, oklch(0.935 0.035 78 / 50%) 0, transparent 45vw);
+    background-attachment: fixed;
+  }
+  a { color: var(--teal); text-underline-offset: 3px; }
+  code { font-variant-ligatures: none; font-family: var(--mono); font-size: 0.86em; background: var(--code); border: 1px solid var(--rule); border-radius: 6px; padding: 1px 6px; }
+  pre { position: relative; margin: 14px 0; padding: 14px 16px; background: var(--code); border: 1.5px solid var(--ink); border-radius: 10px; overflow-x: auto; }
+  pre code { background: none; border: 0; padding: 0; font-size: 13px; line-height: 1.6; white-space: pre; }
+  .copy { position: absolute; top: 8px; right: 8px; font: 600 11px var(--sans); letter-spacing: .04em; text-transform: uppercase;
+          background: var(--card); color: var(--ink); border: 1.5px solid var(--ink); border-radius: 8px; padding: 3px 9px; cursor: pointer; box-shadow: 2px 2px 0 0 var(--ink); opacity: 0; transition: opacity .15s; }
+  pre:hover .copy, .copy:focus-visible { opacity: 1; }
+  .copy:active { transform: translate(1px, 1px); box-shadow: 1px 1px 0 0 var(--ink); }
+  .k { color: oklch(0.45 0.12 300); } .s { color: oklch(0.5 0.12 145); } .c { color: var(--ink-soft); font-style: italic; } .t { color: var(--teal); }
+
+  /* layout */
+  .shell { display: grid; grid-template-columns: 260px minmax(0, 1fr); gap: 40px; max-width: 1240px; margin: 0 auto; padding: 32px 24px 96px; }
+  nav.toc { position: sticky; top: 24px; align-self: start; max-height: calc(100vh - 48px); overflow-y: auto;
+            background: var(--card); border: 1.5px solid var(--ink); border-radius: var(--radius); box-shadow: var(--shadow); padding: 18px 14px; }
+  nav.toc .brand { font-weight: 700; font-size: 17px; letter-spacing: -.01em; padding: 0 8px 12px; border-bottom: 1.5px dashed var(--rule); margin-bottom: 10px; }
+  nav.toc .brand small { display: block; font-weight: 400; color: var(--ink-soft); font-size: 13px; }
+  nav.toc a { display: block; color: var(--ink); text-decoration: none; padding: 5px 8px; border-radius: 8px; font-size: 14.5px; }
+  nav.toc a.sub { padding-left: 22px; font-size: 13.5px; color: var(--ink-soft); }
+  nav.toc a:hover { background: var(--paper-deep); }
+  nav.toc a.active { background: var(--teal-wash); color: var(--ink); font-weight: 600; }
+  main { min-width: 0; }
+
+  /* masthead */
+  header.mast { grid-column: 1 / -1; padding: 28px 4px 6px; border-bottom: 1.5px solid var(--ink); margin-bottom: 4px; display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
+  header.mast .mark { font: 600 13px var(--sans); letter-spacing: .14em; text-transform: uppercase; color: var(--teal); margin: 0 0 6px; }
+  header.mast h1 { font-size: clamp(48px, 7vw, 92px); line-height: .95; letter-spacing: -.035em; margin: 0; }
+  header.mast h1 span { color: var(--teal); }
+  header.mast p { font-size: 19px; color: var(--ink-soft); margin: 12px 0 0; max-width: 46ch; }
+  header.mast .tags { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; padding-bottom: 6px; }
+  header.mast .tag { font: 600 13px var(--mono); border: 1.5px solid var(--ink); border-radius: 999px; padding: 4px 12px; background: var(--card); box-shadow: 2px 2px 0 0 var(--ink); white-space: nowrap; }
+
+  .docs { display: flex; gap: 8px; margin-top: 14px; flex-wrap: wrap; }
+  .docs a { font: 600 13px var(--sans); color: var(--ink); text-decoration: none; border: 1.5px solid var(--ink); border-radius: 999px; padding: 4px 12px; background: var(--card); box-shadow: 2px 2px 0 0 var(--ink); }
+  .docs a.here { background: var(--ink); color: var(--paper); }
+
+  /* sections */
+  section.page { background: var(--card); border: 1.5px solid var(--ink); border-radius: var(--radius); box-shadow: var(--shadow); padding: 34px 40px; margin-bottom: 32px; }
+  .eyebrow { font: 600 12px var(--sans); letter-spacing: .12em; text-transform: uppercase; color: var(--teal); margin: 0 0 4px; }
+  h1 { font-size: 44px; line-height: 1.05; letter-spacing: -.025em; margin: 0 0 12px; }
+  h2 { font-size: 30px; letter-spacing: -.02em; margin: 0 0 8px; line-height: 1.15; }
+  h3 { font-size: 20px; margin: 30px 0 6px; letter-spacing: -.01em; }
+  h3 .n { display: inline-flex; width: 28px; height: 28px; align-items: center; justify-content: center; margin-right: 10px; border: 1.5px solid var(--ink); border-radius: 50%; font-size: 14px; background: var(--amber); vertical-align: 2px; }
+  .lede { font-size: 18.5px; color: var(--ink-soft); margin: 0 0 18px; max-width: 64ch; }
+  p, li { max-width: 72ch; }
+  hr { border: 0; border-top: 1.5px dashed var(--rule); margin: 30px 0; }
+
+  .note { border: 1.5px solid var(--ink); border-radius: 10px; padding: 12px 16px; margin: 16px 0; background: var(--paper-deep); }
+  .note.why { background: var(--teal-wash); }
+  .note.warn { background: oklch(0.95 0.04 60); }
+  .note b:first-child { display: block; font-size: 12px; letter-spacing: .1em; text-transform: uppercase; margin-bottom: 2px; }
+
+  /* comparison */
+  table.compare th[scope="row"] { background: none; text-transform: none; letter-spacing: 0; font-size: 15px; font-weight: 600; width: 22%; }
+  table.compare thead th:nth-child(3) { color: var(--moss); }
+  table.compare thead th:nth-child(2) { color: var(--vermilion); }
+  table.compare td { font-size: 15px; }
+  table.compare td.no { color: var(--ink-soft); }
+  table.compare td.no s { text-decoration-color: oklch(0.52 0.2 25 / 55%); text-decoration-thickness: 1.5px; }
+  table.compare td.yes { font-weight: 600; background: oklch(0.96 0.03 145 / 55%); }
+  table.compare .mk { display: inline-grid; place-items: center; width: 22px; height: 22px; margin-right: 10px; border-radius: 50%; border: 1.5px solid var(--ink); font-size: 12px; font-weight: 700; vertical-align: 1px; }
+  table.compare td.no .mk { background: oklch(0.93 0.05 25); color: var(--vermilion); }
+  table.compare td.yes .mk { background: oklch(0.9 0.08 145); color: oklch(0.38 0.1 145); }
+
+  /* steps */
+  ol.steps { list-style: none; padding: 0; margin: 18px 0; counter-reset: s; }
+  ol.steps > li { counter-increment: s; position: relative; padding: 0 0 18px 52px; max-width: none; }
+  ol.steps > li::before { content: counter(s); position: absolute; left: 0; top: 0; width: 34px; height: 34px; display: grid; place-items: center;
+                          border: 1.5px solid var(--ink); border-radius: 50%; background: var(--amber); font-weight: 700; box-shadow: 2px 2px 0 0 var(--ink); }
+  ol.steps > li:not(:last-child)::after { content: ""; position: absolute; left: 17px; top: 38px; bottom: 4px; border-left: 1.5px dashed var(--rule); }
+  ol.steps > li > strong { display: block; font-size: 17px; }
+  ol.steps label { cursor: pointer; }
+  ol.steps input { accent-color: var(--teal); margin-right: 6px; transform: scale(1.15); }
+
+  /* pipeline */
+  .flow { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin: 20px 0 8px; }
+  .flow div { border: 1.5px solid var(--ink); border-radius: 12px; padding: 10px 12px; background: var(--paper-deep); font-size: 13.5px; line-height: 1.4; position: relative; }
+  .flow div b { display: block; font-size: 14.5px; }
+  .flow div:not(:last-child)::after { content: "→"; position: absolute; right: -10px; top: 50%; transform: translate(50%, -50%); font-weight: 700; }
+
+  /* table */
+  table { width: 100%; border-collapse: separate; border-spacing: 0; margin: 14px 0; font-size: 14.5px; border: 1.5px solid var(--ink); border-radius: 10px; overflow: hidden; }
+  th, td { text-align: left; padding: 9px 12px; vertical-align: top; border-bottom: 1px solid var(--rule); }
+  th { background: var(--paper-deep); font-size: 12.5px; letter-spacing: .06em; text-transform: uppercase; }
+  tr:last-child td { border-bottom: 0; }
+
+  /* ramp swatch */
+  .ramp { display: flex; border: 1.5px solid var(--ink); border-radius: 10px; overflow: hidden; margin: 14px 0 4px; }
+  .ramp span { flex: 1; height: 38px; position: relative; }
+  .ramp span.seed { outline: 2px solid var(--ink); outline-offset: -4px; }
+  .ramp-labels { display: flex; justify-content: space-between; font: 12px var(--mono); color: var(--ink-soft); margin-bottom: 14px; }
+
+  /* precedence ladder */
+  .ladder { display: grid; gap: 8px; margin: 14px 0; }
+  .ladder > div { display: grid; grid-template-columns: 52px 150px minmax(0, 1fr); align-items: center; gap: 14px; border: 1.5px solid var(--ink); border-radius: 10px; padding: 8px 12px; background: var(--card); }
+  .ladder .p { font: 700 18px var(--mono); text-align: center; border: 1.5px solid var(--ink); border-radius: 8px; background: var(--amber); padding: 2px 0; }
+  .ladder b { display: block; font-size: 15px; } .ladder small { color: var(--ink-soft); font-size: 13px; }
+  .ladder code { font-size: 12.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; }
+  .ladder .win .p { background: var(--teal-wash); }
+  .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 14px 0; }
+  .pair > div { border: 1.5px solid var(--ink); border-radius: 12px; padding: 12px 14px; }
+  .pair .bad { background: oklch(0.96 0.03 25); } .pair .good { background: oklch(0.96 0.03 145); }
+  .pair h4 { margin: 0 0 4px; font-size: 15px; }
+  .pair p { font-size: 14.5px; margin: 6px 0 0; }
+
+  /* glossary */
+  .search { display: flex; gap: 10px; align-items: center; margin: 14px 0 18px; }
+  .search input { flex: 1; font: 16px var(--sans); padding: 10px 14px; border: 1.5px solid var(--ink); border-radius: 10px; background: var(--paper); box-shadow: 2px 2px 0 0 var(--ink); }
+  .search input:focus { outline: 2px solid var(--teal); outline-offset: 2px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+  .chip { font: 600 13px var(--sans); border: 1.5px solid var(--ink); border-radius: 999px; padding: 3px 12px; background: var(--card); cursor: pointer; }
+  .chip.on { background: var(--ink); color: var(--paper); }
+  .gloss { display: grid; gap: 10px; }
+  details.term { border: 1.5px solid var(--ink); border-radius: 10px; background: var(--card); }
+  details.term[open] { box-shadow: var(--shadow); }
+  details.term summary { cursor: pointer; list-style: none; padding: 10px 14px; display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap; }
+  details.term summary::-webkit-details-marker { display: none; }
+  details.term summary::before { content: "+"; font-weight: 700; width: 12px; }
+  details.term[open] summary::before { content: "−"; }
+  details.term summary code { font-weight: 600; font-size: .92em; }
+  details.term summary .kind { font-size: 11.5px; text-transform: uppercase; letter-spacing: .08em; color: var(--ink-soft); margin-left: auto; }
+  details.term summary .short { color: var(--ink-soft); font-size: 14.5px; flex-basis: 100%; padding-left: 22px; }
+  details.term .body { padding: 0 16px 14px 36px; font-size: 15px; }
+  details.term .body pre { margin: 10px 0 4px; }
+  .empty { display: none; color: var(--ink-soft); }
+
+  footer { text-align: center; color: var(--ink-soft); font-size: 13px; }
+
+  @media (max-width: 920px) {
+    header.mast .tags { align-items: flex-start; flex-direction: row; flex-wrap: wrap; }
+    .shell { grid-template-columns: 1fr; }
+    nav.toc { position: static; max-height: none; }
+    section.page { padding: 24px 20px; }
+    .flow, .pair { grid-template-columns: 1fr; }
+    .ladder > div { grid-template-columns: 44px 1fr; }
+    .ladder code { grid-column: 1 / -1; }
+    .flow div:not(:last-child)::after { content: "↓"; right: 50%; top: auto; bottom: -14px; transform: translate(50%, 0); }
+    h1 { font-size: 34px; }
+  }
+
+  .docs { display: flex; gap: 8px; margin-top: 14px; flex-wrap: wrap; }
+  .docs a { font: 600 13px var(--sans); color: var(--ink); text-decoration: none; border: 1.5px solid var(--ink); border-radius: 999px; padding: 4px 12px; background: var(--card); box-shadow: 2px 2px 0 0 var(--ink); }
+  .docs a.here { background: var(--ink); color: var(--paper); }
+  nav.toc .group { font: 600 11px var(--sans); letter-spacing: .12em; text-transform: uppercase; color: var(--ink-soft); padding: 12px 8px 4px; }
+  nav.toc a { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding-top: 4px; padding-bottom: 4px; }
+  nav.toc a .num { display: inline-grid; place-items: center; width: 24px; height: 20px; margin-right: 8px; font: 600 11px var(--mono); color: var(--ink); background: var(--paper-deep); border: 1px solid var(--rule); border-radius: 6px; vertical-align: 1px; }
+  nav.toc a.active .num { background: var(--card); border-color: var(--ink); }
+  nav.toc .group { border-top: 1px dashed var(--rule); margin-top: 6px; }
+  nav.toc .filter + .group { border-top: 0; margin-top: 0; }
+  section.page h2 .badge { display: inline-block; font: 700 13px var(--mono); letter-spacing: .04em; vertical-align: 6px; margin-right: 10px; border: 1.5px solid var(--ink); border-radius: 8px; padding: 2px 9px; background: var(--amber); box-shadow: 2px 2px 0 0 var(--ink); }
+  .statement { border: 1.5px solid var(--ink); border-left: 6px solid var(--teal); border-radius: 10px; padding: 12px 16px; margin: 14px 0; background: var(--card); font-size: 16.5px; }
+  .statement > b:first-child, .field > b:first-child { display: block; font-size: 11.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--teal); margin-bottom: 2px; }
+  .field { margin: 14px 0; }
+  .field > b:first-child { color: var(--ink-soft); }
+  .note.warn > b:first-child { color: var(--vermilion); }
+  section.page h3 { font-size: 18px; }
+  section.page h4 { font-size: 15.5px; margin: 20px 0 4px; }
+  ul ul, ol ul { margin: 4px 0; }
+  li { margin: 3px 0; }
+  .filter { margin: 0 0 14px; }
+  .filter input { width: 100%; font: 15px var(--sans); padding: 9px 12px; border: 1.5px solid var(--ink); border-radius: 10px; background: var(--paper); }
+  .filter input:focus { outline: 2px solid var(--teal); outline-offset: 2px; }
+  .hidden { display: none !important; }
+</style>
+</head>
+<body>
+<div class="shell">
+
+<header class="mast">
+  <div>
+    <p class="mark">AngelSix Theme Engine · Default theme</p>
+    <h1>Theme <span>Philosophy</span></h1>
+    <p>What the default theme stands for, and the reasoning every rule comes from.</p>
+    <div class="docs"><a href="ThemeEngine.html">Guide</a><a href="ThemePhilosophy.html" class="here">Philosophy</a><a href="ThemeRules.html">Rules</a></div>
+  </div>
+</header>
+
+<nav class="toc" aria-label="Contents">
+  <div class="brand">Contents</div>
+  
+    <a href="#intro">Why this theme exists</a>
+  <a href="#what-it-stands-for">What it stands for</a>
+  <a href="#how-a-look-from-elsewhere-is-made">How a look from elsewhere is made</a>
+  <a href="#when-the-engine-cannot-do-something">When the engine cannot do something</a>
+</nav>
+
+<main>
+<section class="page" id="intro">
+  <p class="eyebrow">Theme philosophy</p>
+  <h2>Why this theme exists</h2>
+<p>This theme exists because Avalonia's stock themes are a mess to work with. They run to thousands of files built up over years. Colours and sizes are hard-coded wherever someone needed them. There is no token system, so the same grey is typed out in forty places, slightly differently. Resources are looked up by string keys, so there is no IntelliSense and a typo fails silently at runtime. Changing one corner radius across an app means hunting through dozens of templates.</p>
+<p>This theme throws that approach away. Every design decision lives in one C# class, every control theme reads from it, and the compiler checks the lot. <code>ThemeRules.html</code> says how to write a control theme. This file says why the rules exist and what they protect, so you can tell what is right when no rule covers the case in front of you.</p>
+</section>
+<section class="page" id="what-it-stands-for">
+  <p class="eyebrow">Theme philosophy</p>
+  <h2>What it stands for</h2>
+<h3 id="one-place-for-every-design-decision">One place for every design decision</h3>
+<p>Colours, type scale, spacing, radii, control heights and thicknesses are tokens in <code>DefaultTheme</code>. A control theme never decides a value for itself. It asks for a token. If you want to know why a button is the size it is, the answer is in one file, not spread across templates.</p>
+<h3 id="a-new-look-is-a-subclass-not-a-rewrite">A new look is a subclass, not a rewrite</h3>
+<p>A theme is a single C# class. To make a different look you subclass <code>DefaultTheme</code> and change values: a hue, a radius, a font size. Every control picks the change up. A brand theme, or a look modelled on another platform, is made this way; dark mode is a switch on the same theme, not another class.</p>
+<p>So the first question for any new look is "which values change?", never "which templates do I copy?". A control theme changes only when values cannot express the difference, and then it changes by the rules (a new exposed property, a declared variant class, or a token that more than one control needs). That change is made once, in the base, so every theme built on it gains it.</p>
+<h3 id="few-tokens-used-well">Few tokens, used well</h3>
+<p>A token earns its place when it is a real design dimension that several controls share. Before adding one, work with what is there: a colour has a hue and its stages (<code>Light10</code>, <code>Dark3</code> and so on) and accent roles, so "a lighter tint of the accent" is an existing token, not a new one. The ramps are hue-aware, so a stage reads at the same lightness in every hue and a role pinned to it (a border, dim text, a selection fill) means the same thing whatever hue a control carries. A token added for one control, or a near-duplicate of an existing value, is how the old mess starts again.</p>
+<h3 id="the-compiler-is-the-first-reviewer">The compiler is the first reviewer</h3>
+<p>Tokens are generated into markup extensions (<code>{color:...}</code>, <code>{size:...}</code>, <code>{theme:...}</code>), so the IDE lists them and a misspelt or removed token is a build error. Anything that sidesteps this (a hex colour, a literal size, a string resource key) hides a mistake until someone notices it on screen. The closed list of exemptions in <code>ThemeRules.html</code> is the only place a literal may appear, and a deliberate deviation is marked <code>Theme Exception:</code> so nobody "fixes" it later.</p>
+<h3 id="controls-are-themable-by-their-users">Controls are themable by their users</h3>
+<p>Every visual property a control has is set by a style setter in its theme, and its template reads those properties with <code>TemplateBinding</code>. That way an app can still restyle any control through normal Avalonia styling, with normal precedence. A value written straight into a template locks the user out.</p>
+<h3 id="the-theme-draws-the-page-lays-out">The theme draws, the page lays out</h3>
+<p>A view built on this theme places controls with panels, rows, columns and alignment. It does not paint them. No backgrounds, borders, radii, fonts or colours on a page; no helper classes invented to nudge one page into shape; no padding repeated from page to page because the control should have had it. If a page needs a value the control does not provide, the control theme is wrong, and that is where the fix goes.</p>
+<p>Style classes on a control are for real variants a user would choose, such as a TextBox's <code>clearButton</code> or <code>revealPasswordButton</code>, declared by the control's own theme (Rule 17). They are not a place to park one-off fixes.</p>
+<h3 id="as-little-xaml-as-possible">As little XAML as possible</h3>
+<p>Every element, attribute and value is something that can break, so the best XAML is the shortest XAML that does the job. Before adding an element, ask whether an existing one can already do it.</p>
+<p>A panel inside a panel that lays out the same way is one panel too many. A Border added only to give its child padding is redundant when the child has Padding of its own. A margin on every child is a Spacing on their panel. A value repeated in several places is a missing setter or token. Nothing is wrapped "just in case", and nothing is set to the value it already has.</p>
+<p>This applies to control templates as much as to views. A short template with few named parts is easier to read, cheaper to measure and harder to break, and there are fewer values for a user to fight when they restyle it.</p>
+<h3 id="small-enough-to-read">Small enough to read</h3>
+<p>A control theme should read top to bottom in one sitting: its template with named parts, then its states in a fixed order (Rule 11). Comments say only why, in one line (Rule 8). Dead and legacy comments go.</p>
+</section>
+<section class="page" id="how-a-look-from-elsewhere-is-made">
+  <p class="eyebrow">Theme philosophy</p>
+  <h2>How a look from elsewhere is made</h2>
+<p>When the goal is to match another theme, such as Cupertino, that theme is a picture of the target, not a source to copy. Look at it, measure it, then express what you see in this engine's terms: values first, then the smallest rule-abiding control theme change where values cannot reach. Copying its templates, its resources or its page structure brings back exactly the problems this theme was built to remove, and the result would no longer prove anything about this engine.</p>
+<p>Matching the picture closely is good. Matching it by breaking the rules is a failure, however close it looks.</p>
+</section>
+<section class="page" id="when-the-engine-cannot-do-something">
+  <p class="eyebrow">Theme philosophy</p>
+  <h2>When the engine cannot do something</h2>
+<p>Say so, and fix the engine properly: expose the property, add the variant to the base control theme, or add a token that genuinely serves more than one control. Write down why. Never patch around it in a page, a subclass-only template copy or a local style, because the next person will copy the patch.</p>
+</section>
+<footer>AngelSix Theme Engine · Avalonia 12</footer>
+</main>
+</div>
+
+<script>
+  document.querySelectorAll('pre').forEach(pre => {
+    const button = document.createElement('button');
+    button.className = 'copy'; button.type = 'button'; button.textContent = 'Copy';
+    button.addEventListener('click', () => navigator.clipboard.writeText(pre.querySelector('code').innerText).then(() => {
+      button.textContent = 'Copied'; setTimeout(() => button.textContent = 'Copy', 1200);
+    }));
+    pre.appendChild(button);
+  });
+
+  const links = [...document.querySelectorAll('nav.toc a')];
+  const targets = links.map(a => document.querySelector(a.getAttribute('href')));
+  const mark = () => {
+    let current = targets[0];
+    for (const t of targets) if (t && !t.classList.contains('hidden') && t.getBoundingClientRect().top < 120) current = t;
+    links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + current.id));
+  };
+  document.addEventListener('scroll', mark, { passive: true });
+  mark();
+  links.forEach(a => a.addEventListener('click', () => setTimeout(() => links.forEach(l => l.classList.toggle('active', l === a)), 0)));
+
+  const filter = document.getElementById('rule-filter');
+  if (filter) filter.addEventListener('input', () => {
+    const q = filter.value.trim().toLowerCase();
+    document.querySelectorAll('section.page.rule').forEach(s => s.classList.toggle('hidden', q && !s.textContent.toLowerCase().includes(q)));
+    document.querySelectorAll('nav.toc a.rule-link').forEach(a => {
+      const s = document.querySelector(a.getAttribute('href'));
+      a.classList.toggle('hidden', s.classList.contains('hidden'));
+    });
+  });
+</script>
+</body>
+</html>

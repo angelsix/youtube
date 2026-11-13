@@ -1,0 +1,38 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+                    xmlns:color="using:AngelSix.ThemeEngine.Colors"
+                    xmlns:size="using:AngelSix.ThemeEngine.Sizes">
+  <theme:PreviewShownIn x:Key="CarouselPagePreviewShownIn"
+                        ShownIn="{x:Type Carousel}"
+                        Reason="The swipeable page is met inside the Carousel preview, beside the slides." />
+
+  <ControlTheme x:Key="{x:Type CarouselPage}" TargetType="CarouselPage">
+
+    <!-- Stage: the same fill Carousel rests on, named by the default surface role -->
+    <Setter Property="Background" Value="{color:BackgroundDefault}" />
+    <Setter Property="Foreground" Value="{color:TextDefault}" />
+    <Setter Property="BorderBrush" Value="Transparent" />
+    <Setter Property="BorderThickness" Value="{size:Edges}" />
+    <!-- Container radius: the largest step on the ladder, so the inner page's RadiusSm runs concentric with it -->
+    <Setter Property="CornerRadius" Value="{size:RadiusMd}" />
+    <Setter Property="Padding" Value="{size:Edges {size:SpacingLg}}" />
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
+
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Carousel Name="PART_Carousel"
+                  Margin="{TemplateBinding Padding}"
+                  Background="{TemplateBinding Background}"
+                  BorderBrush="{TemplateBinding BorderBrush}"
+                  BorderThickness="{TemplateBinding BorderThickness}"
+                  CornerRadius="{TemplateBinding CornerRadius}"
+                  Padding="{size:Edges}"
+                  ItemTemplate="{TemplateBinding PageTemplate}"
+                  PageTransition="{TemplateBinding PageTransition}"
+                  ItemsPanel="{TemplateBinding ItemsPanel}" />
+      </ControlTemplate>
+    </Setter>
+
+  </ControlTheme>
+</ResourceDictionary>

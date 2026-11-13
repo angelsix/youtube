@@ -1,0 +1,100 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+                    xmlns:color="using:AngelSix.ThemeEngine.Colors"
+                    xmlns:size="using:AngelSix.ThemeEngine.Sizes"
+                    xmlns:controls="using:AngelSix.ThemeEngine.Controls"
+                    xmlns:default="using:AngelSix.Themes.Default">
+  <!-- Design preview: one strip per example. -->
+  <DataTemplate x:Key="TabStripPreview">
+    <StackPanel Spacing="{size:SpacingLg}">
+      <!-- Item states folded in: every state the TabStripItem entry showed, pinned as items inside real TabStrips. -->
+      <Label Content="States" Foreground="{color:DimTextDefault}" FontSize="{size:FontSizeMd}" />
+      <TabStrip>
+        <TabStripItem>Rest</TabStripItem>
+        <TabStripItem IsSelected="True">On</TabStripItem>
+        <TabStripItem theme:Preview.State="Hover">Hover</TabStripItem>
+        <TabStripItem theme:Preview.State="Pressed">Pressed</TabStripItem>
+      </TabStrip>
+      <TabStrip>
+        <TabStripItem IsSelected="True">On</TabStripItem>
+        <TabStripItem theme:Preview.State="Focused">Focused</TabStripItem>
+        <TabStripItem IsEnabled="False">Off</TabStripItem>
+      </TabStrip>
+
+      <!-- Selected + hover: the selected item lit brighter than a plain selection -->
+      <Label Content="Selected + hover" Foreground="{color:DimTextDefault}" FontSize="{size:FontSizeMd}" />
+      <TabStrip Width="{size:Scaled 180}">
+        <TabStripItem>Closed</TabStripItem>
+        <TabStripItem IsSelected="True" theme:Preview.State="Hover">Open</TabStripItem>
+      </TabStrip>
+
+      <!-- Accent-coloured selections: the selection bar follows the item's Accent.Kind. -->
+      <Label Content="Accent selections" Foreground="{color:DimTextDefault}" FontSize="{size:FontSizeMd}" />
+      <WrapPanel Orientation="Horizontal">
+        <TabStrip Width="{size:Scaled 180}" Margin="{size:Edges Right={size:SpacingLg}}">
+          <TabStripItem>Plain</TabStripItem>
+          <TabStripItem IsSelected="True" theme:Accent.Kind="Warning">Warn</TabStripItem>
+        </TabStrip>
+        <TabStrip Width="{size:Scaled 180}">
+          <TabStripItem>Plain</TabStripItem>
+          <TabStripItem IsSelected="True" theme:Accent.Kind="Success">Ok</TabStripItem>
+        </TabStrip>
+      </WrapPanel>
+
+      <!-- An accent hue at rest: the item carries the hue but is not selected, so no bar shows. -->
+      <Label Content="Accent at rest" Foreground="{color:AccentInkDefault}" FontSize="{size:FontSizeMd}"
+             theme:Accent.Kind="Warning" />
+      <TabStrip Width="{size:Scaled 180}">
+        <TabStripItem>Plain</TabStripItem>
+        <TabStripItem theme:Accent.Kind="Warning">Warn</TabStripItem>
+      </TabStrip>
+    </StackPanel>
+  </DataTemplate>
+
+  <Design.PreviewWith>
+    <Border>
+      <Border.Styles>
+        <default:DefaultTheme />
+      </Border.Styles>
+
+      <controls:LightDarkPreview Title="TabStrip" Orientation="Vertical" ContentTemplate="{StaticResource TabStripPreview}" />
+
+    </Border>
+  </Design.PreviewWith>
+
+  <ControlTheme x:Key="{x:Type TabStrip}" TargetType="TabStrip">
+
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="Foreground" Value="{color:TextDefault}" />
+    <Setter Property="BorderBrush" Value="{color:BorderDefault}" />
+    <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
+    <!-- Square where the selection line runs along the strip's bottom edge; the top keeps the theme radius -->
+    <Setter Property="CornerRadius" Value="{size:Corners Radius={size:RadiusSm}, Top=True}" />
+    <!-- Strip inset: one spacing token on every side, so a selected or hovered tab's fill never runs into the frame's corners -->
+    <Setter Property="Padding" Value="{size:Edges {size:SpacingSm}}" />
+    <Setter Property="HorizontalAlignment" Value="{theme:StandardAlignmentHorizontal}" />
+    <Setter Property="VerticalAlignment" Value="{theme:StandardAlignmentVertical}" />
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
+
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Border Background="{TemplateBinding Background}"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}"
+                CornerRadius="{TemplateBinding CornerRadius}"
+                Padding="{TemplateBinding Padding}">
+          <ItemsPresenter Name="PART_ItemsPresenter"
+                          ItemsPanel="{TemplateBinding ItemsPanel}" />
+        </Border>
+      </ControlTemplate>
+    </Setter>
+
+    <Setter Property="ItemsPanel">
+      <ItemsPanelTemplate>
+        <WrapPanel />
+      </ItemsPanelTemplate>
+    </Setter>
+
+  </ControlTheme>
+</ResourceDictionary>

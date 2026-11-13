@@ -1,0 +1,409 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+                    xmlns:color="using:AngelSix.ThemeEngine.Colors"
+                    xmlns:size="using:AngelSix.ThemeEngine.Sizes"
+                    xmlns:icons="using:AngelSix.ThemeEngine.Icons"
+                    xmlns:controls="using:AngelSix.ThemeEngine.Controls"
+                    xmlns:default="using:AngelSix.Themes.Default">
+  <DataTemplate x:Key="ScrollBarPreview">
+    <!-- One fixed width on every horizontal bar. -->
+    <StackPanel Spacing="{size:SpacingLg}">
+      <TextBlock Text="Default · expanded" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}"/>
+      <!-- Full track, full-width thumb and both arrows, the bar's own hue -->
+      <ScrollBar Orientation="Horizontal" AllowAutoHide="False" Width="{size:Scaled 240}" Minimum="0" Maximum="100" Value="20" ViewportSize="60"/>
+      <TextBlock Text="Auto-hide · resting" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}"/>
+      <!-- Collapsed: only the slim thumb draws; the track and arrows join it on pointer-over -->
+      <ScrollBar Orientation="Horizontal" AllowAutoHide="True" Width="{size:Scaled 240}" Minimum="0" Maximum="100" Value="20" ViewportSize="60"/>
+      <TextBlock Text="Resting · disabled" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}"/>
+      <ScrollBar Orientation="Horizontal" AllowAutoHide="True" Width="{size:Scaled 240}" Minimum="0" Maximum="100" Value="20" ViewportSize="60" IsEnabled="False"/>
+      <TextBlock Text="Expanded · disabled" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}"/>
+      <ScrollBar Orientation="Horizontal" AllowAutoHide="False" Width="{size:Scaled 240}" Minimum="0" Maximum="100" Value="20" ViewportSize="60" IsEnabled="False"/>
+      <TextBlock Text="Scrolled far right" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}"/>
+      <!-- The thumb parked near the end of the range -->
+      <ScrollBar Orientation="Horizontal" AllowAutoHide="True" Width="{size:Scaled 240}" Minimum="0" Maximum="100" Value="85" ViewportSize="60"/>
+      <!-- Vertical bars mirror the matrix in two rows of three, each captioned beneath. -->
+      <StackPanel Spacing="{size:SpacingLg}">
+        <StackPanel Orientation="Horizontal" Spacing="{size:SpacingLg}">
+          <StackPanel Spacing="{size:SpacingSm}">
+            <ScrollBar Orientation="Vertical" AllowAutoHide="False" Height="{size:Scaled 100}" Minimum="0" Maximum="100" Value="20" ViewportSize="60"/>
+            <TextBlock Text="Default" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}"/>
+          </StackPanel>
+          <StackPanel Spacing="{size:SpacingSm}">
+            <!-- Slim thumb only until hover -->
+            <ScrollBar Orientation="Vertical" AllowAutoHide="True" Height="{size:Scaled 100}" Minimum="0" Maximum="100" Value="20" ViewportSize="60"/>
+            <TextBlock Text="Auto-hide" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}"/>
+          </StackPanel>
+          <StackPanel Spacing="{size:SpacingSm}">
+            <ScrollBar Orientation="Vertical" AllowAutoHide="True" Height="{size:Scaled 100}" Minimum="0" Maximum="100" Value="20" ViewportSize="60" IsEnabled="False"/>
+            <TextBlock Text="Disabled" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}"/>
+          </StackPanel>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Spacing="{size:SpacingLg}">
+          <StackPanel Spacing="{size:SpacingSm}">
+            <ScrollBar Orientation="Vertical" AllowAutoHide="False" Height="{size:Scaled 100}" Minimum="0" Maximum="100" Value="20" ViewportSize="60" IsEnabled="False"/>
+            <TextBlock Text="Full · disabled" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}"/>
+          </StackPanel>
+          <StackPanel Spacing="{size:SpacingSm}">
+            <!-- Thumb parked near the bottom of the range -->
+            <ScrollBar Orientation="Vertical" AllowAutoHide="True" Height="{size:Scaled 100}" Minimum="0" Maximum="100" Value="85" ViewportSize="60"/>
+            <TextBlock Text="Scrolled" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}"/>
+          </StackPanel>
+          <StackPanel Spacing="{size:SpacingSm}">
+            <!-- Every part tinted by the Warning hue -->
+            <ScrollBar Orientation="Vertical" AllowAutoHide="False" Height="{size:Scaled 100}" Minimum="0" Maximum="100" Value="20" ViewportSize="60" theme:Accent.Kind="Warning"/>
+            <TextBlock Text="Warning" FontSize="{size:FontSizeSm}" theme:Accent.Kind="Warning" Foreground="{color:AccentInkDefault}"/>
+          </StackPanel>
+          <StackPanel Spacing="{size:SpacingSm}">
+            <!-- The thumb in the bright solid-fill column. -->
+            <ScrollBar Orientation="Vertical" AllowAutoHide="False" Height="{size:Scaled 100}" Minimum="0" Maximum="100" Value="20" ViewportSize="60" theme:Accent.Kind="Favourite"/>
+            <TextBlock Text="Favourite" FontSize="{size:FontSizeSm}" theme:Accent.Kind="Favourite" Foreground="{color:AccentInkDefault}"/>
+          </StackPanel>
+        </StackPanel>
+      </StackPanel>
+    </StackPanel>
+  </DataTemplate>
+
+  <Design.PreviewWith>
+    <Border>
+      <Border.Styles>
+        <default:DefaultTheme />
+      </Border.Styles>
+
+      <controls:LightDarkPreview Title="ScrollBar" Orientation="Vertical" ContentTemplate="{StaticResource ScrollBarPreview}" />
+
+    </Border>
+  </Design.PreviewWith>
+
+  <ControlTheme x:Key="DefaultScrollBarThumb" TargetType="Thumb">
+    <!-- Visual defaults: the thumb is the darker element. -->
+    <!-- The thumb takes the control's own hue at the solid-face stages, so an accented bar shows that accent in its thumb. -->
+    <Setter Property="Background" Value="{color:SolidFillDefaultBrush}"/>
+    <Setter Property="Foreground" Value="{color:TextDefault}" />
+    <Setter Property="BorderBrush" Value="{color:SolidFillDefaultBrush}"/>
+    <Setter Property="BorderThickness" Value="0"/>
+    <!-- Collapsed the pill is 8px thick and RadiusSm (6) draws a 4px arc. -->
+    <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
+
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate>
+          <Border Background="{TemplateBinding Background}"
+                  BorderBrush="{TemplateBinding BorderBrush}"
+                  BorderThickness="{TemplateBinding BorderThickness}"
+                  CornerRadius="{TemplateBinding CornerRadius}"/>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+
+    <!-- Transitions: the radius follows its token as the pill grows and shrinks, and the pill's own thickness glides with it. -->
+    <Setter Property="Transitions">
+      <Transitions>
+        <CornerRadiusTransition Property="CornerRadius" Duration="{theme:AnimationFastMs}" />
+        <DoubleTransition Property="Width" Duration="{theme:AnimationFastMs}" />
+        <DoubleTransition Property="Height" Duration="{theme:AnimationFastMs}" />
+      </Transitions>
+    </Setter>
+
+    <!-- Hover state: one fill stage deeper than rest, the same stage the arrow takes -->
+    <Style Selector="^:pointerover /template/ Border">
+      <Setter Property="Background" Value="{color:SolidFillHoverBrush}" />
+    </Style>
+
+    <!-- Pressed state: deepest fill stage, the same stage the arrow takes -->
+    <Style Selector="^:pressed  /template/ Border">
+      <Setter Property="Background" Value="{color:SolidFillPressedBrush}" />
+    </Style>
+  </ControlTheme>
+
+  <ControlTheme x:Key="DefaultScrollBarPageButton" TargetType="RepeatButton">
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
+    <!-- Visual defaults: paints nothing. -->
+    <Setter Property="Background" Value="Transparent"/>
+    <Setter Property="Foreground" Value="{color:TextDefault}" />
+    <Setter Property="BorderBrush" Value="{color:AccentBrush Light2}"/>
+    <Setter Property="BorderThickness" Value="0"/>
+    <Setter Property="CornerRadius" Value="{size:RadiusSm}"/>
+    <Setter Property="Opacity" Value="0" />
+
+    <Setter Property="Template">
+      <ControlTemplate>
+        <!-- Invisible click area above or below the thumb -->
+        <Border Background="{TemplateBinding Background}"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}"
+                CornerRadius="{TemplateBinding CornerRadius}" />
+      </ControlTemplate>
+    </Setter>
+  </ControlTheme>
+
+  <ControlTheme x:Key="DefaultScrollBarLineButton" TargetType="RepeatButton">
+    <!-- Visual defaults: the arrow rests on the groove, revealed only when the bar expands -->
+    <Setter Property="Background" Value="Transparent"/>
+    <Setter Property="Foreground" Value="{color:SolidFillDefaultBrush}" />
+    <Setter Property="BorderBrush" Value="Transparent"/>
+    <Setter Property="BorderThickness" Value="0"/>
+    <Setter Property="CornerRadius" Value="{size:RadiusSm}"/>
+    <!-- The arrow sits dead centre in its button, as a Button's content does -->
+    <Setter Property="HorizontalContentAlignment" Value="{theme:ButtonAlignmentHorizontal}" />
+    <Setter Property="VerticalContentAlignment" Value="{theme:ButtonAlignmentVertical}" />
+    <Setter Property="Opacity" Value="0" />
+    <Setter Property="IsHitTestVisible" Value="False" />
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
+
+    <Setter Property="Template">
+      <ControlTemplate>
+        <ContentPresenter x:Name="PART_ContentPresenter"
+                          Background="{TemplateBinding Background}"
+                          BorderBrush="{TemplateBinding BorderBrush}"
+                          BorderThickness="{TemplateBinding BorderThickness}"
+                          CornerRadius="{TemplateBinding CornerRadius}"
+                          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                          VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                          Content="{TemplateBinding Content}"/>
+      </ControlTemplate>
+    </Setter>
+
+    <!-- Transitions: the arrow fades in and out with the bar's expand -->
+    <Setter Property="Transitions">
+      <Transitions>
+        <DoubleTransition Property="Opacity" Duration="{theme:AnimationFastMs}" />
+      </Transitions>
+    </Setter>
+
+    <!-- Hover state: the outlined column's hover stages of the bar's own hue -->
+    <Style Selector="^:pointerover:not(:disabled)">
+      <Setter Property="Background" Value="{color:HoverBackgroundDefault}" />
+      <Setter Property="Foreground" Value="{color:SolidFillHoverBrush}" />
+    </Style>
+
+    <Style Selector="^:pressed:not(:disabled)">
+      <Setter Property="Background" Value="{color:PressedBackgroundDefault}" />
+      <Setter Property="Foreground" Value="{color:SolidFillPressedBrush}" />
+    </Style>
+  </ControlTheme>
+
+  <ControlTheme x:Key="{x:Type ScrollBar}" TargetType="ScrollBar">
+    <!-- Visual defaults: the groove paints nothing while the bar rests. -->
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="Foreground" Value="{color:TextDefault}" />
+    <Setter Property="BorderBrush" Value="Transparent" />
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
+    <!-- Transitions: the groove's own appearance eases in and out with the expand. -->
+    <Setter Property="Transitions">
+      <Transitions>
+        <BrushTransition Property="Background" Duration="{theme:AnimationFastMs}" />
+        <BrushTransition Property="BorderBrush" Duration="{theme:AnimationFastMs}" />
+      </Transitions>
+    </Setter>
+    <Setter Property="BorderThickness" Value="0" />
+    <!-- The container radius: RadiusSm read small on a full-size bar -->
+    <Setter Property="CornerRadius" Value="{size:RadiusMd}" />
+
+    <Style Selector="^:vertical">
+      <Setter Property="Template">
+        <ControlTemplate>
+          <Grid x:Name="Root">
+            <Border x:Name="VerticalRoot"
+                    Background="{TemplateBinding Background}"
+                    BorderBrush="{TemplateBinding BorderBrush}"
+                    BorderThickness="{TemplateBinding BorderThickness}"
+                    CornerRadius="{TemplateBinding CornerRadius}">
+              <!-- Stacks the arrows above and below the track -->
+              <Grid RowDefinitions="Auto,*,Auto">
+                <RepeatButton Name="PART_LineUpButton"
+                              HorizontalAlignment="Center"
+                              Theme="{StaticResource DefaultScrollBarLineButton}"
+                              Grid.Row="0"
+                              Focusable="False"
+                              AutomationProperties.Name="Line up">
+                  <PathIcon x:Name="PART_LineUpIcon"
+                            Data="{icons:ChevronUp}"/>
+                </RepeatButton>
+
+                <Track Grid.Row="1"
+                       Minimum="{TemplateBinding Minimum}"
+                       Maximum="{TemplateBinding Maximum}"
+                       Value="{TemplateBinding Value, Mode=TwoWay}"
+                       DeferThumbDrag="{TemplateBinding ScrollViewer.IsDeferredScrollingEnabled}"
+                       ViewportSize="{TemplateBinding ViewportSize}"
+                       Orientation="{TemplateBinding Orientation}"
+                       IsDirectionReversed="True">
+                  <Track.DecreaseButton>
+                    <RepeatButton Name="PART_PageUpButton"
+                                  Theme="{StaticResource DefaultScrollBarPageButton}"
+                                  Focusable="False"
+                                  AutomationProperties.Name="Page up"/>
+                  </Track.DecreaseButton>
+                  <Track.IncreaseButton>
+                    <RepeatButton Name="PART_PageDownButton"
+                                  Theme="{StaticResource DefaultScrollBarPageButton}"
+                                  Focusable="False"
+                                  AutomationProperties.Name="Page down"/>
+                  </Track.IncreaseButton>
+                  <Thumb x:Name="PART_Thumb"
+                         Theme="{StaticResource DefaultScrollBarThumb}"
+                         AutomationProperties.Name="Position"/>
+                </Track>
+
+                <RepeatButton Name="PART_LineDownButton"
+                              HorizontalAlignment="Center"
+                              Theme="{StaticResource DefaultScrollBarLineButton}"
+                              Grid.Row="2"
+                              Focusable="False"
+                              AutomationProperties.Name="Line down">
+                  <PathIcon x:Name="PART_LineDownIcon"
+                            Data="{icons:ChevronDown}"/>
+                </RepeatButton>
+              </Grid>
+            </Border>
+          </Grid>
+        </ControlTemplate>
+      </Setter>
+    </Style>
+
+    <Style Selector="^:horizontal">
+      <Setter Property="Template">
+        <ControlTemplate>
+          <Grid x:Name="Root">
+            <Border x:Name="HorizontalRoot"
+                    Background="{TemplateBinding Background}"
+                    BorderBrush="{TemplateBinding BorderBrush}"
+                    BorderThickness="{TemplateBinding BorderThickness}"
+                    CornerRadius="{TemplateBinding CornerRadius}">
+              <!-- Stacks the arrows either side of the track -->
+              <Grid ColumnDefinitions="Auto,*,Auto">
+                <RepeatButton Name="PART_LineUpButton"
+                              Theme="{StaticResource DefaultScrollBarLineButton}"
+                              VerticalAlignment="Center"
+                              Grid.Column="0"
+                              Focusable="False"
+                              AutomationProperties.Name="Column left">
+                  <PathIcon x:Name="PART_LineUpIcon"
+                            Data="{icons:ChevronLeft}"/>
+                </RepeatButton>
+
+                <Track Grid.Column="1"
+                       Minimum="{TemplateBinding Minimum}"
+                       Maximum="{TemplateBinding Maximum}"
+                       Value="{TemplateBinding Value, Mode=TwoWay}"
+                       DeferThumbDrag="{TemplateBinding ScrollViewer.IsDeferredScrollingEnabled}"
+                       ViewportSize="{TemplateBinding ViewportSize}"
+                       Orientation="{TemplateBinding Orientation}">
+                  <Track.DecreaseButton>
+                    <RepeatButton Name="PART_PageUpButton"
+                                  Theme="{StaticResource DefaultScrollBarPageButton}"
+                                  Focusable="False"
+                                  AutomationProperties.Name="Page left"/>
+                  </Track.DecreaseButton>
+                  <Track.IncreaseButton>
+                    <RepeatButton Name="PART_PageDownButton"
+                                  Theme="{StaticResource DefaultScrollBarPageButton}"
+                                  Focusable="False"
+                                  AutomationProperties.Name="Page right"/>
+                  </Track.IncreaseButton>
+                  <Thumb x:Name="PART_Thumb"
+                         Theme="{StaticResource DefaultScrollBarThumb}"
+                         AutomationProperties.Name="Position"/>
+                </Track>
+
+                <RepeatButton Name="PART_LineDownButton"
+                              Theme="{StaticResource DefaultScrollBarLineButton}"
+                              VerticalAlignment="Center"
+                              Grid.Column="2"
+                              Focusable="False"
+                              AutomationProperties.Name="Column right">
+                  <PathIcon x:Name="PART_LineDownIcon"
+                            Data="{icons:ChevronRight}"/>
+                </RepeatButton>
+              </Grid>
+            </Border>
+          </Grid>
+        </ControlTemplate>
+      </Setter>
+    </Style>
+
+    <!-- Bar thickness: sized to hug the thumb -->
+    <Style Selector="^:vertical">
+      <!-- A size, not a floor: the bar is exactly its thickness wherever it is placed, so a bar outside a scroller never stretches across its column -->
+      <Setter Property="Width" Value="{size:Scaled {size:IconSizeMd}, 1.25}" />
+    </Style>
+    <Style Selector="^:horizontal">
+      <Setter Property="Height" Value="{size:Scaled {size:IconSizeMd}, 1.25}" />
+    </Style>
+
+    <!-- Default template element styles — vertical orientation -->
+    <Style Selector="^:vertical /template/ RepeatButton#PART_LineUpButton">
+      <Setter Property="MinWidth" Value="{size:IconSizeMd}" />
+      <Setter Property="Height" Value="{size:IconSizeMd}" />
+    </Style>
+    <Style Selector="^:vertical /template/ PathIcon#PART_LineUpIcon">
+      <Setter Property="Width" Value="{size:Scaled {size:IconSizeMd}, 0.75}" />
+      <Setter Property="Height" Value="{size:Scaled {size:IconSizeMd}, 0.75}" />
+    </Style>
+    <Style Selector="^:vertical /template/ Thumb#PART_Thumb">
+      <!-- Collapsed: the pill hugs half the bar's width (8px) so its ends stay true half-circles. -->
+      <Setter Property="Width" Value="{size:Scaled {size:IconSizeMd}, 0.5}" />
+      <Setter Property="MinHeight" Value="{size:IconSizeMd}" />
+    </Style>
+    <Style Selector="^:vertical /template/ RepeatButton#PART_LineDownButton">
+      <Setter Property="MinWidth" Value="{size:IconSizeMd}" />
+      <Setter Property="Height" Value="{size:IconSizeMd}" />
+    </Style>
+    <Style Selector="^:vertical /template/ PathIcon#PART_LineDownIcon">
+      <Setter Property="Width" Value="{size:Scaled {size:IconSizeMd}, 0.75}" />
+      <Setter Property="Height" Value="{size:Scaled {size:IconSizeMd}, 0.75}" />
+    </Style>
+
+    <!-- Default template element styles — horizontal orientation -->
+    <Style Selector="^:horizontal /template/ RepeatButton#PART_LineUpButton">
+      <Setter Property="MinHeight" Value="{size:IconSizeMd}" />
+      <Setter Property="Width" Value="{size:IconSizeMd}" />
+    </Style>
+    <Style Selector="^:horizontal /template/ PathIcon#PART_LineUpIcon">
+      <Setter Property="Width" Value="{size:Scaled {size:IconSizeMd}, 0.75}" />
+      <Setter Property="Height" Value="{size:Scaled {size:IconSizeMd}, 0.75}" />
+    </Style>
+    <Style Selector="^:horizontal /template/ Thumb#PART_Thumb">
+      <!-- Collapsed: the pill hugs half the bar's height (8px) so its ends stay true half-circles. -->
+      <Setter Property="Height" Value="{size:Scaled {size:IconSizeMd}, 0.5}" />
+      <Setter Property="MinWidth" Value="{size:IconSizeMd}" />
+    </Style>
+    <Style Selector="^:horizontal /template/ RepeatButton#PART_LineDownButton">
+      <Setter Property="MinHeight" Value="{size:IconSizeMd}" />
+      <Setter Property="Width" Value="{size:IconSizeMd}" />
+    </Style>
+    <Style Selector="^:horizontal /template/ PathIcon#PART_LineDownIcon">
+      <Setter Property="Width" Value="{size:Scaled {size:IconSizeMd}, 0.75}" />
+      <Setter Property="Height" Value="{size:Scaled {size:IconSizeMd}, 0.75}" />
+    </Style>
+
+    <!-- Expanded bar: the groove takes the bar's own hue and the arrow buttons join the thumb. -->
+    <Style Selector="^[AllowAutoHide=False], ^:pointerover">
+      <Setter Property="Background" Value="{color:SurfaceBorderless}" />
+      <Setter Property="BorderBrush" Value="{color:SurfaceBorderless}" />
+      <Style Selector="^:vertical /template/ Thumb#PART_Thumb">
+        <!-- Expanded: the pill fills the bar's cross-axis (16px) and its radius rises to RadiusMd, still exactly half the drawn thickness -->
+        <Setter Property="Width" Value="{size:IconSizeMd}" />
+        <Setter Property="CornerRadius" Value="{size:RadiusMd}" />
+      </Style>
+      <Style Selector="^:horizontal /template/ Thumb#PART_Thumb">
+        <!-- Expanded: the pill fills the bar's cross-axis (16px) and its radius rises to RadiusMd, still exactly half the drawn thickness -->
+        <Setter Property="Height" Value="{size:IconSizeMd}" />
+        <Setter Property="CornerRadius" Value="{size:RadiusMd}" />
+      </Style>
+      <Style Selector="^ /template/ RepeatButton#PART_LineUpButton,
+                       ^ /template/ RepeatButton#PART_LineDownButton">
+        <Setter Property="Opacity" Value="1" />
+        <Setter Property="IsHitTestVisible" Value="True" />
+      </Style>
+    </Style>
+
+    <!-- Disabled state: the whole bar dims together -->
+    <Style Selector="^:disabled">
+      <Setter Property="Opacity" Value="{size:DisabledOpacity}" />
+    </Style>
+  </ControlTheme>
+
+</ResourceDictionary>

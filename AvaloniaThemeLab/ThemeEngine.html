@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>AngelSix Theme Engine</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --paper: oklch(0.965 0.018 85);
+    --paper-deep: oklch(0.945 0.024 82);
+    --card: oklch(0.988 0.01 88);
+    --ink: oklch(0.22 0.025 50);
+    --ink-soft: oklch(0.48 0.03 55);
+    --rule: oklch(0.22 0.025 50 / 14%);
+    --teal: oklch(0.5 0.085 175);
+    --teal-wash: oklch(0.93 0.035 175);
+    --moss: oklch(0.55 0.12 140);
+    --amber: oklch(0.9 0.06 95);
+    --vermilion: oklch(0.52 0.2 25);
+    --code: oklch(0.955 0.02 85);
+    --shadow: 3px 3px 0 0 oklch(0.22 0.025 50 / 85%);
+    --shadow-lift: 5px 5px 0 0 oklch(0.22 0.025 50 / 90%);
+    --radius: 14px;
+    --sans: "Bricolage Grotesque", ui-sans-serif, system-ui, sans-serif;
+    --mono: "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; scroll-padding-top: 24px; scrollbar-width: thin; scrollbar-color: var(--ink-soft) transparent; }
+  /* scrollbars */
+  ::-webkit-scrollbar { width: 8px; height: 8px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--ink-soft); border-radius: 999px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--ink); }
+  ::-webkit-scrollbar-corner { background: transparent; }
+  body {
+    margin: 0; color: var(--ink); font: 16px/1.65 var(--sans); -webkit-font-smoothing: antialiased;
+    background-color: var(--paper);
+    background-image:
+      radial-gradient(circle at 12% 8%, oklch(0.94 0.035 82 / 70%) 0, transparent 38vw),
+      radial-gradient(circle at 88% 30%, oklch(0.945 0.03 95 / 55%) 0, transparent 42vw),
+      radial-gradient(circle at 40% 92%, oklch(0.935 0.035 78 / 50%) 0, transparent 45vw);
+    background-attachment: fixed;
+  }
+  a { color: var(--teal); text-underline-offset: 3px; }
+  code { font-variant-ligatures: none; font-family: var(--mono); font-size: 0.86em; background: var(--code); border: 1px solid var(--rule); border-radius: 6px; padding: 1px 6px; }
+  pre { position: relative; margin: 14px 0; padding: 14px 16px; background: var(--code); border: 1.5px solid var(--ink); border-radius: 10px; overflow-x: auto; }
+  pre code { background: none; border: 0; padding: 0; font-size: 13px; line-height: 1.6; white-space: pre; }
+  .copy { position: absolute; top: 8px; right: 8px; font: 600 11px var(--sans); letter-spacing: .04em; text-transform: uppercase;
+          background: var(--card); color: var(--ink); border: 1.5px solid var(--ink); border-radius: 8px; padding: 3px 9px; cursor: pointer; box-shadow: 2px 2px 0 0 var(--ink); opacity: 0; transition: opacity .15s; }
+  pre:hover .copy, .copy:focus-visible { opacity: 1; }
+  .copy:active { transform: translate(1px, 1px); box-shadow: 1px 1px 0 0 var(--ink); }
+  .k { color: oklch(0.45 0.12 300); } .s { color: oklch(0.5 0.12 145); } .c { color: var(--ink-soft); font-style: italic; } .t { color: var(--teal); }
+
+  /* layout */
+  .shell { display: grid; grid-template-columns: 260px minmax(0, 1fr); gap: 40px; max-width: 1240px; margin: 0 auto; padding: 32px 24px 96px; }
+  nav.toc { position: sticky; top: 24px; align-self: start; max-height: calc(100vh - 48px); overflow-y: auto;
+            background: var(--card); border: 1.5px solid var(--ink); border-radius: var(--radius); box-shadow: var(--shadow); padding: 18px 14px; }
+  nav.toc .brand { font-weight: 700; font-size: 17px; letter-spacing: -.01em; padding: 0 8px 12px; border-bottom: 1.5px dashed var(--rule); margin-bottom: 10px; }
+  nav.toc .brand small { display: block; font-weight: 400; color: var(--ink-soft); font-size: 13px; }
+  nav.toc a { display: block; color: var(--ink); text-decoration: none; padding: 5px 8px; border-radius: 8px; font-size: 14.5px; }
+  nav.toc a.sub { padding-left: 22px; font-size: 13.5px; color: var(--ink-soft); }
+  nav.toc a:hover { background: var(--paper-deep); }
+  nav.toc a.active { background: var(--teal-wash); color: var(--ink); font-weight: 600; }
+  main { min-width: 0; }
+
+  /* masthead */
+  header.mast { grid-column: 1 / -1; padding: 28px 4px 6px; border-bottom: 1.5px solid var(--ink); margin-bottom: 4px; display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
+  header.mast .mark { font: 600 13px var(--sans); letter-spacing: .14em; text-transform: uppercase; color: var(--teal); margin: 0 0 6px; }
+  header.mast h1 { font-size: clamp(48px, 7vw, 92px); line-height: .95; letter-spacing: -.035em; margin: 0; }
+  header.mast h1 span { color: var(--teal); }
+  header.mast p { font-size: 19px; color: var(--ink-soft); margin: 12px 0 0; max-width: 46ch; }
+  header.mast .tags { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; padding-bottom: 6px; }
+  header.mast .tag { font: 600 13px var(--mono); border: 1.5px solid var(--ink); border-radius: 999px; padding: 4px 12px; background: var(--card); box-shadow: 2px 2px 0 0 var(--ink); white-space: nowrap; }
+
+  .docs { display: flex; gap: 8px; margin-top: 14px; flex-wrap: wrap; }
+  .docs a { font: 600 13px var(--sans); color: var(--ink); text-decoration: none; border: 1.5px solid var(--ink); border-radius: 999px; padding: 4px 12px; background: var(--card); box-shadow: 2px 2px 0 0 var(--ink); }
+  .docs a.here { background: var(--ink); color: var(--paper); }
+
+  /* sections */
+  section.page { background: var(--card); border: 1.5px solid var(--ink); border-radius: var(--radius); box-shadow: var(--shadow); padding: 34px 40px; margin-bottom: 32px; }
+  .eyebrow { font: 600 12px var(--sans); letter-spacing: .12em; text-transform: uppercase; color: var(--teal); margin: 0 0 4px; }
+  h1 { font-size: 44px; line-height: 1.05; letter-spacing: -.025em; margin: 0 0 12px; }
+  h2 { font-size: 30px; letter-spacing: -.02em; margin: 0 0 8px; line-height: 1.15; }
+  h3 { font-size: 20px; margin: 30px 0 6px; letter-spacing: -.01em; }
+  h3 .n { display: inline-flex; width: 28px; height: 28px; align-items: center; justify-content: center; margin-right: 10px; border: 1.5px solid var(--ink); border-radius: 50%; font-size: 14px; background: var(--amber); vertical-align: 2px; }
+  .lede { font-size: 18.5px; color: var(--ink-soft); margin: 0 0 18px; max-width: 64ch; }
+  p, li { max-width: 72ch; }
+  hr { border: 0; border-top: 1.5px dashed var(--rule); margin: 30px 0; }
+
+  .note { border: 1.5px solid var(--ink); border-radius: 10px; padding: 12px 16px; margin: 16px 0; background: var(--paper-deep); }
+  .note.why { background: var(--teal-wash); }
+  .note.warn { background: oklch(0.95 0.04 60); }
+  .note b:first-child { display: block; font-size: 12px; letter-spacing: .1em; text-transform: uppercase; margin-bottom: 2px; }
+
+  /* comparison */
+  table.compare th[scope="row"] { background: none; text-transform: none; letter-spacing: 0; font-size: 15px; font-weight: 600; width: 22%; }
+  table.compare thead th:nth-child(3) { color: var(--moss); }
+  table.compare thead th:nth-child(2) { color: var(--vermilion); }
+  table.compare td { font-size: 15px; }
+  table.compare td.no { color: var(--ink-soft); }
+  table.compare td.no s { text-decoration-color: oklch(0.52 0.2 25 / 55%); text-decoration-thickness: 1.5px; }
+  table.compare td.yes { font-weight: 600; background: oklch(0.96 0.03 145 / 55%); }
+  table.compare .mk { display: inline-grid; place-items: center; width: 22px; height: 22px; margin-right: 10px; border-radius: 50%; border: 1.5px solid var(--ink); font-size: 12px; font-weight: 700; vertical-align: 1px; }
+  table.compare td.no .mk { background: oklch(0.93 0.05 25); color: var(--vermilion); }
+  table.compare td.yes .mk { background: oklch(0.9 0.08 145); color: oklch(0.38 0.1 145); }
+
+  /* steps */
+  ol.steps { list-style: none; padding: 0; margin: 18px 0; counter-reset: s; }
+  ol.steps > li { counter-increment: s; position: relative; padding: 0 0 18px 52px; max-width: none; }
+  ol.steps > li::before { content: counter(s); position: absolute; left: 0; top: 0; width: 34px; height: 34px; display: grid; place-items: center;
+                          border: 1.5px solid var(--ink); border-radius: 50%; background: var(--amber); font-weight: 700; box-shadow: 2px 2px 0 0 var(--ink); }
+  ol.steps > li:not(:last-child)::after { content: ""; position: absolute; left: 17px; top: 38px; bottom: 4px; border-left: 1.5px dashed var(--rule); }
+  ol.steps > li > strong { display: block; font-size: 17px; }
+  ol.steps label { cursor: pointer; }
+  ol.steps input { accent-color: var(--teal); margin-right: 6px; transform: scale(1.15); }
+
+  /* pipeline */
+  .flow { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin: 20px 0 8px; }
+  .flow div { border: 1.5px solid var(--ink); border-radius: 12px; padding: 10px 12px; background: var(--paper-deep); font-size: 13.5px; line-height: 1.4; position: relative; }
+  .flow div b { display: block; font-size: 14.5px; }
+  .flow div:not(:last-child)::after { content: "→"; position: absolute; right: -10px; top: 50%; transform: translate(50%, -50%); font-weight: 700; }
+
+  /* table */
+  table { width: 100%; border-collapse: separate; border-spacing: 0; margin: 14px 0; font-size: 14.5px; border: 1.5px solid var(--ink); border-radius: 10px; overflow: hidden; }
+  th, td { text-align: left; padding: 9px 12px; vertical-align: top; border-bottom: 1px solid var(--rule); }
+  th { background: var(--paper-deep); font-size: 12.5px; letter-spacing: .06em; text-transform: uppercase; }
+  tr:last-child td { border-bottom: 0; }
+
+  /* ramp swatch */
+  .ramp { display: flex; border: 1.5px solid var(--ink); border-radius: 10px; overflow: hidden; margin: 14px 0 4px; }
+  .ramp span { flex: 1; height: 38px; position: relative; }
+  .ramp span.seed { outline: 2px solid var(--ink); outline-offset: -4px; }
+  .ramp-labels { display: flex; justify-content: space-between; font: 12px var(--mono); color: var(--ink-soft); margin-bottom: 14px; }
+
+  /* precedence ladder */
+  .ladder { display: grid; gap: 8px; margin: 14px 0; }
+  .ladder > div { display: grid; grid-template-columns: 52px 150px minmax(0, 1fr); align-items: center; gap: 14px; border: 1.5px solid var(--ink); border-radius: 10px; padding: 8px 12px; background: var(--card); }
+  .ladder .p { font: 700 18px var(--mono); text-align: center; border: 1.5px solid var(--ink); border-radius: 8px; background: var(--amber); padding: 2px 0; }
+  .ladder b { display: block; font-size: 15px; } .ladder small { color: var(--ink-soft); font-size: 13px; }
+  .ladder code { font-size: 12.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; }
+  .ladder .win .p { background: var(--teal-wash); }
+  .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 14px 0; }
+  .pair > div { border: 1.5px solid var(--ink); border-radius: 12px; padding: 12px 14px; }
+  .pair .bad { background: oklch(0.96 0.03 25); } .pair .good { background: oklch(0.96 0.03 145); }
+  .pair h4 { margin: 0 0 4px; font-size: 15px; }
+  .pair p { font-size: 14.5px; margin: 6px 0 0; }
+
+  /* glossary */
+  .search { display: flex; gap: 10px; align-items: center; margin: 14px 0 18px; }
+  .search input { flex: 1; font: 16px var(--sans); padding: 10px 14px; border: 1.5px solid var(--ink); border-radius: 10px; background: var(--paper); box-shadow: 2px 2px 0 0 var(--ink); }
+  .search input:focus { outline: 2px solid var(--teal); outline-offset: 2px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+  .chip { font: 600 13px var(--sans); border: 1.5px solid var(--ink); border-radius: 999px; padding: 3px 12px; background: var(--card); cursor: pointer; }
+  .chip.on { background: var(--ink); color: var(--paper); }
+  .gloss { display: grid; gap: 10px; }
+  details.term { border: 1.5px solid var(--ink); border-radius: 10px; background: var(--card); }
+  details.term[open] { box-shadow: var(--shadow); }
+  details.term summary { cursor: pointer; list-style: none; padding: 10px 14px; display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap; }
+  details.term summary::-webkit-details-marker { display: none; }
+  details.term summary::before { content: "+"; font-weight: 700; width: 12px; }
+  details.term[open] summary::before { content: "−"; }
+  details.term summary code { font-weight: 600; font-size: .92em; }
+  details.term summary .kind { font-size: 11.5px; text-transform: uppercase; letter-spacing: .08em; color: var(--ink-soft); margin-left: auto; }
+  details.term summary .short { color: var(--ink-soft); font-size: 14.5px; flex-basis: 100%; padding-left: 22px; }
+  details.term .body { padding: 0 16px 14px 36px; font-size: 15px; }
+  details.term .body pre { margin: 10px 0 4px; }
+  .empty { display: none; color: var(--ink-soft); }
+
+  footer { text-align: center; color: var(--ink-soft); font-size: 13px; }
+
+  @media (max-width: 920px) {
+    header.mast .tags { align-items: flex-start; flex-direction: row; flex-wrap: wrap; }
+    .shell { grid-template-columns: 1fr; }
+    nav.toc { position: static; max-height: none; }
+    section.page { padding: 24px 20px; }
+    .flow, .pair { grid-template-columns: 1fr; }
+    .ladder > div { grid-template-columns: 44px 1fr; }
+    .ladder code { grid-column: 1 / -1; }
+    .flow div:not(:last-child)::after { content: "↓"; right: 50%; top: auto; bottom: -14px; transform: translate(50%, 0); }
+    h1 { font-size: 34px; }
+  }
+</style>
+</head>
+<body>
+<div class="shell">
+
+<header class="mast">
+  <div>
+    <p class="mark">Documentation · Avalonia 12</p>
+    <h1>AngelSix <span>Theme Engine</span></h1>
+    <p>Typed tokens, generated XAML and automatic loading. A whole Avalonia theme in one C# class.</p>
+    <div class="docs"><a href="ThemeEngine.html" class="here">Guide</a><a href="ThemePhilosophy.html">Philosophy</a><a href="ThemeRules.html">Rules</a></div>
+  </div>
+  <div class="tags">
+    <span class="tag">AngelSix.ThemeEngine</span>
+    <span class="tag">AngelSix.Themes.Default</span>
+    <span class="tag">AngelSix.Mvvm</span>
+  </div>
+</header>
+
+<nav class="toc" aria-label="Contents">
+  <div class="brand">Contents</div>
+  <a href="#intro">Introduction</a>
+  <a href="#start">Getting started</a>
+  <a href="#default">Using the default theme</a>
+  <a href="#own">Creating your own theme</a>
+  <a href="#how">How it works</a>
+  <a class="sub" href="#how-load">Loading the theme</a>
+  <a class="sub" href="#how-tokens">Tokens become XAML</a>
+  <a class="sub" href="#how-live">Live changes</a>
+  <a class="sub" href="#how-colour">Colour: seeds and ramps</a>
+  <a class="sub" href="#how-accent">Hues and roles</a>
+  <a class="sub" href="#how-size">Sizes and ladders</a>
+  <a class="sub" href="#how-dark">Light and dark</a>
+  <a class="sub" href="#how-icons">Icons</a>
+  <a class="sub" href="#how-mvvm">AngelSix.Mvvm</a>
+  <a class="sub" href="#how-preview">Previews</a>
+  <a class="sub" href="#how-snippets">Editor snippets</a>
+  <a href="#knowledge">Avalonia knowledge</a>
+  <a class="sub" href="#know-precedence">Style precedence</a>
+  <a class="sub" href="#know-theme">ControlTheme limits</a>
+  <a class="sub" href="#know-transition">Transitions that never stop</a>
+  <a href="#glossary">Glossary</a>
+</nav>
+
+<main>
+
+<!-- ============================== INTRODUCTION ============================== -->
+<section class="page" id="intro">
+  <p class="eyebrow">Introduction</p>
+  <h1>A theme is one C# class.</h1>
+  <p class="lede">The theme engine replaces Avalonia's resource-key theming with typed tokens, generated XAML extensions and automatic file loading. You describe a theme once; the engine does the wiring.</p>
+
+  <table class="compare">
+    <thead><tr><th></th><th>Plain Avalonia</th><th>Theme engine</th></tr></thead>
+    <tbody>
+    <tr><th scope="row">Theme values</th><td class="no"><span class="mk">✕</span><s>untyped string keys</s></td><td class="yes"><span class="mk">✓</span>typed C# tokens, with IntelliSense</td></tr>
+    <tr><th scope="row">A typo</th><td class="no"><span class="mk">✕</span><s>renders nothing at run time</s></td><td class="yes"><span class="mk">✓</span>fails the build</td></tr>
+    <tr><th scope="row">Control files</th><td class="no"><span class="mk">✕</span><s>listed by hand, kept in step</s></td><td class="yes"><span class="mk">✓</span>found at build time</td></tr>
+    <tr><th scope="row">Sizes</th><td class="no"><span class="mk">✕</span><s>literals repeated everywhere</s></td><td class="yes"><span class="mk">✓</span>grow from one <code>BaseSize</code></td></tr>
+    <tr><th scope="row">Colours</th><td class="no"><span class="mk">✕</span><s>every shade chosen by hand</s></td><td class="yes"><span class="mk">✓</span>one seed per hue</td></tr>
+    <tr><th scope="row">Accent colours</th><td class="no"><span class="mk">✕</span><s>a copy of each style per colour</s></td><td class="yes"><span class="mk">✓</span>one style, every hue</td></tr>
+    <tr><th scope="row">Dark mode</th><td class="no"><span class="mk">✕</span><s>a second set of resources</s></td><td class="yes"><span class="mk">✓</span>the same seeds, one switch</td></tr>
+    </tbody>
+  </table>
+
+  <h3 style="margin-top: 28px;">What's in this repository</h3>
+  <table>
+    <tr><th>Folder</th><th>What it is</th></tr>
+    <tr><td><code>Themes/AngelSix.Themes.Default</code></td><td>The default theme.</td></tr>
+    <tr><td><a href="ThemeRules.html"><code>ThemeRules.html</code></a>, <a href="ThemePhilosophy.html"><code>ThemePhilosophy.html</code></a></td><td>The rules every control theme follows, and why they exist.</td></tr>
+    <tr><td><code>Examples/AvaloniaThemeLab.ThemePlayground</code></td><td>A playground of every control in the theme, in light and dark, with a settings window to change the tokens live.</td></tr>
+    <tr><td><code>Examples/AvaloniaThemeLab.Minimal</code></td><td>The least you need: a theme built on the engine alone, with no theme package.</td></tr>
+    <tr><td><code>Tests/AvaloniaThemeLab.Tests</code></td><td>Headless tests that drive the playground.</td></tr>
+  </table>
+
+  <p>Three packages make up the system:</p>
+  <table>
+    <tr><th>Package</th><th>What it is</th></tr>
+    <tr><td><code>AngelSix.ThemeEngine</code></td><td>The engine: <code>ThemeBase</code>, the attributes, the source generators and the markup extensions.</td></tr>
+    <tr><td><code>AngelSix.Themes.Default</code></td><td>A complete theme for every Avalonia control, built on the engine. Use it as is, or extend it.</td></tr>
+    <tr><td><code>AngelSix.Mvvm</code></td><td>Source-generated MVVM: change notification, commands and design-time data. The engine uses it, and so can your app.</td></tr>
+  </table>
+</section>
+
+<!-- ============================== GETTING STARTED ============================== -->
+<section class="page" id="start">
+  <p class="eyebrow">Getting started</p>
+  <h2>From a new app to a themed app</h2>
+  <p class="lede">Six steps, one package and one line of XAML. You need the .NET 10 SDK and the Avalonia templates (<code>dotnet new install Avalonia.Templates</code>).</p>
+
+  <ol class="steps">
+    <li><label><input type="checkbox" /><strong>Create the app</strong></label>
+      <pre><code>dotnet new avalonia.mvvm -n MyApp</code></pre>
+      A standard Avalonia 12 MVVM app, using Fluent.</li>
+    <li><label><input type="checkbox" /><strong>Remove Fluent</strong></label>
+      <pre><code>dotnet remove MyApp package Avalonia.Themes.Fluent</code></pre>
+      Nothing will use it once the theme is in.</li>
+    <li><label><input type="checkbox" /><strong>Add the theme</strong></label>
+      <pre><code>dotnet add MyApp package AngelSix.Themes.Default</code></pre>
+      This brings the engine and AngelSix.Mvvm with it.</li>
+    <li><label><input type="checkbox" /><strong>Swap the line in <code>App.axaml</code></strong></label>
+<pre><code><span class="t">&lt;Application.Styles&gt;</span>
+    <span class="t">&lt;DefaultTheme /&gt;</span>
+<span class="t">&lt;/Application.Styles&gt;</span></code></pre>
+      It replaces <code>&lt;FluentTheme /&gt;</code>. No <code>xmlns</code> line is needed: <code>DefaultTheme</code> lives in Avalonia's own namespace.</li>
+    <li><label><input type="checkbox" /><strong>Build</strong></label>
+      <pre><code>dotnet build MyApp</code></pre>
+      The build also writes the engine's editor snippets for Rider and VS Code (see <a href="#how-snippets">Editor snippets</a>).</li>
+    <li><label><input type="checkbox" /><strong>Run it</strong></label>
+      <pre><code>dotnet run --project MyApp</code></pre>
+      Every control now draws with the default theme. Keep <code>.WithInterFont()</code> in <code>Program.cs</code>: the theme's font is Inter.</li>
+  </ol>
+
+  <h3>If something goes wrong</h3>
+  <table>
+    <tr><th>You see</th><th>Cause and fix</th></tr>
+    <tr><td><code>NU1605 … Detected package downgrade: Avalonia</code></td><td>The app was made from an older template. Update every Avalonia package in the project to 12.1.6.</td></tr>
+    <tr><td><code>AVLN2000: Unable to resolve type DefaultTheme</code></td><td>The package isn't referenced: step 3 was skipped.</td></tr>
+    <tr><td>Text draws in the system font</td><td><code>.WithInterFont()</code> was removed from <code>Program.cs</code>.</td></tr>
+    <tr><td>A theme token shows an error in the editor</td><td>The file lacks the theme namespaces. Type <code>themexml</code> and Tab on its root element.</td></tr>
+    <tr><td>Rider's previewer shows a red mark with no message</td><td>A known bug in the AvaloniaRider plugin 1.14.0 on Rider 2026.3, not in the app. Rider 2026.2 previews correctly.</td></tr>
+  </table>
+
+  <div class="note why"><b>Why it just works</b>That one line creates the theme. The theme finds and loads all of its control files itself, and registers itself so every token in XAML resolves against it. <a href="#how-load">How it works</a> walks through each step.</div>
+</section>
+
+<!-- ============================== USING THE DEFAULT THEME ============================== -->
+<section class="page" id="default">
+  <p class="eyebrow">Using the default theme</p>
+  <h2>Hues, light and dark, and your own XAML</h2>
+  <p class="lede">The default theme works with no setup. These are the things you reach for next.</p>
+
+  <h3>Give a control a hue</h3>
+  <pre><code><span class="t">&lt;Button</span> Content=<span class="s">"Save"</span> theme:Accent.Kind=<span class="s">"Primary"</span> <span class="t">/&gt;</span>
+<span class="t">&lt;Button</span> Content=<span class="s">"Delete"</span> theme:Accent.Kind=<span class="s">"Destructive"</span> <span class="t">/&gt;</span></code></pre>
+  <p>Hues: <code>Neutral</code>, <code>Primary</code>, <code>Success</code>, <code>Warning</code>, <code>Favourite</code>, <code>Error</code>, <code>Info</code>, <code>Destructive</code>, <code>Subtle</code>. <code>Accent.Kind</code> inherits, so setting it on a panel tints everything inside.</p>
+
+  <h3>Use the theme's tokens</h3>
+  <p>Type <code>themexml</code> and Tab on a root element to declare the namespaces, then read any token:</p>
+  <pre><code><span class="t">&lt;Border</span> Padding=<span class="s">"{size:Edges {size:SpacingLg}}"</span>
+        CornerRadius=<span class="s">"{size:RadiusSm}"</span>
+        Background=<span class="s">"{color:AccentBrush Light9}"</span><span class="t">&gt;</span>
+  <span class="t">&lt;TextBlock</span> Text=<span class="s">"Hello"</span> FontSize=<span class="s">"{size:FontSizeLg}"</span> <span class="t">/&gt;</span>
+<span class="t">&lt;/Border&gt;</span></code></pre>
+
+  <h3>Change it at run time</h3>
+  <pre><code><span class="k">var</span> theme = DefaultTheme.Current;
+theme.IsDark = <span class="k">true</span>;         <span class="c">// the whole app turns dark</span>
+theme.BaseSize = <span class="s">1.25</span>;       <span class="c">// every size grows by a quarter</span>
+theme.AccentPrimary = Color.Parse(<span class="s">"#7C4DFF"</span>);   <span class="c">// the whole Primary ramp follows</span>
+theme.ResetToDefaults();</code></pre>
+  <p>With dependency injection, register it once: <code>services.AddSingleton(DefaultTheme.Current);</code></p>
+
+  <h3>Make it yours without forking</h3>
+  <pre><code>[Theme(FallbackHue = <span class="s">"Neutral"</span>)]
+<span class="k">public partial class</span> BrandTheme : DefaultTheme
+{
+    [AccentHue, ColorRamp(HueAware = <span class="k">true</span>)]
+    [Observable] <span class="k">public virtual partial</span> Color AccentBrand { <span class="k">get</span>; <span class="k">set</span>; } = Color.Parse(<span class="s">"#7C4DFF"</span>);
+}</code></pre>
+  <p>This needs the engine package too (<code>dotnet add MyApp package AngelSix.ThemeEngine</code>), for its generator. Put <code>&lt;local:BrandTheme /&gt;</code> in <code>App.axaml</code> instead of <code>&lt;DefaultTheme /&gt;</code>.</p>
+  <p>A theme that extends one from another project gets its own hue property, named after the class: <code>theme:BrandAccent.Kind="Brand"</code>. It accepts the new hue and every inherited one. A derived theme can also override any public token, or add its own control files. Roles are <code>internal</code>, so they can only be changed in the theme's own project.</p>
+</section>
+
+<!-- ============================== CREATING YOUR OWN THEME ============================== -->
+<section class="page" id="own">
+  <p class="eyebrow">Creating your own theme</p>
+  <h2>A theme from nothing</h2>
+  <p class="lede">For a look that owes nothing to the default theme. You write the tokens and the control files; the engine does the rest.</p>
+
+  <ol class="steps">
+    <li><label><input type="checkbox" /><strong>Start from a new app, without Fluent</strong></label>
+      Steps 1 and 2 of <a href="#start">Getting started</a>.</li>
+    <li><label><input type="checkbox" /><strong>Add the engine</strong></label>
+      <pre><code>dotnet add MyApp package AngelSix.ThemeEngine</code></pre></li>
+    <li><label><input type="checkbox" /><strong>Write the theme class</strong></label>
+      Type <code>themeclass</code> and Tab in a new C# file. It gives a working theme to edit:
+<pre><code>[Theme(FallbackHue = <span class="s">"Neutral"</span>)]
+<span class="k">public partial class</span> MyTheme : ThemeBase
+{
+    [AccentHue, ColorRamp(HueAware = <span class="k">true</span>, DarkSeed = <span class="s">"#D1D1D1"</span>)]
+    [Observable] <span class="k">public virtual partial</span> Color AccentNeutral { <span class="k">get</span>; <span class="k">set</span>; } = Color.Parse(<span class="s">"#2E2E2E"</span>);
+
+    [AccentHue, ColorRamp(HueAware = <span class="k">true</span>)]
+    [Observable] <span class="k">public virtual partial</span> Color AccentPrimary { <span class="k">get</span>; <span class="k">set</span>; } = Color.Parse(<span class="s">"#2F6FEB"</span>);
+
+    [AccentHue, ColorRamp(DarkSeed = <span class="s">"#1E1E1E"</span>)]
+    [Observable] <span class="k">public virtual partial</span> Color AccentSurface { <span class="k">get</span>; <span class="k">set</span>; } = Color.Parse(<span class="s">"#FAFAFA"</span>);
+
+    [SizeScale(Multipliers = [<span class="s">4</span>, <span class="s">8</span>, <span class="s">12</span>, <span class="s">16</span>])]
+    <span class="k">public virtual double</span> Spacing => BaseSize;
+}</code></pre></li>
+    <li><label><input type="checkbox" /><strong>Include it</strong></label>
+<pre><code><span class="t">&lt;Application</span> ... xmlns:local=<span class="s">"using:MyApp.Theme"</span><span class="t">&gt;</span>
+  <span class="t">&lt;Application.Styles&gt;</span>
+    <span class="t">&lt;local:MyTheme /&gt;</span>
+  <span class="t">&lt;/Application.Styles&gt;</span>
+<span class="t">&lt;/Application&gt;</span></code></pre></li>
+    <li><label><input type="checkbox" /><strong>Style a control</strong></label>
+      Add <code>Controls/Button.axaml</code>, type <code>themecontrol</code> and Tab. You get the control's preview, its designer preview and a <code>ControlTheme</code> wired to the tokens. There's no list to add it to.</li>
+    <li><label><input type="checkbox" /><strong>Build and run</strong></label>
+      The button draws with your theme. Every other control has no template yet, so it draws nothing: add a file per control as you go.</li>
+  </ol>
+
+  <div class="note"><b>Worked example</b><code>Examples/AvaloniaThemeLab.Minimal</code> is exactly this: a new app, no Fluent, one small theme with ramps, hues, roles and ladders, and two styled controls.</div>
+</section>
+
+<!-- ============================== HOW IT WORKS ============================== -->
+<section class="page" id="how">
+  <p class="eyebrow">How it works</p>
+  <h2>What happens after the one line</h2>
+  <p class="lede">The engine does its work in two places: at build time, where source generators turn your theme class into XAML extensions and a list of files; and at start-up, where the theme loads that list and registers itself.</p>
+
+  <div class="flow">
+    <div><b>Build</b>Generators read the theme class and the project's <code>.axaml</code> files</div>
+    <div><b>Generate</b>One XAML extension per token, plus the list of control files</div>
+    <div><b>Start</b><code>&lt;MyTheme /&gt;</code> creates the theme</div>
+    <div><b>Load</b>The theme loads its files and registers itself</div>
+    <div><b>Resolve</b>Every <code>{color:…}</code> reads the live theme</div>
+  </div>
+
+  <!-- ---------- load ---------- -->
+  <h3 id="how-load"><span class="n">1</span>Loading the theme</h3>
+  <p><strong>At build time</strong>, a generator reads every <code>.axaml</code> in the theme's project and sorts them by their root element:</p>
+  <ul>
+    <li>A <code>ResourceDictionary</code> holding a <code>ControlTheme</code> is a <em>control file</em>.</li>
+    <li>A <code>Styles</code> file with no <code>x:Class</code> is a <em>styles file</em>, for the few rules a <code>ControlTheme</code> can't hold.</li>
+  </ul>
+  <p>It writes both lists into the assembly. Nothing is written into your project.</p>
+  <p><strong>At start-up</strong>, <code>&lt;MyTheme /&gt;</code> constructs the theme. A theme is an Avalonia <code>Styles</code>, so it sits where <code>FluentTheme</code> did. Its constructor:</p>
+  <ol>
+    <li>loads every listed file, from the base theme first, so a derived theme's styles come last and win;</li>
+    <li>registers itself as the app's active theme, which every XAML token reads from.</li>
+  </ol>
+  <div class="note why"><b>The point</b>Avalonia normally needs a <code>ResourceInclude</code> for every control file, kept in step by hand. Here, adding a control is adding its file; removing one is deleting it.</div>
+  <p>An app has one theme. Reach it from code with <code>MyTheme.Current</code>, which the engine generates on every theme class.</p>
+
+  <!-- ---------- tokens ---------- -->
+  <h3 id="how-tokens"><span class="n">2</span>Tokens become XAML</h3>
+  <p>Every public property on the theme is a token. The generator gives each one a markup extension, filed by its C# type:</p>
+  <table>
+    <tr><th>Prefix</th><th>Holds</th><th>Examples</th></tr>
+    <tr><td><code>{color:…}</code></td><td>Colours and brushes</td><td><code>{color:AccentBrush Light10}</code>, <code>{color:TextDefault}</code></td></tr>
+    <tr><td><code>{size:…}</code></td><td>Numbers, <code>Thickness</code>, <code>CornerRadius</code></td><td><code>{size:SpacingMd}</code>, <code>{size:RadiusSm}</code></td></tr>
+    <tr><td><code>{theme:…}</code></td><td>Everything else</td><td><code>{theme:FontFamily}</code>, <code>{theme:StandardAlignmentHorizontal}</code></td></tr>
+    <tr><td><code>{icons:…}</code></td><td>Icon geometry</td><td><code>{icons:Save}</code></td></tr>
+  </table>
+  <div class="note why"><b>The point</b>A token is a real type, so XAML gets IntelliSense, and a typo fails the build instead of rendering nothing. Rename a property and every use is found.</div>
+
+  <!-- ---------- live ---------- -->
+  <h3 id="how-live"><span class="n">3</span>Live changes</h3>
+  <p>A token in XAML is a binding, not a copied value. Mark a token <code>[Observable]</code> and setting it raises a change; every binding that reads it, or any token computed from it, updates.</p>
+  <pre><code>[Observable] <span class="k">public virtual partial double</span> HoverScale { <span class="k">get</span>; <span class="k">set</span>; } = <span class="s">1.05</span>;</code></pre>
+  <p>The theme implements <code>INotifyPropertyChanged</code> through AngelSix.Mvvm, so a settings screen can bind straight to it: <code>Value="{Binding Theme.BaseSize}"</code>. <code>ResetToDefaults()</code> puts every <code>[Observable]</code> token, and every generated scale, back to its declared value.</p>
+
+  <!-- ---------- colour ---------- -->
+  <h3 id="how-colour"><span class="n">4</span>Colour: seeds and ramps</h3>
+  <p>A hue is one colour. <code>[ColorRamp]</code> turns that seed into twenty stages: <code>Light1</code> to <code>Light10</code> towards the canvas, and <code>Dark1</code> to <code>Dark10</code> towards the ink.</p>
+  <div class="ramp" aria-hidden="true">
+    <span style="background:oklch(0.98 0.012 250)"></span><span style="background:oklch(0.95 0.025 250)"></span><span style="background:oklch(0.9 0.05 250)"></span><span style="background:oklch(0.83 0.08 250)"></span><span style="background:oklch(0.75 0.11 250)"></span>
+    <span class="seed" style="background:oklch(0.6 0.15 255)"></span>
+    <span style="background:oklch(0.5 0.15 258)"></span><span style="background:oklch(0.42 0.13 260)"></span><span style="background:oklch(0.34 0.1 262)"></span><span style="background:oklch(0.26 0.07 264)"></span><span style="background:oklch(0.19 0.04 266)"></span>
+  </div>
+  <div class="ramp-labels"><span>Light10</span><span>seed</span><span>Dark10</span></div>
+  <ul>
+    <li><code>HueAware = true</code> puts stage N at the same perceived lightness in every hue, so a role keeps its contrast whatever hue a control wears.</li>
+    <li>The light palette's ink is drawn through an <code>InkProfile</code>, so orange reads as rust rather than brown, still from the one seed.</li>
+    <li><code>IsDark</code> mirrors every ramp for the dark palette. <code>DarkSeed</code> re-centres a ramp on another colour in the dark.</li>
+  </ul>
+  <div class="note why"><b>The point</b>Change one seed and its whole family follows: every stage, light and dark, every control that uses it.</div>
+
+  <!-- ---------- accents and roles ---------- -->
+  <h3 id="how-accent"><span class="n">5</span>Hues and roles</h3>
+  <p><code>[AccentHue]</code> makes a ramp a hue a control can wear. A style reads the control's current hue with <code>{color:AccentBrush}</code>, so one block serves them all:</p>
+  <pre><code><span class="t">&lt;Style</span> Selector=<span class="s">"^:pointerover /template/ Border#PART_Border"</span><span class="t">&gt;</span>
+  <span class="t">&lt;Setter</span> Property=<span class="s">"Background"</span> Value=<span class="s">"{color:AccentBrush Light8}"</span> <span class="t">/&gt;</span>
+<span class="t">&lt;/Style&gt;</span></code></pre>
+  <p>A <em>role</em> names a stage that recurs, so the theme decides it once:</p>
+  <pre><code>[AccentRole] <span class="k">internal virtual</span> RampStage BorderDefault => RampStage.Light1;</code></pre>
+  <p><code>{color:BorderDefault}</code> is then <code>Light1</code> of whatever hue the control wears. Roles can also follow policies: <code>PinHue</code> (always one hue), <code>BrightStage</code> (a softer stage for a very light seed like yellow), <code>ContrastAgainst</code> (pick light or dark ink against a fill) and focus colours.</p>
+
+  <!-- ---------- sizes ---------- -->
+  <h3 id="how-size"><span class="n">6</span>Sizes and ladders</h3>
+  <p>Every size grows from <code>BaseSize</code>, which <code>ThemeBase</code> owns. A ladder turns one multiplier list into a set of tokens:</p>
+  <pre><code>[SizeScale(Multipliers = [<span class="s">4</span>, <span class="s">8</span>, <span class="s">12</span>, <span class="s">16</span>], Scalable = <span class="k">true</span>)]
+<span class="k">public virtual double</span> Spacing => BaseSize;   <span class="c">// SpacingSm, SpacingMd, SpacingLg, SpacingXl, SpacingScale</span></code></pre>
+  <ul>
+    <li><code>Types</code> also emits a ladder as <code>Thickness</code> or <code>CornerRadius</code>.</li>
+    <li><code>Floor</code> and <code>Ceiling</code> clamp it, such as a border that never drops below one pixel.</li>
+    <li><code>Scalable</code> adds <code>{Name}Scale</code>, to resize one ladder on its own.</li>
+  </ul>
+  <p>For the odd size that isn't a token, scale from the base: <code>Width="{size:Scaled 320}"</code> is 320 × <code>BaseSize</code>. Compose paddings with <code>{size:Edges {size:SpacingXl}, {size:SpacingLg}}</code>.</p>
+  <div class="note why"><b>The point</b>Set <code>BaseSize</code> to 2 and the whole interface zooms exactly, with nothing hard-coded left behind.</div>
+
+  <!-- ---------- light & dark ---------- -->
+  <h3 id="how-dark"><span class="n">7</span>Light and dark</h3>
+  <p><code>IsDark</code> switches the app. <code>theme:ThemeRegion.IsDark</code> draws one part of a window in the other palette, from the same theme instance:</p>
+  <pre><code><span class="t">&lt;Border</span> theme:ThemeRegion.IsDark=<span class="s">"True"</span><span class="t">&gt;</span>
+  <span class="c">&lt;!-- everything in here draws dark --&gt;</span>
+<span class="t">&lt;/Border&gt;</span></code></pre>
+
+  <!-- ---------- icons ---------- -->
+  <h3 id="how-icons"><span class="n">8</span>Icons</h3>
+  <p>Point a gallery at a folder of <code>.svg</code> files and each becomes a token:</p>
+  <pre><code>[IconGallery(SvgFolder = <span class="s">"Icons/Svg"</span>)]
+<span class="k">public partial class</span> MyIcons { }
+
+<span class="k">public override</span> MyIcons Icons => <span class="k">new</span>();   <span class="c">// in the theme</span></code></pre>
+  <p><code>Icons/Svg/Save.svg</code> is then <code>{icons:Save}</code>. Adding an icon is adding a file.</p>
+
+  <!-- ---------- mvvm ---------- -->
+  <h3 id="how-mvvm"><span class="n">9</span>AngelSix.Mvvm</h3>
+  <p>The engine is built on AngelSix.Mvvm, and your app can use it too. Everything is generated; nothing is written by hand.</p>
+  <pre><code><span class="k">public partial class</span> MainViewModel(MyTheme theme) : ObservableObject
+{
+    [Observable] <span class="k">public partial string</span> Title { <span class="k">get</span>; <span class="k">set</span>; } = <span class="s">""</span>;
+
+    [Command] <span class="k">private void</span> ToggleDark() => theme.IsDark = !theme.IsDark;   <span class="c">// ToggleDarkCommand</span>
+}</code></pre>
+  <ul>
+    <li><code>[NotifyPropertyChanged]</code> gives change notification to a class that already has a base. <code>ThemeBase</code> uses it.</li>
+    <li><code>Design.DataContext="{DesignContext}"</code> gives the designer the view model named by the view's <code>x:DataType</code>, from the app's services. The <code>App</code> class implements <code>IServiceHost</code>.</li>
+  </ul>
+
+  <!-- ---------- previews ---------- -->
+  <h3 id="how-preview"><span class="n">10</span>Previews</h3>
+  <p>Each control file carries a <code>{Name}Preview</code> template and a <code>Design.PreviewWith</code> that shows it through <code>LightDarkPreview</code>, side by side in both palettes. <code>theme:Preview.State="Hover"</code> pins a control in a state, so hover, pressed and focused are visible at once. The playground's gallery shows the same templates.</p>
+
+  <!-- ---------- snippets ---------- -->
+  <h3 id="how-snippets"><span class="n">11</span>Editor snippets</h3>
+  <p>Every build writes the engine's snippets for Rider (the solution's <code>.DotSettings</code>), VS Code (<code>.vscode</code>) and Visual Studio on Windows. Files change only when the snippets do. Type the shortcut, Tab, then Tab between fields:</p>
+  <table>
+    <tr><th>XAML</th><th>C#</th></tr>
+    <tr><td><code>themexml</code> namespaces<br /><code>themecontrol</code> a control file<br /><code>themepreview</code> a preview<br /><code>themestate</code> a state style</td>
+        <td><code>themeclass</code> a theme · <code>themeaccent</code> a hue<br /><code>themesurface</code> the canvas · <code>themerole</code> a role<br /><code>themeladder</code> a ladder · <code>themetoken</code> a token<br /><code>themealign</code> · <code>themefont</code> · <code>themegallery</code> · <code>themeicons</code></td></tr>
+  </table>
+  <p>Turn it off with <code>&lt;GenerateThemeSnippets&gt;false&lt;/GenerateThemeSnippets&gt;</code>.</p>
+</section>
+
+<!-- ============================== AVALONIA KNOWLEDGE ============================== -->
+<section class="page" id="knowledge">
+  <p class="eyebrow">Avalonia knowledge</p>
+  <h2>Things Avalonia does that catch you out</h2>
+  <p class="lede">Not the engine's rules, but Avalonia's. Each one cost real time to find; each has a one-line fix.</p>
+
+  <h3 id="know-precedence"><span class="n">1</span>Style precedence</h3>
+  <p>When more than one thing sets a property, Avalonia picks by priority, and <strong>the lowest number wins</strong>. The band is decided first: no selector, however specific, beats a lower band.</p>
+  <div class="ladder">
+    <div class="win"><span class="p">-1</span><span><b>Animation</b><small>always wins</small></span><code>a running Animation or Transition</code></div>
+    <div><span class="p">0</span><span><b>LocalValue</b><small>set on the element</small></span><code>&lt;Border BorderThickness="2" /&gt;, or any {Binding}</code></div>
+    <div><span class="p">1</span><span><b>StyleTrigger</b><small>:state or .class selector</small></span><code>&lt;Style Selector="Border:pointerover"&gt;</code></div>
+    <div><span class="p">2</span><span><b>Template</b><small>a bare TemplateBinding</small></span><code>BorderThickness="{TemplateBinding BorderThickness}"</code></div>
+    <div><span class="p">3</span><span><b>Style</b><small>plain selector</small></span><code>&lt;Style Selector="Border"&gt;</code></div>
+    <div><span class="p">4</span><span><b>Inherited</b><small>from a parent</small></span><code>FontSize set on an ancestor</code></div>
+  </div>
+  <p>That is why a <code>:pointerover</code> style (1) can change a template's value (2), and a plain style (3) is the baseline both start from.</p>
+
+  <h4 style="margin: 22px 0 6px; font-size: 17px;">The trap: a wrapped TemplateBinding</h4>
+  <p>Priority comes from the <em>outermost</em> binding assigned to the property, not from anything nested inside it.</p>
+  <div class="pair">
+    <div class="good"><h4>✓ Template (2): a state can override it</h4><code>BorderThickness="{TemplateBinding BorderThickness}"</code></div>
+    <div class="bad"><h4>✕ LocalValue (0): nothing can override it</h4><code>BorderThickness="{size:Edges {TemplateBinding BorderThickness}}"</code></div>
+  </div>
+  <p>Wrapped in any other extension, the TemplateBinding is just a source; the property gets the outer binding, set on the element, so LocalValue. A <code>:pointerover</code> style then does nothing, and even a literal <code>0</code> in it is ignored. That's the tell.</p>
+  <p><strong>The fix:</strong> move the value off the element and into a plain style. Then the default is Style (3), the state is StyleTrigger (1), and the state wins.</p>
+  <pre><code><span class="c">&lt;!-- default, from a style --&gt;</span>
+<span class="t">&lt;Style</span> Selector=<span class="s">"^ /template/ RepeatButton"</span><span class="t">&gt;</span>
+  <span class="t">&lt;Setter</span> Property=<span class="s">"BorderThickness"</span> Value=<span class="s">"{size:Edges {TemplateBinding BorderThickness}}"</span> <span class="t">/&gt;</span>
+<span class="t">&lt;/Style&gt;</span>
+<span class="c">&lt;!-- the state now wins --&gt;</span>
+<span class="t">&lt;Style</span> Selector=<span class="s">"^:left /template/ RepeatButton"</span><span class="t">&gt;</span>
+  <span class="t">&lt;Setter</span> Property=<span class="s">"BorderThickness"</span> Value=<span class="s">"0"</span> <span class="t">/&gt;</span>
+<span class="t">&lt;/Style&gt;</span></code></pre>
+  <p>Writing your own extension for use in templates? Set <code>Priority = BindingPriority.Template</code> on the binding it returns, so it behaves like a real TemplateBinding when used inline.</p>
+
+  <h3 id="know-theme"><span class="n">2</span>ControlTheme limits</h3>
+  <p>A <code>ControlTheme</code> styles one control and its template. It can't hold a style that reaches other controls through a child or descendant selector; Avalonia throws <em>"ControlTheme style may not directly contain a child or descendent selector"</em>.</p>
+  <p><strong>The fix:</strong> put that rule in a plain <code>Styles</code> file in the theme project. The engine loads it with the control files, so there is still nothing to register.</p>
+
+  <h3 id="know-transition"><span class="n">3</span>Transitions that never stop</h3>
+  <p>A transition starts when its property's value changes, and Avalonia compares brushes and transforms <em>by object, not by value</em>. If a binding builds a new brush every time it's read, the transition re-reads it as it starts, sees a "new" value, and starts again, until the stack overflows. Nothing reports it; the app just dies.</p>
+  <p><strong>The fix:</strong> hand back the same object for the same value. The engine does this for every brush and scale transform it produces, so tokens are safe; a converter of your own that feeds a transitioned property needs the same care.</p>
+</section>
+
+<!-- ============================== GLOSSARY ============================== -->
+<section class="page" id="glossary">
+  <p class="eyebrow">Glossary</p>
+  <h2>Everything you can use</h2>
+  <p class="lede">Search, or filter by kind. Open an entry for an example.</p>
+
+  <div class="search"><input id="q" type="search" placeholder="Search: ramp, hue, Scaled, DarkSeed…" aria-label="Search the glossary" /></div>
+  <div class="chips" id="chips">
+    <button class="chip on" data-kind="all">All</button>
+    <button class="chip" data-kind="class">Core</button>
+    <button class="chip" data-kind="attribute">Attributes</button>
+    <button class="chip" data-kind="xaml">XAML</button>
+    <button class="chip" data-kind="mvvm">MVVM</button>
+    <button class="chip" data-kind="build">Build</button>
+  </div>
+
+  <div class="gloss" id="gloss">
+
+    <details class="term" data-kind="class"><summary><code>ThemeBase</code><span class="kind">Core</span><span class="short">The base class of every theme.</span></summary>
+      <div class="body">An Avalonia <code>Styles</code> that loads its project's control and styles files, registers itself, and owns <code>IsDark</code>, <code>BaseSize</code>, <code>Icons</code> and <code>ResetToDefaults()</code>. Mark a derived class <code>[Theme]</code> and make it <code>partial</code>.</div></details>
+
+    <details class="term" data-kind="class"><summary><code>Current</code><span class="kind">Core</span><span class="short">The app's one instance of a theme.</span></summary>
+      <div class="body">Generated on every theme class. Throws a clear message if <code>App.axaml</code> doesn't include the theme.<pre><code>services.AddSingleton(MyTheme.Current);</code></pre></div></details>
+
+    <details class="term" data-kind="class"><summary><code>BaseSize</code><span class="kind">Core</span><span class="short">The one number every size grows from.</span></summary>
+      <div class="body">On <code>ThemeBase</code>, default 1. Ladders and <code>{size:Scaled}</code> multiply it.</div></details>
+
+    <details class="term" data-kind="class"><summary><code>IsDark</code><span class="kind">Core</span><span class="short">Switches the app to the dark palette.</span></summary>
+      <div class="body">On <code>ThemeBase</code>. Every ramp mirrors; see <code>ThemeRegion.IsDark</code> for part of a window.</div></details>
+
+    <details class="term" data-kind="class"><summary><code>ResetToDefaults()</code><span class="kind">Core</span><span class="short">Puts every token back to its declared value.</span></summary>
+      <div class="body">Covers <code>[Observable]</code> tokens, <code>IsDark</code>, <code>BaseSize</code> and generated ladder scales.</div></details>
+
+    <details class="term" data-kind="class"><summary><code>RampStage</code><span class="kind">Core</span><span class="short">A stage of a ramp: Light1–Light10, Dark1–Dark10.</span></summary>
+      <div class="body">The value a role returns.</div></details>
+
+    <details class="term" data-kind="class"><summary><code>Alignment</code><span class="kind">Core</span><span class="short">A horizontal and vertical alignment as one token.</span></summary>
+      <div class="body">A settable token generates settable halves, <code>{Name}Horizontal</code> and <code>{Name}Vertical</code>.<pre><code>[Observable] <span class="k">public virtual partial</span> Alignment StandardAlignment { <span class="k">get</span>; <span class="k">set</span>; }
+    = <span class="k">new</span>(HorizontalAlignment.Left, VerticalAlignment.Center);</code></pre></div></details>
+
+    <details class="term" data-kind="class"><summary><code>InkProfile</code><span class="kind">Core</span><span class="short">How the light palette draws ink from a seed.</span></summary>
+      <div class="body">A small table keyed by hue angle. <code>ThemeBase</code> uses <code>InkProfile.Standard</code>; override it for another, or return <code>null</code>.</div></details>
+
+    <details class="term" data-kind="attribute"><summary><code>[Theme]</code><span class="kind">Attribute</span><span class="short">Marks a class as a theme.</span></summary>
+      <div class="body"><code>FallbackHue</code> is the hue a control wears when it sets no <code>Accent.Kind</code>. <code>CanvasHue</code> names the canvas hue. <code>AccentPrefix</code> names the hue property of a theme that extends another project's palette (by default the class name, so <code>BrandTheme</code> gives <code>BrandAccent.Kind</code>).</div></details>
+
+    <details class="term" data-kind="attribute"><summary><code>[ColorRamp]</code><span class="kind">Attribute</span><span class="short">Turns a seed colour into twenty stages.</span></summary>
+      <div class="body"><code>HueAware</code> equal lightness across hues · <code>DarkSeed</code> the dark palette's centre · <code>OverlayLevels</code> translucent overlay brushes · <code>Stages</code> stages per side (10) · <code>InvertRamp</code> invert through black in the dark.</div></details>
+
+    <details class="term" data-kind="attribute"><summary><code>[AccentHue]</code><span class="kind">Attribute</span><span class="short">Makes a ramp a hue that controls can wear.</span></summary>
+      <div class="body">The property <code>AccentPrimary</code> becomes the hue <code>Primary</code>.<pre><code>[AccentHue, ColorRamp(HueAware = <span class="k">true</span>)]
+[Observable] <span class="k">public virtual partial</span> Color AccentPrimary { <span class="k">get</span>; <span class="k">set</span>; } = Color.Parse(<span class="s">"#2F6FEB"</span>);</code></pre></div></details>
+
+    <details class="term" data-kind="attribute"><summary><code>[AccentRole]</code><span class="kind">Attribute</span><span class="short">Names the stage a part uses, in the control's hue.</span></summary>
+      <div class="body">Policies: <code>PinHue</code>, <code>BrightStage</code>, <code>BrightThreshold</code>, <code>ContrastAgainst</code> with <code>Alternate</code>, <code>FocusColour</code> with <code>FocusSwitch</code> and <code>NeutralHue</code>.<pre><code>[AccentRole] <span class="k">internal virtual</span> RampStage TextDefault => RampStage.Dark9;</code></pre></div></details>
+
+    <details class="term" data-kind="attribute"><summary><code>[SizeScale]</code><span class="kind">Attribute</span><span class="short">Builds a ladder of size tokens.</span></summary>
+      <div class="body"><code>Multipliers</code> · <code>Labels</code> (default Sm, Md, Lg, Xl, Xxl) · <code>Types</code> and <code>TypeSuffixes</code> · <code>Floor</code> · <code>Ceiling</code> · <code>Scalable</code> · <code>Mode</code> and <code>Offsets</code> for additive steps.</div></details>
+
+    <details class="term" data-kind="attribute"><summary><code>[FontWeights]</code><span class="kind">Attribute</span><span class="short">A weight token per font weight.</span></summary>
+      <div class="body">On the <code>FontFamily</code> token: <code>Weights</code> and <code>Labels</code> give <code>{theme:FontWeightBold}</code> and the rest.</div></details>
+
+    <details class="term" data-kind="attribute"><summary><code>[IconGallery]</code><span class="kind">Attribute</span><span class="short">A folder of SVG files as icon tokens.</span></summary>
+      <div class="body"><code>SvgFolder</code> is searched recursively. The class must be <code>partial</code>.</div></details>
+
+    <details class="term" data-kind="xaml"><summary><code>{color:…}</code> <code>{size:…}</code> <code>{theme:…}</code> <code>{icons:…}</code><span class="kind">XAML</span><span class="short">The four token namespaces.</span></summary>
+      <div class="body">Declare all of them with the <code>themexml</code> snippet.</div></details>
+
+    <details class="term" data-kind="xaml"><summary><code>{color:AccentBrush Stage}</code><span class="kind">XAML</span><span class="short">A stage of whatever hue the control wears.</span></summary>
+      <div class="body"><pre><code>Background=<span class="s">"{color:AccentBrush Light9}"</span></code></pre></div></details>
+
+    <details class="term" data-kind="xaml"><summary><code>theme:Accent.Kind</code><span class="kind">XAML</span><span class="short">Picks a control's hue. Inherits.</span></summary>
+      <div class="body"><pre><code><span class="t">&lt;Button</span> theme:Accent.Kind=<span class="s">"Success"</span> Content=<span class="s">"Done"</span> <span class="t">/&gt;</span></code></pre></div></details>
+
+    <details class="term" data-kind="xaml"><summary><code>theme:ThemeRegion.IsDark</code><span class="kind">XAML</span><span class="short">Draws part of a window in the other palette.</span></summary>
+      <div class="body"><code>True</code> dark, <code>False</code> light, unset follows the theme. Inherits.</div></details>
+
+    <details class="term" data-kind="xaml"><summary><code>{size:Scaled}</code><span class="kind">XAML</span><span class="short">A size that follows the theme.</span></summary>
+      <div class="body"><pre><code>Width=<span class="s">"{size:Scaled 320}"</span>                    <span class="c">&lt;!-- 320 × BaseSize --&gt;</span>
+Height=<span class="s">"{size:Scaled {size:IconSizeMd}, 2}"</span>   <span class="c">&lt;!-- twice a token --&gt;</span></code></pre></div></details>
+
+    <details class="term" data-kind="xaml"><summary><code>{size:Edges}</code><span class="kind">XAML</span><span class="short">A Thickness from size tokens.</span></summary>
+      <div class="body">One value for every side, two for horizontal then vertical, or <code>Left</code>, <code>Top</code>, <code>Right</code>, <code>Bottom</code>, <code>Horizontal</code>, <code>Vertical</code>, <code>All</code> by name.<pre><code>Padding=<span class="s">"{size:Edges {size:SpacingXl}, {size:SpacingLg}}"</span></code></pre></div></details>
+
+    <details class="term" data-kind="xaml"><summary><code>{size:Corners}</code><span class="kind">XAML</span><span class="short">A CornerRadius on chosen corners.</span></summary>
+      <div class="body"><pre><code>CornerRadius=<span class="s">"{size:Corners Radius={size:RadiusMd}, Top=True}"</span></code></pre></div></details>
+
+    <details class="term" data-kind="xaml"><summary><code>{size:ConcentricCorners}</code><span class="kind">XAML</span><span class="short">A radius that sits inside a rounded outline.</span></summary>
+      <div class="body">With no <code>Radius</code>, it uses the template's own <code>CornerRadius</code> and <code>BorderThickness</code>.<pre><code>CornerRadius=<span class="s">"{size:ConcentricCorners Left=True}"</span></code></pre></div></details>
+
+    <details class="term" data-kind="xaml"><summary><code>{theme:TransformScale}</code><span class="kind">XAML</span><span class="short">A scale transform from a token.</span></summary>
+      <div class="body"><pre><code>Value=<span class="s">"{theme:TransformScale {size:PressedScale}}"</span></code></pre></div></details>
+
+    <details class="term" data-kind="xaml"><summary><code>theme:Preview.State</code><span class="kind">XAML</span><span class="short">Pins a preview control in Hover, Pressed or Focused.</span></summary>
+      <div class="body">For previews only.</div></details>
+
+    <details class="term" data-kind="xaml"><summary><code>controls:LightDarkPreview</code><span class="kind">XAML</span><span class="short">Shows a preview in both palettes, side by side.</span></summary>
+      <div class="body">From <code>AngelSix.ThemeEngine.Controls</code>.<pre><code><span class="t">&lt;controls:LightDarkPreview</span> Title=<span class="s">"Button"</span> ContentTemplate=<span class="s">"{StaticResource ButtonPreview}"</span> <span class="t">/&gt;</span></code></pre></div></details>
+
+    <details class="term" data-kind="mvvm"><summary><code>[Observable]</code><span class="kind">MVVM</span><span class="short">A partial property that raises a change when set.</span></summary>
+      <div class="body">Add <code>partial void On{Name}Changed(T value)</code> to react.</div></details>
+
+    <details class="term" data-kind="mvvm"><summary><code>[Command]</code><span class="kind">MVVM</span><span class="short">Generates <code>{Method}Command</code> for a method.</span></summary>
+      <div class="body">A method with one parameter gets a typed command.</div></details>
+
+    <details class="term" data-kind="mvvm"><summary><code>ObservableObject</code> · <code>[NotifyPropertyChanged]</code><span class="kind">MVVM</span><span class="short">Change notification, as a base class or for any class.</span></summary>
+      <div class="body">Use the attribute on a partial class that already has a base.</div></details>
+
+    <details class="term" data-kind="mvvm"><summary><code>{DesignContext}</code> · <code>IServiceHost</code><span class="kind">MVVM</span><span class="short">The designer's view model, from <code>x:DataType</code>.</span></summary>
+      <div class="body"><pre><code><span class="t">&lt;Window</span> x:DataType=<span class="s">"vm:MainWindowViewModel"</span> Design.DataContext=<span class="s">"{DesignContext}"</span><span class="t">&gt;</span></code></pre>The <code>App</code> class implements <code>IServiceHost</code> to expose its services.</div></details>
+
+    <details class="term" data-kind="build"><summary><code>GenerateThemeSnippets</code><span class="kind">Build</span><span class="short">Writes the editor snippets on build. On by default.</span></summary>
+      <div class="body">Set to <code>false</code> in the project to turn it off.</div></details>
+
+    <details class="term" data-kind="build"><summary><code>GenerateStyleClassDeclarations</code><span class="kind">Build</span><span class="short">Declares a theme's style classes so the editor knows them.</span></summary>
+      <div class="body">Off by default. Writes <code>StyleClasses.axaml</code> from the theme's own <code>ControlTheme</code>s.</div></details>
+
+    <p class="empty" id="empty">Nothing matches.</p>
+  </div>
+</section>
+
+<footer>AngelSix Theme Engine · Avalonia 12</footer>
+</main>
+</div>
+
+<script>
+  // Copy buttons on every code block
+  document.querySelectorAll('pre').forEach(pre => {
+    const button = document.createElement('button');
+    button.className = 'copy';
+    button.type = 'button';
+    button.textContent = 'Copy';
+    button.addEventListener('click', () => {
+      navigator.clipboard.writeText(pre.querySelector('code').innerText).then(() => {
+        button.textContent = 'Copied';
+        setTimeout(() => button.textContent = 'Copy', 1200);
+      });
+    });
+    pre.appendChild(button);
+  });
+
+  // Highlights the section in view
+  const links = [...document.querySelectorAll('nav.toc a')];
+  const targets = links.map(a => document.querySelector(a.getAttribute('href')));
+  const mark = () => {
+    let current = targets[0];
+    for (const t of targets) if (t.getBoundingClientRect().top < 120) current = t;
+    links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + current.id));
+  };
+  document.addEventListener('scroll', mark, { passive: true });
+  mark();
+  // A jump near the end of the page can stop short of the threshold, so a clicked link is marked straight away
+  links.forEach(a => a.addEventListener('click', () => setTimeout(() => {
+    links.forEach(l => l.classList.toggle('active', l === a));
+  }, 0)));
+
+  // Glossary search and kind filter
+  const terms = [...document.querySelectorAll('details.term')];
+  const q = document.getElementById('q');
+  let kind = 'all';
+  const filter = () => {
+    const text = q.value.trim().toLowerCase();
+    let shown = 0;
+    terms.forEach(t => {
+      const match = (kind === 'all' || t.dataset.kind === kind) && (!text || t.textContent.toLowerCase().includes(text));
+      t.style.display = match ? '' : 'none';
+      if (match) shown++;
+    });
+    document.getElementById('empty').style.display = shown ? 'none' : 'block';
+  };
+  q.addEventListener('input', filter);
+  document.getElementById('chips').addEventListener('click', e => {
+    const chip = e.target.closest('.chip');
+    if (!chip) return;
+    kind = chip.dataset.kind;
+    document.querySelectorAll('.chip').forEach(c => c.classList.toggle('on', c === chip));
+    filter();
+  });
+</script>
+</body>
+</html>

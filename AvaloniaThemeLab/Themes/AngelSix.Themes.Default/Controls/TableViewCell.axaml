@@ -1,0 +1,49 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+                    xmlns:color="using:AngelSix.ThemeEngine.Colors"
+                    xmlns:size="using:AngelSix.ThemeEngine.Sizes">
+  <!-- Shown inside the TableView entry, as a table is the only place one is met -->
+  <theme:PreviewShownIn x:Key="TableViewCellPreviewShownIn"
+                        ShownIn="{x:Type TableView}"
+                        Reason="Cells are met inside a table; the TableView entry shows their alignments and overflow." />
+
+  <ControlTheme x:Key="{x:Type TableViewCell}" TargetType="TableViewCell">
+
+    <!-- Visual defaults: no fill of its own, so the row's hover and selection show through. -->
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="Foreground" Value="{color:TextDefault}" />
+    <Setter Property="BorderBrush" Value="{color:AccentDividerDefault}" />
+    <Setter Property="BorderThickness" Value="{size:Edges Right={size:ThicknessSmDouble}}" />
+    <Setter Property="Padding" Value="{size:Edges {size:SpacingXl}, {size:SpacingLg}}" />
+    <Setter Property="HorizontalContentAlignment" Value="{theme:StandardAlignmentHorizontal}" />
+    <Setter Property="VerticalContentAlignment" Value="{theme:StandardAlignmentVertical}" />
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
+
+    <Setter Property="Template">
+      <ControlTemplate>
+        <!-- The cell's value, as the column binds or templates it -->
+        <ContentPresenter Name="PART_ContentPresenter"
+                          Background="{TemplateBinding Background}"
+                          BorderBrush="{TemplateBinding BorderBrush}"
+                          BorderThickness="{TemplateBinding BorderThickness}"
+                          Content="{TemplateBinding Content}"
+                          ContentTemplate="{TemplateBinding ContentTemplate}"
+                          Padding="{TemplateBinding Padding}"
+                          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                          VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+      </ControlTemplate>
+    </Setter>
+
+    <!-- Cell value: a value longer than its column ends in an ellipsis rather than running into the next column -->
+    <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+    </Style>
+
+    <!-- Last column: the table's frame already closes it -->
+    <Style Selector="^:nth-last-child(1)">
+      <Setter Property="BorderThickness" Value="{size:Edges}" />
+    </Style>
+
+  </ControlTheme>
+</ResourceDictionary>

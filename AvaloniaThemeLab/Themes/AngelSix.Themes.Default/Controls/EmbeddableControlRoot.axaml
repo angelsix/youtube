@@ -1,0 +1,96 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+                    xmlns:color="using:AngelSix.ThemeEngine.Colors"
+                    xmlns:size="using:AngelSix.ThemeEngine.Sizes"
+                    xmlns:controls="using:AngelSix.ThemeEngine.Controls"
+                    xmlns:default="using:AngelSix.Themes.Default">
+  <!-- Design preview: illustrates what an embedded root hosts without instantiating one. -->
+  <DataTemplate x:Key="EmbeddableControlRootPreview">
+    <StackPanel Spacing="{size:SpacingXl}" HorizontalAlignment="Left">
+      <!-- Embedded surface: borderless, so it fills with the borderless-surface role (one shade deeper than the rest tint). -->
+      <Border Width="{size:SurfaceWidthMd}" Height="{size:Scaled 120}"
+              Background="{color:SurfaceBorderless}"
+              Padding="{size:Edges {size:SpacingLg}}">
+        <TextBlock Text="Embedded content" Foreground="{color:TextDefault}"
+                   HorizontalAlignment="Center" VerticalAlignment="Center" />
+      </Border>
+      <!-- Framed surface: the same fill edged with the default border, hosting a caption and a live control -->
+      <Border Width="{size:SurfaceWidthMd}" Height="{size:Scaled 120}"
+              Background="{color:BackgroundDefault}"
+              BorderBrush="{color:BorderDefault}"
+              BorderThickness="{size:ThicknessSm}"
+              CornerRadius="{size:RadiusSm}"
+              Padding="{size:Edges {size:SpacingLg}}">
+        <StackPanel Spacing="{size:SpacingLg}" HorizontalAlignment="Center" VerticalAlignment="Center">
+          <TextBlock Text="Hosted content" Foreground="{color:TextDefault}" HorizontalAlignment="Center" />
+          <Button Content="Inside the embedded root" />
+        </StackPanel>
+      </Border>
+      <!-- Hue: the surface follows the host's accent, never a named colour -->
+      <Border Width="{size:SurfaceWidthMd}" Height="{size:Scaled 120}"
+              theme:Accent.Kind="Warning"
+              Background="{color:BackgroundDefault}"
+              BorderBrush="{color:BorderDefault}"
+              BorderThickness="{size:ThicknessSm}"
+              CornerRadius="{size:RadiusSm}"
+              Padding="{size:Edges {size:SpacingLg}}">
+        <!-- The caption names its example's hue, so it takes that hue's accent-text ink -->
+        <TextBlock Text="Framed · Warning" theme:Accent.Kind="Warning" Foreground="{color:AccentInkDefault}"
+                   HorizontalAlignment="Center" VerticalAlignment="Center" />
+      </Border>
+      <!-- Disabled: hosted content takes the disabled treatment - the control dims under the disabled opacity, the caption drops to the dim stage -->
+      <Border Width="{size:SurfaceWidthMd}" Height="{size:Scaled 120}"
+              Background="{color:BackgroundDefault}"
+              BorderBrush="{color:BorderDefault}"
+              BorderThickness="{size:ThicknessSm}"
+              CornerRadius="{size:RadiusSm}"
+              Padding="{size:Edges {size:SpacingLg}}">
+        <StackPanel Spacing="{size:SpacingLg}" HorizontalAlignment="Center" VerticalAlignment="Center">
+          <TextBlock Text="Disabled" Foreground="{color:DimTextDefault}" HorizontalAlignment="Center" />
+          <Button Content="Inside the embedded root" IsEnabled="False" />
+        </StackPanel>
+      </Border>
+    </StackPanel>
+  </DataTemplate>
+
+  <Design.PreviewWith>
+    <Border>
+      <Border.Styles>
+        <default:DefaultTheme />
+      </Border.Styles>
+
+      <controls:LightDarkPreview Title="EmbeddableControlRoot" ContentTemplate="{StaticResource EmbeddableControlRootPreview}" />
+
+    </Border>
+  </Design.PreviewWith>
+
+  <ControlTheme x:Key="{x:Type EmbeddableControlRoot}" TargetType="EmbeddableControlRoot">
+    <!-- A real EmbeddableControlRoot is a TopLevel with no border of its own, so its default fill is a borderless surface. -->
+    <Setter Property="Foreground" Value="{color:TextDefault}"/>
+    <Setter Property="Background" Value="{color:SurfaceBorderless}"/>
+    <Setter Property="TopLevel.SystemBarColor" Value="{color:SurfaceBorderless}"/>
+    <Setter Property="FontSize" Value="{size:FontSizeMd}"/>
+    <Setter Property="FontFamily" Value="{theme:FontFamily}" />
+    <Setter Property="FontWeight" Value="{theme:FontWeightRegular}" />
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
+    <Setter Property="Template">
+      <ControlTemplate>
+        <!-- Layout root stacking the fallback behind the content -->
+        <Panel>
+          <!-- Opaque fill used when transparency is unavailable -->
+          <Border Name="PART_TransparencyFallback" IsHitTestVisible="False" />
+          <Border Background="{TemplateBinding Background}">
+            <!-- Hosts overlays such as tooltips and adorners -->
+            <VisualLayerManager Name="PART_VisualLayerManager">
+              <ContentPresenter Name="PART_ContentPresenter"
+                                ContentTemplate="{TemplateBinding ContentTemplate}"
+                                Content="{TemplateBinding Content}"
+                                Margin="{TemplateBinding Padding}"/>
+            </VisualLayerManager>
+          </Border>
+        </Panel>
+      </ControlTemplate>
+    </Setter>
+  </ControlTheme>
+</ResourceDictionary>

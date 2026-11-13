@@ -1,0 +1,215 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="using:AngelSix.ThemeEngine.Controls"
+                    xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+                    xmlns:color="using:AngelSix.ThemeEngine.Colors"
+                    xmlns:size="using:AngelSix.ThemeEngine.Sizes"
+                    xmlns:default="using:AngelSix.Themes.Default">
+  <!-- Design preview: bar visibility, auto-hide, disabled, accent hue — each instance composes real options. -->
+  <DataTemplate x:Key="ScrollViewerPreview">
+    <StackPanel Spacing="{size:SpacingXl}">
+      <TextBlock Text="Always visible · bars beside content" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
+      <!-- Always visible (AllowAutoHide=False): both bars rest beside the content, track and arrows drawn at all times. -->
+      <ScrollViewer Width="{size:Scaled 180}" Height="{size:Scaled 100}" HorizontalScrollBarVisibility="Auto" AllowAutoHide="False">
+        <!-- Nine 64x40 cells plus an overflow lane right (8) and below (6): wider than the pane so the horizontal bar rests beside the content. -->
+        <UniformGrid Columns="3" Width="{size:Scaled 192}" Height="{size:Scaled 120}"
+                     Margin="{size:Edges Right={size:SpacingLg}, Bottom={size:Scaled 6}}">
+          <Rectangle Fill="{color:NeutralLight5Brush}" Margin="{size:Edges {size:SpacingMd}}" />
+          <Rectangle Fill="{color:NeutralLight5Brush}" Margin="{size:Edges {size:SpacingMd}}" />
+          <Rectangle Fill="{color:NeutralLight5Brush}" Margin="{size:Edges {size:SpacingMd}}" />
+          <Rectangle Fill="{color:NeutralLight5Brush}" Margin="{size:Edges {size:SpacingMd}}" />
+          <Rectangle Fill="{color:NeutralLight5Brush}" Margin="{size:Edges {size:SpacingMd}}" />
+          <Rectangle Fill="{color:NeutralLight5Brush}" Margin="{size:Edges {size:SpacingMd}}" />
+          <Rectangle Fill="{color:NeutralLight5Brush}" Margin="{size:Edges {size:SpacingMd}}" />
+          <Rectangle Fill="{color:NeutralLight5Brush}" Margin="{size:Edges {size:SpacingMd}}" />
+          <Rectangle Fill="{color:NeutralLight5Brush}" Margin="{size:Edges {size:SpacingMd}}" />
+        </UniformGrid>
+      </ScrollViewer>
+      <TextBlock Text="Auto-hide · idle — bars fully hidden" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
+      <!-- Auto hide (AllowAutoHide=True), neutral content like every other example: when idle the whole bar. -->
+      <ScrollViewer Width="{size:Scaled 180}" Height="{size:Scaled 100}" HorizontalScrollBarVisibility="Auto" AllowAutoHide="True">
+        <!-- Same sample as the resting example: here the bars overlay the content by design -->
+        <UniformGrid Columns="3" Width="{size:Scaled 192}" Height="{size:Scaled 120}"
+                     Margin="{size:Edges Right={size:SpacingLg}, Bottom={size:Scaled 6}}">
+          <Rectangle Fill="{color:NeutralLight5Brush}" Margin="{size:Edges {size:SpacingMd}}" />
+          <Rectangle Fill="{color:NeutralLight5Brush}" Margin="{size:Edges {size:SpacingMd}}" />
+          <Rectangle Fill="{color:NeutralLight5Brush}" Margin="{size:Edges {size:SpacingMd}}" />
+          <Rectangle Fill="{color:NeutralLight5Brush}" Margin="{size:Edges {size:SpacingMd}}" />
+          <Rectangle Fill="{color:NeutralLight5Brush}" Margin="{size:Edges {size:SpacingMd}}" />
+          <Rectangle Fill="{color:NeutralLight5Brush}" Margin="{size:Edges {size:SpacingMd}}" />
+          <Rectangle Fill="{color:NeutralLight5Brush}" Margin="{size:Edges {size:SpacingMd}}" />
+          <Rectangle Fill="{color:NeutralLight5Brush}" Margin="{size:Edges {size:SpacingMd}}" />
+          <Rectangle Fill="{color:NeutralLight5Brush}" Margin="{size:Edges {size:SpacingMd}}" />
+        </UniformGrid>
+      </ScrollViewer>
+      <TextBlock Text="Auto-hide · hover — bars revealed (state pinned)" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
+      <!-- Twin of the idle example with the hover state pinned, so a still capture shows both sides of the auto-hide. -->
+      <ScrollViewer Width="{size:Scaled 180}" Height="{size:Scaled 80}" HorizontalScrollBarVisibility="Auto" AllowAutoHide="True" theme:Preview.State="Hover">
+        <UniformGrid Columns="3" Width="{size:Scaled 192}" Height="{size:Scaled 120}"
+                     Margin="{size:Edges Right={size:SpacingLg}, Bottom={size:Scaled 6}}">
+          <Rectangle Fill="{color:NeutralLight5Brush}" Margin="{size:Edges {size:SpacingMd}}" />
+          <Rectangle Fill="{color:NeutralLight5Brush}" Margin="{size:Edges {size:SpacingMd}}" />
+          <Rectangle Fill="{color:NeutralLight5Brush}" Margin="{size:Edges {size:SpacingMd}}" />
+          <Rectangle Fill="{color:NeutralLight5Brush}" Margin="{size:Edges {size:SpacingMd}}" />
+          <Rectangle Fill="{color:NeutralLight5Brush}" Margin="{size:Edges {size:SpacingMd}}" />
+          <Rectangle Fill="{color:NeutralLight5Brush}" Margin="{size:Edges {size:SpacingMd}}" />
+          <Rectangle Fill="{color:NeutralLight5Brush}" Margin="{size:Edges {size:SpacingMd}}" />
+          <Rectangle Fill="{color:NeutralLight5Brush}" Margin="{size:Edges {size:SpacingMd}}" />
+          <Rectangle Fill="{color:NeutralLight5Brush}" Margin="{size:Edges {size:SpacingMd}}" />
+        </UniformGrid>
+      </ScrollViewer>
+      <TextBlock Text="Disabled" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
+      <!-- Disabled: dimmed frame and ghosted bars, still occupying their lanes -->
+      <ScrollViewer Width="{size:Scaled 180}" Height="{size:Scaled 90}" HorizontalScrollBarVisibility="Auto" IsEnabled="False">
+        <!-- Same oversize sample as the resting example -->
+        <UniformGrid Columns="3" Width="{size:Scaled 192}" Height="{size:Scaled 120}"
+                     Margin="{size:Edges Right={size:SpacingLg}, Bottom={size:Scaled 6}}">
+          <Rectangle Fill="{color:NeutralLight5Brush}" Margin="{size:Edges {size:SpacingMd}}" />
+          <Rectangle Fill="{color:NeutralLight5Brush}" Margin="{size:Edges {size:SpacingMd}}" />
+          <Rectangle Fill="{color:NeutralLight5Brush}" Margin="{size:Edges {size:SpacingMd}}" />
+          <Rectangle Fill="{color:NeutralLight5Brush}" Margin="{size:Edges {size:SpacingMd}}" />
+          <Rectangle Fill="{color:NeutralLight5Brush}" Margin="{size:Edges {size:SpacingMd}}" />
+          <Rectangle Fill="{color:NeutralLight5Brush}" Margin="{size:Edges {size:SpacingMd}}" />
+          <Rectangle Fill="{color:NeutralLight5Brush}" Margin="{size:Edges {size:SpacingMd}}" />
+          <Rectangle Fill="{color:NeutralLight5Brush}" Margin="{size:Edges {size:SpacingMd}}" />
+          <Rectangle Fill="{color:NeutralLight5Brush}" Margin="{size:Edges {size:SpacingMd}}" />
+        </UniformGrid>
+      </ScrollViewer>
+      <TextBlock Text="Success hue" FontSize="{size:FontSizeSm}" theme:Accent.Kind="Success" Foreground="{color:AccentInkDefault}" />
+      <ScrollViewer Width="{size:Scaled 180}" Height="{size:Scaled 90}" HorizontalScrollBarVisibility="Auto" theme:Accent.Kind="Success">
+        <!-- Same oversize sample as the resting example -->
+        <UniformGrid Columns="3" Width="{size:Scaled 192}" Height="{size:Scaled 120}"
+                     Margin="{size:Edges Right={size:SpacingLg}, Bottom={size:Scaled 6}}">
+          <Rectangle Fill="{color:NeutralLight5Brush}" Margin="{size:Edges {size:SpacingMd}}" />
+          <Rectangle Fill="{color:NeutralLight5Brush}" Margin="{size:Edges {size:SpacingMd}}" />
+          <Rectangle Fill="{color:NeutralLight5Brush}" Margin="{size:Edges {size:SpacingMd}}" />
+          <Rectangle Fill="{color:NeutralLight5Brush}" Margin="{size:Edges {size:SpacingMd}}" />
+          <Rectangle Fill="{color:NeutralLight5Brush}" Margin="{size:Edges {size:SpacingMd}}" />
+          <Rectangle Fill="{color:NeutralLight5Brush}" Margin="{size:Edges {size:SpacingMd}}" />
+          <Rectangle Fill="{color:NeutralLight5Brush}" Margin="{size:Edges {size:SpacingMd}}" />
+          <Rectangle Fill="{color:NeutralLight5Brush}" Margin="{size:Edges {size:SpacingMd}}" />
+          <Rectangle Fill="{color:NeutralLight5Brush}" Margin="{size:Edges {size:SpacingMd}}" />
+        </UniformGrid>
+      </ScrollViewer>
+    </StackPanel>
+  </DataTemplate>
+
+  <Design.PreviewWith>
+    <Border>
+      <Border.Styles>
+        <default:DefaultTheme />
+      </Border.Styles>
+
+      <controls:LightDarkPreview Title="ScrollViewer" Orientation="Vertical" ContentTemplate="{StaticResource ScrollViewerPreview}" />
+
+    </Border>
+  </Design.PreviewWith>
+
+  <ControlTheme x:Key="{x:Type ScrollViewer}" TargetType="ScrollViewer">
+
+    <Setter Property="Background" Value="{color:BackgroundDefault}" />
+    <Setter Property="Foreground" Value="{color:TextDefault}" />
+    <Setter Property="BorderBrush" Value="{color:BorderDefault}" />
+    <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
+    <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
+    <Setter Property="Padding" Value="0" />
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
+    <!-- Bars sit beside the content by default. -->
+    <Setter Property="AllowAutoHide" Value="False" />
+
+    <Style Selector="^ /template/ ScrollBar#PART_HorizontalScrollBar">
+      <Setter Property="Transitions">
+        <Transitions>
+          <DoubleTransition Property="Opacity" Duration="{theme:AnimationNormalMs}" />
+          <BrushTransition Property="Background" Duration="{theme:AnimationFastMs}" />
+          <BrushTransition Property="BorderBrush" Duration="{theme:AnimationFastMs}" />
+        </Transitions>
+      </Setter>
+    </Style>
+    <Style Selector="^ /template/ ScrollBar#PART_VerticalScrollBar">
+      <Setter Property="Transitions">
+        <Transitions>
+          <DoubleTransition Property="Opacity" Duration="{theme:AnimationNormalMs}" />
+          <BrushTransition Property="Background" Duration="{theme:AnimationFastMs}" />
+          <BrushTransition Property="BorderBrush" Duration="{theme:AnimationFastMs}" />
+        </Transitions>
+      </Setter>
+    </Style>
+
+    <Setter Property="Template">
+      <ControlTemplate>
+        <!-- Layout root placing the bars beside the content -->
+        <Grid ColumnDefinitions="*,Auto" RowDefinitions="*,Auto">
+          <ScrollContentPresenter Name="PART_ContentPresenter"
+                                  controls:ScrollReveal.Apply="True"
+                                  Grid.Row="0"
+                                  Grid.Column="0"
+                                  Background="{TemplateBinding Background}"
+                                  CornerRadius="{TemplateBinding CornerRadius}"
+                                  HorizontalSnapPointsType="{TemplateBinding HorizontalSnapPointsType}"
+                                  VerticalSnapPointsType="{TemplateBinding VerticalSnapPointsType}"
+                                  HorizontalSnapPointsAlignment="{TemplateBinding HorizontalSnapPointsAlignment}"
+                                  VerticalSnapPointsAlignment="{TemplateBinding VerticalSnapPointsAlignment}"
+                                  Padding="{TemplateBinding Padding}"
+                                  ScrollViewer.IsScrollInertiaEnabled="{TemplateBinding IsScrollInertiaEnabled}">
+            <ScrollContentPresenter.GestureRecognizers>
+              <ScrollGestureRecognizer CanHorizontallyScroll="{Binding CanHorizontallyScroll, ElementName=PART_ContentPresenter}"
+                                       CanVerticallyScroll="{Binding CanVerticallyScroll, ElementName=PART_ContentPresenter}"
+                                       IsScrollInertiaEnabled="{Binding (ScrollViewer.IsScrollInertiaEnabled), ElementName=PART_ContentPresenter}"/>
+            </ScrollContentPresenter.GestureRecognizers>
+          </ScrollContentPresenter>
+          <ScrollBar Name="PART_HorizontalScrollBar"
+                     Orientation="Horizontal"
+                     AllowAutoHide="{TemplateBinding AllowAutoHide}"
+                     Grid.Row="1"/>
+          <!-- The vertical scrollbar; AllowAutoHide is forwarded as above -->
+          <ScrollBar Name="PART_VerticalScrollBar"
+                     Orientation="Vertical"
+                     AllowAutoHide="{TemplateBinding AllowAutoHide}"
+                     Grid.Column="1"/>
+          <!-- Fills the corner where the two bars meet -->
+          <Panel x:Name="PART_ScrollBarsSeparator"
+                 Grid.Row="1"
+                 Grid.Column="1"
+                 Opacity="0">
+            <Panel.Transitions>
+              <Transitions>
+                <DoubleTransition Property="Opacity" Duration="{theme:AnimationNormalMs}" />
+              </Transitions>
+            </Panel.Transitions>
+          </Panel>
+        </Grid>
+      </ControlTemplate>
+    </Setter>
+
+    <Style Selector="^[IsExpanded=true] /template/ Panel#PART_ScrollBarsSeparator">
+      <Setter Property="Opacity" Value="1" />
+    </Style>
+
+    <!-- Separator background: none. -->
+    <Style Selector="^ /template/ Panel#PART_ScrollBarsSeparator">
+      <Setter Property="Background" Value="Transparent" />
+    </Style>
+
+    <Style Selector="^[AllowAutoHide=True] /template/ ScrollContentPresenter#PART_ContentPresenter">
+      <Setter Property="Grid.ColumnSpan" Value="2" />
+      <Setter Property="Grid.RowSpan" Value="2" />
+    </Style>
+
+    <!-- Idle auto-hide: the whole bar — track, arrows and thumb — fades out, not just the thumb. -->
+    <Style Selector="^[AllowAutoHide=True] /template/ ScrollBar">
+      <Setter Property="Opacity" Value="0" />
+    </Style>
+
+    <!-- Revealed auto-hide: pointer over the viewer (the bar itself included. -->
+    <Style Selector="^[AllowAutoHide=True]:pointerover /template/ ScrollBar,
+                     ^[AllowAutoHide=True][(theme|Preview.State)=Hover] /template/ ScrollBar">
+      <Setter Property="Opacity" Value="1" />
+    </Style>
+
+    <!-- Scrolling auto-hide: while the content moves (wheel, trackpad, thumb drag) the ScrollReveal behaviour marks the viewer 'scrolling'. -->
+    <Style Selector="^[AllowAutoHide=True].scrolling /template/ ScrollBar">
+      <Setter Property="Opacity" Value="1" />
+    </Style>
+  </ControlTheme>
+</ResourceDictionary>

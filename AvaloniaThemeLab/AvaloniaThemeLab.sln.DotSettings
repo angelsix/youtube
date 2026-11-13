@@ -1,0 +1,326 @@
+<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E42622B6DD6C9684AB3B9000A/@KeyIndexDefined">True</s:Boolean>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E42622B6DD6C9684AB3B9000A/Applicability/=Live/@EntryIndexedValue">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E42622B6DD6C9684AB3B9000A/Description/@EntryValue">Theme engine XML namespaces, on a root element</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E42622B6DD6C9684AB3B9000A/Reformat/@EntryValue">False</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E42622B6DD6C9684AB3B9000A/Shortcut/@EntryValue">themexml</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E42622B6DD6C9684AB3B9000A/ShortenQualifiedReferences/@EntryValue">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E42622B6DD6C9684AB3B9000A/Text/@EntryValue">xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+xmlns:color="using:AngelSix.ThemeEngine.Colors"
+xmlns:size="using:AngelSix.ThemeEngine.Sizes"
+xmlns:controls="using:AngelSix.ThemeEngine.Controls"
+xmlns:icons="using:AngelSix.ThemeEngine.Icons"$END$</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E42622B6DD6C9684AB3B9000A/Scope/=AC111B142570AF5C48DFD1E73DBCCBC9/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E42622B6DD6C9684AB3B9000A/Scope/=AC111B142570AF5C48DFD1E73DBCCBC9/Type/@EntryValue">InXmlFile</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7EDFFBE0B512EF1DDEEA7B817A/@KeyIndexDefined">True</s:Boolean>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7EDFFBE0B512EF1DDEEA7B817A/Applicability/=Live/@EntryIndexedValue">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7EDFFBE0B512EF1DDEEA7B817A/Description/@EntryValue">A control theme file: its preview, the designer preview and the ControlTheme (the preview needs AngelSix.ThemeEngine.Controls)</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7EDFFBE0B512EF1DDEEA7B817A/Reformat/@EntryValue">False</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7EDFFBE0B512EF1DDEEA7B817A/Shortcut/@EntryValue">themecontrol</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7EDFFBE0B512EF1DDEEA7B817A/ShortenQualifiedReferences/@EntryValue">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7EDFFBE0B512EF1DDEEA7B817A/Text/@EntryValue">&lt;ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+                    xmlns:color="using:AngelSix.ThemeEngine.Colors"
+                    xmlns:size="using:AngelSix.ThemeEngine.Sizes"
+                    xmlns:controls="using:AngelSix.ThemeEngine.Controls"
+                    xmlns:icons="using:AngelSix.ThemeEngine.Icons"
+                    xmlns:local="using:$ThemeNamespace$"&gt;
+  &lt;DataTemplate x:Key="$Control$Preview"&gt;
+    &lt;StackPanel Spacing="{size:SpacingMd}"&gt;
+      &lt;$Control$ /&gt;
+      &lt;$Control$ theme:Preview.State="Hover" /&gt;
+      &lt;$Control$ theme:Preview.State="Pressed" /&gt;
+      &lt;$Control$ IsEnabled="False" /&gt;
+    &lt;/StackPanel&gt;
+  &lt;/DataTemplate&gt;
+
+  &lt;Design.PreviewWith&gt;
+    &lt;Border&gt;
+      &lt;Border.Styles&gt;
+        &lt;local:$Theme$ /&gt;
+      &lt;/Border.Styles&gt;
+      &lt;controls:LightDarkPreview Title="$Control$" ContentTemplate="{StaticResource $Control$Preview}" /&gt;
+    &lt;/Border&gt;
+  &lt;/Design.PreviewWith&gt;
+
+  &lt;ControlTheme x:Key="{x:Type $Control$}" TargetType="$Control$"&gt;
+    &lt;Setter Property="Background" Value="{color:AccentBrush Light10}" /&gt;
+    &lt;Setter Property="Foreground" Value="{color:AccentBrush Dark9}" /&gt;
+    &lt;Setter Property="BorderBrush" Value="{color:AccentBrush Light1}" /&gt;
+    &lt;Setter Property="Template"&gt;
+      &lt;ControlTemplate&gt;
+        &lt;Border Name="PART_Border"
+                Background="{TemplateBinding Background}"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}"
+                CornerRadius="{TemplateBinding CornerRadius}"&gt;
+          $END$
+        &lt;/Border&gt;
+      &lt;/ControlTemplate&gt;
+    &lt;/Setter&gt;
+
+    &lt;Style Selector="^:pointerover /template/ Border#PART_Border"&gt;
+      &lt;Setter Property="Background" Value="{color:AccentBrush Light8}" /&gt;
+    &lt;/Style&gt;
+  &lt;/ControlTheme&gt;
+&lt;/ResourceDictionary&gt;</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7EDFFBE0B512EF1DDEEA7B817A/Field/=Control/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7EDFFBE0B512EF1DDEEA7B817A/Field/=Control/Expression/@EntryValue">constant("Button")</s:String>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7EDFFBE0B512EF1DDEEA7B817A/Field/=Control/Order/@EntryValue">0</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7EDFFBE0B512EF1DDEEA7B817A/Field/=ThemeNamespace/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7EDFFBE0B512EF1DDEEA7B817A/Field/=ThemeNamespace/Expression/@EntryValue">constant("MyApp.Theme")</s:String>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7EDFFBE0B512EF1DDEEA7B817A/Field/=ThemeNamespace/Order/@EntryValue">1</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7EDFFBE0B512EF1DDEEA7B817A/Field/=Theme/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7EDFFBE0B512EF1DDEEA7B817A/Field/=Theme/Expression/@EntryValue">constant("MyTheme")</s:String>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7EDFFBE0B512EF1DDEEA7B817A/Field/=Theme/Order/@EntryValue">2</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7EDFFBE0B512EF1DDEEA7B817A/Scope/=570A5134EB04031B28B893785712399B/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7EDFFBE0B512EF1DDEEA7B817A/Scope/=570A5134EB04031B28B893785712399B/Type/@EntryValue">InXmlFile</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E995987E2E9423C5FC19EB103/@KeyIndexDefined">True</s:Boolean>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E995987E2E9423C5FC19EB103/Applicability/=Live/@EntryIndexedValue">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E995987E2E9423C5FC19EB103/Description/@EntryValue">A control's preview: its {Name}Preview template and the designer preview that shows it (needs AngelSix.ThemeEngine.Controls)</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E995987E2E9423C5FC19EB103/Reformat/@EntryValue">False</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E995987E2E9423C5FC19EB103/Shortcut/@EntryValue">themepreview</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E995987E2E9423C5FC19EB103/ShortenQualifiedReferences/@EntryValue">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E995987E2E9423C5FC19EB103/Text/@EntryValue">&lt;DataTemplate x:Key="$Control$Preview"&gt;
+  &lt;StackPanel Spacing="{size:SpacingMd}"&gt;
+    &lt;$Control$ /&gt;$END$
+    &lt;$Control$ theme:Preview.State="Hover" /&gt;
+    &lt;$Control$ theme:Preview.State="Pressed" /&gt;
+    &lt;$Control$ IsEnabled="False" /&gt;
+  &lt;/StackPanel&gt;
+&lt;/DataTemplate&gt;
+
+&lt;Design.PreviewWith&gt;
+  &lt;Border&gt;
+    &lt;Border.Styles&gt;
+      &lt;$Theme$ /&gt;
+    &lt;/Border.Styles&gt;
+    &lt;controls:LightDarkPreview Title="$Control$" ContentTemplate="{StaticResource $Control$Preview}" /&gt;
+  &lt;/Border&gt;
+&lt;/Design.PreviewWith&gt;</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E995987E2E9423C5FC19EB103/Field/=Control/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E995987E2E9423C5FC19EB103/Field/=Control/Expression/@EntryValue">constant("Button")</s:String>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E995987E2E9423C5FC19EB103/Field/=Control/Order/@EntryValue">0</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E995987E2E9423C5FC19EB103/Field/=Theme/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E995987E2E9423C5FC19EB103/Field/=Theme/Expression/@EntryValue">constant("local:MyTheme")</s:String>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E995987E2E9423C5FC19EB103/Field/=Theme/Order/@EntryValue">1</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E995987E2E9423C5FC19EB103/Scope/=13222CC0E66BEFF7B431724BB297D500/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E995987E2E9423C5FC19EB103/Scope/=13222CC0E66BEFF7B431724BB297D500/Type/@EntryValue">InXmlFile</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E88E5D96C682E050225F13922/@KeyIndexDefined">True</s:Boolean>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E88E5D96C682E050225F13922/Applicability/=Live/@EntryIndexedValue">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E88E5D96C682E050225F13922/Description/@EntryValue">A state style inside a ControlTheme: one template part takes another ramp stage</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E88E5D96C682E050225F13922/Reformat/@EntryValue">False</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E88E5D96C682E050225F13922/Shortcut/@EntryValue">themestate</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E88E5D96C682E050225F13922/ShortenQualifiedReferences/@EntryValue">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E88E5D96C682E050225F13922/Text/@EntryValue">&lt;Style Selector="^:$State$ /template/ $Part$"&gt;
+  &lt;Setter Property="$Property$" Value="{color:AccentBrush $Stage$}" /&gt;$END$
+&lt;/Style&gt;</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E88E5D96C682E050225F13922/Field/=State/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E88E5D96C682E050225F13922/Field/=State/Expression/@EntryValue">constant("pointerover")</s:String>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E88E5D96C682E050225F13922/Field/=State/Order/@EntryValue">0</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E88E5D96C682E050225F13922/Field/=Part/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E88E5D96C682E050225F13922/Field/=Part/Expression/@EntryValue">constant("Border#PART_Border")</s:String>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E88E5D96C682E050225F13922/Field/=Part/Order/@EntryValue">1</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E88E5D96C682E050225F13922/Field/=Property/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E88E5D96C682E050225F13922/Field/=Property/Expression/@EntryValue">constant("Background")</s:String>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E88E5D96C682E050225F13922/Field/=Property/Order/@EntryValue">2</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E88E5D96C682E050225F13922/Field/=Stage/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E88E5D96C682E050225F13922/Field/=Stage/Expression/@EntryValue">constant("Light8")</s:String>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E88E5D96C682E050225F13922/Field/=Stage/Order/@EntryValue">3</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E88E5D96C682E050225F13922/Scope/=7C99B44DCF4E37D69A23EB5B0F124DFA/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E88E5D96C682E050225F13922/Scope/=7C99B44DCF4E37D69A23EB5B0F124DFA/Type/@EntryValue">InXmlFile</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E35D666BD7AE45E05575B4A05/@KeyIndexDefined">True</s:Boolean>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E35D666BD7AE45E05575B4A05/Applicability/=Live/@EntryIndexedValue">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E35D666BD7AE45E05575B4A05/Description/@EntryValue">A theme: neutral, primary and surface hues, and the size ladders</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E35D666BD7AE45E05575B4A05/Reformat/@EntryValue">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E35D666BD7AE45E05575B4A05/Shortcut/@EntryValue">themeclass</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E35D666BD7AE45E05575B4A05/ShortenQualifiedReferences/@EntryValue">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E35D666BD7AE45E05575B4A05/Text/@EntryValue">[Theme(FallbackHue = "Neutral")]
+public partial class $Name$Theme : ThemeBase
+{
+    [AccentHue, ColorRamp(HueAware = true, DarkSeed = "#D1D1D1")]
+    [Observable] public virtual partial Color AccentNeutral { get; set; } = Color.Parse("#2E2E2E");
+
+    [AccentHue, ColorRamp(HueAware = true)]
+    [Observable] public virtual partial Color AccentPrimary { get; set; } = Color.Parse("$Primary$");
+
+    /// &lt;summary&gt;The application canvas.&lt;/summary&gt;
+    [AccentHue, ColorRamp(DarkSeed = "#1E1E1E")]
+    [Observable] public virtual partial Color AccentSurface { get; set; } = Color.Parse("#FAFAFA");
+
+    [SizeScale(Multipliers = [4, 8, 12, 16])]
+    public virtual double Spacing =&gt; BaseSize;
+
+    [SizeScale(Multipliers = [4, 8], Types = [typeof(CornerRadius)], TypeSuffixes = [""])]
+    public virtual double Radius =&gt; BaseSize;
+
+    [SizeScale(Multipliers = [1, 2], Types = [typeof(Thickness)], TypeSuffixes = [""], Floor = 1)]
+    public virtual double Thickness =&gt; BaseSize;
+
+    [SizeScale(Multipliers = [12, 14, 20])]
+    public virtual double FontSize =&gt; BaseSize;
+$END$
+}</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E35D666BD7AE45E05575B4A05/Field/=Name/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E35D666BD7AE45E05575B4A05/Field/=Name/Expression/@EntryValue">constant("My")</s:String>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E35D666BD7AE45E05575B4A05/Field/=Name/Order/@EntryValue">0</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E35D666BD7AE45E05575B4A05/Field/=Primary/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E35D666BD7AE45E05575B4A05/Field/=Primary/Expression/@EntryValue">constant("#2F6FEB")</s:String>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E35D666BD7AE45E05575B4A05/Field/=Primary/Order/@EntryValue">1</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E35D666BD7AE45E05575B4A05/Scope/=06ED1CCF62A263F6D244B6AB774A49CC/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E35D666BD7AE45E05575B4A05/Scope/=06ED1CCF62A263F6D244B6AB774A49CC/Type/@EntryValue">InCSharpTypeAndNamespace</s:String>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E35D666BD7AE45E05575B4A05/Scope/=06ED1CCF62A263F6D244B6AB774A49CC/CustomProperties/=minimumLanguageVersion/@EntryIndexedValue">2.0</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E1D3386BD286505819FD69CFC/@KeyIndexDefined">True</s:Boolean>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E1D3386BD286505819FD69CFC/Applicability/=Live/@EntryIndexedValue">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E1D3386BD286505819FD69CFC/Description/@EntryValue">An accent hue: one seed colour that becomes a full light and dark ramp, picked with theme:Accent.Kind</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E1D3386BD286505819FD69CFC/Reformat/@EntryValue">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E1D3386BD286505819FD69CFC/Shortcut/@EntryValue">themeaccent</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E1D3386BD286505819FD69CFC/ShortenQualifiedReferences/@EntryValue">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E1D3386BD286505819FD69CFC/Text/@EntryValue">[AccentHue, ColorRamp(HueAware = true)]
+[Observable] public virtual partial Color Accent$Name$ { get; set; } = Color.Parse("$Color$");$END$</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E1D3386BD286505819FD69CFC/Field/=Name/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E1D3386BD286505819FD69CFC/Field/=Name/Expression/@EntryValue">constant("Primary")</s:String>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E1D3386BD286505819FD69CFC/Field/=Name/Order/@EntryValue">0</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E1D3386BD286505819FD69CFC/Field/=Color/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E1D3386BD286505819FD69CFC/Field/=Color/Expression/@EntryValue">constant("#2F6FEB")</s:String>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E1D3386BD286505819FD69CFC/Field/=Color/Order/@EntryValue">1</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E1D3386BD286505819FD69CFC/Scope/=F7FCD685533B2D63614A9921ABE57593/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E1D3386BD286505819FD69CFC/Scope/=F7FCD685533B2D63614A9921ABE57593/Type/@EntryValue">InCSharpTypeMember</s:String>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E1D3386BD286505819FD69CFC/Scope/=F7FCD685533B2D63614A9921ABE57593/CustomProperties/=minimumLanguageVersion/@EntryIndexedValue">2.0</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7EB341A2EF0D35683437C0801F/@KeyIndexDefined">True</s:Boolean>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7EB341A2EF0D35683437C0801F/Applicability/=Live/@EntryIndexedValue">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7EB341A2EF0D35683437C0801F/Description/@EntryValue">The canvas hue: its light seed and the seed its dark palette uses</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7EB341A2EF0D35683437C0801F/Reformat/@EntryValue">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7EB341A2EF0D35683437C0801F/Shortcut/@EntryValue">themesurface</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7EB341A2EF0D35683437C0801F/ShortenQualifiedReferences/@EntryValue">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7EB341A2EF0D35683437C0801F/Text/@EntryValue">/// &lt;summary&gt;The application canvas.&lt;/summary&gt;
+[AccentHue, ColorRamp(DarkSeed = "$DarkColor$")]
+[Observable] public virtual partial Color AccentSurface { get; set; } = Color.Parse("$Color$");$END$</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7EB341A2EF0D35683437C0801F/Field/=Color/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7EB341A2EF0D35683437C0801F/Field/=Color/Expression/@EntryValue">constant("#FAFAFA")</s:String>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7EB341A2EF0D35683437C0801F/Field/=Color/Order/@EntryValue">0</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7EB341A2EF0D35683437C0801F/Field/=DarkColor/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7EB341A2EF0D35683437C0801F/Field/=DarkColor/Expression/@EntryValue">constant("#1E1E1E")</s:String>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7EB341A2EF0D35683437C0801F/Field/=DarkColor/Order/@EntryValue">1</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7EB341A2EF0D35683437C0801F/Scope/=EA68A0ED1B231378F399AEE97A51E198/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7EB341A2EF0D35683437C0801F/Scope/=EA68A0ED1B231378F399AEE97A51E198/Type/@EntryValue">InCSharpTypeMember</s:String>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7EB341A2EF0D35683437C0801F/Scope/=EA68A0ED1B231378F399AEE97A51E198/CustomProperties/=minimumLanguageVersion/@EntryIndexedValue">2.0</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E3AEEE2F390DC66CF787744AE/@KeyIndexDefined">True</s:Boolean>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E3AEEE2F390DC66CF787744AE/Applicability/=Live/@EntryIndexedValue">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E3AEEE2F390DC66CF787744AE/Description/@EntryValue">A role: the ramp stage one part uses, in whichever hue the control wears</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E3AEEE2F390DC66CF787744AE/Reformat/@EntryValue">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E3AEEE2F390DC66CF787744AE/Shortcut/@EntryValue">themerole</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E3AEEE2F390DC66CF787744AE/ShortenQualifiedReferences/@EntryValue">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E3AEEE2F390DC66CF787744AE/Text/@EntryValue">[AccentRole] internal virtual RampStage $Name$ =&gt; RampStage.$Stage$;$END$</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E3AEEE2F390DC66CF787744AE/Field/=Name/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E3AEEE2F390DC66CF787744AE/Field/=Name/Expression/@EntryValue">constant("BackgroundDefault")</s:String>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E3AEEE2F390DC66CF787744AE/Field/=Name/Order/@EntryValue">0</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E3AEEE2F390DC66CF787744AE/Field/=Stage/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E3AEEE2F390DC66CF787744AE/Field/=Stage/Expression/@EntryValue">constant("Light10")</s:String>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E3AEEE2F390DC66CF787744AE/Field/=Stage/Order/@EntryValue">1</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E3AEEE2F390DC66CF787744AE/Scope/=4482FC332EC931775B3A82514CCBB0AE/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E3AEEE2F390DC66CF787744AE/Scope/=4482FC332EC931775B3A82514CCBB0AE/Type/@EntryValue">InCSharpTypeMember</s:String>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E3AEEE2F390DC66CF787744AE/Scope/=4482FC332EC931775B3A82514CCBB0AE/CustomProperties/=minimumLanguageVersion/@EntryIndexedValue">2.0</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E71EA42BB2C9E699B459B76D2/@KeyIndexDefined">True</s:Boolean>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E71EA42BB2C9E699B459B76D2/Applicability/=Live/@EntryIndexedValue">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E71EA42BB2C9E699B459B76D2/Description/@EntryValue">A size ladder on BaseSize: {Name}Sm, {Name}Md… and a {Name}Scale to resize it alone</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E71EA42BB2C9E699B459B76D2/Reformat/@EntryValue">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E71EA42BB2C9E699B459B76D2/Shortcut/@EntryValue">themeladder</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E71EA42BB2C9E699B459B76D2/ShortenQualifiedReferences/@EntryValue">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E71EA42BB2C9E699B459B76D2/Text/@EntryValue">[SizeScale(Multipliers = [$Multipliers$], Scalable = true)]
+public virtual double $Name$ =&gt; BaseSize;$END$</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E71EA42BB2C9E699B459B76D2/Field/=Name/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E71EA42BB2C9E699B459B76D2/Field/=Name/Expression/@EntryValue">constant("Spacing")</s:String>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E71EA42BB2C9E699B459B76D2/Field/=Name/Order/@EntryValue">0</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E71EA42BB2C9E699B459B76D2/Field/=Multipliers/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E71EA42BB2C9E699B459B76D2/Field/=Multipliers/Expression/@EntryValue">constant("4, 8, 12, 16")</s:String>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E71EA42BB2C9E699B459B76D2/Field/=Multipliers/Order/@EntryValue">1</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E71EA42BB2C9E699B459B76D2/Scope/=9B92A1B5B5519E6936A777373B606C91/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E71EA42BB2C9E699B459B76D2/Scope/=9B92A1B5B5519E6936A777373B606C91/Type/@EntryValue">InCSharpTypeMember</s:String>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E71EA42BB2C9E699B459B76D2/Scope/=9B92A1B5B5519E6936A777373B606C91/CustomProperties/=minimumLanguageVersion/@EntryIndexedValue">2.0</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E217BE7C19F93171729A22B8B/@KeyIndexDefined">True</s:Boolean>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E217BE7C19F93171729A22B8B/Applicability/=Live/@EntryIndexedValue">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E217BE7C19F93171729A22B8B/Description/@EntryValue">A live token: change it at run time and every control follows</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E217BE7C19F93171729A22B8B/Reformat/@EntryValue">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E217BE7C19F93171729A22B8B/Shortcut/@EntryValue">themetoken</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E217BE7C19F93171729A22B8B/ShortenQualifiedReferences/@EntryValue">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E217BE7C19F93171729A22B8B/Text/@EntryValue">[Observable] public virtual partial $Type$ $Name$ { get; set; } = $Value$;$END$</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E217BE7C19F93171729A22B8B/Field/=Type/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E217BE7C19F93171729A22B8B/Field/=Type/Expression/@EntryValue">constant("double")</s:String>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E217BE7C19F93171729A22B8B/Field/=Type/Order/@EntryValue">0</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E217BE7C19F93171729A22B8B/Field/=Name/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E217BE7C19F93171729A22B8B/Field/=Name/Expression/@EntryValue">constant("HoverScale")</s:String>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E217BE7C19F93171729A22B8B/Field/=Name/Order/@EntryValue">1</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E217BE7C19F93171729A22B8B/Field/=Value/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E217BE7C19F93171729A22B8B/Field/=Value/Expression/@EntryValue">constant("1.05")</s:String>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E217BE7C19F93171729A22B8B/Field/=Value/Order/@EntryValue">2</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E217BE7C19F93171729A22B8B/Scope/=D32C47FE138AD9CC53B5E7B4284C7176/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E217BE7C19F93171729A22B8B/Scope/=D32C47FE138AD9CC53B5E7B4284C7176/Type/@EntryValue">InCSharpTypeMember</s:String>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E217BE7C19F93171729A22B8B/Scope/=D32C47FE138AD9CC53B5E7B4284C7176/CustomProperties/=minimumLanguageVersion/@EntryIndexedValue">2.0</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E7D97EB856B8A677418D8AB0A/@KeyIndexDefined">True</s:Boolean>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E7D97EB856B8A677418D8AB0A/Applicability/=Live/@EntryIndexedValue">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E7D97EB856B8A677418D8AB0A/Description/@EntryValue">An alignment token: {Name}AlignmentHorizontal and {Name}AlignmentVertical in XAML</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E7D97EB856B8A677418D8AB0A/Reformat/@EntryValue">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E7D97EB856B8A677418D8AB0A/Shortcut/@EntryValue">themealign</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E7D97EB856B8A677418D8AB0A/ShortenQualifiedReferences/@EntryValue">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E7D97EB856B8A677418D8AB0A/Text/@EntryValue">[Observable] public virtual partial Alignment $Name$Alignment { get; set; } = new(HorizontalAlignment.$Horizontal$, VerticalAlignment.$Vertical$);$END$</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E7D97EB856B8A677418D8AB0A/Field/=Name/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E7D97EB856B8A677418D8AB0A/Field/=Name/Expression/@EntryValue">constant("Standard")</s:String>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E7D97EB856B8A677418D8AB0A/Field/=Name/Order/@EntryValue">0</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E7D97EB856B8A677418D8AB0A/Field/=Horizontal/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E7D97EB856B8A677418D8AB0A/Field/=Horizontal/Expression/@EntryValue">constant("Left")</s:String>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E7D97EB856B8A677418D8AB0A/Field/=Horizontal/Order/@EntryValue">1</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E7D97EB856B8A677418D8AB0A/Field/=Vertical/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E7D97EB856B8A677418D8AB0A/Field/=Vertical/Expression/@EntryValue">constant("Center")</s:String>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E7D97EB856B8A677418D8AB0A/Field/=Vertical/Order/@EntryValue">2</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E7D97EB856B8A677418D8AB0A/Scope/=E39EF62F84BAA6C34F37EF175219460F/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E7D97EB856B8A677418D8AB0A/Scope/=E39EF62F84BAA6C34F37EF175219460F/Type/@EntryValue">InCSharpTypeMember</s:String>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E7D97EB856B8A677418D8AB0A/Scope/=E39EF62F84BAA6C34F37EF175219460F/CustomProperties/=minimumLanguageVersion/@EntryIndexedValue">2.0</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E6C85E6CEF6EFBE521DC5E5F3/@KeyIndexDefined">True</s:Boolean>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E6C85E6CEF6EFBE521DC5E5F3/Applicability/=Live/@EntryIndexedValue">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E6C85E6CEF6EFBE521DC5E5F3/Description/@EntryValue">The theme's font, with a FontWeight token per weight</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E6C85E6CEF6EFBE521DC5E5F3/Reformat/@EntryValue">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E6C85E6CEF6EFBE521DC5E5F3/Shortcut/@EntryValue">themefont</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E6C85E6CEF6EFBE521DC5E5F3/ShortenQualifiedReferences/@EntryValue">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E6C85E6CEF6EFBE521DC5E5F3/Text/@EntryValue">[FontWeights(Weights = [FontWeight.Normal, FontWeight.Medium, FontWeight.SemiBold, FontWeight.Bold], Labels = ["Regular", "Medium", "SemiBold", "Bold"])]
+[Observable] public virtual partial FontFamily FontFamily { get; set; } = new("$Font$, $$Default");$END$</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E6C85E6CEF6EFBE521DC5E5F3/Field/=Font/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E6C85E6CEF6EFBE521DC5E5F3/Field/=Font/Expression/@EntryValue">constant("fonts:Inter#Inter")</s:String>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E6C85E6CEF6EFBE521DC5E5F3/Field/=Font/Order/@EntryValue">0</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E6C85E6CEF6EFBE521DC5E5F3/Scope/=65D8132763803A9868452B2030B74E86/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E6C85E6CEF6EFBE521DC5E5F3/Scope/=65D8132763803A9868452B2030B74E86/Type/@EntryValue">InCSharpTypeMember</s:String>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E6C85E6CEF6EFBE521DC5E5F3/Scope/=65D8132763803A9868452B2030B74E86/CustomProperties/=minimumLanguageVersion/@EntryIndexedValue">2.0</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E5656A8386FDB9A95BD060284/@KeyIndexDefined">True</s:Boolean>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E5656A8386FDB9A95BD060284/Applicability/=Live/@EntryIndexedValue">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E5656A8386FDB9A95BD060284/Description/@EntryValue">An icon gallery: every .svg in the folder becomes an {icons:Name}</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E5656A8386FDB9A95BD060284/Reformat/@EntryValue">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E5656A8386FDB9A95BD060284/Shortcut/@EntryValue">themegallery</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E5656A8386FDB9A95BD060284/ShortenQualifiedReferences/@EntryValue">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E5656A8386FDB9A95BD060284/Text/@EntryValue">[IconGallery(SvgFolder = "$Folder$")]
+public partial class $Name$
+{
+}$END$</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E5656A8386FDB9A95BD060284/Field/=Name/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E5656A8386FDB9A95BD060284/Field/=Name/Expression/@EntryValue">constant("MyIcons")</s:String>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E5656A8386FDB9A95BD060284/Field/=Name/Order/@EntryValue">0</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E5656A8386FDB9A95BD060284/Field/=Folder/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E5656A8386FDB9A95BD060284/Field/=Folder/Expression/@EntryValue">constant("Icons/Svg")</s:String>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E5656A8386FDB9A95BD060284/Field/=Folder/Order/@EntryValue">1</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E5656A8386FDB9A95BD060284/Scope/=CCCC591D817F911B03B76CF8FC6C51C3/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E5656A8386FDB9A95BD060284/Scope/=CCCC591D817F911B03B76CF8FC6C51C3/Type/@EntryValue">InCSharpTypeAndNamespace</s:String>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7E5656A8386FDB9A95BD060284/Scope/=CCCC591D817F911B03B76CF8FC6C51C3/CustomProperties/=minimumLanguageVersion/@EntryIndexedValue">2.0</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7EC526DEBE93006A911623113A/@KeyIndexDefined">True</s:Boolean>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7EC526DEBE93006A911623113A/Applicability/=Live/@EntryIndexedValue">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7EC526DEBE93006A911623113A/Description/@EntryValue">Hands the theme's icon gallery to {icons:...}</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7EC526DEBE93006A911623113A/Reformat/@EntryValue">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7EC526DEBE93006A911623113A/Shortcut/@EntryValue">themeicons</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7EC526DEBE93006A911623113A/ShortenQualifiedReferences/@EntryValue">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7EC526DEBE93006A911623113A/Text/@EntryValue">public override $Gallery$ Icons =&gt; new();$END$</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7EC526DEBE93006A911623113A/Field/=Gallery/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7EC526DEBE93006A911623113A/Field/=Gallery/Expression/@EntryValue">constant("MyIcons")</s:String>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7EC526DEBE93006A911623113A/Field/=Gallery/Order/@EntryValue">0</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7EC526DEBE93006A911623113A/Scope/=5EDAF8B28553915113549A02AFECEC3E/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7EC526DEBE93006A911623113A/Scope/=5EDAF8B28553915113549A02AFECEC3E/Type/@EntryValue">InCSharpTypeMember</s:String>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=A6510E7EC526DEBE93006A911623113A/Scope/=5EDAF8B28553915113549A02AFECEC3E/CustomProperties/=minimumLanguageVersion/@EntryIndexedValue">2.0</s:String>
+</wpf:ResourceDictionary>

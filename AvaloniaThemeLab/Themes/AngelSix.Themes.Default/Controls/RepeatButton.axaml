@@ -1,0 +1,115 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+                    xmlns:color="using:AngelSix.ThemeEngine.Colors"
+                    xmlns:size="using:AngelSix.ThemeEngine.Sizes"
+                    xmlns:controls="using:AngelSix.ThemeEngine.Controls"
+                    xmlns:default="using:AngelSix.Themes.Default"
+                    xmlns:design="using:AngelSix.Themes.Default.Design">
+  <!-- Design preview: one vertical column, one fixed width wide enough for the longest label. -->
+  <DataTemplate x:Key="RepeatButtonPreview">
+    <StackPanel Spacing="{size:SpacingXl}" HorizontalAlignment="Left">
+      <!-- Counting example: the label rises with every click, and with every repeat while held -->
+      <RepeatButton Width="{size:Scaled 300}"
+                    x:DataType="design:RepeatButtonDesignModel"
+                    DataContext="{x:Static design:RepeatButtonDesignData.HoldSample}"
+                    Command="{Binding IncrementCommand}"
+                    Content="{Binding Label}" />
+      <RepeatButton Width="{size:Scaled 300}" Delay="300" Interval="100"
+                    x:DataType="design:RepeatButtonDesignModel"
+                    DataContext="{x:Static design:RepeatButtonDesignData.DelaySample}"
+                    Command="{Binding IncrementCommand}"
+                    Content="{Binding Label}" />
+      <RepeatButton Width="{size:Scaled 300}" theme:Preview.State="Hover" Content="Hover" />
+      <RepeatButton Width="{size:Scaled 300}" theme:Preview.State="Pressed" Content="Pressed" />
+      <RepeatButton Width="{size:Scaled 300}" theme:Preview.State="Focused" Content="Focused" />
+      <RepeatButton Width="{size:Scaled 300}" IsEnabled="False" Content="Disabled" />
+      <RepeatButton Width="{size:Scaled 300}" theme:Accent.Kind="Warning" theme:Preview.State="Hover" Content="Warning · Hover" />
+      <RepeatButton Width="{size:Scaled 300}" theme:Accent.Kind="Success" theme:Preview.State="Focused" Content="Success · Focused" />
+    </StackPanel>
+  </DataTemplate>
+
+  <Design.PreviewWith>
+    <Border>
+      <Border.Styles>
+        <default:DefaultTheme />
+      </Border.Styles>
+
+      <controls:LightDarkPreview Title="RepeatButton" Orientation="Vertical" ContentTemplate="{StaticResource RepeatButtonPreview}" />
+
+    </Border>
+  </Design.PreviewWith>
+
+  <ControlTheme x:Key="{x:Type RepeatButton}" TargetType="RepeatButton">
+
+    <!-- Visual defaults: identical to Button (outlined column) -->
+    <Setter Property="Background" Value="{color:BackgroundDefault}" />
+    <Setter Property="Foreground" Value="{color:TextDefault}" />
+    <Setter Property="BorderBrush" Value="{color:BorderDefault}" />
+    <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
+    <Setter Property="CornerRadius" Value="{size:RadiusSm}" />
+    <Setter Property="Padding" Value="{size:Edges {size:SpacingXl}, {size:SpacingLg}}" />
+    <Setter Property="MinHeight" Value="{size:ControlHeightSm}" />
+    <Setter Property="MinWidth" Value="{size:ControlMinWidth}" />
+    <Setter Property="HorizontalAlignment" Value="{theme:StandardAlignmentHorizontal}" />
+    <Setter Property="VerticalAlignment" Value="{theme:StandardAlignmentVertical}" />
+    <Setter Property="HorizontalContentAlignment" Value="{theme:ButtonAlignmentHorizontal}" />
+    <Setter Property="VerticalContentAlignment" Value="{theme:ButtonAlignmentVertical}" />
+    <Setter Property="ClipToBounds" Value="{theme:ControlClipToBounds}" />
+
+    <Setter Property="RenderTransform" Value="none" />
+    <Setter Property="Transitions">
+      <Transitions>
+        <TransformOperationsTransition Property="RenderTransform" Duration="{theme:AnimationFastMs}" />
+      </Transitions>
+    </Setter>
+
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Border x:Name="PART_Border"
+                Background="{TemplateBinding Background}"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}"
+                CornerRadius="{TemplateBinding CornerRadius}"
+                Padding="{TemplateBinding Padding}">
+          <ContentPresenter x:Name="PART_ContentPresenter"
+                            Foreground="{TemplateBinding Foreground}"
+                            Content="{TemplateBinding Content}"
+                            ContentTemplate="{TemplateBinding ContentTemplate}"
+                            HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+        </Border>
+      </ControlTemplate>
+    </Setter>
+
+    <Style Selector="^ /template/ ContentPresenter">
+      <Setter Property="RecognizesAccessKey" Value="True" />
+    </Style>
+
+    <!-- Hover state: identical to Button -->
+    <Style Selector="^:pointerover, ^[(theme|Preview.State)=Hover]">
+      <Setter Property="Background" Value="{color:HoverBackgroundDefault}" />
+      <Setter Property="Foreground" Value="{color:HoverTextDefault}" />
+      <Setter Property="RenderTransform" Value="{theme:TransformScale {size:HoverScale}}" />
+      <Setter Property="ZIndex" Value="{size:HoverZIndex}" />
+    </Style>
+
+    <!-- Pressed state: identical to Button -->
+    <Style Selector="^:pressed, ^[(theme|Preview.State)=Pressed]">
+      <Setter Property="RenderTransform" Value="{theme:TransformScale {size:PressedScale}}" />
+      <Setter Property="Background" Value="{color:PressedBackgroundDefault}" />
+    </Style>
+
+    <!-- Disabled state: identical to Button (whole-face dimming, no recoloured fill) -->
+    <Style Selector="^:disabled">
+      <Setter Property="Opacity" Value="{size:DisabledOpacity}" />
+    </Style>
+
+    <!-- Focus state. -->
+    <Style Selector="^:focus-visible /template/ Border#PART_Border, ^[(theme|Preview.State)=Focused] /template/ Border#PART_Border">
+      <Setter Property="BorderBrush" Value="{color:AccentFocusBorderBrush}" />
+      <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
+    </Style>
+
+  </ControlTheme>
+</ResourceDictionary>
