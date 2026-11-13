@@ -85,6 +85,18 @@
       "file": "AvaloniaThemeLab/Examples/AvaloniaThemeLab.Minimal/App.axaml.cs",
       "finding": "no member 'Current' on 'MinimalTheme'",
       "justification": "MinimalTheme.Current is generated at compile time by the theme engine's source generator; the static reference graph cannot see members added to a partial class by a generator. The member exists: the solution builds and the headless tests run against it."
+    },
+    {
+      "check": "repo staged",
+      "file": "AvaloniaThemeLab/Examples/AvaloniaThemeLab.GettingStarted/App.axaml.cs",
+      "finding": "no member 'Current' on 'DefaultTheme'",
+      "justification": "DefaultTheme.Current is generated at compile time by the theme engine's source generator; the static reference graph cannot see members added to a partial class by a generator. The member exists: the solution builds and the headless tests run against it."
+    },
+    {
+      "check": "dangling-ref",
+      "file": "AvaloniaThemeLab/Examples/AvaloniaThemeLab.GettingStarted/App.axaml.cs",
+      "finding": "no member 'Current' on 'DefaultTheme'",
+      "justification": "DefaultTheme.Current is generated at compile time by the theme engine's source generator; the static reference graph cannot see members added to a partial class by a generator. The member exists: the solution builds and the headless tests run against it."
     }
   ],
   "pre-push": {

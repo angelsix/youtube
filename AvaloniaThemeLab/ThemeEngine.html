@@ -209,7 +209,8 @@
   <a href="#intro">Introduction</a>
   <a href="#start">Getting started</a>
   <a href="#default">Using the default theme</a>
-  <a href="#own">Creating your own theme</a>
+  <a href="#extend">Extend the default theme</a>
+  <a href="#own">A theme from scratch</a>
   <a href="#how">How it works</a>
   <a class="sub" href="#how-load">Loading the theme</a>
   <a class="sub" href="#how-tokens">Tokens become XAML</a>
@@ -309,6 +310,8 @@
   </table>
 
   <div class="note why"><b>Why it just works</b>That one line creates the theme. The theme finds and loads all of its control files itself, and registers itself so every token in XAML resolves against it. <a href="#how-load">How it works</a> walks through each step.</div>
+
+  <div class="note"><b>Worked example</b><a href="Examples/AvaloniaThemeLab.GettingStarted/README.md"><code>Examples/AvaloniaThemeLab.GettingStarted</code></a> is this app, already built: the same window as the minimal example, but every control is styled by the default theme — no theme class and no control files of its own. Until the theme package is published it builds the theme from this repo; the app itself is exactly the six steps above.</div>
 </section>
 
 <!-- ============================== USING THE DEFAULT THEME ============================== -->
@@ -339,21 +342,51 @@ theme.ResetToDefaults();</code></pre>
   <p>With dependency injection, register it once: <code>services.AddSingleton(DefaultTheme.Current);</code></p>
 
   <h3>Make it yours without forking</h3>
-  <pre><code>[Theme(FallbackHue = <span class="s">"Neutral"</span>)]
+  <p>Subclass <code>DefaultTheme</code> and change only what differs &mdash; a hue, a token, or one control. See <a href="#extend">Extend the default theme</a>.</p>
+</section>
+
+<!-- ============================== EXTEND THE DEFAULT THEME ============================== -->
+<section class="page" id="extend">
+  <p class="eyebrow">Creating your own theme</p>
+  <h2>Extend the default theme</h2>
+  <p class="lede">The middle path between using the default theme and writing one from nothing: keep every control it styles, and change only the values &mdash; or the one control &mdash; your look needs. You subclass <code>DefaultTheme</code>; the engine does the rest.</p>
+
+  <ol class="steps">
+    <li><label><input type="checkbox" /><strong>Start from the getting-started app</strong></label>
+      Steps 1&ndash;5 of <a href="#start">Getting started</a>: a new app, no Fluent, the default theme referenced and included. You already have a fully styled app.</li>
+    <li><label><input type="checkbox" /><strong>Add the engine</strong></label>
+      <pre><code>dotnet add MyApp package AngelSix.ThemeEngine</code></pre>
+      For its source generator, which turns your subclass into XAML extensions.</li>
+    <li><label><input type="checkbox" /><strong>Write the subclass</strong></label>
+      A new C# file deriving from <code>DefaultTheme</code>. Add a hue, override a token, or change a seed &mdash; everything else is inherited:
+<pre><code>[Theme(FallbackHue = <span class="s">"Neutral"</span>)]
 <span class="k">public partial class</span> BrandTheme : DefaultTheme
 {
     [AccentHue, ColorRamp(HueAware = <span class="k">true</span>)]
     [Observable] <span class="k">public virtual partial</span> Color AccentBrand { <span class="k">get</span>; <span class="k">set</span>; } = Color.Parse(<span class="s">"#7C4DFF"</span>);
-}</code></pre>
-  <p>This needs the engine package too (<code>dotnet add MyApp package AngelSix.ThemeEngine</code>), for its generator. Put <code>&lt;local:BrandTheme /&gt;</code> in <code>App.axaml</code> instead of <code>&lt;DefaultTheme /&gt;</code>.</p>
-  <p>A theme that extends one from another project gets its own hue property, named after the class: <code>theme:BrandAccent.Kind="Brand"</code>. It accepts the new hue and every inherited one. A derived theme can also override any public token, or add its own control files. Roles are <code>internal</code>, so they can only be changed in the theme's own project.</p>
+}</code></pre></li>
+    <li><label><input type="checkbox" /><strong>Include it instead of the default</strong></label>
+<pre><code><span class="t">&lt;Application</span> ... xmlns:local=<span class="s">"using:MyApp.Theme"</span><span class="t">&gt;</span>
+  <span class="t">&lt;Application.Styles&gt;</span>
+    <span class="t">&lt;local:BrandTheme /&gt;</span>
+  <span class="t">&lt;/Application.Styles&gt;</span>
+<span class="t">&lt;/Application&gt;</span></code></pre>
+      Register <code>BrandTheme.Current</code> in place of <code>DefaultTheme.Current</code> if you use dependency injection.</li>
+    <li><label><input type="checkbox" /><strong>Optionally restyle one control</strong></label>
+      Add <code>Controls/Button.axaml</code> in your project to override just that control; every other control keeps the default theme's file. There is no list to update.</li>
+    <li><label><input type="checkbox" /><strong>Build and run</strong></label>
+      The whole app draws with the default theme plus your changes. A theme that extends one from another project gets its own hue property, named after the class: <code>theme:BrandAccent.Kind="Brand"</code>. It accepts the new hue and every inherited one. Roles are <code>internal</code>, so they can only be changed in the theme's own project.</li>
+  </ol>
+
+  <div class="note"><b>Worked example</b><code>Examples/AvaloniaThemeLab.ThemePlayground</code> is exactly this: a <code>BrandTheme : DefaultTheme</code> that adds one brand hue on top of the full default control set.</div>
+  <div class="note why"><b>When to go from scratch instead</b>If your look owes nothing to the default theme &mdash; different control shapes, a different token vocabulary &mdash; start from <code>ThemeBase</code> and write your own control files: <a href="#own">A theme from scratch</a>.</div>
 </section>
 
 <!-- ============================== CREATING YOUR OWN THEME ============================== -->
 <section class="page" id="own">
   <p class="eyebrow">Creating your own theme</p>
-  <h2>A theme from nothing</h2>
-  <p class="lede">For a look that owes nothing to the default theme. You write the tokens and the control files; the engine does the rest.</p>
+  <h2>A theme from scratch</h2>
+  <p class="lede">For a look that owes nothing to the default theme. You write the tokens and the control files; the engine does the rest. If you only need to change values or one control, <a href="#extend">extend the default theme</a> instead.</p>
 
   <ol class="steps">
     <li><label><input type="checkbox" /><strong>Start from a new app, without Fluent</strong></label>
