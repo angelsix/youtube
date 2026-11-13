@@ -71,7 +71,7 @@
   header.mast .mark { font: 600 13px var(--sans); letter-spacing: .14em; text-transform: uppercase; color: var(--teal); margin: 0 0 6px; }
   header.mast h1 { font-size: clamp(48px, 7vw, 92px); line-height: .95; letter-spacing: -.035em; margin: 0; }
   header.mast h1 span { color: var(--teal); }
-  header.mast p { font-size: 19px; color: var(--ink-soft); margin: 12px 0 0; max-width: 46ch; }
+  header.mast p { font-size: 19px; color: var(--ink-soft); margin: 12px 0 0; max-width: 54ch; }
   header.mast .tags { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; padding-bottom: 6px; }
   header.mast .tag { font: 600 13px var(--mono); border: 1.5px solid var(--ink); border-radius: 999px; padding: 4px 12px; background: var(--card); box-shadow: 2px 2px 0 0 var(--ink); white-space: nowrap; }
 
@@ -116,6 +116,9 @@
   ol.steps > li > strong { display: block; font-size: 17px; }
   ol.steps label { cursor: pointer; }
   ol.steps input { accent-color: var(--teal); margin-right: 6px; transform: scale(1.15); }
+  ol.steps > li { transition: opacity .25s ease; scroll-margin-top: 24px; }
+  ol.steps > li.done { opacity: .5; }
+  ol.steps > li.done > label strong { text-decoration: line-through; text-decoration-thickness: 1.5px; }
 
   /* pipeline */
   .flow { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin: 20px 0 8px; }
@@ -707,9 +710,32 @@ Height=<span class="s">"{size:Scaled {size:IconSizeMd}, 2}"</span>   <span class
     pre.appendChild(button);
   });
 
+  // Step checkpoints: fade a done step and move on to the next unchecked one
+  document.querySelectorAll('ol.steps input[type="checkbox"]').forEach(box => {
+    box.addEventListener('change', () => {
+      const li = box.closest('li');
+      li.classList.toggle('done', box.checked);
+      if (!box.checked) return;
+      const steps = [...li.parentElement.children];
+      const next = steps.slice(steps.indexOf(li) + 1)
+        .find(s => { const b = s.querySelector('input[type="checkbox"]'); return b && !b.checked; });
+      if (next) next.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+
   // Highlights the section in view
   const links = [...document.querySelectorAll('nav.toc a')];
   const targets = links.map(a => document.querySelector(a.getAttribute('href')));
+  // Short labels and ellipsis both hide the full title, so carry it from the heading itself.
+  links.forEach((a, i) => {
+    const t = targets[i];
+    if (!t) return;
+    const heading = t.matches('h1,h2,h3') ? t : t.querySelector('h1,h2,h3');
+    if (!heading) return;
+    const lead = heading.querySelector('.badge, .n');
+    const full = heading.textContent.trim();
+    a.title = lead ? `${lead.textContent.trim()} — ${full.slice(lead.textContent.trim().length).trim()}` : full;
+  });
   const mark = () => {
     let current = targets[0];
     for (const t of targets) if (t.getBoundingClientRect().top < 120) current = t;

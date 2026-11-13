@@ -71,7 +71,7 @@
   header.mast .mark { font: 600 13px var(--sans); letter-spacing: .14em; text-transform: uppercase; color: var(--teal); margin: 0 0 6px; }
   header.mast h1 { font-size: clamp(48px, 7vw, 92px); line-height: .95; letter-spacing: -.035em; margin: 0; }
   header.mast h1 span { color: var(--teal); }
-  header.mast p { font-size: 19px; color: var(--ink-soft); margin: 12px 0 0; max-width: 46ch; }
+  header.mast p { font-size: 19px; color: var(--ink-soft); margin: 12px 0 0; max-width: 54ch; }
   header.mast .tags { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; padding-bottom: 6px; }
   header.mast .tag { font: 600 13px var(--mono); border: 1.5px solid var(--ink); border-radius: 999px; padding: 4px 12px; background: var(--card); box-shadow: 2px 2px 0 0 var(--ink); white-space: nowrap; }
 
@@ -225,8 +225,8 @@
   
     <a href="#intro">Why this theme exists</a>
   <a href="#what-it-stands-for">What it stands for</a>
-  <a href="#how-a-look-from-elsewhere-is-made">How a look from elsewhere is made</a>
-  <a href="#when-the-engine-cannot-do-something">When the engine cannot do something</a>
+  <a href="#how-a-look-from-elsewhere-is-made">A look from elsewhere</a>
+  <a href="#when-the-engine-cannot-do-something">When the engine falls short</a>
 </nav>
 
 <main>
@@ -287,6 +287,16 @@
 
   const links = [...document.querySelectorAll('nav.toc a')];
   const targets = links.map(a => document.querySelector(a.getAttribute('href')));
+  // Short labels and ellipsis both hide the full title, so carry it from the heading itself.
+  links.forEach((a, i) => {
+    const t = targets[i];
+    if (!t) return;
+    const heading = t.matches('h1,h2,h3') ? t : t.querySelector('h1,h2,h3');
+    if (!heading) return;
+    const lead = heading.querySelector('.badge, .n');
+    const full = heading.textContent.trim();
+    a.title = lead ? `${lead.textContent.trim()} — ${full.slice(lead.textContent.trim().length).trim()}` : full;
+  });
   const mark = () => {
     let current = targets[0];
     for (const t of targets) if (t && !t.classList.contains('hidden') && t.getBoundingClientRect().top < 120) current = t;
