@@ -710,16 +710,35 @@ Height=<span class="s">"{size:Scaled {size:IconSizeMd}, 2}"</span>   <span class
     pre.appendChild(button);
   });
 
-  // Step checkpoints: fade a done step and move on to the next unchecked one
+  // Step checkpoints: fade a done step, then bring it to the top so the next one sits below it
+  const stepGlideMs = 1400; // the browser's own smooth hop is ~280ms; a fifth of that speed
+  let stepGlide = 0;
+  const stopGlide = () => { cancelAnimationFrame(stepGlide); stepGlide = 0; };
+  const glideTo = top => {
+    stopGlide();
+    const max = document.documentElement.scrollHeight - innerHeight;
+    const target = Math.max(0, Math.min(top, max));
+    const from = scrollY, distance = target - from;
+    if (Math.abs(distance) < 1) return;
+    // Each frame sets the position outright: 'instant' keeps the page's own smooth scrolling from fighting the easing
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) { scrollTo({ top: target, behavior: 'instant' }); return; }
+    const start = performance.now();
+    const tick = now => {
+      const t = Math.min(1, (now - start) / stepGlideMs);
+      const eased = t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+      scrollTo({ top: from + distance * eased, behavior: 'instant' });
+      stepGlide = t < 1 ? requestAnimationFrame(tick) : 0;
+    };
+    stepGlide = requestAnimationFrame(tick);
+  };
+  // Scrolling by hand wins over the glide
+  addEventListener('wheel', stopGlide, { passive: true });
+  addEventListener('touchstart', stopGlide, { passive: true });
   document.querySelectorAll('ol.steps input[type="checkbox"]').forEach(box => {
     box.addEventListener('change', () => {
       const li = box.closest('li');
       li.classList.toggle('done', box.checked);
-      if (!box.checked) return;
-      const steps = [...li.parentElement.children];
-      const next = steps.slice(steps.indexOf(li) + 1)
-        .find(s => { const b = s.querySelector('input[type="checkbox"]'); return b && !b.checked; });
-      if (next) next.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      if (box.checked) glideTo(li.getBoundingClientRect().top + scrollY - 24);
     });
   });
 
