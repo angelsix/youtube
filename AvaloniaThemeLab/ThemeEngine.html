@@ -575,6 +575,7 @@ ThemeFonts.System   <span class="c">// the platform's own UI font, with its fall
   <pre><code><span class="t">&lt;Border</span> theme:ThemeRegion.IsDark=<span class="s">"True"</span><span class="t">&gt;</span>
   <span class="c">&lt;!-- everything in here draws dark --&gt;</span>
 <span class="t">&lt;/Border&gt;</span></code></pre>
+  <p>The element you set it on paints the region's surface, so a dark region in a light window reads as dark, and a <code>TextBox</code> set dark on its own becomes a dark field. A <code>Background</code> you set on it yourself wins. The controls inside sit on that surface as they would on the window.</p>
 
   <!-- ---------- icons ---------- -->
   <h3 id="how-icons"><span class="n">8</span>Icons</h3>

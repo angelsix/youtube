@@ -170,4 +170,7 @@ public partial class DefaultTheme : ThemeBase
 
     /// <summary>The icon set.</summary>
     public override ThemeIconGallery Icons => new();
+
+    // An element set dark or light on its own paints that palette's surface (see RegionSurface)
+    static DefaultTheme() => RegionSurface.Register();
 }
