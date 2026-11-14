@@ -1,7 +1,7 @@
 {
-  "themexml": {
+  "enginexml": {
     "scope": "xml,axaml,xaml",
-    "prefix": "themexml",
+    "prefix": "enginexml",
     "description": "Theme engine XML namespaces, on a root element",
     "body": [
       "xmlns:theme=\"using:AngelSix.ThemeEngine.Generated\"",
@@ -11,9 +11,9 @@
       "xmlns:icons=\"using:AngelSix.ThemeEngine.Icons\"$0"
     ]
   },
-  "themecontrol": {
+  "enginecontrol": {
     "scope": "xml,axaml,xaml",
-    "prefix": "themecontrol",
+    "prefix": "enginecontrol",
     "description": "A control theme file: its preview, the designer preview and the ControlTheme (the preview needs AngelSix.ThemeEngine.Controls)",
     "body": [
       "<ResourceDictionary xmlns=\"https://github.com/avaloniaui\"",
@@ -65,9 +65,9 @@
       "</ResourceDictionary>"
     ]
   },
-  "themepreview": {
+  "enginepreview": {
     "scope": "xml,axaml,xaml",
-    "prefix": "themepreview",
+    "prefix": "enginepreview",
     "description": "A control's preview: its {Name}Preview template and the designer preview that shows it (needs AngelSix.ThemeEngine.Controls)",
     "body": [
       "<DataTemplate x:Key=\"${1:Button}Preview\">",
@@ -89,9 +89,9 @@
       "</Design.PreviewWith>"
     ]
   },
-  "themestate": {
+  "enginestate": {
     "scope": "xml,axaml,xaml",
-    "prefix": "themestate",
+    "prefix": "enginestate",
     "description": "A state style inside a ControlTheme: one template part takes another ramp stage",
     "body": [
       "<Style Selector=\"^:${1:pointerover} /template/ ${2:Border#PART_Border}\">",
@@ -99,9 +99,9 @@
       "</Style>"
     ]
   },
-  "themeclass": {
+  "engineclass": {
     "scope": "csharp",
-    "prefix": "themeclass",
+    "prefix": "engineclass",
     "description": "A theme: neutral, primary and surface hues, and the size ladders",
     "body": [
       "[Theme(FallbackHue = \"Neutral\")]",
@@ -132,18 +132,18 @@
       "\\}"
     ]
   },
-  "themeaccent": {
+  "engineaccent": {
     "scope": "csharp",
-    "prefix": "themeaccent",
+    "prefix": "engineaccent",
     "description": "An accent hue: one seed colour that becomes a full light and dark ramp, picked with theme:Accent.Kind",
     "body": [
       "[AccentHue, ColorRamp(HueAware = true)]",
       "[Observable] public virtual partial Color Accent${1:Primary} { get; set; \\} = Color.Parse(\"${2:#2F6FEB}\");$0"
     ]
   },
-  "themesurface": {
+  "enginesurface": {
     "scope": "csharp",
-    "prefix": "themesurface",
+    "prefix": "enginesurface",
     "description": "The canvas hue: its light seed and the seed its dark palette uses",
     "body": [
       "/// <summary>The application canvas.</summary>",
@@ -151,51 +151,51 @@
       "[Observable] public virtual partial Color AccentSurface { get; set; \\} = Color.Parse(\"${1:#FAFAFA}\");$0"
     ]
   },
-  "themerole": {
+  "enginerole": {
     "scope": "csharp",
-    "prefix": "themerole",
+    "prefix": "enginerole",
     "description": "A role: the ramp stage one part uses, in whichever hue the control wears",
     "body": [
       "[AccentRole] protected internal virtual RampStage ${1:BackgroundDefault} => RampStage.${2:Light10};$0"
     ]
   },
-  "themeladder": {
+  "engineladder": {
     "scope": "csharp",
-    "prefix": "themeladder",
+    "prefix": "engineladder",
     "description": "A size ladder on BaseSize: {Name}Sm, {Name}Md… and a {Name}Scale to resize it alone",
     "body": [
       "[SizeScale(Multipliers = [${2:4, 8, 12, 16}], Scalable = true)]",
       "public virtual double ${1:Spacing} => BaseSize;$0"
     ]
   },
-  "themetoken": {
+  "enginetoken": {
     "scope": "csharp",
-    "prefix": "themetoken",
+    "prefix": "enginetoken",
     "description": "A live token: change it at run time and every control follows",
     "body": [
       "[Observable] public virtual partial ${1:double} ${2:HoverScale} { get; set; \\} = ${3:1.05};$0"
     ]
   },
-  "themealign": {
+  "enginealign": {
     "scope": "csharp",
-    "prefix": "themealign",
+    "prefix": "enginealign",
     "description": "An alignment token: {Name}AlignmentHorizontal and {Name}AlignmentVertical in XAML",
     "body": [
       "[Observable] public virtual partial Alignment ${1:Standard}Alignment { get; set; \\} = new(HorizontalAlignment.${2:Left}, VerticalAlignment.${3:Center});$0"
     ]
   },
-  "themefont": {
+  "enginefont": {
     "scope": "csharp",
-    "prefix": "themefont",
+    "prefix": "enginefont",
     "description": "The theme's font, with a FontWeight token per weight",
     "body": [
       "[FontWeights(Weights = [FontWeight.Normal, FontWeight.Medium, FontWeight.SemiBold, FontWeight.Bold], Labels = [\"Regular\", \"Medium\", \"SemiBold\", \"Bold\"])]",
       "[Observable] public virtual partial FontFamily FontFamily { get; set; \\} = new(\"${1:fonts:Inter#Inter}, \\$Default\");$0"
     ]
   },
-  "themegallery": {
+  "enginegallery": {
     "scope": "csharp",
-    "prefix": "themegallery",
+    "prefix": "enginegallery",
     "description": "An icon gallery: every .svg in the folder becomes an {icons:Name}",
     "body": [
       "[IconGallery(SvgFolder = \"${2:Icons/Svg}\")]",
@@ -204,9 +204,9 @@
       "\\}$0"
     ]
   },
-  "themeicons": {
+  "engineicons": {
     "scope": "csharp",
-    "prefix": "themeicons",
+    "prefix": "engineicons",
     "description": "Hands the theme's icon gallery to {icons:...}",
     "body": [
       "public override ${1:MyIcons} Icons => new();$0"
