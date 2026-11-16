@@ -54,17 +54,25 @@ A subclass needs the generator, so reference `AngelSix.ThemeEngine` directly in 
 
 ### Your icons
 
-A custom icon gallery for a theme that extends this one must derive from `ThemeIconGallery` — `DefaultTheme` narrows `Icons` to that type, so a bare gallery fails with `CS1715`:
+A theme that extends this one hands its gallery to `Icons` as a `ThemeIconGallery` — derive from it and every default icon comes with you, while your `.svg` files add to the set. Relative to the project folder, recursively:
+
+```
+MyApp/
+└── MyIcons/
+    └── Svg/
+        ├── Save.svg    → {icons:Save}
+        └── Star.svg    → {icons:Star}
+```
 
 ```csharp
-[IconGallery(SvgFolder = "MyIcons/Svg")]   // optional: each .svg under it becomes one icon
+[IconGallery(SvgFolder = "MyIcons/Svg")]
 public partial class MyIcons : ThemeIconGallery
 {
-    public override string ChevronDown => "M 4 8 L 12 16 L 20 8";   // replace a default drawing
+    public override string ChevronDown => "M 4 8 L 12 16 L 20 8";   // redraw a default icon
 }
 ```
 
-Hand it to the theme with `public override MyIcons Icons => new();`. Every default icon stays usable and `{icons:ChevronDown}` and friends keep working; each file you add becomes `{icons:FileName}`; overriding an inherited property replaces that drawing everywhere — including inside this theme's own control templates, such as the combo-box arrow.
+Hand it over with `public override MyIcons Icons => new();`. `{icons:ChevronDown}` and the rest keep working everywhere the theme uses them — its own control templates included — and overriding an inherited property redraws that one.
 
 ## Change it at runtime
 

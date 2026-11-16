@@ -427,7 +427,7 @@ ThemeFonts.System   <span class="c">// the platform's own UI font, with its fall
     <li><label><input type="checkbox" /><strong>Optionally restyle one control</strong></label>
       Add <code>Controls/Button.axaml</code> in your project to override just that control; every other control keeps the default theme's file. There is no list to update.</li>
     <li><label><input type="checkbox" /><strong>Optionally bring your own icons</strong></label>
-      A gallery here must derive from <code>ThemeIconGallery</code>, not a bare class — see <a href="#how-icons">Icons</a>. Derive it, and every default icon stays alive while yours add to and replace from it.</li>
+      A gallery here derives from <code>ThemeIconGallery</code> — see <a href="#how-icons">Icons</a>. Every default icon stays alive, and yours add to it and redraw from it.</li>
     <li><label><input type="checkbox" /><strong>Build and run</strong></label>
       The whole app draws with the default theme plus your changes. A theme that extends one from another project gets its own hue property, named after the class: <code>theme:BrandAccent.Kind="Brand"</code>. It accepts the new hue and every inherited one. Roles are <code>protected internal</code>, so a theme in another project can override a role's stage; the raw stage stays off the public API.</li>
   </ol>
@@ -581,20 +581,23 @@ ThemeFonts.System   <span class="c">// the platform's own UI font, with its fall
 
   <!-- ---------- icons ---------- -->
   <h3 id="how-icons"><span class="n">8</span>Icons</h3>
-  <p>Point a gallery at a folder of <code>.svg</code> files and each becomes a token:</p>
+  <p>A gallery is a class of icon paths. Point it at a folder and each drawing becomes a token — <code>.svg</code> files are the format it reads today:</p>
   <pre><code><span class="c">// Quick: type enginegallery, then Tab</span>
 [IconGallery(SvgFolder = <span class="s">"Icons/Svg"</span>)]
 <span class="k">public partial class</span> MyIcons { }
 
 <span class="k">public override</span> MyIcons Icons => <span class="k">new</span>();   <span class="c">// in the theme</span></code></pre>
-  <p><code>Icons/Svg/Save.svg</code> is then <code>{icons:Save}</code>. Adding an icon is adding a file. The folder is searched recursively and must hold at least one <code>.svg</code>; a named folder that matches nothing stops the build (<strong>ASTE018</strong>), because getting nothing back is always a mistake. Hand-written <code>string</code> properties can sit alongside the generated ones, and where both name the same icon the hand-written one wins (<strong>ASTE019</strong>) — which is how you alias one name to another, or replace a single drawing.</p>
-  <div class="note warn"><b>A theme that extends the default names a different base class</b>
-  <code>DefaultTheme</code> narrows <code>Icons</code> to its own <code>ThemeIconGallery</code>, so a bare gallery on a subclass of it fails with <code>CS1715: type must be 'ThemeIconGallery' to match overridden member 'DefaultTheme.Icons'</code>. That is C# holding the contract, not a bug — derive the gallery from the type the theme names, and every default icon comes with it:
-<pre><code>[IconGallery(SvgFolder = <span class="s">"Icons/Svg"</span>)]
+<pre><code>MyApp/
+└── Icons/
+    └── Svg/
+        ├── Save.svg    <span class="c">→ {icons:Save}</span>
+        ├── Star.svg    <span class="c">→ {icons:Star}</span>
+        └── Trash.svg   <span class="c">→ {icons:Trash}</span></code></pre>
+  <p><code>SvgFolder</code> is read from the project folder — where the <code>.csproj</code> sits — and searched recursively. The file's name is the token, so adding an icon is adding a file. Hand-written <code>string</code> properties live beside the generated ones, and a hand-written name wins over a file: that is how you alias (<code>public virtual string DropDown =&gt; ChevronDown;</code>) or redraw one icon.</p>
+  <div class="note why"><b>Extending the default theme</b>A gallery there derives from <code>ThemeIconGallery</code> — the type <code>DefaultTheme</code> hands to <code>Icons</code>. Deriving from it is also the gain: every default icon comes with you, your files add to the set, and <code>public override string ChevronDown =&gt; "…"</code> redraws one everywhere the theme uses it, its own control templates included:<pre><code>[IconGallery(SvgFolder = <span class="s">"Icons/Svg"</span>)]
 <span class="k">public partial class</span> MyIcons : ThemeIconGallery { }
 
-<span class="k">public override</span> MyIcons Icons => <span class="k">new</span>();   <span class="c">// in the subclass</span></code></pre>
-  <code>{icons:ChevronDown}</code> and every other default icon stays alive, your files add to the set, and <code>public override string ChevronDown =&gt; "…"</code> replaces one drawing — where the theme's own control templates use it too, such as the combo-box arrow.</div>
+<span class="k">public override</span> MyIcons Icons => <span class="k">new</span>();   <span class="c">// in the subclass</span></code></pre></div>
 
   <!-- ---------- mvvm ---------- -->
   <h3 id="how-mvvm"><span class="n">9</span>AngelSix.Mvvm</h3>
@@ -759,7 +762,7 @@ ThemeFonts.System   <span class="c">// the platform's own UI font, with its fall
       <div class="body">On the <code>FontFamily</code> token: <code>Weights</code> and <code>Labels</code> give <code>{theme:FontWeightBold}</code> and the rest.</div></details>
 
     <details class="term" data-kind="attribute"><summary><code>[IconGallery]</code><span class="kind">Attribute</span><span class="short">A folder of SVG files as icon tokens.</span></summary>
-      <div class="body"><code>SvgFolder</code> is searched recursively. The class must be <code>partial</code>. On a theme that narrows <code>Icons</code> — the default theme's returns <code>ThemeIconGallery</code> — derive the gallery from that type, or the override fails <code>CS1715</code>.</div></details>
+      <div class="body"><code>SvgFolder</code> is read from the project folder, recursively; the format it reads is <code>.svg</code>. The class must be <code>partial</code>, and a gallery for a theme that extends the default derives from <code>ThemeIconGallery</code>: <a href="#how-icons">Icons</a>.</div></details>
 
     <details class="term" data-kind="xaml"><summary><code>{color:…}</code> <code>{size:…}</code> <code>{theme:…}</code> <code>{icons:…}</code><span class="kind">XAML</span><span class="short">The four token namespaces.</span></summary>
       <div class="body">Declare all of them with the <code>enginexml</code> snippet.</div></details>
