@@ -1,0 +1,68 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:icons="using:AngelSix.ThemeEngine.Icons"
+        xmlns:color="using:AngelSix.ThemeEngine.Colors"
+        xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+        xmlns:size="using:AngelSix.ThemeEngine.Sizes"
+        mc:Ignorable="d" d:DesignWidth="640" d:DesignHeight="560"
+        x:Class="AvaloniaThemeLab.Icons.Views.MainWindow"
+        Title="Icons — custom icon pack"
+        Width="640" Height="560">
+
+    <ScrollViewer Padding="{size:Edges {size:SpacingXl}}">
+        <StackPanel Spacing="{size:SpacingLg}" MaxWidth="560">
+
+            <TextBlock Text="Your own icons, one gallery"
+                       FontSize="{size:FontSizeLg}" FontWeight="SemiBold"
+                       Foreground="{color:TextDefault}" />
+            <TextBlock TextWrapping="Wrap" Foreground="{color:TextDefault}"
+                       Text="AppIcons derives from ThemeIconGallery, so the default icons keep working while Icons/Svg/*.svg and two hand-written properties add to the set — and one override redraws ChevronDown everywhere." />
+
+            <StackPanel Spacing="{size:SpacingSm}">
+                <TextBlock Text="The default icons, still alive" FontWeight="SemiBold" Foreground="{color:TextDefault}" />
+                <StackPanel Orientation="Horizontal" Spacing="{size:SpacingLg}">
+                    <PathIcon Width="{size:IconSizeLg}" Height="{size:IconSizeLg}" Data="{icons:Close}" />
+                    <PathIcon Width="{size:IconSizeLg}" Height="{size:IconSizeLg}" Data="{icons:WindowMaximize}" />
+                    <PathIcon Width="{size:IconSizeLg}" Height="{size:IconSizeLg}" Data="{icons:WindowRestore}" />
+                    <PathIcon Width="{size:IconSizeLg}" Height="{size:IconSizeLg}" Data="{icons:ChevronDown}" />
+                    <TextBlock VerticalAlignment="Center" Foreground="{color:TextDefault}"
+                               Text="← the last one is this app's redraw of ChevronDown" />
+                </StackPanel>
+            </StackPanel>
+
+            <StackPanel Spacing="{size:SpacingSm}">
+                <TextBlock Text="From Icons/Svg — one file, one token" FontWeight="SemiBold" Foreground="{color:TextDefault}" />
+                <StackPanel Orientation="Horizontal" Spacing="{size:SpacingLg}">
+                    <PathIcon Width="{size:IconSizeLg}" Height="{size:IconSizeLg}" Data="{icons:Label}" />
+                    <PathIcon Width="{size:IconSizeLg}" Height="{size:IconSizeLg}" Data="{icons:Coffee}" />
+                    <PathIcon Width="{size:IconSizeLg}" Height="{size:IconSizeLg}" Data="{icons:Rocket}" />
+                    <TextBlock VerticalAlignment="Center" Foreground="{color:TextDefault}"
+                               Text="Label, Coffee, Rocket — each is one .svg file" />
+                </StackPanel>
+            </StackPanel>
+
+            <StackPanel Spacing="{size:SpacingSm}">
+                <TextBlock Text="Hand-written and aliased" FontWeight="SemiBold" Foreground="{color:TextDefault}" />
+                <StackPanel Orientation="Horizontal" Spacing="{size:SpacingLg}">
+                    <PathIcon Width="{size:IconSizeLg}" Height="{size:IconSizeLg}" Data="{icons:Heart}" />
+                    <PathIcon Width="{size:IconSizeLg}" Height="{size:IconSizeLg}" Data="{icons:CoffeeCup}" />
+                    <TextBlock VerticalAlignment="Center" Foreground="{color:TextDefault}"
+                               Text="Heart is a literal path; CoffeeCup is an alias of Coffee" />
+                </StackPanel>
+            </StackPanel>
+
+            <StackPanel Spacing="{size:SpacingSm}">
+                <TextBlock Text="Icon.Data on controls" FontWeight="SemiBold" Foreground="{color:TextDefault}" />
+                <StackPanel Orientation="Horizontal" Spacing="{size:SpacingMd}">
+                    <Button theme:Icon.Data="{icons:Rocket}" Content="Launch" />
+                    <Button theme:Icon.Data="{icons:Heart}" theme:Icon.Placement="Right" Content="Like" />
+                    <Button theme:Icon.Data="{icons:Close}" />
+                    <Button theme:Icon.Data="{icons:Label}" Content="Tag" />
+                </StackPanel>
+            </StackPanel>
+
+        </StackPanel>
+    </ScrollViewer>
+</Window>
