@@ -23,7 +23,7 @@ Keep `.WithInterFont()` in `Program.cs`: the theme's font is Inter.
 
 ## The theme reference
 
-`AngelSix.Themes.Default` is not published to nuget.org yet, so the project builds it from this repo with a `ProjectReference`. Once the package is published that becomes a `PackageReference` and nothing else in the app changes — which is exactly the `dotnet add package` step the guide describes.
+`AngelSix.Themes.Default` is on nuget.org, and the guide's `dotnet add package` step installs it. This project builds it from the repo with a `ProjectReference` instead, so a lab change to the theme shows up here at once; swap it for the `PackageReference` and nothing else in the app changes.
 
 ## Where to go next
 

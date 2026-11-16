@@ -52,6 +52,20 @@ public partial class BrandTheme : DefaultTheme
 
 A subclass needs the generator, so reference `AngelSix.ThemeEngine` directly in that project. Styles files in that project (a `Styles` root, no `x:Class`) are loaded with it.
 
+### Your icons
+
+A custom icon gallery for a theme that extends this one must derive from `ThemeIconGallery` — `DefaultTheme` narrows `Icons` to that type, so a bare gallery fails with `CS1715`:
+
+```csharp
+[IconGallery(SvgFolder = "MyIcons/Svg")]   // optional: each .svg under it becomes one icon
+public partial class MyIcons : ThemeIconGallery
+{
+    public override string ChevronDown => "M 4 8 L 12 16 L 20 8";   // replace a default drawing
+}
+```
+
+Hand it to the theme with `public override MyIcons Icons => new();`. Every default icon stays usable and `{icons:ChevronDown}` and friends keep working; each file you add becomes `{icons:FileName}`; overriding an inherited property replaces that drawing everywhere — including inside this theme's own control templates, such as the combo-box arrow.
+
 ## Change it at runtime
 
 The app has one theme. Get it with `Application.Current.Styles.OfType<DefaultTheme>().Single()`, set any token (`theme.BaseSize = 1.25`, `theme.IsDark = true`) and the app follows. `ResetToDefaults()` puts the tokens back.

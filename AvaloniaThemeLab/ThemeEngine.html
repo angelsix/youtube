@@ -332,7 +332,7 @@ dotnet sln MyApp.sln add MyApp/MyApp.csproj</code></pre>
 
   <div class="note why"><b>Why it just works</b>That one line creates the theme. The theme finds and loads all of its control files itself, and registers itself so every token in XAML resolves against it. <a href="#how-load">How it works</a> walks through each step.</div>
 
-  <div class="note"><b>Worked example</b><a href="Examples/AvaloniaThemeLab.GettingStarted/README.md"><code>Examples/AvaloniaThemeLab.GettingStarted</code></a> is this app, already built: the same window as the minimal example, but every control is styled by the default theme — no theme class and no control files of its own. Until the theme package is published it builds the theme from this repo; the app itself is exactly the six steps above.</div>
+  <div class="note"><b>Worked example</b><a href="Examples/AvaloniaThemeLab.GettingStarted/README.md"><code>Examples/AvaloniaThemeLab.GettingStarted</code></a> is this app, already built: the same window as the minimal example, but every control is styled by the default theme — no theme class and no control files of its own. The app itself is exactly the six steps above; the repo copy builds the theme from source in this repo so lab changes show up at once, while your app gets it from nuget.org.</div>
 </section>
 
 <!-- ============================== USING THE DEFAULT THEME ============================== -->
@@ -426,6 +426,8 @@ ThemeFonts.System   <span class="c">// the platform's own UI font, with its fall
       Register <code>BrandTheme.Current</code> in place of <code>DefaultTheme.Current</code> if you use dependency injection.</li>
     <li><label><input type="checkbox" /><strong>Optionally restyle one control</strong></label>
       Add <code>Controls/Button.axaml</code> in your project to override just that control; every other control keeps the default theme's file. There is no list to update.</li>
+    <li><label><input type="checkbox" /><strong>Optionally bring your own icons</strong></label>
+      A gallery here must derive from <code>ThemeIconGallery</code>, not a bare class — see <a href="#how-icons">Icons</a>. Derive it, and every default icon stays alive while yours add to and replace from it.</li>
     <li><label><input type="checkbox" /><strong>Build and run</strong></label>
       The whole app draws with the default theme plus your changes. A theme that extends one from another project gets its own hue property, named after the class: <code>theme:BrandAccent.Kind="Brand"</code>. It accepts the new hue and every inherited one. Roles are <code>protected internal</code>, so a theme in another project can override a role's stage; the raw stage stays off the public API.</li>
   </ol>
@@ -585,7 +587,14 @@ ThemeFonts.System   <span class="c">// the platform's own UI font, with its fall
 <span class="k">public partial class</span> MyIcons { }
 
 <span class="k">public override</span> MyIcons Icons => <span class="k">new</span>();   <span class="c">// in the theme</span></code></pre>
-  <p><code>Icons/Svg/Save.svg</code> is then <code>{icons:Save}</code>. Adding an icon is adding a file.</p>
+  <p><code>Icons/Svg/Save.svg</code> is then <code>{icons:Save}</code>. Adding an icon is adding a file. The folder is searched recursively and must hold at least one <code>.svg</code>; a named folder that matches nothing stops the build (<strong>ASTE018</strong>), because getting nothing back is always a mistake. Hand-written <code>string</code> properties can sit alongside the generated ones, and where both name the same icon the hand-written one wins (<strong>ASTE019</strong>) — which is how you alias one name to another, or replace a single drawing.</p>
+  <div class="note warn"><b>A theme that extends the default names a different base class</b>
+  <code>DefaultTheme</code> narrows <code>Icons</code> to its own <code>ThemeIconGallery</code>, so a bare gallery on a subclass of it fails with <code>CS1715: type must be 'ThemeIconGallery' to match overridden member 'DefaultTheme.Icons'</code>. That is C# holding the contract, not a bug — derive the gallery from the type the theme names, and every default icon comes with it:
+<pre><code>[IconGallery(SvgFolder = <span class="s">"Icons/Svg"</span>)]
+<span class="k">public partial class</span> MyIcons : ThemeIconGallery { }
+
+<span class="k">public override</span> MyIcons Icons => <span class="k">new</span>();   <span class="c">// in the subclass</span></code></pre>
+  <code>{icons:ChevronDown}</code> and every other default icon stays alive, your files add to the set, and <code>public override string ChevronDown =&gt; "…"</code> replaces one drawing — where the theme's own control templates use it too, such as the combo-box arrow.</div>
 
   <!-- ---------- mvvm ---------- -->
   <h3 id="how-mvvm"><span class="n">9</span>AngelSix.Mvvm</h3>
@@ -750,7 +759,7 @@ ThemeFonts.System   <span class="c">// the platform's own UI font, with its fall
       <div class="body">On the <code>FontFamily</code> token: <code>Weights</code> and <code>Labels</code> give <code>{theme:FontWeightBold}</code> and the rest.</div></details>
 
     <details class="term" data-kind="attribute"><summary><code>[IconGallery]</code><span class="kind">Attribute</span><span class="short">A folder of SVG files as icon tokens.</span></summary>
-      <div class="body"><code>SvgFolder</code> is searched recursively. The class must be <code>partial</code>.</div></details>
+      <div class="body"><code>SvgFolder</code> is searched recursively. The class must be <code>partial</code>. On a theme that narrows <code>Icons</code> — the default theme's returns <code>ThemeIconGallery</code> — derive the gallery from that type, or the override fails <code>CS1715</code>.</div></details>
 
     <details class="term" data-kind="xaml"><summary><code>{color:…}</code> <code>{size:…}</code> <code>{theme:…}</code> <code>{icons:…}</code><span class="kind">XAML</span><span class="short">The four token namespaces.</span></summary>
       <div class="body">Declare all of them with the <code>enginexml</code> snippet.</div></details>
