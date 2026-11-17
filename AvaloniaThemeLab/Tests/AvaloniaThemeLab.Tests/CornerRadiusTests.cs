@@ -17,7 +17,7 @@ namespace AvaloniaThemeLab.Tests;
 /// <summary>Large corner radii, drawn the way a person sees them.</summary>
 public sealed class CornerRadiusTests
 {
-    /// <summary>A hue strip's colour fills the same rounded shape as the checkerboard behind it.</summary>
+    /// <summary>A hue strip's color fills the same rounded shape as the checkerboard behind it.</summary>
     [AvaloniaFact]
     public void A_hue_strip_fills_its_whole_pill_at_a_large_radius()
     {
@@ -41,16 +41,16 @@ public sealed class CornerRadiusTests
             var saturation = Math.Max(r, Math.Max(g, b)) - Math.Min(r, Math.Min(g, b));
 
             Assert.True(saturation > 60,
-                $"At (2,14) inside the strip's pill the colour strip leaves a grey pixel ({r},{g},{b}): its fill stops short of the pill.");
+                $"At (2,14) inside the strip's pill the color strip leaves a grey pixel ({r},{g},{b}): its fill stops short of the pill.");
         });
     }
 
-    /// <summary>The strip's colour reaches both of its ends at any radius.</summary>
+    /// <summary>The strip's color reaches both of its ends at any radius.</summary>
     [AvaloniaTheory]
     [InlineData(1.0)]
     [InlineData(1.5)]
     [InlineData(4.0)]
-    public void A_hue_strip_is_coloured_to_both_ends(double radiusScale)
+    public void A_hue_strip_is_colored_to_both_ends(double radiusScale)
     {
         var slider = new ColorSlider
         {
@@ -72,7 +72,7 @@ public sealed class CornerRadiusTests
             {
                 var (r, g, b) = Rgb(frame, x, y);
                 Assert.True(Math.Max(r, Math.Max(g, b)) - Math.Min(r, Math.Min(g, b)) > 60,
-                    $"RadiusScale {radiusScale}: ({x},{y}) on the strip's centre line paints grey ({r},{g},{b}): the colour stops short of the end.");
+                    $"RadiusScale {radiusScale}: ({x},{y}) on the strip's centre line paints grey ({r},{g},{b}): the color stops short of the end.");
             }
         });
     }

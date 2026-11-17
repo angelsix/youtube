@@ -1,6 +1,6 @@
 # AngelSix.Themes.Default
 
-A complete Avalonia 12 theme built on [AngelSix.ThemeEngine](https://www.nuget.org/packages/AngelSix.ThemeEngine). Every control reads its colours, sizes and fonts from one token class, `DefaultTheme`, so a new look is a subclass, not a rewrite.
+A complete Avalonia 12 theme built on [AngelSix.ThemeEngine](https://www.nuget.org/packages/AngelSix.ThemeEngine). Every control reads its colors, sizes and fonts from one token class, `DefaultTheme`, so a new look is a subclass, not a rewrite.
 
 ## Use it
 

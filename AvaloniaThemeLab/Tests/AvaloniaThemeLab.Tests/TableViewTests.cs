@@ -153,7 +153,7 @@ public sealed class TableViewTests
             var inside = Pixel(frame, (int)(origin.X + table.Bounds.Width / 2), (int)(origin.Y + table.Bounds.Height) - (int)radius);
             foreach (var x in new[] { (int)origin.X + offset, (int)(origin.X + table.Bounds.Width) - 1 - offset })
                 Assert.True(Pixel(frame, x, bottom) != inside,
-                    $"The table's bottom arc (r={radius}) at ({x - (int)origin.X},{bottom - (int)origin.Y}) paints its interior colour: something square covers it.");
+                    $"The table's bottom arc (r={radius}) at ({x - (int)origin.X},{bottom - (int)origin.Y}) paints its interior color: something square covers it.");
         }
         finally
         {

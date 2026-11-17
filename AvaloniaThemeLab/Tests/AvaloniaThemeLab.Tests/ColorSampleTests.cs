@@ -18,12 +18,12 @@ using Xunit;
 
 namespace AvaloniaThemeLab.Tests;
 
-/// <summary>The colour entries' samples share one colour per pane, seeded from the selected accent, so the controls follow each other.</summary>
+/// <summary>The color entries' samples share one color per pane, seeded from the selected accent, so the controls follow each other.</summary>
 public sealed class ColorSampleTests
 {
-    private static readonly string[] colourEntries = ["ColorPicker", "ColorPreviewer", "ColorSlider", "ColorSpectrum", "ColorView"];
+    private static readonly string[] colorEntries = ["ColorPicker", "ColorPreviewer", "ColorSlider", "ColorSpectrum", "ColorView"];
 
-    public static TheoryData<string> Entries() => [.. colourEntries];
+    public static TheoryData<string> Entries() => [.. colorEntries];
 
     [AvaloniaTheory]
     [MemberData(nameof(Entries))]
@@ -109,7 +109,7 @@ public sealed class ColorSampleTests
     }
 
     [AvaloniaFact]
-    public void Picking_another_accent_replaces_a_dragged_colour()
+    public void Picking_another_accent_replaces_a_dragged_color()
     {
         var (theme, lab) = Lab();
         var accent = lab.SelectedAccent;
@@ -232,7 +232,7 @@ public sealed class ColorSampleTests
         return window;
     }
 
-    // A ColorSpectrum builds its colour map off the UI thread and ignores the pointer until it has one, which is when it paints its field
+    // A ColorSpectrum builds its color map off the UI thread and ignores the pointer until it has one, which is when it paints its field
     private static void AwaitSpectra(Window window)
     {
         static bool painted(ColorSpectrum spectrum) => spectrum.GetVisualDescendants().OfType<Shape>()

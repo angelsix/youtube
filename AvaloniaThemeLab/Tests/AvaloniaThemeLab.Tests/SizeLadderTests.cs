@@ -64,7 +64,7 @@ public sealed class SizeLadderTests
                 var arc = Pixel(frame, x, (int)origin.Y + offset);
                 var inside = Pixel(frame, (int)(origin.X + calendar.Bounds.Width / 2), (int)origin.Y + (int)radius);
                 Assert.True(arc != inside,
-                    $"The calendar's top arc (r={radius}) at ({x - (int)origin.X},{offset}) paints {arc:X8}, its interior colour: something square covers it.");
+                    $"The calendar's top arc (r={radius}) at ({x - (int)origin.X},{offset}) paints {arc:X8}, its interior color: something square covers it.");
             }
         });
     }
@@ -83,11 +83,11 @@ public sealed class SizeLadderTests
         });
     }
 
-    /// <summary>A pager's arrows and a colour strip are hit targets: they grow and shrink with control height.</summary>
+    /// <summary>A pager's arrows and a color strip are hit targets: they grow and shrink with control height.</summary>
     [AvaloniaTheory]
     [InlineData(1.0)]
     [InlineData(2.0)]
-    public void Pager_arrows_and_colour_strips_follow_control_height(double scale)
+    public void Pager_arrows_and_color_strips_follow_control_height(double scale)
     {
         var pager = new PipsPager { NumberOfPages = 3, IsPreviousButtonVisible = true, IsNextButtonVisible = true };
         var slider = new ColorSlider { Width = 200, ColorModel = ColorModel.Hsva, ColorComponent = ColorComponent.Component1 };

@@ -27,5 +27,5 @@ Keep `.WithInterFont()` in `Program.cs`: the theme's font is Inter.
 
 ## Where to go next
 
-- Want your own colours, hues or sizes on top of this? Subclass `DefaultTheme` — see *Creating your own theme* in the guide, and `AvaloniaThemeLab.ThemePlayground` for a worked example.
+- Want your own colors, hues or sizes on top of this? Subclass `DefaultTheme` — see *Creating your own theme* in the guide, and `AvaloniaThemeLab.ThemePlayground` for a worked example.
 - Want a theme that owes nothing to this one? See *A theme from scratch* in the guide, and `AvaloniaThemeLab.Minimal`.

@@ -11,7 +11,7 @@
     <StackPanel x:Name="Sample" controls:ColorSample.Seed="{color:AccentColor}" Spacing="{size:SpacingXl}" HorizontalAlignment="Left">
       <Label Content="With shades" />
       <ColorPreviewer Width="{size:SurfaceWidthSm}" HsvColor="{Binding #Sample.(controls:ColorSample.HsvColor), Mode=TwoWay}" />
-      <Label Content="Colour only" />
+      <Label Content="Color only" />
       <ColorPreviewer Width="{size:SurfaceWidthSm}" IsAccentColorsVisible="False" HsvColor="{Binding #Sample.(controls:ColorSample.HsvColor), Mode=TwoWay}" />
       <Label Content="Accent ramp, Light10 to Dark10" />
       <!-- The theme's own stages of the pane's accent, lightest to darkest -->
@@ -59,7 +59,7 @@
   <pc:AccentColorConverter x:Key="DefaultColorPreviewerAccentConverter" />
   <converters:ToBrushConverter x:Key="DefaultColorPreviewerBrushConverter" />
 
-  <!-- Checkerboard mask behind translucent colours, shared by every colour control. -->
+  <!-- Checkerboard mask behind translucent colors, shared by every color control. -->
   <DrawingBrush x:Key="DefaultColorCheckerMask" TileMode="Tile" DestinationRect="0,0,8,8">
     <DrawingBrush.Drawing>
       <GeometryDrawing Brush="Black" Geometry="M0,0 H1 V1 H0 Z M1,1 H2 V2 H1 Z" />
@@ -86,7 +86,7 @@
           <!-- Layout root stacking the checkerboard under the swatch row -->
           <Panel>
             <Border x:Name="CheckerSquares" OpacityMask="{StaticResource DefaultColorCheckerMask}" />
-            <!-- Row: two darker shades, the colour, two lighter shades -->
+            <!-- Row: two darker shades, the color, two lighter shades -->
             <Grid ColumnDefinitions="Auto,Auto,*,Auto,Auto">
               <Border x:Name="PART_AccentDecrement2Border"
                       Grid.Column="0"

@@ -32,10 +32,10 @@ public partial class DefaultTheme : ThemeBase
     [AccentHue, ColorRamp(DarkSeed = "#222222")]
     [Observable] public virtual partial Color AccentSurface { get; set; } = Color.Parse("#fdfdfd");
 
-    /// <summary>The focus ring: the one colour that is not a hue.</summary>
+    /// <summary>The focus ring: the one color that is not a hue.</summary>
     [Observable] public virtual partial Color AccentFocus { get; set; } = Color.Parse("#bf4aF9");
 
-    /// <summary>The canvas colour for the current palette.</summary>
+    /// <summary>The canvas color for the current palette.</summary>
     public virtual Color SurfaceDefault => SurfaceSeed;
 
     #endregion Palette
@@ -58,7 +58,7 @@ public partial class DefaultTheme : ThemeBase
     [AccentRole] protected internal virtual RampStage HoverTextDefault => RampStage.Dark7;
     [AccentRole] protected internal virtual RampStage DimTextDefault => RampStage.Dark2;
 
-    /// <summary>Accent-coloured text and marks: a link, a caption, an error message, a tab's selection bar.</summary>
+    /// <summary>Accent-colored text and marks: a link, a caption, an error message, a tab's selection bar.</summary>
     [AccentRole] protected internal virtual RampStage AccentInkDefault => RampStage.Dark3;
 
     // Lines
@@ -69,7 +69,7 @@ public partial class DefaultTheme : ThemeBase
     [AccentRole] protected internal virtual RampStage AccentLineDefault => RampStage.Dark1;
 
     /// <summary>A focused accented control's border while <see cref="FocusColorOnAccents"/> is off.</summary>
-    [AccentRole(NeutralHue = "Neutral", FocusColour = nameof(AccentFocus), FocusSwitch = nameof(FocusColorOnAccents))]
+    [AccentRole(NeutralHue = "Neutral", FocusColor = nameof(AccentFocus), FocusSwitch = nameof(FocusColorOnAccents))]
     protected internal virtual RampStage AccentFocusBorder => RampStage.Dark1;
 
     // Solid fills: a checked, toggled or starred face; a bright seed (yellow) takes the selected tint instead

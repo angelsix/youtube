@@ -62,8 +62,8 @@ public sealed class RegionSurfaceTests
         Render(border, (_, _) =>
         {
             // Only the element the region is set on paints the surface; the region's contents sit on it
-            var colour = (box.Background as ISolidColorBrush)?.Color ?? Colors.Transparent;
-            Assert.Equal(0, colour.A);
+            var color = (box.Background as ISolidColorBrush)?.Color ?? Colors.Transparent;
+            Assert.Equal(0, color.A);
         });
     }
 
@@ -88,7 +88,7 @@ public sealed class RegionSurfaceTests
         }
     }
 
-    // Mean of the three colour channels, so byte order does not matter
+    // Mean of the three color channels, so byte order does not matter
     private static double Lightness(WriteableBitmap frame, int x, int y)
     {
         Assert.InRange(x, 0, frame.PixelSize.Width - 1);

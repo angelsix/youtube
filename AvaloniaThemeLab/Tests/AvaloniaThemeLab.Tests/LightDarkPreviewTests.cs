@@ -136,7 +136,7 @@ public sealed class LightDarkPreviewTests
 
     private static double Lightness(Border pane)
     {
-        var colour = Assert.IsAssignableFrom<ISolidColorBrush>(pane.Background).Color;
-        return (0.2126 * colour.R + 0.7152 * colour.G + 0.0722 * colour.B) / 255;
+        var color = Assert.IsAssignableFrom<ISolidColorBrush>(pane.Background).Color;
+        return (0.2126 * color.R + 0.7152 * color.G + 0.0722 * color.B) / 255;
     }
 }

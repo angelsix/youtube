@@ -221,7 +221,7 @@
   <a class="sub" href="#how-load">Loading the theme</a>
   <a class="sub" href="#how-tokens">Tokens become XAML</a>
   <a class="sub" href="#how-live">Live changes</a>
-  <a class="sub" href="#how-colour">Colour: seeds and ramps</a>
+  <a class="sub" href="#how-color">Color: seeds and ramps</a>
   <a class="sub" href="#how-accent">Hues and roles</a>
   <a class="sub" href="#how-size">Sizes and ladders</a>
   <a class="sub" href="#how-dark">Light and dark</a>
@@ -263,8 +263,8 @@
     <tr><th scope="row">A typo</th><td class="no"><span class="mk">✕</span><s>renders nothing at run time</s></td><td class="yes"><span class="mk">✓</span>fails the build</td></tr>
     <tr><th scope="row">Control files</th><td class="no"><span class="mk">✕</span><s>listed by hand, kept in step</s></td><td class="yes"><span class="mk">✓</span>found at build time</td></tr>
     <tr><th scope="row">Sizes</th><td class="no"><span class="mk">✕</span><s>literals repeated everywhere</s></td><td class="yes"><span class="mk">✓</span>grow from one <code>BaseSize</code></td></tr>
-    <tr><th scope="row">Colours</th><td class="no"><span class="mk">✕</span><s>every shade chosen by hand</s></td><td class="yes"><span class="mk">✓</span>one seed per hue</td></tr>
-    <tr><th scope="row">Accent colours</th><td class="no"><span class="mk">✕</span><s>a copy of each style per colour</s></td><td class="yes"><span class="mk">✓</span>one style, every hue</td></tr>
+    <tr><th scope="row">Colors</th><td class="no"><span class="mk">✕</span><s>every shade chosen by hand</s></td><td class="yes"><span class="mk">✓</span>one seed per hue</td></tr>
+    <tr><th scope="row">Accent colors</th><td class="no"><span class="mk">✕</span><s>a copy of each style per color</s></td><td class="yes"><span class="mk">✓</span>one style, every hue</td></tr>
     <tr><th scope="row">Dark mode</th><td class="no"><span class="mk">✕</span><s>a second set of resources</s></td><td class="yes"><span class="mk">✓</span>the same seeds, one switch</td></tr>
     </tbody>
   </table>
@@ -516,7 +516,7 @@ ThemeFonts.System   <span class="c">// the platform's own UI font, with its fall
   <p>Every public property on the theme is a token. The generator gives each one a markup extension, filed by its C# type:</p>
   <table>
     <tr><th>Prefix</th><th>Holds</th><th>Examples</th></tr>
-    <tr><td><code>{color:…}</code></td><td>Colours and brushes</td><td><code>{color:AccentBrush Light10}</code>, <code>{color:TextDefault}</code></td></tr>
+    <tr><td><code>{color:…}</code></td><td>Colors and brushes</td><td><code>{color:AccentBrush Light10}</code>, <code>{color:TextDefault}</code></td></tr>
     <tr><td><code>{size:…}</code></td><td>Numbers, <code>Thickness</code>, <code>CornerRadius</code></td><td><code>{size:SpacingMd}</code>, <code>{size:RadiusSm}</code></td></tr>
     <tr><td><code>{theme:…}</code></td><td>Everything else</td><td><code>{theme:FontFamily}</code>, <code>{theme:StandardAlignmentHorizontal}</code></td></tr>
     <tr><td><code>{icons:…}</code></td><td>Icon geometry</td><td><code>{icons:Save}</code></td></tr>
@@ -530,9 +530,9 @@ ThemeFonts.System   <span class="c">// the platform's own UI font, with its fall
 [Observable] <span class="k">public virtual partial double</span> HoverScale { <span class="k">get</span>; <span class="k">set</span>; } = <span class="s">1.05</span>;</code></pre>
   <p>The theme implements <code>INotifyPropertyChanged</code> through AngelSix.Mvvm, so a settings screen can bind straight to it: <code>Value="{Binding Theme.BaseSize}"</code>. <code>ResetToDefaults()</code> puts every <code>[Observable]</code> token, and every generated scale, back to its declared value.</p>
 
-  <!-- ---------- colour ---------- -->
-  <h3 id="how-colour"><span class="n">4</span>Colour: seeds and ramps</h3>
-  <p>A hue is one colour. <code>[ColorRamp]</code> turns that seed into twenty stages: <code>Light1</code> to <code>Light10</code> towards the canvas, and <code>Dark1</code> to <code>Dark10</code> towards the ink.</p>
+  <!-- ---------- color ---------- -->
+  <h3 id="how-color"><span class="n">4</span>Color: seeds and ramps</h3>
+  <p>A hue is one color. <code>[ColorRamp]</code> turns that seed into twenty stages: <code>Light1</code> to <code>Light10</code> towards the canvas, and <code>Dark1</code> to <code>Dark10</code> towards the ink.</p>
   <div class="ramp" aria-hidden="true">
     <span style="background:oklch(0.98 0.012 250)"></span><span style="background:oklch(0.95 0.025 250)"></span><span style="background:oklch(0.9 0.05 250)"></span><span style="background:oklch(0.83 0.08 250)"></span><span style="background:oklch(0.75 0.11 250)"></span>
     <span class="seed" style="background:oklch(0.6 0.15 255)"></span>
@@ -542,7 +542,7 @@ ThemeFonts.System   <span class="c">// the platform's own UI font, with its fall
   <ul>
     <li><code>HueAware = true</code> puts stage N at the same perceived lightness in every hue, so a role keeps its contrast whatever hue a control wears.</li>
     <li>The light palette's ink is drawn through an <code>InkProfile</code>, so orange reads as rust rather than brown, still from the one seed.</li>
-    <li><code>IsDark</code> mirrors every ramp for the dark palette. <code>DarkSeed</code> re-centres a ramp on another colour in the dark.</li>
+    <li><code>IsDark</code> mirrors every ramp for the dark palette. <code>DarkSeed</code> re-centres a ramp on another color in the dark.</li>
   </ul>
   <div class="note why"><b>The point</b>Change one seed and its whole family follows: every stage, light and dark, every control that uses it.</div>
 
@@ -556,7 +556,7 @@ ThemeFonts.System   <span class="c">// the platform's own UI font, with its fall
   <p>A <em>role</em> names a stage that recurs, so the theme decides it once:</p>
   <pre><code><span class="c">// Quick: type enginerole, then Tab</span>
 [AccentRole] <span class="k">protected internal virtual</span> RampStage BorderDefault => RampStage.Light1;</code></pre>
-  <p><code>{color:BorderDefault}</code> is then <code>Light1</code> of whatever hue the control wears. Roles can also follow policies: <code>PinHue</code> (always one hue), <code>BrightStage</code> (a softer stage for a very light seed like yellow), <code>ContrastAgainst</code> (pick light or dark ink against a fill) and focus colours.</p>
+  <p><code>{color:BorderDefault}</code> is then <code>Light1</code> of whatever hue the control wears. Roles can also follow policies: <code>PinHue</code> (always one hue), <code>BrightStage</code> (a softer stage for a very light seed like yellow), <code>ContrastAgainst</code> (pick light or dark ink against a fill) and focus colors.</p>
 
   <!-- ---------- sizes ---------- -->
   <h3 id="how-size"><span class="n">6</span>Sizes and ladders</h3>
@@ -689,7 +689,7 @@ ThemeFonts.System   <span class="c">// the platform's own UI font, with its fall
     <li><b>Shorthands.</b> <code>{size:Scaled 520}</code>, <code>{size:Edges {…}}</code> and <code>ConcentricCorners</code> defaults.</li>
     <li><b>Alignment tokens.</b> <code>StandardAlignment</code> and <code>ButtonAlignment</code>, split into the halves XAML binds.</li>
     <li><b>Editor snippets.</b> <code>enginexml</code> and the rest, written for Rider and VS Code at build time — and <code>vm</code>, <code>vmcommand</code> and friends from AngelSix.Mvvm.</li>
-    <li><b>Shared brushes.</b> One brush instance per colour, which fixes a transition stack overflow.</li>
+    <li><b>Shared brushes.</b> One brush instance per color, which fixes a transition stack overflow.</li>
     <li><b>Fonts register themselves.</b> <code>AngelSix.ThemeEngine.Fonts</code> embeds Inter (SIL OFL) and registers it on first use: <code>ThemeFonts.Inter</code>, <code>ThemeFonts.System</code>, or the string form. No <code>.WithInterFont()</code>.</li>
   </ul>
 </section>
@@ -741,7 +741,7 @@ ThemeFonts.System   <span class="c">// the platform's own UI font, with its fall
     <details class="term" data-kind="attribute"><summary><code>[Theme]</code><span class="kind">Attribute</span><span class="short">Marks a class as a theme.</span></summary>
       <div class="body"><code>FallbackHue</code> is the hue a control wears when it sets no <code>Accent.Kind</code>. <code>CanvasHue</code> names the canvas hue. <code>AccentPrefix</code> names the hue property of a theme that extends another project's palette (by default the class name, so <code>BrandTheme</code> gives <code>BrandAccent.Kind</code>).</div></details>
 
-    <details class="term" data-kind="attribute"><summary><code>[ColorRamp]</code><span class="kind">Attribute</span><span class="short">Turns a seed colour into twenty stages.</span></summary>
+    <details class="term" data-kind="attribute"><summary><code>[ColorRamp]</code><span class="kind">Attribute</span><span class="short">Turns a seed color into twenty stages.</span></summary>
       <div class="body"><code>HueAware</code> equal lightness across hues · <code>DarkSeed</code> the dark palette's centre · <code>OverlayLevels</code> translucent overlay brushes · <code>Stages</code> stages per side (10) · <code>InvertRamp</code> invert through black in the dark.</div></details>
 
     <details class="term" data-kind="attribute"><summary><code>[AccentHue]</code><span class="kind">Attribute</span><span class="short">Makes a ramp a hue that controls can wear.</span></summary>
@@ -750,7 +750,7 @@ ThemeFonts.System   <span class="c">// the platform's own UI font, with its fall
 [Observable] <span class="k">public virtual partial</span> Color AccentPrimary { <span class="k">get</span>; <span class="k">set</span>; } = Color.Parse(<span class="s">"#2F6FEB"</span>);</code></pre></div></details>
 
     <details class="term" data-kind="attribute"><summary><code>[AccentRole]</code><span class="kind">Attribute</span><span class="short">Names the stage a part uses, in the control's hue.</span></summary>
-      <div class="body">Policies: <code>PinHue</code>, <code>BrightStage</code>, <code>BrightThreshold</code>, <code>ContrastAgainst</code> with <code>Alternate</code>, <code>FocusColour</code> with <code>FocusSwitch</code> and <code>NeutralHue</code>.<pre><code><span class="c">// Quick: type enginerole, then Tab</span>
+      <div class="body">Policies: <code>PinHue</code>, <code>BrightStage</code>, <code>BrightThreshold</code>, <code>ContrastAgainst</code> with <code>Alternate</code>, <code>FocusColor</code> with <code>FocusSwitch</code> and <code>NeutralHue</code>.<pre><code><span class="c">// Quick: type enginerole, then Tab</span>
 [AccentRole] <span class="k">protected internal virtual</span> RampStage TextDefault => RampStage.Dark9;</code></pre></div></details>
 
     <details class="term" data-kind="attribute"><summary><code>[SizeScale]</code><span class="kind">Attribute</span><span class="short">Builds a ladder of size tokens.</span></summary>

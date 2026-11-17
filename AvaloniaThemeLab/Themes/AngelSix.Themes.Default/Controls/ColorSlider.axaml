@@ -8,7 +8,7 @@
   <DataTemplate x:Key="ColorSliderPreview">
     <Grid x:Name="Sample" controls:ColorSample.Seed="{color:AccentColor}" ColumnDefinitions="Auto,Auto">
       <StackPanel Spacing="{size:SpacingXl}">
-        <Label Content="Colour" />
+        <Label Content="Color" />
         <ColorPreviewer Width="{size:SurfaceWidthSm}" IsAccentColorsVisible="False" HsvColor="{Binding #Sample.(controls:ColorSample.HsvColor), Mode=TwoWay}" />
         <Label Content="Hue" />
         <ColorSlider Width="{size:SurfaceWidthSm}" ColorModel="Hsva" ColorComponent="Component1" IsPerceptive="True" HsvColor="{Binding #Sample.(controls:ColorSample.HsvColor), Mode=TwoWay}" />
@@ -52,7 +52,7 @@
     </Setter>
   </ControlTheme>
 
-  <!-- Thumb: a ring that rides the strip, so the colour under it stays visible -->
+  <!-- Thumb: a ring that rides the strip, so the color under it stays visible -->
   <ControlTheme x:Key="DefaultColorSliderThumb" TargetType="Thumb">
     <Setter Property="Background" Value="Transparent" />
     <Setter Property="BorderBrush" Value="{color:TextDefault}" />
@@ -80,7 +80,7 @@
     <!-- Template: one for both orientations; the track follows Orientation -->
     <Setter Property="Template">
       <ControlTemplate>
-        <!-- Layout root stacking checkerboard, colour strip and track -->
+        <!-- Layout root stacking checkerboard, color strip and track -->
         <Panel>
           <Border x:Name="CheckerBase" CornerRadius="{TemplateBinding CornerRadius}" />
           <Border x:Name="CheckerSquares"
@@ -89,7 +89,7 @@
           <Border x:Name="Strip"
                   Background="{TemplateBinding Background}"
                   CornerRadius="{TemplateBinding CornerRadius}" />
-          <!-- The strip's outline, drawn over the colour -->
+          <!-- The strip's outline, drawn over the color -->
           <Border x:Name="Outline"
                   BorderBrush="{TemplateBinding BorderBrush}"
                   BorderThickness="{TemplateBinding BorderThickness}"
@@ -141,7 +141,7 @@
       </Style>
     </Style>
 
-    <!-- Thumb ring: dark on a light colour, light on a dark one, whatever the palette. -->
+    <!-- Thumb ring: dark on a light color, light on a dark one, whatever the palette. -->
     <Style Selector="^:dark-selector /template/ Thumb#ColorSliderThumb">
       <Setter Property="BorderBrush" Value="{color:AccentNeutralBrush}" />
     </Style>

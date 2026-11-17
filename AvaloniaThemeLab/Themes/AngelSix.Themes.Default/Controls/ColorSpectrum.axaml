@@ -61,13 +61,13 @@
                        IsVisible="{TemplateBinding Shape, Converter={StaticResource DefaultColorSpectrumShapeConverter}, ConverterParameter={x:Static ColorSpectrumShape.Box}}"
                        RadiusX="{TemplateBinding CornerRadius, Converter={StaticResource DefaultColorSpectrumRadiusConverter}}"
                        RadiusY="{TemplateBinding CornerRadius, Converter={StaticResource DefaultColorSpectrumRadiusConverter}}" />
-            <!-- The colour field's second layer, painted in code -->
+            <!-- The color field's second layer, painted in code -->
             <Rectangle x:Name="PART_SpectrumOverlayRectangle"
                        IsHitTestVisible="False"
                        IsVisible="{TemplateBinding Shape, Converter={StaticResource DefaultColorSpectrumShapeConverter}, ConverterParameter={x:Static ColorSpectrumShape.Box}}"
                        RadiusX="{TemplateBinding CornerRadius, Converter={StaticResource DefaultColorSpectrumRadiusConverter}}"
                        RadiusY="{TemplateBinding CornerRadius, Converter={StaticResource DefaultColorSpectrumRadiusConverter}}" />
-            <!-- The round colour field, painted in code -->
+            <!-- The round color field, painted in code -->
             <Ellipse x:Name="PART_SpectrumEllipse"
                      IsHitTestVisible="False"
                      IsVisible="{TemplateBinding Shape, Converter={StaticResource DefaultColorSpectrumShapeConverter}, ConverterParameter={x:Static ColorSpectrumShape.Ring}}" />
@@ -87,7 +87,7 @@
                      IsVisible="{TemplateBinding Shape, Converter={StaticResource DefaultColorSpectrumShapeConverter}, ConverterParameter={x:Static ColorSpectrumShape.Ring}}" />
             <!-- Transparent, not empty: a Canvas with no fill takes no pointer input -->
             <Canvas x:Name="PART_InputTarget" Background="Transparent">
-              <!-- The marker on the chosen colour, placed in code -->
+              <!-- The marker on the chosen color, placed in code -->
               <Panel x:Name="PART_SelectionEllipsePanel">
                 <Ellipse x:Name="SelectionEllipse" IsHitTestVisible="False" />
               </Panel>
@@ -115,7 +115,7 @@
       <Setter Property="Height" Value="{size:IconSizeXl}" />
     </Style>
 
-    <!-- Marker ring: dark on a light colour, light on a dark one, whatever the palette -->
+    <!-- Marker ring: dark on a light color, light on a dark one, whatever the palette -->
     <Style Selector="^ /template/ Ellipse#SelectionEllipse">
       <Setter Property="StrokeThickness" Value="{size:ThicknessMdDouble}" />
       <Setter Property="Stroke" Value="{color:AccentNeutralBrush}" />

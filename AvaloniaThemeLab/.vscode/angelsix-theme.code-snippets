@@ -135,7 +135,7 @@
   "engineaccent": {
     "scope": "csharp",
     "prefix": "engineaccent",
-    "description": "An accent hue: one seed colour that becomes a full light and dark ramp, picked with theme:Accent.Kind",
+    "description": "An accent hue: one seed color that becomes a full light and dark ramp, picked with theme:Accent.Kind",
     "body": [
       "[AccentHue, ColorRamp(HueAware = true)]",
       "[Observable] public virtual partial Color Accent${1:Primary} { get; set; \\} = Color.Parse(\"${2:#2F6FEB}\");$0"
@@ -198,6 +198,7 @@
     "prefix": "enginegallery",
     "description": "An icon gallery: every .svg in the folder becomes an {icons:Name}",
     "body": [
+      "// Extending DefaultTheme? Derive from ThemeIconGallery — it brings every default icon.",
       "[IconGallery(SvgFolder = \"${2:Icons/Svg}\")]",
       "public partial class ${1:MyIcons}",
       "{",
