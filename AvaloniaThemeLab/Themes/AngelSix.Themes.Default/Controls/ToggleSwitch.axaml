@@ -18,6 +18,27 @@
       <ToggleSwitch Content="Warning" theme:Accent.Kind="Warning" IsChecked="True" />
       <ToggleSwitch Content="Favourite" theme:Accent.Kind="Favourite" IsChecked="True" />
       <ToggleSwitch Content="Success" theme:Accent.Kind="Success" />
+
+      <!-- The knob's glyph slot, driven entirely from this page: one style per state, no retemplate.
+           A consumer's page sets default:SwitchKnob.Content exactly like this. -->
+      <ToggleSwitch Content="Day / night" IsChecked="True">
+        <ToggleSwitch.Styles>
+          <Style Selector="ToggleSwitch:unchecked">
+            <Setter Property="default:SwitchKnob.Content">
+              <Template>
+                <Path Data="M12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10M12 1v2m0 18v2M1 12h2m18 0h2M4.2 4.2l1.4 1.4m12.8 12.8 1.4 1.4M19.8 4.2l-1.4 1.4M5.6 18.4 4.2 19.8" Stroke="{color:TextDefault}" StrokeThickness="1" Stretch="Uniform" Width="{size:Scaled {size:ControlHeightSm}, 0.3125}" Height="{size:Scaled {size:ControlHeightSm}, 0.3125}" />
+              </Template>
+            </Setter>
+          </Style>
+          <Style Selector="ToggleSwitch:checked">
+            <Setter Property="default:SwitchKnob.Content">
+              <Template>
+                <Path Data="M12 3a9 9 0 1 0 9 9 7 7 0 0 1-9-9" Fill="{color:OnSolidFillInkDefault}" Stretch="Uniform" Width="{size:Scaled {size:ControlHeightSm}, 0.3125}" Height="{size:Scaled {size:ControlHeightSm}, 0.3125}" />
+              </Template>
+            </Setter>
+          </Style>
+        </ToggleSwitch.Styles>
+      </ToggleSwitch>
     </StackPanel>
   </DataTemplate>
 
@@ -141,6 +162,16 @@
                       <Panel Margin="{size:Edges {size:ThicknessSmDouble}}">
                         <Ellipse x:Name="SwitchKnobOn" Width="{size:Scaled {size:ControlHeightSm}, 0.3125}" Height="{size:Scaled {size:ControlHeightSm}, 0.3125}" MinWidth="{size:Scaled 6}" MinHeight="{size:Scaled 6}" Margin="{size:Edges {size:SpacingMd}}" />
                         <Ellipse x:Name="SwitchKnobOff" Width="{size:Scaled {size:ControlHeightSm}, 0.3125}" Height="{size:Scaled {size:ControlHeightSm}, 0.3125}" MinWidth="{size:Scaled 6}" MinHeight="{size:Scaled 6}" Margin="{size:Edges {size:SpacingMd}}" />
+                        <!-- The knob's icon slot: draws nothing until a consumer sets SwitchKnob.Content, so an unset hook leaves the knob exactly as it was. -->
+                        <ContentPresenter
+                            x:Name="PART_KnobContent"
+                            Margin="{size:Edges {size:SpacingMd}}"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            Content="{Binding (default:SwitchKnob.Content), RelativeSource={RelativeSource TemplatedParent}}"
+                            IsHitTestVisible="False" />
                       </Panel>
                     </Panel>
                   </Canvas>
