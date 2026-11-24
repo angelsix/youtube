@@ -62,10 +62,10 @@
   "vmasynccommand": {
     "scope": "csharp",
     "prefix": "vmasynccommand",
-    "description": "An async command: {Name}Command starts the Task; the Async suffix is dropped from the command's name",
+    "description": "An async command: {Name}Command is an IAsyncRelayCommand with IsRunning, ExecuteAsync and Cancel; the Async suffix is dropped from the command's name",
     "body": [
       "[Command]",
-      "private async Task ${1:Load}Async()",
+      "private async Task ${1:Load}Async(CancellationToken token)",
       "{",
       "    $0",
       "\\}"

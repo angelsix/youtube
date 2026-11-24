@@ -1,8 +1,8 @@
 {
-  "enginexml": {
+  "enginenamespaces": {
     "scope": "xml,axaml,xaml",
-    "prefix": "enginexml",
-    "description": "Theme engine XML namespaces, on a root element",
+    "prefix": "enginenamespaces",
+    "description": "The theme engine xmlns declarations (theme, color, size, controls, icons) for a root element",
     "body": [
       "xmlns:theme=\"using:AngelSix.ThemeEngine.Generated\"",
       "xmlns:color=\"using:AngelSix.ThemeEngine.Colors\"",
@@ -14,7 +14,7 @@
   "enginecontrol": {
     "scope": "xml,axaml,xaml",
     "prefix": "enginecontrol",
-    "description": "A control theme file: its preview, the designer preview and the ControlTheme (the preview needs AngelSix.ThemeEngine.Controls)",
+    "description": "A control theme file: the control's preview template, the designer preview and the ControlTheme (the preview needs AngelSix.ThemeEngine.Controls)",
     "body": [
       "<ResourceDictionary xmlns=\"https://github.com/avaloniaui\"",
       "                    xmlns:x=\"http://schemas.microsoft.com/winfx/2006/xaml\"",
@@ -65,10 +65,10 @@
       "</ResourceDictionary>"
     ]
   },
-  "enginepreview": {
+  "enginecontrolpreview": {
     "scope": "xml,axaml,xaml",
-    "prefix": "enginepreview",
-    "description": "A control's preview: its {Name}Preview template and the designer preview that shows it (needs AngelSix.ThemeEngine.Controls)",
+    "prefix": "enginecontrolpreview",
+    "description": "A control's preview: the {Control}Preview template and the Design.PreviewWith that shows it (needs AngelSix.ThemeEngine.Controls)",
     "body": [
       "<DataTemplate x:Key=\"${1:Button}Preview\">",
       "  <StackPanel Spacing=\"{size:SpacingMd\\}\">",
@@ -89,24 +89,47 @@
       "</Design.PreviewWith>"
     ]
   },
-  "enginestate": {
+  "enginecontrolstyle": {
     "scope": "xml,axaml,xaml",
-    "prefix": "enginestate",
-    "description": "A state style inside a ControlTheme: one template part takes another ramp stage",
+    "prefix": "enginecontrolstyle",
+    "description": "A plain style inside a ControlTheme: one template part takes a ramp stage; edit the Selector for a state such as ^:pointerover",
     "body": [
-      "<Style Selector=\"^:${1:pointerover} /template/ ${2:Border#PART_Border}\">",
-      "  <Setter Property=\"${3:Background}\" Value=\"{color:AccentBrush ${4:Light8}\\}\" />$0",
+      "<Style Selector=\"${1:^ /template/ Border#PART_Border}\">",
+      "  <Setter Property=\"${2:Background}\" Value=\"{color:AccentBrush ${3:Light10}\\}\" />$0",
       "</Style>"
     ]
   },
-  "engineclass": {
+  "themeclass": {
     "scope": "csharp",
-    "prefix": "engineclass",
-    "description": "A theme: neutral, primary and surface hues, and the size ladders",
+    "prefix": "themeclass",
+    "description": "A theme class: one Defaults region (plain reuses, then stage defaults), then Seeds, Sizes and Typography",
     "body": [
       "[Theme(FallbackHue = \"Neutral\")]",
       "public partial class ${1:My}Theme : ThemeBase",
       "{",
+      "    #region Defaults",
+      "",
+      "    // Surfaces",
+      "    public virtual Color SurfaceDefault => SurfaceSeed;",
+      "    [StageDefault] protected internal virtual Stage BackgroundDefault => Stage.Light10;",
+      "    [StageDefault] protected internal virtual Stage CardDefault => Stage.Light10;",
+      "",
+      "    // Text",
+      "    [StageDefault(PinHue = \"Neutral\")] protected internal virtual Stage TextDefault => Stage.Dark9;",
+      "    [StageDefault(PinHue = \"Neutral\")] protected internal virtual Stage DimTextDefault => Stage.Dark5;",
+      "",
+      "    // Lines",
+      "    [StageDefault] protected internal virtual Stage BorderDefault => Stage.Light2;",
+      "",
+      "    // Solid fills",
+      "    [StageDefault] protected internal virtual Stage SolidFillDefault => Stage.Dark3;",
+      "    [StageDefault(ContrastStage = nameof(SolidFillDefault), AlternateStage = nameof(TextDefault))]",
+      "    protected internal virtual Stage OnSolidFillInkDefault => Stage.Light10;",
+      "",
+      "    #endregion Defaults",
+      "",
+      "    #region Seeds",
+      "",
       "    [AccentHue, ColorRamp(HueAware = true, DarkSeed = \"#D1D1D1\")]",
       "    [Observable] public virtual partial Color AccentNeutral { get; set; \\} = Color.Parse(\"#2E2E2E\");",
       "",
@@ -117,6 +140,10 @@
       "    [AccentHue, ColorRamp(DarkSeed = \"#1E1E1E\")]",
       "    [Observable] public virtual partial Color AccentSurface { get; set; \\} = Color.Parse(\"#FAFAFA\");",
       "",
+      "    #endregion Seeds",
+      "",
+      "    #region Sizes",
+      "",
       "    [SizeScale(Multipliers = [4, 8, 12, 16])]",
       "    public virtual double Spacing => BaseSize;",
       "",
@@ -126,77 +153,75 @@
       "    [SizeScale(Multipliers = [1, 2], Types = [typeof(Thickness)], TypeSuffixes = [\"\"], Floor = 1)]",
       "    public virtual double Thickness => BaseSize;",
       "",
+      "    #endregion Sizes",
+      "",
+      "    #region Typography",
+      "",
       "    [SizeScale(Multipliers = [12, 14, 20])]",
       "    public virtual double FontSize => BaseSize;",
+      "",
+      "    #endregion Typography",
       "$0",
       "\\}"
     ]
   },
-  "engineaccent": {
+  "themeaccent": {
     "scope": "csharp",
-    "prefix": "engineaccent",
-    "description": "An accent hue: one seed color that becomes a full light and dark ramp, picked with theme:Accent.Kind",
+    "prefix": "themeaccent",
+    "description": "An accent hue seed: one colour that becomes a full light and dark ramp, selectable with theme:Accent.Kind",
     "body": [
       "[AccentHue, ColorRamp(HueAware = true)]",
       "[Observable] public virtual partial Color Accent${1:Primary} { get; set; \\} = Color.Parse(\"${2:#2F6FEB}\");$0"
     ]
   },
-  "enginesurface": {
+  "themesurface": {
     "scope": "csharp",
-    "prefix": "enginesurface",
-    "description": "The canvas hue: its light seed and the seed its dark palette uses",
+    "prefix": "themesurface",
+    "description": "The canvas hue seed and the seed its dark palette uses",
     "body": [
       "/// <summary>The application canvas.</summary>",
       "[AccentHue, ColorRamp(DarkSeed = \"${2:#1E1E1E}\")]",
       "[Observable] public virtual partial Color AccentSurface { get; set; \\} = Color.Parse(\"${1:#FAFAFA}\");$0"
     ]
   },
-  "enginerole": {
+  "themeladder": {
     "scope": "csharp",
-    "prefix": "enginerole",
-    "description": "A role: the ramp stage one part uses, in whichever hue the control wears",
-    "body": [
-      "[AccentRole] protected internal virtual RampStage ${1:BackgroundDefault} => RampStage.${2:Light10};$0"
-    ]
-  },
-  "engineladder": {
-    "scope": "csharp",
-    "prefix": "engineladder",
+    "prefix": "themeladder",
     "description": "A size ladder on BaseSize: {Name}Sm, {Name}Md… and a {Name}Scale to resize it alone",
     "body": [
       "[SizeScale(Multipliers = [${2:4, 8, 12, 16}], Scalable = true)]",
       "public virtual double ${1:Spacing} => BaseSize;$0"
     ]
   },
-  "enginetoken": {
+  "themeproperty": {
     "scope": "csharp",
-    "prefix": "enginetoken",
-    "description": "A live token: change it at run time and every control follows",
+    "prefix": "themeproperty",
+    "description": "A live [Observable] token: change it at run time and every control follows",
     "body": [
-      "[Observable] public virtual partial ${1:double} ${2:HoverScale} { get; set; \\} = ${3:1.05};$0"
+      "[Observable] public virtual partial ${2:double} ${1:HoverScale} { get; set; \\} = ${3:1.05};$0"
     ]
   },
-  "enginealign": {
+  "themealign": {
     "scope": "csharp",
-    "prefix": "enginealign",
+    "prefix": "themealign",
     "description": "An alignment token: {Name}AlignmentHorizontal and {Name}AlignmentVertical in XAML",
     "body": [
       "[Observable] public virtual partial Alignment ${1:Standard}Alignment { get; set; \\} = new(HorizontalAlignment.${2:Left}, VerticalAlignment.${3:Center});$0"
     ]
   },
-  "enginefont": {
+  "themefont": {
     "scope": "csharp",
-    "prefix": "enginefont",
-    "description": "The theme's font, with a FontWeight token per weight",
+    "prefix": "themefont",
+    "description": "The theme's font family and one FontWeight token per weight",
     "body": [
       "[FontWeights(Weights = [FontWeight.Normal, FontWeight.Medium, FontWeight.SemiBold, FontWeight.Bold], Labels = [\"Regular\", \"Medium\", \"SemiBold\", \"Bold\"])]",
       "[Observable] public virtual partial FontFamily FontFamily { get; set; \\} = new(\"${1:fonts:Inter#Inter}, \\$Default\");$0"
     ]
   },
-  "enginegallery": {
+  "themegallery": {
     "scope": "csharp",
-    "prefix": "enginegallery",
-    "description": "An icon gallery: every .svg in the folder becomes an {icons:Name}",
+    "prefix": "themegallery",
+    "description": "An icon gallery class: every .svg in the folder becomes an {icons:Name}",
     "body": [
       "// Extending DefaultTheme? Derive from ThemeIconGallery — it brings every default icon.",
       "[IconGallery(SvgFolder = \"${2:Icons/Svg}\")]",
@@ -205,10 +230,10 @@
       "\\}$0"
     ]
   },
-  "engineicons": {
+  "themeicons": {
     "scope": "csharp",
-    "prefix": "engineicons",
-    "description": "Hands the theme's icon gallery to {icons:...}",
+    "prefix": "themeicons",
+    "description": "The theme's Icons override, handing its icon gallery to {icons:Name}",
     "body": [
       "public override ${1:MyIcons} Icons => new();$0"
     ]
