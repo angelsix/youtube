@@ -7,7 +7,7 @@ Fault manifest: faults.json
 
 Every peer review of a change under this repo carries these rules verbatim, and the reviewer reports each one by its id as a row in its `## Verification` section. Each rule names the SURFACE to drive, the ACTION to perform, what it MUST do, what it MUST NOT do, and the ENVIRONMENT it must hold in. Ids are stable and never reused. Add a rule with `guard docs verification-rules <repo> --add --folder <dir> --surface … --action … --must … --must-not … --env …`; never hand-format one.
 
-Last id: R6
+Last id: R7
 
 ## Rules
 
@@ -65,3 +65,9 @@ R6. Surface: develop on the GitHub remote https://github.com/angelsix/youtube.gi
    Proof origin: file:///Users/lukemalpass/Documents/GitHub/youtube
    Proof auth: none
    Mutates: no
+
+R7. Surface: the ToggleSwitch control surface, Themes/AngelSix.Themes.Default/Controls/ToggleSwitch.axaml, shot through the lab's own preview of the control (theme-lab-shot.sh ToggleSwitch) with nothing added
+   Action: Look at the switch's knob in the unchecked and the checked state, at ThicknessScale 1 and 6, in light and dark, and build plus test the lab solution
+   Must: The knob shows exactly one clean edge in both states at every scale: one stroke or one fill meeting the track, no second concentric arc round the knob, no backdrop colour visible between the knob and the track edge; dot and track keep their existing geometry (40x20 track, 10x10 dot at scale 1) and the lab builds with 0 errors and its tests stay green; every part name still present and addressable (OuterBorder, SwitchKnobBounds, PART_KnobContent, SwitchKnobOn, SwitchKnobOff, PART_SwitchKnob)
+   Must not: Any layout hack or restyle in a consumer app or the demo to hide it, any part deleted or renamed to dodge the styles, or any other control's appearance changed
+   Environment: desktop; origin=local build of AvaloniaThemeLab.sln against the local theme-feed pack; auth=none
