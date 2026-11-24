@@ -9,7 +9,31 @@ namespace AvaloniaThemeLab.Minimal.Theme;
 [Theme(FallbackHue = "Neutral")]
 public partial class MinimalTheme : ThemeBase
 {
-    #region Palette
+    #region Defaults
+
+    // What the theme falls back to: a plain reuse of a seed first, then the stage each part of a control defaults to
+
+    /// <summary>The window canvas: the surface seed, or its DarkSeed in the dark palette.</summary>
+    public virtual Color WindowBackground => SurfaceSeed;
+
+    // Surfaces
+    [StageDefault] internal virtual Stage ButtonBackground => Stage.Light10;
+
+    [StageDefault] internal virtual Stage ButtonHoverBackground => Stage.Light8;
+
+    [StageDefault] internal virtual Stage ButtonPressedBackground => Stage.Light6;
+
+    // Text
+    [StageDefault(PinHue = "Neutral")] internal virtual Stage WindowText => Stage.Dark9;
+
+    [StageDefault] internal virtual Stage ButtonText => Stage.Dark9;
+
+    // Lines
+    [StageDefault] internal virtual Stage ButtonBorder => Stage.Light1;
+
+    #endregion Defaults
+
+    #region Seeds
 
     [AccentHue, ColorRamp(HueAware = true, DarkSeed = "#D1D1D1")]
     [Observable] public virtual partial Color AccentNeutral { get; set; } = Color.Parse("#2E2E2E");
@@ -23,26 +47,7 @@ public partial class MinimalTheme : ThemeBase
     [AccentHue, ColorRamp(DarkSeed = "#1E1E1E")]
     [Observable] public virtual partial Color AccentSurface { get; set; } = Color.Parse("#FAFAFA");
 
-    #endregion Palette
-
-    #region Roles
-
-    /// <summary>The window canvas: the surface seed, or its DarkSeed in the dark palette.</summary>
-    public virtual Color WindowBackground => SurfaceSeed;
-
-    [AccentRole(PinHue = "Neutral")] internal virtual RampStage WindowText => RampStage.Dark9;
-
-    [AccentRole] internal virtual RampStage ButtonText => RampStage.Dark9;
-
-    [AccentRole] internal virtual RampStage ButtonBorder => RampStage.Light1;
-
-    [AccentRole] internal virtual RampStage ButtonBackground => RampStage.Light10;
-
-    [AccentRole] internal virtual RampStage ButtonHoverBackground => RampStage.Light8;
-
-    [AccentRole] internal virtual RampStage ButtonPressedBackground => RampStage.Light6;
-
-    #endregion Roles
+    #endregion Seeds
 
     #region Sizes
 

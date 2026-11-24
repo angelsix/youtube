@@ -11,7 +11,65 @@ namespace AngelSix.Themes.Default;
 [Theme(FallbackHue = "Neutral")]
 public partial class DefaultTheme : ThemeBase
 {
-    #region Palette
+    #region Defaults
+
+    // What the theme falls back to: a plain reuse of a seed first, then the stage each part of a control defaults to
+
+    /// <summary>The canvas color for the current palette.</summary>
+    public virtual Color SurfaceDefault => SurfaceSeed;
+
+    /// <summary>The narrowest an interactive control may be, so a short label still gives a usable hit target.</summary>
+    public virtual double ControlMinWidth => 64 * BaseSize;
+
+    /// <summary>A placeholder's fade, on top of its dim ink.</summary>
+    public virtual double PlaceholderOpacity => 0.5;
+
+    public virtual bool ControlClipToBounds => !WebRenderStyle;
+
+    public virtual int HoverZIndex => WebRenderStyle ? 1 : 0;
+
+    // Each stage default names one stage of the control's own hue, so it follows Accent.Kind and the Seeds
+
+    // Surfaces
+    [StageDefault] protected internal virtual Stage BackgroundDefault => Stage.Light10;
+    [StageDefault] protected internal virtual Stage SurfaceBorderless => Stage.Light9;
+    [StageDefault] protected internal virtual Stage HoverBackgroundDefault => Stage.Light8;
+    [StageDefault] protected internal virtual Stage PressedBackgroundDefault => Stage.Light7;
+    [StageDefault] protected internal virtual Stage SelectedBackgroundDefault => Stage.Light6;
+    [StageDefault] protected internal virtual Stage SelectedBackgroundHover => Stage.Light5;
+    [StageDefault] protected internal virtual Stage SelectedBackgroundPressed => Stage.Light4;
+
+    // Text
+    [StageDefault] protected internal virtual Stage TextDefault => Stage.Dark9;
+    [StageDefault] protected internal virtual Stage HoverTextDefault => Stage.Dark7;
+    [StageDefault] protected internal virtual Stage DimTextDefault => Stage.Dark2;
+
+    /// <summary>Accent-colored text and marks: a link, a caption, an error message, a tab's selection bar.</summary>
+    [StageDefault] protected internal virtual Stage AccentInkDefault => Stage.Dark3;
+
+    // Lines
+    [StageDefault] protected internal virtual Stage BorderDefault => Stage.Light1;
+    [StageDefault] protected internal virtual Stage AccentDividerDefault => Stage.Light7;
+
+    /// <summary>The accent's own line and glyph: a frame, a caret, a chevron, a dot, a knob.</summary>
+    [StageDefault] protected internal virtual Stage AccentLineDefault => Stage.Dark1;
+
+    /// <summary>A focused accented control's border while <see cref="FocusColorOnAccents"/> is off.</summary>
+    [StageDefault(NeutralHue = "Neutral", FocusColor = nameof(AccentFocus), FocusSwitch = nameof(FocusColorOnAccents))]
+    protected internal virtual Stage AccentFocusBorder => Stage.Dark1;
+
+    // Solid fills: a checked, toggled or starred face; a bright seed (yellow) takes the selected tint instead
+    [StageDefault(BrightStage = nameof(SelectedBackgroundDefault))] protected internal virtual Stage SolidFillDefault => Stage.Dark3;
+    [StageDefault(BrightStage = nameof(SelectedBackgroundHover))] protected internal virtual Stage SolidFillHover => Stage.Dark4;
+    [StageDefault(BrightStage = nameof(SelectedBackgroundPressed))] protected internal virtual Stage SolidFillPressed => Stage.Dark5;
+
+    /// <summary>Ink on a solid fill, picked by contrast against the fill.</summary>
+    [StageDefault(ContrastStage = nameof(SolidFillDefault), AlternateStage = nameof(TextDefault))]
+    protected internal virtual Stage OnSolidFillInkDefault => Stage.Light10;
+
+    #endregion Defaults
+
+    #region Seeds
 
     // One seed per hue; the engine derives every stage of its ramp, light and dark
 
@@ -35,53 +93,7 @@ public partial class DefaultTheme : ThemeBase
     /// <summary>The focus ring: the one color that is not a hue.</summary>
     [Observable] public virtual partial Color AccentFocus { get; set; } = Color.Parse("#bf4aF9");
 
-    /// <summary>The canvas color for the current palette.</summary>
-    public virtual Color SurfaceDefault => SurfaceSeed;
-
-    #endregion Palette
-
-    #region Roles
-
-    // Each role names one stage of the control's own hue, so it follows Accent.Kind and the palette
-
-    // Surfaces
-    [AccentRole] protected internal virtual RampStage BackgroundDefault => RampStage.Light10;
-    [AccentRole] protected internal virtual RampStage SurfaceBorderless => RampStage.Light9;
-    [AccentRole] protected internal virtual RampStage HoverBackgroundDefault => RampStage.Light8;
-    [AccentRole] protected internal virtual RampStage PressedBackgroundDefault => RampStage.Light7;
-    [AccentRole] protected internal virtual RampStage SelectedBackgroundDefault => RampStage.Light6;
-    [AccentRole] protected internal virtual RampStage SelectedBackgroundHover => RampStage.Light5;
-    [AccentRole] protected internal virtual RampStage SelectedBackgroundPressed => RampStage.Light4;
-
-    // Text
-    [AccentRole] protected internal virtual RampStage TextDefault => RampStage.Dark9;
-    [AccentRole] protected internal virtual RampStage HoverTextDefault => RampStage.Dark7;
-    [AccentRole] protected internal virtual RampStage DimTextDefault => RampStage.Dark2;
-
-    /// <summary>Accent-colored text and marks: a link, a caption, an error message, a tab's selection bar.</summary>
-    [AccentRole] protected internal virtual RampStage AccentInkDefault => RampStage.Dark3;
-
-    // Lines
-    [AccentRole] protected internal virtual RampStage BorderDefault => RampStage.Light1;
-    [AccentRole] protected internal virtual RampStage AccentDividerDefault => RampStage.Light7;
-
-    /// <summary>The accent's own line and glyph: a frame, a caret, a chevron, a dot, a knob.</summary>
-    [AccentRole] protected internal virtual RampStage AccentLineDefault => RampStage.Dark1;
-
-    /// <summary>A focused accented control's border while <see cref="FocusColorOnAccents"/> is off.</summary>
-    [AccentRole(NeutralHue = "Neutral", FocusColor = nameof(AccentFocus), FocusSwitch = nameof(FocusColorOnAccents))]
-    protected internal virtual RampStage AccentFocusBorder => RampStage.Dark1;
-
-    // Solid fills: a checked, toggled or starred face; a bright seed (yellow) takes the selected tint instead
-    [AccentRole(BrightStage = nameof(SelectedBackgroundDefault))] protected internal virtual RampStage SolidFillDefault => RampStage.Dark3;
-    [AccentRole(BrightStage = nameof(SelectedBackgroundHover))] protected internal virtual RampStage SolidFillHover => RampStage.Dark4;
-    [AccentRole(BrightStage = nameof(SelectedBackgroundPressed))] protected internal virtual RampStage SolidFillPressed => RampStage.Dark5;
-
-    /// <summary>Ink on a solid fill, picked by contrast against the fill.</summary>
-    [AccentRole(ContrastAgainst = nameof(SolidFillDefault), Alternate = nameof(TextDefault))]
-    protected internal virtual RampStage OnSolidFillInkDefault => RampStage.Light10;
-
-    #endregion Roles
+    #endregion Seeds
 
     #region Sizes
 
@@ -105,9 +117,6 @@ public partial class DefaultTheme : ThemeBase
 
     [SizeScale(Multipliers = [256, 320, 384], Labels = ["Sm", "Md", "Lg"])]
     public virtual double SurfaceWidth => BaseSize;
-
-    /// <summary>The narrowest an interactive control may be, so a short label still gives a usable hit target.</summary>
-    public virtual double ControlMinWidth => 64 * BaseSize;
 
     #endregion Sizes
 
@@ -139,19 +148,12 @@ public partial class DefaultTheme : ThemeBase
     [SizeScale(Multipliers = [1.4, 2.5], Labels = ["Accent", "Checked"], Ceiling = 1)]
     [Observable] public virtual partial double DisabledOpacity { get; set; } = 0.3;
 
-    /// <summary>A placeholder's fade, on top of its dim ink.</summary>
-    public virtual double PlaceholderOpacity => 0.5;
-
     #endregion States
 
     #region Behaviour
 
     /// <summary>Whether controls draw the way the web does: they do not clip, and a grown hover paints over its neighbours.</summary>
     [Observable] public virtual partial bool WebRenderStyle { get; set; } = true;
-
-    public virtual bool ControlClipToBounds => !WebRenderStyle;
-
-    public virtual int HoverZIndex => WebRenderStyle ? 1 : 0;
 
     /// <summary>Whether a focused accented control takes <see cref="AccentFocus"/> for its border, as neutral controls do.</summary>
     [Observable] public virtual partial bool FocusColorOnAccents { get; set; } = false;
