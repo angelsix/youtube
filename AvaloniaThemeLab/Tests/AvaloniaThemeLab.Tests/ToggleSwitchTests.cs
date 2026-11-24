@@ -112,6 +112,50 @@ public sealed class ToggleSwitchTests
         Assert.True(s.Track.Deflate(s.Border).Contains(s.Dot), $"The dot at {s.Dot} is outside the track {s.Track}");
     }
 
+    /// <summary>The track fill's corner arcs coincide with the outline's inner edge: the fill's radius is the outline's radius minus its stroke, and its inset is exactly one stroke. Any less and the fill's corner lifts off the inner edge (the double-border seam); any more and it overflows the stroke.</summary>
+    [AvaloniaTheory]
+    [InlineData(false)]
+    [InlineData(true)]
+    public void The_track_fill_corners_are_concentric_with_the_outline_inner_edge(bool on)
+    {
+        var toggle = new ToggleSwitch { IsChecked = on };
+        var window = new Window { Content = new StackPanel { Children = { toggle } }, Width = 400, Height = 300 };
+        // A thick stroke amplifies any arc mismatch from a sub-pixel hairline to a clearly measurable offset.
+        TestTheme.With(t => { t.ThicknessScale = 4; });
+        try
+        {
+            window.Show();
+            for (var i = 0; i < 3; i++)
+            {
+                Dispatcher.UIThread.RunJobs();
+                window.UpdateLayout();
+            }
+
+            var outline = toggle.GetVisualDescendants().OfType<Border>().Single(b => b.Name == "OuterBorder");
+            var fill = toggle.GetVisualDescendants().OfType<Border>().Single(b => b.Name == "SwitchKnobBounds");
+            var stroke = outline.BorderThickness.Left;
+            var pairs = new[]
+            {
+                (outline.CornerRadius.TopLeft, fill.CornerRadius.TopLeft, fill.Margin.Left),
+                (outline.CornerRadius.TopRight, fill.CornerRadius.TopRight, fill.Margin.Top),
+                (outline.CornerRadius.BottomRight, fill.CornerRadius.BottomRight, fill.Margin.Right),
+                (outline.CornerRadius.BottomLeft, fill.CornerRadius.BottomLeft, fill.Margin.Bottom),
+            };
+            foreach (var (outer, inner, inset) in pairs)
+            {
+                Assert.True(Math.Abs(inner - (outer - stroke)) < 0.01,
+                    $"A fill corner of {inner:0.##} against an outline corner of {outer:0.##} and a stroke of {stroke:0.##}: " +
+                    "the fill's arc does not coincide with the outline's inner edge (double-border seam).");
+                Assert.True(Math.Abs(inset - stroke) < 0.01,
+                    $"A fill inset of {inset:0.##} against a stroke of {stroke:0.##}: the fill must sit exactly one stroke inside the outline.");
+            }
+        }
+        finally
+        {
+            window.Close();
+        }
+    }
+
     /// <summary>The on and off label sits clear of the track at every size: it never slides under the switch.</summary>
     [AvaloniaTheory]
     [InlineData(1, 1)]
