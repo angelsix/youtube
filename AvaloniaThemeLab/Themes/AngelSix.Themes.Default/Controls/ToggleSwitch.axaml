@@ -158,14 +158,17 @@
 
                   <Canvas x:Name="PART_SwitchKnob">
                     <!-- The sliding knob: the outline's inset, then the gap, then the dot -->
-                    <Panel x:Name="PART_MovingKnobs" Background="Transparent">
+                    <Panel
+                        x:Name="PART_MovingKnobs"
+                        Width="{Binding #PART_SwitchKnob.Bounds.Width}"
+                        Height="{Binding #PART_SwitchKnob.Bounds.Height}"
+                        Background="Transparent">
                       <Panel Margin="{size:Edges {size:ThicknessSmDouble}}">
                         <Ellipse x:Name="SwitchKnobOn" Width="{size:Scaled {size:ControlHeightSm}, 0.3125}" Height="{size:Scaled {size:ControlHeightSm}, 0.3125}" MinWidth="{size:Scaled 6}" MinHeight="{size:Scaled 6}" Margin="{size:Edges {size:SpacingMd}}" />
                         <Ellipse x:Name="SwitchKnobOff" Width="{size:Scaled {size:ControlHeightSm}, 0.3125}" Height="{size:Scaled {size:ControlHeightSm}, 0.3125}" MinWidth="{size:Scaled 6}" MinHeight="{size:Scaled 6}" Margin="{size:Edges {size:SpacingMd}}" />
                         <!-- The knob's icon slot: draws nothing until a consumer sets SwitchKnob.Content, so an unset hook leaves the knob exactly as it was. -->
                         <ContentPresenter
                             x:Name="PART_KnobContent"
-                            Margin="{size:Edges {size:SpacingMd}}"
                             HorizontalAlignment="Stretch"
                             VerticalAlignment="Stretch"
                             HorizontalContentAlignment="Center"
@@ -187,6 +190,11 @@
     <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
       <Setter Property="RecognizesAccessKey" Value="True" />
       <Setter Property="Margin" Value="{size:Edges Bottom={size:SpacingLg}}" />
+    </Style>
+
+    <!-- Consumers can override the knob icon inset with a style. -->
+    <Style Selector="^ /template/ ContentPresenter#PART_KnobContent">
+      <Setter Property="Margin" Value="{size:Edges {size:SpacingMd}}" />
     </Style>
 
     <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter:empty">
