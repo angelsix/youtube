@@ -156,13 +156,8 @@
                 <!-- Rows: ticks above, track, ticks below -->
                 <Grid
                     x:Name="HorizontalTemplate"
-                    ColumnDefinitions="Auto,Auto,*">
-                  <Grid.RowDefinitions>
-                    <!-- Structural: grid row spacing (SpacingXxl = 16) -->
-                    <RowDefinition Height="{size:SpacingXxl}" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="{size:SpacingXxl}" />
-                  </Grid.RowDefinitions>
+                    VerticalAlignment="Center"
+                    ColumnDefinitions="Auto,Auto,*" RowDefinitions="Auto,*,Auto">
                   <TickBar
                       Name="TopTickBar"
                       Grid.ColumnSpan="3"
@@ -250,13 +245,8 @@
                 <!-- Columns: ticks left, track, ticks right -->
                 <Grid
                     x:Name="VerticalTemplate"
-                    RowDefinitions="*,Auto,Auto">
-                  <Grid.ColumnDefinitions>
-                    <!-- Structural: grid column spacing (SpacingXxl = 16) -->
-                    <ColumnDefinition Width="{size:SpacingXxl}" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="{size:SpacingXxl}" />
-                  </Grid.ColumnDefinitions>
+                    HorizontalAlignment="Center"
+                    RowDefinitions="*,Auto,Auto" ColumnDefinitions="Auto,*,Auto">
                   <TickBar
                       Name="LeftTickBar"
                       Grid.RowSpan="3"
