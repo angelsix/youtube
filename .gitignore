@@ -174,12 +174,11 @@ $RECYCLE.BIN/
 # Mac desktop service store files
 .DS_Store
 
+# Local CLI history
 claudecli-history.json
-
-# Claude CLI history
 **/.claude/claudecli-history.json
 
-# AI Mecca local state
+# Local tooling state
 .aimecca/
 
 # AngelSix ThemeEngine auto-generated files
@@ -191,7 +190,7 @@ __pycache__/
 .pytest_cache/
 .mypy_cache/
 
-# AI Mecca Git reviewer commit plans
+# Local review plans
 .gitreviewer/
 
 # ── Secrets & credentials ──────────────────────────────────────────
@@ -296,14 +295,11 @@ env/
 env
 
 
-# AI Mecca agent scaffolding: session notes accumulate operational detail
-# (other-repo names, local paths) that must never ship to this public repo.
-# Files stay on disk for agents; excluded from version control.
-# **/ prefix: without it the pattern anchors to the repo root only, so per-project
-# copies (e.g. AvaloniaThemeLab/AgentDocumentation/Sessions/) escaped it.
+# Local agent scaffolding and verification harnesses: kept off the public repo.
 **/AgentDocumentation/Sessions/
-
-# Agent session memory stays on the local machine (public repo)
 **/AgentDocumentation/Memory.md
+**/AgentDocumentation/VerificationRules.md
+**/AgentDocumentation/faults.json
+**/AgentDocumentation/checker/
 /AvaloniaThemeLab/Scratch
 /Plans
