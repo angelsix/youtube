@@ -9,26 +9,27 @@ using Avalonia.Media;
 namespace AvaloniaThemeLab.ThemePlayground.ViewModels;
 
 /// <summary>The settings window: the app's live theme instance, edited in place.</summary>
-public sealed partial class ThemeSettingsViewModel : ObservableObject
+public sealed partial class ThemeSettingsViewModel(DefaultTheme theme) : ObservableObject
 {
-    /// <summary>The theme every window is drawing with, edited in place.</summary>
-    public DefaultTheme Theme { get; }
+    #region Properties
 
-    public IReadOnlyList<FontFamily> Fonts { get; }
+    /// <summary>The theme every window is drawing with, edited in place.</summary>
+    public DefaultTheme Theme { get; } = theme;
+
+    // The theme's own family first, so the current value is an item the list can select
+    public IReadOnlyList<FontFamily> Fonts { get; } =
+        [theme.FontFamily, .. FontManager.Current.SystemFonts.OrderBy(font => font.Name, StringComparer.OrdinalIgnoreCase)];
 
     public IReadOnlyList<HorizontalAlignment> HorizontalAlignments { get; } = Enum.GetValues<HorizontalAlignment>();
 
     public IReadOnlyList<VerticalAlignment> VerticalAlignments { get; } = Enum.GetValues<VerticalAlignment>();
 
-    public ThemeSettingsViewModel(DefaultTheme theme)
-    {
-        Theme = theme;
+    #endregion Properties
 
-        // The theme's own family first, so the current value is an item the list can select
-        Fonts = [Theme.FontFamily, .. FontManager.Current.SystemFonts.OrderBy(font => font.Name, StringComparer.OrdinalIgnoreCase)];
-    }
+    #region Commands
 
     /// <summary>Puts every editable value back to what the theme ships with.</summary>
-    [Command]
-    private void Reset() => Theme.ResetToDefaults();
+    public IRelayCommand ResetCommand => Command(Theme.ResetToDefaults);
+
+    #endregion Commands
 }

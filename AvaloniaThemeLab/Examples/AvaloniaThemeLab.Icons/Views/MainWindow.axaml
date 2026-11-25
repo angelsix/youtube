@@ -12,49 +12,49 @@
         Width="640" Height="560">
 
     <ScrollViewer Padding="{size:Edges {size:SpacingXl}}">
-        <StackPanel Spacing="{size:SpacingLg}" MaxWidth="560">
+        <StackPanel Spacing="{size:SpacingLg}" MaxWidth="{size:Scaled 560}">
 
             <TextBlock Text="Your own icons, one gallery"
-                       FontSize="{size:FontSizeLg}" FontWeight="SemiBold"
+                       FontSize="{size:FontSizeLg}" FontWeight="{theme:FontWeightSemiBold}"
                        Foreground="{color:TextDefault}" />
             <TextBlock TextWrapping="Wrap" Foreground="{color:TextDefault}"
                        Text="AppIcons derives from ThemeIconGallery, so the default icons keep working while Icons/Svg/*.svg and two hand-written properties add to the set — and one override redraws ChevronDown everywhere." />
 
             <StackPanel Spacing="{size:SpacingSm}">
-                <TextBlock Text="The default icons, still alive" FontWeight="SemiBold" Foreground="{color:TextDefault}" />
+                <TextBlock Text="The default icons, still alive" FontWeight="{theme:FontWeightSemiBold}" Foreground="{color:TextDefault}" />
                 <StackPanel Orientation="Horizontal" Spacing="{size:SpacingLg}">
-                    <PathIcon Width="{size:IconSizeLg}" Height="{size:IconSizeLg}" Data="{icons:Close}" />
-                    <PathIcon Width="{size:IconSizeLg}" Height="{size:IconSizeLg}" Data="{icons:WindowMaximize}" />
-                    <PathIcon Width="{size:IconSizeLg}" Height="{size:IconSizeLg}" Data="{icons:WindowRestore}" />
-                    <PathIcon Width="{size:IconSizeLg}" Height="{size:IconSizeLg}" Data="{icons:ChevronDown}" />
+                    <Icon Content="{icons:Close}" Size="{size:IconSizeLg}" />
+                    <Icon Content="{icons:WindowMaximize}" Size="{size:IconSizeLg}" />
+                    <Icon Content="{icons:WindowRestore}" Size="{size:IconSizeLg}" />
+                    <Icon Content="{icons:ChevronDown}" Size="{size:IconSizeLg}" />
                     <TextBlock VerticalAlignment="Center" Foreground="{color:TextDefault}"
                                Text="← the last one is this app's redraw of ChevronDown" />
                 </StackPanel>
             </StackPanel>
 
             <StackPanel Spacing="{size:SpacingSm}">
-                <TextBlock Text="From Icons/Svg — one file, one token" FontWeight="SemiBold" Foreground="{color:TextDefault}" />
+                <TextBlock Text="From Icons/Svg — one file, one token" FontWeight="{theme:FontWeightSemiBold}" Foreground="{color:TextDefault}" />
                 <StackPanel Orientation="Horizontal" Spacing="{size:SpacingLg}">
-                    <PathIcon Width="{size:IconSizeLg}" Height="{size:IconSizeLg}" Data="{icons:Label}" />
-                    <PathIcon Width="{size:IconSizeLg}" Height="{size:IconSizeLg}" Data="{icons:Coffee}" />
-                    <PathIcon Width="{size:IconSizeLg}" Height="{size:IconSizeLg}" Data="{icons:Rocket}" />
+                    <Icon Content="{icons:Label}" Size="{size:IconSizeLg}" />
+                    <Icon Content="{icons:Coffee}" Size="{size:IconSizeLg}" />
+                    <Icon Content="{icons:Rocket}" Size="{size:IconSizeLg}" />
                     <TextBlock VerticalAlignment="Center" Foreground="{color:TextDefault}"
                                Text="Label, Coffee, Rocket — each is one .svg file" />
                 </StackPanel>
             </StackPanel>
 
             <StackPanel Spacing="{size:SpacingSm}">
-                <TextBlock Text="Hand-written and aliased" FontWeight="SemiBold" Foreground="{color:TextDefault}" />
+                <TextBlock Text="Hand-written and aliased" FontWeight="{theme:FontWeightSemiBold}" Foreground="{color:TextDefault}" />
                 <StackPanel Orientation="Horizontal" Spacing="{size:SpacingLg}">
-                    <PathIcon Width="{size:IconSizeLg}" Height="{size:IconSizeLg}" Data="{icons:Heart}" />
-                    <PathIcon Width="{size:IconSizeLg}" Height="{size:IconSizeLg}" Data="{icons:CoffeeCup}" />
+                    <Icon Content="{icons:Heart}" Size="{size:IconSizeLg}" />
+                    <Icon Content="{icons:CoffeeCup}" Size="{size:IconSizeLg}" />
                     <TextBlock VerticalAlignment="Center" Foreground="{color:TextDefault}"
                                Text="Heart is a literal path; CoffeeCup is an alias of Coffee" />
                 </StackPanel>
             </StackPanel>
 
             <StackPanel Spacing="{size:SpacingSm}">
-                <TextBlock Text="Icon.Data on controls" FontWeight="SemiBold" Foreground="{color:TextDefault}" />
+                <TextBlock Text="Icon.Data on controls" FontWeight="{theme:FontWeightSemiBold}" Foreground="{color:TextDefault}" />
                 <StackPanel Orientation="Horizontal" Spacing="{size:SpacingMd}">
                     <Button theme:Icon.Data="{icons:Rocket}" Content="Launch" />
                     <Button theme:Icon.Data="{icons:Heart}" theme:Icon.Placement="Right" Content="Like" />

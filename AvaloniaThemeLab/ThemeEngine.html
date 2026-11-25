@@ -215,6 +215,7 @@
   <a href="#intro">Introduction</a>
   <a href="#start">Getting started</a>
   <a href="#default">Using the default theme</a>
+  <a href="#widgets">Building widgets</a>
   <a href="#extend">Extend the default theme</a>
   <a href="#own">A theme from scratch</a>
   <a href="#how">How it works</a>
@@ -355,8 +356,8 @@ dotnet sln MyApp.sln add MyApp/MyApp.csproj</code></pre>
     <tr><td><code>NU1605 … Detected package downgrade: Avalonia</code></td><td>The app was made from an older template. Update every Avalonia package in the project to 12.1.6.</td></tr>
     <tr><td><code>AVLN2000: Unable to resolve type DefaultTheme</code></td><td>The package isn't referenced: step 3 was skipped.</td></tr>
     <tr><td>Text draws in the system font</td><td>The theme's font package is missing, or a string font family was used without reading a <code>ThemeFonts</code> member first.</td></tr>
-    <tr><td>A theme token shows an error in the editor</td><td>The file lacks the theme namespaces. Type <code>enginexml</code> and Tab on its root element.</td></tr>
-    <tr><td><code>enginexml</code>, <code>vm</code> and the other snippets don't expand in Rider</td><td>Rider has the folder open, not the solution. Open <code>MyApp.sln</code>, build once, then <b>File → Reload All from Disk</b>. A build warning saying no solution contains the project means step 1's <code>dotnet sln add</code> was skipped.</td></tr>
+    <tr><td>A theme token shows an error in the editor</td><td>The file lacks the theme namespaces. Type <code>enginenamespaces</code> and Tab on its root element.</td></tr>
+    <tr><td><code>enginenamespaces</code>, <code>vm</code> and the other snippets don't expand in Rider</td><td>Rider has the folder open, not the solution. Open <code>MyApp.sln</code> (or <code>.slnx</code>), build once, then <b>File → Reload All from Disk</b>. A build warning saying no solution contains the project means step 1's <code>dotnet sln add</code> was skipped.</td></tr>
     <tr><td>Rider's previewer shows a red mark with no message</td><td>A known bug in the AvaloniaRider plugin 1.14.0 on Rider 2026.3, not in the app. Rider 2026.2 previews correctly.</td></tr>
   </table>
 
@@ -382,21 +383,21 @@ dotnet sln MyApp.sln add MyApp/MyApp.csproj</code></pre>
     </figure>
   </div>
 
-  <div class="note"><b>First, the namespaces</b>Every XAML file that uses <code>theme:</code>, <code>color:</code>, <code>size:</code> or <code>icons:</code> needs them declared. On the file's root element (the <code>&lt;Window</code>, <code>&lt;UserControl</code> or <code>&lt;Styles</code> tag) type <code>enginexml</code> and press Tab: the snippet writes all four <code>xmlns</code> lines. The snippet only exists once you have built (step 5) and only when the editor has the solution open:
+  <div class="note"><b>First, the namespaces</b>Every XAML file that uses <code>theme:</code>, <code>color:</code>, <code>size:</code> or <code>icons:</code> needs them declared. On the file's root element (the <code>&lt;Window</code>, <code>&lt;UserControl</code> or <code>&lt;Styles</code> tag) type <code>enginenamespaces</code> and press Tab: the snippet writes all five <code>xmlns</code> lines. The snippet only exists once you have built (step 6) and only when the editor has the solution open:
     <ul>
-      <li><b>Rider</b>: open <code>MyApp.sln</code>, not the <code>MyApp</code> folder. Rider reads the live templates from <code>MyApp.sln.DotSettings</code>, and a folder has no solution settings. If the solution was already open before the first build, use <b>File → Reload All from Disk</b>.</li>
+      <li><b>Rider</b>: open <code>MyApp.sln</code> (or <code>.slnx</code>), not the <code>MyApp</code> folder. Rider reads the live templates from the solution's <code>.DotSettings</code>, and a folder has no solution settings. If the solution was already open before the first build, use <b>File → Reload All from Disk</b>.</li>
       <li><b>VS Code</b>: open the folder holding <code>MyApp.sln</code>, so it finds <code>.vscode</code>. Reload the window if the snippets don't appear.</li>
       <li><b>Visual Studio</b> (Windows): the snippets go into your Code Snippets folders; restart Visual Studio after the first build.</li>
     </ul>
-  Type the whole shortcut, then Tab. The engine's snippets all start with <code>engine</code>, so typing <code>theme:</code> never sets one off.</div>
+  Type the whole shortcut, then Tab. XAML snippets start with <code>engine</code> and C# theme snippets start with <code>theme</code>, so typing <code>theme:</code> never sets one off.</div>
 
   <h3>Give a control a hue</h3>
   <pre><code><span class="t">&lt;Button</span> Content=<span class="s">"Save"</span> theme:Accent.Kind=<span class="s">"Primary"</span> <span class="t">/&gt;</span>
 <span class="t">&lt;Button</span> Content=<span class="s">"Delete"</span> theme:Accent.Kind=<span class="s">"Destructive"</span> <span class="t">/&gt;</span></code></pre>
-  <p>Hues: <code>Neutral</code>, <code>Primary</code>, <code>Success</code>, <code>Warning</code>, <code>Favourite</code>, <code>Error</code>, <code>Info</code>, <code>Destructive</code>, <code>Subtle</code>. <code>Accent.Kind</code> inherits, so setting it on a panel tints everything inside.</p>
+  <p>Hues: <code>Neutral</code>, <code>Primary</code>, <code>Success</code>, <code>Warning</code>, <code>Favourite</code>, <code>Error</code>, <code>Info</code>, <code>Destructive</code>, <code>Subtle</code>. <code>Accent.Kind</code> inherits, so setting it on a panel tints everything inside. <code>DefaultTheme</code> also exposes <code>Accents</code> and an observable <code>DefaultAccent</code> property so an accent picker can bind straight to <code>Theme.Accents</code> and <code>Theme.DefaultAccent</code>.</p>
 
   <h3>Use the theme's tokens</h3>
-  <p>Type <code>enginexml</code> and Tab on a root element to declare the namespaces, then read any token:</p>
+  <p>Type <code>enginenamespaces</code> and Tab on a root element to declare the namespaces, then read any token:</p>
   <pre><code><span class="t">&lt;Border</span> Padding=<span class="s">"{size:Edges {size:SpacingLg}}"</span>
         CornerRadius=<span class="s">"{size:RadiusSm}"</span>
         Background=<span class="s">"{color:AccentBrush Light9}"</span><span class="t">&gt;</span>
@@ -424,6 +425,93 @@ ThemeFonts.System   <span class="c">// the platform's own UI font, with its fall
 
   <h3>Make it yours without forking</h3>
   <p>Subclass <code>DefaultTheme</code> and change only what differs &mdash; a hue, a token, or one control. See <a href="#extend">Extend the default theme</a>.</p>
+</section>
+
+<!-- ============================== BUILDING WIDGETS ============================== -->
+<section class="page" id="widgets">
+  <p class="eyebrow">Building widgets</p>
+  <h2>Views and widgets: layout only, theme draws</h2>
+  <p class="lede">Once your theme is wired in, every widget you build is just layout panels, native controls, theme tokens and MVVM bindings &mdash; zero hard-coded colors, pixel literals or code-behind workarounds.</p>
+
+  <p>Here is the complete <strong>Example Content</strong> buttons widget built with the engine. It has a header, light/dark + scale quick-test buttons, and Primary/Destructive action buttons, and automatically scales and re-palettes with the theme.</p>
+
+  <h3><span class="n">1</span>Write the ViewModel</h3>
+  <p>Derive from <code>ViewModelBase</code> (built into <code>AngelSix.Mvvm</code>) and inject your theme through a primary constructor. Marking the parameter <code>[Property]</code> generates <code>public AppTheme Theme { get; } = theme;</code> automatically so XAML can bind to it without boilerplate:</p>
+  <pre><code><span class="k">using</span> System;
+<span class="k">using</span> AngelSix.Mvvm;
+<span class="k">using</span> MyApp.Theme;
+
+<span class="k">namespace</span> MyApp.ViewModels;
+
+<span class="k">public sealed partial class</span> ExampleContentViewModel([Property] AppTheme theme) : ViewModelBase
+{
+    <span class="k">public</span> IRelayCommand ToggleModeCommand =&gt; Command(() =&gt; Theme.IsDark = !Theme.IsDark);
+
+    <span class="k">public</span> IRelayCommand BiggerCommand =&gt; Command(() =&gt; Theme.BaseSize = Math.Min(<span class="s">1.5</span>, Math.Round(Theme.BaseSize + <span class="s">0.1</span>, <span class="s">2</span>)));
+
+    <span class="k">public</span> IRelayCommand SmallerCommand =&gt; Command(() =&gt; Theme.BaseSize = Math.Max(<span class="s">0.75</span>, Math.Round(Theme.BaseSize - <span class="s">0.1</span>, <span class="s">2</span>)));
+}</code></pre>
+  <p>Register the view model in DI (<code>services.AddTransient&lt;ExampleContentViewModel&gt;();</code>) alongside <code>services.AddSingleton(AppTheme.Current);</code>. If a widget only reads palette state in XAML (like <code>{theme:IsDark}</code> / <code>{theme:IsLight}</code>) and has no commands that touch the theme, don't inject the theme at all.</p>
+
+  <h3><span class="n">2</span>Write the XAML</h3>
+  <p>Type <code>enginenamespaces</code> and Tab on the <code>&lt;UserControl&gt;</code> root, set <code>x:DataType</code> for compiled bindings, and compose standard Avalonia controls using only theme tokens:</p>
+  <pre><code><span class="t">&lt;UserControl</span> xmlns=<span class="s">"https://github.com/avaloniaui"</span>
+             xmlns:x=<span class="s">"http://schemas.microsoft.com/winfx/2006/xaml"</span>
+             xmlns:theme=<span class="s">"using:AngelSix.ThemeEngine.Generated"</span>
+             xmlns:size=<span class="s">"using:AngelSix.ThemeEngine.Sizes"</span>
+             xmlns:color=<span class="s">"using:AngelSix.ThemeEngine.Colors"</span>
+             xmlns:vm=<span class="s">"using:MyApp.ViewModels"</span>
+             x:Class=<span class="s">"MyApp.Widgets.ExampleContent"</span>
+             x:DataType=<span class="s">"vm:ExampleContentViewModel"</span>
+             Design.DataContext=<span class="s">"{DesignContext}"</span><span class="t">&gt;</span>
+  <span class="t">&lt;StackPanel</span> Spacing=<span class="s">"{size:SpacingXl}"</span> HorizontalAlignment=<span class="s">"Center"</span> VerticalAlignment=<span class="s">"Center"</span><span class="t">&gt;</span>
+    <span class="c">&lt;!-- Header --&gt;</span>
+    <span class="t">&lt;StackPanel</span> Spacing=<span class="s">"{size:SpacingMd}"</span> HorizontalAlignment=<span class="s">"Center"</span><span class="t">&gt;</span>
+      <span class="t">&lt;TextBlock</span> Text=<span class="s">"Welcome back"</span>
+                 TextAlignment=<span class="s">"Center"</span>
+                 HorizontalAlignment=<span class="s">"Center"</span>
+                 FontSize=<span class="s">"{size:FontSizeXxl}"</span>
+                 FontWeight=<span class="s">"{theme:FontWeightSemiBold}"</span>
+                 Foreground=<span class="s">"{color:TextDefault}"</span> <span class="t">/&gt;</span>
+      <span class="t">&lt;TextBlock</span> Text=<span class="s">"Everything here is laid out with panels; the theme draws it."</span>
+                 TextAlignment=<span class="s">"Center"</span>
+                 HorizontalAlignment=<span class="s">"Center"</span>
+                 FontSize=<span class="s">"{size:FontSizeSm}"</span>
+                 Foreground=<span class="s">"{color:DimTextDefault}"</span> <span class="t">/&gt;</span>
+    <span class="t">&lt;/StackPanel&gt;</span>
+
+    <span class="c">&lt;!-- Theme mode and size quick-test buttons --&gt;</span>
+    <span class="t">&lt;StackPanel</span> Orientation=<span class="s">"Horizontal"</span> Spacing=<span class="s">"{size:SpacingLg}"</span> HorizontalAlignment=<span class="s">"Center"</span><span class="t">&gt;</span>
+      <span class="t">&lt;Button</span> Command=<span class="s">"{Binding ToggleModeCommand}"</span><span class="t">&gt;</span>
+        <span class="t">&lt;Panel&gt;</span>
+          <span class="t">&lt;TextBlock</span> Text=<span class="s">"Dark mode"</span> IsVisible=<span class="s">"{theme:IsLight}"</span> <span class="t">/&gt;</span>
+          <span class="t">&lt;TextBlock</span> Text=<span class="s">"Light mode"</span> IsVisible=<span class="s">"{theme:IsDark}"</span> <span class="t">/&gt;</span>
+        <span class="t">&lt;/Panel&gt;</span>
+      <span class="t">&lt;/Button&gt;</span>
+      <span class="t">&lt;Button</span> Content=<span class="s">"Bigger"</span> Command=<span class="s">"{Binding BiggerCommand}"</span> <span class="t">/&gt;</span>
+      <span class="t">&lt;Button</span> Content=<span class="s">"Smaller"</span> Command=<span class="s">"{Binding SmallerCommand}"</span> <span class="t">/&gt;</span>
+    <span class="t">&lt;/StackPanel&gt;</span>
+
+    <span class="c">&lt;!-- Accented action buttons --&gt;</span>
+    <span class="t">&lt;StackPanel</span> Orientation=<span class="s">"Horizontal"</span> Spacing=<span class="s">"{size:SpacingLg}"</span> HorizontalAlignment=<span class="s">"Center"</span><span class="t">&gt;</span>
+      <span class="t">&lt;Button</span> Content=<span class="s">"Save"</span> theme:Accent.Kind=<span class="s">"Primary"</span> <span class="t">/&gt;</span>
+      <span class="t">&lt;Button</span> Content=<span class="s">"Delete"</span> theme:Accent.Kind=<span class="s">"Destructive"</span> <span class="t">/&gt;</span>
+    <span class="t">&lt;/StackPanel&gt;</span>
+  <span class="t">&lt;/StackPanel&gt;</span>
+<span class="t">&lt;/UserControl&gt;</span></code></pre>
+  <p>Need icons in a widget? Use the prefix-free <code>&lt;Icon&gt;</code> control (from <code>AngelSix.Themes.Default</code>) for standalone or templated icons, or <code>theme:Icon.Data</code> directly on buttons:</p>
+  <pre><code><span class="t">&lt;Icon</span> Content=<span class="s">"{Binding Icon}"</span> Size=<span class="s">"{size:IconSizeSm}"</span> <span class="t">/&gt;</span>      <span class="c">&lt;!-- string name resolved live from Theme.Icons --&gt;</span>
+<span class="t">&lt;Icon</span> Content=<span class="s">"{icons:Search}"</span> Size=<span class="s">"{size:IconSizeSm}"</span> <span class="t">/&gt;</span>      <span class="c">&lt;!-- direct geometry --&gt;</span>
+<span class="t">&lt;Button</span> Content=<span class="s">"Save"</span> theme:Icon.Data=<span class="s">"{icons:Save}"</span> theme:Accent.Kind=<span class="s">"Primary"</span> <span class="t">/&gt;</span></code></pre>
+
+  <h3><span class="n">3</span>Keep code-behind bare</h3>
+  <p>The code-behind only calls <code>InitializeComponent()</code>. Bind the widget to its view model with a <code>DataTemplate</code> (or <code>ViewLocator</code>), never by setting <code>DataContext = new ...()</code> in code-behind:</p>
+  <pre><code><span class="k">public partial class</span> ExampleContent : UserControl
+{
+    <span class="k">public</span> ExampleContent() =&gt; InitializeComponent();
+}</code></pre>
+
+  <div class="note why"><b>Enforced at build time (<code>ASTE044</code>)</b>The engine's analyzer enforces this separation automatically on every build: literal colors or pixel sizes, scaling font/spacing/radius off <code>BaseSize</code> instead of their own ladder, code-behind event handlers or <code>FindControl</code> mutations, UI types inside view models, and unused fields or dependencies fail the build immediately. Genuine exceptions can be documented inline with <code>&lt;!-- Theme Exception: ... --&gt;</code> in XAML or <code>// ASTE044-ALLOW: &lt;reason&gt;</code> in C#.</div>
 </section>
 
 <!-- ============================== EXTEND THE DEFAULT THEME ============================== -->
@@ -504,8 +592,8 @@ services.AddSingleton&lt;MainWindowViewModel&gt;();</code></pre></li>
     <li><label><input type="checkbox" /><strong>Add the engine</strong></label>
       <pre><code>dotnet add MyApp package AngelSix.ThemeEngine</code></pre></li>
     <li><label><input type="checkbox" /><strong>Write the theme class</strong></label>
-      Type <code>engineclass</code> and Tab in a new C# file. It gives a working theme to edit:
-<pre><code><span class="c">// Quick: type engineclass, then Tab</span>
+      Type <code>themeclass</code> and Tab in a new C# file. It gives a working theme to edit:
+<pre><code><span class="c">// Quick: type themeclass, then Tab</span>
 [Theme(FallbackHue = <span class="s">"Neutral"</span>)]
 <span class="k">public partial class</span> MyTheme : ThemeBase
 {
@@ -581,7 +669,7 @@ services.AddSingleton&lt;MainWindowViewModel&gt;();</code></pre></li>
   <!-- ---------- live ---------- -->
   <h3 id="how-live"><span class="n">3</span>Live changes</h3>
   <p>A token in XAML is a binding, not a copied value. Mark a token <code>[Observable]</code> and setting it raises a change; every binding that reads it, or any token computed from it, updates.</p>
-  <pre><code><span class="c">// Quick: type enginetoken, then Tab</span>
+  <pre><code><span class="c">// Quick: type themeproperty, then Tab</span>
 [Observable] <span class="k">public virtual partial double</span> HoverScale { <span class="k">get</span>; <span class="k">set</span>; } = <span class="s">1.05</span>;</code></pre>
   <p>The theme implements <code>INotifyPropertyChanged</code> through AngelSix.Mvvm, so a settings screen can bind straight to it: <code>Value="{Binding Theme.BaseSize}"</code>. <code>ResetToDefaults()</code> puts every <code>[Observable]</code> token, and every generated scale, back to its declared value.</p>
 
@@ -604,21 +692,20 @@ services.AddSingleton&lt;MainWindowViewModel&gt;();</code></pre></li>
   <!-- ---------- accents and roles ---------- -->
   <h3 id="how-accent"><span class="n">5</span>Hues and roles</h3>
   <p><code>[AccentHue]</code> makes a ramp a hue a control can wear. A style reads the control's current hue with <code>{color:AccentBrush}</code>, so one block serves them all:</p>
-  <pre><code><span class="c">&lt;!-- Quick: type enginestate, then Tab --&gt;</span>
+  <pre><code><span class="c">&lt;!-- Quick: type enginecontrolstyle, then Tab --&gt;</span>
 <span class="t">&lt;Style</span> Selector=<span class="s">"^:pointerover /template/ Border#PART_Border"</span><span class="t">&gt;</span>
   <span class="t">&lt;Setter</span> Property=<span class="s">"Background"</span> Value=<span class="s">"{color:AccentBrush Light8}"</span> <span class="t">/&gt;</span>
 <span class="t">&lt;/Style&gt;</span></code></pre>
-  <p>A <em>role</em> names a stage that recurs, so the theme decides it once:</p>
-  <pre><code><span class="c">// Quick: type enginerole, then Tab</span>
-[AccentRole] <span class="k">protected internal virtual</span> RampStage BorderDefault => RampStage.Light1;</code></pre>
-  <p><code>{color:BorderDefault}</code> is then <code>Light1</code> of whatever hue the control wears. Roles can also follow policies: <code>PinHue</code> (always one hue), <code>BrightStage</code> (a softer stage for a very light seed like yellow), <code>ContrastAgainst</code> (pick light or dark ink against a fill) and focus colors.</p>
+  <p>A <em>role</em> names a stage that recurs, so the theme decides it once (included in the <code>themeclass</code> snippet):</p>
+  <pre><code>[AccentRole] <span class="k">protected internal virtual</span> RampStage BorderDefault =&gt; RampStage.Light1;</code></pre>
+  <p><code>{color:BorderDefault}</code> is then <code>Light1</code> of whatever hue the control wears. Roles can also follow policies: <code>PinHue</code> (always one hue), <code>BrightStage</code> (a softer stage for a very light seed like yellow), <code>ContrastAgainst</code> (pick light or dark ink against a fill) and focus colors. <code>DefaultTheme</code> also provides <code>Accents</code> and an observable <code>DefaultAccent</code> so accent pickers need zero hand-rolled palettes.</p>
 
   <!-- ---------- sizes ---------- -->
   <h3 id="how-size"><span class="n">6</span>Sizes and ladders</h3>
   <p>Every size grows from <code>BaseSize</code>, which <code>ThemeBase</code> owns. A ladder turns one multiplier list into a set of tokens:</p>
-  <pre><code><span class="c">// Quick: type engineladder, then Tab</span>
+  <pre><code><span class="c">// Quick: type themeladder, then Tab</span>
 [SizeScale(Multipliers = [<span class="s">4</span>, <span class="s">8</span>, <span class="s">12</span>, <span class="s">16</span>], Scalable = <span class="k">true</span>)]
-<span class="k">public virtual double</span> Spacing => BaseSize;   <span class="c">// SpacingSm, SpacingMd, SpacingLg, SpacingXl, SpacingScale</span></code></pre>
+<span class="k">public virtual double</span> Spacing =&gt; BaseSize;   <span class="c">// SpacingSm, SpacingMd, SpacingLg, SpacingXl, SpacingScale</span></code></pre>
   <ul>
     <li><code>Types</code> also emits a ladder as <code>Thickness</code> or <code>CornerRadius</code>.</li>
     <li><code>Floor</code> and <code>Ceiling</code> clamp it, such as a border that never drops below one pixel.</li>
@@ -629,7 +716,7 @@ services.AddSingleton&lt;MainWindowViewModel&gt;();</code></pre></li>
 
   <!-- ---------- light & dark ---------- -->
   <h3 id="how-dark"><span class="n">7</span>Regions: light/dark, scale, and automatic corners</h3>
-  <p><code>IsDark</code> switches the app. <code>theme:ThemeRegion</code> overrides the palette or size scale for any subtree, from the same theme instance:</p>
+  <p><code>IsDark</code> (and its inverse <code>IsLight</code>) switches the app — both are directly bindable in XAML via <code>{theme:IsDark}</code> and <code>{theme:IsLight}</code>, respecting scoped regions. <code>theme:ThemeRegion</code> overrides the palette or size scale for any subtree, from the same theme instance:</p>
   <pre><code><span class="t">&lt;Border</span> theme:ThemeRegion.IsDark=<span class="s">"True"</span> theme:ThemeRegion.BaseSize=<span class="s">"2"</span><span class="t">&gt;</span>
   <span class="c">&lt;!-- everything in here draws dark at 2x scale; nest theme:ThemeRegion.Scale="1.5" to multiply further --&gt;</span>
 <span class="t">&lt;/Border&gt;</span></code></pre>
@@ -638,11 +725,11 @@ services.AddSingleton&lt;MainWindowViewModel&gt;();</code></pre></li>
   <!-- ---------- icons ---------- -->
   <h3 id="how-icons"><span class="n">8</span>Icons</h3>
   <p>A gallery is a class of icon paths. Point it at a folder and each drawing becomes a token — <code>.svg</code> files are the format it reads today:</p>
-  <pre><code><span class="c">// Quick: type enginegallery, then Tab</span>
+  <pre><code><span class="c">// Quick: type themegallery, then Tab</span>
 [IconGallery(SvgFolder = <span class="s">"Icons/Svg"</span>)]
 <span class="k">public partial class</span> MyIcons { }
 
-<span class="k">public override</span> MyIcons Icons => <span class="k">new</span>();   <span class="c">// in the theme</span></code></pre>
+<span class="k">public override</span> ThemeIconGallery Icons { <span class="k">get</span>; } = <span class="k">new</span> MyIcons();   <span class="c">// in the theme</span></code></pre>
 <pre><code>MyApp/
 └── Icons/
     └── Svg/
@@ -653,21 +740,29 @@ services.AddSingleton&lt;MainWindowViewModel&gt;();</code></pre></li>
   <div class="note why"><b>Extending the default theme</b>A gallery there derives from <code>ThemeIconGallery</code> — the type <code>DefaultTheme</code> hands to <code>Icons</code>. Deriving from it is also the gain: every default icon comes with you, your files add to the set, and <code>public override string ChevronDown =&gt; "…"</code> redraws one everywhere the theme uses it, its own control templates included:<pre><code>[IconGallery(SvgFolder = <span class="s">"Icons/Svg"</span>)]
 <span class="k">public partial class</span> MyIcons : ThemeIconGallery { }
 
-<span class="k">public override</span> MyIcons Icons => <span class="k">new</span>();   <span class="c">// in the subclass</span></code></pre></div>
-  <p>For data-bound icons or dynamic tokens inside a <code>DataTemplate</code>, keep UI types like <code>Geometry</code> out of your view model — bind the icon or token name as a <code>string</code> and resolve it in XAML with <code>{icons:Lookup {Binding Icon}}</code> (or the universal <code>{theme:Lookup {Binding Key}}</code>).</p>
+<span class="k">public override</span> ThemeIconGallery Icons { <span class="k">get</span>; } = <span class="k">new</span> MyIcons();   <span class="c">// in the subclass</span></code></pre></div>
+  <p>To render an icon cleanly in XAML without repeating <code>PathIcon</code>, <code>{icons:Lookup …}</code>, <code>Width</code> and <code>Height</code>, use the prefix-free <code>&lt;Icon&gt;</code> control shipped in <code>AngelSix.Themes.Default</code>. It auto-detects a <code>string</code> icon name (resolved live from <code>Theme.Icons</code>), a <code>Geometry</code> (like <code>{icons:Search}</code>), or an <code>IImage</code>, inherits <code>Foreground</code>, and defaults to a square via <code>Size</code> while still allowing independent <code>Width</code>/<code>Height</code> overrides:</p>
+  <pre><code><span class="t">&lt;Icon</span> Content=<span class="s">"{Binding Icon}"</span> Size=<span class="s">"{size:IconSizeSm}"</span> <span class="t">/&gt;</span>                     <span class="c">&lt;!-- bound string name --&gt;</span>
+<span class="t">&lt;Icon</span> Content=<span class="s">"{icons:ArrowDown}"</span> Size=<span class="s">"{size:IconSizeSm}"</span> <span class="t">/&gt;</span>                 <span class="c">&lt;!-- direct geometry --&gt;</span>
+<span class="t">&lt;Icon</span> Content=<span class="s">"{icons:Banner}"</span> Width=<span class="s">"{size:IconSizeLg}"</span> Height=<span class="s">"{size:IconSizeSm}"</span> <span class="t">/&gt;</span> <span class="c">&lt;!-- non-square override --&gt;</span></code></pre>
+  <p>For dynamic non-icon tokens inside a <code>DataTemplate</code>, bind the token key as a <code>string</code> and resolve it with <code>{theme:Lookup {Binding Key}}</code> (or <code>{icons:Lookup {Binding Icon}}</code> when targeting an attached property like <code>theme:Icon.Data</code>).</p>
 
   <!-- ---------- mvvm ---------- -->
   <h3 id="how-mvvm"><span class="n">9</span>AngelSix.Mvvm</h3>
-  <p>The engine is built on AngelSix.Mvvm, and your app can use it too. Observable properties are source-generated, and <code>ObservableObject.Command(...)</code> / <code>AsyncCommand(...)</code> give single-line cached commands with 1-hop Go-to-Definition straight from XAML:</p>
+  <p>The engine is built on AngelSix.Mvvm, and your app can use it too. Derive from <code>ViewModelBase</code> (backed by <code>ObservableObject</code>), expose DI dependencies inline with <code>[Property]</code> or <code>[Observable]</code> on primary constructor parameters, and write single-line cached commands with <code>Command(...)</code> / <code>AsyncCommand(...)</code> for 1-hop Go-to-Definition straight from XAML:</p>
   <pre><code><span class="c">// Quick: type vm, then Tab</span>
-<span class="k">public partial class</span> MainViewModel(MyTheme theme) : ObservableObject
+<span class="k">public sealed partial class</span> MainViewModel(
+    [Property] MyTheme theme,
+    [Observable(IgnoreNull = <span class="k">true</span>)] <span class="k">string</span> activeSection = <span class="s">"Home"</span>) : ViewModelBase
 {
     [Observable] <span class="k">public partial string</span> Title { <span class="k">get</span>; <span class="k">set</span>; } = <span class="s">""</span>;
 
-    <span class="k">public</span> IRelayCommand ToggleDarkCommand =&gt; Command(() =&gt; theme.IsDark = !theme.IsDark);
+    <span class="k">public</span> IRelayCommand ToggleDarkCommand =&gt; Command(() =&gt; Theme.IsDark = !Theme.IsDark);
     <span class="k">public</span> IRelayCommand&lt;<span class="k">string</span>?&gt; OpenCommand =&gt; Command&lt;<span class="k">string</span>?&gt;(id =&gt; Title = id ?? <span class="s">""</span>);
 }</code></pre>
   <ul>
+    <li><code>[Property]</code> on a primary constructor parameter generates <code>public T Name { get; } = param;</code> with zero double-storage.</li>
+    <li><code>[Observable]</code> works on both <code>partial</code> properties and primary constructor parameters, and supports <code>IgnoreNull = true</code> (ideal when multiple <code>ListBox</code> groups bind to one shared <code>ActiveItem</code>).</li>
     <li><code>[NotifyPropertyChanged]</code> gives change notification to a class that already has a base. <code>ThemeBase</code> uses it.</li>
     <li><code>Design.DataContext="{DesignContext}"</code> gives the designer the view model named by the view's <code>x:DataType</code>, from the app's services. The <code>App</code> class implements <code>IServiceHost</code>.</li>
   </ul>
@@ -681,11 +776,11 @@ services.AddSingleton&lt;MainWindowViewModel&gt;();</code></pre></li>
   <p>Every build writes the engine's snippets for Rider (the solution's <code>.DotSettings</code>), VS Code (<code>.vscode</code>) and Visual Studio on Windows. Files change only when the snippets do. Type the shortcut, Tab, then Tab between fields:</p>
   <table>
     <tr><th>XAML</th><th>C#</th></tr>
-    <tr><td><code>enginexml</code> namespaces<br /><code>enginecontrol</code> a control file<br /><code>enginepreview</code> a preview<br /><code>enginestate</code> a state style</td>
-        <td><code>engineclass</code> a theme · <code>engineaccent</code> a hue<br /><code>enginesurface</code> the canvas · <code>enginerole</code> a role<br /><code>engineladder</code> a ladder · <code>enginetoken</code> a token<br /><code>enginealign</code> · <code>enginefont</code> · <code>enginegallery</code> · <code>engineicons</code></td></tr>
+    <tr><td><code>enginenamespaces</code> namespaces<br /><code>enginecontrol</code> a control file<br /><code>enginecontrolpreview</code> a preview<br /><code>enginecontrolstyle</code> a state style</td>
+        <td><code>themeclass</code> a theme · <code>themeaccent</code> a hue<br /><code>themesurface</code> the canvas · <code>themeladder</code> a ladder<br /><code>themeproperty</code> a live token · <code>themealign</code> alignment<br /><code>themefont</code> font &amp; weights · <code>themegallery</code> · <code>themeicons</code></td></tr>
   </table>
   <p>Turn it off with <code>&lt;GenerateThemeSnippets&gt;false&lt;/GenerateThemeSnippets&gt;</code>.</p>
-  <p><strong>AngelSix.Mvvm writes its own</strong>, the same way, for the view-model side: <code>vm</code> an <code>ObservableObject</code> class (at namespace level) · then, inside it, type <code>vm</code> again and the member snippets appear: <code>vmproperty</code> a property · <code>vmcommand</code> / <code>vmcommandparam</code> / <code>vmasynccommand</code> a <code>[Command]</code> method · <code>vmchanged</code> the change hook · <code>vmnotify</code> for a class that already has a base · <code>designcontext</code> on a view's root. Tab order on <code>vmcommand</code>: name, return type (<code>void</code>), then the body after <code>=&gt;</code>. Turn it off with <code>&lt;GenerateMvvmSnippets&gt;false&lt;/GenerateMvvmSnippets&gt;</code>.</p>
+  <p><strong>AngelSix.Mvvm writes its own</strong>, the same way, for the view-model side: <code>vm</code> an <code>ObservableObject</code> class (at namespace level) · then, inside it, type <code>vm</code> again and the member snippets appear: <code>vmproperty</code> an <code>[Observable]</code> property · <code>vmcommand</code> / <code>vmcommandparam</code> / <code>vmasynccommand</code> inline cached <code>Command(...)</code> / <code>AsyncCommand(...)</code> properties · <code>vmchanged</code> the change hook · <code>vmnotify</code> for a class that already has a base · <code>designcontext</code> on a view's root. Turn it off with <code>&lt;GenerateMvvmSnippets&gt;false&lt;/GenerateMvvmSnippets&gt;</code>.</p>
 </section>
 
 <!-- ============================== AVALONIA KNOWLEDGE ============================== -->
@@ -745,7 +840,11 @@ services.AddSingleton&lt;MainWindowViewModel&gt;();</code></pre></li>
     <li><b><code>{DesignContext}</code>.</b> Design-time data for previews without a view model.</li>
     <li><b>Shorthands.</b> <code>{size:Scaled 520}</code>, <code>{size:Edges {…}}</code> and <code>ConcentricCorners</code> defaults.</li>
     <li><b>Alignment tokens.</b> <code>StandardAlignment</code> and <code>ButtonAlignment</code>, split into the halves XAML binds.</li>
-    <li><b>Editor snippets.</b> <code>enginexml</code> and the rest, written for Rider and VS Code at build time — and <code>vm</code>, <code>vmcommand</code> and friends from AngelSix.Mvvm.</li>
+    <li><b>Editor snippets.</b> <code>enginenamespaces</code>, <code>themeclass</code> and the rest, written for Rider and VS Code at build time — and <code>vm</code>, <code>vmcommand</code> and friends from AngelSix.Mvvm.</li>
+    <li><b>Prefix-free <code>&lt;Icon&gt;</code> control.</b> Shipped in <code>AngelSix.Themes.Default</code>: auto-detects bound icon names, <code>Geometry</code> or <code>IImage</code>, defaults to a square via <code>Size</code>, and still allows independent <code>Width</code>/<code>Height</code> overrides.</li>
+    <li><b>Primary-constructor MVVM &amp; <code>ViewModelBase</code>.</b> <code>ViewModelBase</code> lives in <code>AngelSix.Mvvm</code>; <code>[Property]</code> and <code>[Observable]</code> work directly on primary constructor parameters, and <code>[Observable(IgnoreNull = true)]</code> lets multiple <code>ListBox</code> groups bind cleanly to one <code>ActiveItem</code>.</li>
+    <li><b><code>IsLight</code>, <code>DefaultTheme.Accents</code> &amp; <code>[Attached&lt;THost&gt;]</code>.</b> <code>{theme:IsLight}</code> joins <code>{theme:IsDark}</code>; <code>DefaultTheme</code> ships <code>Accents</code> and <code>DefaultAccent</code>; <code>[Attached&lt;THost&gt;]</code> source-generates Avalonia attached properties with <code>Get</code>/<code>Set</code> and change hooks.</li>
+    <li><b>Layout-only view enforcement (<code>ASTE044</code>).</b> Build-time analyzer catches literal colors/sizes, code-behind mutations, UI types in view models, pointless backing fields, and unused dependencies.</li>
     <li><b>Shared brushes.</b> One brush instance per color, which fixes a transition stack overflow.</li>
     <li><b>Fonts register themselves.</b> <code>AngelSix.ThemeEngine.Fonts</code> embeds Inter (SIL OFL) and registers it on first use: <code>ThemeFonts.Inter</code>, <code>ThemeFonts.System</code>, or the string form. No <code>.WithInterFont()</code>.</li>
   </ul>
@@ -778,8 +877,11 @@ services.AddSingleton&lt;MainWindowViewModel&gt;();</code></pre></li>
     <details class="term" data-kind="class"><summary><code>BaseSize</code><span class="kind">Core</span><span class="short">The one number every size grows from.</span></summary>
       <div class="body">On <code>ThemeBase</code>, default 1. Ladders and <code>{size:Scaled}</code> multiply it.</div></details>
 
-    <details class="term" data-kind="class"><summary><code>IsDark</code><span class="kind">Core</span><span class="short">Switches the app to the dark palette.</span></summary>
-      <div class="body">On <code>ThemeBase</code>. Every ramp mirrors; see <code>ThemeRegion.IsDark</code> for part of a window.</div></details>
+    <details class="term" data-kind="class"><summary><code>IsDark</code> · <code>IsLight</code><span class="kind">Core</span><span class="short">Switches the app between dark and light palettes.</span></summary>
+      <div class="body">On <code>ThemeBase</code>, also exposed as <code>{theme:IsDark}</code> and <code>{theme:IsLight}</code> in XAML. Every ramp mirrors; see <code>ThemeRegion.IsDark</code> for part of a window.</div></details>
+
+    <details class="term" data-kind="class"><summary><code>DefaultTheme.Accents</code> · <code>DefaultAccent</code><span class="kind">Core</span><span class="short">Built-in accent list and live selected accent hue.</span></summary>
+      <div class="body">Exposed directly on <code>DefaultTheme</code> so accent swatch pickers bind straight to <code>Theme.Accents</code> and <code>Theme.DefaultAccent</code>.</div></details>
 
     <details class="term" data-kind="class"><summary><code>ResetToDefaults()</code><span class="kind">Core</span><span class="short">Puts every token back to its declared value.</span></summary>
       <div class="body">Covers <code>[Observable]</code> tokens, <code>IsDark</code>, <code>BaseSize</code> and generated ladder scales.</div></details>
@@ -788,7 +890,7 @@ services.AddSingleton&lt;MainWindowViewModel&gt;();</code></pre></li>
       <div class="body">The value a role returns.</div></details>
 
     <details class="term" data-kind="class"><summary><code>Alignment</code><span class="kind">Core</span><span class="short">A horizontal and vertical alignment as one token.</span></summary>
-      <div class="body">A settable token generates settable halves, <code>{Name}Horizontal</code> and <code>{Name}Vertical</code>.<pre><code><span class="c">// Quick: type enginealign, then Tab</span>
+      <div class="body">A settable token generates settable halves, <code>{Name}Horizontal</code> and <code>{Name}Vertical</code>.<pre><code><span class="c">// Quick: type themealign, then Tab</span>
 [Observable] <span class="k">public virtual partial</span> Alignment StandardAlignment { <span class="k">get</span>; <span class="k">set</span>; }
     = <span class="k">new</span>(HorizontalAlignment.Left, VerticalAlignment.Center);</code></pre></div></details>
 
@@ -802,13 +904,16 @@ services.AddSingleton&lt;MainWindowViewModel&gt;();</code></pre></li>
       <div class="body"><code>HueAware</code> equal lightness across hues · <code>DarkSeed</code> the dark palette's centre · <code>OverlayLevels</code> translucent overlay brushes · <code>Stages</code> stages per side (10) · <code>InvertRamp</code> invert through black in the dark.</div></details>
 
     <details class="term" data-kind="attribute"><summary><code>[AccentHue]</code><span class="kind">Attribute</span><span class="short">Makes a ramp a hue that controls can wear.</span></summary>
-      <div class="body">The property <code>AccentPrimary</code> becomes the hue <code>Primary</code>.<pre><code><span class="c">// Quick: type engineaccent, then Tab</span>
+      <div class="body">The property <code>AccentPrimary</code> becomes the hue <code>Primary</code>.<pre><code><span class="c">// Quick: type themeaccent, then Tab</span>
 [AccentHue, ColorRamp(HueAware = <span class="k">true</span>)]
 [Observable] <span class="k">public virtual partial</span> Color AccentPrimary { <span class="k">get</span>; <span class="k">set</span>; } = Color.Parse(<span class="s">"#2F6FEB"</span>);</code></pre></div></details>
 
     <details class="term" data-kind="attribute"><summary><code>[AccentRole]</code><span class="kind">Attribute</span><span class="short">Names the stage a part uses, in the control's hue.</span></summary>
-      <div class="body">Policies: <code>PinHue</code>, <code>BrightStage</code>, <code>BrightThreshold</code>, <code>ContrastAgainst</code> with <code>Alternate</code>, <code>FocusColor</code> with <code>FocusSwitch</code> and <code>NeutralHue</code>.<pre><code><span class="c">// Quick: type enginerole, then Tab</span>
-[AccentRole] <span class="k">protected internal virtual</span> RampStage TextDefault => RampStage.Dark9;</code></pre></div></details>
+      <div class="body">Policies: <code>PinHue</code>, <code>BrightStage</code>, <code>BrightThreshold</code>, <code>ContrastAgainst</code> with <code>Alternate</code>, <code>FocusColor</code> with <code>FocusSwitch</code> and <code>NeutralHue</code>.<pre><code>[AccentRole] <span class="k">protected internal virtual</span> RampStage TextDefault =&gt; RampStage.Dark9;</code></pre></div></details>
+
+    <details class="term" data-kind="attribute"><summary><code>[Attached&lt;THost&gt;]</code><span class="kind">Attribute</span><span class="short">Source-generates an Avalonia attached property from a single field.</span></summary>
+      <div class="body">Generates <code>RegisterAttached</code>, <code>Get{Name}</code>, <code>Set{Name}</code> and wires <code>On{Name}Changed</code> automatically.<pre><code>[Attached&lt;Control&gt;(Inherits = <span class="k">true</span>)]
+<span class="k">public static readonly</span> AttachedProperty&lt;<span class="k">bool</span>?&gt; IsDarkProperty;</code></pre></div></details>
 
     <details class="term" data-kind="attribute"><summary><code>[SizeScale]</code><span class="kind">Attribute</span><span class="short">Builds a ladder of size tokens.</span></summary>
       <div class="body"><code>Multipliers</code> · <code>Labels</code> (default Sm, Md, Lg, Xl, Xxl) · <code>Types</code> and <code>TypeSuffixes</code> · <code>Floor</code> · <code>Ceiling</code> · <code>Scalable</code> · <code>Mode</code> and <code>Offsets</code> for additive steps.</div></details>
@@ -823,7 +928,11 @@ services.AddSingleton&lt;MainWindowViewModel&gt;();</code></pre></li>
       <div class="body"><code>SvgFolder</code> is read from the project folder, recursively; the format it reads is <code>.svg</code>. The class must be <code>partial</code>, and a gallery for a theme that extends the default derives from <code>ThemeIconGallery</code>: <a href="#how-icons">Icons</a>.</div></details>
 
     <details class="term" data-kind="xaml"><summary><code>{color:…}</code> <code>{size:…}</code> <code>{theme:…}</code> <code>{icons:…}</code><span class="kind">XAML</span><span class="short">The four token namespaces.</span></summary>
-      <div class="body">Declare all of them with the <code>enginexml</code> snippet.</div></details>
+      <div class="body">Declare all of them with the <code>enginenamespaces</code> snippet.</div></details>
+
+    <details class="term" data-kind="xaml"><summary><code>&lt;Icon&gt;</code><span class="kind">XAML</span><span class="short">Prefix-free icon control for bound names, geometry or images.</span></summary>
+      <div class="body">Shipped in <code>AngelSix.Themes.Default</code>. Auto-detects <code>string</code> icon names, <code>Geometry</code> or <code>IImage</code>; defaults to square via <code>Size</code> while supporting explicit <code>Width</code>/<code>Height</code> overrides.<pre><code><span class="t">&lt;Icon</span> Content=<span class="s">"{Binding Icon}"</span> Size=<span class="s">"{size:IconSizeSm}"</span> <span class="t">/&gt;</span>
+<span class="t">&lt;Icon</span> Content=<span class="s">"{icons:ArrowDown}"</span> Size=<span class="s">"{size:IconSizeSm}"</span> <span class="t">/&gt;</span></code></pre></div></details>
 
     <details class="term" data-kind="xaml"><summary><code>{color:AccentBrush Stage}</code><span class="kind">XAML</span><span class="short">A stage of whatever hue the control wears.</span></summary>
       <div class="body"><pre><code>Background=<span class="s">"{color:AccentBrush Light9}"</span></code></pre></div></details>
@@ -854,11 +963,17 @@ Height=<span class="s">"{size:Scaled {size:IconSizeMd}, 2}"</span>   <span class
       <div class="body">For previews only.</div></details>
 
     <details class="term" data-kind="xaml"><summary><code>controls:LightDarkPreview</code><span class="kind">XAML</span><span class="short">Shows a preview in both palettes, side by side.</span></summary>
-      <div class="body">From <code>AngelSix.ThemeEngine.Controls</code>.<pre><code><span class="c">&lt;!-- Quick: type enginepreview, then Tab --&gt;</span>
+      <div class="body">From <code>AngelSix.ThemeEngine.Controls</code>.<pre><code><span class="c">&lt;!-- Quick: type enginecontrolpreview, then Tab --&gt;</span>
 <span class="t">&lt;controls:LightDarkPreview</span> Title=<span class="s">"Button"</span> ContentTemplate=<span class="s">"{StaticResource ButtonPreview}"</span> <span class="t">/&gt;</span></code></pre></div></details>
 
-    <details class="term" data-kind="mvvm"><summary><code>[Observable]</code><span class="kind">MVVM</span><span class="short">A partial property that raises a change when set.</span></summary>
-      <div class="body">Add <code>partial void On{Name}Changed(T value)</code> to react.</div></details>
+    <details class="term" data-kind="mvvm"><summary><code>ViewModelBase</code><span class="kind">MVVM</span><span class="short">Built-in base class for app view models.</span></summary>
+      <div class="body">Provided by <code>AngelSix.Mvvm</code> (derives from <code>ObservableObject</code>), so apps don't need to declare their own empty <code>ViewModelBase</code>.</div></details>
+
+    <details class="term" data-kind="mvvm"><summary><code>[Property]</code><span class="kind">MVVM</span><span class="short">Generates a get-only public property from a primary constructor parameter.</span></summary>
+      <div class="body">Ideal for DI dependencies that XAML binds to (e.g. <code>([Property] AppTheme theme)</code> emits <code>public AppTheme Theme { get; } = theme;</code>). Optional <code>Name = "…"</code> override.</div></details>
+
+    <details class="term" data-kind="mvvm"><summary><code>[Observable]</code><span class="kind">MVVM</span><span class="short">Generates a notifying property on a partial property or primary constructor parameter.</span></summary>
+      <div class="body">Add <code>partial void On{Name}Changed(T value)</code> to react, or set <code>IgnoreNull = true</code> to ignore <code>null</code> writebacks from deselected sibling <code>ListBox</code> controls.</div></details>
 
     <details class="term" data-kind="mvvm"><summary><code>[Command]</code><span class="kind">MVVM</span><span class="short">Generates <code>{Method}Command</code> for a method.</span></summary>
       <div class="body">A method with one parameter gets a typed command.</div></details>

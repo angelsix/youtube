@@ -4,18 +4,23 @@ using AngelSix.Themes.Default;
 
 namespace AvaloniaThemeLab.GettingStarted.ViewModels;
 
-public partial class MainWindowViewModel(DefaultTheme theme) : ViewModelBase
+public sealed partial class MainWindowViewModel(DefaultTheme theme) : ViewModelBase
 {
+    #region Properties
+
     public DefaultTheme Theme { get; } = theme;
 
     public string Greeting => "Welcome to the default theme";
 
-    [Command]
-    private void ToggleDark() => Theme.IsDark = !Theme.IsDark;
+    #endregion Properties
 
-    [Command]
-    private void Grow() => Theme.BaseSize += 0.25;
+    #region Commands
 
-    [Command]
-    private void Shrink() => Theme.BaseSize = Math.Max(0.5, Theme.BaseSize - 0.25);
+    public IRelayCommand ToggleDarkCommand => Command(() => Theme.IsDark = !Theme.IsDark);
+
+    public IRelayCommand GrowCommand => Command(() => Theme.BaseSize += 0.25);
+
+    public IRelayCommand ShrinkCommand => Command(() => Theme.BaseSize = Math.Max(0.5, Theme.BaseSize - 0.25));
+
+    #endregion Commands
 }

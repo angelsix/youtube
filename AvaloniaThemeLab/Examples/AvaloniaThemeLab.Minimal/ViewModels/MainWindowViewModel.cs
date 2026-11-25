@@ -1,21 +1,26 @@
 using System;
-using AvaloniaThemeLab.Minimal.Theme;
 using AngelSix.Mvvm;
+using AvaloniaThemeLab.Minimal.Theme;
 
 namespace AvaloniaThemeLab.Minimal.ViewModels;
 
-public partial class MainWindowViewModel(MinimalTheme theme) : ViewModelBase
+public sealed partial class MainWindowViewModel(MinimalTheme theme) : ViewModelBase
 {
+    #region Properties
+
     public MinimalTheme Theme { get; } = theme;
 
     public string Greeting => "Welcome to a minimal theme";
 
-    [Command]
-    private void ToggleDark() => Theme.IsDark = !Theme.IsDark;
+    #endregion Properties
 
-    [Command]
-    private void Grow() => Theme.BaseSize += 0.25;
+    #region Commands
 
-    [Command]
-    private void Shrink() => Theme.BaseSize = Math.Max(0.5, Theme.BaseSize - 0.25);
+    public IRelayCommand ToggleDarkCommand => Command(() => Theme.IsDark = !Theme.IsDark);
+
+    public IRelayCommand GrowCommand => Command(() => Theme.BaseSize += 0.25);
+
+    public IRelayCommand ShrinkCommand => Command(() => Theme.BaseSize = Math.Max(0.5, Theme.BaseSize - 0.25));
+
+    #endregion Commands
 }

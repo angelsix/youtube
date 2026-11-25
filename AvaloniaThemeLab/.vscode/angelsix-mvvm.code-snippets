@@ -44,31 +44,28 @@
   "vmcommand": {
     "scope": "csharp",
     "prefix": "vmcommand",
-    "description": "A command: [Command] on a private method generates {Name}Command",
+    "description": "A cached inline IRelayCommand property on ObservableObject",
     "body": [
-      "[Command]",
-      "private ${2:void} ${1:Save}() => $0;"
+      "public IRelayCommand ${1:Save}Command => Command(() => $0);"
     ]
   },
   "vmcommandparam": {
     "scope": "csharp",
     "prefix": "vmcommandparam",
-    "description": "A command with a parameter: generates RelayCommand<T> as {Name}Command",
+    "description": "A cached inline parameterized IRelayCommand<T> property on ObservableObject",
     "body": [
-      "[Command]",
-      "private ${2:void} ${1:Open}(${3:string} item) => $0;"
+      "public IRelayCommand<${2:string}> ${1:Open}Command => Command<$2>(item => $0);"
     ]
   },
   "vmasynccommand": {
     "scope": "csharp",
     "prefix": "vmasynccommand",
-    "description": "An async command: {Name}Command is an IAsyncRelayCommand with IsRunning, ExecuteAsync and Cancel; the Async suffix is dropped from the command's name",
+    "description": "A cached inline IAsyncRelayCommand property on ObservableObject",
     "body": [
-      "[Command]",
-      "private async Task ${1:Load}Async(CancellationToken token)",
+      "public IAsyncRelayCommand ${1:Load}Command => AsyncCommand(async ct =>",
       "{",
       "    $0",
-      "\\}"
+      "\\});"
     ]
   },
   "designcontext": {

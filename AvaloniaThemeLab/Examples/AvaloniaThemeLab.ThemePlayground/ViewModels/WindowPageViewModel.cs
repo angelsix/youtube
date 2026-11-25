@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
-using Avalonia.Controls;
 using AngelSix.Mvvm;
+using Avalonia.Controls;
 
 namespace AvaloniaThemeLab.ThemePlayground.ViewModels;
 
@@ -8,17 +8,22 @@ namespace AvaloniaThemeLab.ThemePlayground.ViewModels;
 public sealed partial class WindowPageViewModel(IDialogWindowService? dialogs = null, IModalNavigationService? modalNavigation = null)
     : PageEntryViewModel(typeof(Window))
 {
+    #region Properties
+
     public IModalNavigationService? ModalNavigation { get; } = modalNavigation;
+
+    #endregion Properties
+
+    #region Commands
+
     /// <summary>Opens a dialog over the topmost window: the main window, or the dialog already open.</summary>
-    [Command]
-    private void OpenDialog() => dialogs?.OpenDialog(this);
+    public IRelayCommand OpenDialogCommand => Command(() => dialogs?.OpenDialog(this));
 
-    [Command]
-    private void CloseDialog() => dialogs?.CloseTopDialog();
+    public IRelayCommand CloseDialogCommand => Command(() => dialogs?.CloseTopDialog());
 
-    [Command]
-    private Task PushModalAsync() => ModalNavigation?.PushAsync(this) ?? Task.CompletedTask;
+    public IAsyncRelayCommand PushModalCommand => AsyncCommand(() => ModalNavigation?.PushAsync(this) ?? Task.CompletedTask);
 
-    [Command]
-    private Task PopModalAsync() => ModalNavigation?.PopAsync() ?? Task.CompletedTask;
+    public IAsyncRelayCommand PopModalCommand => AsyncCommand(() => ModalNavigation?.PopAsync() ?? Task.CompletedTask);
+
+    #endregion Commands
 }
