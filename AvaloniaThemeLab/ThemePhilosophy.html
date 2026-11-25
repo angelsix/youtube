@@ -234,14 +234,14 @@
   <p class="eyebrow">Theme philosophy</p>
   <h2>Why this theme exists</h2>
 <p>This theme exists because Avalonia's stock themes are a mess to work with. They run to thousands of files built up over years. Colors and sizes are hard-coded wherever someone needed them. There is no token system, so the same grey is typed out in forty places, slightly differently. Resources are looked up by string keys, so there is no IntelliSense and a typo fails silently at runtime. Changing one corner radius across an app means hunting through dozens of templates.</p>
-<p>This theme throws that approach away. Every design decision lives in one C# class, every control theme reads from it, and the compiler checks the lot. <code>ThemeRules.html</code> says how to write a control theme. This file says why the rules exist and what they protect, so you can tell what is right when no rule covers the case in front of you.</p>
+<p>This theme throws that approach away. Shared design decisions live in one C# class and control themes read from it. The compiler checks token names; runtime tests check how their values behave and render. <code>ThemeRules.html</code> says how to write a control theme. This file says why the rules exist and what they protect, so you can tell what is right when no rule covers the case in front of you.</p>
 </section>
 <section class="page" id="what-it-stands-for">
   <p class="eyebrow">Theme philosophy</p>
   <h2>What it stands for</h2>
 <h3 id="one-place-for-every-design-decision">One place for every design decision</h3>
 <p>Colors, type scale, spacing, radii, control heights and thicknesses are tokens in <code>DefaultTheme</code>. A control theme never decides a value for itself. It asks for a token. If you want to know why a button is the size it is, the answer is in one file, not spread across templates.</p>
-<h3 id="a-new-look-is-a-subclass-not-a-rewrite">A new look is a subclass, not a rewrite</h3>
+<h3 id="a-new-look-is-a-subclass-not-a-rewrite">A new look starts with values</h3>
 <p>A theme is a single C# class. To make a different look you subclass <code>DefaultTheme</code> and change values: a hue, a radius, a font size. Every control picks the change up. A brand theme, or a look modelled on another platform, is made this way; dark mode is a switch on the same theme, not another class.</p>
 <p>So the first question for any new look is "which values change?", never "which templates do I copy?". A control theme changes only when values cannot express the difference, and then it changes by the rules (a new exposed property, a declared variant class, or a token that more than one control needs). That change is made once, in the base, so every theme built on it gains it.</p>
 <h3 id="few-tokens-used-well">Few tokens, used well</h3>
@@ -251,8 +251,11 @@
 <h3 id="controls-are-themable-by-their-users">Controls are themable by their users</h3>
 <p>Every visual property a control has is set by a style setter in its theme, and its template reads those properties with <code>TemplateBinding</code>. That way an app can still restyle any control through normal Avalonia styling, with normal precedence. A value written straight into a template locks the user out.</p>
 <h3 id="the-theme-draws-the-page-lays-out">The theme draws, the page lays out</h3>
-<p>A view built on this theme places controls with panels, rows, columns and alignment. It does not paint them. No backgrounds, borders, radii, fonts or colors on a page; no helper classes invented to nudge one page into shape; no padding repeated from page to page because the control should have had it. If a page needs a value the control does not provide, the control theme is wrong, and that is where the fix goes.</p>
+<p>A view places existing controls with panels, rows, columns and alignment. It may select semantic theme values for its composition, such as a heading size or a card surface, but never invents a literal colour or dimension. Reusable control anatomy, templates and interaction states stay in the control theme. A page must not reconstruct a control or compensate for broken control padding. A missing reusable capability is fixed in the control theme, not patched on every page.</p>
 <p>Style classes on a control are for real variants a user would choose, such as a TextBox's <code>clearButton</code> or <code>revealPasswordButton</code>, declared by the control's own theme (Rule 17). They are not a place to park one-off fixes.</p>
+<p>Initial native-window bounds are application startup constraints, not theme density. A reasoned <code>Theme Exception: WindowBounds:</code> marker permits literal Width and Height on the root Window only. It does not permit literal dimensions on content or make a window resize when BaseSize changes.</p>
+<h3 id="view-specific-interaction">View-specific interaction stays with the view</h3>
+<p>Pointer routing, focus, scrolling and attaching a navigation adapter belong to the view. Generated named control fields are appropriate for this work. Keep the existing ban on string-based FindControl queries; it is not necessary to weaken it to use those fields. Application actions and presentation state belong behind commands and bindings.</p>
 <h3 id="as-little-xaml-as-possible">As little XAML as possible</h3>
 <p>Every element, attribute and value is something that can break, so the best XAML is the shortest XAML that does the job. Before adding an element, ask whether an existing one can already do it.</p>
 <p>A panel inside a panel that lays out the same way is one panel too many. A Border added only to give its child padding is redundant when the child has Padding of its own. A margin on every child is a Spacing on their panel. A value repeated in several places is a missing setter or token. Nothing is wrapped "just in case", and nothing is set to the value it already has.</p>

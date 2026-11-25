@@ -1,3 +1,4 @@
+<!-- Theme Exception: WindowBounds: initial native-window dimensions are independent of content density. -->
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -7,7 +8,6 @@
         xmlns:controls="using:AngelSix.ThemeEngine.Controls"
         xmlns:converters="using:AvaloniaThemeLab.ThemePlayground.ValueConverters"
         xmlns:vm="using:AvaloniaThemeLab.ThemePlayground.ViewModels"
-        xmlns:views="using:AvaloniaThemeLab.ThemePlayground.Views"
         mc:Ignorable="d"
         x:Class="AvaloniaThemeLab.ThemePlayground.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
@@ -28,7 +28,7 @@
         ColumnSpacing="{size:SpacingXxl}" RowSpacing="{size:SpacingXxl}" Margin="{size:Edges {size:SpacingXxl}}">
     <TextBox Grid.Row="0" Grid.Column="0" Text="{Binding SearchText}" PlaceholderText="Search controls"
              HorizontalAlignment="Stretch" />
-    <ListBox Grid.Row="1" Grid.Column="0" Width="{size:SurfaceWidthSm}"
+    <ListBox x:Name="SidebarEntries" Grid.Row="1" Grid.Column="0" Width="{size:SurfaceWidthSm}"
              ItemsSource="{Binding Catalogue.Entries}" SelectedItem="{Binding SelectedEntry}">
       <!-- One template for every entry kind (both derive GalleryEntryViewModel.Name). -->
       <ListBox.ItemTemplate>
@@ -41,6 +41,7 @@
     <DockPanel Grid.Row="0" Grid.Column="1" HorizontalSpacing="{size:SpacingXl}">
       <!-- Opens the live theme editor over this window -->
       <Button DockPanel.Dock="Right" Content="Settings" Command="{Binding OpenSettingsCommand}" />
+      <!-- Theme Exception: Theme: LightDarkPreviewSwatches is a named theme supplied by the reusable preview control. -->
       <ListBox x:Name="AccentPicker" DockPanel.Dock="Right"
                Theme="{StaticResource LightDarkPreviewSwatches}"
                ItemsSource="{x:Static vm:MainWindowViewModel.AccentChoices}"
@@ -67,7 +68,6 @@
                                      SelectedAccent="{Binding SelectedItem, ElementName=AccentPicker, Mode=TwoWay}"
                                      ContentTemplate="{Binding ControlType, Converter={StaticResource PreviewTemplateConverter}}" />
         </DataTemplate>
-        <views:ViewLocator />
       </ScrollViewer.DataTemplates>
     </ScrollViewer>
   </Grid>

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using AngelSix.ThemeEngine.Generated;
 using AngelSix.Mvvm;
-using AvaloniaThemeLab.ThemePlayground.Views;
 
 namespace AvaloniaThemeLab.ThemePlayground.ViewModels;
 
@@ -11,6 +10,12 @@ namespace AvaloniaThemeLab.ThemePlayground.ViewModels;
 public sealed partial class MainWindowViewModel : ObservableObject
 {
     private readonly GalleryCatalogue _catalogue;
+
+    // Absent in design-time and headless tools, which have no window to open over
+    private readonly IThemeSettingsWindowService? _settingsWindow;
+
+    // Armed while a navigating click on the sidebar is in flight (its press has landed, its release has not yet routed).
+    private GalleryEntryViewModel? _revealedArmedFrom;
 
     [Observable] public partial string SearchText { get; set; } = string.Empty;
 
@@ -28,13 +33,12 @@ public sealed partial class MainWindowViewModel : ObservableObject
         Hue(AccentKind.Favourite), Hue(AccentKind.Error), Hue(AccentKind.Info), Hue(AccentKind.Destructive), Hue(AccentKind.Subtle),
     ];
 
-    /// <summary>The engine hue for one of this theme's generated accent kinds.</summary>
-    public static AccentHue Hue(AccentKind kind) => new(kind.ToString());
+    public GalleryCatalogue Catalogue => _catalogue;
 
-    // Absent in design-time and headless tools, which have no window to open over
-    private readonly ThemeSettingsWindowService? _settingsWindow;
+    // Production default: the page is revealed only after the navigating click's release has routed (the whole point of the ShownEntry indirection).
+    public bool DeferRevealPastNavigatingClick { get; set; } = true;
 
-    public MainWindowViewModel(GalleryCatalogue catalogue, ThemeSettingsWindowService? settingsWindow = null)
+    public MainWindowViewModel(GalleryCatalogue catalogue, IThemeSettingsWindowService? settingsWindow = null)
     {
         _catalogue = catalogue;
         _settingsWindow = settingsWindow;
@@ -42,17 +46,12 @@ public sealed partial class MainWindowViewModel : ObservableObject
         SelectedEntry = catalogue.Entries.FirstOrDefault();
     }
 
-    public GalleryCatalogue Catalogue => _catalogue;
+    /// <summary>The engine hue for one of this theme's generated accent kinds.</summary>
+    public static AccentHue Hue(AccentKind kind) => new(kind.ToString());
 
     /// <summary>Opens the live theme editor over this window.</summary>
     [Command]
     private void OpenSettings() => _settingsWindow?.Show();
-
-    // Armed while a navigating click on the sidebar is in flight (its press has landed, its release has not yet routed).
-    private GalleryEntryViewModel? _revealedArmedFrom;
-
-    // Production default: the page is revealed only after the navigating click's release has routed (the whole point of the ShownEntry indirection).
-    public bool DeferRevealPastNavigatingClick { get; set; } = true;
 
     partial void OnSelectedEntryChanged(GalleryEntryViewModel? value)
     {

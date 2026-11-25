@@ -2,11 +2,12 @@ using System;
 using System.Collections.Generic;
 using Avalonia.Controls;
 using AvaloniaThemeLab.ThemePlayground.Pages;
+using AvaloniaThemeLab.ThemePlayground.ViewModels;
 
 namespace AvaloniaThemeLab.ThemePlayground.Views;
 
 /// <summary>Opens the Window page's dialogs and modal page, so its view model never constructs a view.</summary>
-public sealed class DialogWindowService(Func<TopLevel?> owner)
+public sealed class DialogWindowService(Func<TopLevel?> owner) : IDialogWindowService
 {
     private readonly Stack<DialogWindow> _open = new();
 
@@ -30,11 +31,6 @@ public sealed class DialogWindowService(Func<TopLevel?> owner)
         if (_open.Count > 0)
             _open.Peek().Close();
     }
-
-    public void PushModal(NavigationPage host, object? dataContext) =>
-        _ = host.PushModalAsync(new WindowPageModal { DataContext = dataContext });
-
-    public void PopModal(NavigationPage host) => _ = host.PopModalAsync();
 
     private void Remove(DialogWindow dialog)
     {

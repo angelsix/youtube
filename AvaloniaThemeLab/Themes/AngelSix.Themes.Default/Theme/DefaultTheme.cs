@@ -1,6 +1,9 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using AngelSix.Mvvm;
 using AngelSix.ThemeEngine;
+using AngelSix.ThemeEngine.Generated;
 using Avalonia;
 using Avalonia.Layout;
 using Avalonia.Media;
@@ -92,6 +95,13 @@ public partial class DefaultTheme : ThemeBase
 
     /// <summary>The focus ring: the one color that is not a hue.</summary>
     [Observable] public virtual partial Color AccentFocus { get; set; } = Color.Parse("#bf4aF9");
+
+    /// <summary>Every selectable accent hue declared by this theme (excluding <see cref="AccentKind.Surface"/>, which is the canvas).</summary>
+    public IReadOnlyList<AccentKind> Accents { get; } =
+        [.. Enum.GetValues<AccentKind>().Where(kind => kind != AccentKind.Surface)];
+
+    /// <summary>The app's selected default accent hue.</summary>
+    [Observable] public virtual partial AccentKind DefaultAccent { get; set; } = AccentKind.Primary;
 
     #endregion Seeds
 

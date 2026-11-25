@@ -116,8 +116,8 @@ public sealed class CornerRadiusTests
             window.Show();
             Settle(window);
 
-            Border Strip() => view.GetVisualDescendants().OfType<ColorSlider>().First().GetVisualDescendants().OfType<Border>().Single(b => b.Name == "Strip");
-            Border SpectrumFrame() => view.GetVisualDescendants().OfType<ColorSpectrum>().Single().GetVisualDescendants().OfType<Border>().Single(b => b.Name == "BorderRectangle");
+            Border getStrip() => view.GetVisualDescendants().OfType<ColorSlider>().First().GetVisualDescendants().OfType<Border>().Single(b => b.Name == "Strip");
+            Border getSpectrumFrame() => view.GetVisualDescendants().OfType<ColorSpectrum>().Single().GetVisualDescendants().OfType<Border>().Single(b => b.Name == "BorderRectangle");
 
             var report = new List<string>();
             foreach (var scale in new[] { 1.0, 4.0, 0.5, 4.0, 1.0 })
@@ -125,8 +125,8 @@ public sealed class CornerRadiusTests
                 TestTheme.With(t => { t.RadiusScale = scale; });
                 Settle(window);
                 // RadiusMd 12 on the 24px strip, RadiusSm 6 on the 256px spectrum, both times the scale
-                var strip = Strip();
-                var frame = SpectrumFrame();
+                var strip = getStrip();
+                var frame = getSpectrumFrame();
                 if (strip.CornerRadius != new CornerRadius(12 * scale))
                     report.Add($"RadiusScale {scale}: strip radius {strip.CornerRadius}, theme says {12 * scale}");
                 if (frame.CornerRadius != new CornerRadius(6 * scale))

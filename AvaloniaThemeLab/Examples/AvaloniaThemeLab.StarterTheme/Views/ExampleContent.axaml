@@ -1,0 +1,48 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+             xmlns:size="using:AngelSix.ThemeEngine.Sizes"
+             xmlns:color="using:AngelSix.ThemeEngine.Colors"
+             xmlns:icons="using:AngelSix.ThemeEngine.Icons"
+             xmlns:vm="using:AvaloniaThemeLab.StarterTheme.ViewModels"
+             x:Class="AvaloniaThemeLab.StarterTheme.Views.ExampleContent"
+             x:DataType="vm:ExampleContentViewModel"
+             Design.DataContext="{DesignContext}">
+  <!-- Centered welcome stack: greeting header, theme controls, and accented action buttons -->
+  <StackPanel Spacing="{size:SpacingXl}"
+              HorizontalAlignment="Center"
+              VerticalAlignment="Center">
+    <!-- Greeting header -->
+    <StackPanel Spacing="{size:SpacingMd}" HorizontalAlignment="Center">
+      <TextBlock Text="Welcome to your custom theme"
+                 TextAlignment="Center"
+                 HorizontalAlignment="Center"
+                 FontSize="{size:FontSizeXxl}"
+                 FontWeight="{theme:FontWeightSemiBold}"
+                 Foreground="{color:TextDefault}" />
+      <TextBlock Text="Everything here is laid out with panels; the theme draws it."
+                 TextAlignment="Center"
+                 HorizontalAlignment="Center"
+                 FontSize="{size:FontSizeSm}"
+                 Foreground="{color:DimTextDefault}" />
+    </StackPanel>
+
+    <!-- Live theme mode and scale buttons -->
+    <StackPanel Orientation="Horizontal" Spacing="{size:SpacingLg}" HorizontalAlignment="Center">
+      <Button theme:Icon.Data="{icons:Sparkle}" Command="{Binding ToggleModeCommand}">
+        <Panel>
+          <TextBlock Text="Dark mode" IsVisible="{Binding !Theme.IsDark}" />
+          <TextBlock Text="Light mode" IsVisible="{Binding Theme.IsDark}" />
+        </Panel>
+      </Button>
+      <Button Content="Bigger" Command="{Binding BiggerCommand}" />
+      <Button Content="Smaller" Command="{Binding SmallerCommand}" />
+    </StackPanel>
+
+    <!-- Accented action buttons -->
+    <StackPanel Orientation="Horizontal" Spacing="{size:SpacingLg}" HorizontalAlignment="Center">
+      <Button Content="Save" theme:Accent.Kind="Primary" />
+      <Button Content="Delete" theme:Accent.Kind="Destructive" />
+    </StackPanel>
+  </StackPanel>
+</UserControl>

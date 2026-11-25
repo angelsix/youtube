@@ -9,7 +9,6 @@
   <StackPanel Spacing="{size:SpacingXl}" Margin="{size:Edges {size:SpacingXxl}}">
     <TextBlock Text="A modal page, pushed over the navigation page." TextWrapping="Wrap" />
     <Button Content="Close the modal page"
-            Command="{Binding PopModalCommand}"
-            CommandParameter="{Binding $parent[NavigationPage]}" />
+            Command="{Binding PopModalCommand}" />
   </StackPanel>
 </ContentPage>

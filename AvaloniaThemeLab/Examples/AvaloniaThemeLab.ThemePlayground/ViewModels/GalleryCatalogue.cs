@@ -10,8 +10,6 @@ using Avalonia.Controls;
 using Avalonia.Controls.Templates;
 using Avalonia.Styling;
 using AngelSix.Themes.Default;
-using AvaloniaThemeLab.ThemePlayground.Pages;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace AvaloniaThemeLab.ThemePlayground.ViewModels;
 
@@ -20,10 +18,13 @@ public sealed class GalleryCatalogue
 {
     private readonly IReadOnlyList<GalleryEntryViewModel> _allEntries;
 
-    public GalleryCatalogue(IServiceProvider services)
+    /// <summary>The catalogue entries currently shown by the main window.</summary>
+    public ObservableCollection<GalleryEntryViewModel> Entries { get; }
+
+    public GalleryCatalogue(IEnumerable<PageEntryViewModel> pages)
     {
         var app = Application.Current ?? throw new InvalidOperationException("The gallery catalogue requires the Avalonia application to be initialized.");
-        var specializedPages = DiscoverSpecializedPages(services);
+        var specializedPages = pages.ToDictionary(page => page.ControlType);
         _allEntries = DiscoverEntries(app, specializedPages);
         Entries = new ObservableCollection<GalleryEntryViewModel>(_allEntries);
         RegisterMissingPreviewTemplate(app);
@@ -34,9 +35,6 @@ public sealed class GalleryCatalogue
         _allEntries = entries;
         Entries = new ObservableCollection<GalleryEntryViewModel>(entries);
     }
-
-    /// <summary>The catalogue entries currently shown by the main window.</summary>
-    public ObservableCollection<GalleryEntryViewModel> Entries { get; }
 
     public void Filter(string? query)
     {
@@ -63,11 +61,9 @@ public sealed class GalleryCatalogue
             {
                 entries.Add(new ControlEntryViewModel(controlType));
             }
-            else if (FindPageType(controlType) is { } pageType)
+            else if (specializedPages.TryGetValue(controlType, out var page))
             {
-                entries.Add(specializedPages.TryGetValue(pageType, out var page)
-                    ? page
-                    : new PageEntryViewModel(controlType, pageType));
+                entries.Add(page);
             }
             else if (HasShownInMarker(app, controlType) || HasExcludedMarker(app, controlType))
             {
@@ -133,23 +129,6 @@ public sealed class GalleryCatalogue
         }
     }
 
-    private static IReadOnlyDictionary<Type, PageEntryViewModel> DiscoverSpecializedPages(IServiceProvider services)
-    {
-        var assembly = typeof(PageEntryViewModel).Assembly;
-        return GetLoadableTypes(assembly)
-            .Where(type => type.IsClass && !type.IsAbstract && type != typeof(PageEntryViewModel))
-            .Where(type => typeof(PageEntryViewModel).IsAssignableFrom(type))
-            .Select(type => (PageEntryViewModel)ActivatorUtilities.CreateInstance(services, type))
-            .ToDictionary(page => page.PageType);
-    }
-
-    private static Type? FindPageType(Type controlType)
-    {
-        var pageName = $"{controlType.Name}Page";
-        var page = typeof(WindowPage).Assembly.GetType($"{typeof(WindowPage).Namespace}.{pageName}");
-        return page is not null && typeof(Control).IsAssignableFrom(page) ? page : null;
-    }
-
     private static bool HasPreviewTemplate(Application app, Type controlType) =>
         app.TryFindResource($"{controlType.Name}Preview", app.ActualThemeVariant, out var resource) && resource is IDataTemplate;
 
@@ -178,14 +157,14 @@ public sealed class MissingPreviewEntryViewModel : GalleryEntryViewModel
     /// <summary>The words every flagged row carries, so a reviewer can search for them.</summary>
     public const string Flag = "missing preview";
 
+    /// <summary>The control whose preview is missing.</summary>
+    public Type ControlType { get; }
+
     public MissingPreviewEntryViewModel(Type controlType)
         : base($"{controlType.Name} — {Flag}")
     {
         ControlType = controlType;
     }
-
-    /// <summary>The control whose preview is missing.</summary>
-    public Type ControlType { get; }
 
     /// <summary>What the page host shows when this row is selected.</summary>
     public override string ToString() =>

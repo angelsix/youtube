@@ -15,11 +15,11 @@ internal static class RepeatButtonDesignData
 /// <summary>One counting example: its label rises with every click, and with every repeat while the button is held.</summary>
 internal sealed partial class RepeatButtonDesignModel(string prefix) : ObservableObject
 {
-    private int count;
+    private int _count;
 
     /// <summary>The label the button shows: its prefix and the running count.</summary>
     [Observable] public partial string Label { get; set; } = $"{prefix} · 0";
 
     [Command]
-    private void Increment() => Label = $"{prefix} · {++count}";
+    private void Increment() => Label = $"{prefix} · {++_count}";
 }

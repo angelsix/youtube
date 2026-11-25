@@ -148,17 +148,17 @@ public sealed class ZoomTests
     private static Dictionary<string, ElementShot> SteadyShot(MainWindow window, DefaultTheme theme, Func<Visual, bool> inScope)
     {
         clock!.AttachEverywhere(window);
-        void Step()
+        void step()
         {
-            clock.Advance();
+            clock!.Advance();
             foreach (var viewer in window.GetVisualDescendants().OfType<ScrollViewer>())
                 viewer.Offset = default;
         }
         // Templates apply lazily on first layout: settle before swapping panels so both
         // shots see the same realised set, not one mid-rebuild
-        ZoomProbe.Settle(window, Transitions(theme), Step);
+        ZoomProbe.Settle(window, Transitions(theme), step);
         Devirtualize(window);
-        return ZoomProbe.Shoot(window, Transitions(theme), inScope, Step);
+        return ZoomProbe.Shoot(window, Transitions(theme), inScope, step);
     }
 
     // A virtualizing panel realises a viewport-dependent set of rows, so the two shots would

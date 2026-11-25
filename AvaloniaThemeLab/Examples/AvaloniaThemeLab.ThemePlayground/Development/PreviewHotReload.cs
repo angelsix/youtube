@@ -118,7 +118,7 @@ internal static class PreviewHotReload
             {
                 var dict = AvaloniaRuntimeXamlLoader.Parse<ResourceDictionary>(File.ReadAllText(path), typeof(ResourceDictionary).Assembly);
                 foreach (var (key, value) in dict)
-                    if (key is string s && s.EndsWith("Preview") && value is not null)
+                    if (key is string s && s.EndsWith("Preview", StringComparison.Ordinal) && value is not null)
                         parsed[s] = value;
             }
             catch (Exception ex)

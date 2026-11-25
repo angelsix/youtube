@@ -214,6 +214,26 @@
       <Setter Property="Opacity" Value="{size:DisabledOpacity}" />
     </Style>
 
+    <Style Selector="^[Background=Transparent] /template/ Border#ToggleButtonBackground">
+      <Setter Property="Background" Value="Transparent" />
+    </Style>
+    <Style Selector="^[Background=Transparent]:pointerover /template/ Border#ToggleButtonBackground">
+      <Setter Property="Background" Value="{color:HoverBackgroundDefault}" />
+    </Style>
+    <Style Selector="^[Background=Transparent]:pressed /template/ Border#ToggleButtonBackground">
+      <Setter Property="Background" Value="{color:PressedBackgroundDefault}" />
+    </Style>
+    <Style Selector="^[BorderThickness=0] /template/ Border#ToggleButtonBackground">
+      <Setter Property="BorderBrush" Value="Transparent" />
+      <Setter Property="BorderThickness" Value="0" />
+    </Style>
+    <Style Selector="^[BorderThickness=0]:pointerover /template/ Border#ToggleButtonBackground">
+      <Setter Property="BorderBrush" Value="Transparent" />
+    </Style>
+    <Style Selector="^[BorderThickness=0]:pressed /template/ Border#ToggleButtonBackground">
+      <Setter Property="BorderBrush" Value="Transparent" />
+    </Style>
+
   </ControlTheme>
 
   <ControlTheme x:Key="DefaultExpanderToggleButtonUpTheme" TargetType="ToggleButton" BasedOn="{StaticResource DefaultExpanderToggleButtonTheme}">
@@ -300,42 +320,57 @@
       </ControlTemplate>
     </Setter>
 
-    <Style Selector="^ /template/ Border#ExpanderContent">
+    <!-- Reveal extents per direction: vertical expanders animate height only; horizontal expanders animate width only. -->
+    <Style Selector="^:down /template/ Border#ExpanderContent, ^:up /template/ Border#ExpanderContent">
+      <Setter Property="MaxWidth" Value="Infinity" />
       <Setter Property="Transitions">
         <Transitions>
-          <DoubleTransition Property="MaxWidth" Duration="{theme:AnimationFastMs}" />
-          <DoubleTransition Property="MaxHeight" Duration="{theme:AnimationFastMs}" />
-          <DoubleTransition Property="Opacity" Duration="{theme:AnimationFastMs}" />
+          <DoubleTransition Property="MaxHeight" Duration="{theme:AnimationFastMs}" Easing="0.42,0,0.2,1" />
+          <DoubleTransition Property="Opacity" Duration="{theme:AnimationFastMs}" Easing="0.42,0,0.2,1" />
         </Transitions>
       </Setter>
     </Style>
-
-    <!-- Reveal extents: expanded opens the card to its natural size, collapsed folds it flat. -->
-    <Style Selector="^:expanded /template/ Border#ExpanderContent">
-      <Setter Property="MinWidth" Value="0" />
+    <Style Selector="^:down:expanded /template/ Border#ExpanderContent, ^:up:expanded /template/ Border#ExpanderContent">
       <Setter Property="MinHeight" Value="0" />
-      <Setter Property="MaxWidth" Value="{size:Scaled 1000}" />
+      <Setter Property="MaxWidth" Value="Infinity" />
       <Setter Property="MaxHeight" Value="{size:Scaled 1000}" />
       <Setter Property="Opacity" Value="1" />
     </Style>
-    <Style Selector="^:not(:expanded) /template/ Border#ExpanderContent">
-      <Setter Property="MinWidth" Value="0" />
+    <Style Selector="^:down:not(:expanded) /template/ Border#ExpanderContent, ^:up:not(:expanded) /template/ Border#ExpanderContent">
       <Setter Property="MinHeight" Value="0" />
-      <Setter Property="MaxWidth" Value="0" />
+      <Setter Property="MaxWidth" Value="Infinity" />
       <Setter Property="MaxHeight" Value="0" />
       <Setter Property="Opacity" Value="0" />
     </Style>
+
+    <Style Selector="^:left /template/ Border#ExpanderContent, ^:right /template/ Border#ExpanderContent">
+      <Setter Property="MaxHeight" Value="Infinity" />
+      <Setter Property="Transitions">
+        <Transitions>
+          <DoubleTransition Property="MaxWidth" Duration="{theme:AnimationFastMs}" Easing="0.42,0,0.2,1" />
+          <DoubleTransition Property="Opacity" Duration="{theme:AnimationFastMs}" Easing="0.42,0,0.2,1" />
+        </Transitions>
+      </Setter>
+    </Style>
+    <Style Selector="^:left:expanded /template/ Border#ExpanderContent, ^:right:expanded /template/ Border#ExpanderContent">
+      <Setter Property="MinWidth" Value="0" />
+      <Setter Property="MaxWidth" Value="{size:Scaled 1000}" />
+      <Setter Property="MaxHeight" Value="Infinity" />
+      <Setter Property="Opacity" Value="1" />
+    </Style>
+    <Style Selector="^:left:not(:expanded) /template/ Border#ExpanderContent, ^:right:not(:expanded) /template/ Border#ExpanderContent">
+      <Setter Property="MinWidth" Value="0" />
+      <Setter Property="MaxWidth" Value="0" />
+      <Setter Property="MaxHeight" Value="Infinity" />
+      <Setter Property="Opacity" Value="0" />
+    </Style>
+
     <!-- Anchor per direction: the card hugs the header's revealing edge -->
     <Style Selector="^:down /template/ Border#ExpanderContent">
       <Setter Property="VerticalAlignment" Value="Top" />
     </Style>
     <Style Selector="^:up /template/ Border#ExpanderContent">
       <Setter Property="VerticalAlignment" Value="Bottom" />
-    </Style>
-    <!-- The sideways directions fill the slot beside the header instead of hugging it. -->
-    <Style Selector="^:left /template/ Border#ExpanderContent">
-    </Style>
-    <Style Selector="^:right /template/ Border#ExpanderContent">
     </Style>
 
     <Style Selector="^ /template/ ToggleButton#ExpanderHeader:pressed">
@@ -429,6 +464,19 @@
     </Style>
     <Style Selector="^:down /template/ Border#ExpanderContent">
       <Setter Property="BorderThickness" Value="{size:Edges Left={size:BaseSize}, Right={size:BaseSize}, Bottom={size:BaseSize}}" />
+    </Style>
+
+    <!-- Respect transparent / borderless Expanders (e.g. navigation groups inside a sidebar rail) -->
+    <Style Selector="^[Background=Transparent] /template/ ToggleButton#ExpanderHeader">
+      <Setter Property="Background" Value="Transparent" />
+    </Style>
+    <Style Selector="^[BorderThickness=0] /template/ Border#ExpanderContent">
+      <Setter Property="BorderBrush" Value="Transparent" />
+      <Setter Property="BorderThickness" Value="0" />
+    </Style>
+    <Style Selector="^[BorderThickness=0] /template/ ToggleButton#ExpanderHeader">
+      <Setter Property="BorderBrush" Value="Transparent" />
+      <Setter Property="BorderThickness" Value="0" />
     </Style>
 
   </ControlTheme>

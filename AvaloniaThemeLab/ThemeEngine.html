@@ -312,6 +312,35 @@ dotnet sln MyApp.sln add MyApp/MyApp.csproj</code></pre>
     <span class="t">&lt;DefaultTheme /&gt;</span>
 <span class="t">&lt;/Application.Styles&gt;</span></code></pre>
       It replaces <code>&lt;FluentTheme /&gt;</code>. No <code>xmlns</code> line is needed: <code>DefaultTheme</code> lives in Avalonia's own namespace.</li>
+    <li><label><input type="checkbox" /><strong>Wire dependency injection in <code>App.axaml.cs</code></strong></label>
+      <pre><code>dotnet add MyApp package Microsoft.Extensions.DependencyInjection</code></pre>
+      Implement <code>IServiceHost</code> on <code>App</code>, register <code>DefaultTheme.Current</code> as a singleton after <code>AvaloniaXamlLoader.Load(this)</code>, and register your view models so they receive the theme through their constructor rather than reading a static property:
+<pre><code><span class="k">public partial class</span> App : Application, IServiceHost
+{
+    <span class="k">public</span> IServiceProvider Services { <span class="k">get</span>; <span class="k">private set</span>; } = <span class="k">null</span>!;
+
+    <span class="k">public override void</span> Initialize()
+    {
+        AvaloniaXamlLoader.Load(<span class="k">this</span>);
+        Services = BuildServices();
+    }
+
+    <span class="k">public override void</span> OnFrameworkInitializationCompleted()
+    {
+        <span class="k">if</span> (ApplicationLifetime <span class="k">is</span> IClassicDesktopStyleApplicationLifetime desktop)
+            desktop.MainWindow = <span class="k">new</span> MainWindow { DataContext = Services.GetRequiredService&lt;MainWindowViewModel&gt;() };
+
+        <span class="k">base</span>.OnFrameworkInitializationCompleted();
+    }
+
+    <span class="k">private static</span> IServiceProvider BuildServices()
+    {
+        <span class="k">var</span> services = <span class="k">new</span> ServiceCollection();
+        services.AddSingleton(DefaultTheme.Current);
+        services.AddSingleton&lt;MainWindowViewModel&gt;();
+        <span class="k">return</span> services.BuildServiceProvider();
+    }
+}</code></pre></li>
     <li><label><input type="checkbox" /><strong>Build</strong></label>
       <pre><code>dotnet build MyApp.sln</code></pre>
       The build also writes the engine's editor snippets: Rider's into <code>MyApp.sln.DotSettings</code>, VS Code's into <code>.vscode</code> (see <a href="#how-snippets">Editor snippets</a>).</li>
@@ -404,36 +433,62 @@ ThemeFonts.System   <span class="c">// the platform's own UI font, with its fall
   <p class="lede">The middle path between using the default theme and writing one from nothing: keep every control it styles, and change only the values &mdash; or the one control &mdash; your look needs. You subclass <code>DefaultTheme</code>; the engine does the rest.</p>
 
   <ol class="steps">
-    <li><label><input type="checkbox" /><strong>Start from the getting-started app</strong></label>
-      Steps 1&ndash;5 of <a href="#start">Getting started</a>: a new app, no Fluent, the default theme referenced and included. You already have a fully styled app.</li>
+    <li><label><input type="checkbox" /><strong>Start from the getting-started app with DI</strong></label>
+      Steps 1&ndash;6 of <a href="#start">Getting started</a>: a new app, no Fluent, the default theme referenced and included, and <code>ServiceCollection</code> + <code>IServiceHost</code> wired in <code>App.axaml.cs</code>.</li>
     <li><label><input type="checkbox" /><strong>Add the engine</strong></label>
       <pre><code>dotnet add MyApp package AngelSix.ThemeEngine</code></pre>
-      For its source generator, which turns your subclass into XAML extensions.</li>
-    <li><label><input type="checkbox" /><strong>Write the subclass</strong></label>
-      A new C# file deriving from <code>DefaultTheme</code>. Add a hue, override a token, or change a seed &mdash; everything else is inherited:
-<pre><code>[Theme(FallbackHue = <span class="s">"Neutral"</span>)]
-<span class="k">public partial class</span> BrandTheme : DefaultTheme
+      For its source generator, which turns your theme and icon gallery subclasses into XAML extensions.</li>
+    <li><label><input type="checkbox" /><strong>Create your custom icon gallery and theme</strong></label>
+      Derive your icon gallery from <code>ThemeIconGallery</code> (inheriting every default icon) and attach it to a <code>DefaultTheme</code> subclass:
+<pre><code>[IconGallery]
+<span class="k">public partial class</span> AppIconGallery : ThemeIconGallery
 {
-    <span class="c">// Quick: type engineaccent, then Tab</span>
-    [AccentHue, ColorRamp(HueAware = <span class="k">true</span>)]
-    [Observable] <span class="k">public virtual partial</span> Color AccentBrand { <span class="k">get</span>; <span class="k">set</span>; } = Color.Parse(<span class="s">"#7C4DFF"</span>);
+    <span class="k">public virtual string</span> Sparkle =&gt;
+        <span class="s">"M 12 2 L 14.4 9.6 L 22 12 L 14.4 14.4 L 12 22 L 9.6 14.4 L 2 12 L 9.6 9.6 Z"</span>;
+}
+
+[Theme]
+<span class="k">public partial class</span> AppTheme : DefaultTheme
+{
+    <span class="k">private static readonly</span> AppIconGallery appIcons = <span class="k">new</span>();
+    <span class="k">public override</span> ThemeIconGallery Icons =&gt; appIcons;
 }</code></pre></li>
-    <li><label><input type="checkbox" /><strong>Include it instead of the default</strong></label>
+    <li><label><input type="checkbox" /><strong>Include it in <code>App.axaml</code> and register it in DI</strong></label>
 <pre><code><span class="t">&lt;Application</span> ... xmlns:local=<span class="s">"using:MyApp.Theme"</span><span class="t">&gt;</span>
   <span class="t">&lt;Application.Styles&gt;</span>
-    <span class="t">&lt;local:BrandTheme /&gt;</span>
+    <span class="t">&lt;local:AppTheme /&gt;</span>
   <span class="t">&lt;/Application.Styles&gt;</span>
 <span class="t">&lt;/Application&gt;</span></code></pre>
-      Register <code>BrandTheme.Current</code> in place of <code>DefaultTheme.Current</code> if you use dependency injection.</li>
+      In <code>App.axaml.cs</code>, swap <code>DefaultTheme.Current</code> for <code>AppTheme.Current</code> and register your content view model as transient:
+<pre><code>services.AddSingleton(AppTheme.Current);
+services.AddTransient&lt;ExampleContentViewModel&gt;();
+services.AddSingleton&lt;MainWindowViewModel&gt;();</code></pre></li>
+    <li><label><input type="checkbox" /><strong>Create <code>ExampleContentViewModel</code></strong></label>
+      Inject <code>AppTheme</code> through the constructor and expose inline cached commands with <code>ObservableObject.Command(...)</code>:
+<pre><code><span class="k">public sealed partial class</span> ExampleContentViewModel(AppTheme theme) : ViewModelBase
+{
+    <span class="k">public</span> AppTheme Theme { <span class="k">get</span>; } = theme;
+
+    <span class="k">public</span> IRelayCommand ToggleModeCommand =&gt; Command(() =&gt; Theme.IsDark = !Theme.IsDark);
+    <span class="k">public</span> IRelayCommand BiggerCommand =&gt; Command(() =&gt; Theme.BaseSize = Math.Min(1.5, Math.Round(Theme.BaseSize + 0.1, 2)));
+    <span class="k">public</span> IRelayCommand SmallerCommand =&gt; Command(() =&gt; Theme.BaseSize = Math.Max(0.75, Math.Round(Theme.BaseSize - 0.1, 2)));
+}</code></pre></li>
+    <li><label><input type="checkbox" /><strong>Create <code>ExampleContent.axaml</code> and host it in <code>MainWindow.axaml</code></strong></label>
+      Compose layout strictly from panels and theme tokens, using your custom icon via <code>theme:Icon.Data="{icons:Sparkle}"</code>:
+<pre><code><span class="t">&lt;Button</span> theme:Icon.Data=<span class="s">"{icons:Sparkle}"</span> Command=<span class="s">"{Binding ToggleModeCommand}"</span><span class="t">&gt;</span>
+  <span class="t">&lt;Panel&gt;</span>
+    <span class="t">&lt;TextBlock</span> Text=<span class="s">"Dark mode"</span> IsVisible=<span class="s">"{Binding !Theme.IsDark}"</span> <span class="t">/&gt;</span>
+    <span class="t">&lt;TextBlock</span> Text=<span class="s">"Light mode"</span> IsVisible=<span class="s">"{Binding Theme.IsDark}"</span> <span class="t">/&gt;</span>
+  <span class="t">&lt;/Panel&gt;</span>
+<span class="t">&lt;/Button&gt;</span></code></pre>
+      Then host <code>&lt;views:ExampleContent DataContext="{Binding Content}" /&gt;</code> inside <code>MainWindow.axaml</code>, where <code>MainWindowViewModel</code> receives <code>ExampleContentViewModel</code> from DI.</li>
     <li><label><input type="checkbox" /><strong>Optionally restyle one control</strong></label>
       Add <code>Controls/Button.axaml</code> in your project to override just that control; every other control keeps the default theme's file. There is no list to update.</li>
-    <li><label><input type="checkbox" /><strong>Optionally bring your own icons</strong></label>
-      A gallery here derives from <code>ThemeIconGallery</code> — see <a href="#how-icons">Icons</a>. Every default icon stays alive, and yours add to it and redraw from it.</li>
     <li><label><input type="checkbox" /><strong>Build and run</strong></label>
-      The whole app draws with the default theme plus your changes. A theme that extends one from another project gets its own hue property, named after the class: <code>theme:BrandAccent.Kind="Brand"</code>. It accepts the new hue and every inherited one. Roles are <code>protected internal</code>, so a theme in another project can override a role's stage; the raw stage stays off the public API.</li>
+      The whole app draws with the default theme plus your custom theme, DI-wired view models, and custom icons.</li>
   </ol>
 
-  <div class="note"><b>Worked example</b><code>Examples/AvaloniaThemeLab.ThemePlayground</code> is exactly this: a <code>BrandTheme : DefaultTheme</code> that adds one brand hue on top of the full default control set.</div>
+  <div class="note"><b>Worked examples</b><a href="Examples/AvaloniaThemeLab.StarterTheme/README.md"><code>Examples/AvaloniaThemeLab.StarterTheme</code></a> is the exact walkthrough above (<code>AppTheme</code>, <code>AppIconGallery</code> with <code>{icons:Sparkle}</code>, DI, <code>ExampleContentViewModel</code>, and <code>ExampleContent.axaml</code>). <code>Examples/AvaloniaThemeLab.ThemePlayground</code> extends it further with a custom brand hue and full control gallery.</div>
   <div class="note why"><b>When to go from scratch instead</b>If your look owes nothing to the default theme &mdash; different control shapes, a different token vocabulary &mdash; start from <code>ThemeBase</code> and write your own control files: <a href="#own">A theme from scratch</a>.</div>
 </section>
 
@@ -573,12 +628,12 @@ ThemeFonts.System   <span class="c">// the platform's own UI font, with its fall
   <div class="note why"><b>The point</b>Set <code>BaseSize</code> to 2 and the whole interface zooms exactly, with nothing hard-coded left behind.</div>
 
   <!-- ---------- light & dark ---------- -->
-  <h3 id="how-dark"><span class="n">7</span>Light and dark</h3>
-  <p><code>IsDark</code> switches the app. <code>theme:ThemeRegion.IsDark</code> draws one part of a window in the other palette, from the same theme instance:</p>
-  <pre><code><span class="t">&lt;Border</span> theme:ThemeRegion.IsDark=<span class="s">"True"</span><span class="t">&gt;</span>
-  <span class="c">&lt;!-- everything in here draws dark --&gt;</span>
+  <h3 id="how-dark"><span class="n">7</span>Regions: light/dark, scale, and automatic corners</h3>
+  <p><code>IsDark</code> switches the app. <code>theme:ThemeRegion</code> overrides the palette or size scale for any subtree, from the same theme instance:</p>
+  <pre><code><span class="t">&lt;Border</span> theme:ThemeRegion.IsDark=<span class="s">"True"</span> theme:ThemeRegion.BaseSize=<span class="s">"2"</span><span class="t">&gt;</span>
+  <span class="c">&lt;!-- everything in here draws dark at 2x scale; nest theme:ThemeRegion.Scale="1.5" to multiply further --&gt;</span>
 <span class="t">&lt;/Border&gt;</span></code></pre>
-  <p>The element you set it on paints the region's surface, so a dark region in a light window reads as dark, and a <code>TextBox</code> set dark on its own becomes a dark field. A <code>Background</code> you set on it yourself wins. The controls inside sit on that surface as they would on the window.</p>
+  <p><code>theme:ThemeRegion.BaseSize</code> overrides <code>BaseSize</code> for that subtree and <code>theme:ThemeRegion.Scale</code> multiplies the inherited base size, so every ladder and control template scales crisply in vector space. Painted <code>Border</code>s sitting flush inside a rounded ancestor <code>Border</code> also fit their touched corners concentrically automatically without needing <code>ClipToBounds="True"</code> or manual <code>ConcentricCorners</code>.</p>
 
   <!-- ---------- icons ---------- -->
   <h3 id="how-icons"><span class="n">8</span>Icons</h3>
@@ -599,16 +654,18 @@ ThemeFonts.System   <span class="c">// the platform's own UI font, with its fall
 <span class="k">public partial class</span> MyIcons : ThemeIconGallery { }
 
 <span class="k">public override</span> MyIcons Icons => <span class="k">new</span>();   <span class="c">// in the subclass</span></code></pre></div>
+  <p>For data-bound icons or dynamic tokens inside a <code>DataTemplate</code>, keep UI types like <code>Geometry</code> out of your view model — bind the icon or token name as a <code>string</code> and resolve it in XAML with <code>{icons:Lookup {Binding Icon}}</code> (or the universal <code>{theme:Lookup {Binding Key}}</code>).</p>
 
   <!-- ---------- mvvm ---------- -->
   <h3 id="how-mvvm"><span class="n">9</span>AngelSix.Mvvm</h3>
-  <p>The engine is built on AngelSix.Mvvm, and your app can use it too. Everything is generated; nothing is written by hand.</p>
+  <p>The engine is built on AngelSix.Mvvm, and your app can use it too. Observable properties are source-generated, and <code>ObservableObject.Command(...)</code> / <code>AsyncCommand(...)</code> give single-line cached commands with 1-hop Go-to-Definition straight from XAML:</p>
   <pre><code><span class="c">// Quick: type vm, then Tab</span>
 <span class="k">public partial class</span> MainViewModel(MyTheme theme) : ObservableObject
 {
     [Observable] <span class="k">public partial string</span> Title { <span class="k">get</span>; <span class="k">set</span>; } = <span class="s">""</span>;
 
-    [Command] <span class="k">private void</span> ToggleDark() => theme.IsDark = !theme.IsDark;   <span class="c">// ToggleDarkCommand</span>
+    <span class="k">public</span> IRelayCommand ToggleDarkCommand =&gt; Command(() =&gt; theme.IsDark = !theme.IsDark);
+    <span class="k">public</span> IRelayCommand&lt;<span class="k">string</span>?&gt; OpenCommand =&gt; Command&lt;<span class="k">string</span>?&gt;(id =&gt; Title = id ?? <span class="s">""</span>);
 }</code></pre>
   <ul>
     <li><code>[NotifyPropertyChanged]</code> gives change notification to a class that already has a base. <code>ThemeBase</code> uses it.</li>

@@ -5,7 +5,7 @@ using AvaloniaThemeLab.ThemePlayground.ViewModels;
 namespace AvaloniaThemeLab.ThemePlayground.Views;
 
 /// <summary>Opens the theme settings window over the main window, one at a time.</summary>
-public sealed class ThemeSettingsWindowService(Func<TopLevel?> owner, Func<ThemeSettingsViewModel> viewModel)
+public sealed class ThemeSettingsWindowService(Func<TopLevel?> owner, Func<ThemeSettingsViewModel> viewModel) : IThemeSettingsWindowService
 {
     private ThemeSettingsWindow? _window;
 

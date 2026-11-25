@@ -138,3 +138,12 @@ dotnet_diagnostic.IDE0071.severity = error
 # ambiguity. Strictly clearer.
 dotnet_style_prefer_is_null_check_over_reference_equality_method = true
 dotnet_diagnostic.IDE0041.severity = error
+
+# ── Explicit StringComparison (catches culture-sensitive string comparisons at build) ──
+dotnet_diagnostic.CA1307.severity = error
+dotnet_diagnostic.CA1309.severity = error
+dotnet_diagnostic.CA1310.severity = error
+
+[*Tests/**.cs]
+# xUnit Assert.Contains/StartsWith/DoesNotContain already default to Ordinal; keep culture-sensitive CA1309/CA1310 as errors.
+dotnet_diagnostic.CA1307.severity = none

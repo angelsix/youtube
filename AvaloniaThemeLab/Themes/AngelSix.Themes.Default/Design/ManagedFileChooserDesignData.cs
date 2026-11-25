@@ -17,6 +17,12 @@ internal static class ManagedFileChooserDesignData
     /// <summary>The name of the container the sample tree lives in.</summary>
     public const string SampleFolderName = "ThemeLabFileChooserSample";
 
+    /// <summary>The sample's three folders: the places in the left rail.</summary>
+    private static readonly string[] sampleFolders = ["Documents", "Pictures", "Projects"];
+
+    /// <summary>The names the sample's places carry in the rail.</summary>
+    private static readonly string[] samplePlaces = ["Documents", "Downloads", "Pictures"];
+
     /// <summary>The container the sample tree lives in: the browsed sample folder and the places' own folders, side by side.</summary>
     public static string SampleRoot => Path.Combine(
         Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
@@ -24,6 +30,9 @@ internal static class ManagedFileChooserDesignData
 
     /// <summary>The browsed sample folder's full path; it is created on first use.</summary>
     public static string SampleFolder => Path.Combine(SampleRoot, "sample");
+
+    /// <summary>The folder the sample's places live in, beside the sample folder itself.</summary>
+    public static string PlacesRoot => Path.Combine(SampleRoot, "places");
 
     /// <summary>A fresh view model browsing the sample folder in Save mode, with "report.pdf" proposed as the file name.</summary>
     public static ManagedFileChooserViewModel Sample => CreateSample();
@@ -66,17 +75,15 @@ internal static class ManagedFileChooserDesignData
         }
     }
 
-    /// <summary>The folder the sample's places live in, beside the sample folder itself.</summary>
-    public static string PlacesRoot => Path.Combine(SampleRoot, "places");
     /// <summary>Points the places rail at the sample's own three places (Documents, Downloads, Pictures), each of which opens the sample folder.</summary>
     private static void ApplySamplePlaces(ManagedFileChooserViewModel model)
     {
         var links = model.QuickLinks;
-        links.CollectionChanged -= OnQuickLinksChanged;
+        links.CollectionChanged -= onQuickLinksChanged;
         Fill(links);
-        links.CollectionChanged += OnQuickLinksChanged;
+        links.CollectionChanged += onQuickLinksChanged;
 
-        void OnQuickLinksChanged(object? sender, NotifyCollectionChangedEventArgs e)
+        void onQuickLinksChanged(object? sender, NotifyCollectionChangedEventArgs e)
         {
             // The stock view model replaced the rail with the machine's own places.
             if (sender is not Avalonia.Collections.AvaloniaList<ManagedFileChooserItemViewModel> list)
@@ -86,9 +93,9 @@ internal static class ManagedFileChooserDesignData
 
             Dispatcher.UIThread.Post(() =>
             {
-                list.CollectionChanged -= OnQuickLinksChanged;
+                list.CollectionChanged -= onQuickLinksChanged;
                 Fill(list);
-                list.CollectionChanged += OnQuickLinksChanged;
+                list.CollectionChanged += onQuickLinksChanged;
             }, DispatcherPriority.Background);
         }
     }
@@ -131,12 +138,6 @@ internal static class ManagedFileChooserDesignData
             // A read-only or full application-data directory must not take the whole preview down.
         }
     }
-
-    /// <summary>The sample's three folders: the places in the left rail.</summary>
-    private static readonly string[] sampleFolders = ["Documents", "Pictures", "Projects"];
-
-    /// <summary>The names the sample's places carry in the rail.</summary>
-    private static readonly string[] samplePlaces = ["Documents", "Downloads", "Pictures"];
 
     /// <summary>Fills a folder with the sample's four files.</summary>
     private static void WriteEntries(string folder)

@@ -25,7 +25,7 @@ namespace AngelSix.Themes.Default;
 /// </remarks>
 internal static class RegionSurface
 {
-    private static readonly ConditionalWeakTable<Control, IDisposable> Painted = [];
+    private static readonly ConditionalWeakTable<Control, IDisposable> painted = [];
     private static bool registered;
 
     public static void Register()
@@ -66,7 +66,7 @@ internal static class RegionSurface
 
     private static void Paint(Control control)
     {
-        if (Painted.TryGetValue(control, out _))
+        if (painted.TryGetValue(control, out _))
             return;
 
         // A Background set on the element itself is the author's choice, whatever it is
@@ -79,15 +79,15 @@ internal static class RegionSurface
 
         var surface = (MultiBinding)new SurfaceDefaultBrushExtension().ProvideValue(null!);
         surface.Priority = BindingPriority.Template;
-        Painted.AddOrUpdate(control, control.Bind(Border.BackgroundProperty, surface));
+        painted.AddOrUpdate(control, control.Bind(Border.BackgroundProperty, surface));
     }
 
     private static void Unpaint(Control control)
     {
-        if (Painted.TryGetValue(control, out var binding))
+        if (painted.TryGetValue(control, out var binding))
         {
             binding.Dispose();
-            Painted.Remove(control);
+            painted.Remove(control);
         }
     }
 

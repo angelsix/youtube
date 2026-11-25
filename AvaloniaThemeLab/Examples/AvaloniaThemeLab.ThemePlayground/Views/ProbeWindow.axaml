@@ -1,28 +1,31 @@
+<!-- Theme Exception: WindowBounds: initial native-window dimensions are independent of content density. -->
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:size="using:AngelSix.ThemeEngine.Sizes"
+        xmlns:color="using:AngelSix.ThemeEngine.Colors"
         xmlns:default="using:AngelSix.Themes.Default"
         x:Class="AvaloniaThemeLab.ThemePlayground.Views.ProbeWindow"
         Title="Probe"
         Width="700" Height="420"
-        Background="White">
-  <Grid ColumnDefinitions="*,*,*" Margin="20">
-    <StackPanel Grid.Column="0" Spacing="20" VerticalAlignment="Center">
+        Background="{color:SurfaceDefaultBrush}">
+  <Grid ColumnDefinitions="*,*,*" Margin="{size:Edges {size:Scaled {size:SpacingMd}, 5}}">
+    <StackPanel Grid.Column="0" Spacing="{size:Scaled {size:SpacingMd}, 5}" VerticalAlignment="Center">
       <TextBlock Text="H ticks outside" />
-      <Slider Width="240" Value="50" TickPlacement="Outside" TickFrequency="10" />
-      <Slider Width="240" Value="50" />
+      <Slider Width="{size:Scaled 240}" Value="50" TickPlacement="Outside" TickFrequency="10" />
+      <Slider Width="{size:Scaled 240}" Value="50" />
     </StackPanel>
-    <StackPanel Grid.Column="1" Spacing="20" VerticalAlignment="Center">
+    <StackPanel Grid.Column="1" Spacing="{size:Scaled {size:SpacingMd}, 5}" VerticalAlignment="Center">
       <TextBlock Text="V ticks outside" />
-      <Slider Height="220" Orientation="Vertical" Value="50" TickPlacement="Outside" TickFrequency="10" />
+      <Slider Height="{size:Scaled 220}" Orientation="Vertical" Value="50" TickPlacement="Outside" TickFrequency="10" />
     </StackPanel>
-    <StackPanel Grid.Column="2" Spacing="20" VerticalAlignment="Center">
+    <StackPanel Grid.Column="2" Spacing="{size:Scaled {size:SpacingMd}, 5}" VerticalAlignment="Center">
       <TextBlock Text="Large knob icon" />
       <ToggleSwitch x:Name="BigKnob" Content="Big icon" IsChecked="True">
         <ToggleSwitch.Styles>
           <Style Selector="ToggleSwitch">
             <Setter Property="default:SwitchKnob.Content">
               <Template>
-                <Border Width="16" Height="16" Background="Red" CornerRadius="8" />
+                <Border Width="{size:Scaled 16}" Height="{size:Scaled 16}" Background="{color:AccentErrorBrush}" CornerRadius="{size:RadiusSm}" />
               </Template>
             </Setter>
           </Style>

@@ -51,9 +51,9 @@ public sealed class TableViewTests
             var start = grip.TranslatePoint(new Point(grip.Bounds.Width / 2, grip.Bounds.Height / 2), window)!.Value;
             AwaitRendered(window, start);
             var hit = window.InputHitTest(start) as Visual;
-            string Describe(Point p) => (window.InputHitTest(p) as Visual) is { } v ? $"{v.GetType().Name}#{(v as StyledElement)?.Name}" : "nothing";
+            string describe(Point p) => (window.InputHitTest(p) as Visual) is { } v ? $"{v.GetType().Name}#{(v as StyledElement)?.Name}" : "nothing";
             Assert.True(hit == grip || (hit is not null && grip.IsVisualAncestorOf(hit)),
-                $"The pointer at {start} over the grip ({grip.Bounds}) lands on {Describe(start)}; left 3 {Describe(start + new Point(-3, 0))}, right 3 {Describe(start + new Point(3, 0))}; window {window.Bounds} client {window.ClientSize}");
+                $"The pointer at {start} over the grip ({grip.Bounds}) lands on {describe(start)}; left 3 {describe(start + new Point(-3, 0))}, right 3 {describe(start + new Point(3, 0))}; window {window.Bounds} client {window.ClientSize}");
             window.MouseMove(start);
             window.MouseDown(start, MouseButton.Left);
             for (var dx = 10; dx <= 40; dx += 10)

@@ -106,7 +106,7 @@
               <!-- The item may cap its drop-down's surface (a preview data point), so a long list scrolls and the scroll viewer's overflow arrows show -->
               <Border x:Name="PART_PopupBorder"
                       MaxHeight="{Binding $parent[MenuItem].MaxHeight}"
-                      HorizontalAlignment="{TemplateBinding HorizontalAlignment}">
+                      HorizontalAlignment="Stretch">
                 <ScrollViewer Theme="{StaticResource DefaultMenuScrollViewer}">
                   <ItemsPresenter x:Name="PART_PopupItemsPresenter"
                                   ItemsPanel="{TemplateBinding ItemsPanel}"

@@ -25,7 +25,7 @@ public sealed partial class ThemeSettingsViewModel : ObservableObject
         Theme = theme;
 
         // The theme's own family first, so the current value is an item the list can select
-        Fonts = [Theme.FontFamily, .. FontManager.Current.SystemFonts.OrderBy(font => font.Name)];
+        Fonts = [Theme.FontFamily, .. FontManager.Current.SystemFonts.OrderBy(font => font.Name, StringComparer.OrdinalIgnoreCase)];
     }
 
     /// <summary>Puts every editable value back to what the theme ships with.</summary>

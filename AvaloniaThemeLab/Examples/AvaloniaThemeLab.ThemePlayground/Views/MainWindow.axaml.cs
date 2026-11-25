@@ -27,13 +27,12 @@ public partial class MainWindow : Window
     private void OnSidebarPressTunnel(object? sender, PointerPressedEventArgs e)
     {
         // Only a left press counts as a navigation gesture (right/middle drive context menus etc.), and only one that begins somewhere inside the sidebar list.
-        var list = SidebarList();
-        if (list is null || !e.Properties.IsLeftButtonPressed || e.Source is not Visual source)
+        if (!e.Properties.IsLeftButtonPressed || e.Source is not Visual source)
             return;
         // Walk the press origin up its visual chain.
         foreach (var ancestor in source.GetSelfAndVisualAncestors())
         {
-            if (ReferenceEquals(ancestor, list))
+            if (ReferenceEquals(ancestor, SidebarEntries))
             {
                 ArmSidebarNavigate();
                 return;
@@ -71,17 +70,4 @@ public partial class MainWindow : Window
         }, DispatcherPriority.Normal);
     }
 
-    /// <summary>The sidebar entries list (row 1, column 0 of the root grid).</summary>
-    private ListBox? SidebarList()
-    {
-        if (Content is Grid grid)
-        {
-            foreach (var child in grid.Children)
-            {
-                if (child is ListBox listBox && Grid.GetRow(child) == 1 && Grid.GetColumn(child) == 0)
-                    return listBox;
-            }
-        }
-        return null;
-    }
 }

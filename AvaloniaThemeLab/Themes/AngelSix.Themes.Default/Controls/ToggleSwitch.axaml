@@ -106,7 +106,6 @@
             <ContentPresenter
                 x:Name="PART_OffContentPresenter"
                 Grid.Column="1"
-                Margin="{size:Edges Left={size:SpacingXl}}"
                 HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                 VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                 Content="{TemplateBinding OffContent}"
@@ -116,7 +115,6 @@
             <ContentPresenter
                 x:Name="PART_OnContentPresenter"
                 Grid.Column="1"
-                Margin="{size:Edges Left={size:SpacingXl}}"
                 HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                 VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                 Content="{TemplateBinding OnContent}"
@@ -164,9 +162,13 @@
                         Height="{Binding #PART_SwitchKnob.Bounds.Height}"
                         Background="Transparent">
                       <Panel Margin="{size:Edges {size:ThicknessSmDouble}}">
-                        <Ellipse x:Name="SwitchKnobOn" Width="{size:Scaled {size:ControlHeightSm}, 0.3125}" Height="{size:Scaled {size:ControlHeightSm}, 0.3125}" MinWidth="{size:Scaled 6}" MinHeight="{size:Scaled 6}" Margin="{size:Edges {size:SpacingMd}}" />
-                        <Ellipse x:Name="SwitchKnobOff" Width="{size:Scaled {size:ControlHeightSm}, 0.3125}" Height="{size:Scaled {size:ControlHeightSm}, 0.3125}" MinWidth="{size:Scaled 6}" MinHeight="{size:Scaled 6}" Margin="{size:Edges {size:SpacingMd}}" />
-                        <!-- The knob's icon slot: draws nothing until a consumer sets SwitchKnob.Content, so an unset hook leaves the knob exactly as it was. -->
+                        <Ellipse x:Name="SwitchKnobOn"
+                                 IsVisible="{Binding (default:SwitchKnob.Content), RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static ObjectConverters.IsNull}}"
+                                 Width="{size:Scaled {size:ControlHeightSm}, 0.3125}" Height="{size:Scaled {size:ControlHeightSm}, 0.3125}" MinWidth="{size:Scaled 6}" MinHeight="{size:Scaled 6}" Margin="{size:Edges {size:SpacingMd}}" />
+                        <Ellipse x:Name="SwitchKnobOff"
+                                 IsVisible="{Binding (default:SwitchKnob.Content), RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static ObjectConverters.IsNull}}"
+                                 Width="{size:Scaled {size:ControlHeightSm}, 0.3125}" Height="{size:Scaled {size:ControlHeightSm}, 0.3125}" MinWidth="{size:Scaled 6}" MinHeight="{size:Scaled 6}" Margin="{size:Edges {size:SpacingMd}}" />
+                        <!-- The knob's icon slot: draws nothing until a consumer sets SwitchKnob.Content, and automatically replaces the default dot when set. -->
                         <ContentPresenter
                             x:Name="PART_KnobContent"
                             HorizontalAlignment="Stretch"
@@ -194,11 +196,20 @@
 
     <!-- Consumers can override the knob icon inset with a style. -->
     <Style Selector="^ /template/ ContentPresenter#PART_KnobContent">
-      <Setter Property="Margin" Value="{size:Edges {size:SpacingMd}}" />
+      <Setter Property="Margin" Value="{size:Edges}" />
     </Style>
 
     <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter:empty">
       <Setter Property="Margin" Value="{size:Edges}" />
+    </Style>
+
+    <Style Selector="^ /template/ ContentPresenter#PART_OffContentPresenter, ^ /template/ ContentPresenter#PART_OnContentPresenter">
+      <Setter Property="Margin" Value="{size:Edges Left={size:SpacingXl}}" />
+    </Style>
+
+    <Style Selector="^ /template/ ContentPresenter#PART_OffContentPresenter:empty, ^ /template/ ContentPresenter#PART_OnContentPresenter:empty">
+      <Setter Property="Margin" Value="{size:Edges}" />
+      <Setter Property="IsVisible" Value="False" />
     </Style>
 
     <Style Selector="^ /template/ Border#SwitchAreaGrid">
@@ -210,6 +221,12 @@
       <Setter Property="BorderBrush" Value="{color:BorderDefault}" />
       <Setter Property="BorderThickness" Value="{size:ThicknessSm}" />
       <Setter Property="CornerRadius" Value="{size:RadiusMd}" />
+      <Setter Property="Transitions">
+        <Transitions>
+          <BrushTransition Property="Background" Duration="{theme:AnimationNormalMs}" />
+          <BrushTransition Property="BorderBrush" Duration="{theme:AnimationNormalMs}" />
+        </Transitions>
+      </Setter>
     </Style>
 
     <!-- The track covers the outline exactly: concentric with its drawn outer edge, from the outline's own tokens. -->
@@ -217,6 +234,11 @@
       <Setter Property="Background" Value="{color:BackgroundDefault}" />
       <Setter Property="BorderThickness" Value="{size:Edges}" />
       <Setter Property="CornerRadius" Value="{size:ConcentricCorners Radius={size:RadiusMd}, Thickness={size:Edges}, Inset={ReflectionBinding Path=Margin, RelativeSource={RelativeSource Self}}, All=True}" />
+      <Setter Property="Transitions">
+        <Transitions>
+          <BrushTransition Property="Background" Duration="{theme:AnimationNormalMs}" />
+        </Transitions>
+      </Setter>
     </Style>
 
     <!-- The knob that rides the on track sits on the solid fill, so it takes the on-solid ink. -->
@@ -253,8 +275,9 @@
       <Setter Property="Opacity" Value="{size:DisabledOpacity}" />
     </Style>
 
-    <!-- Checked state: the track keeps its outline, recolored to the solid fill so the filled face has no mismatched ring -->
+    <!-- Checked state: the track keeps its outline, recolored to the solid fill so the filled face has no mismatched ring or anti-aliased seam -->
     <Style Selector="^:checked /template/ Border#OuterBorder">
+      <Setter Property="Background" Value="{color:SolidFillDefault}" />
       <Setter Property="BorderBrush" Value="{color:SolidFillDefault}" />
     </Style>
 
@@ -276,6 +299,7 @@
 
     <!-- Checked (on) hover: the outline follows the deepened fill so the ring stays seamless -->
     <Style Selector="^:checked:pointerover /template/ Border#OuterBorder, ^:checked[(theme|Preview.State)=Hover] /template/ Border#OuterBorder">
+      <Setter Property="Background" Value="{color:SolidFillHover}" />
       <Setter Property="BorderBrush" Value="{color:SolidFillHover}" />
     </Style>
 
@@ -286,6 +310,7 @@
 
     <!-- Checked (on) pressed: the outline follows the deepened fill so the ring stays seamless -->
     <Style Selector="^:checked:pressed /template/ Border#OuterBorder, ^:checked[(theme|Preview.State)=Pressed] /template/ Border#OuterBorder">
+      <Setter Property="Background" Value="{color:SolidFillPressed}" />
       <Setter Property="BorderBrush" Value="{color:SolidFillPressed}" />
     </Style>
 
