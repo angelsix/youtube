@@ -1,0 +1,70 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+             xmlns:size="using:AngelSix.ThemeEngine.Sizes"
+             xmlns:color="using:AngelSix.ThemeEngine.Colors"
+             xmlns:icons="using:AngelSix.ThemeEngine.Icons"
+             xmlns:default="using:AngelSix.Themes.Default"
+             xmlns:vm="using:AvaloniaThemeLab.BuildingWidgets.ViewModels"
+             x:Class="AvaloniaThemeLab.BuildingWidgets.Widgets.ModeToggle"
+             x:DataType="vm:ModeToggleViewModel"
+             Design.DataContext="{DesignContext}">
+  <!-- Borderless centered stage -->
+  <Border HorizontalAlignment="Center"
+          VerticalAlignment="Center"
+          Background="Transparent"
+          BorderThickness="0">
+    <!-- Stacked light / dark toggle switch with centered label underneath -->
+    <StackPanel Spacing="{size:SpacingXl}" HorizontalAlignment="Center">
+      <Viewbox Width="{size:Scaled 140}" HorizontalAlignment="Center">
+        <ToggleSwitch OffContent="{x:Null}"
+                      OnContent="{x:Null}"
+                      HorizontalAlignment="Center"
+                      IsChecked="{Binding Theme.IsDark, Mode=TwoWay}">
+          <ToggleSwitch.KnobTransitions>
+            <Transitions>
+              <DoubleTransition Property="Canvas.Left" Duration="0:0:0.45" Easing="0.42,0,0.2,1" />
+            </Transitions>
+          </ToggleSwitch.KnobTransitions>
+          <ToggleSwitch.Styles>
+            <Style Selector="ToggleSwitch:unchecked">
+              <Setter Property="default:SwitchKnob.Content">
+                <Template>
+                  <PathIcon Data="{icons:Sun}"
+                            Foreground="{color:AccentFavouriteBrush}"
+                            Width="{size:Scaled {size:ControlHeightSm}, 0.3125}"
+                            Height="{size:Scaled {size:ControlHeightSm}, 0.3125}" />
+                </Template>
+              </Setter>
+            </Style>
+            <Style Selector="ToggleSwitch:checked">
+              <Setter Property="default:SwitchKnob.Content">
+                <Template>
+                  <PathIcon Data="{icons:Moon}"
+                            Foreground="{color:OnSolidFillInkDefault}"
+                            Width="{size:Scaled {size:ControlHeightSm}, 0.3125}"
+                            Height="{size:Scaled {size:ControlHeightSm}, 0.3125}" />
+                </Template>
+              </Setter>
+            </Style>
+          </ToggleSwitch.Styles>
+        </ToggleSwitch>
+      </Viewbox>
+      <!-- Mode label underneath the toggle -->
+      <Panel HorizontalAlignment="Center">
+        <TextBlock Text="Light mode"
+                   IsVisible="{Binding !Theme.IsDark}"
+                   FontSize="{size:FontSizeXl}"
+                   FontWeight="{theme:FontWeightSemiBold}"
+                   Foreground="{color:TextDefault}"
+                   HorizontalAlignment="Center" />
+        <TextBlock Text="Dark mode"
+                   IsVisible="{Binding Theme.IsDark}"
+                   FontSize="{size:FontSizeXl}"
+                   FontWeight="{theme:FontWeightSemiBold}"
+                   Foreground="{color:TextDefault}"
+                   HorizontalAlignment="Center" />
+      </Panel>
+    </StackPanel>
+  </Border>
+</UserControl>

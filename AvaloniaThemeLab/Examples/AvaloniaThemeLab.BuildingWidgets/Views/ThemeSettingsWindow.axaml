@@ -1,0 +1,20 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+        xmlns:size="using:AngelSix.ThemeEngine.Sizes"
+        xmlns:widgets="using:AvaloniaThemeLab.BuildingWidgets.Widgets"
+        xmlns:vm="using:AvaloniaThemeLab.BuildingWidgets.ViewModels"
+        x:Class="AvaloniaThemeLab.BuildingWidgets.Views.ThemeSettingsWindow"
+        x:DataType="vm:ThemeSettingsViewModel"
+        Design.DataContext="{DesignContext}"
+        theme:Accent.Kind="{theme:DefaultAccent}"
+        Title="Theme settings"
+        Width="{size:Scaled 460}"
+        Height="{size:Scaled 600}">
+  <ScrollViewer Background="Transparent"
+                BorderThickness="0"
+                VerticalScrollBarVisibility="Auto"
+                Padding="{size:Edges {size:SpacingXl}}">
+    <widgets:ThemeSettings HorizontalAlignment="Stretch" />
+  </ScrollViewer>
+</Window>

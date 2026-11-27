@@ -1,0 +1,179 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+             xmlns:size="using:AngelSix.ThemeEngine.Sizes"
+             xmlns:color="using:AngelSix.ThemeEngine.Colors"
+             xmlns:icons="using:AngelSix.ThemeEngine.Icons"
+             xmlns:vm="using:AvaloniaThemeLab.BuildingWidgets.ViewModels"
+             x:Class="AvaloniaThemeLab.BuildingWidgets.Widgets.SideNav"
+             x:DataType="vm:SideNavViewModel"
+             Design.DataContext="{DesignContext}">
+  <UserControl.Resources>
+    <!-- Reusable top-level nav item template (shared by TopItems and FooterItems) -->
+    <DataTemplate x:Key="IconNavItemTemplate" x:DataType="vm:NavItem">
+      <StackPanel Orientation="Horizontal" Spacing="{size:SpacingXl}">
+        <Icon Content="{Binding Icon}" Size="{size:IconSizeSm}" />
+        <TextBlock Text="{Binding Label}" VerticalAlignment="Center" />
+      </StackPanel>
+    </DataTemplate>
+  </UserControl.Resources>
+
+  <!-- Outer side navigation frame -->
+  <Border Width="{size:Scaled 720}"
+          Height="{size:Scaled 460}"
+          HorizontalAlignment="Left"
+          VerticalAlignment="Top"
+          Background="{color:SurfaceDefault}"
+          BorderBrush="{color:BorderDefault}"
+          BorderThickness="{size:ThicknessSm}"
+          CornerRadius="{size:RadiusMd}">
+    <!-- Split layout: left navigation rail and right page content -->
+    <Grid ColumnDefinitions="Auto,*">
+      <!-- Left navigation rail -->
+      <Border Grid.Column="0"
+              Width="{size:SurfaceWidthSm}"
+              Background="{color:SurfaceBorderless}"
+              BorderBrush="{color:AccentDividerDefault}"
+              BorderThickness="{size:Edges Right={size:ThicknessSmDouble}}"
+              Padding="{size:Edges {size:SpacingXl}}">
+        <!-- Rail rows: brand header, navigation tree, pinned settings footer -->
+        <Grid RowDefinitions="Auto,*,Auto" RowSpacing="{size:SpacingMd}" theme:Accent.Kind="{theme:DefaultAccent}">
+          <!-- Brand badge and title -->
+          <StackPanel Grid.Row="0"
+                      Orientation="Horizontal"
+                      Spacing="{size:SpacingXl}"
+                      Margin="{size:Edges Left={size:SpacingLg}, Top={size:SpacingLg}, Right={size:SpacingLg}, Bottom={size:SpacingXl}}">
+            <!-- Brand monogram badge -->
+            <Border Width="{size:ControlHeightSm}"
+                    Height="{size:ControlHeightSm}"
+                    Background="{color:SolidFillDefault}"
+                    CornerRadius="{size:RadiusSm}">
+              <TextBlock Text="A"
+                         HorizontalAlignment="Center"
+                         VerticalAlignment="Center"
+                         FontSize="{size:FontSizeLg}"
+                         FontWeight="{theme:FontWeightBold}"
+                         Foreground="{color:OnSolidFillInkDefault}" />
+            </Border>
+            <!-- Brand name -->
+            <TextBlock Text="Avalonia"
+                       FontSize="{size:FontSizeLg}"
+                       FontWeight="{theme:FontWeightSemiBold}"
+                       Foreground="{color:TextDefault}"
+                       VerticalAlignment="Center" />
+          </StackPanel>
+
+          <!-- Navigation sections: top links and expandable Shipments group -->
+          <Grid Grid.Row="1" RowDefinitions="Auto,*" RowSpacing="{size:SpacingMd}">
+            <!-- Top-level navigation links -->
+            <ListBox Grid.Row="0"
+                     Background="Transparent"
+                     BorderThickness="0"
+                     Padding="0"
+                     ItemsSource="{Binding TopItems}"
+                     SelectedItem="{Binding ActiveItem, Mode=TwoWay}"
+                     ItemTemplate="{StaticResource IconNavItemTemplate}">
+              <ListBox.Styles>
+                <Style Selector="ListBoxItem">
+                  <Setter Property="Padding" Value="{size:Edges {size:SpacingXxl}, {size:SpacingXl}}" />
+                </Style>
+              </ListBox.Styles>
+            </ListBox>
+
+            <!-- Expandable Shipments sub-navigation -->
+            <Expander Grid.Row="1"
+                      Background="Transparent"
+                      BorderThickness="0"
+                      Padding="{size:Edges Top={size:SpacingMd}}"
+                      IsExpanded="True"
+                      HorizontalAlignment="Stretch"
+                      VerticalAlignment="Top"
+                      HorizontalContentAlignment="Stretch">
+              <Expander.Header>
+                <StackPanel Orientation="Horizontal" Spacing="{size:SpacingXl}">
+                  <Icon Content="{icons:Shipments}" Size="{size:IconSizeSm}" />
+                  <TextBlock Text="Shipments" VerticalAlignment="Center" />
+                </StackPanel>
+              </Expander.Header>
+
+              <!-- Shipments child items (scrollbars disabled so animating MaxHeight never flashes a scrollbar) -->
+              <ListBox Background="Transparent"
+                       BorderThickness="0"
+                       Padding="0"
+                       ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                       ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                       ItemsSource="{Binding ShipmentItems}"
+                       SelectedItem="{Binding ActiveItem, Mode=TwoWay}">
+                <ListBox.ItemTemplate>
+                  <DataTemplate x:DataType="vm:NavItem">
+                    <TextBlock Text="{Binding Label}" VerticalAlignment="Center" />
+                  </DataTemplate>
+                </ListBox.ItemTemplate>
+                <ListBox.Styles>
+                  <Style Selector="ListBoxItem">
+                    <Setter Property="Padding" Value="{size:Edges Left={size:Scaled {size:IconSizeMd}, 2.5}, Top={size:SpacingXl}, Right={size:SpacingXxl}, Bottom={size:SpacingXl}}" />
+                  </Style>
+                </ListBox.Styles>
+              </ListBox>
+            </Expander>
+          </Grid>
+
+          <!-- Pinned footer navigation (Settings) -->
+          <ListBox Grid.Row="2"
+                   Background="Transparent"
+                   BorderThickness="0"
+                   Padding="0"
+                   ItemsSource="{Binding FooterItems}"
+                   SelectedItem="{Binding ActiveItem, Mode=TwoWay}"
+                   ItemTemplate="{StaticResource IconNavItemTemplate}">
+            <ListBox.Styles>
+              <Style Selector="ListBoxItem">
+                <Setter Property="Padding" Value="{size:Edges {size:SpacingXxl}, {size:SpacingXl}}" />
+              </Style>
+            </ListBox.Styles>
+          </ListBox>
+        </Grid>
+      </Border>
+
+      <!-- Main content pane -->
+      <Border Grid.Column="1"
+              Padding="{size:Edges {size:SpacingXxl}}">
+        <!-- Content stack: heading, skeleton placeholder rows, action buttons -->
+        <StackPanel Spacing="{size:SpacingXl}">
+          <!-- Active page heading and caption -->
+          <StackPanel Spacing="{size:SpacingMd}">
+            <TextBlock Text="{Binding PageTitle}"
+                       FontSize="{size:FontSizeXxl}"
+                       FontWeight="{theme:FontWeightSemiBold}"
+                       Foreground="{color:TextDefault}" />
+            <TextBlock Text="{Binding PageCaption}"
+                       FontSize="{size:FontSizeSm}"
+                       Foreground="{color:DimTextDefault}" />
+          </StackPanel>
+
+          <!-- Placeholder content bars -->
+          <StackPanel Spacing="{size:SpacingLg}">
+            <Grid ColumnDefinitions="70*,30*">
+              <Border Grid.Column="0" Height="{size:FontSizeMd}" CornerRadius="{size:RadiusSm}" Background="{color:HoverBackgroundDefault}" />
+            </Grid>
+            <Grid ColumnDefinitions="85*,15*">
+              <Border Grid.Column="0" Height="{size:FontSizeMd}" CornerRadius="{size:RadiusSm}" Background="{color:HoverBackgroundDefault}" />
+            </Grid>
+            <Grid ColumnDefinitions="55*,45*">
+              <Border Grid.Column="0" Height="{size:FontSizeMd}" CornerRadius="{size:RadiusSm}" Background="{color:HoverBackgroundDefault}" />
+            </Grid>
+            <Grid ColumnDefinitions="78*,22*">
+              <Border Grid.Column="0" Height="{size:FontSizeMd}" CornerRadius="{size:RadiusSm}" Background="{color:HoverBackgroundDefault}" />
+            </Grid>
+          </StackPanel>
+
+          <!-- Primary and secondary action buttons -->
+          <StackPanel Orientation="Horizontal" Spacing="{size:SpacingLg}">
+            <Button Content="New" theme:Accent.Kind="{theme:DefaultAccent}" />
+            <Button Content="Export" />
+          </StackPanel>
+        </StackPanel>
+      </Border>
+    </Grid>
+  </Border>
+</UserControl>

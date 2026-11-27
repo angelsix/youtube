@@ -2,30 +2,107 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:vm="using:AvaloniaThemeLab.Minimal.ViewModels"
         xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+        xmlns:color="using:AngelSix.ThemeEngine.Colors"
         xmlns:size="using:AngelSix.ThemeEngine.Sizes"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="560" d:DesignHeight="320"
+        mc:Ignorable="d" d:DesignWidth="620" d:DesignHeight="380"
         x:Class="AvaloniaThemeLab.Minimal.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
         Design.DataContext="{DesignContext}"
         Icon="/Assets/avalonia-logo.ico"
-        Width="560" Height="320"
-        Title="Avalonia Theme Lab Minimal">
+        Width="620" Height="380"
+        Title="Minimal — Theme From Scratch">
 
-    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="{size:SpacingXl}">
-        <TextBlock Text="{Binding Greeting}" FontSize="{size:FontSizeLg}" HorizontalAlignment="Center"/>
+  <!-- Centered theme specimen card: header, live 4-seed palette strip, scale & accent actions -->
+  <Border HorizontalAlignment="Center"
+          VerticalAlignment="Center"
+          Width="{size:Scaled 520}"
+          Background="{color:CardBackgroundBrush}"
+          BorderBrush="{color:CardBorderBrush}"
+          BorderThickness="{size:ThicknessSm}"
+          CornerRadius="{size:RadiusMd}"
+          Padding="{size:Edges {size:SpacingXl}}">
+    <StackPanel Spacing="{size:SpacingXl}">
 
-        <StackPanel Orientation="Horizontal" Spacing="{size:SpacingMd}" HorizontalAlignment="Center">
-            <Button Content="Dark mode" Command="{Binding ToggleDarkCommand}"/>
-            <Button Content="Bigger" Command="{Binding GrowCommand}"/>
-            <Button Content="Smaller" Command="{Binding ShrinkCommand}"/>
+      <!-- Top header row: overline + title on left, Light/Dark mode button on right -->
+      <Grid ColumnDefinitions="*,Auto" ColumnSpacing="{size:SpacingLg}">
+        <StackPanel Grid.Column="0" Spacing="{size:SpacingSm}">
+          <TextBlock Text="THEMEBASE · ZERO BUILT-IN STYLES"
+                     FontSize="{size:FontSizeSm}"
+                     FontWeight="SemiBold"
+                     Foreground="{color:MutedTextBrush}" />
+          <TextBlock Text="Minimal Theme"
+                     FontSize="{size:FontSizeLg}"
+                     FontWeight="SemiBold"
+                     Foreground="{color:WindowTextBrush}" />
         </StackPanel>
 
-        <StackPanel Orientation="Horizontal" Spacing="{size:SpacingMd}" HorizontalAlignment="Center">
-            <Button Content="Save" theme:Accent.Kind="Primary"/>
-            <Button Content="Delete" theme:Accent.Kind="Danger"/>
+        <Button Grid.Column="1" VerticalAlignment="Center" Command="{Binding ToggleDarkCommand}">
+          <Panel>
+            <TextBlock Text="Dark mode" IsVisible="{Binding !Theme.IsDark}" />
+            <TextBlock Text="Light mode" IsVisible="{Binding Theme.IsDark}" />
+          </Panel>
+        </Button>
+      </Grid>
+
+      <!-- Live 4-seed custom palette preview -->
+      <UniformGrid Columns="4" ColumnSpacing="{size:SpacingMd}">
+        <StackPanel Spacing="{size:SpacingSm}">
+          <Border Height="{size:Scaled 44}"
+                  CornerRadius="{size:RadiusSm}"
+                  Background="{color:AccentNeutralBrush}"
+                  BorderBrush="{color:CardBorderBrush}"
+                  BorderThickness="{size:ThicknessSm}" />
+          <TextBlock Text="Neutral" FontSize="{size:FontSizeSm}" Foreground="{color:MutedTextBrush}" HorizontalAlignment="Center" />
         </StackPanel>
+
+        <StackPanel Spacing="{size:SpacingSm}">
+          <Border Height="{size:Scaled 44}"
+                  CornerRadius="{size:RadiusSm}"
+                  Background="{color:AccentPrimaryBrush}"
+                  BorderBrush="{color:CardBorderBrush}"
+                  BorderThickness="{size:ThicknessSm}" />
+          <TextBlock Text="Primary" FontSize="{size:FontSizeSm}" Foreground="{color:MutedTextBrush}" HorizontalAlignment="Center" />
+        </StackPanel>
+
+        <StackPanel Spacing="{size:SpacingSm}">
+          <Border Height="{size:Scaled 44}"
+                  CornerRadius="{size:RadiusSm}"
+                  Background="{color:AccentDangerBrush}"
+                  BorderBrush="{color:CardBorderBrush}"
+                  BorderThickness="{size:ThicknessSm}" />
+          <TextBlock Text="Danger" FontSize="{size:FontSizeSm}" Foreground="{color:MutedTextBrush}" HorizontalAlignment="Center" />
+        </StackPanel>
+
+        <StackPanel Spacing="{size:SpacingSm}">
+          <Border Height="{size:Scaled 44}"
+                  CornerRadius="{size:RadiusSm}"
+                  Background="{color:WindowBackgroundBrush}"
+                  BorderBrush="{color:CardBorderBrush}"
+                  BorderThickness="{size:ThicknessSm}" />
+          <TextBlock Text="Surface" FontSize="{size:FontSizeSm}" Foreground="{color:MutedTextBrush}" HorizontalAlignment="Center" />
+        </StackPanel>
+      </UniformGrid>
+
+      <!-- Bottom controls: BaseSize scale on left, accented buttons on right -->
+      <Grid ColumnDefinitions="*,Auto" ColumnSpacing="{size:SpacingLg}">
+        <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="{size:SpacingMd}" VerticalAlignment="Center">
+          <Button Content="A−" Command="{Binding ShrinkCommand}" />
+          <TextBlock Text="{Binding Theme.BaseSize, StringFormat='{}{0:0.00}×'}"
+                     FontSize="{size:FontSizeSm}"
+                     Foreground="{color:MutedTextBrush}"
+                     VerticalAlignment="Center" />
+          <Button Content="A+" Command="{Binding GrowCommand}" />
+        </StackPanel>
+
+        <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="{size:SpacingMd}" VerticalAlignment="Center">
+          <Button Content="Publish" theme:Accent.Kind="Primary" />
+          <Button Content="Reset" theme:Accent.Kind="Danger" Command="{Binding ResetCommand}" />
+        </StackPanel>
+      </Grid>
+
     </StackPanel>
+  </Border>
 
 </Window>

@@ -1,0 +1,125 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+        xmlns:size="using:AngelSix.ThemeEngine.Sizes"
+        xmlns:color="using:AngelSix.ThemeEngine.Colors"
+        xmlns:icons="using:AngelSix.ThemeEngine.Icons"
+        xmlns:vm="using:AvaloniaThemeLab.BuildingWidgets.ViewModels"
+        xmlns:widgets="using:AvaloniaThemeLab.BuildingWidgets.Widgets"
+        x:Class="AvaloniaThemeLab.BuildingWidgets.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Design.DataContext="{DesignContext}"
+        theme:Accent.Kind="{theme:DefaultAccent}"
+        Title="Building Widgets — Gallery"
+        Width="{size:Scaled 1060}"
+        Height="{size:Scaled 720}">
+  <!-- MVVM ViewModel-to-View mapping (zero View instantiation in ViewModels) -->
+  <Window.DataTemplates>
+    <DataTemplate DataType="vm:ExampleContentViewModel"><widgets:ExampleContent /></DataTemplate>
+    <DataTemplate DataType="vm:SideNavViewModel"><widgets:SideNav /></DataTemplate>
+    <DataTemplate DataType="vm:TopMenuViewModel"><widgets:TopMenu /></DataTemplate>
+    <DataTemplate DataType="vm:AppShellViewModel"><widgets:AppShell /></DataTemplate>
+    <DataTemplate DataType="vm:MoonWidgetViewModel"><widgets:MoonWidget /></DataTemplate>
+    <DataTemplate DataType="vm:ModeToggleViewModel"><widgets:ModeToggle /></DataTemplate>
+    <DataTemplate DataType="vm:ThemeSettingsViewModel"><widgets:ThemeSettings /></DataTemplate>
+  </Window.DataTemplates>
+  <!-- Smooth light/dark canvas cross-fade -->
+  <Window.Transitions>
+    <Transitions>
+      <BrushTransition Property="Background" Duration="0:0:0.45" Easing="0.42,0,0.2,1" />
+    </Transitions>
+  </Window.Transitions>
+  <!-- Main window layout: top toolbar and widget preview area -->
+  <Grid RowDefinitions="Auto,*">
+    <!-- Top toolbar -->
+    <Border Grid.Row="0"
+            Background="{color:SurfaceBorderless}"
+            BorderBrush="{color:AccentDividerDefault}"
+            BorderThickness="{size:Edges Bottom={size:ThicknessSmDouble}}"
+            Padding="{size:Edges {size:SpacingXl}, {size:SpacingLg}}">
+      <!-- Toolbar columns: title, widget picker, accent swatches, light/dark toggle, settings button -->
+      <Grid ColumnDefinitions="Auto,*,Auto,Auto,Auto" ColumnSpacing="{size:SpacingXl}">
+        <!-- Gallery title -->
+        <TextBlock Grid.Column="0"
+                   Text="Building Widgets"
+                   FontSize="{size:FontSizeLg}"
+                   FontWeight="{theme:FontWeightSemiBold}"
+                   VerticalAlignment="Center" />
+
+        <!-- Widget selector dropdown -->
+        <ComboBox Grid.Column="1"
+                  ItemsSource="{Binding Widgets}"
+                  DisplayMemberBinding="{Binding Name}"
+                  SelectedItem="{Binding SelectedWidget, Mode=TwoWay}"
+                  HorizontalAlignment="Left"
+                  MinWidth="{size:SurfaceWidthSm}"
+                  VerticalAlignment="Center" />
+
+        <!-- Accent color swatch picker (bound directly to Theme.Accents and Theme.DefaultAccent) -->
+        <ListBox Grid.Column="2"
+                 Background="Transparent"
+                 BorderThickness="0"
+                 Padding="0"
+                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                 ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                 ItemsSource="{Binding Theme.Accents}"
+                 SelectedItem="{Binding Theme.DefaultAccent, Mode=TwoWay}"
+                 VerticalAlignment="Center">
+          <ListBox.ItemsPanel>
+            <ItemsPanelTemplate>
+              <StackPanel Orientation="Horizontal" Spacing="{size:SpacingSm}" />
+            </ItemsPanelTemplate>
+          </ListBox.ItemsPanel>
+          <ListBox.Styles>
+            <Style Selector="ListBoxItem">
+              <Setter Property="Padding" Value="{size:Edges {size:SpacingSm}}" />
+              <Setter Property="MinWidth" Value="{size:IconSizeMd}" />
+              <Setter Property="MinHeight" Value="{size:IconSizeMd}" />
+              <Setter Property="CornerRadius" Value="{size:RadiusLg}" />
+            </Style>
+          </ListBox.Styles>
+          <ListBox.ItemTemplate>
+            <DataTemplate x:DataType="theme:AccentKind">
+              <Border theme:Accent.Kind="{Binding}"
+                      Width="{size:IconSizeMd}"
+                      Height="{size:IconSizeMd}"
+                      CornerRadius="{size:RadiusLg}"
+                      Background="{color:SolidFillDefault}"
+                      BorderBrush="{color:BorderDefault}"
+                      BorderThickness="{size:ThicknessSm}"
+                      ToolTip.Tip="{Binding}" />
+            </DataTemplate>
+          </ListBox.ItemTemplate>
+        </ListBox>
+
+        <!-- Light / Dark theme switch -->
+        <ToggleSwitch Grid.Column="3"
+                      OnContent="Dark"
+                      OffContent="Light"
+                      IsChecked="{Binding Theme.IsDark, Mode=TwoWay}"
+                      VerticalAlignment="Center" />
+
+        <!-- Popout theme settings button -->
+        <Button Grid.Column="4"
+                theme:Icon.Data="{icons:Settings}"
+                ToolTip.Tip="Theme settings"
+                VerticalAlignment="Center"
+                Command="{Binding OpenSettingsCommand}" />
+      </Grid>
+    </Border>
+
+    <!-- Scrollable widget stage with breathing room so hover-scaled controls never clip -->
+    <ScrollViewer Grid.Row="1"
+                  Background="Transparent"
+                  BorderThickness="0"
+                  HorizontalContentAlignment="Stretch"
+                  VerticalContentAlignment="Stretch"
+                  HorizontalScrollBarVisibility="Auto"
+                  VerticalScrollBarVisibility="Auto">
+      <ContentControl Content="{Binding SelectedWidget.ViewModel}"
+                      Margin="{size:Edges {size:SpacingXxl}}"
+                      HorizontalAlignment="Stretch"
+                      VerticalAlignment="Stretch" />
+    </ScrollViewer>
+  </Grid>
+</Window>

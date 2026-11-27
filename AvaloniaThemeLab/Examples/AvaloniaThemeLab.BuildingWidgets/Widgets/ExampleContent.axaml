@@ -3,18 +3,17 @@
              xmlns:theme="using:AngelSix.ThemeEngine.Generated"
              xmlns:size="using:AngelSix.ThemeEngine.Sizes"
              xmlns:color="using:AngelSix.ThemeEngine.Colors"
-             xmlns:icons="using:AngelSix.ThemeEngine.Icons"
-             xmlns:vm="using:AvaloniaThemeLab.StarterTheme.ViewModels"
-             x:Class="AvaloniaThemeLab.StarterTheme.Views.ExampleContent"
+             xmlns:vm="using:AvaloniaThemeLab.BuildingWidgets.ViewModels"
+             x:Class="AvaloniaThemeLab.BuildingWidgets.Widgets.ExampleContent"
              x:DataType="vm:ExampleContentViewModel"
              Design.DataContext="{DesignContext}">
-  <!-- Centered welcome stack: greeting header, theme controls, and accented action buttons -->
+  <!-- Centered example content stack: header, theme test buttons, primary/destructive action buttons -->
   <StackPanel Spacing="{size:SpacingXl}"
               HorizontalAlignment="Center"
               VerticalAlignment="Center">
     <!-- Greeting header -->
     <StackPanel Spacing="{size:SpacingMd}" HorizontalAlignment="Center">
-      <TextBlock Text="Welcome to your custom theme"
+      <TextBlock Text="Welcome back, Luke"
                  TextAlignment="Center"
                  HorizontalAlignment="Center"
                  FontSize="{size:FontSizeXxl}"
@@ -27,9 +26,9 @@
                  Foreground="{color:DimTextDefault}" />
     </StackPanel>
 
-    <!-- Live theme mode and scale buttons -->
+    <!-- Theme mode and size quick-test buttons -->
     <StackPanel Orientation="Horizontal" Spacing="{size:SpacingLg}" HorizontalAlignment="Center">
-      <Button theme:Icon.Data="{icons:Sparkle}" Command="{Binding ToggleModeCommand}">
+      <Button Command="{Binding ToggleModeCommand}">
         <Panel>
           <TextBlock Text="Dark mode" IsVisible="{Binding !Theme.IsDark}" />
           <TextBlock Text="Light mode" IsVisible="{Binding Theme.IsDark}" />
@@ -41,7 +40,7 @@
 
     <!-- Accented action buttons -->
     <StackPanel Orientation="Horizontal" Spacing="{size:SpacingLg}" HorizontalAlignment="Center">
-      <Button Content="Save" theme:Accent.Kind="Primary" />
+      <Button Content="Save" theme:Accent.Kind="{theme:DefaultAccent}" />
       <Button Content="Delete" theme:Accent.Kind="Destructive" />
     </StackPanel>
   </StackPanel>

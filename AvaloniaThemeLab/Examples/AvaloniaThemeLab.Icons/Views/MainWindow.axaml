@@ -6,63 +6,272 @@
         xmlns:color="using:AngelSix.ThemeEngine.Colors"
         xmlns:theme="using:AngelSix.ThemeEngine.Generated"
         xmlns:size="using:AngelSix.ThemeEngine.Sizes"
-        mc:Ignorable="d" d:DesignWidth="640" d:DesignHeight="560"
+        xmlns:local="using:AvaloniaThemeLab.Icons.Theme"
+        mc:Ignorable="d" d:DesignWidth="760" d:DesignHeight="490"
         x:Class="AvaloniaThemeLab.Icons.Views.MainWindow"
         Title="Icons — custom icon pack"
-        Width="640" Height="560">
+        Width="{size:Scaled 760}"
+        Height="{size:Scaled 490}">
 
-    <ScrollViewer Padding="{size:Edges {size:SpacingXl}}">
-        <StackPanel Spacing="{size:SpacingLg}" MaxWidth="{size:Scaled 560}">
+  <Grid RowDefinitions="Auto,*">
+    <!-- Top header bar -->
+    <Border Grid.Row="0"
+            Background="{color:SurfaceBorderless}"
+            BorderBrush="{color:AccentDividerDefault}"
+            BorderThickness="{size:Edges Bottom={size:ThicknessSmDouble}}"
+            Padding="{size:Edges {size:SpacingXxl}, {size:SpacingXl}}">
+      <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="{size:SpacingXl}">
+        <Border Grid.Column="0"
+                Width="{size:ControlHeightMd}"
+                Height="{size:ControlHeightMd}"
+                theme:Accent.Kind="Primary"
+                Background="{color:SolidFillDefault}"
+                CornerRadius="{size:RadiusSm}"
+                VerticalAlignment="Center">
+          <Icon Content="{icons:Rocket}"
+                Size="{size:IconSizeMd}"
+                Foreground="{color:OnSolidFillInkDefault}"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center" />
+        </Border>
 
-            <TextBlock Text="Your own icons, one gallery"
-                       FontSize="{size:FontSizeLg}" FontWeight="{theme:FontWeightSemiBold}"
-                       Foreground="{color:TextDefault}" />
-            <TextBlock TextWrapping="Wrap" Foreground="{color:TextDefault}"
-                       Text="AppIcons derives from ThemeIconGallery, so the default icons keep working while Icons/Svg/*.svg and two hand-written properties add to the set — and one override redraws ChevronDown everywhere." />
-
-            <StackPanel Spacing="{size:SpacingSm}">
-                <TextBlock Text="The default icons, still alive" FontWeight="{theme:FontWeightSemiBold}" Foreground="{color:TextDefault}" />
-                <StackPanel Orientation="Horizontal" Spacing="{size:SpacingLg}">
-                    <Icon Content="{icons:Close}" Size="{size:IconSizeLg}" />
-                    <Icon Content="{icons:WindowMaximize}" Size="{size:IconSizeLg}" />
-                    <Icon Content="{icons:WindowRestore}" Size="{size:IconSizeLg}" />
-                    <Icon Content="{icons:ChevronDown}" Size="{size:IconSizeLg}" />
-                    <TextBlock VerticalAlignment="Center" Foreground="{color:TextDefault}"
-                               Text="← the last one is this app's redraw of ChevronDown" />
-                </StackPanel>
-            </StackPanel>
-
-            <StackPanel Spacing="{size:SpacingSm}">
-                <TextBlock Text="From Icons/Svg — one file, one token" FontWeight="{theme:FontWeightSemiBold}" Foreground="{color:TextDefault}" />
-                <StackPanel Orientation="Horizontal" Spacing="{size:SpacingLg}">
-                    <Icon Content="{icons:Label}" Size="{size:IconSizeLg}" />
-                    <Icon Content="{icons:Coffee}" Size="{size:IconSizeLg}" />
-                    <Icon Content="{icons:Rocket}" Size="{size:IconSizeLg}" />
-                    <TextBlock VerticalAlignment="Center" Foreground="{color:TextDefault}"
-                               Text="Label, Coffee, Rocket — each is one .svg file" />
-                </StackPanel>
-            </StackPanel>
-
-            <StackPanel Spacing="{size:SpacingSm}">
-                <TextBlock Text="Hand-written and aliased" FontWeight="{theme:FontWeightSemiBold}" Foreground="{color:TextDefault}" />
-                <StackPanel Orientation="Horizontal" Spacing="{size:SpacingLg}">
-                    <Icon Content="{icons:Heart}" Size="{size:IconSizeLg}" />
-                    <Icon Content="{icons:CoffeeCup}" Size="{size:IconSizeLg}" />
-                    <TextBlock VerticalAlignment="Center" Foreground="{color:TextDefault}"
-                               Text="Heart is a literal path; CoffeeCup is an alias of Coffee" />
-                </StackPanel>
-            </StackPanel>
-
-            <StackPanel Spacing="{size:SpacingSm}">
-                <TextBlock Text="Icon.Data on controls" FontWeight="{theme:FontWeightSemiBold}" Foreground="{color:TextDefault}" />
-                <StackPanel Orientation="Horizontal" Spacing="{size:SpacingMd}">
-                    <Button theme:Icon.Data="{icons:Rocket}" Content="Launch" />
-                    <Button theme:Icon.Data="{icons:Heart}" theme:Icon.Placement="Right" Content="Like" />
-                    <Button theme:Icon.Data="{icons:Close}" />
-                    <Button theme:Icon.Data="{icons:Label}" Content="Tag" />
-                </StackPanel>
-            </StackPanel>
-
+        <StackPanel Grid.Column="1" Spacing="{size:SpacingSm}" VerticalAlignment="Center">
+          <TextBlock Text="Custom Icon Pack"
+                     FontSize="{size:FontSizeLg}"
+                     FontWeight="{theme:FontWeightSemiBold}"
+                     Foreground="{color:TextDefault}" />
+          <TextBlock Text="One gallery combining inherited defaults, SVG files, overrides, and hand-written paths."
+                     FontSize="{size:FontSizeSm}"
+                     Foreground="{color:DimTextDefault}" />
         </StackPanel>
+
+        <ToggleSwitch Grid.Column="2"
+                      OnContent="Dark"
+                      OffContent="Light"
+                      IsChecked="{Binding IsDark, Source={x:Static local:IconsTheme.Current}, Mode=TwoWay}"
+                      VerticalAlignment="Center" />
+      </Grid>
+    </Border>
+
+    <!-- Main 2x2 gallery cards -->
+    <ScrollViewer Grid.Row="1"
+                  Background="Transparent"
+                  BorderThickness="0"
+                  Padding="{size:Edges {size:SpacingXxl}}">
+      <UniformGrid Columns="2"
+                   ColumnSpacing="{size:SpacingXl}"
+                   RowSpacing="{size:SpacingXl}"
+                   VerticalAlignment="Top">
+
+        <!-- Card 1: Built-in defaults + override -->
+        <Border Background="{color:BackgroundDefault}"
+                BorderBrush="{color:AccentDividerDefault}"
+                BorderThickness="{size:ThicknessSm}"
+                CornerRadius="{size:RadiusMd}"
+                Padding="{size:Edges {size:SpacingXxl}}">
+          <StackPanel Spacing="{size:SpacingXl}">
+            <StackPanel Spacing="{size:SpacingSm}">
+              <TextBlock Text="INHERITED + OVERRIDE"
+                         FontSize="{size:FontSizeSm}"
+                         FontWeight="{theme:FontWeightSemiBold}"
+                         Foreground="{color:DimTextDefault}" />
+              <TextBlock Text="Built-in defaults"
+                         FontSize="{size:FontSizeLg}"
+                         FontWeight="{theme:FontWeightSemiBold}"
+                         Foreground="{color:TextDefault}" />
+              <TextBlock Text="Every default icon keeps working while overriding ChevronDown redraws it everywhere."
+                         TextWrapping="Wrap"
+                         FontSize="{size:FontSizeSm}"
+                         Foreground="{color:DimTextDefault}" />
+            </StackPanel>
+
+            <UniformGrid Columns="4" ColumnSpacing="{size:SpacingMd}">
+              <Border Background="{color:SurfaceDefault}"
+                      BorderBrush="{color:AccentDividerDefault}"
+                      BorderThickness="{size:ThicknessSm}"
+                      CornerRadius="{size:RadiusSm}"
+                      Padding="{size:Edges {size:SpacingMd}, {size:SpacingLg}}">
+                <StackPanel Spacing="{size:SpacingSm}" HorizontalAlignment="Center">
+                  <Icon Content="{icons:Close}" Size="{size:IconSizeLg}" HorizontalAlignment="Center" />
+                  <TextBlock Text="Close" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" HorizontalAlignment="Center" />
+                </StackPanel>
+              </Border>
+              <Border Background="{color:SurfaceDefault}"
+                      BorderBrush="{color:AccentDividerDefault}"
+                      BorderThickness="{size:ThicknessSm}"
+                      CornerRadius="{size:RadiusSm}"
+                      Padding="{size:Edges {size:SpacingMd}, {size:SpacingLg}}">
+                <StackPanel Spacing="{size:SpacingSm}" HorizontalAlignment="Center">
+                  <Icon Content="{icons:WindowMaximize}" Size="{size:IconSizeLg}" HorizontalAlignment="Center" />
+                  <TextBlock Text="Max" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" HorizontalAlignment="Center" />
+                </StackPanel>
+              </Border>
+              <Border Background="{color:SurfaceDefault}"
+                      BorderBrush="{color:AccentDividerDefault}"
+                      BorderThickness="{size:ThicknessSm}"
+                      CornerRadius="{size:RadiusSm}"
+                      Padding="{size:Edges {size:SpacingMd}, {size:SpacingLg}}">
+                <StackPanel Spacing="{size:SpacingSm}" HorizontalAlignment="Center">
+                  <Icon Content="{icons:WindowRestore}" Size="{size:IconSizeLg}" HorizontalAlignment="Center" />
+                  <TextBlock Text="Restore" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" HorizontalAlignment="Center" />
+                </StackPanel>
+              </Border>
+              <Border Background="{color:SurfaceDefault}"
+                      BorderBrush="{color:AccentPrimaryBrush}"
+                      BorderThickness="{size:ThicknessSm}"
+                      CornerRadius="{size:RadiusSm}"
+                      Padding="{size:Edges {size:SpacingMd}, {size:SpacingLg}}">
+                <StackPanel Spacing="{size:SpacingSm}" HorizontalAlignment="Center">
+                  <Icon Content="{icons:ChevronDown}" Size="{size:IconSizeLg}" Foreground="{color:AccentPrimaryBrush}" HorizontalAlignment="Center" />
+                  <TextBlock Text="Chevron*" FontSize="{size:FontSizeSm}" Foreground="{color:AccentPrimaryBrush}" HorizontalAlignment="Center" />
+                </StackPanel>
+              </Border>
+            </UniformGrid>
+          </StackPanel>
+        </Border>
+
+        <!-- Card 2: SVG files -->
+        <Border Background="{color:BackgroundDefault}"
+                BorderBrush="{color:AccentDividerDefault}"
+                BorderThickness="{size:ThicknessSm}"
+                CornerRadius="{size:RadiusMd}"
+                Padding="{size:Edges {size:SpacingXxl}}">
+          <StackPanel Spacing="{size:SpacingXl}">
+            <StackPanel Spacing="{size:SpacingSm}">
+              <TextBlock Text="ICONS/SVG/*.SVG"
+                         FontSize="{size:FontSizeSm}"
+                         FontWeight="{theme:FontWeightSemiBold}"
+                         Foreground="{color:DimTextDefault}" />
+              <TextBlock Text="One file, one token"
+                         FontSize="{size:FontSizeLg}"
+                         FontWeight="{theme:FontWeightSemiBold}"
+                         Foreground="{color:TextDefault}" />
+              <TextBlock Text="Drop an SVG into Icons/Svg and the source generator emits a typed markup token."
+                         TextWrapping="Wrap"
+                         FontSize="{size:FontSizeSm}"
+                         Foreground="{color:DimTextDefault}" />
+            </StackPanel>
+
+            <UniformGrid Columns="3" ColumnSpacing="{size:SpacingMd}">
+              <Border Background="{color:SurfaceDefault}"
+                      BorderBrush="{color:AccentDividerDefault}"
+                      BorderThickness="{size:ThicknessSm}"
+                      CornerRadius="{size:RadiusSm}"
+                      Padding="{size:Edges {size:SpacingMd}, {size:SpacingLg}}">
+                <StackPanel Spacing="{size:SpacingSm}" HorizontalAlignment="Center">
+                  <Icon Content="{icons:Label}" Size="{size:IconSizeLg}" HorizontalAlignment="Center" />
+                  <TextBlock Text="Label" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" HorizontalAlignment="Center" />
+                </StackPanel>
+              </Border>
+              <Border Background="{color:SurfaceDefault}"
+                      BorderBrush="{color:AccentDividerDefault}"
+                      BorderThickness="{size:ThicknessSm}"
+                      CornerRadius="{size:RadiusSm}"
+                      Padding="{size:Edges {size:SpacingMd}, {size:SpacingLg}}">
+                <StackPanel Spacing="{size:SpacingSm}" HorizontalAlignment="Center">
+                  <Icon Content="{icons:Coffee}" Size="{size:IconSizeLg}" HorizontalAlignment="Center" />
+                  <TextBlock Text="Coffee" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" HorizontalAlignment="Center" />
+                </StackPanel>
+              </Border>
+              <Border Background="{color:SurfaceDefault}"
+                      BorderBrush="{color:AccentDividerDefault}"
+                      BorderThickness="{size:ThicknessSm}"
+                      CornerRadius="{size:RadiusSm}"
+                      Padding="{size:Edges {size:SpacingMd}, {size:SpacingLg}}">
+                <StackPanel Spacing="{size:SpacingSm}" HorizontalAlignment="Center">
+                  <Icon Content="{icons:Rocket}" Size="{size:IconSizeLg}" HorizontalAlignment="Center" />
+                  <TextBlock Text="Rocket" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" HorizontalAlignment="Center" />
+                </StackPanel>
+              </Border>
+            </UniformGrid>
+          </StackPanel>
+        </Border>
+
+        <!-- Card 3: Hand-written & aliased -->
+        <Border Background="{color:BackgroundDefault}"
+                BorderBrush="{color:AccentDividerDefault}"
+                BorderThickness="{size:ThicknessSm}"
+                CornerRadius="{size:RadiusMd}"
+                Padding="{size:Edges {size:SpacingXxl}}">
+          <StackPanel Spacing="{size:SpacingXl}">
+            <StackPanel Spacing="{size:SpacingSm}">
+              <TextBlock Text="IN C# CODE"
+                         FontSize="{size:FontSizeSm}"
+                         FontWeight="{theme:FontWeightSemiBold}"
+                         Foreground="{color:DimTextDefault}" />
+              <TextBlock Text="Hand-written &amp; aliased"
+                         FontSize="{size:FontSizeLg}"
+                         FontWeight="{theme:FontWeightSemiBold}"
+                         Foreground="{color:TextDefault}" />
+              <TextBlock Text="Declare a literal SVG path directly on your gallery, or alias an existing icon."
+                         TextWrapping="Wrap"
+                         FontSize="{size:FontSizeSm}"
+                         Foreground="{color:DimTextDefault}" />
+            </StackPanel>
+
+            <UniformGrid Columns="2" ColumnSpacing="{size:SpacingMd}">
+              <Border Background="{color:SurfaceDefault}"
+                      BorderBrush="{color:AccentDividerDefault}"
+                      BorderThickness="{size:ThicknessSm}"
+                      CornerRadius="{size:RadiusSm}"
+                      Padding="{size:Edges {size:SpacingLg}}">
+                <StackPanel Orientation="Horizontal" Spacing="{size:SpacingLg}" VerticalAlignment="Center">
+                  <Icon Content="{icons:Heart}" Size="{size:IconSizeLg}" Foreground="{color:AccentDestructiveBrush}" VerticalAlignment="Center" />
+                  <StackPanel Spacing="{size:SpacingSm}" VerticalAlignment="Center">
+                    <TextBlock Text="Heart" FontWeight="{theme:FontWeightSemiBold}" Foreground="{color:TextDefault}" />
+                    <TextBlock Text="Literal path" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
+                  </StackPanel>
+                </StackPanel>
+              </Border>
+              <Border Background="{color:SurfaceDefault}"
+                      BorderBrush="{color:AccentDividerDefault}"
+                      BorderThickness="{size:ThicknessSm}"
+                      CornerRadius="{size:RadiusSm}"
+                      Padding="{size:Edges {size:SpacingLg}}">
+                <StackPanel Orientation="Horizontal" Spacing="{size:SpacingLg}" VerticalAlignment="Center">
+                  <Icon Content="{icons:CoffeeCup}" Size="{size:IconSizeLg}" Foreground="{color:AccentPrimaryBrush}" VerticalAlignment="Center" />
+                  <StackPanel Spacing="{size:SpacingSm}" VerticalAlignment="Center">
+                    <TextBlock Text="CoffeeCup" FontWeight="{theme:FontWeightSemiBold}" Foreground="{color:TextDefault}" />
+                    <TextBlock Text="Alias of Coffee" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" />
+                  </StackPanel>
+                </StackPanel>
+              </Border>
+            </UniformGrid>
+          </StackPanel>
+        </Border>
+
+        <!-- Card 4: Attached to controls -->
+        <Border Background="{color:BackgroundDefault}"
+                BorderBrush="{color:AccentDividerDefault}"
+                BorderThickness="{size:ThicknessSm}"
+                CornerRadius="{size:RadiusMd}"
+                Padding="{size:Edges {size:SpacingXxl}}">
+          <StackPanel Spacing="{size:SpacingXl}">
+            <StackPanel Spacing="{size:SpacingSm}">
+              <TextBlock Text="THEME:ICON.DATA"
+                         FontSize="{size:FontSizeSm}"
+                         FontWeight="{theme:FontWeightSemiBold}"
+                         Foreground="{color:DimTextDefault}" />
+              <TextBlock Text="Attached to controls"
+                         FontSize="{size:FontSizeLg}"
+                         FontWeight="{theme:FontWeightSemiBold}"
+                         Foreground="{color:TextDefault}" />
+              <TextBlock Text="Attach any token to a button — left-aligned, right-aligned, or icon-only."
+                         TextWrapping="Wrap"
+                         FontSize="{size:FontSizeSm}"
+                         Foreground="{color:DimTextDefault}" />
+            </StackPanel>
+
+            <WrapPanel Orientation="Horizontal" ItemSpacing="{size:SpacingMd}" LineSpacing="{size:SpacingMd}">
+              <Button theme:Icon.Data="{icons:Rocket}" theme:Accent.Kind="Primary" Content="Launch" />
+              <Button theme:Icon.Data="{icons:Heart}" theme:Icon.Placement="Right" theme:Accent.Kind="Destructive" Content="Like" />
+              <Button theme:Icon.Data="{icons:Label}" Content="Tag" />
+              <Button theme:Icon.Data="{icons:Close}" ToolTip.Tip="Close" />
+            </WrapPanel>
+          </StackPanel>
+        </Border>
+
+      </UniformGrid>
     </ScrollViewer>
+  </Grid>
 </Window>

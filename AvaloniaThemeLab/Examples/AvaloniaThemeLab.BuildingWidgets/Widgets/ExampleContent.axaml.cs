@@ -1,6 +1,6 @@
 using Avalonia.Controls;
 
-namespace AvaloniaThemeLab.StarterTheme.Views;
+namespace AvaloniaThemeLab.BuildingWidgets.Widgets;
 
 public partial class ExampleContent : UserControl
 {

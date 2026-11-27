@@ -1,8 +1,8 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
+using AngelSix.Mvvm;
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;
-using AvaloniaThemeLab.GettingStarted.ViewModels;
 
 namespace AvaloniaThemeLab.GettingStarted;
 
@@ -30,6 +30,6 @@ public class ViewLocator : IDataTemplate
 
     public bool Match(object? data)
     {
-        return data is ViewModelBase;
+        return data is ObservableObject;
     }
 }

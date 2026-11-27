@@ -1,0 +1,114 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+             xmlns:size="using:AngelSix.ThemeEngine.Sizes"
+             xmlns:color="using:AngelSix.ThemeEngine.Colors"
+             xmlns:vm="using:AvaloniaThemeLab.BuildingWidgets.ViewModels"
+             x:Class="AvaloniaThemeLab.BuildingWidgets.Widgets.ThemeSettings"
+             x:DataType="vm:ThemeSettingsViewModel"
+             Design.DataContext="{DesignContext}">
+  <!-- Outer settings card -->
+  <Border Width="{size:SurfaceWidthLg}"
+          HorizontalAlignment="Left"
+          VerticalAlignment="Top"
+          Background="{color:SurfaceDefault}"
+          BorderBrush="{color:BorderDefault}"
+          BorderThickness="{size:ThicknessSm}"
+          CornerRadius="{size:RadiusMd}"
+          Padding="{size:Edges {size:SpacingXxl}}">
+    <!-- Settings sections stack -->
+    <StackPanel Spacing="{size:SpacingXxl}">
+      <!-- Scale sliders section (bound directly to PrototypeTheme observable properties) -->
+      <StackPanel Spacing="{size:SpacingLg}">
+        <TextBlock Text="Scale" FontSize="{size:FontSizeLg}" FontWeight="{theme:FontWeightSemiBold}" Foreground="{color:TextDefault}" />
+        <!-- Base size slider row -->
+        <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="{size:SpacingLg}">
+          <TextBlock Grid.Column="0" Text="Base size" Width="{size:Scaled 112}" VerticalAlignment="Center" />
+          <Slider Grid.Column="1" Minimum="0.75" Maximum="1.5" Value="{Binding Theme.BaseSize, Mode=TwoWay}" TickFrequency="0.05" IsSnapToTickEnabled="True" HorizontalAlignment="Stretch" VerticalAlignment="Center" />
+          <TextBlock Grid.Column="2" Text="{Binding Theme.BaseSize, StringFormat='{}{0:0.00}×'}" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" VerticalAlignment="Center" />
+        </Grid>
+        <!-- Spacing scale slider row -->
+        <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="{size:SpacingLg}">
+          <TextBlock Grid.Column="0" Text="Spacing" Width="{size:Scaled 112}" VerticalAlignment="Center" />
+          <Slider Grid.Column="1" Minimum="0.5" Maximum="2" Value="{Binding Theme.SpacingScale, Mode=TwoWay}" TickFrequency="0.05" IsSnapToTickEnabled="True" HorizontalAlignment="Stretch" VerticalAlignment="Center" />
+          <TextBlock Grid.Column="2" Text="{Binding Theme.SpacingScale, StringFormat='{}{0:0.00}×'}" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" VerticalAlignment="Center" />
+        </Grid>
+        <!-- Font size scale slider row -->
+        <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="{size:SpacingLg}">
+          <TextBlock Grid.Column="0" Text="Font size" Width="{size:Scaled 112}" VerticalAlignment="Center" />
+          <Slider Grid.Column="1" Minimum="0.75" Maximum="1.5" Value="{Binding Theme.FontSizeScale, Mode=TwoWay}" TickFrequency="0.05" IsSnapToTickEnabled="True" HorizontalAlignment="Stretch" VerticalAlignment="Center" />
+          <TextBlock Grid.Column="2" Text="{Binding Theme.FontSizeScale, StringFormat='{}{0:0.00}×'}" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" VerticalAlignment="Center" />
+        </Grid>
+        <!-- Corner radius scale slider row -->
+        <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="{size:SpacingLg}">
+          <TextBlock Grid.Column="0" Text="Corner radius" Width="{size:Scaled 112}" VerticalAlignment="Center" />
+          <Slider Grid.Column="1" Minimum="0" Maximum="2" Value="{Binding Theme.RadiusScale, Mode=TwoWay}" TickFrequency="0.05" IsSnapToTickEnabled="True" HorizontalAlignment="Stretch" VerticalAlignment="Center" />
+          <TextBlock Grid.Column="2" Text="{Binding Theme.RadiusScale, StringFormat='{}{0:0.00}×'}" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" VerticalAlignment="Center" />
+        </Grid>
+      </StackPanel>
+
+      <!-- Accent hue swatches section -->
+      <Grid RowDefinitions="Auto,*" RowSpacing="{size:SpacingLg}">
+        <TextBlock Grid.Row="0" Text="Accent" FontSize="{size:FontSizeLg}" FontWeight="{theme:FontWeightSemiBold}" Foreground="{color:TextDefault}" />
+        <!-- Circular accent color picker (bound directly to Theme.Accents and Theme.DefaultAccent) -->
+        <ListBox Grid.Row="1"
+                 Background="Transparent"
+                 BorderThickness="0"
+                 Padding="0"
+                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                 ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                 ItemsSource="{Binding Theme.Accents}"
+                 SelectedItem="{Binding Theme.DefaultAccent, Mode=TwoWay}">
+          <ListBox.ItemsPanel>
+            <ItemsPanelTemplate>
+              <StackPanel Orientation="Horizontal" Spacing="{size:SpacingSm}" />
+            </ItemsPanelTemplate>
+          </ListBox.ItemsPanel>
+          <ListBox.Styles>
+            <Style Selector="ListBoxItem">
+              <Setter Property="Padding" Value="{size:Edges {size:SpacingSm}}" />
+              <Setter Property="MinWidth" Value="{size:IconSizeLg}" />
+              <Setter Property="MinHeight" Value="{size:IconSizeLg}" />
+              <Setter Property="CornerRadius" Value="{size:RadiusLg}" />
+            </Style>
+          </ListBox.Styles>
+          <ListBox.ItemTemplate>
+            <DataTemplate x:DataType="theme:AccentKind">
+              <Border theme:Accent.Kind="{Binding}"
+                      Width="{size:IconSizeLg}"
+                      Height="{size:IconSizeLg}"
+                      CornerRadius="{size:RadiusLg}"
+                      Background="{color:SolidFillDefault}"
+                      BorderBrush="{color:BorderDefault}"
+                      BorderThickness="{size:ThicknessSm}"
+                      ToolTip.Tip="{Binding}" />
+            </DataTemplate>
+          </ListBox.ItemTemplate>
+        </ListBox>
+      </Grid>
+
+      <!-- Font family section -->
+      <StackPanel Spacing="{size:SpacingLg}">
+        <TextBlock Text="Font" FontSize="{size:FontSizeLg}" FontWeight="{theme:FontWeightSemiBold}" Foreground="{color:TextDefault}" />
+        <!-- Font selector row -->
+        <Grid ColumnDefinitions="Auto,*" ColumnSpacing="{size:SpacingLg}">
+          <TextBlock Grid.Column="0" Text="Family" Width="{size:Scaled 112}" VerticalAlignment="Center" />
+          <ComboBox Grid.Column="1"
+                    HorizontalAlignment="Stretch"
+                    ItemsSource="{Binding Fonts}"
+                    DisplayMemberBinding="{Binding Name}"
+                    SelectedItem="{Binding Theme.FontFamily, Mode=TwoWay}" />
+        </Grid>
+      </StackPanel>
+
+      <!-- Light / Dark mode section -->
+      <StackPanel Spacing="{size:SpacingLg}">
+        <TextBlock Text="Mode" FontSize="{size:FontSizeLg}" FontWeight="{theme:FontWeightSemiBold}" Foreground="{color:TextDefault}" />
+        <ToggleSwitch OffContent="Light mode" OnContent="Dark mode" IsChecked="{Binding Theme.IsDark, Mode=TwoWay}" />
+      </StackPanel>
+
+      <!-- Reset button -->
+      <Button Content="Reset to theme defaults" HorizontalAlignment="Left" Command="{Binding ResetCommand}" />
+    </StackPanel>
+  </Border>
+</UserControl>

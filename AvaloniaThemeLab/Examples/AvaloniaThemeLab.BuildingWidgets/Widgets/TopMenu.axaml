@@ -1,0 +1,136 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+             xmlns:size="using:AngelSix.ThemeEngine.Sizes"
+             xmlns:color="using:AngelSix.ThemeEngine.Colors"
+             xmlns:icons="using:AngelSix.ThemeEngine.Icons"
+             xmlns:default="using:AngelSix.Themes.Default"
+             xmlns:vm="using:AvaloniaThemeLab.BuildingWidgets.ViewModels"
+             x:Class="AvaloniaThemeLab.BuildingWidgets.Widgets.TopMenu"
+             x:DataType="vm:TopMenuViewModel"
+             Design.DataContext="{DesignContext}">
+  <!-- Outer top-menu frame -->
+  <Border Width="{size:Scaled 900}"
+          Height="{size:Scaled 280}"
+          HorizontalAlignment="Left"
+          VerticalAlignment="Top"
+          Background="{color:SurfaceDefault}"
+          BorderBrush="{color:BorderDefault}"
+          BorderThickness="{size:ThicknessSm}"
+          CornerRadius="{size:RadiusMd}">
+    <!-- Layout rows: top menu bar and page content -->
+    <Grid RowDefinitions="Auto,*">
+      <!-- Top bar -->
+      <Border Grid.Row="0"
+              Background="{color:SurfaceBorderless}"
+              BorderBrush="{color:AccentDividerDefault}"
+              BorderThickness="{size:Edges Bottom={size:ThicknessSmDouble}}"
+              Padding="{size:Edges {size:SpacingXl}}">
+        <!-- Top bar columns: brand, menu bar, spacer, search input, mode switch -->
+        <Grid ColumnDefinitions="Auto,Auto,*,Auto,Auto" ColumnSpacing="{size:SpacingXxl}">
+          <!-- Brand badge and title -->
+          <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="{size:SpacingXl}" VerticalAlignment="Center">
+            <Border Width="{size:ControlHeightSm}"
+                    Height="{size:ControlHeightSm}"
+                    theme:Accent.Kind="{theme:DefaultAccent}"
+                    Background="{color:SolidFillDefault}"
+                    CornerRadius="{size:RadiusSm}">
+              <TextBlock Text="A"
+                         HorizontalAlignment="Center"
+                         VerticalAlignment="Center"
+                         FontSize="{size:FontSizeLg}"
+                         FontWeight="{theme:FontWeightBold}"
+                         Foreground="{color:OnSolidFillInkDefault}" />
+            </Border>
+            <TextBlock Text="Avalonia"
+                       FontSize="{size:FontSizeLg}"
+                       FontWeight="{theme:FontWeightSemiBold}"
+                       Foreground="{color:TextDefault}"
+                       VerticalAlignment="Center" />
+          </StackPanel>
+
+          <!-- Application menu bar -->
+          <Menu Grid.Column="1" Background="Transparent" BorderThickness="0" VerticalAlignment="Center">
+            <MenuItem Header="File">
+              <MenuItem Header="New order" Command="{Binding ChooseMenuCommand}" CommandParameter="New order" />
+              <MenuItem Header="Open…" Command="{Binding ChooseMenuCommand}" CommandParameter="Open…" />
+              <MenuItem Header="Save" Command="{Binding ChooseMenuCommand}" CommandParameter="Save" />
+              <Separator />
+              <MenuItem Header="Close window" Command="{Binding ChooseMenuCommand}" CommandParameter="Close window" />
+            </MenuItem>
+            <MenuItem Header="Edit">
+              <MenuItem Header="Undo" Command="{Binding ChooseMenuCommand}" CommandParameter="Undo" />
+              <MenuItem Header="Redo" Command="{Binding ChooseMenuCommand}" CommandParameter="Redo" />
+              <Separator />
+              <MenuItem Header="Cut" Command="{Binding ChooseMenuCommand}" CommandParameter="Cut" />
+              <MenuItem Header="Copy" Command="{Binding ChooseMenuCommand}" CommandParameter="Copy" />
+              <MenuItem Header="Paste" Command="{Binding ChooseMenuCommand}" CommandParameter="Paste" />
+            </MenuItem>
+            <MenuItem Header="View">
+              <MenuItem Header="Dark mode" Command="{Binding ToggleModeCommand}" />
+              <MenuItem Header="Bigger" Command="{Binding ChooseMenuCommand}" CommandParameter="Bigger" />
+              <MenuItem Header="Smaller" Command="{Binding ChooseMenuCommand}" CommandParameter="Smaller" />
+            </MenuItem>
+            <MenuItem Header="Help">
+              <MenuItem Header="Documentation" Command="{Binding ChooseMenuCommand}" CommandParameter="Documentation" />
+              <MenuItem Header="About Avalonia" Command="{Binding ChooseMenuCommand}" CommandParameter="About Avalonia" />
+            </MenuItem>
+          </Menu>
+
+          <!-- Search orders input -->
+          <TextBox Grid.Column="3"
+                   Width="{size:SurfaceWidthSm}"
+                   PlaceholderText="Search orders"
+                   VerticalAlignment="Center">
+            <TextBox.InnerLeftContent>
+              <PathIcon Data="{icons:Search}" Width="{size:IconSizeSm}" Height="{size:IconSizeSm}" Margin="{size:Edges Left={size:SpacingLg}}" Foreground="{color:DimTextDefault}" />
+            </TextBox.InnerLeftContent>
+          </TextBox>
+
+          <!-- Light / Dark mode toggle -->
+          <ToggleSwitch Grid.Column="4"
+                        OffContent="{x:Null}"
+                        OnContent="{x:Null}"
+                        VerticalAlignment="Center"
+                        IsChecked="{Binding Theme.IsDark, Mode=TwoWay}">
+            <ToggleSwitch.Styles>
+              <Style Selector="ToggleSwitch:unchecked">
+                <Setter Property="default:SwitchKnob.Content">
+                  <Template>
+                    <PathIcon Data="{icons:Sun}"
+                              Foreground="{color:AccentFavouriteBrush}"
+                              Width="{size:Scaled {size:ControlHeightSm}, 0.3125}"
+                              Height="{size:Scaled {size:ControlHeightSm}, 0.3125}" />
+                  </Template>
+                </Setter>
+              </Style>
+              <Style Selector="ToggleSwitch:checked">
+                <Setter Property="default:SwitchKnob.Content">
+                  <Template>
+                    <PathIcon Data="{icons:Moon}"
+                              Foreground="{color:OnSolidFillInkDefault}"
+                              Width="{size:Scaled {size:ControlHeightSm}, 0.3125}"
+                              Height="{size:Scaled {size:ControlHeightSm}, 0.3125}" />
+                  </Template>
+                </Setter>
+              </Style>
+            </ToggleSwitch.Styles>
+          </ToggleSwitch>
+        </Grid>
+      </Border>
+
+      <!-- Main content pane -->
+      <StackPanel Grid.Row="1"
+                  Spacing="{size:SpacingMd}"
+                  Margin="{size:Edges {size:SpacingXxl}}">
+        <TextBlock Text="Dashboard"
+                   FontSize="{size:FontSizeXxl}"
+                   FontWeight="{theme:FontWeightSemiBold}"
+                   Foreground="{color:TextDefault}" />
+        <TextBlock Text="{Binding Caption}"
+                   FontSize="{size:FontSizeSm}"
+                   Foreground="{color:DimTextDefault}" />
+      </StackPanel>
+    </Grid>
+  </Border>
+</UserControl>

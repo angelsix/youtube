@@ -1,0 +1,183 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+             xmlns:size="using:AngelSix.ThemeEngine.Sizes"
+             xmlns:color="using:AngelSix.ThemeEngine.Colors"
+             xmlns:icons="using:AngelSix.ThemeEngine.Icons"
+             xmlns:vm="using:AvaloniaThemeLab.BuildingWidgets.ViewModels"
+             x:Class="AvaloniaThemeLab.BuildingWidgets.Widgets.AppShell"
+             x:DataType="vm:AppShellViewModel"
+             Design.DataContext="{DesignContext}">
+  <UserControl.Resources>
+    <!-- Reusable nav item template (shared by PrimaryItems and FooterItems) -->
+    <DataTemplate x:Key="NavItemTemplate" x:DataType="vm:NavItem">
+      <StackPanel Orientation="Horizontal" Spacing="{size:SpacingXl}">
+        <Icon Content="{Binding Icon}" Size="{size:IconSizeSm}" />
+        <TextBlock Text="{Binding Label}" VerticalAlignment="Center" />
+      </StackPanel>
+    </DataTemplate>
+  </UserControl.Resources>
+
+  <!-- Outer app shell frame -->
+  <Border Width="{size:Scaled 900}"
+          Height="{size:Scaled 540}"
+          HorizontalAlignment="Left"
+          VerticalAlignment="Top"
+          Background="{color:SurfaceDefault}"
+          BorderBrush="{color:BorderDefault}"
+          BorderThickness="{size:ThicknessSm}"
+          CornerRadius="{size:RadiusMd}">
+    <!-- Shell rows: top bar, body (nav + content), status bar -->
+    <Grid RowDefinitions="Auto,*,Auto">
+      <!-- Top bar -->
+      <Border Grid.Row="0"
+              Background="{color:SurfaceBorderless}"
+              BorderBrush="{color:AccentDividerDefault}"
+              BorderThickness="{size:Edges Bottom={size:ThicknessSmDouble}}"
+              Padding="{size:Edges {size:SpacingXl}}">
+        <!-- Top bar columns: hamburger button, brand title, spacer, search input -->
+        <Grid ColumnDefinitions="Auto,Auto,*,Auto" ColumnSpacing="{size:SpacingXl}">
+          <!-- Sidebar collapse toggle button -->
+          <Button Grid.Column="0"
+                  theme:Icon.Data="{icons:Menu}"
+                  Background="Transparent"
+                  BorderThickness="0"
+                  VerticalAlignment="Center"
+                  Command="{Binding ToggleNavCommand}" />
+
+          <!-- Application brand title -->
+          <TextBlock Grid.Column="1"
+                     Text="Avalonia"
+                     FontSize="{size:FontSizeLg}"
+                     FontWeight="{theme:FontWeightSemiBold}"
+                     Foreground="{color:TextDefault}"
+                     VerticalAlignment="Center" />
+
+          <!-- Global search input -->
+          <TextBox Grid.Column="3"
+                   Width="{size:SurfaceWidthSm}"
+                   PlaceholderText="Search"
+                   VerticalAlignment="Center">
+            <TextBox.InnerLeftContent>
+              <Icon Content="{icons:Search}" Size="{size:IconSizeSm}" Margin="{size:Edges Left={size:SpacingLg}}" Foreground="{color:DimTextDefault}" />
+            </TextBox.InnerLeftContent>
+          </TextBox>
+        </Grid>
+      </Border>
+
+      <!-- Main body: native SplitView collapsible navigation rail and page content -->
+      <SplitView Grid.Row="1"
+                 IsPaneOpen="{Binding IsNavVisible}"
+                 DisplayMode="Inline"
+                 OpenPaneLength="{size:SurfaceWidthSm}"
+                 Background="Transparent"
+                 BorderThickness="0"
+                 CornerRadius="0"
+                 Padding="0"
+                 PaneBackground="{color:SurfaceBorderless}">
+        <SplitView.Pane>
+          <Border BorderBrush="{color:AccentDividerDefault}"
+                  BorderThickness="{size:Edges Right={size:ThicknessSmDouble}}"
+                  Padding="{size:Edges {size:SpacingXl}}">
+            <Grid RowDefinitions="*,Auto"
+                  RowSpacing="{size:SpacingMd}"
+                  theme:Accent.Kind="{theme:DefaultAccent}">
+              <!-- Primary navigation list -->
+              <ListBox Grid.Row="0"
+                       Background="Transparent"
+                       BorderThickness="0"
+                       Padding="0"
+                       ItemsSource="{Binding PrimaryItems}"
+                       SelectedItem="{Binding ActiveItem, Mode=TwoWay}"
+                       ItemTemplate="{StaticResource NavItemTemplate}">
+                <ListBox.Styles>
+                  <Style Selector="ListBoxItem">
+                    <Setter Property="Padding" Value="{size:Edges {size:SpacingXxl}, {size:SpacingXl}}" />
+                  </Style>
+                </ListBox.Styles>
+              </ListBox>
+
+              <!-- Pinned footer navigation (Settings) -->
+              <ListBox Grid.Row="1"
+                       Background="Transparent"
+                       BorderThickness="0"
+                       Padding="0"
+                       ItemsSource="{Binding FooterItems}"
+                       SelectedItem="{Binding ActiveItem, Mode=TwoWay}"
+                       ItemTemplate="{StaticResource NavItemTemplate}">
+                <ListBox.Styles>
+                  <Style Selector="ListBoxItem">
+                    <Setter Property="Padding" Value="{size:Edges {size:SpacingXxl}, {size:SpacingXl}}" />
+                  </Style>
+                </ListBox.Styles>
+              </ListBox>
+            </Grid>
+          </Border>
+        </SplitView.Pane>
+
+        <!-- Main content pane -->
+        <Border Padding="{size:Edges {size:SpacingXxl}}">
+          <!-- Content stack: page header, KPI metric cards, action buttons -->
+          <StackPanel Spacing="{size:SpacingXl}">
+            <!-- Page heading and caption -->
+            <StackPanel Spacing="{size:SpacingMd}">
+              <TextBlock Text="{Binding Title}"
+                         FontSize="{size:FontSizeXxl}"
+                         FontWeight="{theme:FontWeightSemiBold}"
+                         Foreground="{color:TextDefault}" />
+              <TextBlock Text="{Binding Caption}"
+                         FontSize="{size:FontSizeSm}"
+                         Foreground="{color:DimTextDefault}" />
+            </StackPanel>
+
+            <!-- KPI metric cards row -->
+            <ItemsControl Background="Transparent"
+                          BorderThickness="0"
+                          Padding="0"
+                          ItemsSource="{Binding Metrics}">
+              <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                  <UniformGrid Columns="3" ColumnSpacing="{size:SpacingXl}" />
+                </ItemsPanelTemplate>
+              </ItemsControl.ItemsPanel>
+              <ItemsControl.ItemTemplate>
+                <DataTemplate x:DataType="vm:MetricCardItem">
+                  <Border Background="{color:BackgroundDefault}"
+                          BorderBrush="{color:AccentDividerDefault}"
+                          BorderThickness="{size:ThicknessSm}"
+                          CornerRadius="{size:RadiusMd}"
+                          Padding="{size:Edges {size:SpacingXxl}}">
+                    <StackPanel Spacing="{size:SpacingMd}">
+                      <TextBlock Text="{Binding Label}" FontSize="{size:FontSizeSm}" FontWeight="{theme:FontWeightSemiBold}" Foreground="{color:DimTextDefault}" />
+                      <TextBlock Text="{Binding Value}" FontSize="{size:FontSizeXxl}" FontWeight="{theme:FontWeightBold}" Foreground="{color:TextDefault}" />
+                    </StackPanel>
+                  </Border>
+                </DataTemplate>
+              </ItemsControl.ItemTemplate>
+            </ItemsControl>
+
+            <!-- Primary and secondary action buttons -->
+            <StackPanel Orientation="Horizontal" Spacing="{size:SpacingLg}">
+              <Button Content="New" theme:Accent.Kind="{theme:DefaultAccent}" />
+              <Button Content="Export" />
+            </StackPanel>
+          </StackPanel>
+        </Border>
+      </SplitView>
+
+      <!-- Bottom status bar -->
+      <Border Grid.Row="2"
+              MinHeight="{size:ControlHeightSm}"
+              Background="{color:SurfaceBorderless}"
+              BorderBrush="{color:AccentDividerDefault}"
+              BorderThickness="{size:Edges Top={size:ThicknessSmDouble}}"
+              Padding="{size:Edges {size:SpacingXxl}, 0}">
+        <!-- Status bar columns: active page status and version tag -->
+        <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="{size:SpacingXl}">
+          <TextBlock Grid.Column="0" Text="{Binding Status}" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" VerticalAlignment="Center" />
+          <TextBlock Grid.Column="2" Text="v1.0" FontSize="{size:FontSizeSm}" Foreground="{color:DimTextDefault}" VerticalAlignment="Center" />
+        </Grid>
+      </Border>
+    </Grid>
+  </Border>
+</UserControl>

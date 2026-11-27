@@ -1,0 +1,97 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:theme="using:AngelSix.ThemeEngine.Generated"
+             xmlns:size="using:AngelSix.ThemeEngine.Sizes"
+             xmlns:color="using:AngelSix.ThemeEngine.Colors"
+             xmlns:icons="using:AngelSix.ThemeEngine.Icons"
+             xmlns:vm="using:AvaloniaThemeLab.BuildingWidgets.ViewModels"
+             x:Class="AvaloniaThemeLab.BuildingWidgets.Widgets.MoonWidget"
+             x:DataType="vm:MoonWidgetViewModel"
+             Design.DataContext="{DesignContext}">
+  <!-- Outer weather card -->
+  <Border Width="{size:SurfaceWidthLg}"
+          HorizontalAlignment="Center"
+          VerticalAlignment="Center"
+          Background="{color:BackgroundDefault}"
+          BorderBrush="{color:AccentDividerDefault}"
+          BorderThickness="{size:ThicknessSm}"
+          CornerRadius="{size:RadiusMd}"
+          Padding="{size:Edges {size:SpacingXxl}}">
+    <!-- Card stack: overline header above time/date/artwork row -->
+    <StackPanel Spacing="{size:SpacingXl}">
+      <!-- Overline with clock icon and TODAY label -->
+      <StackPanel Orientation="Horizontal" Spacing="{size:SpacingMd}">
+        <PathIcon Data="{icons:Clock}"
+                  Width="{size:IconSizeMd}"
+                  Height="{size:IconSizeMd}"
+                  Foreground="{color:DimTextDefault}"
+                  VerticalAlignment="Center" />
+        <TextBlock Text="TODAY"
+                   FontSize="{size:FontSizeMd}"
+                   FontWeight="{theme:FontWeightSemiBold}"
+                   Foreground="{color:DimTextDefault}"
+                   VerticalAlignment="Center" />
+      </StackPanel>
+
+      <!-- Main row: time/date/condition on left, sun/moon artwork on right -->
+      <Grid ColumnDefinitions="*,Auto" ColumnSpacing="{size:SpacingXl}">
+        <!-- Time, date, and weather condition -->
+        <StackPanel Grid.Column="0" Spacing="{size:SpacingMd}" VerticalAlignment="Center">
+          <TextBlock Text="21:47"
+                     FontSize="{size:Scaled {size:FontSizeXxl}, 1.75}"
+                     FontWeight="{theme:FontWeightBold}"
+                     Foreground="{color:TextDefault}" />
+          <TextBlock Text="Tuesday 24 November"
+                     FontSize="{size:FontSizeMd}"
+                     Foreground="{color:DimTextDefault}" />
+          <Grid>
+            <TextBlock IsVisible="{Binding !Theme.IsDark}"
+                       FontSize="{size:FontSizeLg}"
+                       Foreground="{color:TextDefault}">
+              <Run Text="Clear day · " /><Run Text="18°" Foreground="{color:AccentPrimaryBrush}" FontWeight="{theme:FontWeightSemiBold}" />
+            </TextBlock>
+            <TextBlock IsVisible="{Binding Theme.IsDark}"
+                       FontSize="{size:FontSizeLg}"
+                       Foreground="{color:TextDefault}">
+              <Run Text="Clear night · " /><Run Text="9°" Foreground="{color:AccentPrimaryBrush}" FontWeight="{theme:FontWeightSemiBold}" />
+            </TextBlock>
+          </Grid>
+        </StackPanel>
+
+        <!-- Weather artwork slot (switches between yellow sun in light mode and blue moon in dark mode) -->
+        <Grid Grid.Column="1"
+              Width="{size:Scaled {size:IconSizeXl}, 4}"
+              Height="{size:Scaled {size:IconSizeXl}, 4}"
+              VerticalAlignment="Center">
+          <!-- Light mode: yellow sun bound to theme Favourite/Warning ramp -->
+          <Path IsVisible="{Binding !Theme.IsDark}"
+                Data="{icons:Sun}"
+                Stretch="Uniform"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center">
+            <Path.Fill>
+              <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
+                <GradientStop Offset="0" Color="{color:AccentFavourite}" />
+                <GradientStop Offset="1" Color="{color:AccentWarning}" />
+              </LinearGradientBrush>
+            </Path.Fill>
+          </Path>
+
+          <!-- Dark mode: blue moon bound to theme Primary/Info ramp -->
+          <Path IsVisible="{Binding Theme.IsDark}"
+                Data="{icons:Moon}"
+                Stretch="Uniform"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center">
+            <Path.Fill>
+              <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
+                <GradientStop Offset="0" Color="{color:AccentPrimary}" />
+                <GradientStop Offset="1" Color="{color:AccentInfo}" />
+              </LinearGradientBrush>
+            </Path.Fill>
+          </Path>
+        </Grid>
+      </Grid>
+    </StackPanel>
+  </Border>
+</UserControl>
