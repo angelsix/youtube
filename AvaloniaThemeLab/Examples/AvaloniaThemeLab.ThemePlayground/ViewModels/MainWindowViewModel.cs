@@ -6,7 +6,7 @@ using AngelSix.ThemeEngine.Generated;
 namespace AvaloniaThemeLab.ThemePlayground.ViewModels;
 
 /// <summary>The gallery window: a searchable list of entries and the one being shown.</summary>
-public sealed partial class MainWindowViewModel : ObservableObject
+public sealed partial class MainWindowViewModel : ViewModelBase
 {
     #region Fields
 

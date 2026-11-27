@@ -88,11 +88,13 @@ dotnet sln <span class="app-name">MyWidgetsApp</span>.sln add <span class="app-n
     </li>
 
     <li>
-      <label><input type="checkbox" /><strong>Remove Fluent and the template Inter font package</strong></label>
-      <p class="step-why">Because we're styling every widget with the AngelSix Theme Engine, we remove Avalonia's FluentTheme and Inter font package so nothing competes with our theme.</p>
-      <pre><code>dotnet remove <span class="app-name">MyWidgetsApp</span> package Avalonia.Themes.Fluent
-dotnet remove <span class="app-name">MyWidgetsApp</span> package Avalonia.Fonts.Inter</code></pre>
-      <p><code>AngelSix.Themes.Default</code> styles every Avalonia control directly and brings its own Inter font package (<code>AngelSix.ThemeEngine.Fonts</code>).</p>
+      <label><input type="checkbox" /><strong>Remove Fluent / Fluent 2, the template Inter font, and CommunityToolkit.Mvvm</strong></label>
+      <p class="step-why">Because we're styling every widget with the AngelSix Theme Engine and AngelSix.Mvvm, we remove Avalonia's Fluent2Theme (or FluentTheme on older templates), the Inter font package, and CommunityToolkit.Mvvm so nothing competes with our theme or MVVM base classes.</p>
+      <pre><code>dotnet remove <span class="app-name">MyWidgetsApp</span> package Avalonia.Themes.Fluent2
+dotnet remove <span class="app-name">MyWidgetsApp</span> package Avalonia.Themes.Fluent
+dotnet remove <span class="app-name">MyWidgetsApp</span> package Avalonia.Fonts.Inter
+dotnet remove <span class="app-name">MyWidgetsApp</span> package CommunityToolkit.Mvvm</code></pre>
+      <p>Newer Avalonia 12 templates reference <code>Avalonia.Themes.Fluent2</code> while older ones reference <code>Avalonia.Themes.Fluent</code> — remove whichever is in your <code>.csproj</code>. Removing <code>CommunityToolkit.Mvvm</code> ensures <code>ViewModelBase</code> and <code>ObservableObject</code> resolve to <code>AngelSix.Mvvm</code>. <code>AngelSix.Themes.Default</code> styles every Avalonia control directly and brings its own Inter font package (<code>AngelSix.ThemeEngine.Fonts</code>).</p>
     </li>
 
     <li>
@@ -227,8 +229,8 @@ public sealed partial class PrototypeTheme : DefaultTheme
     </li>
 
     <li>
-      <label><input type="checkbox" /><strong>Swap <code>&lt;FluentTheme /&gt;</code> for <code>&lt;proto:PrototypeTheme /&gt;</code> in <code>App.axaml</code></strong></label>
-      <p class="step-why">Since we're using the AngelSix Theme Engine instead of Fluent, we remove FluentTheme and the unused ViewLocator from App.axaml and plug in our PrototypeTheme.</p>
+      <label><input type="checkbox" /><strong>Swap <code>&lt;Fluent2Theme /&gt;</code> (or <code>&lt;FluentTheme /&gt;</code>) for <code>&lt;proto:PrototypeTheme /&gt;</code> in <code>App.axaml</code></strong></label>
+      <p class="step-why">Since we're using the AngelSix Theme Engine instead of Fluent, we remove Fluent2Theme (or FluentTheme on older templates) and the unused ViewLocator from App.axaml and plug in our PrototypeTheme.</p>
       <div class="diff-legend"><span class="leg-add"><i></i>Added / changed</span><span class="leg-del"><i></i>Removed</span></div>
       <div class="file-header axaml"><span class="file-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><polyline points="8 7 3 12 8 17"/><polyline points="16 7 21 12 16 17"/><line x1="13.5" y1="5" x2="10.5" y2="19"/></svg></span><span class="file-name">App.axaml</span></div>
       <pre><code>&lt;Application xmlns=&quot;https://github.com/avaloniaui&quot;
@@ -241,7 +243,7 @@ public sealed partial class PrototypeTheme : DefaultTheme
 <span class="diff-del">    &lt;local:ViewLocator /&gt;</span>
 <span class="diff-del">  &lt;/Application.DataTemplates&gt;</span>
   &lt;Application.Styles&gt;
-<span class="diff-del">    &lt;FluentTheme /&gt;</span>
+<span class="diff-del">    &lt;Fluent2Theme /&gt; &lt;!-- or &lt;FluentTheme /&gt; on older templates --&gt;</span>
 <span class="diff-add">    &lt;proto:PrototypeTheme /&gt;</span>
   &lt;/Application.Styles&gt;
 &lt;/Application&gt;</code></pre>
@@ -252,7 +254,7 @@ public sealed partial class PrototypeTheme : DefaultTheme
 <section class="page" id="viewmodels">
   <p class="eyebrow">Phase 3 · ViewModels &amp; DI</p>
   <h2>Create the widget ViewModels and wire Dependency Injection</h2>
-  <p class="lede">Every widget gets a small, focused <code>ObservableObject</code> ViewModel — zero View instantiation in C#. We register all ViewModels plus <code>PrototypeTheme.Current</code> in <code>App.axaml.cs</code>.</p>
+  <p class="lede">Every widget gets a small, focused <code>ViewModelBase</code> ViewModel — zero View instantiation in C#. We register all ViewModels plus <code>PrototypeTheme.Current</code> in <code>App.axaml.cs</code>.</p>
 
   <ol class="steps" style="counter-reset: s 7;">
     <li>
@@ -273,7 +275,7 @@ public sealed record NavItem(string Label, string Caption, string? Icon = null);
 /// &lt;summary&gt;One KPI metric card bound into the AppShell metrics ItemsControl.&lt;/summary&gt;
 public sealed record MetricCardItem(string Label, string Value);
 
-public sealed partial class ExampleContentViewModel(PrototypeTheme theme) : ObservableObject
+public sealed partial class ExampleContentViewModel(PrototypeTheme theme) : ViewModelBase
 {
     #region Properties
 
@@ -292,7 +294,7 @@ public sealed partial class ExampleContentViewModel(PrototypeTheme theme) : Obse
     #endregion Commands
 }
 
-public sealed class MoonWidgetViewModel(PrototypeTheme theme) : ObservableObject
+public sealed class MoonWidgetViewModel(PrototypeTheme theme) : ViewModelBase
 {
     #region Properties
 
@@ -301,7 +303,7 @@ public sealed class MoonWidgetViewModel(PrototypeTheme theme) : ObservableObject
     #endregion Properties
 }
 
-public sealed class ModeToggleViewModel(PrototypeTheme theme) : ObservableObject
+public sealed class ModeToggleViewModel(PrototypeTheme theme) : ViewModelBase
 {
     #region Properties
 
@@ -310,7 +312,7 @@ public sealed class ModeToggleViewModel(PrototypeTheme theme) : ObservableObject
     #endregion Properties
 }
 
-public sealed partial class TopMenuViewModel(PrototypeTheme theme) : ObservableObject
+public sealed partial class TopMenuViewModel(PrototypeTheme theme) : ViewModelBase
 {
     #region Properties
 
@@ -337,7 +339,7 @@ public sealed partial class TopMenuViewModel(PrototypeTheme theme) : ObservableO
     #endregion Commands
 }
 
-public sealed class SideNavViewModel : ObservableObject
+public sealed class SideNavViewModel : ViewModelBase
 {
     #region Fields
 
@@ -401,7 +403,7 @@ public sealed class SideNavViewModel : ObservableObject
     #endregion Constructors
 }
 
-public sealed partial class AppShellViewModel : ObservableObject
+public sealed partial class AppShellViewModel : ViewModelBase
 {
     #region Fields
 
@@ -497,7 +499,7 @@ using <span class="app-name" data-ns="1">MyWidgetsApp</span>.Theme;
 
 namespace <span class="app-name" data-ns="1">MyWidgetsApp</span>.ViewModels;
 
-public sealed partial class ThemeSettingsViewModel(PrototypeTheme theme) : ObservableObject
+public sealed partial class ThemeSettingsViewModel(PrototypeTheme theme) : ViewModelBase
 {
     #region Properties
 
@@ -529,7 +531,7 @@ using <span class="app-name" data-ns="1">MyWidgetsApp</span>.Theme;
 namespace <span class="app-name" data-ns="1">MyWidgetsApp</span>.ViewModels;
 
 /// &lt;summary&gt;One gallery entry pairing a display label with its ViewModel.&lt;/summary&gt;
-public sealed record WidgetEntry(string Name, ObservableObject ViewModel);
+public sealed record WidgetEntry(string Name, ViewModelBase ViewModel);
 
 public sealed partial class MainWindowViewModel(
     PrototypeTheme theme,
@@ -540,7 +542,7 @@ public sealed partial class MainWindowViewModel(
     MoonWidgetViewModel moonWidget,
     ModeToggleViewModel modeToggle,
     ThemeSettingsViewModel themeSettings,
-    Action openSettings) : ObservableObject
+    Action openSettings) : ViewModelBase
 {
     #region Properties
 

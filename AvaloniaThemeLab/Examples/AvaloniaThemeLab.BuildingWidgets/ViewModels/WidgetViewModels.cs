@@ -11,7 +11,7 @@ public sealed record NavItem(string Label, string Caption, string? Icon = null);
 /// <summary>One KPI metric card bound into the AppShell metrics ItemsControl.</summary>
 public sealed record MetricCardItem(string Label, string Value);
 
-public sealed partial class ExampleContentViewModel(PrototypeTheme theme) : ObservableObject
+public sealed partial class ExampleContentViewModel(PrototypeTheme theme) : ViewModelBase
 {
     #region Properties
 
@@ -30,7 +30,7 @@ public sealed partial class ExampleContentViewModel(PrototypeTheme theme) : Obse
     #endregion Commands
 }
 
-public sealed class MoonWidgetViewModel(PrototypeTheme theme) : ObservableObject
+public sealed class MoonWidgetViewModel(PrototypeTheme theme) : ViewModelBase
 {
     #region Properties
 
@@ -39,7 +39,7 @@ public sealed class MoonWidgetViewModel(PrototypeTheme theme) : ObservableObject
     #endregion Properties
 }
 
-public sealed class ModeToggleViewModel(PrototypeTheme theme) : ObservableObject
+public sealed class ModeToggleViewModel(PrototypeTheme theme) : ViewModelBase
 {
     #region Properties
 
@@ -48,7 +48,7 @@ public sealed class ModeToggleViewModel(PrototypeTheme theme) : ObservableObject
     #endregion Properties
 }
 
-public sealed partial class TopMenuViewModel(PrototypeTheme theme) : ObservableObject
+public sealed partial class TopMenuViewModel(PrototypeTheme theme) : ViewModelBase
 {
     #region Properties
 
@@ -75,7 +75,7 @@ public sealed partial class TopMenuViewModel(PrototypeTheme theme) : ObservableO
     #endregion Commands
 }
 
-public sealed class SideNavViewModel : ObservableObject
+public sealed class SideNavViewModel : ViewModelBase
 {
     #region Fields
 
@@ -139,7 +139,7 @@ public sealed class SideNavViewModel : ObservableObject
     #endregion Constructors
 }
 
-public sealed partial class AppShellViewModel : ObservableObject
+public sealed partial class AppShellViewModel : ViewModelBase
 {
     #region Fields
 

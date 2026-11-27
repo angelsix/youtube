@@ -4,7 +4,7 @@ using AngelSix.Themes.Default;
 
 namespace AvaloniaThemeLab.GettingStarted.ViewModels;
 
-public sealed partial class MainWindowViewModel(DefaultTheme theme) : ObservableObject
+public sealed partial class MainWindowViewModel(DefaultTheme theme) : ViewModelBase
 {
     #region Properties
 

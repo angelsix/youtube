@@ -4,7 +4,7 @@ using AvaloniaThemeLab.Minimal.Theme;
 
 namespace AvaloniaThemeLab.Minimal.ViewModels;
 
-public sealed partial class MainWindowViewModel(MinimalTheme theme) : ObservableObject
+public sealed partial class MainWindowViewModel(MinimalTheme theme) : ViewModelBase
 {
     #region Properties
 

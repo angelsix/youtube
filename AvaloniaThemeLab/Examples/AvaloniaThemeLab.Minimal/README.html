@@ -84,10 +84,13 @@ dotnet sln <span class="app-name">MyMinimalApp</span>.sln add <span class="app-n
     </li>
 
     <li>
-      <label><input type="checkbox" /><strong>Remove Fluent and the template Inter font package</strong></label>
-      <p class="step-why">Because we're building a theme completely from scratch, we strip out FluentTheme and the template's Inter font package so zero built-in styles remain.</p>
-      <pre><code>dotnet remove <span class="app-name">MyMinimalApp</span> package Avalonia.Themes.Fluent
-dotnet remove <span class="app-name">MyMinimalApp</span> package Avalonia.Fonts.Inter</code></pre>
+      <label><input type="checkbox" /><strong>Remove Fluent / Fluent 2, the template Inter font, and CommunityToolkit.Mvvm</strong></label>
+      <p class="step-why">Because we're building a theme completely from scratch with AngelSix.Mvvm, we strip out FluentTheme (or Fluent2Theme on newer Avalonia templates), the template's Inter font package, and CommunityToolkit.Mvvm so zero built-in styles or conflicting MVVM types remain.</p>
+      <pre><code>dotnet remove <span class="app-name">MyMinimalApp</span> package Avalonia.Themes.Fluent2
+dotnet remove <span class="app-name">MyMinimalApp</span> package Avalonia.Themes.Fluent
+dotnet remove <span class="app-name">MyMinimalApp</span> package Avalonia.Fonts.Inter
+dotnet remove <span class="app-name">MyMinimalApp</span> package CommunityToolkit.Mvvm</code></pre>
+      <p>Newer Avalonia 12 templates reference <code>Avalonia.Themes.Fluent2</code> while older ones reference <code>Avalonia.Themes.Fluent</code> — remove whichever is in your <code>.csproj</code>. Removing <code>CommunityToolkit.Mvvm</code> ensures <code>ViewModelBase</code> and <code>ObservableObject</code> resolve to <code>AngelSix.Mvvm</code>.</p>
     </li>
 
     <li>
@@ -101,8 +104,8 @@ dotnet add <span class="app-name">MyMinimalApp</span> package Microsoft.Extensio
 
     <li>
       <label><input type="checkbox" /><strong>Clean up <code>Program.cs</code>, <code>ViewLocator.cs</code>, and unused ViewModels</strong></label>
-      <p class="step-why">Next we tidy up the template by deleting the unused ViewModelBase and MainViewModel, dropping .WithInterFont(), and pointing ViewLocator at ObservableObject.</p>
-      <p>Delete the template's <code>ViewModels/ViewModelBase.cs</code> and <code>ViewModels/MainViewModel.cs</code>, remove <code>.WithInterFont()</code> from <code>Program.cs</code>, and update <code>ViewLocator.cs</code> to match <code>ObservableObject</code>.</p>
+      <p class="step-why">Next we tidy up the template by deleting the unused ViewModelBase and MainViewModel, dropping .WithInterFont(), and pointing ViewLocator at AngelSix.Mvvm.ViewModelBase.</p>
+      <p>Delete the template's <code>ViewModels/ViewModelBase.cs</code> and <code>ViewModels/MainViewModel.cs</code>, remove <code>.WithInterFont()</code> from <code>Program.cs</code>, and update <code>ViewLocator.cs</code> to import <code>AngelSix.Mvvm</code> so <code>data is ViewModelBase</code> matches our <code>AngelSix.Mvvm.ViewModelBase</code>.</p>
       <div class="diff-legend"><span class="leg-add"><i></i>Added / changed</span><span class="leg-del"><i></i>Removed</span></div>
 <div class="file-header cs"><span class="file-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M10.5 8.5a4 4 0 1 0 0 7"/><path d="M14.5 9.5v5"/><path d="M17.5 9.5v5"/><path d="M13.5 11h5"/><path d="M13.5 13h5"/></svg></span><span class="file-name">Program.cs</span></div>
 <pre><code>using Avalonia;
@@ -147,8 +150,7 @@ public class ViewLocator : IDataTemplate
         return new TextBlock { Text = &quot;Not Found: &quot; + name };
     }
 
-<span class="diff-del">    public bool Match(object? data) =&gt; data is ViewModelBase;</span>
-<span class="diff-add">    public bool Match(object? data) =&gt; data is ObservableObject;</span>
+    public bool Match(object? data) =&gt; data is ViewModelBase;
 }</code></pre>
     </li>
   </ol>
@@ -343,8 +345,8 @@ public partial class MinimalTheme : ThemeBase
 
   <ol class="steps" style="counter-reset: s 7;">
     <li>
-      <label><input type="checkbox" /><strong>Swap <code>&lt;FluentTheme /&gt;</code> for <code>&lt;theme:MinimalTheme /&gt;</code> in <code>App.axaml</code></strong></label>
-      <p class="step-why">Now that our theme and two control files exist, we swap FluentTheme out of App.axaml and plug in MinimalTheme.</p>
+      <label><input type="checkbox" /><strong>Swap <code>&lt;Fluent2Theme /&gt;</code> (or <code>&lt;FluentTheme /&gt;</code>) for <code>&lt;theme:MinimalTheme /&gt;</code> in <code>App.axaml</code></strong></label>
+      <p class="step-why">Now that our theme and two control files exist, we swap Fluent2Theme (or FluentTheme on older templates) out of App.axaml and plug in MinimalTheme.</p>
       <div class="diff-legend"><span class="leg-add"><i></i>Added / changed</span><span class="leg-del"><i></i>Removed</span></div>
       <div class="file-header axaml"><span class="file-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><polyline points="8 7 3 12 8 17"/><polyline points="16 7 21 12 16 17"/><line x1="13.5" y1="5" x2="10.5" y2="19"/></svg></span><span class="file-name">App.axaml</span></div>
       <pre><code>&lt;Application xmlns=&quot;https://github.com/avaloniaui&quot;
@@ -357,7 +359,7 @@ public partial class MinimalTheme : ThemeBase
         &lt;local:ViewLocator/&gt;
     &lt;/Application.DataTemplates&gt;
     &lt;Application.Styles&gt;
-<span class="diff-del">        &lt;FluentTheme /&gt;</span>
+<span class="diff-del">        &lt;Fluent2Theme /&gt; &lt;!-- or &lt;FluentTheme /&gt; on older templates --&gt;</span>
 <span class="diff-add">        &lt;theme:MinimalTheme /&gt;</span>
     &lt;/Application.Styles&gt;
 &lt;/Application&gt;</code></pre>
@@ -373,7 +375,7 @@ using <span class="app-name" data-ns="1">MyMinimalApp</span>.Theme;
 
 namespace <span class="app-name" data-ns="1">MyMinimalApp</span>.ViewModels;
 
-public sealed partial class MainWindowViewModel(MinimalTheme theme) : ObservableObject
+public sealed partial class MainWindowViewModel(MinimalTheme theme) : ViewModelBase
 {
     #region Properties
 

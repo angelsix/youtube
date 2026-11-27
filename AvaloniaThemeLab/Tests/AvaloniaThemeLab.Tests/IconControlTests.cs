@@ -99,7 +99,7 @@ public sealed partial class IconControlTests
         }
     }
 
-    private sealed class SharedSelectionViewModel : ObservableObject
+    private sealed class SharedSelectionViewModel : ViewModelBase
     {
         private string _activeItem = "A1";
 

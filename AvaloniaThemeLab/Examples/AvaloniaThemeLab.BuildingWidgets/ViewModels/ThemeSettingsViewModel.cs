@@ -7,7 +7,7 @@ using AvaloniaThemeLab.BuildingWidgets.Theme;
 
 namespace AvaloniaThemeLab.BuildingWidgets.ViewModels;
 
-public sealed partial class ThemeSettingsViewModel(PrototypeTheme theme) : ObservableObject
+public sealed partial class ThemeSettingsViewModel(PrototypeTheme theme) : ViewModelBase
 {
     #region Properties
 

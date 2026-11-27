@@ -9,7 +9,7 @@ using Avalonia.Media;
 namespace AvaloniaThemeLab.ThemePlayground.ViewModels;
 
 /// <summary>The settings window: the app's live theme instance, edited in place.</summary>
-public sealed partial class ThemeSettingsViewModel(DefaultTheme theme) : ObservableObject
+public sealed partial class ThemeSettingsViewModel(DefaultTheme theme) : ViewModelBase
 {
     #region Properties
 

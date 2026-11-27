@@ -83,10 +83,13 @@ dotnet sln <span class="app-name">MyIconsApp</span>.sln add <span class="app-nam
     </li>
 
     <li>
-      <label><input type="checkbox" /><strong>Remove Fluent and the template Inter font package</strong></label>
-      <p class="step-why">Since we're using DefaultTheme instead of Fluent, we remove Avalonia.Themes.Fluent and Avalonia.Fonts.Inter right away.</p>
-      <pre><code>dotnet remove <span class="app-name">MyIconsApp</span> package Avalonia.Themes.Fluent
-dotnet remove <span class="app-name">MyIconsApp</span> package Avalonia.Fonts.Inter</code></pre>
+      <label><input type="checkbox" /><strong>Remove Fluent / Fluent 2, the template Inter font, and CommunityToolkit.Mvvm</strong></label>
+      <p class="step-why">Since we're using DefaultTheme and AngelSix.Mvvm instead of Fluent and CommunityToolkit, we remove Avalonia.Themes.Fluent2 (or Avalonia.Themes.Fluent on older templates), Avalonia.Fonts.Inter, and CommunityToolkit.Mvvm right away.</p>
+      <pre><code>dotnet remove <span class="app-name">MyIconsApp</span> package Avalonia.Themes.Fluent2
+dotnet remove <span class="app-name">MyIconsApp</span> package Avalonia.Themes.Fluent
+dotnet remove <span class="app-name">MyIconsApp</span> package Avalonia.Fonts.Inter
+dotnet remove <span class="app-name">MyIconsApp</span> package CommunityToolkit.Mvvm</code></pre>
+      <p>Newer Avalonia 12 templates reference <code>Avalonia.Themes.Fluent2</code> while older ones reference <code>Avalonia.Themes.Fluent</code> — remove whichever is in your <code>.csproj</code>.</p>
     </li>
 
     <li>
@@ -210,8 +213,8 @@ public partial class AppIcons : ThemeIconGallery
     </li>
 
     <li>
-      <label><input type="checkbox" /><strong>Swap <code>&lt;FluentTheme /&gt;</code> for <code>&lt;local:IconsTheme /&gt;</code> in <code>App.axaml</code></strong></label>
-      <p class="step-why">Since we're using our own IconsTheme instead of Fluent, we remove FluentTheme and the unused ViewLocator from App.axaml and plug in IconsTheme.</p>
+      <label><input type="checkbox" /><strong>Swap <code>&lt;Fluent2Theme /&gt;</code> (or <code>&lt;FluentTheme /&gt;</code>) for <code>&lt;local:IconsTheme /&gt;</code> in <code>App.axaml</code></strong></label>
+      <p class="step-why">Since we're using our own IconsTheme instead of Fluent, we remove Fluent2Theme (or FluentTheme on older templates) and the unused ViewLocator from App.axaml and plug in IconsTheme.</p>
       <div class="diff-legend"><span class="leg-add"><i></i>Added / changed</span><span class="leg-del"><i></i>Removed</span></div>
       <div class="file-header axaml"><span class="file-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><polyline points="8 7 3 12 8 17"/><polyline points="16 7 21 12 16 17"/><line x1="13.5" y1="5" x2="10.5" y2="19"/></svg></span><span class="file-name">App.axaml</span></div>
       <pre><code>&lt;Application xmlns=&quot;https://github.com/avaloniaui&quot;
@@ -224,7 +227,7 @@ public partial class AppIcons : ThemeIconGallery
 <span class="diff-del">        &lt;local:ViewLocator/&gt;</span>
 <span class="diff-del">    &lt;/Application.DataTemplates&gt;</span>
     &lt;Application.Styles&gt;
-<span class="diff-del">        &lt;FluentTheme /&gt;</span>
+<span class="diff-del">        &lt;Fluent2Theme /&gt; &lt;!-- or &lt;FluentTheme /&gt; on older templates --&gt;</span>
 <span class="diff-add">        &lt;local:IconsTheme /&gt;</span>
     &lt;/Application.Styles&gt;
 &lt;/Application&gt;</code></pre>

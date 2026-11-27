@@ -104,11 +104,13 @@ dotnet sln <span class="app-name">AvaloniaThemeLab.GettingStarted</span>.sln add
     </li>
 
     <li>
-      <label><input type="checkbox" /><strong>Remove Fluent and the template's Inter font package</strong></label>
-      <p class="step-why">Since our app will use the AngelSix Theme Engine instead of Fluent, we strip out FluentTheme and the template's Inter font so they don't clash with the theme's own styles and fonts.</p>
-      <pre><code>dotnet remove <span class="app-name">AvaloniaThemeLab.GettingStarted</span> package Avalonia.Themes.Fluent
-dotnet remove <span class="app-name">AvaloniaThemeLab.GettingStarted</span> package Avalonia.Fonts.Inter</code></pre>
-      <p><code>AngelSix.Themes.Default</code> styles every control itself and registers its own bundled Inter font (<code>AngelSix.ThemeEngine.Fonts</code>), so neither template package is needed.</p>
+      <label><input type="checkbox" /><strong>Remove Fluent / Fluent 2, the template's Inter font, and CommunityToolkit.Mvvm</strong></label>
+      <p class="step-why">Since our app uses the AngelSix Theme Engine and AngelSix.Mvvm, we strip out FluentTheme (or Fluent2Theme on newer Avalonia templates), the template's Inter font, and CommunityToolkit.Mvvm so nothing clashes with our theme or MVVM base classes.</p>
+      <pre><code>dotnet remove <span class="app-name">AvaloniaThemeLab.GettingStarted</span> package Avalonia.Themes.Fluent2
+dotnet remove <span class="app-name">AvaloniaThemeLab.GettingStarted</span> package Avalonia.Themes.Fluent
+dotnet remove <span class="app-name">AvaloniaThemeLab.GettingStarted</span> package Avalonia.Fonts.Inter
+dotnet remove <span class="app-name">AvaloniaThemeLab.GettingStarted</span> package CommunityToolkit.Mvvm</code></pre>
+      <p>Newer Avalonia 12 templates reference <code>Avalonia.Themes.Fluent2</code> while older ones reference <code>Avalonia.Themes.Fluent</code> — remove whichever is in your <code>.csproj</code>. Removing <code>CommunityToolkit.Mvvm</code> ensures <code>ViewModelBase</code> and <code>ObservableObject</code> resolve to <code>AngelSix.Mvvm</code> rather than CommunityToolkit. <code>AngelSix.Themes.Default</code> styles every control itself and registers its own bundled Inter font (<code>AngelSix.ThemeEngine.Fonts</code>).</p>
     </li>
 
     <li>
@@ -120,9 +122,9 @@ dotnet add <span class="app-name">AvaloniaThemeLab.GettingStarted</span> package
     </li>
 
     <li>
-      <label><input type="checkbox" /><strong>Remove <code>.WithInterFont()</code> from <code>Program.cs</code></strong></label>
-      <p class="step-why">Because we just removed the template's Inter font package, we drop .WithInterFont() from Program.cs so the app compiles and lets the theme register its own fonts instead.</p>
-      <p>Because the theme registers its own Inter font automatically, remove the <code>.WithInterFont()</code> line from <code>Program.cs</code>. Clicking <b>Copy</b> copies the clean final file with removed lines omitted.</p>
+      <label><input type="checkbox" /><strong>Clean up <code>Program.cs</code>, <code>ViewLocator.cs</code>, and template ViewModels</strong></label>
+      <p class="step-why">Because we removed the template's Inter font and CommunityToolkit.Mvvm, we drop .WithInterFont(), delete the template's ViewModelBase and MainViewModel, and point ViewLocator at AngelSix.Mvvm.ViewModelBase.</p>
+      <p>Delete the template's <code>ViewModels/ViewModelBase.cs</code> (which referenced CommunityToolkit) and unused <code>ViewModels/MainViewModel.cs</code>, remove <code>.WithInterFont()</code> from <code>Program.cs</code>, and update <code>ViewLocator.cs</code> to import <code>AngelSix.Mvvm</code> so <code>data is ViewModelBase</code> matches our <code>AngelSix.Mvvm.ViewModelBase</code>. Clicking <b>Copy</b> copies the clean final file with removed lines omitted.</p>
       <div class="diff-legend"><span class="leg-add"><i></i>Added / changed</span><span class="leg-del"><i></i>Removed</span></div>
 
       <div class="file-header cs"><span class="file-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M10.5 8.5a4 4 0 1 0 0 7"/><path d="M14.5 9.5v5"/><path d="M17.5 9.5v5"/><path d="M13.5 11h5"/><path d="M13.5 13h5"/></svg></span><span class="file-name">Program.cs</span></div>
@@ -148,6 +150,30 @@ dotnet add <span class="app-name">AvaloniaThemeLab.GettingStarted</span> package
 <span class="diff-del">            .WithInterFont()</span>
             .LogToTrace();
 }</code></pre>
+
+      <div class="file-header cs"><span class="file-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M10.5 8.5a4 4 0 1 0 0 7"/><path d="M14.5 9.5v5"/><path d="M17.5 9.5v5"/><path d="M13.5 11h5"/><path d="M13.5 13h5"/></svg></span><span class="file-name">ViewLocator.cs</span></div>
+<pre><code><span class="k">using</span> System;
+<span class="k">using</span> System.Diagnostics.CodeAnalysis;
+<span class="diff-add"><span class="k">using</span> AngelSix.Mvvm;</span>
+<span class="k">using</span> Avalonia.Controls;
+<span class="k">using</span> Avalonia.Controls.Templates;
+<span class="diff-del"><span class="k">using</span> <span class="app-name" data-ns="1">AvaloniaThemeLab.GettingStarted</span>.ViewModels;</span>
+
+<span class="k">namespace</span> <span class="app-name" data-ns="1">AvaloniaThemeLab.GettingStarted</span>;
+
+<span class="k">public class</span> ViewLocator : IDataTemplate
+{
+    <span class="k">public</span> Control? Build(<span class="k">object</span>? param)
+    {
+        <span class="k">if</span> (param <span class="k">is null</span>) <span class="k">return null</span>;
+        <span class="k">var</span> name = param.GetType().FullName!.Replace(<span class="s">"ViewModel"</span>, <span class="s">"View"</span>, StringComparison.Ordinal);
+        <span class="k">var</span> type = Type.GetType(name);
+        <span class="k">if</span> (type != <span class="k">null</span>) <span class="k">return</span> (Control)Activator.CreateInstance(type)!;
+        <span class="k">return new</span> TextBlock { Text = <span class="s">"Not Found: "</span> + name };
+    }
+
+    <span class="k">public bool</span> Match(<span class="k">object</span>? data) =&gt; data <span class="k">is</span> ViewModelBase;
+}</code></pre>
     </li>
   </ol>
 </section>
@@ -160,8 +186,8 @@ dotnet add <span class="app-name">AvaloniaThemeLab.GettingStarted</span> package
 
   <ol class="steps" style="counter-reset: s 4;">
     <li>
-      <label><input type="checkbox" /><strong>Replace <code>&lt;FluentTheme /&gt;</code> with <code>&lt;DefaultTheme /&gt;</code></strong></label>
-      <p class="step-why">With the packages in place, we swap out Avalonia's FluentTheme for DefaultTheme in App.axaml so every control immediately picks up the AngelSix styling.</p>
+      <label><input type="checkbox" /><strong>Replace <code>&lt;Fluent2Theme /&gt;</code> (or <code>&lt;FluentTheme /&gt;</code>) with <code>&lt;DefaultTheme /&gt;</code></strong></label>
+      <p class="step-why">With the packages in place, we swap out Avalonia's Fluent2Theme (or FluentTheme on older templates) for DefaultTheme in App.axaml so every control immediately picks up the AngelSix styling.</p>
       <div class="file-header axaml"><span class="file-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><polyline points="8 7 3 12 8 17"/><polyline points="16 7 21 12 16 17"/><line x1="13.5" y1="5" x2="10.5" y2="19"/></svg></span><span class="file-name">App.axaml</span></div>
 <pre><code><span class="t">&lt;Application</span> xmlns=<span class="s">"https://github.com/avaloniaui"</span>
              xmlns:x=<span class="s">"http://schemas.microsoft.com/winfx/2006/xaml"</span>
@@ -174,11 +200,11 @@ dotnet add <span class="app-name">AvaloniaThemeLab.GettingStarted</span> package
     <span class="t">&lt;/Application.DataTemplates&gt;</span>
 
     <span class="t">&lt;Application.Styles&gt;</span>
-<span class="diff-del">        <span class="t">&lt;FluentTheme /&gt;</span></span>
+<span class="diff-del">        <span class="t">&lt;Fluent2Theme /&gt;</span> <span class="c">&lt;!-- or &lt;FluentTheme /&gt; on older templates --&gt;</span></span>
 <span class="diff-add">        <span class="t">&lt;DefaultTheme /&gt;</span></span>
     <span class="t">&lt;/Application.Styles&gt;</span>
 <span class="t">&lt;/Application&gt;</span></code></pre>
-      <div class="note why"><b>No extra xmlns needed</b><code>DefaultTheme</code> registers itself into Avalonia's default XML namespace, so you drop it straight into <code>&lt;Application.Styles&gt;</code> in place of <code>&lt;FluentTheme /&gt;</code>.</div>
+      <div class="note why"><b>No extra xmlns needed</b><code>DefaultTheme</code> registers itself into Avalonia's default XML namespace, so you drop it straight into <code>&lt;Application.Styles&gt;</code> in place of <code>&lt;Fluent2Theme /&gt;</code> / <code>&lt;FluentTheme /&gt;</code>.</div>
     </li>
   </ol>
 </section>
@@ -193,14 +219,14 @@ dotnet add <span class="app-name">AvaloniaThemeLab.GettingStarted</span> package
     <li>
       <label><input type="checkbox" /><strong>Sidetrack: create a minimal <code>MainWindowViewModel</code> shell</strong></label>
       <p class="step-why">Before we wire up Dependency Injection in App.axaml.cs, we create a tiny MainWindowViewModel shell first so the project stays compiling at every step.</p>
-      <p>Create <code>ViewModels/MainWindowViewModel.cs</code> inheriting from <code>ObservableObject</code> and taking <code>DefaultTheme</code> through its primary constructor (you can remove the template's unused <code>MainViewModel.cs</code>). We will flesh out its properties and commands right after DI is wired.</p>
+      <p>Create <code>ViewModels/MainWindowViewModel.cs</code> inheriting from <code>ViewModelBase</code> (provided by <code>AngelSix.Mvvm</code>, so Avalonia's <code>ViewLocator</code> matches it automatically) and taking <code>DefaultTheme</code> through its primary constructor. We will flesh out its properties and commands right after DI is wired.</p>
       <div class="file-header cs"><span class="file-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M10.5 8.5a4 4 0 1 0 0 7"/><path d="M14.5 9.5v5"/><path d="M17.5 9.5v5"/><path d="M13.5 11h5"/><path d="M13.5 13h5"/></svg></span><span class="file-name"><span class="dir">ViewModels/</span>MainWindowViewModel.cs</span><span class="file-badge new">New file</span></div>
 <pre><code><span class="k">using</span> AngelSix.Mvvm;
 <span class="k">using</span> AngelSix.Themes.Default;
 
 <span class="k">namespace</span> <span class="app-name" data-ns="1">AvaloniaThemeLab.GettingStarted</span>.ViewModels;
 
-<span class="k">public sealed partial class</span> MainWindowViewModel(DefaultTheme theme) : ObservableObject
+<span class="k">public sealed partial class</span> MainWindowViewModel(DefaultTheme theme) : ViewModelBase
 {
     <span class="k">public</span> DefaultTheme Theme { <span class="k">get</span>; } = theme;
 }</code></pre>
@@ -282,7 +308,7 @@ dotnet add <span class="app-name">AvaloniaThemeLab.GettingStarted</span> package
 
 <span class="k">namespace</span> <span class="app-name" data-ns="1">AvaloniaThemeLab.GettingStarted</span>.ViewModels;
 
-<span class="k">public sealed partial class</span> MainWindowViewModel(DefaultTheme theme) : ObservableObject
+<span class="k">public sealed partial class</span> MainWindowViewModel(DefaultTheme theme) : ViewModelBase
 {
 <span class="diff-add">    <span class="k">#region</span> Properties</span>
 

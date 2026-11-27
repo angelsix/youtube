@@ -6,7 +6,7 @@ using AvaloniaThemeLab.BuildingWidgets.Theme;
 namespace AvaloniaThemeLab.BuildingWidgets.ViewModels;
 
 /// <summary>One gallery entry pairing a display label with its ViewModel.</summary>
-public sealed record WidgetEntry(string Name, ObservableObject ViewModel);
+public sealed record WidgetEntry(string Name, ViewModelBase ViewModel);
 
 public sealed partial class MainWindowViewModel(
     PrototypeTheme theme,
@@ -17,7 +17,7 @@ public sealed partial class MainWindowViewModel(
     MoonWidgetViewModel moonWidget,
     ModeToggleViewModel modeToggle,
     ThemeSettingsViewModel themeSettings,
-    Action openSettings) : ObservableObject
+    Action openSettings) : ViewModelBase
 {
     #region Properties
 

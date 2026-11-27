@@ -412,7 +412,7 @@
     <li>A <code>Styles</code> file with no <code>x:Class</code> is a <em>styles file</em>, for the few rules a <code>ControlTheme</code> can't hold.</li>
   </ul>
   <p>It writes both lists into the assembly. Nothing is written into your project.</p>
-  <p><strong>At start-up</strong>, <code>&lt;MyTheme /&gt;</code> constructs the theme. A theme is an Avalonia <code>Styles</code>, so it sits where <code>FluentTheme</code> did. Its constructor:</p>
+  <p><strong>At start-up</strong>, <code>&lt;MyTheme /&gt;</code> constructs the theme. A theme is an Avalonia <code>Styles</code>, so it sits where <code>Fluent2Theme</code> / <code>FluentTheme</code> did. Its constructor:</p>
   <ol>
     <li>loads every listed file, from the base theme first, so a derived theme's styles come last and win;</li>
     <li>registers itself as the app's active theme, which every XAML token reads from.</li>
@@ -546,7 +546,7 @@
         <td><code>themeclass</code> a theme · <code>themeaccent</code> a hue<br /><code>themesurface</code> the canvas · <code>themeladder</code> a ladder<br /><code>themeproperty</code> a live token · <code>themealign</code> alignment<br /><code>themefont</code> font &amp; weights · <code>themegallery</code> · <code>themeicons</code></td></tr>
   </table>
   <p>Turn it off with <code>&lt;GenerateThemeSnippets&gt;false&lt;/GenerateThemeSnippets&gt;</code>.</p>
-  <p><strong>AngelSix.Mvvm writes its own</strong>, the same way, for the view-model side: <code>vm</code> an <code>ObservableObject</code> class (at namespace level) · then, inside it, type <code>vm</code> again and the member snippets appear: <code>vmproperty</code> an <code>[Observable]</code> property · <code>vmcommand</code> / <code>vmcommandparam</code> / <code>vmasynccommand</code> inline cached <code>Command(...)</code> / <code>AsyncCommand(...)</code> properties · <code>vmchanged</code> the change hook · <code>vmnotify</code> for a class that already has a base · <code>designcontext</code> on a view's root. Turn it off with <code>&lt;GenerateMvvmSnippets&gt;false&lt;/GenerateMvvmSnippets&gt;</code>.</p>
+  <p><strong>AngelSix.Mvvm writes its own</strong>, the same way, for the view-model side: <code>vm</code> a <code>ViewModelBase</code> class (at namespace level) · then, inside it, type <code>vm</code> again and the member snippets appear: <code>vmproperty</code> an <code>[Observable]</code> property · <code>vmcommand</code> / <code>vmcommandparam</code> / <code>vmasynccommand</code> inline cached <code>Command(...)</code> / <code>AsyncCommand(...)</code> properties · <code>vmchanged</code> the change hook · <code>vmnotify</code> for a class that already has a base · <code>designcontext</code> on a view's root. Turn it off with <code>&lt;GenerateMvvmSnippets&gt;false&lt;/GenerateMvvmSnippets&gt;</code>.</p>
 </section>
 
 <!-- ============================== AVALONIA KNOWLEDGE ============================== -->

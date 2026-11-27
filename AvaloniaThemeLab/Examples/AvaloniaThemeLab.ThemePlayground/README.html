@@ -100,11 +100,13 @@ dotnet sln <span class="app-name">AvaloniaThemeLab.ThemePlayground</span>.sln ad
       <p>Open <code><span class="app-name">AvaloniaThemeLab.ThemePlayground</span>.sln</code> in Rider rather than opening the folder — Rider reads the theme engine's live templates from the solution's <code>.DotSettings</code> file.</p>
     </li>
     <li>
-      <label><input type="checkbox" /><strong>Remove Fluent and the template's Inter font package</strong></label>
-      <p class="step-why">Because we're using the AngelSix Theme Engine, we remove Avalonia's FluentTheme and Inter font package so they don't conflict with our theme.</p>
-      <pre><code>dotnet remove <span class="app-name">AvaloniaThemeLab.ThemePlayground</span> package Avalonia.Themes.Fluent
-dotnet remove <span class="app-name">AvaloniaThemeLab.ThemePlayground</span> package Avalonia.Fonts.Inter</code></pre>
-      <p>The theme engine styles controls directly and brings its own Inter font package (<code>AngelSix.ThemeEngine.Fonts</code>), so neither template package is needed.</p>
+      <label><input type="checkbox" /><strong>Remove Fluent / Fluent 2, the template's Inter font, and CommunityToolkit.Mvvm</strong></label>
+      <p class="step-why">Because we're using the AngelSix Theme Engine and AngelSix.Mvvm, we remove Avalonia's Fluent2Theme (or FluentTheme on older templates), the Inter font package, and CommunityToolkit.Mvvm so they don't conflict with our theme or MVVM base classes.</p>
+      <pre><code>dotnet remove <span class="app-name">AvaloniaThemeLab.ThemePlayground</span> package Avalonia.Themes.Fluent2
+dotnet remove <span class="app-name">AvaloniaThemeLab.ThemePlayground</span> package Avalonia.Themes.Fluent
+dotnet remove <span class="app-name">AvaloniaThemeLab.ThemePlayground</span> package Avalonia.Fonts.Inter
+dotnet remove <span class="app-name">AvaloniaThemeLab.ThemePlayground</span> package CommunityToolkit.Mvvm</code></pre>
+      <p>Newer Avalonia 12 templates reference <code>Avalonia.Themes.Fluent2</code> while older ones reference <code>Avalonia.Themes.Fluent</code> — remove whichever is in your <code>.csproj</code>. Removing <code>CommunityToolkit.Mvvm</code> ensures <code>ViewModelBase</code> and <code>ObservableObject</code> resolve to <code>AngelSix.Mvvm</code>. The theme engine styles controls directly and brings its own Inter font package (<code>AngelSix.ThemeEngine.Fonts</code>).</p>
     </li>
     <li>
       <label><input type="checkbox" /><strong>Add the theme, engine, controls and Dependency Injection</strong></label>
@@ -305,7 +307,7 @@ public sealed class PreviewOrientationConverter : IValueConverter
 namespace <span class="app-name" data-ns="1">AvaloniaThemeLab.ThemePlayground</span>.ViewModels;
 
 /// &lt;summary&gt;One row of the gallery.&lt;/summary&gt;
-public abstract class GalleryEntryViewModel(string name) : ObservableObject
+public abstract class GalleryEntryViewModel(string name) : ViewModelBase
 {
     public string Name { get; } = name;
 }</code></pre>
@@ -538,7 +540,7 @@ using Avalonia.Media;
 namespace <span class="app-name" data-ns="1">AvaloniaThemeLab.ThemePlayground</span>.ViewModels;
 
 /// &lt;summary&gt;The settings window: the app&#x27;s live theme instance, edited in place.&lt;/summary&gt;
-public sealed partial class ThemeSettingsViewModel(DefaultTheme theme) : ObservableObject
+public sealed partial class ThemeSettingsViewModel(DefaultTheme theme) : ViewModelBase
 {
     #region Properties
 
@@ -575,7 +577,7 @@ using AngelSix.ThemeEngine.Generated;
 namespace <span class="app-name" data-ns="1">AvaloniaThemeLab.ThemePlayground</span>.ViewModels;
 
 /// &lt;summary&gt;The gallery window: a searchable list of entries and the one being shown.&lt;/summary&gt;
-public sealed partial class MainWindowViewModel : ObservableObject
+public sealed partial class MainWindowViewModel : ViewModelBase
 {
     #region Fields
 
@@ -683,7 +685,7 @@ public sealed partial class MainWindowViewModel : ObservableObject
   <ol class="steps" style="counter-reset: s 10;">
     <li>
       <label><input type="checkbox" /><strong>Update <code>App.axaml</code></strong></label>
-      <p class="step-why">With our BrandTheme and style classes ready, we update App.axaml to replace FluentTheme with BrandTheme and include BrandControls.axaml.</p>
+      <p class="step-why">With our BrandTheme and style classes ready, we update App.axaml to replace Fluent2Theme (or FluentTheme on older templates) with BrandTheme and include BrandControls.axaml.</p>
       <div class="file-header axaml"><span class="file-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><polyline points="8 7 3 12 8 17"/><polyline points="16 7 21 12 16 17"/><line x1="13.5" y1="5" x2="10.5" y2="19"/></svg></span><span class="file-name">App.axaml</span></div>
       <pre><code>&lt;Application xmlns=&quot;https://github.com/avaloniaui&quot;
              xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;
@@ -701,7 +703,7 @@ public sealed partial class MainWindowViewModel : ObservableObject
 <span class="diff-add">    &lt;/Application.Resources&gt;</span>
 
     &lt;Application.Styles&gt;
-<span class="diff-del">        &lt;FluentTheme /&gt;</span>
+<span class="diff-del">        &lt;Fluent2Theme /&gt; &lt;!-- or &lt;FluentTheme /&gt; on older templates --&gt;</span>
 <span class="diff-add">        &lt;local:BrandTheme /&gt;</span>
     &lt;/Application.Styles&gt;
 &lt;/Application&gt;</code></pre>

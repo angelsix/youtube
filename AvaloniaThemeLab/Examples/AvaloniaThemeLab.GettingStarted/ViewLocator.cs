@@ -30,6 +30,6 @@ public class ViewLocator : IDataTemplate
 
     public bool Match(object? data)
     {
-        return data is ObservableObject;
+        return data is ViewModelBase;
     }
 }
