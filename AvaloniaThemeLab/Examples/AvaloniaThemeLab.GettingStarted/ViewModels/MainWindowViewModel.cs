@@ -4,11 +4,9 @@ using AngelSix.Themes.Default;
 
 namespace AvaloniaThemeLab.GettingStarted.ViewModels;
 
-public sealed partial class MainWindowViewModel(DefaultTheme theme) : ViewModelBase
+public sealed partial class MainWindowViewModel([Property] DefaultTheme theme) : ViewModelBase
 {
     #region Properties
-
-    public DefaultTheme Theme { get; } = theme;
 
     public string Greeting => "Welcome to the default theme";
 

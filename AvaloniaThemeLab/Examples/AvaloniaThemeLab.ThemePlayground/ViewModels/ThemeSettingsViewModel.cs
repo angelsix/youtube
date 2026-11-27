@@ -9,12 +9,9 @@ using Avalonia.Media;
 namespace AvaloniaThemeLab.ThemePlayground.ViewModels;
 
 /// <summary>The settings window: the app's live theme instance, edited in place.</summary>
-public sealed partial class ThemeSettingsViewModel(DefaultTheme theme) : ViewModelBase
+public sealed partial class ThemeSettingsViewModel([Property] DefaultTheme theme) : ViewModelBase
 {
     #region Properties
-
-    /// <summary>The theme every window is drawing with, edited in place.</summary>
-    public DefaultTheme Theme { get; } = theme;
 
     // The theme's own family first, so the current value is an item the list can select
     public IReadOnlyList<FontFamily> Fonts { get; } =

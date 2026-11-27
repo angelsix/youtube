@@ -22,10 +22,7 @@ public sealed partial class MainWindowViewModel : ViewModelBase
 
     /// <summary>The hues the header picker offers, in the order DefaultTheme declares them.</summary>
     public static IReadOnlyList<AccentHue> AccentChoices { get; } =
-    [
-        Hue(AccentKind.Neutral), Hue(AccentKind.Primary), Hue(AccentKind.Success), Hue(AccentKind.Warning),
-        Hue(AccentKind.Favourite), Hue(AccentKind.Error), Hue(AccentKind.Info), Hue(AccentKind.Destructive), Hue(AccentKind.Subtle),
-    ];
+        [.. System.Enum.GetValues<AccentKind>().Where(kind => kind != AccentKind.Surface).Select(Hue)];
 
     public GalleryCatalogue Catalogue { get; }
 

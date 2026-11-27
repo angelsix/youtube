@@ -73,5 +73,6 @@ public partial class MinimalTheme : ThemeBase
 
     #endregion Sizes
 
+    [FontWeights(Weights = [FontWeight.Normal, FontWeight.SemiBold], Labels = ["Regular", "SemiBold"])]
     public virtual FontFamily FontFamily => AngelSix.ThemeEngine.Fonts.ThemeFonts.Inter;
 }

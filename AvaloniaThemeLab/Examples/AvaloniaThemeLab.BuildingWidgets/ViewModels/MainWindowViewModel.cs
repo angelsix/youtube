@@ -9,7 +9,7 @@ namespace AvaloniaThemeLab.BuildingWidgets.ViewModels;
 public sealed record WidgetEntry(string Name, ViewModelBase ViewModel);
 
 public sealed partial class MainWindowViewModel(
-    PrototypeTheme theme,
+    [Property] PrototypeTheme theme,
     ExampleContentViewModel exampleContent,
     SideNavViewModel sideNav,
     TopMenuViewModel topMenu,
@@ -20,8 +20,6 @@ public sealed partial class MainWindowViewModel(
     Action openSettings) : ViewModelBase
 {
     #region Properties
-
-    public PrototypeTheme Theme { get; } = theme;
 
     public IReadOnlyList<WidgetEntry> Widgets { get; } =
     [

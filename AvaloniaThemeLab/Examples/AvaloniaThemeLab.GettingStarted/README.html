@@ -219,16 +219,15 @@ dotnet add <span class="app-name">AvaloniaThemeLab.GettingStarted</span> package
     <li>
       <label><input type="checkbox" /><strong>Sidetrack: create a minimal <code>MainWindowViewModel</code> shell</strong></label>
       <p class="step-why">Before we wire up Dependency Injection in App.axaml.cs, we create a tiny MainWindowViewModel shell first so the project stays compiling at every step.</p>
-      <p>Create <code>ViewModels/MainWindowViewModel.cs</code> inheriting from <code>ViewModelBase</code> (provided by <code>AngelSix.Mvvm</code>, so Avalonia's <code>ViewLocator</code> matches it automatically) and taking <code>DefaultTheme</code> through its primary constructor. We will flesh out its properties and commands right after DI is wired.</p>
+      <p>Create <code>ViewModels/MainWindowViewModel.cs</code> inheriting from <code>ViewModelBase</code> (provided by <code>AngelSix.Mvvm</code>, so Avalonia's <code>ViewLocator</code> matches it automatically) and marking <code>DefaultTheme</code> with <code>[Property]</code> on its primary constructor so <code>AngelSix.Mvvm</code> generates <code>public DefaultTheme Theme { get; } = theme;</code> for you. We will flesh out its properties and commands right after DI is wired.</p>
       <div class="file-header cs"><span class="file-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M10.5 8.5a4 4 0 1 0 0 7"/><path d="M14.5 9.5v5"/><path d="M17.5 9.5v5"/><path d="M13.5 11h5"/><path d="M13.5 13h5"/></svg></span><span class="file-name"><span class="dir">ViewModels/</span>MainWindowViewModel.cs</span><span class="file-badge new">New file</span></div>
 <pre><code><span class="k">using</span> AngelSix.Mvvm;
 <span class="k">using</span> AngelSix.Themes.Default;
 
 <span class="k">namespace</span> <span class="app-name" data-ns="1">AvaloniaThemeLab.GettingStarted</span>.ViewModels;
 
-<span class="k">public sealed partial class</span> MainWindowViewModel(DefaultTheme theme) : ViewModelBase
+<span class="k">public sealed partial class</span> MainWindowViewModel([Property] DefaultTheme theme) : ViewModelBase
 {
-    <span class="k">public</span> DefaultTheme Theme { <span class="k">get</span>; } = theme;
 }</code></pre>
     </li>
 
@@ -308,11 +307,9 @@ dotnet add <span class="app-name">AvaloniaThemeLab.GettingStarted</span> package
 
 <span class="k">namespace</span> <span class="app-name" data-ns="1">AvaloniaThemeLab.GettingStarted</span>.ViewModels;
 
-<span class="k">public sealed partial class</span> MainWindowViewModel(DefaultTheme theme) : ViewModelBase
+<span class="k">public sealed partial class</span> MainWindowViewModel([Property] DefaultTheme theme) : ViewModelBase
 {
 <span class="diff-add">    <span class="k">#region</span> Properties</span>
-
-    <span class="k">public</span> DefaultTheme Theme { <span class="k">get</span>; } = theme;
 
 <span class="diff-add">    <span class="k">public string</span> Greeting =&gt; <span class="s">"Welcome to the default theme"</span>;</span>
 
@@ -359,7 +356,7 @@ dotnet add <span class="app-name">AvaloniaThemeLab.GettingStarted</span> package
 <span class="diff-add">        x:DataType=<span class="s">"vm:MainWindowViewModel"</span></span>
 <span class="diff-add">        Design.DataContext=<span class="s">"{DesignContext}"</span></span>
         Icon=<span class="s">"/Assets/avalonia-logo.ico"</span>
-<span class="diff-add">        Width=<span class="s">"560"</span> Height=<span class="s">"320"</span></span>
+<span class="diff-add">        Width=<span class="s">"{size:Scaled 560}"</span> Height=<span class="s">"{size:Scaled 320}"</span></span>
 <span class="diff-del">        Title=<span class="s">"<span class="app-name">AvaloniaThemeLab.GettingStarted</span>"</span><span class="t">&gt;</span></span>
 <span class="diff-add">        Title=<span class="s">"Avalonia Theme Lab Getting Started"</span><span class="t">&gt;</span></span>
 

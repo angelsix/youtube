@@ -11,6 +11,7 @@
     <Button Content="Open a dialog window" Command="{Binding OpenDialogCommand}" />
     <TextBlock Text="A modal page covers the navigation page below it."
                TextWrapping="Wrap" />
+    <!-- Theme Exception: x:Name: ModalHost is attached to IModalNavigationService in WindowPage.axaml.cs and queried by GalleryInteractionTests. -->
     <NavigationPage x:Name="ModalHost" Height="{size:Scaled 360}">
       <ContentPage Header="Root page">
         <Button Content="Push a modal page"

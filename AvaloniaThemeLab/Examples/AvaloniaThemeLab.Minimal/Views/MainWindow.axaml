@@ -11,7 +11,7 @@
         x:DataType="vm:MainWindowViewModel"
         Design.DataContext="{DesignContext}"
         Icon="/Assets/avalonia-logo.ico"
-        Width="620" Height="380"
+        Width="{size:Scaled 620}" Height="{size:Scaled 380}"
         Title="Minimal — Theme From Scratch">
 
   <!-- Centered theme specimen card: header, live 4-seed palette strip, scale & accent actions -->
@@ -30,18 +30,18 @@
         <StackPanel Grid.Column="0" Spacing="{size:SpacingSm}">
           <TextBlock Text="THEMEBASE · ZERO BUILT-IN STYLES"
                      FontSize="{size:FontSizeSm}"
-                     FontWeight="SemiBold"
+                     FontWeight="{theme:FontWeightSemiBold}"
                      Foreground="{color:MutedTextBrush}" />
           <TextBlock Text="Minimal Theme"
                      FontSize="{size:FontSizeLg}"
-                     FontWeight="SemiBold"
+                     FontWeight="{theme:FontWeightSemiBold}"
                      Foreground="{color:WindowTextBrush}" />
         </StackPanel>
 
         <Button Grid.Column="1" VerticalAlignment="Center" Command="{Binding ToggleDarkCommand}">
           <Panel>
-            <TextBlock Text="Dark mode" IsVisible="{Binding !Theme.IsDark}" />
-            <TextBlock Text="Light mode" IsVisible="{Binding Theme.IsDark}" />
+            <TextBlock Text="Dark mode" IsVisible="{theme:IsLight}" />
+            <TextBlock Text="Light mode" IsVisible="{theme:IsDark}" />
           </Panel>
         </Button>
       </Grid>

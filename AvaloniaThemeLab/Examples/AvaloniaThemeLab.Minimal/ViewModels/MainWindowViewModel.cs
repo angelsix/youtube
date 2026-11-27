@@ -4,14 +4,8 @@ using AvaloniaThemeLab.Minimal.Theme;
 
 namespace AvaloniaThemeLab.Minimal.ViewModels;
 
-public sealed partial class MainWindowViewModel(MinimalTheme theme) : ViewModelBase
+public sealed partial class MainWindowViewModel([Property] MinimalTheme theme) : ViewModelBase
 {
-    #region Properties
-
-    public MinimalTheme Theme { get; } = theme;
-
-    #endregion Properties
-
     #region Commands
 
     public IRelayCommand ToggleDarkCommand => Command(() => Theme.IsDark = !Theme.IsDark);

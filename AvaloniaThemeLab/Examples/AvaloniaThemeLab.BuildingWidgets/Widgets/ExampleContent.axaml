@@ -30,8 +30,8 @@
     <StackPanel Orientation="Horizontal" Spacing="{size:SpacingLg}" HorizontalAlignment="Center">
       <Button Command="{Binding ToggleModeCommand}">
         <Panel>
-          <TextBlock Text="Dark mode" IsVisible="{Binding !Theme.IsDark}" />
-          <TextBlock Text="Light mode" IsVisible="{Binding Theme.IsDark}" />
+          <TextBlock Text="Dark mode" IsVisible="{theme:IsLight}" />
+          <TextBlock Text="Light mode" IsVisible="{theme:IsDark}" />
         </Panel>
       </Button>
       <Button Content="Bigger" Command="{Binding BiggerCommand}" />

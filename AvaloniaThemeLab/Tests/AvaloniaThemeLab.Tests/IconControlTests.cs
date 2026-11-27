@@ -99,23 +99,12 @@ public sealed partial class IconControlTests
         }
     }
 
-    private sealed class SharedSelectionViewModel : ViewModelBase
+    private sealed partial class SharedSelectionViewModel : ViewModelBase
     {
-        private string _activeItem = "A1";
-
         public string[] GroupA { get; } = ["A1", "A2"];
         public string[] GroupB { get; } = ["B1", "B2"];
 
-        public string ActiveItem
-        {
-            get => _activeItem;
-            set
-            {
-                if (value is null || EqualityComparer<string>.Default.Equals(_activeItem, value))
-                    return;
-                _activeItem = value;
-                OnPropertyChanged(nameof(ActiveItem));
-            }
-        }
+        [Observable(IgnoreNull = true)]
+        public partial string ActiveItem { get; set; } = "A1";
     }
 }

@@ -28,6 +28,7 @@
         ColumnSpacing="{size:SpacingXxl}" RowSpacing="{size:SpacingXxl}" Margin="{size:Edges {size:SpacingXxl}}">
     <TextBox Grid.Row="0" Grid.Column="0" Text="{Binding SearchText}" PlaceholderText="Search controls"
              HorizontalAlignment="Stretch" />
+    <!-- Theme Exception: x:Name: SidebarEntries is referenced by MainWindow.axaml.cs for deferred click reveal and by GalleryInteractionTests. -->
     <ListBox x:Name="SidebarEntries" Grid.Row="1" Grid.Column="0" Width="{size:SurfaceWidthSm}"
              ItemsSource="{Binding Catalogue.Entries}" SelectedItem="{Binding SelectedEntry}">
       <!-- One template for every entry kind (both derive GalleryEntryViewModel.Name). -->

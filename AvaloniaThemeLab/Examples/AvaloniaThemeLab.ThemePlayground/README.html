@@ -307,10 +307,7 @@ public sealed class PreviewOrientationConverter : IValueConverter
 namespace <span class="app-name" data-ns="1">AvaloniaThemeLab.ThemePlayground</span>.ViewModels;
 
 /// &lt;summary&gt;One row of the gallery.&lt;/summary&gt;
-public abstract class GalleryEntryViewModel(string name) : ViewModelBase
-{
-    public string Name { get; } = name;
-}</code></pre>
+public abstract partial class GalleryEntryViewModel([Property] string name) : ViewModelBase;</code></pre>
       <div class="file-header cs"><span class="file-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M10.5 8.5a4 4 0 1 0 0 7"/><path d="M14.5 9.5v5"/><path d="M17.5 9.5v5"/><path d="M13.5 11h5"/><path d="M13.5 13h5"/></svg></span><span class="file-name"><span class="dir">ViewModels/</span>ControlEntryViewModel.cs</span><span class="file-badge new">New file</span></div>
       <pre><code>using System;
 
@@ -540,12 +537,9 @@ using Avalonia.Media;
 namespace <span class="app-name" data-ns="1">AvaloniaThemeLab.ThemePlayground</span>.ViewModels;
 
 /// &lt;summary&gt;The settings window: the app&#x27;s live theme instance, edited in place.&lt;/summary&gt;
-public sealed partial class ThemeSettingsViewModel(DefaultTheme theme) : ViewModelBase
+public sealed partial class ThemeSettingsViewModel([Property] DefaultTheme theme) : ViewModelBase
 {
     #region Properties
-
-    /// &lt;summary&gt;The theme every window is drawing with, edited in place.&lt;/summary&gt;
-    public DefaultTheme Theme { get; } = theme;
 
     // The theme&#x27;s own family first, so the current value is an item the list can select
     public IReadOnlyList&lt;FontFamily&gt; Fonts { get; } =
@@ -593,10 +587,7 @@ public sealed partial class MainWindowViewModel : ViewModelBase
 
     /// &lt;summary&gt;The hues the header picker offers, in the order DefaultTheme declares them.&lt;/summary&gt;
     public static IReadOnlyList&lt;AccentHue&gt; AccentChoices { get; } =
-    [
-        Hue(AccentKind.Neutral), Hue(AccentKind.Primary), Hue(AccentKind.Success), Hue(AccentKind.Warning),
-        Hue(AccentKind.Favourite), Hue(AccentKind.Error), Hue(AccentKind.Info), Hue(AccentKind.Destructive), Hue(AccentKind.Subtle),
-    ];
+        [.. System.Enum.GetValues&lt;AccentKind&gt;().Where(kind =&gt; kind != AccentKind.Surface).Select(Hue)];
 
     public GalleryCatalogue Catalogue { get; }
 

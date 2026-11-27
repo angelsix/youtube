@@ -11,14 +11,8 @@ public sealed record NavItem(string Label, string Caption, string? Icon = null);
 /// <summary>One KPI metric card bound into the AppShell metrics ItemsControl.</summary>
 public sealed record MetricCardItem(string Label, string Value);
 
-public sealed partial class ExampleContentViewModel(PrototypeTheme theme) : ViewModelBase
+public sealed partial class ExampleContentViewModel([Property] PrototypeTheme theme) : ViewModelBase
 {
-    #region Properties
-
-    public PrototypeTheme Theme { get; } = theme;
-
-    #endregion Properties
-
     #region Commands
 
     public IRelayCommand ToggleModeCommand => Command(() => Theme.IsDark = !Theme.IsDark);
@@ -30,32 +24,12 @@ public sealed partial class ExampleContentViewModel(PrototypeTheme theme) : View
     #endregion Commands
 }
 
-public sealed class MoonWidgetViewModel(PrototypeTheme theme) : ViewModelBase
+public sealed partial class MoonWidgetViewModel([Property] PrototypeTheme theme) : ViewModelBase;
+
+public sealed partial class ModeToggleViewModel([Property] PrototypeTheme theme) : ViewModelBase;
+
+public sealed partial class TopMenuViewModel([Property] PrototypeTheme theme) : ViewModelBase
 {
-    #region Properties
-
-    public PrototypeTheme Theme { get; } = theme;
-
-    #endregion Properties
-}
-
-public sealed class ModeToggleViewModel(PrototypeTheme theme) : ViewModelBase
-{
-    #region Properties
-
-    public PrototypeTheme Theme { get; } = theme;
-
-    #endregion Properties
-}
-
-public sealed partial class TopMenuViewModel(PrototypeTheme theme) : ViewModelBase
-{
-    #region Properties
-
-    public PrototypeTheme Theme { get; } = theme;
-
-    #endregion Properties
-
     #region Observable Properties
 
     [Observable] public partial string Caption { get; set; } = "Pick something from the menu.";
@@ -75,14 +49,8 @@ public sealed partial class TopMenuViewModel(PrototypeTheme theme) : ViewModelBa
     #endregion Commands
 }
 
-public sealed class SideNavViewModel : ViewModelBase
+public sealed partial class SideNavViewModel : ViewModelBase
 {
-    #region Fields
-
-    private NavItem _activeItem;
-
-    #endregion Fields
-
     #region Properties
 
     public IReadOnlyList<NavItem> TopItems { get; }
@@ -91,26 +59,20 @@ public sealed class SideNavViewModel : ViewModelBase
 
     public IReadOnlyList<NavItem> FooterItems { get; }
 
-    public NavItem ActiveItem
-    {
-        get => _activeItem;
-        set
-        {
-            if (value is null || EqualityComparer<NavItem>.Default.Equals(_activeItem, value))
-                return;
-
-            _activeItem = value;
-            OnPropertyChanged(nameof(ActiveItem));
-            OnPropertyChanged(nameof(PageTitle));
-            OnPropertyChanged(nameof(PageCaption));
-        }
-    }
-
     public string PageTitle => ActiveItem.Label;
 
     public string PageCaption => ActiveItem.Caption;
 
     #endregion Properties
+
+    #region Observable Properties
+
+    [Observable(IgnoreNull = true)]
+    [NotifyPropertyChangedFor(nameof(PageTitle))]
+    [NotifyPropertyChangedFor(nameof(PageCaption))]
+    public partial NavItem ActiveItem { get; set; }
+
+    #endregion Observable Properties
 
     #region Constructors
 
@@ -133,7 +95,7 @@ public sealed class SideNavViewModel : ViewModelBase
             new("Settings", "Preferences for this app.", nameof(PrototypeIconGallery.Settings)),
         ];
 
-        _activeItem = ShipmentItems[0];
+        ActiveItem = ShipmentItems[0];
     }
 
     #endregion Constructors
@@ -141,12 +103,6 @@ public sealed class SideNavViewModel : ViewModelBase
 
 public sealed partial class AppShellViewModel : ViewModelBase
 {
-    #region Fields
-
-    private NavItem _activeItem;
-
-    #endregion Fields
-
     #region Properties
 
     public IReadOnlyList<NavItem> PrimaryItems { get; }
@@ -154,22 +110,6 @@ public sealed partial class AppShellViewModel : ViewModelBase
     public IReadOnlyList<NavItem> FooterItems { get; }
 
     public IReadOnlyList<MetricCardItem> Metrics { get; }
-
-    public NavItem ActiveItem
-    {
-        get => _activeItem;
-        set
-        {
-            if (value is null || EqualityComparer<NavItem>.Default.Equals(_activeItem, value))
-                return;
-
-            _activeItem = value;
-            OnPropertyChanged(nameof(ActiveItem));
-            OnPropertyChanged(nameof(Title));
-            OnPropertyChanged(nameof(Caption));
-            OnPropertyChanged(nameof(Status));
-        }
-    }
 
     public string Title => ActiveItem.Label;
 
@@ -180,6 +120,12 @@ public sealed partial class AppShellViewModel : ViewModelBase
     #endregion Properties
 
     #region Observable Properties
+
+    [Observable(IgnoreNull = true)]
+    [NotifyPropertyChangedFor(nameof(Title))]
+    [NotifyPropertyChangedFor(nameof(Caption))]
+    [NotifyPropertyChangedFor(nameof(Status))]
+    public partial NavItem ActiveItem { get; set; }
 
     [Observable] public partial bool IsNavVisible { get; set; } = true;
 
@@ -213,7 +159,7 @@ public sealed partial class AppShellViewModel : ViewModelBase
             new("SHIPPED TODAY", "9"),
         ];
 
-        _activeItem = PrimaryItems[0];
+        ActiveItem = PrimaryItems[0];
     }
 
     #endregion Constructors

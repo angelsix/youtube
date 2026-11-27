@@ -83,7 +83,7 @@
                    PlaceholderText="Search orders"
                    VerticalAlignment="Center">
             <TextBox.InnerLeftContent>
-              <PathIcon Data="{icons:Search}" Width="{size:IconSizeSm}" Height="{size:IconSizeSm}" Margin="{size:Edges Left={size:SpacingLg}}" Foreground="{color:DimTextDefault}" />
+              <Icon Content="{icons:Search}" Size="{size:IconSizeSm}" Margin="{size:Edges Left={size:SpacingLg}}" Foreground="{color:DimTextDefault}" />
             </TextBox.InnerLeftContent>
           </TextBox>
 
@@ -97,20 +97,18 @@
               <Style Selector="ToggleSwitch:unchecked">
                 <Setter Property="default:SwitchKnob.Content">
                   <Template>
-                    <PathIcon Data="{icons:Sun}"
-                              Foreground="{color:AccentFavouriteBrush}"
-                              Width="{size:Scaled {size:ControlHeightSm}, 0.3125}"
-                              Height="{size:Scaled {size:ControlHeightSm}, 0.3125}" />
+                    <Icon Content="{icons:Sun}"
+                          Foreground="{color:AccentFavouriteBrush}"
+                          Size="{size:Scaled {size:ControlHeightSm}, 0.3125}" />
                   </Template>
                 </Setter>
               </Style>
               <Style Selector="ToggleSwitch:checked">
                 <Setter Property="default:SwitchKnob.Content">
                   <Template>
-                    <PathIcon Data="{icons:Moon}"
-                              Foreground="{color:OnSolidFillInkDefault}"
-                              Width="{size:Scaled {size:ControlHeightSm}, 0.3125}"
-                              Height="{size:Scaled {size:ControlHeightSm}, 0.3125}" />
+                    <Icon Content="{icons:Moon}"
+                          Foreground="{color:OnSolidFillInkDefault}"
+                          Size="{size:Scaled {size:ControlHeightSm}, 0.3125}" />
                   </Template>
                 </Setter>
               </Style>

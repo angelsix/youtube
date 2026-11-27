@@ -275,14 +275,8 @@ public sealed record NavItem(string Label, string Caption, string? Icon = null);
 /// &lt;summary&gt;One KPI metric card bound into the AppShell metrics ItemsControl.&lt;/summary&gt;
 public sealed record MetricCardItem(string Label, string Value);
 
-public sealed partial class ExampleContentViewModel(PrototypeTheme theme) : ViewModelBase
+public sealed partial class ExampleContentViewModel([Property] PrototypeTheme theme) : ViewModelBase
 {
-    #region Properties
-
-    public PrototypeTheme Theme { get; } = theme;
-
-    #endregion Properties
-
     #region Commands
 
     public IRelayCommand ToggleModeCommand =&gt; Command(() =&gt; Theme.IsDark = !Theme.IsDark);
@@ -294,32 +288,12 @@ public sealed partial class ExampleContentViewModel(PrototypeTheme theme) : View
     #endregion Commands
 }
 
-public sealed class MoonWidgetViewModel(PrototypeTheme theme) : ViewModelBase
+public sealed partial class MoonWidgetViewModel([Property] PrototypeTheme theme) : ViewModelBase;
+
+public sealed partial class ModeToggleViewModel([Property] PrototypeTheme theme) : ViewModelBase;
+
+public sealed partial class TopMenuViewModel([Property] PrototypeTheme theme) : ViewModelBase
 {
-    #region Properties
-
-    public PrototypeTheme Theme { get; } = theme;
-
-    #endregion Properties
-}
-
-public sealed class ModeToggleViewModel(PrototypeTheme theme) : ViewModelBase
-{
-    #region Properties
-
-    public PrototypeTheme Theme { get; } = theme;
-
-    #endregion Properties
-}
-
-public sealed partial class TopMenuViewModel(PrototypeTheme theme) : ViewModelBase
-{
-    #region Properties
-
-    public PrototypeTheme Theme { get; } = theme;
-
-    #endregion Properties
-
     #region Observable Properties
 
     [Observable] public partial string Caption { get; set; } = &quot;Pick something from the menu.&quot;;
@@ -339,14 +313,8 @@ public sealed partial class TopMenuViewModel(PrototypeTheme theme) : ViewModelBa
     #endregion Commands
 }
 
-public sealed class SideNavViewModel : ViewModelBase
+public sealed partial class SideNavViewModel : ViewModelBase
 {
-    #region Fields
-
-    private NavItem _activeItem;
-
-    #endregion Fields
-
     #region Properties
 
     public IReadOnlyList&lt;NavItem&gt; TopItems { get; }
@@ -355,26 +323,20 @@ public sealed class SideNavViewModel : ViewModelBase
 
     public IReadOnlyList&lt;NavItem&gt; FooterItems { get; }
 
-    public NavItem ActiveItem
-    {
-        get =&gt; _activeItem;
-        set
-        {
-            if (value is null || EqualityComparer&lt;NavItem&gt;.Default.Equals(_activeItem, value))
-                return;
-
-            _activeItem = value;
-            OnPropertyChanged(nameof(ActiveItem));
-            OnPropertyChanged(nameof(PageTitle));
-            OnPropertyChanged(nameof(PageCaption));
-        }
-    }
-
     public string PageTitle =&gt; ActiveItem.Label;
 
     public string PageCaption =&gt; ActiveItem.Caption;
 
     #endregion Properties
+
+    #region Observable Properties
+
+    [Observable(IgnoreNull = true)]
+    [NotifyPropertyChangedFor(nameof(PageTitle))]
+    [NotifyPropertyChangedFor(nameof(PageCaption))]
+    public partial NavItem ActiveItem { get; set; }
+
+    #endregion Observable Properties
 
     #region Constructors
 
@@ -397,7 +359,7 @@ public sealed class SideNavViewModel : ViewModelBase
             new(&quot;Settings&quot;, &quot;Preferences for this app.&quot;, nameof(PrototypeIconGallery.Settings)),
         ];
 
-        _activeItem = ShipmentItems[0];
+        ActiveItem = ShipmentItems[0];
     }
 
     #endregion Constructors
@@ -405,12 +367,6 @@ public sealed class SideNavViewModel : ViewModelBase
 
 public sealed partial class AppShellViewModel : ViewModelBase
 {
-    #region Fields
-
-    private NavItem _activeItem;
-
-    #endregion Fields
-
     #region Properties
 
     public IReadOnlyList&lt;NavItem&gt; PrimaryItems { get; }
@@ -418,22 +374,6 @@ public sealed partial class AppShellViewModel : ViewModelBase
     public IReadOnlyList&lt;NavItem&gt; FooterItems { get; }
 
     public IReadOnlyList&lt;MetricCardItem&gt; Metrics { get; }
-
-    public NavItem ActiveItem
-    {
-        get =&gt; _activeItem;
-        set
-        {
-            if (value is null || EqualityComparer&lt;NavItem&gt;.Default.Equals(_activeItem, value))
-                return;
-
-            _activeItem = value;
-            OnPropertyChanged(nameof(ActiveItem));
-            OnPropertyChanged(nameof(Title));
-            OnPropertyChanged(nameof(Caption));
-            OnPropertyChanged(nameof(Status));
-        }
-    }
 
     public string Title =&gt; ActiveItem.Label;
 
@@ -444,6 +384,12 @@ public sealed partial class AppShellViewModel : ViewModelBase
     #endregion Properties
 
     #region Observable Properties
+
+    [Observable(IgnoreNull = true)]
+    [NotifyPropertyChangedFor(nameof(Title))]
+    [NotifyPropertyChangedFor(nameof(Caption))]
+    [NotifyPropertyChangedFor(nameof(Status))]
+    public partial NavItem ActiveItem { get; set; }
 
     [Observable] public partial bool IsNavVisible { get; set; } = true;
 
@@ -477,12 +423,12 @@ public sealed partial class AppShellViewModel : ViewModelBase
             new(&quot;SHIPPED TODAY&quot;, &quot;9&quot;),
         ];
 
-        _activeItem = PrimaryItems[0];
+        ActiveItem = PrimaryItems[0];
     }
 
     #endregion Constructors
 }</code></pre>
-      <div class="note why"><b>Why <code>ActiveItem</code> ignores <code>null</code></b>In <code>SideNav</code> and <code>AppShell</code>, multiple <code>ListBox</code>es share one <code>ActiveItem</code> binding. When you click an item in the second list, Avalonia clears the first list's selection to <code>null</code>; guarding against <code>null</code> keeps the active page intact across all lists.</div>
+      <div class="note why"><b>Why <code>[Observable(IgnoreNull = true)]</code>?</b>In <code>SideNav</code> and <code>AppShell</code>, multiple <code>ListBox</code>es share one <code>ActiveItem</code> binding. When you click an item in the second list, Avalonia clears the first list's selection to <code>null</code>; <code>IgnoreNull = true</code> keeps the active page intact across all lists with zero manual backing-field boilerplate.</div>
     </li>
 
     <li>
@@ -499,11 +445,9 @@ using <span class="app-name" data-ns="1">MyWidgetsApp</span>.Theme;
 
 namespace <span class="app-name" data-ns="1">MyWidgetsApp</span>.ViewModels;
 
-public sealed partial class ThemeSettingsViewModel(PrototypeTheme theme) : ViewModelBase
+public sealed partial class ThemeSettingsViewModel([Property] PrototypeTheme theme) : ViewModelBase
 {
     #region Properties
-
-    public PrototypeTheme Theme { get; } = theme;
 
     public IReadOnlyList&lt;FontFamily&gt; Fonts { get; } =
         [theme.FontFamily, .. FontManager.Current.SystemFonts.OrderBy(font =&gt; font.Name, StringComparer.OrdinalIgnoreCase)];
@@ -534,7 +478,7 @@ namespace <span class="app-name" data-ns="1">MyWidgetsApp</span>.ViewModels;
 public sealed record WidgetEntry(string Name, ViewModelBase ViewModel);
 
 public sealed partial class MainWindowViewModel(
-    PrototypeTheme theme,
+    [Property] PrototypeTheme theme,
     ExampleContentViewModel exampleContent,
     SideNavViewModel sideNav,
     TopMenuViewModel topMenu,
@@ -545,8 +489,6 @@ public sealed partial class MainWindowViewModel(
     Action openSettings) : ViewModelBase
 {
     #region Properties
-
-    public PrototypeTheme Theme { get; } = theme;
 
     public IReadOnlyList&lt;WidgetEntry&gt; Widgets { get; } =
     [
@@ -620,8 +562,8 @@ public sealed partial class MainWindowViewModel(
     &lt;StackPanel Orientation=&quot;Horizontal&quot; Spacing=&quot;{size:SpacingLg}&quot; HorizontalAlignment=&quot;Center&quot;&gt;
       &lt;Button Command=&quot;{Binding ToggleModeCommand}&quot;&gt;
         &lt;Panel&gt;
-          &lt;TextBlock Text=&quot;Dark mode&quot; IsVisible=&quot;{Binding !Theme.IsDark}&quot; /&gt;
-          &lt;TextBlock Text=&quot;Light mode&quot; IsVisible=&quot;{Binding Theme.IsDark}&quot; /&gt;
+          &lt;TextBlock Text=&quot;Dark mode&quot; IsVisible=&quot;{theme:IsLight}&quot; /&gt;
+          &lt;TextBlock Text=&quot;Light mode&quot; IsVisible=&quot;{theme:IsDark}&quot; /&gt;
         &lt;/Panel&gt;
       &lt;/Button&gt;
       &lt;Button Content=&quot;Bigger&quot; Command=&quot;{Binding BiggerCommand}&quot; /&gt;
@@ -678,11 +620,10 @@ public partial class ExampleContent : UserControl
     &lt;StackPanel Spacing=&quot;{size:SpacingXl}&quot;&gt;
       &lt;!-- Overline with clock icon and TODAY label --&gt;
       &lt;StackPanel Orientation=&quot;Horizontal&quot; Spacing=&quot;{size:SpacingMd}&quot;&gt;
-        &lt;PathIcon Data=&quot;{icons:Clock}&quot;
-                  Width=&quot;{size:IconSizeMd}&quot;
-                  Height=&quot;{size:IconSizeMd}&quot;
-                  Foreground=&quot;{color:DimTextDefault}&quot;
-                  VerticalAlignment=&quot;Center&quot; /&gt;
+        &lt;Icon Content=&quot;{icons:Clock}&quot;
+              Size=&quot;{size:IconSizeMd}&quot;
+              Foreground=&quot;{color:DimTextDefault}&quot;
+              VerticalAlignment=&quot;Center&quot; /&gt;
         &lt;TextBlock Text=&quot;TODAY&quot;
                    FontSize=&quot;{size:FontSizeMd}&quot;
                    FontWeight=&quot;{theme:FontWeightSemiBold}&quot;
@@ -702,12 +643,12 @@ public partial class ExampleContent : UserControl
                      FontSize=&quot;{size:FontSizeMd}&quot;
                      Foreground=&quot;{color:DimTextDefault}&quot; /&gt;
           &lt;Grid&gt;
-            &lt;TextBlock IsVisible=&quot;{Binding !Theme.IsDark}&quot;
+            &lt;TextBlock IsVisible=&quot;{theme:IsLight}&quot;
                        FontSize=&quot;{size:FontSizeLg}&quot;
                        Foreground=&quot;{color:TextDefault}&quot;&gt;
               &lt;Run Text=&quot;Clear day · &quot; /&gt;&lt;Run Text=&quot;18°&quot; Foreground=&quot;{color:AccentPrimaryBrush}&quot; FontWeight=&quot;{theme:FontWeightSemiBold}&quot; /&gt;
             &lt;/TextBlock&gt;
-            &lt;TextBlock IsVisible=&quot;{Binding Theme.IsDark}&quot;
+            &lt;TextBlock IsVisible=&quot;{theme:IsDark}&quot;
                        FontSize=&quot;{size:FontSizeLg}&quot;
                        Foreground=&quot;{color:TextDefault}&quot;&gt;
               &lt;Run Text=&quot;Clear night · &quot; /&gt;&lt;Run Text=&quot;9°&quot; Foreground=&quot;{color:AccentPrimaryBrush}&quot; FontWeight=&quot;{theme:FontWeightSemiBold}&quot; /&gt;
@@ -721,7 +662,7 @@ public partial class ExampleContent : UserControl
               Height=&quot;{size:Scaled {size:IconSizeXl}, 4}&quot;
               VerticalAlignment=&quot;Center&quot;&gt;
           &lt;!-- Light mode: yellow sun bound to theme Favourite/Warning ramp --&gt;
-          &lt;Path IsVisible=&quot;{Binding !Theme.IsDark}&quot;
+          &lt;Path IsVisible=&quot;{theme:IsLight}&quot;
                 Data=&quot;{icons:Sun}&quot;
                 Stretch=&quot;Uniform&quot;
                 HorizontalAlignment=&quot;Center&quot;
@@ -735,7 +676,7 @@ public partial class ExampleContent : UserControl
           &lt;/Path&gt;
 
           &lt;!-- Dark mode: blue moon bound to theme Primary/Info ramp --&gt;
-          &lt;Path IsVisible=&quot;{Binding Theme.IsDark}&quot;
+          &lt;Path IsVisible=&quot;{theme:IsDark}&quot;
                 Data=&quot;{icons:Moon}&quot;
                 Stretch=&quot;Uniform&quot;
                 HorizontalAlignment=&quot;Center&quot;
@@ -1067,7 +1008,7 @@ public partial class SideNav : UserControl
                    PlaceholderText=&quot;Search orders&quot;
                    VerticalAlignment=&quot;Center&quot;&gt;
             &lt;TextBox.InnerLeftContent&gt;
-              &lt;PathIcon Data=&quot;{icons:Search}&quot; Width=&quot;{size:IconSizeSm}&quot; Height=&quot;{size:IconSizeSm}&quot; Margin=&quot;{size:Edges Left={size:SpacingLg}}&quot; Foreground=&quot;{color:DimTextDefault}&quot; /&gt;
+              &lt;Icon Content=&quot;{icons:Search}&quot; Size=&quot;{size:IconSizeSm}&quot; Margin=&quot;{size:Edges Left={size:SpacingLg}}&quot; Foreground=&quot;{color:DimTextDefault}&quot; /&gt;
             &lt;/TextBox.InnerLeftContent&gt;
           &lt;/TextBox&gt;
 
@@ -1081,20 +1022,18 @@ public partial class SideNav : UserControl
               &lt;Style Selector=&quot;ToggleSwitch:unchecked&quot;&gt;
                 &lt;Setter Property=&quot;default:SwitchKnob.Content&quot;&gt;
                   &lt;Template&gt;
-                    &lt;PathIcon Data=&quot;{icons:Sun}&quot;
-                              Foreground=&quot;{color:AccentFavouriteBrush}&quot;
-                              Width=&quot;{size:Scaled {size:ControlHeightSm}, 0.3125}&quot;
-                              Height=&quot;{size:Scaled {size:ControlHeightSm}, 0.3125}&quot; /&gt;
+                    &lt;Icon Content=&quot;{icons:Sun}&quot;
+                          Foreground=&quot;{color:AccentFavouriteBrush}&quot;
+                          Size=&quot;{size:Scaled {size:ControlHeightSm}, 0.3125}&quot; /&gt;
                   &lt;/Template&gt;
                 &lt;/Setter&gt;
               &lt;/Style&gt;
               &lt;Style Selector=&quot;ToggleSwitch:checked&quot;&gt;
                 &lt;Setter Property=&quot;default:SwitchKnob.Content&quot;&gt;
                   &lt;Template&gt;
-                    &lt;PathIcon Data=&quot;{icons:Moon}&quot;
-                              Foreground=&quot;{color:OnSolidFillInkDefault}&quot;
-                              Width=&quot;{size:Scaled {size:ControlHeightSm}, 0.3125}&quot;
-                              Height=&quot;{size:Scaled {size:ControlHeightSm}, 0.3125}&quot; /&gt;
+                    &lt;Icon Content=&quot;{icons:Moon}&quot;
+                          Foreground=&quot;{color:OnSolidFillInkDefault}&quot;
+                          Size=&quot;{size:Scaled {size:ControlHeightSm}, 0.3125}&quot; /&gt;
                   &lt;/Template&gt;
                 &lt;/Setter&gt;
               &lt;/Style&gt;
@@ -1379,20 +1318,18 @@ public partial class AppShell : UserControl
             &lt;Style Selector=&quot;ToggleSwitch:unchecked&quot;&gt;
               &lt;Setter Property=&quot;default:SwitchKnob.Content&quot;&gt;
                 &lt;Template&gt;
-                  &lt;PathIcon Data=&quot;{icons:Sun}&quot;
-                            Foreground=&quot;{color:AccentFavouriteBrush}&quot;
-                            Width=&quot;{size:Scaled {size:ControlHeightSm}, 0.3125}&quot;
-                            Height=&quot;{size:Scaled {size:ControlHeightSm}, 0.3125}&quot; /&gt;
+                  &lt;Icon Content=&quot;{icons:Sun}&quot;
+                        Foreground=&quot;{color:AccentFavouriteBrush}&quot;
+                        Size=&quot;{size:Scaled {size:ControlHeightSm}, 0.3125}&quot; /&gt;
                 &lt;/Template&gt;
               &lt;/Setter&gt;
             &lt;/Style&gt;
             &lt;Style Selector=&quot;ToggleSwitch:checked&quot;&gt;
               &lt;Setter Property=&quot;default:SwitchKnob.Content&quot;&gt;
                 &lt;Template&gt;
-                  &lt;PathIcon Data=&quot;{icons:Moon}&quot;
-                            Foreground=&quot;{color:OnSolidFillInkDefault}&quot;
-                            Width=&quot;{size:Scaled {size:ControlHeightSm}, 0.3125}&quot;
-                            Height=&quot;{size:Scaled {size:ControlHeightSm}, 0.3125}&quot; /&gt;
+                  &lt;Icon Content=&quot;{icons:Moon}&quot;
+                        Foreground=&quot;{color:OnSolidFillInkDefault}&quot;
+                        Size=&quot;{size:Scaled {size:ControlHeightSm}, 0.3125}&quot; /&gt;
                 &lt;/Template&gt;
               &lt;/Setter&gt;
             &lt;/Style&gt;
@@ -1402,13 +1339,13 @@ public partial class AppShell : UserControl
       &lt;!-- Mode label underneath the toggle --&gt;
       &lt;Panel HorizontalAlignment=&quot;Center&quot;&gt;
         &lt;TextBlock Text=&quot;Light mode&quot;
-                   IsVisible=&quot;{Binding !Theme.IsDark}&quot;
+                   IsVisible=&quot;{theme:IsLight}&quot;
                    FontSize=&quot;{size:FontSizeXl}&quot;
                    FontWeight=&quot;{theme:FontWeightSemiBold}&quot;
                    Foreground=&quot;{color:TextDefault}&quot;
                    HorizontalAlignment=&quot;Center&quot; /&gt;
         &lt;TextBlock Text=&quot;Dark mode&quot;
-                   IsVisible=&quot;{Binding Theme.IsDark}&quot;
+                   IsVisible=&quot;{theme:IsDark}&quot;
                    FontSize=&quot;{size:FontSizeXl}&quot;
                    FontWeight=&quot;{theme:FontWeightSemiBold}&quot;
                    Foreground=&quot;{color:TextDefault}&quot;

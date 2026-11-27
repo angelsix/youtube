@@ -7,11 +7,9 @@ using AvaloniaThemeLab.BuildingWidgets.Theme;
 
 namespace AvaloniaThemeLab.BuildingWidgets.ViewModels;
 
-public sealed partial class ThemeSettingsViewModel(PrototypeTheme theme) : ViewModelBase
+public sealed partial class ThemeSettingsViewModel([Property] PrototypeTheme theme) : ViewModelBase
 {
     #region Properties
-
-    public PrototypeTheme Theme { get; } = theme;
 
     public IReadOnlyList<FontFamily> Fonts { get; } =
         [theme.FontFamily, .. FontManager.Current.SystemFonts.OrderBy(font => font.Name, StringComparer.OrdinalIgnoreCase)];

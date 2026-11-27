@@ -241,6 +241,7 @@ public partial class MinimalTheme : ThemeBase
 
     #endregion Sizes
 
+    [FontWeights(Weights = [FontWeight.Normal, FontWeight.SemiBold], Labels = [&quot;Regular&quot;, &quot;SemiBold&quot;])]
     public virtual FontFamily FontFamily =&gt; AngelSix.ThemeEngine.Fonts.ThemeFonts.Inter;
 }</code></pre>
       <div class="note why"><b>How the three regions work together</b>
@@ -375,14 +376,8 @@ using <span class="app-name" data-ns="1">MyMinimalApp</span>.Theme;
 
 namespace <span class="app-name" data-ns="1">MyMinimalApp</span>.ViewModels;
 
-public sealed partial class MainWindowViewModel(MinimalTheme theme) : ViewModelBase
+public sealed partial class MainWindowViewModel([Property] MinimalTheme theme) : ViewModelBase
 {
-    #region Properties
-
-    public MinimalTheme Theme { get; } = theme;
-
-    #endregion Properties
-
     #region Commands
 
     public IRelayCommand ToggleDarkCommand =&gt; Command(() =&gt; Theme.IsDark = !Theme.IsDark);
@@ -478,7 +473,7 @@ namespace <span class="app-name" data-ns="1">MyMinimalApp</span>;
         x:DataType=&quot;vm:MainWindowViewModel&quot;
         Design.DataContext=&quot;{DesignContext}&quot;
         Icon=&quot;/Assets/avalonia-logo.ico&quot;
-        Width=&quot;620&quot; Height=&quot;380&quot;
+        Width=&quot;{size:Scaled 620}&quot; Height=&quot;{size:Scaled 380}&quot;
         Title=&quot;Minimal — Theme From Scratch&quot;&gt;
 
   &lt;!-- Centered theme specimen card: header, live 4-seed palette strip, scale &amp; accent actions --&gt;
@@ -497,18 +492,18 @@ namespace <span class="app-name" data-ns="1">MyMinimalApp</span>;
         &lt;StackPanel Grid.Column=&quot;0&quot; Spacing=&quot;{size:SpacingSm}&quot;&gt;
           &lt;TextBlock Text=&quot;THEMEBASE · ZERO BUILT-IN STYLES&quot;
                      FontSize=&quot;{size:FontSizeSm}&quot;
-                     FontWeight=&quot;SemiBold&quot;
+                     FontWeight=&quot;{theme:FontWeightSemiBold}&quot;
                      Foreground=&quot;{color:MutedTextBrush}&quot; /&gt;
           &lt;TextBlock Text=&quot;Minimal Theme&quot;
                      FontSize=&quot;{size:FontSizeLg}&quot;
-                     FontWeight=&quot;SemiBold&quot;
+                     FontWeight=&quot;{theme:FontWeightSemiBold}&quot;
                      Foreground=&quot;{color:WindowTextBrush}&quot; /&gt;
         &lt;/StackPanel&gt;
 
         &lt;Button Grid.Column=&quot;1&quot; VerticalAlignment=&quot;Center&quot; Command=&quot;{Binding ToggleDarkCommand}&quot;&gt;
           &lt;Panel&gt;
-            &lt;TextBlock Text=&quot;Dark mode&quot; IsVisible=&quot;{Binding !Theme.IsDark}&quot; /&gt;
-            &lt;TextBlock Text=&quot;Light mode&quot; IsVisible=&quot;{Binding Theme.IsDark}&quot; /&gt;
+            &lt;TextBlock Text=&quot;Dark mode&quot; IsVisible=&quot;{theme:IsLight}&quot; /&gt;
+            &lt;TextBlock Text=&quot;Light mode&quot; IsVisible=&quot;{theme:IsDark}&quot; /&gt;
           &lt;/Panel&gt;
         &lt;/Button&gt;
       &lt;/Grid&gt;

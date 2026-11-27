@@ -21,11 +21,10 @@
     <StackPanel Spacing="{size:SpacingXl}">
       <!-- Overline with clock icon and TODAY label -->
       <StackPanel Orientation="Horizontal" Spacing="{size:SpacingMd}">
-        <PathIcon Data="{icons:Clock}"
-                  Width="{size:IconSizeMd}"
-                  Height="{size:IconSizeMd}"
-                  Foreground="{color:DimTextDefault}"
-                  VerticalAlignment="Center" />
+        <Icon Content="{icons:Clock}"
+              Size="{size:IconSizeMd}"
+              Foreground="{color:DimTextDefault}"
+              VerticalAlignment="Center" />
         <TextBlock Text="TODAY"
                    FontSize="{size:FontSizeMd}"
                    FontWeight="{theme:FontWeightSemiBold}"
@@ -45,12 +44,12 @@
                      FontSize="{size:FontSizeMd}"
                      Foreground="{color:DimTextDefault}" />
           <Grid>
-            <TextBlock IsVisible="{Binding !Theme.IsDark}"
+            <TextBlock IsVisible="{theme:IsLight}"
                        FontSize="{size:FontSizeLg}"
                        Foreground="{color:TextDefault}">
               <Run Text="Clear day · " /><Run Text="18°" Foreground="{color:AccentPrimaryBrush}" FontWeight="{theme:FontWeightSemiBold}" />
             </TextBlock>
-            <TextBlock IsVisible="{Binding Theme.IsDark}"
+            <TextBlock IsVisible="{theme:IsDark}"
                        FontSize="{size:FontSizeLg}"
                        Foreground="{color:TextDefault}">
               <Run Text="Clear night · " /><Run Text="9°" Foreground="{color:AccentPrimaryBrush}" FontWeight="{theme:FontWeightSemiBold}" />
@@ -64,7 +63,7 @@
               Height="{size:Scaled {size:IconSizeXl}, 4}"
               VerticalAlignment="Center">
           <!-- Light mode: yellow sun bound to theme Favourite/Warning ramp -->
-          <Path IsVisible="{Binding !Theme.IsDark}"
+          <Path IsVisible="{theme:IsLight}"
                 Data="{icons:Sun}"
                 Stretch="Uniform"
                 HorizontalAlignment="Center"
@@ -78,7 +77,7 @@
           </Path>
 
           <!-- Dark mode: blue moon bound to theme Primary/Info ramp -->
-          <Path IsVisible="{Binding Theme.IsDark}"
+          <Path IsVisible="{theme:IsDark}"
                 Data="{icons:Moon}"
                 Stretch="Uniform"
                 HorizontalAlignment="Center"
