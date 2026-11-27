@@ -261,6 +261,8 @@
   <a class="sub" href="#how-mvvm">AngelSix.Mvvm</a>
   <a class="sub" href="#how-preview">Previews</a>
   <a class="sub" href="#how-snippets">Editor snippets</a>
+  <a class="sub" href="#how-attached">Attached properties</a>
+  <a class="sub" href="#how-rules">Layout-only enforcement</a>
   <a href="#knowledge">Avalonia knowledge</a>
   <a class="sub" href="#know-precedence">Style precedence</a>
   <a class="sub" href="#know-theme">ControlTheme limits</a>
@@ -462,9 +464,9 @@
 <span class="t">&lt;Style</span> Selector=<span class="s">"^:pointerover /template/ Border#PART_Border"</span><span class="t">&gt;</span>
   <span class="t">&lt;Setter</span> Property=<span class="s">"Background"</span> Value=<span class="s">"{color:AccentBrush Light8}"</span> <span class="t">/&gt;</span>
 <span class="t">&lt;/Style&gt;</span></code></pre>
-  <p>A <em>role</em> names a stage that recurs, so the theme decides it once (included in the <code>themeclass</code> snippet):</p>
-  <pre><code>[AccentRole] <span class="k">protected internal virtual</span> RampStage BorderDefault =&gt; RampStage.Light1;</code></pre>
-  <p><code>{color:BorderDefault}</code> is then <code>Light1</code> of whatever hue the control wears. Roles can also follow policies: <code>PinHue</code> (always one hue), <code>BrightStage</code> (a softer stage for a very light seed like yellow), <code>ContrastAgainst</code> (pick light or dark ink against a fill) and focus colors. <code>DefaultTheme</code> also provides <code>Accents</code> and an observable <code>DefaultAccent</code> so accent pickers need zero hand-rolled palettes.</p>
+  <p>A <em>stage default</em> names a stage that recurs, so the theme decides it once (included in the <code>themeclass</code> snippet):</p>
+  <pre><code>[StageDefault] <span class="k">protected internal virtual</span> Stage BorderDefault =&gt; Stage.Light1;</code></pre>
+  <p><code>{color:BorderDefault}</code> is then <code>Light1</code> of whatever hue the control wears. Stage defaults can also follow policies: <code>PinHue</code> (always one hue), <code>BrightStage</code> (a softer stage for a very light seed like yellow), <code>ContrastStage</code> / <code>AlternateStage</code> (pick light or dark ink against a fill) and focus colors. <code>DefaultTheme</code> also provides <code>Accents</code> and an observable <code>DefaultAccent</code> so accent pickers need zero hand-rolled palettes.</p>
 
   <!-- ---------- sizes ---------- -->
   <h3 id="how-size"><span class="n">6</span>Sizes and ladders</h3>
@@ -547,6 +549,20 @@
   </table>
   <p>Turn it off with <code>&lt;GenerateThemeSnippets&gt;false&lt;/GenerateThemeSnippets&gt;</code>.</p>
   <p><strong>AngelSix.Mvvm writes its own</strong>, the same way, for the view-model side: <code>vm</code> a <code>ViewModelBase</code> class (at namespace level) · then, inside it, type <code>vm</code> again and the member snippets appear: <code>vmproperty</code> an <code>[Observable]</code> property · <code>vmcommand</code> / <code>vmcommandparam</code> / <code>vmasynccommand</code> inline cached <code>Command(...)</code> / <code>AsyncCommand(...)</code> properties · <code>vmchanged</code> the change hook · <code>vmnotify</code> for a class that already has a base · <code>designcontext</code> on a view's root. Turn it off with <code>&lt;GenerateMvvmSnippets&gt;false&lt;/GenerateMvvmSnippets&gt;</code>.</p>
+
+  <!-- ---------- attached properties ---------- -->
+  <h3 id="how-attached"><span class="n">12</span>Attached properties (<code>[Attached&lt;THost&gt;]</code>)</h3>
+  <p>Avalonia attached properties normally take ~25 lines of boilerplate per property: <code>AvaloniaProperty.RegisterAttached&lt;…&gt;</code>, <code>Get*</code>, <code>Set*</code>, and a static constructor to wire a change handler. Mark a <code>static readonly AttachedProperty&lt;T&gt;</code> field with <code>[Attached&lt;THost&gt;]</code> on a <code>partial</code> class and the theme engine's source generator writes all of it:</p>
+  <pre><code><span class="k">public sealed partial class</span> SwitchKnob
+{
+    [Attached&lt;ToggleSwitch&gt;]
+    <span class="k">public static readonly</span> AttachedProperty&lt;<span class="k">object</span>?&gt; ContentProperty;
+}</code></pre>
+  <p>Supports <code>Default</code>, <code>Inherits = true</code>, and <code>DefaultBindingMode</code>, and automatically wires an <code>On{Name}Changed</code> class handler if you declare one.</p>
+
+  <!-- ---------- layout-only enforcement ---------- -->
+  <h3 id="how-rules"><span class="n">13</span>Layout-only enforcement (<code>ASTE044</code>)</h3>
+  <p>The theme engine ships a build-time analyzer (<code>ASTE044</code>) that keeps views purely about layout and ViewModels purely about state. It catches hardcoded colors or pixel sizes in view XAML (instead of theme tokens or <code>{size:Scaled …}</code>), unused <code>x:Name</code> attributes, UI types or <code>*Theme.Current</code> lookups inside ViewModels, hand-rolled <code>INotifyPropertyChanged</code> / <code>new RelayCommand</code>, and code-behind wiring <code>DataContext</code> directly — failing the build with the exact fix.</p>
 </section>
 
 <!-- ============================== AVALONIA KNOWLEDGE ============================== -->
