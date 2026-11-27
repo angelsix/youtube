@@ -429,7 +429,7 @@ dotnet add <span class="app-name">AvaloniaThemeLab.GettingStarted</span> package
     <tr><th>You see</th><th>Cause and fix</th></tr>
     <tr><td><code>NU1605 … Detected package downgrade: Avalonia</code></td><td>The project was created from an older Avalonia template. Update every <code>Avalonia*</code> package in <code><span class="app-name">AvaloniaThemeLab.GettingStarted</span>.csproj</code> to <code>12.1.6</code>.</td></tr>
     <tr><td><code>AVLN2000: Unable to resolve type DefaultTheme</code></td><td><code>AngelSix.Themes.Default</code> is not referenced yet — run step 3's <code>dotnet add package</code> command.</td></tr>
-    <tr><td><code>enginenamespaces</code> or <code>vm</code> snippets don't expand in Rider</td><td>Make sure you opened <code><span class="app-name">AvaloniaThemeLab.GettingStarted</span>.sln</code> (not the folder), built once, and clicked <b>File → Reload All from Disk</b>.</td></tr>
+    <tr><td><code>aaxmlns</code> or <code>aavm</code> snippets don't expand in Rider</td><td>Make sure you opened <code><span class="app-name">AvaloniaThemeLab.GettingStarted</span>.sln</code> (not the folder), built once, and clicked <b>File → Reload All from Disk</b>.</td></tr>
     <tr><td><code>DefaultTheme.Current</code> is null at startup</td><td><code>BuildServices()</code> was called before <code>AvaloniaXamlLoader.Load(this)</code> in <code>App.axaml.cs</code>. Keep <code>Load(this)</code> first so <code>App.axaml</code> creates the theme before DI registers it.</td></tr>
   </table>
 
