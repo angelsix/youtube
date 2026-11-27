@@ -262,7 +262,6 @@
   <a class="sub" href="#how-preview">Previews</a>
   <a class="sub" href="#how-snippets">Editor snippets</a>
   <a class="sub" href="#how-attached">Attached properties</a>
-  <a class="sub" href="#how-rules">Layout-only enforcement</a>
   <a href="#knowledge">Avalonia knowledge</a>
   <a class="sub" href="#know-precedence">Style precedence</a>
   <a class="sub" href="#know-theme">ControlTheme limits</a>
@@ -559,10 +558,6 @@
     <span class="k">public static readonly</span> AttachedProperty&lt;<span class="k">object</span>?&gt; ContentProperty;
 }</code></pre>
   <p>Supports <code>Default</code>, <code>Inherits = true</code>, and <code>DefaultBindingMode</code>, and automatically wires an <code>On{Name}Changed</code> class handler if you declare one.</p>
-
-  <!-- ---------- layout-only enforcement ---------- -->
-  <h3 id="how-rules"><span class="n">13</span>Layout-only enforcement (<code>ASTE044</code>)</h3>
-  <p>The theme engine ships a build-time analyzer (<code>ASTE044</code>) that keeps views purely about layout and ViewModels purely about state. It catches hardcoded colors or pixel sizes in view XAML (instead of theme tokens or <code>{size:Scaled …}</code>), unused <code>x:Name</code> attributes, UI types or <code>*Theme.Current</code> lookups inside ViewModels, hand-rolled <code>INotifyPropertyChanged</code> / <code>new RelayCommand</code>, and code-behind wiring <code>DataContext</code> directly — failing the build with the exact fix.</p>
 </section>
 
 <!-- ============================== AVALONIA KNOWLEDGE ============================== -->
@@ -626,7 +621,6 @@
     <li><b>Prefix-free <code>&lt;Icon&gt;</code> control.</b> Shipped in <code>AngelSix.Themes.Default</code>: auto-detects bound icon names, <code>Geometry</code> or <code>IImage</code>, defaults to a square via <code>Size</code>, and still allows independent <code>Width</code>/<code>Height</code> overrides.</li>
     <li><b>Primary-constructor MVVM &amp; <code>ViewModelBase</code>.</b> <code>ViewModelBase</code> lives in <code>AngelSix.Mvvm</code>; <code>[Property]</code> and <code>[Observable]</code> work directly on primary constructor parameters, and <code>[Observable(IgnoreNull = true)]</code> lets multiple <code>ListBox</code> groups bind cleanly to one <code>ActiveItem</code>.</li>
     <li><b><code>IsLight</code>, <code>DefaultTheme.Accents</code> &amp; <code>[Attached&lt;THost&gt;]</code>.</b> <code>{theme:IsLight}</code> joins <code>{theme:IsDark}</code>; <code>DefaultTheme</code> ships <code>Accents</code> and <code>DefaultAccent</code>; <code>[Attached&lt;THost&gt;]</code> source-generates Avalonia attached properties with <code>Get</code>/<code>Set</code> and change hooks.</li>
-    <li><b>Layout-only view enforcement (<code>ASTE044</code>).</b> Build-time analyzer catches literal colors/sizes, code-behind mutations, UI types in view models, pointless backing fields, and unused dependencies.</li>
     <li><b>Shared brushes.</b> One brush instance per color, which fixes a transition stack overflow.</li>
     <li><b>Fonts register themselves.</b> <code>AngelSix.ThemeEngine.Fonts</code> embeds Inter (SIL OFL) and registers it on first use: <code>ThemeFonts.Inter</code>, <code>ThemeFonts.System</code>, or the string form. No <code>.WithInterFont()</code>.</li>
   </ul>

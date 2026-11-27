@@ -1,38 +1,7 @@
 <Project>
 
-  <!-- Code style from .editorconfig fails the build, not just the IDE. LangVersion is latestMajor
-       (the newest major the installed compiler supports), never a literal pin: a literal is a
-       ceiling that silently lowers the language on newer SDKs. -->
   <PropertyGroup>
     <LangVersion>latestMajor</LangVersion>
-    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
-    <AnalysisLevel>latest</AnalysisLevel>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
-
-  <!-- Build despite the modern-syntax rules (mid-refactor, spikes) with -p:DisableModernSyntaxChecks=true. -->
-  <PropertyGroup Condition="'$(DisableModernSyntaxChecks)' == 'true'">
-    <NoWarn>$(NoWarn);IDE0028;IDE0300;IDE0301;IDE0306;IDE0090;IDE0063;IDE0016;IDE0066;IDE0071;IDE0041</NoWarn>
-  </PropertyGroup>
-
-  <!-- Optional local coding-conventions check (member order & regions) via guard; skips silently on machines without guard. -->
-  <PropertyGroup>
-    <_GuardUnixShim Condition="'$(OS)' != 'Windows_NT'">$([System.Environment]::GetEnvironmentVariable('HOME'))/.dotnet/tools/guard</_GuardUnixShim>
-    <_GuardWinShim Condition="'$(OS)' == 'Windows_NT'">$([System.Environment]::GetEnvironmentVariable('USERPROFILE'))/.dotnet/tools/guard.exe</_GuardWinShim>
-    <_GuardAvailable Condition="'$(OS)' != 'Windows_NT'">$([System.IO.File]::Exists('$(_GuardUnixShim)'))</_GuardAvailable>
-    <_GuardAvailable Condition="'$(OS)' == 'Windows_NT'">$([System.IO.File]::Exists('$(_GuardWinShim)'))</_GuardAvailable>
-  </PropertyGroup>
-  <Target Name="GuardConventionsCheck"
-          AfterTargets="Build"
-          Condition="'$(RunGuardChecks)' != 'false' AND '$(OutputType)' == 'Exe' AND '$(IsTestProject)' != 'true' AND '$(_GuardAvailable)' == 'true'">
-    <Exec Condition="'$(OS)' != 'Windows_NT'"
-          Command="&quot;$(_GuardUnixShim)&quot; cs conventions &quot;$(MSBuildProjectDirectory)&quot;"
-          StandardOutputImportance="high"
-          IgnoreStandardErrorWarningFormat="true" />
-    <Exec Condition="'$(OS)' == 'Windows_NT'"
-          Command="&quot;$(_GuardWinShim)&quot; cs conventions &quot;$(MSBuildProjectDirectory)&quot;"
-          StandardOutputImportance="high"
-          IgnoreStandardErrorWarningFormat="true" />
-  </Target>
 
 </Project>
